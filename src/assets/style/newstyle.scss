@@ -1,0 +1,78 @@
+.container .header .logo img {
+    width: auto;
+}
+
+.el-submenu_title {
+    color: #ffffff;
+}
+
+.myownStyle {
+    .el-submenu__title {
+        color: #5874d8;
+    }
+    .el-menu-item,
+    .el-submenu__title {
+        color: #ffffff;
+    }
+    .container .main {
+        top: 40px;
+    }
+    .container .header .logo {
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .container .header {
+        height: 40px;
+        background-image: linear-gradient(#393948, #393948), linear-gradient(#ffffff, #ffffff);
+        background-blend-mode: normal, normal;
+        box-shadow: 21px 1px 9px 0px rgba(0, 0, 0, 0.22);
+    }
+    .container .main aside .el-menu {
+        background-image: linear-gradient(#393948, #393948), linear-gradient(#5874d8, #5874d8);
+        background-blend-mode: normal, normal;
+        box-shadow: 3px 0px 7px 0px rgba(0, 0, 0, 0.12);
+    }
+    .el-submenu .el-menu {
+        background-image: linear-gradient(#393948, #393948), linear-gradient(#5874d8, #5874d8);
+        background-blend-mode: normal, normal;
+        box-shadow: 3px 0px 7px 0px rgba(0, 0, 0, 0.12);
+        background-color: none;
+        background-color: red !important;
+    }
+    .el-submenu .el-menu-item {
+        //   background-image: linear-gradient(
+        //    #2d3274,
+        //    #2d3274),
+        // linear-gradient(
+        //    #5874d8,
+        //    #5874d8);
+        background-blend-mode: normal, normal;
+        box-shadow: 3px 0px 7px 0px rgba(0, 0, 0, 0.12);
+        color: #ffffff;
+        &:hover {
+            background: #0b3968;
+        }
+    }
+    .el-submenu .el-menu-item.is-active {
+        color: #20a0ff;
+    }
+}
+
+/deep/ .el-menu {
+    // background: #000;
+}
+
+/deep/ [class*="el-col-"] {
+    float: none;
+    text-align: left;
+}
+
+/deep/ .container .main .content-container .breadcrumb-container .title[data-v-39ca7d92] {
+    float: none;
+}
+
+/deep/ .el-submenu__title {
+    color: #409eff;
+}

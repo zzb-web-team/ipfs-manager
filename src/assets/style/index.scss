@@ -1,0 +1,116 @@
+body,
+div,
+span,
+header,
+footer,
+nav,
+section,
+aside,
+article,
+ul,
+ol,
+li,
+dl,
+dt,
+dd,
+li,
+a,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+i,
+b,
+em,
+textarea,
+button,
+input,
+select,
+figure,
+figcaption {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    text-decoration: none;
+    border: none;
+    // font-weight: normal;
+    // font-family: PingFangSC-Light, helvetica, "Heiti SC";
+    box-sizing: border-box;
+    font-size: 14px;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-font-smoothing: antialiased;
+    &:hover {
+        outline: none;
+    }
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+.customWidth {
+    width: 20%;
+    .el-form-item__label {
+        width: 75px !important;
+    }
+    .el-form-item__content {
+        margin-left: 80px !important;
+    }
+    input {
+        width: 80%;
+    }
+}
+
+.content-container {
+    // padding: 0 !important;
+    background: #F6F6F6;
+}
+
+.content {
+    // width: 100%;
+    // max-width: 1920px;
+    height: 100%;
+    background: rgb(255, 255, 255);
+    margin: 30px;
+    // margin: auto;
+    padding: 30px;
+}
+
+//登录框样式
+.log_input .el-input {
+    width: 80%;
+}
+
+.login-form-input .el-input__inner {
+    border: 0 none;
+    border-radius: 0px;
+}
+
+// .el-form-item {
+//     margin-bottom: 0;
+// }
+.log_input .el-form-item__error {
+    top: 140%;
+}
+
+.ipfs_item_img>p {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.newsd .el-dialog__header {
+    margin-bottom: 45px;
+}
+
+.newsd .el-dialog__headerbtn i {
+    font-size: 26px;
+}
+
+.content .ipfs_box {
+    justify-content: start !important;
+}
