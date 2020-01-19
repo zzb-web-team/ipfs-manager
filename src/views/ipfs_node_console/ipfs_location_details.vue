@@ -352,10 +352,10 @@ export default {
 	},
 	methods: {
 		goBack() {
-			let address = this.$route.query.address;
-			let city = this.$route.query.node_city;
-			let num = this.$route.query.node_num;
-			if (address) {
+			if (this.$route.query.address) {
+				let address = this.$route.query.address;
+				let city = this.$route.query.node_city;
+				let num = this.$route.query.node_num;
 				this.$router.push({
 					path: address,
 					query: { node_city: city, node_num: num }

@@ -5,12 +5,8 @@
 
  if (href.indexOf('xyj.grapefruitcloud.com') >= 0) {
      var serverUrl = 'http://xyj.grapefruitcloud.com' //PHP服务域名
-     var ownbase = 'http://xyj.grapefruitcloud.com' //PHP服务域名
-     var userUrl = 'http://xyj.grapefruitcloud.com'
  } else {
-     var serverUrl = 'http://39.100.131.247' //PHP服务域名
-     var ownbase = 'http://39.100.131.247' //PHP服务域名
-     var userUrl = 'http://39.100.131.247'
+     var serverUrl = 'http://zzb.onezen.net' //PHP服务域名
  }
 
  //服务器监控
@@ -34,16 +30,16 @@
 
  //用户管理
  /** 获取用户列表*/
- export const userlist = params => { return post(`${userUrl}/admin/system/userlist`, params).then(res => res.data) }
+ export const userlist = params => { return post(`${serverUrl}/admin/system/userlist`, params).then(res => res.data) }
      //添加用户
- export const userinsert = params => { return post(`${userUrl}/admin/system/userinsert`, params).then(res => res.data) };
+ export const userinsert = params => { return post(`${serverUrl}/admin/system/userinsert`, params).then(res => res.data) };
  //修改用户
- export const userupdate = params => { return post(`${userUrl}/admin/system/userupdate`, params).then(res => res.data) };
+ export const userupdate = params => { return post(`${serverUrl}/admin/system/userupdate`, params).then(res => res.data) };
 
  //删除用户列表
- export const userdelete = params => { return post(`${userUrl}/admin/system/userdelete`, params).then(res => res.data) };
+ export const userdelete = params => { return post(`${serverUrl}/admin/system/userdelete`, params).then(res => res.data) };
  //批量启用，禁用，删除，
- export const userctrl = params => { return post(`${userUrl}/admin/system/userctrl`, params).then(res => res.data) };
+ export const userctrl = params => { return post(`${serverUrl}/admin/system/userctrl`, params).then(res => res.data) };
 
  //设备监控
  /**获取所有设备列表 */
@@ -100,15 +96,15 @@
 
  //西柚机设备监控
  //所有设备数据查询
- export const query_general_info_list = params => { return post(`${ownbase}/dev_status/query_general_info_list `, params).then(res => res.data); };
+ export const query_general_info_list = params => { return post(`${serverUrl}/dev_status/query_general_info_list `, params).then(res => res.data); };
  //获取设备最新状态
- export const query_node_info = params => { return post(`${ownbase}/dev_status/query_node_info `, params).then(res => res.data); };
+ export const query_node_info = params => { return post(`${serverUrl}/dev_status/query_node_info `, params).then(res => res.data); };
 
  //单个设备详情
- export const query_detail_info_list = params => { return post(`${ownbase}/dev_status/query_detail_info_list `, params).then(res => res.data); };
+ export const query_detail_info_list = params => { return post(`${serverUrl}/dev_status/query_detail_info_list `, params).then(res => res.data); };
 
 
 
  //导出反馈
 
- export const setactionlog = params => { return post(`${ownbase}/cloudterminal/setactionlog `, params).then(res => res.data); };
+ export const setactionlog = params => { return post(`${serverUrl}/cloudterminal/setactionlog `, params).then(res => res.data); };
