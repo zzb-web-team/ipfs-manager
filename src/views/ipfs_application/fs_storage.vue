@@ -88,18 +88,20 @@
 				:header-cell-style="headClass"
 				style="width: 100%"
 			>
+				<el-table-column prop="usage" label="用途" width="180">
+					<template slot-scope="scoped">
+						<span v-if="scoped.row.usage == 0">任意用途</span>
+						<span v-else-if="scoped.row.usage == 1">视频存储</span>
+						<span v-else>视频备份</span>
+					</template>
+				</el-table-column>
 				<el-table-column
-					prop="use"
-					label="用途"
-					width="180"
-				></el-table-column>
-				<el-table-column
-					prop="take_up_space"
+					prop="content_size"
 					label="占用空间"
 					width="180"
 				></el-table-column>
 				<el-table-column
-					prop="storage_content"
+					prop="content_name"
 					label="存储内容"
 				></el-table-column>
 				<el-table-column
@@ -107,35 +109,27 @@
 					label="内容ID"
 				></el-table-column>
 				<el-table-column
-					prop="storage_address"
-					label="存储地址"
-				></el-table-column>
-				<el-table-column
-					prop="node_id"
+					prop="ipfs_id"
 					label="节点ID"
 				></el-table-column>
-				<el-table-column prop="start_time" label="启用时间">
+				<el-table-column prop="start_ts" label="启用时间">
 					<template slot-scope="scope">{{
-						scope.row.start_time | getymd
+						scope.row.start_ts | getymd
 					}}</template>
 				</el-table-column>
-				<el-table-column prop="usage_time" label="使用时长">
+				<el-table-column prop="time_conspt" label="使用时长">
 					<template slot-scope="scope">{{
-						scope.row.usage_time | s_h
+						scope.row.time_conspt | s_h
 					}}</template>
 				</el-table-column>
 				<el-table-column prop="status_use" label="使用状态">
 					<template slot-scope="scope">
-						<span v-if="scope.row.status_use == 0">已完成</span>
-						<span v-else>进行中</span>
+						<span v-if="scope.row.status_use == 0">未使用</span>
+						<span v-else>使用中</span>
 					</template>
 				</el-table-column>
 				<el-table-column
-					prop="ip_application_channel"
-					label="FS应用渠道"
-				></el-table-column>
-				<el-table-column
-					prop="user_id"
+					prop="chan_id"
 					label="渠道ID"
 				></el-table-column>
 			</el-table>
@@ -183,7 +177,16 @@ export default {
 			totalCnt: 1,
 			endPickerOptions: {
 				disabledDate(time) {
-					return time.getTime() > new Date( new Date(new Date().toLocaleDateString()).getTime() +24 * 60 * 60 * 1000 -1);
+					return (
+						time.getTime() >
+						new Date(
+							new Date(
+								new Date().toLocaleDateString()
+							).getTime() +
+								24 * 60 * 60 * 1000 -
+								1
+						)
+					);
 				}
 			},
 			sizeForm: {
@@ -224,7 +227,8 @@ export default {
 	components: { fenye },
 	mounted() {
 		this.starttime =
-			new Date(new Date().toLocaleDateString()).getTime() / 1000;
+			new Date(new Date().toLocaleDateString()).getTime() / 1000 -
+			6 * 1000 * 24 * 3600;
 		this.endtime = Date.parse(new Date()) / 1000;
 		this.gettab();
 	},
@@ -256,7 +260,8 @@ export default {
 			query_ip_store_usage_table(params)
 				.then(res => {
 					if (res.status == 0) {
-						this.tableData2 = res.data.list;
+						this.tableData = res.data.list;
+						this.totalCnt = res.data.totalPageCnt;
 						if (this.tableData.length > 0) {
 							this.showdisable = false;
 						} else {
@@ -307,12 +312,12 @@ export default {
 		//获取页码
 		getpage(pages) {
 			this.pageNo = pages;
-			this.get_ip_table();
+			this.gettab();
 		},
 		//获取每页数量
 		gettol(pagetol) {
 			this.pagesize = pagetol;
-			// this.get_ip_table();
+			// this.gettab();
 		},
 		//导出
 		exportexe() {

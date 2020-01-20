@@ -89,11 +89,13 @@
 				:header-cell-style="headClass"
 				style="width: 100%"
 			>
-				<el-table-column
-					prop="usage"
-					label="用途"
-					width="180"
-				></el-table-column>
+				<el-table-column prop="usage" label="用途" width="180">
+					<template slot-scope="scoped">
+						<span v-if="scoped.row.usage == 0">任意用途</span>
+						<span v-else-if="scoped.row.usage == 1">视频存储</span>
+						<span v-else>视频备份</span>
+					</template>
+				</el-table-column>
 				<el-table-column
 					prop="dataflow"
 					label="共计使用流量"
@@ -221,7 +223,7 @@ export default {
 	components: { fenye },
 	mounted() {
 		this.starttime =
-			new Date(new Date().toLocaleDateString()).getTime() / 1000;
+			new Date(new Date().toLocaleDateString()).getTime() / 1000 -6 * 1000 * 24 * 3600;
 		this.endtime = Date.parse(new Date()) / 1000;
 		this.gettab();
 	},
@@ -254,6 +256,7 @@ export default {
 				.then(res => {
 					if (res.status == 0) {
 						this.tableData = res.data.list;
+						this.totalCnt = res.data.totalPageCnt;
 						if (this.tableData.length <= 0) {
 							this.showdisable = true;
 						} else {
@@ -295,12 +298,12 @@ export default {
 		//获取页码
 		getpage(pages) {
 			this.pageNo = pages;
-			this.get_ip_table();
+			this.gettab();
 		},
 		//获取每页数量
 		gettol(pagetol) {
 			this.pagesize = pagetol;
-			// this.get_ip_table();
+			// this.gettab();
 		},
 		// 表头样式设置
 		headClass() {

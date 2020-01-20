@@ -226,9 +226,18 @@ export default {
 			total_cnt: 1,
 			tolpage: 0,
 			pagesize: 10,
-            pickerOptions: {
+			pickerOptions: {
 				disabledDate(time) {
-					return time.getTime() > new Date( new Date(new Date().toLocaleDateString()).getTime() +24 * 60 * 60 * 1000 -1);
+					return (
+						time.getTime() >
+						new Date(
+							new Date(
+								new Date().toLocaleDateString()
+							).getTime() +
+								24 * 60 * 60 * 1000 -
+								1
+						)
+					);
 				}
 			},
 			input: '',
@@ -495,75 +504,8 @@ export default {
 			query_detail_info_list(params)
 				.then(res => {
 					if (res.status == 0) {
-						if (res.data.dev_detail_info_list) {
-							res.data.dev_detail_info_list.forEach(
-								(item, index) => {
-									let devm = {};
-									devm.dev_sn = item.dev_sn;
-									devm.node_id = item.node_id;
-									devm.time_stamp = item.time_stamp;
-									devm.cpu_tem = item.cpu_tem / 100 + '℃';
-									devm.mb_tem = item.mb_tem / 100 + '℃';
-									devm.hd_tem = item.hd_tem / 100 + '℃';
-									devm.cap_ratio = item.cap_ratio / 100 + '%';
-									devm.mem_ratio = item.mem_ratio / 100 + '%';
-									devm.cap_mem =
-										item.cap_ratio / 100 +
-										'%' +
-										'/' +
-										item.mem_ratio / 100 +
-										'%';
-									devm.badstade = '';
-									if (item.cpu_tem >= 8000) {
-										devm.badstade = 'CPU温度报警' + ' / ';
-										devm.cputem_color = 'red';
-									}
-									if (item.mb_tem >= 4000) {
-										devm.badstade =
-											devm.badstade +
-											'主板温度报警' +
-											' / ';
-										devm.mbtem_color = 'red';
-									}
-									if (item.hd_tem >= 4000) {
-										devm.badstade =
-											devm.badstade +
-											'硬盘温度报警' +
-											' / ';
-										devm.hdtem_color = 'red';
-									}
-									if (item.mem_ratio >= 8000) {
-										devm.badstade =
-											devm.badstade +
-											'内存容量报警' +
-											' / ';
-										devm.memtem_color = 'red';
-									}
-									if (item.cap_ratio <= 500) {
-										devm.badstade =
-											devm.badstade + '磁盘剩余容量报警';
-										devm.cap_color = 'red';
-									}
-									if (devm.badstade == '') {
-										devm.badstade = '正常';
-									}
-									this.tableData_dao.push(devm);
-								}
-							);
-							if (res.data.page >= res.data.total_page) {
-								this.exportExcel();
-								this.fan.fanactionlog(
-									'导出',
-									'设备异常记录',
-									1
-								);
-								return false;
-							} else {
-								this.tolpage_dao++;
-								this.geydata2();
-							}
-						} else {
-						}
+						window.open(res.data.file_path);
+						this.fan.fanactionlog('导出', '设备异常记录', 1);
 					} else {
 						this.fan.fanactionlog('导出', '设备异常记录', 0);
 						this.$message.error(res.err_msg);
