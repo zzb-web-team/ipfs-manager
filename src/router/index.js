@@ -85,17 +85,17 @@ export default new Router({
             hidden: true
         }, {
             path: '/home_two',
-            name: '用户管理',
+            name: '后台账户',
             component: index,
             icon: 'iconfont icon-guanxiaobaotubiao09',
             children: [{
                 path: '/user',
-                name: '用户列表',
+                name: '账户管理',
                 component: user,
                 hidden: true
             }, {
                 path: '/userli',
-                name: '用户列表',
+                name: '账户管理',
                 component: userli,
             }]
         }, {

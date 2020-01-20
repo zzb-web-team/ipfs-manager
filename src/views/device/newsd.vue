@@ -2,7 +2,6 @@
   <div class="content newsd">
     <!-- 面包屑  -->
     <el-breadcrumb separator="/" style="margin-bottom: 20px;">
-      <el-breadcrumb-item>设备监控</el-breadcrumb-item>
       <el-breadcrumb-item>
         <a>设备监控详情</a>
       </el-breadcrumb-item>
@@ -41,15 +40,15 @@
             :value="item.value"
           ></el-option>
         </el-select>
-        <el-button
+        <!-- <el-button
           type="primary"
           style="margin-left:10px;"
           plain
           size="mini"
           @click="getInfo()"
           >确定</el-button
-        >
-        <el-button plain size="mini" @click="setInfo()">重置</el-button>
+        > -->
+        <el-button plain  @click="setInfo()">重置</el-button>
       </div>
       <div class="devide_table">
         <el-row type="flex" class="row_active">

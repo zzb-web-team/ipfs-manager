@@ -2,7 +2,6 @@
 	<section class="myself-container content">
 		<div class="user-title" style="display: flex;flex-flow: column;">
 			<el-breadcrumb separator="/">
-				<el-breadcrumb-item>节点数据统计</el-breadcrumb-item>
 				<el-breadcrumb-item>
 					<a>节点应用统计</a>
 				</el-breadcrumb-item>
@@ -110,18 +109,18 @@
 						<el-row style="margin-top:20px;">
 							<el-col :span="5">
 								<div class="user-item">
+									<div class="item-text">累计使用流量</div>
 									<div class="item-count">
 										{{ totalDataFlow }}GB
 									</div>
-									<div class="item-text">使用流量</div>
 								</div>
 							</el-col>
 							<el-col :span="5" style="margin-left:30px;">
 								<div class="user-item">
+									<div class="item-text">累计传输次数</div>
 									<div class="item-count">
 										{{ totalOutputCnt }}次
 									</div>
-									<div class="item-text">传输次数</div>
 								</div>
 							</el-col>
 							<!-- <el-col :span="5" style="margin-left:30px;">
@@ -132,6 +131,13 @@
               </el-col> -->
 						</el-row>
 						<div class="device_form">
+							<el-button
+								class="ip_upload_btn"
+								@click="ip_upload"
+								type="text"
+								size="medium"
+								><i class="el-icon-download"></i
+							></el-button>
 							<div
 								id="myChart"
 								:style="{ height: '300px' }"
@@ -143,7 +149,7 @@
 									:span="24"
 									style="text-align:left;    font-weight: bold;"
 								>
-									IP流量平均利用率表
+									IP流量表
 								</el-col>
 							</el-row>
 							<el-row type="flex" class="row_active">
@@ -153,7 +159,7 @@
 										:cell-style="rowClass"
 										:header-cell-style="headClass"
 										style="width: 100%"
-                                        height="480"
+										height="480"
 									>
 										<el-table-column
 											prop="ipfsId"
@@ -245,7 +251,7 @@
 								>
 								</el-option>
 							</el-select>
-							<el-select
+							<!-- <el-select
 								v-model="valuecfs"
 								placeholder="时间粒度"
 								style="margin-left:10px;"
@@ -257,7 +263,7 @@
 									:value="item.value"
 									:disabled="item.disabled"
 								></el-option>
-							</el-select>
+							</el-select> -->
 							<el-button-group
 								class="bantlist"
 								style="margin:0 10px;"
@@ -308,22 +314,29 @@
 						<el-row style="margin-top:20px;">
 							<el-col :span="5">
 								<div class="user-item">
+									<div class="item-text">累计存储容量</div>
 									<div class="item-count">
 										{{ totalStoreUsage }}GB
 									</div>
-									<div class="item-text">存储容量</div>
 								</div>
 							</el-col>
 							<el-col :span="5" style="margin-left:30px;">
 								<div class="user-item">
+									<div class="item-text">累计存储次数</div>
 									<div class="item-count">
 										{{ totalStoreTimes }}次
 									</div>
-									<div class="item-text">存储次数</div>
 								</div>
 							</el-col>
 						</el-row>
 						<div class="device_form">
+							<el-button
+								class="ip_upload_btn"
+								@click="fs_upload"
+								type="text"
+								size="medium"
+								><i class="el-icon-download"></i
+							></el-button>
 							<div
 								id="myChart1"
 								:style="{ height: '300px' }"
@@ -335,7 +348,7 @@
 									:span="24"
 									style="text-align:left;font-weight: bold;"
 								>
-									IP流量平均利用率表
+									FS存储表
 								</el-col>
 							</el-row>
 							<el-row type="flex" class="row_active">
@@ -441,23 +454,30 @@ export default {
 			pickerOptions: {
 				shortcuts: [
 					{
-						text: '昨天',
+						text: '今天',
 						onClick(picker) {
 							const end = new Date();
-							const start = new Date();
-							start.setTime(
-								start.getTime() - 3600 * 1000 * 24 * 1
+							const start = new Date(
+								new Date(
+									new Date().toLocaleDateString()
+								).getTime()
 							);
 							picker.$emit('pick', [start, end]);
 						}
 					},
 					{
-						text: '今天',
+						text: '昨天',
 						onClick(picker) {
-							const end = new Date();
-							const start = new Date();
-							start.setTime(
-								start.getTime() - 3600 * 1000 * 24 * 7
+							const end = new Date(
+								new Date(
+									new Date().toLocaleDateString()
+								).getTime()
+							);
+							const start = new Date(
+								new Date(
+									new Date().toLocaleDateString()
+								).getTime() -
+									3600 * 24 * 1 * 1000
 							);
 							picker.$emit('pick', [start, end]);
 						}
@@ -466,9 +486,13 @@ export default {
 						text: '最近一周',
 						onClick(picker) {
 							const end = new Date();
-							const start = new Date();
+							const start = new Date(
+								new Date(
+									new Date().toLocaleDateString()
+								).getTime()
+							);
 							start.setTime(
-								start.getTime() - 3600 * 1000 * 24 * 7
+								start.getTime() - 3600 * 1000 * 24 * 6
 							);
 							picker.$emit('pick', [start, end]);
 						}
@@ -477,14 +501,31 @@ export default {
 						text: '最近一个月',
 						onClick(picker) {
 							const end = new Date();
-							const start = new Date();
+							const start = new Date(
+								new Date(
+									new Date().toLocaleDateString()
+								).getTime()
+							);
 							start.setTime(
-								start.getTime() - 3600 * 1000 * 24 * 30
+								start.getTime() - 3600 * 1000 * 24 * 6
 							);
 							picker.$emit('pick', [start, end]);
 						}
 					}
-				]
+				],
+
+				disabledDate(time) {
+					return (
+						time.getTime() >
+						new Date(
+							new Date(
+								new Date().toLocaleDateString()
+							).getTime() +
+								24 * 60 * 60 * 1000 -
+								1
+						)
+					);
+				}
 			},
 			value1: '',
 			value2: '',
@@ -761,7 +802,9 @@ export default {
 			fs_pageNo: 1,
 			fs_pageSize: 10,
 			fs_totalCnt: 1,
-			citydata: []
+			citydata: [],
+			fs_tableData_upload: [],
+			ip_tableData_upload: []
 		};
 	},
 	filters: {
@@ -981,6 +1024,84 @@ export default {
 				this.ip_curve();
 			}
 		},
+		//导出
+		fs_upload() {
+			let params = new Object();
+			if (this.inputfs !== '') {
+				params.ipfs_id = this.inputfs;
+			} else {
+				params.ipfs_id = '*';
+			}
+			if (this.valueafs !== '') {
+				params.region = this.valueafs[1];
+			} else {
+				params.region = '*';
+			}
+			if (this.valuebfs !== '') {
+				params.city = this.valuebfs;
+			} else {
+				params.city = '*';
+			}
+			if (this.valuecfs !== '') {
+				params.time_unit = parseInt(this.valuecfs);
+			} else {
+				params.time_unit = 120;
+			}
+			params.start_ts = this.starttime;
+			params.end_ts = this.endtime;
+			params.pageNo = this.fs_pageNo - 1;
+			params.pageSize = this.fs_pageSize;
+			query_ip_store_details_table(params)
+				.then(res => {
+					this.fs_tableData_upload = [];
+					if (res.status == 0) {
+						this.fs_tableData_upload = res.data.list;
+						this.exportExcel(this.fs_tableData_upload, '节点应用统计FS存储');
+						this.fan.fanactionlog('导出', '节点应用统计FS存储', 1);
+					} else {
+						this.fan.fanactionlog('导出', '节点应用统计FS存储', 0);
+					}
+				})
+				.catch(error => {
+					this.fan.fanactionlog('导出', '节点应用统计FS存储', 0);
+				});
+		},
+		ip_upload() {
+			let params = new Object();
+			if (this.input !== '') {
+				params.ipfsId = this.input;
+			} else {
+				params.ipfsId = '*';
+			}
+			if (this.valuea !== '') {
+				params.region = this.valuea[1];
+			} else {
+				params.region = '*';
+			}
+			if (this.valueb !== '') {
+				params.city = this.valueb;
+			} else {
+				params.city = '*';
+			}
+			params.start_ts = this.starttime;
+			params.end_ts = this.endtime;
+			params.pageNo = this.pageNo - 1;
+			params.pageSize = this.pageSize;
+			query_ipfs_dataflow_table(params)
+				.then(res => {
+					this.ip_tableData_upload = [];
+					if (res.status == 0) {
+						this.ip_tableData_upload = res.data.list;
+						this.exportExcel(this.ip_tableData_upload, '节点应用统计IP流量');
+						this.fan.fanactionlog('导出', '节点应用统计IP流量', 1);
+					} else {
+						this.fan.fanactionlog('导出', '节点应用统计IP流量', 0);
+					}
+				})
+				.catch(error => {
+					this.fan.fanactionlog('导出', '节点应用统计IP流量', 0);
+				});
+		},
 		//自定义按钮--ip
 		showpicker() {
 			this.zidingyi = !this.zidingyi;
@@ -992,7 +1113,7 @@ export default {
 		//搜索
 		onseach(stat) {
 			if (stat === 'fs') {
-				if (this.value2fs != '') {
+				if (this.value2fs != null && this.value2fs != '') {
 					this.starttime = setbatime(this.value2fs[0]);
 					this.endtime = setbatime(this.value2fs[1]);
 					if (this.endtime - this.starttime < 86400) {
@@ -1004,12 +1125,22 @@ export default {
 						this.granularity[1].disabled = false;
 						this.valuecfs = 1440;
 					}
+				} else {
+					this.starttime =
+						new Date(new Date().toLocaleDateString()).getTime() /
+						1000;
+					this.endtime = Date.parse(new Date()) / 1000;
 				}
 				this.fs_curve();
 			} else {
-				if (this.value2 != '') {
+				if (this.value2 != null && this.value2 != '') {
 					this.starttime = setbatime(this.value2[0]);
 					this.endtime = setbatime(this.value2[1]);
+				} else {
+					this.starttime =
+						new Date(new Date().toLocaleDateString()).getTime() /
+						1000;
+					this.endtime = Date.parse(new Date()) / 1000;
 				}
 				this.ip_curve();
 			}
@@ -1111,7 +1242,7 @@ export default {
 			// 绘制图表
 			let options = {
 				title: {
-					text: '节点流量统计'
+					text: '流量'
 				},
 				tooltip: {},
 				xAxis: {
@@ -1120,7 +1251,7 @@ export default {
 				yAxis: {},
 				series: [
 					{
-						name: '销量',
+						name: '流量',
 						type: 'bar',
 						barWidth: 30, //柱图宽度
 						data: this.dataFlowArray
@@ -1138,7 +1269,7 @@ export default {
 			// 绘制图表
 			let options = {
 				title: {
-					text: 'FS存储统计'
+					text: '存储'
 				},
 				tooltip: {
 					trigger: 'axis',
@@ -1163,12 +1294,59 @@ export default {
 				]
 			};
 			myChart.setOption(options);
+		},
+		exportExcel(dataupload, excelname) {
+			require.ensure([], () => {
+				const {
+					export_json_to_excel
+				} = require('../../excel/Export2Excel.js');
+				const tHeader = ['节点ID', '使用流量', '传输次数', '日期'];
+				// 上面设置Excel的表格第一行的标题
+				if (excelname == '节点应用统计IP流量') {
+					var filterVal = [
+						'ipfsId',
+						'dataFlow',
+						'outputCnt',
+						'timestamp'
+					];
+				} else {
+					var filterVal = [
+						'ipfsId',
+						'storeUsage',
+						'storeTimes',
+						'timeStamp'
+					];
+				}
+
+				// 上面的index、nickName、name是tableData里对象的属性
+				const list = dataupload; //把data里的tableData存到list
+				const data = this.formatJson(filterVal, list);
+				export_json_to_excel(tHeader, data, excelname);
+				dataupload = [];
+			});
+		},
+		formatJson(filterVal, jsonData) {
+			jsonData.forEach(item => {
+				if (item.timestamp) {
+					item.timestamp = getymdtime(item.timestamp);
+					return item;
+				}
+				if (item.timeStamp) {
+					item.timeStamp = getymdtime(item.timeStamp);
+					return item;
+				}
+			});
+			return jsonData.map(v =>
+				filterVal.map(j => {
+					return v[j];
+				})
+			);
 		}
 	}
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .myself-container {
 	// width: 100%;
 	// min-width: 1600px;
@@ -1180,7 +1358,7 @@ export default {
 		background: #ffffff;
 		padding: 15px 30px;
 		box-sizing: border-box;
-
+		position: relative;
 		.bottom {
 			margin-top: 20px;
 		}
@@ -1209,6 +1387,15 @@ export default {
 			color: #409eff;
 			cursor: pointer;
 			margin-left: 20px;
+		}
+		.ip_upload_btn {
+			position: absolute;
+			top: 0;
+			right: 180px;
+			z-index: 2001;
+			i {
+				font-size: 20px;
+			}
 		}
 	}
 
@@ -1253,15 +1440,24 @@ export default {
 
 .user-title .user-item {
 	background: #f2f2f2;
-	padding: 25px;
+	padding: 0 25px;
 	border-radius: 5px;
 	display: flex;
+	text-align: left;
 	justify-content: center;
 	flex-direction: column;
 	.seach_top {
 		.bantlist {
 			margin: 0 10px;
 		}
+	}
+	.item-count {
+		font-size: 20px;
+		height: 40px;
+		flex-wrap: 600;
+	}
+	.item-text {
+		line-height: 50px;
 	}
 }
 </style>

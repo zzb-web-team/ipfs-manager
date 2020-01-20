@@ -3,7 +3,7 @@
     <!-- 面包屑  -->
     <div class="bread_crumbs">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item>IPFS节点控制台</el-breadcrumb-item>
+      
         <el-breadcrumb-item>
           <a>华东地区</a>
         </el-breadcrumb-item>

@@ -1,7 +1,6 @@
 <template>
   <div class="content">
     <el-breadcrumb separator="/">
-      <el-breadcrumb-item>节点数据统计</el-breadcrumb-item>
       <el-breadcrumb-item>
         <a>全国节点分布</a>
       </el-breadcrumb-item>

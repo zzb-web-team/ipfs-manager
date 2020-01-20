@@ -2,7 +2,6 @@
 	<div class="content">
 		<!-- 面包屑  -->
 		<el-breadcrumb separator="/">
-			<el-breadcrumb-item>IPFS节点信息</el-breadcrumb-item>
 			<el-breadcrumb-item>
 				<a>节点信息</a>
 			</el-breadcrumb-item>
@@ -88,18 +87,15 @@
 						></el-option>
 					</el-select>
 				</div>
+                <el-button plain @click="resetseach()" class="resetseach_btn"
+				>重置</el-button
+			>
 			</div>
+			
 			<div style="margin-top: 5px;">
-				<el-button type="primary" plain size="mini" @click="seach"
+				<!-- <el-button type="primary" plain size="mini" @click="seach"
 					>确定</el-button
-				>
-				<el-button
-					plain
-					size="mini"
-					@click="resetseach()"
-					class="resetseach_btn"
-					>重置</el-button
-				>
+				> -->
 			</div>
 		</div>
 		<!-- 主体表格 -->
@@ -140,19 +136,40 @@
 			<el-table-column prop="totalCap" label="总空间">
 				<template slot-scope="scope">
 					<span v-if="scope.row.totalCap == 0">0G</span>
-					<span v-else>{{(scope.row.totalCap /1024 /1024 /1024).toFixed(2)}}G</span>
+					<span v-else
+						>{{
+							(scope.row.totalCap / 1024 / 1024 / 1024).toFixed(
+								2
+							)
+						}}G</span
+					>
 				</template>
 			</el-table-column>
 			<el-table-column prop="occupyCap" label="占用空间">
 				<template slot-scope="scope">
 					<span v-if="scope.row.occupyCap == 0">0G</span>
-					<span v-else>{{(scope.row.occupyCap /1024 /1024 /1024).toFixed(2)}}G</span>
+					<span v-else
+						>{{
+							(scope.row.occupyCap / 1024 / 1024 / 1024).toFixed(
+								2
+							)
+						}}G</span
+					>
 				</template>
 			</el-table-column>
 			<el-table-column prop="remainingCap" label="剩余空间">
 				<template slot-scope="scope">
 					<span v-if="scope.row.remainingCap == 0">0G</span>
-					<span v-else>{{(scope.row.remainingCap /1024 /1024 /1024).toFixed(2)}}G</span>
+					<span v-else
+						>{{
+							(
+								scope.row.remainingCap /
+								1024 /
+								1024 /
+								1024
+							).toFixed(2)
+						}}G</span
+					>
 				</template>
 			</el-table-column>
 			<el-table-column
@@ -696,10 +713,10 @@ export default {
 }
 .seach_bottom {
 	text-align: left;
-	height: 100px;
+	// height: 100px;
 	background: #f0f5f5;
 	border-radius: 10px;
-	padding: 10px 15px;
+	padding: 10px 15px 5px 15px;
 	margin-bottom: 10px;
 	.seach_bottom_tw {
 		display: flex;

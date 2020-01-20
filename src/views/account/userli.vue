@@ -1,9 +1,9 @@
 <template>
   <div class="content">
     <el-breadcrumb separator="/">
-      <el-breadcrumb-item>用户管理</el-breadcrumb-item>
+     
       <el-breadcrumb-item>
-        <a href="/">用户列表</a>
+        <a href="/">账户管理</a>
       </el-breadcrumb-item>
     </el-breadcrumb>
     <section class="myself-container">
@@ -58,10 +58,10 @@
               </el-select>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="searchInfo">确定</el-button>
+              <!-- <el-button type="primary" @click="searchInfo">确定</el-button> -->
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="reset()">重置</el-button>
+              <el-button type="primary" plain @click="reset()">重置</el-button>
             </el-form-item>
           </el-row>
         </el-form>
