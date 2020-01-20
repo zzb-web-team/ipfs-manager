@@ -223,7 +223,8 @@ export default {
 	components: { fenye },
 	mounted() {
 		this.starttime =
-			new Date(new Date().toLocaleDateString()).getTime() / 1000 -6 * 1000 * 24 * 3600;
+			new Date(new Date().toLocaleDateString()).getTime() / 1000 -
+			6 * 1000 * 24 * 3600;
 		this.endtime = Date.parse(new Date()) / 1000;
 		this.gettab();
 	},
@@ -256,7 +257,7 @@ export default {
 				.then(res => {
 					if (res.status == 0) {
 						this.tableData = res.data.list;
-						this.totalCnt = res.data.totalPageCnt;
+						this.totalCnt = res.data.totalCnt;
 						if (this.tableData.length <= 0) {
 							this.showdisable = true;
 						} else {
@@ -340,16 +341,22 @@ export default {
 			query_ip_usage_table(params)
 				.then(res => {
 					if (res.status == 0) {
-						this.tableData2.consat(res.data.list);
-						this.exportExcel();
-						this.fan.fanactionlog('导出', 'IP流量', 1);
+                        this.tableData2 = this.tableData2.concat(res.data.list);
+						if (this.pageNo2 >= res.data.totalPageCnt) {
+							this.exportExcel();
+							this.fan.fanactionlog('导出', '节点应用IP流量', 1);
+							this.pageNo2 = 1;
+						} else {
+							this.pageNo2++;
+							this.exportexc();
+						}
 					} else {
-						this.fan.fanactionlog('导出', 'IP流量', 0);
+						this.fan.fanactionlog('导出', '节点应用IP流量', 0);
 						this.$message.error(res.errMsg);
 					}
 				})
 				.catch(error => {
-					this.fan.fanactionlog('导出', 'IP流量', 0);
+					this.fan.fanactionlog('导出', '节点应用IP流量', 0);
 				});
 		},
 		exportExcel() {
@@ -359,33 +366,33 @@ export default {
 				} = require('../../excel/Export2Excel.js');
 				const tHeader = [
 					'用途',
-					'上下行带宽（占用）',
 					'共计使用流量',
-					'节点ID',
+					'节点IP',
 					'节点ID',
 					'启用时间',
+					'结束时间',
 					'使用时长',
 					'使用状态',
-					'FS应用渠道',
-					'使用者ID'
+					'渠道ID',
+					'点播IP'
 				];
 				// 上面设置Excel的表格第一行的标题
 				const filterVal = [
-					'use',
-					'up_and_down_bandwidth',
-					'total_usage_flow',
-					'content_id',
-					'node_id',
-					'start_time',
-					'usage_time',
-					'status_use',
-					'ip_application_channel',
-					'user_id'
+					'usage',
+					'dataflow',
+					'ipfsIp',
+					'ipfsId',
+					'startTS',
+					'endTS',
+					'timeUsage',
+					'usageFlag',
+					'chanId',
+					'userIpInfo'
 				];
 				// 上面的index、nickName、name是tableData里对象的属性
 				const list = this.tableData2; //把data里的tableData存到list
 				const data = this.formatJson(filterVal, list);
-				export_json_to_excel(tHeader, data, 'IP流量');
+				export_json_to_excel(tHeader, data, '节点应用IP流量');
 			});
 		},
 		formatJson(filterVal, jsonData) {

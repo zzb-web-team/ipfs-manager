@@ -261,7 +261,7 @@ export default {
 				.then(res => {
 					if (res.status == 0) {
 						this.tableData = res.data.list;
-						this.totalCnt = res.data.totalPageCnt;
+						this.totalCnt = res.data.totalCnt;
 						if (this.tableData.length > 0) {
 							this.showdisable = false;
 						} else {
@@ -347,20 +347,25 @@ export default {
 			query_ip_store_usage_table(params)
 				.then(res => {
 					if (res.status == 0) {
-						this.tableData2.concat(res.data.list);
-						this.exportExcel();
-						this.fan.fanactionlog('导出', 'FS存储', 1);
+						this.tableData2 = this.tableData2.concat(res.data.list);
+						if (this.pageNo2 >= res.data.totalPageCnt) {
+							this.exportExcel(this.tableData2);
+							this.fan.fanactionlog('导出', '节点应用FS存储', 1);
+						} else {
+							this.pageNo2++;
+							this.exportexe();
+						}
 					} else {
-						this.fan.fanactionlog('导出', 'FS存储', 0);
+						this.fan.fanactionlog('导出', '节点应用FS存储', 0);
 						this.$message.error(res.errMsg);
 					}
 				})
 				.catch(error => {
-					this.fan.fanactionlog('导出', 'FS存储', 0);
+					this.fan.fanactionlog('导出', '节点应用FS存储', 0);
 				});
 		},
 		//导出的方法
-		exportExcel() {
+		exportExcel(datalist) {
 			require.ensure([], () => {
 				const {
 					export_json_to_excel
@@ -370,32 +375,28 @@ export default {
 					'占用空间',
 					'存储内容',
 					'内容ID',
-					'存储地址',
 					'节点ID',
 					'启用时间',
 					'使用时长',
 					'使用状态',
-					'FS应用渠道',
 					'使用者ID'
 				];
 				// 上面设置Excel的表格第一行的标题
 				const filterVal = [
-					'use',
-					'take_up_space',
-					'storage_content',
+					'usage',
+					'content_size',
+					'content_name',
 					'content_id',
-					'storage_address',
-					'node_id',
-					'start_time',
-					'usage_time',
+					'ipfs_id',
+					'start_ts',
+					'time_conspt',
 					'status_use',
-					'ip_application_channel',
-					'user_id'
+					'chan_id'
 				];
 				// 上面的index、nickName、name是tableData里对象的属性
-				const list = this.tableData2; //把data里的tableData存到list
+				const list = datalist; //把data里的tableData存到list
 				const data = this.formatJson(filterVal, list);
-				export_json_to_excel(tHeader, data, 'FS存储');
+				export_json_to_excel(tHeader, data, '节点应用FS存储');
 			});
 		},
 		formatJson(filterVal, jsonData) {
