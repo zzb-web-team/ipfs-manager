@@ -3,12 +3,12 @@ import {get, post } from './http';
 
 var href = window.location.href;
 
-// if (href.indexOf('xyj.grapefruitcloud.com') >= 0) {
-//     var serverUrl = 'http://xyj.grapefruitcloud.com'; //PHP服务域名
-// } else {
-//     var serverUrl = 'http://zzb.onezen.net'; //PHP服务域名
-// }
-var serverUrl = 'http://xyj.grapefruitcloud.com'; //PHP服务域名
+if (href.indexOf('xyj.grapefruitcloud.com') >= 0) {
+    var serverUrl = 'http://xyj.grapefruitcloud.com'; //PHP服务域名
+} else {
+    var serverUrl = 'http://zzb.onezen.net'; //PHP服务域名
+}
+
 //服务器监控
 /**获取微服务信息 */
 export const login = params => {

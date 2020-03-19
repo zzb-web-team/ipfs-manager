@@ -5,8 +5,8 @@
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page="currentPage"
-      :page-sizes="[7]"
-      :page-size="7"
+      :page-sizes="[10]"
+      :page-size="10"
       layout="sizes,total, prev, pager, next, jumper"
       :total="pagesa"
     ></el-pagination>
