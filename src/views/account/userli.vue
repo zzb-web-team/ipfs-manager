@@ -1,7 +1,6 @@
 <template>
   <div class="content">
     <el-breadcrumb separator="/">
-     
       <el-breadcrumb-item>
         <a href="/">账户管理</a>
       </el-breadcrumb-item>
@@ -18,18 +17,14 @@
                 v-model="searchText"
               >
               </el-input>
-            </div> -->
+            </div>-->
             <el-input
               style="width:15%;"
               placeholder="请输入帐户"
               @keyup.enter.native="searchInfo"
               v-model="searchText"
             >
-              <i
-                slot="suffix"
-                class="el-input__icon el-icon-search"
-                @click="searchInfo"
-              ></i>
+              <i slot="suffix" class="el-input__icon el-icon-search" @click="searchInfo"></i>
             </el-input>
             <div @click="getShow()" class="div_show" style="color:#606266">
               筛选
@@ -43,12 +38,8 @@
           </el-row>
           <el-row type="flex" class="row_activess" v-show="showState">
             <el-form-item label="状态" style="display: flex;">
-              <el-select
-                v-model="value"
-                placeholder="请选择"
-                @change="searchInfo"
-              >
-                <el-option label="全部" value=""></el-option>
+              <el-select v-model="value" placeholder="请选择" @change="searchInfo">
+                <el-option label="全部" value></el-option>
                 <el-option
                   v-for="item in options2"
                   :key="item.value"
@@ -97,20 +88,12 @@
           </el-col>
         </el-row>
       </div>
-      <div
-        class="devide_pageNation"
-        style="display: flex;justify-content: space-between;"
-      >
+      <div class="devide_pageNation" style="display: flex;justify-content: space-between;">
         <el-row type="flex">
-          <el-col
-            :span="6"
-            style="display: flex;justify-content: justify-content: flex-start;"
-          >
+          <el-col :span="6" style="display: flex;justify-content: justify-content: flex-start;">
             <el-button size="small" @click="allOn">启用</el-button>
             <el-button size="small" @click="allOff">禁用</el-button>
-            <el-button type="danger" size="small" @click="allDelete"
-              >删除</el-button
-            >
+            <el-button type="danger" size="small" @click="allDelete">删除</el-button>
           </el-col>
         </el-row>
         <el-row type="flex">
@@ -125,154 +108,76 @@
       </div>
       <el-dialog :visible.sync="dialogVisible" width="20%" @close="handleClose">
         <div class="addaccout">
-          <el-form
-            :model="ruleForm2"
-            ref="ruleForm2"
-            label-position="left"
-            class="demo-ruleForm"
-          >
+          <el-form :model="ruleForm2" ref="ruleForm2" label-position="left" class="demo-ruleForm">
             <h3 class="title">新建用户</h3>
             <el-form-item label="使用状态:">
               <el-radio v-model="ruleForm2.radio" label="0">启用</el-radio>
               <el-radio v-model="ruleForm2.radio" label="1">禁用</el-radio>
             </el-form-item>
-            <el-form-item
-              prop="username"
-              :rules="[{ validator: jiousername, trigger: 'blur' }]"
-            >
+            <el-form-item prop="username" :rules="[{ validator: jiousername, trigger: 'blur' }]">
               <el-form-item label="账号:">
-                <el-input
-                  v-model="ruleForm2.username"
-                  placeholder="4-20位英文加数字组合"
-                ></el-input>
+                <el-input v-model="ruleForm2.username" placeholder="4-20位英文加数字组合"></el-input>
               </el-form-item>
             </el-form-item>
-            <el-form-item
-              prop="password"
-              :rules="[{ validator: jiopwd, trigger: 'blur' }]"
-            >
+            <el-form-item prop="password" :rules="[{ validator: jiopwd, trigger: 'blur' }]">
               <el-form-item label="密码:" placeholder="密码">
-                <el-input
-                  v-model="ruleForm2.password"
-                  type="password"
-                  placeholder="6-20位数字字母_组成"
-                ></el-input>
+                <el-input v-model="ruleForm2.password" type="password" placeholder="6-20位数字字母_组成"></el-input>
               </el-form-item>
             </el-form-item>
-            <el-form-item
-              prop="password2"
-              :rules="[{ validator: jioqpwd, trigger: 'blur' }]"
-            >
+            <el-form-item prop="password2" :rules="[{ validator: jioqpwd, trigger: 'blur' }]">
               <el-form-item label="确认密码:">
-                <el-input
-                  v-model="ruleForm2.password2"
-                  placeholder="两次密码须一致"
-                  type="password"
-                ></el-input>
+                <el-input v-model="ruleForm2.password2" placeholder="两次密码须一致" type="password"></el-input>
               </el-form-item>
             </el-form-item>
-            <el-form-item
-              prop="name"
-              :rules="[{ validator: jioname, trigger: 'blur' }]"
-            >
+            <el-form-item prop="name" :rules="[{ validator: jioname, trigger: 'blur' }]">
               <el-form-item label="真实姓名:">
-                <el-input
-                  v-model="ruleForm2.name"
-                  placeholder="4-20位汉字数字字母组合"
-                ></el-input>
+                <el-input v-model="ruleForm2.name" placeholder="4-20位汉字数字字母组合"></el-input>
               </el-form-item>
             </el-form-item>
-            <el-form-item
-              prop="phone"
-              :rules="[{ validator: jiophone, trigger: 'blur' }]"
-            >
+            <el-form-item prop="phone" :rules="[{ validator: jiophone, trigger: 'blur' }]">
               <el-form-item label="联系方式:">
-                <el-input
-                  v-model="ruleForm2.phone"
-                  maxlength="11"
-                  placeholder="11位有效手机号"
-                ></el-input>
+                <el-input v-model="ruleForm2.phone" maxlength="11" placeholder="11位有效手机号"></el-input>
               </el-form-item>
             </el-form-item>
-            <el-form-item
-              style="width:100%;display: flex;justify-content:center;"
-            >
-              <el-button type="primary" @click.native.prevent="handleSubmit"
-                >立即提交</el-button
-              >
+            <el-form-item style="width:100%;display: flex;justify-content:center;">
+              <el-button type="primary" @click.native.prevent="handleSubmit">立即提交</el-button>
               <el-button @click="notall('ruleForm2')">取消</el-button>
             </el-form-item>
           </el-form>
         </div>
       </el-dialog>
-      <el-dialog
-        :visible.sync="dialogVisible2"
-        width="20%"
-        @close="handleClose2"
-      >
+      <el-dialog :visible.sync="dialogVisible2" width="20%" @close="handleClose2">
         <div class="addaccout">
-          <el-form
-            :model="ruleForm3"
-            ref="ruleForm3"
-            label-position="left"
-            class="demo-ruleForm"
-          >
+          <el-form :model="ruleForm3" ref="ruleForm3" label-position="left" class="demo-ruleForm">
             <h3 class="title">修改信息</h3>
             <el-form-item label="状态:">
               <el-radio v-model="ruleForm3.radio" label="0">启用</el-radio>
               <el-radio v-model="ruleForm3.radio" label="1">禁用</el-radio>
             </el-form-item>
-            <el-form-item
-              prop="username"
-              :rules="[{ validator: jiousername, trigger: 'blur' }]"
-            >
+            <el-form-item prop="username" :rules="[{ validator: jiousername, trigger: 'blur' }]">
               <el-form-item label="账号:">
-                <el-input
-                  v-model="ruleForm3.username"
-                  placeholder="账号为4-20位英文加数字组合"
-                ></el-input>
+                <el-input v-model="ruleForm3.username" placeholder="账号为4-20位英文加数字组合"></el-input>
               </el-form-item>
             </el-form-item>
 
-            <el-form-item
-              prop="name"
-              :rules="[{ validator: jioname, trigger: 'blur' }]"
-            >
+            <el-form-item prop="name" :rules="[{ validator: jioname, trigger: 'blur' }]">
               <el-form-item label="真实姓名:">
-                <el-input
-                  v-model="ruleForm3.name"
-                  placeholder="真实姓名为4-20位汉字数字字母组合"
-                ></el-input>
+                <el-input v-model="ruleForm3.name" placeholder="真实姓名为4-20位汉字数字字母组合"></el-input>
               </el-form-item>
             </el-form-item>
-            <el-form-item
-              prop="phone"
-              :rules="[{ validator: jiophone, trigger: 'blur' }]"
-            >
+            <el-form-item prop="phone" :rules="[{ validator: jiophone, trigger: 'blur' }]">
               <el-form-item label="联系方式:">
-                <el-input
-                  v-model="ruleForm3.phone"
-                  maxlength="11"
-                  placeholder="11位有效手机号"
-                ></el-input>
+                <el-input v-model="ruleForm3.phone" maxlength="11" placeholder="11位有效手机号"></el-input>
               </el-form-item>
             </el-form-item>
-            <el-form-item
-              style="width:100%;display: flex;justify-content:center;"
-            >
-              <el-button type="primary" @click.native.prevent="handleSubmit4"
-                >修改</el-button
-              >
+            <el-form-item style="width:100%;display: flex;justify-content:center;">
+              <el-button type="primary" @click.native.prevent="handleSubmit4">修改</el-button>
               <el-button @click="nohandleSubmit4('ruleForm3')">取消</el-button>
             </el-form-item>
           </el-form>
         </div>
       </el-dialog>
-      <el-dialog
-        :visible.sync="dialogVisible3"
-        width="20%"
-        @close="handleClose3"
-      >
+      <el-dialog :visible.sync="dialogVisible3" width="20%" @close="handleClose3">
         <div class="addaccout">
           <el-form
             :model="ruleForm4"
@@ -285,10 +190,7 @@
             <h3 class="title">密码重置</h3>
             <el-form-item prop="username">
               <el-form-item label="账号:">
-                <el-input
-                  v-model="ruleForm3.username"
-                  :disabled="true"
-                ></el-input>
+                <el-input v-model="ruleForm3.username" :disabled="true"></el-input>
               </el-form-item>
             </el-form-item>
             <el-form-item prop="password">
@@ -312,12 +214,8 @@
               </el-form-item>
             </el-form-item>
 
-            <el-form-item
-              style="width:100%;display: flex;justify-content:center;"
-            >
-              <el-button type="primary" @click.native.prevent="handleSubmit5"
-                >确认</el-button
-              >
+            <el-form-item style="width:100%;display: flex;justify-content:center;">
+              <el-button type="primary" @click.native.prevent="handleSubmit5">确认</el-button>
               <el-button @click="nohandleSubmit5('ruleForm4')">取消</el-button>
             </el-form-item>
           </el-form>
@@ -325,67 +223,33 @@
       </el-dialog>
       <el-dialog :visible.sync="dialogVisible4" width="20%">
         <div class="addaccout">
-          <el-form
-            :model="ruleForm7"
-            ref="ruleForm7"
-            label-position="left"
-            class="demo-ruleForm"
-          >
+          <el-form :model="ruleForm7" ref="ruleForm7" label-position="left" class="demo-ruleForm">
             <h3 class="title">用户信息</h3>
             <el-form-item label="状态:">
-              <el-radio v-model="ruleForm7.radio" label="1" disabled
-                >启用</el-radio
-              >
-              <el-radio v-model="ruleForm7.radio" label="2" disabled
-                >禁用</el-radio
-              >
+              <el-radio v-model="ruleForm7.radio" label="1" disabled>启用</el-radio>
+              <el-radio v-model="ruleForm7.radio" label="2" disabled>禁用</el-radio>
             </el-form-item>
-            <el-form-item
-              prop="username"
-              :rules="[{ validator: jiousername, trigger: 'blur' }]"
-            >
+            <el-form-item prop="username" :rules="[{ validator: jiousername, trigger: 'blur' }]">
               <el-form-item label="账号:">
-                <el-input
-                  disabled
-                  v-model="ruleForm7.username"
-                  placeholder="账号为4-20位英文加数字组合"
-                ></el-input>
+                <el-input disabled v-model="ruleForm7.username" placeholder="账号为4-20位英文加数字组合"></el-input>
               </el-form-item>
             </el-form-item>
 
-            <el-form-item
-              prop="name"
-              :rules="[{ validator: jioname, trigger: 'blur' }]"
-            >
+            <el-form-item prop="name" :rules="[{ validator: jioname, trigger: 'blur' }]">
               <el-form-item label="真实姓名:">
-                <el-input
-                  disabled
-                  v-model="ruleForm7.name"
-                  placeholder="真实姓名为4-20位汉字数字字母组合"
-                ></el-input>
+                <el-input disabled v-model="ruleForm7.name" placeholder="真实姓名为4-20位汉字数字字母组合"></el-input>
               </el-form-item>
             </el-form-item>
-            <el-form-item
-              prop="phone"
-              :rules="[{ validator: jiophone, trigger: 'blur' }]"
-            >
+            <el-form-item prop="phone" :rules="[{ validator: jiophone, trigger: 'blur' }]">
               <el-form-item label="联系方式:">
-                <el-input
-                  disabled
-                  v-model="ruleForm7.phone"
-                  placeholder="11位有效手机号"
-                ></el-input>
+                <el-input disabled v-model="ruleForm7.phone" placeholder="11位有效手机号"></el-input>
               </el-form-item>
             </el-form-item>
-            <el-form-item
-              style="width:100%;display: flex;justify-content:center;"
-            >
+            <el-form-item style="width:100%;display: flex;justify-content:center;">
               <!-- <el-button type="primary" @click.native.prevent="handleSubmit4"
                 >修改</el-button
-              > -->
-              <el-button @click="dialogVisible4 = false" type="primary"
-                >确定</el-button
-              >
+              >-->
+              <el-button @click="dialogVisible4 = false" type="primary">确定</el-button>
             </el-form-item>
           </el-form>
         </div>
@@ -558,11 +422,13 @@ export default {
         name: "",
         phone: ""
       },
-      ipfs_id: 0
+      ipfs_id: 0,
+      ipfs_user: ""
     };
   },
   mounted: function() {
     this.ipfs_id = parseInt(this.$cookies.get("ipfs_id"));
+    this.ipfs_user = this.$cookies.get("ipfs_user");
     this.queryUserList();
   },
   methods: {
@@ -603,6 +469,8 @@ export default {
       let param = new Object();
       param.ids = this.allId.join(",");
       param.type = 0;
+      param.uid = this.ipfs_id;
+      param.uname = this.ipfs_user;
       userctrl(param)
         .then(res => {
           if (res.status == 0) {
@@ -639,6 +507,8 @@ export default {
           let param = new Object();
           param.ids = this.allId.join(",");
           param.type = 0;
+          param.uid = this.ipfs_id;
+          param.uname = this.ipfs_user;
           userctrl(param)
             .then(res => {
               if (res.status == 0) {
@@ -686,6 +556,8 @@ export default {
           let param = new Object();
           param.ids = this.allId.join(",");
           param.type = 1;
+          param.uid = this.ipfs_id;
+          param.uname = this.ipfs_user;
           userctrl(param)
             .then(res => {
               if (res.status == 0) {
@@ -729,6 +601,8 @@ export default {
           let param = new Object();
           param.ids = this.allId.join(",");
           param.type = 2;
+          param.uid = this.ipfs_id;
+          param.uname = this.ipfs_user;
           userctrl(param)
             .then(res => {
               if (res.status == 0) {
@@ -827,7 +701,9 @@ export default {
             role_id: 0,
             phone: this.ruleForm2.phone,
             status: parseInt(this.ruleForm2.radio),
-            name: this.ruleForm2.name
+            name: this.ruleForm2.name,
+            uid: this.ipfs_user,
+            uname: this.ipfs_user
           };
           userinsert(loginParams).then(data => {
             this.dialogVisible = false;
@@ -887,6 +763,8 @@ export default {
     },
     //禁用
     disable(val) {
+      this.ruleForm3.uid = this.ipfs_user;
+      this.ruleForm3.uname = this.ipfs_user;
       this.ruleForm3.username = val.username;
       this.ruleForm3.id = val.id;
       this.ruleForm3.name = val.name;
@@ -1042,6 +920,8 @@ export default {
         if (valid) {
           var loginParams = this.ruleForm3;
           this.ruleForm3.status = parseInt(this.ruleForm3.radio);
+          loginParams.uid = this.ipfs_id;
+          loginParams.uname = this.ipfs_user;
           userupdate(loginParams).then(data => {
             this.dialogVisible2 = false;
             let { msg, status, user } = data;
@@ -1079,6 +959,8 @@ export default {
           this.ruleForm3.password = this.ruleForm4.password;
           this.ruleForm3.password2 = this.ruleForm4.password2;
           this.ruleForm3.status = parseInt(this.ruleForm3.radio);
+          loginParams.uid = this.ipfs_id;
+          loginParams.uname = this.ipfs_user;
           userupdate(loginParams).then(data => {
             let { msg, status, user } = data;
             if (status !== 0) {

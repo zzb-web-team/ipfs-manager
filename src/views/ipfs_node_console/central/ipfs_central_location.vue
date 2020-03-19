@@ -293,6 +293,7 @@ export default {
 			parmas.province = this.citys;
 			parmas.city = '';
 			parmas.page = 0;
+			parmas.isp="";
 			query_node(parmas)
 				.then(res => {
 					this.ipfsdata = [];

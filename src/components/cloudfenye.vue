@@ -5,8 +5,8 @@
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page="currentPage"
-      :page-sizes="[10]"
-      :page-size="10"
+      :page-sizes="[7]"
+      :page-size="7"
       layout="sizes,total, prev, pager, next, jumper"
       :total="pagesa"
     ></el-pagination>
@@ -30,7 +30,6 @@ export default {
   mounted() {},
   methods: {
     handleSizeChange(val) {
-
       this.$emit("fathernum", val);
     },
     handleCurrentChange(val) {
