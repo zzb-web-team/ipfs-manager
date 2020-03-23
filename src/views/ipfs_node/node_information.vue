@@ -27,7 +27,16 @@
     <div class="seach_bottom" v-if="optiondisplay">
       <div class="seach_bottom_tw">
         <div class="location_select">
-          <span>节点状态：</span>
+          <span>节点任务状态：</span>
+          <el-select placeholder="请选择状态" v-model="value_node" @change="handleChange_node()">
+            <el-option
+              v-for="(item, index) in stateopt_node"
+              :key="item.value + index"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </el-select>
+          <span>节点运行状态：</span>
           <el-select placeholder="请选择状态" v-model="value" @change="handleChange()">
             <el-option
               v-for="(item, index) in stateopt"
@@ -88,10 +97,13 @@
       border
       :cell-style="rowClass"
       :header-cell-style="headClass"
+      :row-key="getRowKey"
+      @selection-change="handleSelectionChange"
       style="width: 100%;"
     >
+      <el-table-column type="selection" width="55" :reserve-selection="true"></el-table-column>
       <el-table-column prop="nodeId" label="节点ID"></el-table-column>
-      <el-table-column prop="state" label="节点状态">
+      <el-table-column prop="state" label="节点运行状态">
         <template slot-scope="scope">
           <div v-if="scope.row.state == 0" style="color:red;">离线</div>
           <div v-else style="color:#409eff;">在线</div>
@@ -144,15 +156,30 @@
         </template>
       </el-table-column>
       <el-table-column prop="useRate" label="节点平均利用率"></el-table-column>
+      <el-table-column prop="nodestatus" label="节点任务状态">
+        <template slot-scope="scope">
+          <span v-if="!scope.row.nodestatus">
+            <i class="el-icon-circle-check" style="color:#46e846f2"></i> 启用
+          </span>
+          <span v-else>
+            <i class="el-icon-error"></i> 禁用
+          </span>
+        </template>
+      </el-table-column>
       <el-table-column prop label="操作">
         <template slot-scope="scope">
           <div>
             <el-button @click="handleClick(scope.row)" type="text" size="small">详情</el-button>
-            <!-- <el-button @click="handleClick(scope.row)" type="text" size="small">详情</el-button> -->
+            <el-button @click="qiClick(scope.row)" type="text" size="small" style="color:#e380f5">启用</el-button>
+            <el-button @click="jinClick(scope.row)" type="text" size="small" style="color:red">禁用</el-button>
           </div>
         </template>
       </el-table-column>
     </el-table>
+    <div class="bottom_btn">
+      <el-button @click="all_qiClick()" type="text" size="small">启用</el-button>
+      <el-button @click="all_jinClick()" type="text" size="small">禁用</el-button>
+    </div>
     <fenye
       style="text-align: right;margin:20px 0 0 0;"
       @fatherMethod="getpage"
@@ -166,7 +193,7 @@
 
 <script>
 import fenye from "@/components/cloudfenye";
-import { query_node } from "../../servers/api";
+import { query_node, filter_node } from "../../servers/api";
 import axios from "axios";
 export default {
   data() {
@@ -174,6 +201,7 @@ export default {
       currentPage: 1,
       seachinput: "",
       value: -1,
+      value_node: -1,
       city_detil: "",
       city_disable: true,
       show_export: true,
@@ -190,6 +218,20 @@ export default {
         {
           value: 1,
           label: "在线"
+        }
+      ],
+      stateopt_node: [
+        {
+          value: -1,
+          label: "全部"
+        },
+        {
+          value: 0,
+          label: "启用"
+        },
+        {
+          value: 1,
+          label: "禁用"
         }
       ],
       citylist: [
@@ -420,7 +462,8 @@ export default {
       province_city: [],
       citydata: {},
       tolpage_export: 0,
-      tableData_export: []
+      tableData_export: [],
+      temporary_arr: []
     };
   },
   mounted() {
@@ -428,6 +471,20 @@ export default {
     this.getdatalist();
   },
   methods: {
+    getRowKey(row) {
+      return row.nodeId;
+    },
+    //多选事件
+    handleSelectionChange(val) {
+      if (val.length <= 0) {
+        return false;
+      }
+      let arr = [];
+      val.forEach((item, index) => {
+        arr.push(item.nodeId);
+      });
+      this.temporary_arr = arr;
+    },
     getJson() {
       axios.get("./static/pro_city.json").then(res => {
         this.citydata = res.data;
@@ -440,6 +497,9 @@ export default {
       this.getdatalist();
     },
     handleChange(value) {
+      this.getdatalist();
+    },
+    handleChange_node(value) {
       this.getdatalist();
     },
     //请求数据
@@ -476,8 +536,6 @@ export default {
 
       parmas.city = this.city_detil;
       parmas.page = this.tolpage;
-      console.log(parmas);
-      console.log(this.value2);
       query_node(parmas)
         .then(res => {
           if (res.status == 0) {
@@ -523,12 +581,67 @@ export default {
         })
         .catch(error => {});
     },
+    //启用禁用（请求接口）
+    qiorjin(val, datalist, orrlist) {
+      let parmas = new Object();
+      if (!orrlist) {
+        let nodelist = [];
+        nodelist.push(datalist.nodeId);
+        parmas.nodes = nodelist;
+      } else {
+        parmas.nodes = datalist;
+      }
+      parmas.opt_flag = val;
+      let messtit = "确定进行此操作吗？";
+      if (val == 1) {
+        messtit = "确定启用该节点吗？";
+      } else {
+        messtit = "确定禁用该节点吗？";
+      }
+      this.$confirm(messtit, "提示", {
+        type: "warning"
+      })
+        .then(_ => {
+          filter_node(parmas)
+            .then(res => {
+              console.log(res);
+              if (res.status == 0) {
+                this.$message({
+                  message: "操作成功",
+                  type: "success"
+                });
+              }
+            })
+            .catch(error => {
+              console.log(error);
+            });
+        })
+        .catch(_ => {});
+    },
     //详情
     handleClick(val) {
       sessionStorage.setItem("serdata", JSON.stringify(val));
       this.$router.push({
         path: "/ipfs_location_details"
       });
+    },
+    //启用--单个
+    qiClick(val) {
+      console.log(val);
+      this.qiorjin(1, val);
+    },
+    //禁用--单个
+    jinClick(val) {
+      console.log(val);
+      this.qiorjin(0, val);
+    },
+    //启用--多个
+    all_qiClick() {
+      this.qiorjin(1, this.temporary_arr, 1);
+    },
+    //启用--多个
+    all_jinClick() {
+      this.qiorjin(0, this.temporary_arr, 1);
     },
     //获取页码
     getpage(pages) {
@@ -711,6 +824,12 @@ export default {
   .seach_bottom_btn {
     margin: 10px 10px;
   }
+}
+.bottom_btn {
+  width: 100px;
+  position: relative;
+  top: 50px;
+  left: 0;
 }
 //旋转
 .aa {

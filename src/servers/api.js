@@ -256,3 +256,9 @@ export const setactionlog = params => {
         res => res.data
     );
 };
+//节点信息--启用禁用
+export const filter_node = params => {
+    return post(`${serverUrl}/node_mgmt/filter_node `, params).then(
+        res => res.data
+    );
+};
