@@ -158,10 +158,10 @@
       <el-table-column prop="useRate" label="节点平均利用率"></el-table-column>
       <el-table-column prop="nodestatus" label="节点任务状态">
         <template slot-scope="scope">
-          <span v-if="!scope.row.nodestatus">
+          <span v-if="scope.row.enableFlag==1">
             <i class="el-icon-circle-check" style="color:#46e846f2"></i> 启用
           </span>
-          <span v-else>
+          <span v-else-if="scope.row.enableFlag==0">
             <i class="el-icon-error"></i> 禁用
           </span>
         </template>
@@ -170,8 +170,20 @@
         <template slot-scope="scope">
           <div>
             <el-button @click="handleClick(scope.row)" type="text" size="small">详情</el-button>
-            <el-button @click="qiClick(scope.row)" type="text" size="small" style="color:#e380f5">启用</el-button>
-            <el-button @click="jinClick(scope.row)" type="text" size="small" style="color:red">禁用</el-button>
+            <el-button
+              @click="qiClick(scope.row)"
+              type="text"
+              size="small"
+              style="color:#e380f5"
+              v-if="scope.row.enableFlag==0"
+            >启用</el-button>
+            <el-button
+              @click="jinClick(scope.row)"
+              type="text"
+              size="small"
+              style="color:red"
+              v-if="scope.row.enableFlag==1"
+            >禁用</el-button>
           </div>
         </template>
       </el-table-column>
@@ -533,7 +545,7 @@ export default {
       } else {
         parmas.isp = "";
       }
-
+      parmas.enableFlag = this.value_node;
       parmas.city = this.city_detil;
       parmas.page = this.tolpage;
       query_node(parmas)
@@ -703,7 +715,7 @@ export default {
       } else {
         parmas.state = this.value;
       }
-
+      parmas.enableFlag = this.value_node;
       parmas.city = this.city_detil;
       parmas.page = this.tolpage_export;
       parmas.isp = "";
