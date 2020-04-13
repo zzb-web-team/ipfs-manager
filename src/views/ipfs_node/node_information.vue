@@ -239,11 +239,11 @@ export default {
         },
         {
           value: 0,
-          label: "启用"
+          label: "禁用"
         },
         {
           value: 1,
-          label: "禁用"
+          label: "启用"
         }
       ],
       citylist: [
@@ -622,6 +622,7 @@ export default {
                   message: "操作成功",
                   type: "success"
                 });
+                this.getdatalist();
               }
             })
             .catch(error => {
