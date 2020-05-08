@@ -264,7 +264,7 @@ export default new Router({
                 }]
             }, {
                 path: '/home_edfsdcvxr',
-                name: '其他地区',
+                name: '其它地区',
                 component: home_seven,
                 children: [{
                     path: '/other_region1',

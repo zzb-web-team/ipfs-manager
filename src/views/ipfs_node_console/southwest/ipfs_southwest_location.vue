@@ -192,7 +192,7 @@ import { query_node, ipfs_region_summary } from '../../../servers/api';
 export default {
 	data() {
 		return {
-			location_name: '华北区域',
+			location_name: '西南区域',
 			rotate: 0,
 			citys: '贵州',
 			options: [

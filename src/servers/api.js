@@ -12,7 +12,7 @@ if (href.indexOf('xyj.grapefruitcloud.com') >= 0) {
 //服务器监控
 /**获取微服务信息 */
 export const login = params => {
-    return post(`${serverUrl}/admin/system/login`, params).then(
+    return post(`${serverUrl}/admin/ipfssystem/login`, params).then(
         res => res.data
     );
 };
@@ -67,32 +67,32 @@ export const get_all_machine_info2 = params => {
 //用户管理
 /** 获取用户列表*/
 export const userlist = params => {
-    return post(`${serverUrl}/admin/system/userlist`, params).then(
+    return post(`${serverUrl}/admin/ipfssystem/userlist`, params).then(
         res => res.data
     );
 };
 //添加用户
 export const userinsert = params => {
-    return post(`${serverUrl}/admin/system/userinsert`, params).then(
+    return post(`${serverUrl}/admin/ipfssystem/userinsert`, params).then(
         res => res.data
     );
 };
 //修改用户
 export const userupdate = params => {
-    return post(`${serverUrl}/admin/system/userupdate`, params).then(
+    return post(`${serverUrl}/admin/ipfssystem/userupdate`, params).then(
         res => res.data
     );
 };
 
 //删除用户列表
 export const userdelete = params => {
-    return post(`${serverUrl}/admin/system/userdelete`, params).then(
+    return post(`${serverUrl}/admin/ipfssystem/userdelete`, params).then(
         res => res.data
     );
 };
 //批量启用，禁用，删除，
 export const userctrl = params => {
-    return post(`${serverUrl}/admin/system/userctrl`, params).then(
+    return post(`${serverUrl}/admin/ipfssystem/userctrl`, params).then(
         res => res.data
     );
 };

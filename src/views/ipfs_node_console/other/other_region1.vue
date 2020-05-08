@@ -60,7 +60,7 @@ import { query_node, node_distribute } from "../../../servers/api";
 export default {
   data() {
     return {
-      location_name: "华南区域",
+      location_name: "其它区域",
       rotate: 0,
       datalist: [],
       citys: "香港"
@@ -82,10 +82,13 @@ export default {
         .then(res => {
           if (res.status == 0) {
             if (res.data.result.length > 0) {
-              this.data.result.forEach((item, index) => {
+                 if(parmas.page==0){
+                    this.datalist=[];
+                }
+              res.data.result.forEach((item, index) => {
                 let obj = {};
-                obj.lng = item[0];
-                obj.lat = item[1];
+                obj.lng = item[1];
+                obj.lat = item[0];
                 obj.count = 1;
                 this.datalist.push(obj);
               });
