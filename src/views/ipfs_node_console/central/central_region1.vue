@@ -96,7 +96,11 @@ export default {
 								let obj = {};
 								obj.lng = item[1];
 								obj.lat = item[0];
-								obj.count = 1;
+								if (item[3]) {
+									obj.count = item[3];
+								} else {
+									obj.count = 1;
+								}
 								this.datalist.push(obj);
 							});
 						} else {

@@ -176,8 +176,8 @@ export default {
 				澳门: ['113.549130', '22.198750'],
 			},
 			map: '', // 保存地图实例
-			centerLng: '116.418261', // 经度
-			centerLat: '39.921984', // 纬度
+			centerLng: '', // 经度
+			centerLat: '', // 纬度
 			heatmapOverlay: {}, // 热力图覆盖物
 			citylatlan: '',
 		};
@@ -240,7 +240,7 @@ export default {
 			var opts = { offset: new BMap.Size(10, 10) };
 			this.map.addControl(new BMap.NavigationControl(opts));
 			// 设置地图默认缩放比例
-			this.map.setZoom(15);
+			this.map.setZoom(12);
 		},
 		// 方法 - 添加热力图覆盖物
 		initHeatMap() {
