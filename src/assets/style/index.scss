@@ -53,6 +53,19 @@ body {
     height: 100%;
 }
 
+.customWidths {
+    width: 35%;
+}
+
+.logWidth {
+    width: 25%;
+    height: 320px;
+}
+
+.recustomWidth {
+    width: 20%;
+}
+
 .customWidth {
     width: 20%;
     .el-form-item__label {
@@ -113,4 +126,22 @@ body {
 
 .content .ipfs_box {
     justify-content: start !important;
+}
+
+.el-dialog {
+    display: flex;
+    flex-direction: column;
+    margin: 0 !important;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /*height:600px;*/
+    max-height: calc(100% - 30px);
+    max-width: calc(100% - 30px);
+}
+
+.el-dialog .el-dialog__body {
+    flex: 1;
+    overflow: auto;
 }

@@ -29,6 +29,7 @@ import newsd from '@/views/device/newsd.vue'
 //用户管理
 import user from '@/views/account/user'
 import userli from '@/views/account/userli'
+import personal_center from '@/views/account/personal_center'
 //IPFS节点信息
 import node_information from '@/views/ipfs_node/node_information'
 //ipfs节点控制台
@@ -97,7 +98,12 @@ export default new Router({
                 path: '/userli',
                 name: '账户管理',
                 component: userli,
-            }]
+            }, {
+                path: '/personal_center',
+                name: '个人中心',
+                component: personal_center,
+                hidden: true
+            }, ]
         }, {
             path: '/home_three',
             name: '服务器监控',

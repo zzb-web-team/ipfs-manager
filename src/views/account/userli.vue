@@ -146,6 +146,8 @@
           </el-form>
         </div>
       </el-dialog>
+
+      
       <el-dialog :visible.sync="dialogVisible2" width="20%" @close="handleClose2">
         <div class="addaccout">
           <el-form :model="ruleForm3" ref="ruleForm3" label-position="left" class="demo-ruleForm">
@@ -177,6 +179,8 @@
           </el-form>
         </div>
       </el-dialog>
+
+
       <el-dialog :visible.sync="dialogVisible3" width="20%" @close="handleClose3">
         <div class="addaccout">
           <el-form

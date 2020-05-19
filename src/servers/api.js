@@ -7,6 +7,8 @@ if (href.indexOf('xyj.grapefruitcloud.com') >= 0) {
     var serverUrl = 'http://xyj.grapefruitcloud.com'; //PHP服务域名
 } else {
     var serverUrl = 'http://zzb.onezen.net'; //PHP服务域名
+
+    var serverUrl2 = 'http://10.0.0.183'
 }
 
 //服务器监控
@@ -83,6 +85,18 @@ export const userupdate = params => {
         res => res.data
     );
 };
+//绑定二级密码
+export const bind_login = params => {
+    return post(`${serverUrl}/admin/system/bind_login`, params).then(
+        res => res.data
+    );
+};
+export const bind_login2 = params => {
+    return get(`${serverUrl2}/projects/ptfs-backend/public/admin/system/qrcode`, params).then(
+        res => res.data
+    );
+};
+
 
 //删除用户列表
 export const userdelete = params => {
