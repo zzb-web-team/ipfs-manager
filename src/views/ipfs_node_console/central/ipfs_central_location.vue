@@ -106,6 +106,11 @@
 			</el-select>
 		</div>
 		<div class="ipfs_box">
+			<div class="nodata" v-show="showdata">
+				<i class="el-icon-document-delete" style="font-size:80px" ></i>
+				<p>暂无数据</p>
+			</div>
+
 			<div
 				class="ipfs_item"
 				v-for="(item, index) in ipfsdata"
@@ -174,60 +179,61 @@ export default {
 			location_name: '华中区域',
 			rotate: 0,
 			citys: '河南',
+            showdata:false,
 			options: [
 				{
 					value: '1',
-					label: '可用空间从大到小'
+					label: '可用空间从大到小',
 				},
 				{
 					value: '2',
-					label: '可用空间从小到大'
+					label: '可用空间从小到大',
 				},
 				{
 					value: '3',
-					label: '可用带宽从高到低'
+					label: '可用带宽从高到低',
 				},
 				{
 					value: '4',
-					label: '可用带宽从抵到高'
-				}
+					label: '可用带宽从抵到高',
+				},
 			],
 			titledar: [
 				{
 					contit: '总节点',
 					connum: 0,
-					url: require('../../../assets/img/zong.png')
+					url: require('../../../assets/img/zong.png'),
 				},
 				{
 					contit: '在线节点',
 					connum: 0,
-					url: require('../../../assets/img/jie.png')
+					url: require('../../../assets/img/jie.png'),
 				},
 				{
 					contit: '总空间',
 					connum: '0G',
-					url: require('../../../assets/img/kong.png')
+					url: require('../../../assets/img/kong.png'),
 				},
 				{
 					contit: '当前占用空间',
 					connum: '0G',
-					url: require('../../../assets/img/zhan.png')
+					url: require('../../../assets/img/zhan.png'),
 				},
 				{
 					contit: '可用空间',
 					connum: '0G',
-					url: require('../../../assets/img/sheng.png')
+					url: require('../../../assets/img/sheng.png'),
 				},
 				{
 					contit: '累计使用流量',
 					connum: '0G',
-					url: require('../../../assets/img/liu.png')
+					url: require('../../../assets/img/liu.png'),
 				},
 				{
 					contit: '累计存储容量',
 					connum: '0G',
-					url: require('../../../assets/img/liu.png')
-				}
+					url: require('../../../assets/img/liu.png'),
+				},
 			],
 			value: '',
 			ipfsdata: [
@@ -240,11 +246,11 @@ export default {
 				//   total_capacity: 1000,
 				//   remaining: 270
 				// },
-			]
+			],
 		};
 	},
 	components: {
-		fenye
+		fenye,
 	},
 	mounted() {
 		if (this.$route.query.node_city) {
@@ -260,7 +266,7 @@ export default {
 			let parmas = new Object();
 			parmas.region = this.citys;
 			ipfs_region_summary(parmas)
-				.then(res => {
+				.then((res) => {
 					if (res.status == 0) {
 						this.titledar[0].connum = res.data.total_cnt;
 						this.titledar[1].connum = res.data.online_cnt;
@@ -283,7 +289,7 @@ export default {
 						this.$message.error(res.err_msg);
 					}
 				})
-				.catch(error => {});
+				.catch((error) => {});
 		},
 		getipfsdata() {
 			let parmas = new Object();
@@ -293,13 +299,14 @@ export default {
 			parmas.province = this.citys;
 			parmas.city = '';
 			parmas.page = 0;
-			parmas.isp="";
+			parmas.isp = '';
 			query_node(parmas)
-				.then(res => {
+				.then((res) => {
 					this.ipfsdata = [];
 					if (res.status == 0) {
 						if (res.data.result.length <= 0) {
 							this.$message('暂无数据');
+                            this.showdata=true;
 						} else {
 							res.data.result.forEach((item, index) => {
 								//上行带宽-总
@@ -332,7 +339,7 @@ export default {
 						}
 					}
 				})
-				.catch(error => {});
+				.catch((error) => {});
 		},
 		setmap_show(num) {
 			this.rotate = 100;
@@ -363,11 +370,11 @@ export default {
 				query: {
 					node_city: this.citys,
 					node_num: this.rotate,
-					address: '/ipfs_central_location'
-				}
+					address: '/ipfs_central_location',
+				},
 			});
-		}
-	}
+		},
+	},
 };
 </script>
 

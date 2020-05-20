@@ -85,6 +85,10 @@
 			</el-select>
 		</div>
 		<div class="ipfs_box">
+            <div class="nodata" v-show="showdata">
+				<i class="el-icon-document-delete" style="font-size:80px" ></i>
+				<p>暂无数据</p>
+			</div>
 			<div
 				class="ipfs_item"
 				v-for="(item, index) in ipfsdata"
@@ -152,7 +156,8 @@ export default {
 		return {
 			location_name: '其它区域',
 			rotate: 0,
-			citys: '香港',
+            citys: '香港',
+             showdata:false,
 			options: [
 				{
 					value: '1',
@@ -278,6 +283,7 @@ export default {
 				.then(res => {
 					if (res.status == 0) {
 						if (res.data.result.length <= 0) {
+                             this.showdata=true;
 							this.$message('暂无数据');
 						} else {
 							this.ipfsdata = [];

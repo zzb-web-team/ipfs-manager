@@ -145,3 +145,14 @@ body {
     flex: 1;
     overflow: auto;
 }
+
+.nodata {
+    width: 100%;
+    text-align: center;
+    margin-top: 40px;
+    p {
+        color: #808080;
+        margin-top: 10px;
+        font-size: 14px;
+    }
+}
