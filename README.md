@@ -1,4 +1,5 @@
-# ptfs_backstage
+# IPFS—manager
+#### demo  http://zzb.onezen.net/ipfs/#/
 
 > A Vue.js project
 
