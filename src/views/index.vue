@@ -16,11 +16,11 @@
 							{{ sysUserName }}
 						</span>
 						<el-dropdown-menu slot="dropdown">
-							<el-dropdown-item
+							<!-- <el-dropdown-item
 								divided
 								@click.native="go_personal_center"
 								>个人中心</el-dropdown-item
-							>
+							> -->
 							<!-- <el-dropdown-item>设置</el-dropdown-item> -->
 							<el-dropdown-item divided @click.native="logout"
 								>退出登录</el-dropdown-item

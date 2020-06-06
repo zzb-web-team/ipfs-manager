@@ -65,7 +65,7 @@
 			<li>
 				<span class="item_title">二级安全验证：</span>
 				<span class="item_con">{{
-					userinf.status == 0 ? '未启用' : '已启用'
+					userinf.google == 0 ? '未启用' : '已启用'
 				}}</span>
 				<span class="item_btn">
 					<el-button type="text" size="small" @click="setpwd(1)"
@@ -136,7 +136,7 @@
 </template>
 
 <script>
-import { userupdate, bind_login, bind_login2 } from '../../servers/api';
+import { userupdate, bind_login } from '../../servers/api';
 import { getymdtime } from '../../servers/sevdate';
 export default {
 	data() {
@@ -166,14 +166,13 @@ export default {
 		this.userinf = JSON.parse(localStorage.getItem('user_information'));
 		this.ipfs_id = parseInt(this.$cookies.get('ipfs_id'));
 		this.ipfs_user = this.$cookies.get('ipfs_user');
-		if (this.userinf.status == 1 && this.userinf.phone != 0) {
+		if (this.userinf.google == 1 && this.userinf.phone != "") {
 			this.grade = '高';
-		} else if (this.userinf.status == 1 && this.userinf.phone == 0) {
+		} else if (this.userinf.google == 1 && this.userinf.phone == "") {
 			this.grade = '中';
 		} else {
 			this.grade = '低';
 		}
-		console.log(this.userinf);
 	},
 	methods: {
 		//设置昵称
@@ -202,28 +201,26 @@ export default {
 		},
 		//设置二级密码
 		setpwd(num) {
-			this.recodecisbity = true;
+            this.recodecisbity = true;
 			let parmas = new Object();
 			parmas.id = this.ipfs_id + '';
 			if (num != 1) {
-				parmas.code = this.reform.name;
+				parmas.code = this.reform.name + '';
 			}
-			bind_login2(parmas)
-				// bind_login(parmas)
+			
+			bind_login(parmas)
 				.then((res) => {
-					console.log(res);
-					this.reform.url = res.qrcode;
-					this.reform.secret_num = res.secret;
 					if (res.status == 0) {
 						if (num == 1) {
-							this.reform.url = res.qrcode;
-							this.reform.secret_num = res.secret;
+							this.reform.url = res.msg.url;
+							this.reform.secret_num = res.msg.secret;
 						} else {
+							 this.recodecisbity = false;
 							this.$message({
 								message: '操作成功',
 								type: 'success',
 							});
-							this.userinf.status = 1;
+							this.userinf.google = 1;
 							localStorage.setItem(
 								'user_information',
 								JSON.stringify(this.userinf)
@@ -328,7 +325,7 @@ export default {
 		},
 		//--弹窗--确认
 		rehandle(ev) {
-            var _this = this;
+			var _this = this;
 			this.$refs.ruleFormre.validate((valid) => {
 				if (valid) {
 					this.setpwd(2);
@@ -353,7 +350,6 @@ export default {
 			var fsdtel = /^[1]([3-9])[0-9]{9}$/;
 			var fsdname = /^[\u4e00-\u9fa5]{2,10}$/;
 			var fsdusername = /^(?![0-9]+$)[0-9A-Za-z]{4,20}$/;
-			console.log(this.updata_type);
 			if (this.updata_type == 1) {
 				if (value === '') {
 					callback(new Error('请输入昵称'));

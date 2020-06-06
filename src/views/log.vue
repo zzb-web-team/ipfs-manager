@@ -108,7 +108,7 @@
 </template>
 
 <script>
-import { login, bind_login } from '../servers/api';
+import { login, check_login } from '../servers/api';
 //import NProgress from 'nprogress'
 export default {
 	data() {
@@ -116,6 +116,7 @@ export default {
 			logining: false,
 			googleVisible: false,
 			ipfs_id: '',
+			ipfs_token: '',
 			ruleForm2: {
 				account: '',
 				checkPass: '',
@@ -170,9 +171,11 @@ export default {
 					login(loginParams).then((data) => {
 						this.logining = false;
 						if (data.status == 0) {
+							let datalist = data.msg;
+							datalist.google = res.google;
 							localStorage.setItem(
 								'user_information',
-								JSON.stringify(data.msg)
+								JSON.stringify(datalist)
 							);
 							sessionStorage.setItem(
 								'ipfs_id',
@@ -197,7 +200,7 @@ export default {
 								path: '/userli',
 							});
 						} else if (data.status == 1) {
-                            this.ipfs_id = res.data.id;
+							this.ipfs_token = data.token;
 							this.googleVisible = true;
 						} else if (data.status == -900) {
 						} else {
@@ -230,31 +233,33 @@ export default {
 		},
 		yacode() {
 			let parmas = new Object();
-			parmas.id = this.ipfs_id;
-			parmas.code = this.googleform.name;
-			bind_login(parmas)
+			parmas.token = this.ipfs_token;
+			parmas.code = this.googleform.name + '';
+			check_login(parmas)
 				.then((res) => {
 					if (res.status == 0) {
+						let datalist = res.usermsg;
+						datalist.google = res.google;
 						localStorage.setItem(
 							'user_information',
-							JSON.stringify(data.msg)
+							JSON.stringify(datalist)
 						);
 						sessionStorage.setItem(
 							'ipfs_id',
-							JSON.stringify(data.msg.id)
+							JSON.stringify(res.usermsg.id)
 						);
 						sessionStorage.setItem(
 							'ipfs_user',
-							JSON.stringify(data.msg.username)
+							JSON.stringify(res.usermsg.username)
 						);
 						this.$cookies.set(
 							'ipfs_user',
-							data.msg.username,
+							res.usermsg.username,
 							7 * 24 * 60 * 60
 						);
 						this.$cookies.set(
 							'ipfs_id',
-							data.msg.id,
+							res.usermsg.id,
 							7 * 24 * 60 * 60
 						);
 
