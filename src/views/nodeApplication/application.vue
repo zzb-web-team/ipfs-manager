@@ -13,7 +13,7 @@
 						<!--  -->
 
 						<div
-							style="display: flex;flex-flow: row;margin:20px 10px 0 10px;"
+							style="display: flex;flex-flow: row;"
 							class="seach_top"
 						>
 							<el-input
@@ -220,7 +220,7 @@
 						<!--  -->
 
 						<div
-							style="display: flex;flex-flow: row;margin:20px 10px 0 10px;"
+							style="display: flex;flex-flow: row;"
 							class="seach_top"
 						>
 							<el-input

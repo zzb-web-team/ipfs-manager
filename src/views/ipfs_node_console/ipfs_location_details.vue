@@ -382,6 +382,8 @@ export default {
 							res.data.total_store_times;
 						this.topdata.total_output_times =
 							res.data.total_output_times;
+					} else {
+						this.$message.error(res.err_msg);
 					}
 				})
 				.catch(error => {});

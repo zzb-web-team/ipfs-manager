@@ -316,6 +316,8 @@ export default {
 								this.ipfsdata.push(item);
 							});
 						}
+					} else {
+						this.$message.error(res.err_msg);
 					}
 				})
 				.catch(error => {});
