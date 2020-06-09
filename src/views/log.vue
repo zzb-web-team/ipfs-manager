@@ -172,7 +172,7 @@ export default {
 						this.logining = false;
 						if (data.status == 0) {
 							let datalist = data.msg;
-							datalist.google = res.google;
+							datalist.google = data.google;
 							localStorage.setItem(
 								'user_information',
 								JSON.stringify(datalist)
