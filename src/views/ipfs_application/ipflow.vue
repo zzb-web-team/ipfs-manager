@@ -28,7 +28,7 @@
 						:class="[
 							rotate
 								? 'fa fa-arrow-down go'
-								: 'fa fa-arrow-down aa'
+								: 'fa fa-arrow-down aa',
 						]"
 					></i>
 				</div>
@@ -148,7 +148,7 @@ import {
 	getlocaltimes,
 	settime,
 	getymdtime,
-	setbatime
+	setbatime,
 } from '../../servers/sevdate';
 export default {
 	data() {
@@ -173,7 +173,7 @@ export default {
 			totalCnt: 1,
 			sizeForm: {
 				date1: '',
-				date2: ''
+				date2: '',
 			},
 			endPickerOptions: {
 				disabledDate(time) {
@@ -187,20 +187,20 @@ export default {
 								1
 						)
 					);
-				}
+				},
 			},
 			options: [
 				{
 					value: 1,
-					label: '点播加速'
+					label: '点播加速',
 				},
 				{
 					value: 2,
-					label: '点播回源'
-				}
+					label: '点播回源',
+				},
 			],
 			tableData: [],
-			tableData2: []
+			tableData2: [],
 		};
 	},
 	filters: {
@@ -218,13 +218,13 @@ export default {
 			} else {
 				return time;
 			}
-		}
+		},
 	},
 	components: { fenye },
 	mounted() {
 		this.starttime =
 			new Date(new Date().toLocaleDateString()).getTime() / 1000 -
-			6 * 1000 * 24 * 3600;
+			86400 * 90;
 		this.endtime = Date.parse(new Date()) / 1000;
 		this.gettab();
 	},
@@ -254,7 +254,7 @@ export default {
 			params.pageNo = this.pageNo - 1;
 			params.pageSize = this.pageSize;
 			query_ip_usage_table(params)
-				.then(res => {
+				.then((res) => {
 					if (res.status == 0) {
 						this.tableData = res.data.list;
 						this.totalCnt = res.data.totalCnt;
@@ -268,7 +268,7 @@ export default {
 						this.$message.error(res.errMsg);
 					}
 				})
-				.catch(error => {
+				.catch((error) => {
 					this.showdisable = true;
 				});
 		},
@@ -284,7 +284,8 @@ export default {
 				this.endtime = setbatime(this.value1[1]);
 			} else {
 				this.starttime =
-					new Date(new Date().toLocaleDateString()).getTime() / 1000;
+					new Date(new Date().toLocaleDateString()).getTime() / 1000 -
+					86400 * 90;
 				this.endtime = Date.parse(new Date()) / 1000;
 			}
 			this.gettab();
@@ -339,9 +340,9 @@ export default {
 			params.pageNo = this.pageNo2 - 1;
 			params.pageSize = this.pageSize;
 			query_ip_usage_table(params)
-				.then(res => {
+				.then((res) => {
 					if (res.status == 0) {
-                        this.tableData2 = this.tableData2.concat(res.data.list);
+						this.tableData2 = this.tableData2.concat(res.data.list);
 						if (this.pageNo2 >= res.data.totalPageCnt) {
 							this.exportExcel();
 							this.fan.fanactionlog('导出', '节点应用IP流量', 1);
@@ -355,14 +356,14 @@ export default {
 						this.$message.error(res.errMsg);
 					}
 				})
-				.catch(error => {
+				.catch((error) => {
 					this.fan.fanactionlog('导出', '节点应用IP流量', 0);
 				});
 		},
 		exportExcel() {
 			require.ensure([], () => {
 				const {
-					export_json_to_excel
+					export_json_to_excel,
 				} = require('../../excel/Export2Excel.js');
 				const tHeader = [
 					'用途',
@@ -374,7 +375,7 @@ export default {
 					'使用时长',
 					'使用状态',
 					'渠道ID',
-					'点播IP'
+					'点播IP',
 				];
 				// 上面设置Excel的表格第一行的标题
 				const filterVal = [
@@ -387,7 +388,7 @@ export default {
 					'timeUsage',
 					'usageFlag',
 					'chanId',
-					'userIpInfo'
+					'userIpInfo',
 				];
 				// 上面的index、nickName、name是tableData里对象的属性
 				const list = this.tableData2; //把data里的tableData存到list
@@ -396,9 +397,9 @@ export default {
 			});
 		},
 		formatJson(filterVal, jsonData) {
-			return jsonData.map(v => filterVal.map(j => v[j]));
-		}
-	}
+			return jsonData.map((v) => filterVal.map((j) => v[j]));
+		},
+	},
 };
 </script>
 
