@@ -14,6 +14,7 @@ import home_five from '@/views/menu/home_five'
 import home_six from '@/views/menu/home_six'
 import home_seven from '@/views/menu/home_seven'
 import home_eight from '@/views/menu/home_eight'
+import home_nine from '@/views/menu/home_nine'
 
 //服务器监控
 import microservicelist from '@/views/deerver/microservicelist.vue'
@@ -66,6 +67,12 @@ import ipfs_location_details from '@/views/ipfs_node_console/ipfs_location_detai
 import fs_storage from '@/views/ipfs_application/fs_storage'
 import ipflow from '@/views/ipfs_application/ipflow'
 
+
+//ipfs节点收益
+import update_parameter from '@/views/ipfs_income/update_parameter'
+import xiyouji_income from '@/views/ipfs_income/xiyouji_income'
+import yun_income from '@/views/ipfs_income/yun_income'
+import yun_power from '@/views/ipfs_income/yun_power'
 
 //操作管理
 import operation_management from '@/views/operating/operation_management'
@@ -150,6 +157,7 @@ export default new Router({
             name: '设备监控',
             component: index,
             icon: 'iconfont icon-shebeijiankong',
+            hidden: true,
             children: [{
                 path: '/newsd',
                 name: '设备监控详情',
@@ -166,6 +174,7 @@ export default new Router({
             name: 'IPFS节点信息',
             icon: 'iconfont icon-jiedian1',
             component: index,
+            hidden: true,
             children: [{
                 path: '/node_information',
                 name: '节点信息',
@@ -287,7 +296,8 @@ export default new Router({
                 component: ipfs_location_details,
                 hidden: true
             }]
-        }, {
+        },
+        {
             path: '/home_eight',
             name: 'IPFS节点应用',
             component: index,
@@ -304,11 +314,46 @@ export default new Router({
             }]
         },
         {
+            path: '/home_nine',
+            name: 'IPFS节点收益',
+            component: index,
+            icon: 'iconfont icon-yonghufenzuyingyong',
+            hidden: true,
+            children: [{
+                path: '/xiyouji_income',
+                name: '西柚机节点收益',
+                component: xiyouji_income,
+            }, {
+                path: '/home_seven',
+                name: '云链节点收益',
+                component: home_seven,
+                children: [{
+                    path: '/yun_income',
+                    name: '云链节点收益明细',
+                    component: yun_income,
+                }, {
+                    path: '/update_parameter',
+                    name: '调整收益参数',
+                    component: update_parameter,
+                    hidden: true,
+                }]
+            }, {
+                path: '/yun_power',
+                name: '云链节点算力',
+                component: yun_power,
+            }]
+        },
+        {
             path: '/c',
             name: 'IPFS 数据统计',
             component: index,
             icon: 'iconfont icon-tongji',
             children: [{
+                    path: '/node_information',
+                    name: '节点信息',
+                    component: node_information
+                },
+                {
                     path: '/nodeMap',
                     name: '全国节点分布',
                     component: nodeMap

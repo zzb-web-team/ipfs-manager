@@ -188,7 +188,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <div class="bottom_btn">
+    <div class="bottom_btn"  v-if="tableData.length > 0">
       <el-button @click="all_qiClick()" type="text" size="small">启用</el-button>
       <el-button @click="all_jinClick()" type="text" size="small">禁用</el-button>
     </div>
@@ -795,6 +795,7 @@ export default {
 
 <style lang="scss" scoped>
 .content {
+    height: auto;
   .seach_title {
     display: flex;
     justify-content: flex-start;

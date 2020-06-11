@@ -40,3 +40,29 @@ export function setbatime(nowTime) {
     var time = new Date(nowTime).getTime() / 1000;
     return time
 }
+//标准时间转日期
+export function dateFormat(d) {
+    let year = d.getFullYear();
+    let month = d.getMonth() + 1 + "";
+    if (month <= 9) {
+        month = '0' + month;
+    }
+    let date = d.getDate() + "";
+    if (date <= 9) {
+        date = '0' + date;
+    }
+    let hour = d.getHours() + "";
+    if (hour <= 9) {
+        hour = '0' + hour;
+    }
+    let minute = d.getMinutes() + "";
+    if (minute <= 9) {
+        minute = '0' + minute;
+    }
+    let second = d.getSeconds() + "";
+    if (second <= 9) {
+        second = '0' + second;
+    }
+    // return year + "-" + month + "-" + date + " " + hour + ":" + minute + ":" + second;
+    return year + "-" + month + "-" + date;
+}

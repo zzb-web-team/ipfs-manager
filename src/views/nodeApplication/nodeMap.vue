@@ -5,6 +5,18 @@
         <a>全国节点分布</a>
       </el-breadcrumb-item>
     </el-breadcrumb>
+    <!-- <div>
+        <span>时间：</span>
+				<el-date-picker
+					v-model="time_value"
+					type="daterange"
+					range-separator="至"
+					start-placeholder="开始日期"
+					end-placeholder="结束日期"
+					@change="seachuser()"
+					:picker-options="endPickerOptions"
+				></el-date-picker>
+    </div> -->
     <div style="display: flex;" class="mapdal">
       <div id="myChartChina" :style="{ width: '100%', height: '500px' }"></div>
       <ol>
@@ -30,7 +42,22 @@ export default {
         // { name: "重庆", value: 1156 },
         // { name: "广东", value: 6 },
         // { name: "浙江", value: 156 }
-      ]
+      ],
+      time_value:'',
+      endPickerOptions: {
+				disabledDate(time) {
+					return (
+						time.getTime() >
+						new Date(
+							new Date(
+								new Date().toLocaleDateString()
+							).getTime() +
+								24 * 60 * 60 * 1000 -
+								1
+						)
+					);
+				},
+			},
     };
   },
   mounted() {

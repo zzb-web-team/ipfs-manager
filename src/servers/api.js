@@ -287,3 +287,40 @@ export const filter_node = params => {
         res => res.data
     );
 };
+
+//西柚机节点收益
+export const node_earnings = params => {
+    return post(`${serverUrl}/earnings/node_earnings `, params).then(
+        res => res.data
+    );
+};
+//云链节点收益明细
+export const node_earnings_detail = params => {
+    return post(`${serverUrl}/earnings/node_earnings_detail `, params).then(
+        res => res.data
+    );
+};
+//云链节点算力值
+export const node_h = params => {
+    return post(`${serverUrl}/earnings/node_h `, params).then(
+        res => res.data
+    );
+};
+//云链节点算力明细
+export const node_h_detail = params => {
+    return post(`${serverUrl}/earnings/node_h_detail `, params).then(
+        res => res.data
+    );
+};
+//收益参数修改
+export const update_price_param = params => {
+    return post(`${serverUrl}/earnings/update_price_param `, params).then(
+        res => res.data
+    );
+};
+//收益参数获取
+export const get_price_param = params => {
+    return post(`${serverUrl}/earnings/get_price_param `, params).then(
+        res => res.data
+    );
+};
