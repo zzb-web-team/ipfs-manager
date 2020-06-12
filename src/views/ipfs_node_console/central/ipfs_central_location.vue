@@ -107,7 +107,7 @@
 		</div>
 		<div class="ipfs_box">
 			<div class="nodata" v-show="showdata">
-				<i class="el-icon-document-delete" style="font-size:80px" ></i>
+				<i class="el-icon-document-delete" style="font-size:80px"></i>
 				<p>暂无数据</p>
 			</div>
 
@@ -155,12 +155,14 @@
 					</li>
 					<li>
 						<span class="ipfs_text_title">总容量:</span>
-						<span class="ipfs_text_con">{{ item.totalCap }}</span>
+						<span class="ipfs_text_con">{{
+							(item.totalCap / 1024 / 1024 / 1024).toFixed(2)
+						}}GB</span>
 					</li>
 					<li>
 						<span class="ipfs_text_title">剩余容量:</span>
 						<span class="ipfs_text_con"
-							>{{ item.remainingCap }}G</span
+							>{{ item.remainingCap }}GB</span
 						>
 					</li>
 				</ol>
@@ -179,7 +181,7 @@ export default {
 			location_name: '华中区域',
 			rotate: 0,
 			citys: '河南',
-            showdata:false,
+			showdata: false,
 			options: [
 				{
 					value: '1',
@@ -306,7 +308,7 @@ export default {
 					if (res.status == 0) {
 						if (res.data.result.length <= 0) {
 							this.$message('暂无数据');
-                            this.showdata=true;
+							this.showdata = true;
 						} else {
 							res.data.result.forEach((item, index) => {
 								//上行带宽-总
@@ -334,6 +336,8 @@ export default {
 									item.devstatus = '在线';
 									item.bgccolor = '#5CC77D';
 								}
+                                item.totalCap = (item.totalCap /1024 /1024 /1024).toFixed(2);
+                                item.remainingCap = (item.remainingCap /1024 /1024 /1024).toFixed(2);
 								this.ipfsdata.push(item);
 							});
 						}

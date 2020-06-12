@@ -66,6 +66,62 @@
               :value="item.name"
             ></el-option>
           </el-select>
+          <!-- <span>节点渠道商:</span>
+             <el-select
+            v-model="city_detil"
+            placeholder="一级渠道商"
+            @change="handleChange()"
+          >
+            <el-option
+              v-for="(item, index) in options_city"
+              :key="index"
+              :label="item.name"
+              :value="item.name"
+            ></el-option>
+          </el-select>
+             <el-select
+            v-model="city_detil"
+            placeholder="二级渠道商"
+            @change="handleChange()"
+            :disabled="city_disable"
+          >
+            <el-option
+              v-for="(item, index) in options_city"
+              :key="index"
+              :label="item.name"
+              :value="item.name"
+            ></el-option>
+          </el-select>
+             <span>设备类型：</span>
+          <el-select v-model="value2" placeholder="请选择" @change="seachipfs">
+            <el-option
+              v-for="item in options2"
+              :key="item.value"
+              :label="item.label"
+              :value="item.label"
+              :disabled="item.disabled"
+            ></el-option>
+          </el-select>
+           <span>硬件类型：</span>
+          <el-select v-model="value2" placeholder="请选择" @change="seachipfs">
+            <el-option
+              v-for="item in options2"
+              :key="item.value"
+              :label="item.label"
+              :value="item.label"
+              :disabled="item.disabled"
+            ></el-option>
+          </el-select>
+           <span>操作系统：</span>
+          <el-select v-model="value2" placeholder="请选择" @change="seachipfs">
+            <el-option
+              v-for="item in options2"
+              :key="item.value"
+              :label="item.label"
+              :value="item.label"
+              :disabled="item.disabled"
+            ></el-option>
+          </el-select> -->
         </div>
         <div class="region_select">
           <span>运营商：</span>
@@ -112,7 +168,16 @@
       <el-table-column prop="ip" label="节点IP"></el-table-column>
       <el-table-column prop="city" label="节点城市"></el-table-column>
       <el-table-column prop="area" label="节点区域"></el-table-column>
+        <!-- <el-table-column prop="area" label="节点一级渠道"></el-table-column>
+        <el-table-column prop="area" label="节点二级渠道"></el-table-column>
+        <el-table-column prop="area" label="设备类型"></el-table-column>
+        <el-table-column prop="area" label="硬件类型"></el-table-column>
+        <el-table-column prop="area" label="操作系统"></el-table-column> -->
       <el-table-column prop="isp" label="节点运营商"></el-table-column>
+    
+      <!-- <el-table-column prop="area" label="CPU占用"></el-table-column>
+        <el-table-column prop="area" label="总内存"></el-table-column>
+        <el-table-column prop="area" label="当前内存"></el-table-column> -->
       <el-table-column prop="totalBW" label="总带宽"></el-table-column>
       <el-table-column prop="occupyBW" label="占用带宽"></el-table-column>
       <el-table-column prop="remainingBW" label="剩余带宽"></el-table-column>

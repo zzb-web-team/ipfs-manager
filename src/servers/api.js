@@ -324,3 +324,9 @@ export const get_net_info = params => {
         res => res.data
     );
 };
+//导出
+export const export_excel = params => {
+    return post(`${serverUrl}/ipfs_profit/export_excel`, params).then(
+        res => res.data
+    );
+};

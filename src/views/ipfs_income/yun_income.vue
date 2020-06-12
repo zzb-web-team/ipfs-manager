@@ -62,52 +62,58 @@
 				<el-table-column prop="nodeId" label="节点ID"></el-table-column>
 				<el-table-column prop="IP" label="节点IP"></el-table-column>
 				<el-table-column
-					prop="earnings"
+					prop="P"
 					label="当日收益[单位:积分](p)"
 				></el-table-column>
 				<el-table-column
-					prop="H"
+					prop="P1"
 					label="理论收益[单位:积分](p1)"
 				></el-table-column>
 				<el-table-column
-					prop="size"
+					prop="P2"
 					label="实际贡献收益[单位:积分](p2)"
 				></el-table-column>
 				<el-table-column
-					prop="oper"
+					prop="P3"
 					label="节点质量评级奖励收益[单位:积分](p3)"
 				></el-table-column>
 				<el-table-column
-					prop="upBw"
+					prop="H"
 					label="节点当日算力"
 				></el-table-column>
 				<el-table-column
-					prop="downBw"
+					prop="S"
 					label="当日节点质量评级"
 				></el-table-column>
 				<el-table-column
-					prop="online"
+					prop="devCount"
 					label="主机设备数量[单位:台][同一终端地址]"
 				></el-table-column>
 				<el-table-column
-					prop="online"
+					prop="oper"
 					label="网络运营商"
 				></el-table-column>
 				<el-table-column
-					prop="online"
+					prop="UDBw"
 					label="上下行带宽"
-				></el-table-column>
+				>
+                <template slot-scope="scope">
+                    {{
+						scope.row.UDBw?scope.row.UDBw:'--'
+					}}
+                    </template>
+                </el-table-column>
 				<el-table-column
 					prop="online"
 					label="累计在线时长"
 				></el-table-column>
 				<el-table-column
-					prop="online"
+					prop="flow"
 					label="节点当日实际使用流量"
 				></el-table-column>
 				<el-table-column prop="startTS" sortable label="时间">
 					<template slot-scope="scope">{{
-						scope.row.date | getymd
+						scope.row.date
 					}}</template>
 				</el-table-column>
 			</el-table>
@@ -131,7 +137,7 @@ import {
 	setbatime,
 	dateFormat,
 } from '../../servers/sevdate';
-import { node_pf_detail } from '@/servers/api';
+import { node_pf_detail,export_excel } from '@/servers/api';
 export default {
 	data() {
 		return {
@@ -203,11 +209,16 @@ export default {
 			node_pf_detail(params)
 				.then((res) => {
                     console.log(res);
-                    if(res.status==0){
-                        this.tableData=res.data;
-                    }else{
-                        this.$message.error(res.errMsg);
+                    this.tableData=res.data;
+                    this.totalCnt=res.dataCount;
+                    if(this.tableData.length>0){
+                        this.showdisable=false;
                     }
+                    // if(res.status==0){
+                    //     this.tableData=res.data;
+                    // }else{
+                    //     this.$message.error(res.errMsg);
+                    // }
 				})
 				.catch((error) => {
 					console.log(error);
@@ -222,15 +233,41 @@ export default {
 				this.starttime = dateFormat(this.time_value[0]);
 				this.endtime = dateFormat(this.time_value[1]);
 			} else {
-				var day1 = new Date();
-				day1.setTime(day1.getTime() - 24 * 60 * 60 * 1000);
-				this.starttime =day1.getFullYear() +'-' +(day1.getMonth() + 1) +'-' +day1.getDate();
-				this.endtime = dateFormat(new Date());
+				// var day1 = new Date();
+				// day1.setTime(day1.getTime() - 24 * 60 * 60 * 1000);
+				// this.starttime =day1.getFullYear() +'-' +(day1.getMonth() + 1) +'-' +day1.getDate();
+                this.starttime = dateFormat(new Date());
+                this.endtime = dateFormat(new Date());
 			}
 			this.get_income_list();
 		},
 		//导出
-		exportexc() {},
+		exportexc() {
+            	let params = new Object();
+			params.exportContext = 'node_pf_detail';
+			let ipsos = /^(\d{1,3}\.{1}){3}((\d{1,3}){1})$/;
+			if (ipsos.test(this.input) == true) {
+				params.nodeId = '';
+				params.IP = this.input;
+			} else {
+				params.nodeId = this.input;
+				params.IP = '';
+			}
+			params.dateStart = this.starttime;
+			params.dateEnd = this.endtime;
+			export_excel(params)
+				.then((res) => {
+                    console.log(res);
+                    if(res.status==0){
+                       this.$message.success("导出成功"); 
+                    }else{
+                        this.$message.error(res.err_msg);
+                    }
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+        },
 		//获取页码
 		getpage(pages) {
 			this.pageNo = pages;

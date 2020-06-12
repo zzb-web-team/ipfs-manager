@@ -154,7 +154,7 @@
 							border
 							:cell-style="rowClass"
 							:header-cell-style="headClass"
-							style="width: 350px"
+							style="width: 450px"
 						>
 							<el-table-column label="节点质量级别" width="140">
 								<template slot-scope="scope">
@@ -167,7 +167,7 @@
 									<i>{{ scope.row.max }}</i>
 								</template>
 							</el-table-column>
-							<el-table-column prop="v" label="RH">
+							<el-table-column prop="v" label="RH" width="140">
 								<template slot-scope="scope"
 									><span>{{ scope.row.v }}%</span></template
 								>
@@ -175,7 +175,12 @@
 							<el-table-column prop="操作" label="操作">
 								<template slot-scope="scope">
 									<el-button
-										@click="updateInterval(scope.row)"
+										@click="
+											updateInterval(
+												scope.row,
+												scope.$index
+											)
+										"
 										type="text"
 										size="small"
 										>修改</el-button
@@ -196,7 +201,7 @@
 							border
 							:cell-style="rowClass"
 							:header-cell-style="headClass"
-							style="width: 350px"
+							style="width: 450px"
 						>
 							<el-table-column
 								prop="interval"
@@ -204,15 +209,17 @@
 								width="130"
 							>
 							</el-table-column>
-							<el-table-column prop="rnm" label="RNM">
+							<el-table-column prop="Rnm" label="RNM">
 								<template slot-scope="scope"
-									><span>{{ scope.row.rnm }}%</span></template
+									><span>{{ scope.row.Rnm }}%</span></template
 								>
 							</el-table-column>
 							<el-table-column prop="操作" label="操作">
 								<template slot-scope="scope">
 									<el-button
-										@click="updateRnm(scope.row)"
+										@click="
+											updateRnm(scope.row, scope.$index)
+										"
 										type="text"
 										size="small"
 										>修改</el-button
@@ -229,6 +236,7 @@
 
 <script>
 import { get_net_info, update_net_info } from '@/servers/api';
+import { Slider } from 'element-ui';
 export default {
 	data() {
 		return {
@@ -241,72 +249,87 @@ export default {
 				{
 					min: 0,
 					max: 500,
-					v: '10',
+					v: 10,
 				},
 				{
 					min: 500,
 					max: 1000,
-					v: '20',
+					v: 20,
 				},
 				{
 					min: 1000,
 					max: 3000,
-					v: '30',
+					v: 30,
 				},
 				{
 					min: 3000,
 					max: 5000,
-					v: '50',
+					v: 50,
 				},
 				{
 					min: 5000,
 					max: 10000,
-					v: '80',
+					v: 80,
 				},
 				{
 					min: 10000,
 					max: 10000,
-					v: '100',
+					v: 100,
 				},
 			],
 			ratingData: [
 				{
 					interval: 'S',
-					rnm: '10',
+					Rnm: 10,
 				},
 				{
 					interval: 'A',
-					rnm: '0',
+					Rnm: 0,
 				},
 				{
 					interval: 'B',
-					rnm: '0',
+					Rnm: 0,
 				},
 				{
 					interval: 'C',
-					rnm: '0',
+					Rnm: 0,
 				},
 			],
-			price: {},
+			priceobj: {},
 		};
+	},
+	mounted() {
+		this.get_data();
 	},
 	methods: {
 		get_data() {
 			let params = new Object();
+			params.data = {};
 			get_net_info(params)
 				.then((res) => {
 					console.log(res);
-					if (res.status == 0) {
-						this.price = res.data;
-						this.googleform = res.data.price[0];
-						this.tableData = res.data.H;
-						for (k in res.data.Rnm) {
-							let obj = new Object();
-							obj.interval = k;
-							obj.rnm = res.data.Rnm[k];
-							this.ratingData.push(obj);
-						}
+					this.priceobj = res;
+					this.googleform = res.price[0];
+					console.log(this.googleform);
+					this.tableData = res.H;
+					this.ratingData = [];
+					for (let k in res.Rnm) {
+						let obj = new Object();
+						obj.interval = k;
+						obj.Rnm = res.Rnm[k];
+						this.ratingData.push(obj);
 					}
+					// if (res.status == 0) {
+					// 	this.price = res.data;
+					// 	this.googleform = res.data.price[0];
+					// 	this.tableData = res.data.H;
+					// 	for (k in res.data.Rnm) {
+					// 		let obj = new Object();
+					// 		obj.interval = k;
+					// 		obj.Rnm = res.data.Rnm[k];
+					// 		this.ratingData.push(obj);
+					// 	}
+					// }
 				})
 				.catch((error) => {
 					console.log(error);
@@ -314,22 +337,64 @@ export default {
 		},
 		set_price(num) {
 			let params = new Object();
-            if (num == 1) {
-
+			params.H = [];
+			params.Rnm = {};
+			params.price = [];
+			let H = new Array();
+			let Rnm = new Object();
+			let price = new Array();
+			if (num == 1) {
+				for (var i = 0; i < 3; i++) {
+					console.log(i);
+					if (i == 0) {
+						this.googleform.netOper = 0;
+					} else if (i == 1) {
+						this.googleform.netOper = 1;
+					} else if (i == 2) {
+						this.googleform.netOper = 2;
+					}
+					price.push(this.googleform);
+				}
+				params.H = this.priceobj.H;
+				params.Rnm = this.priceobj.Rnm;
+				params.price = this.priceobj.price;
 			} else if (num == 2) {
-
+				params.H = this.tableData;
+				params.price = this.priceobj.price;
+				params.Rnm = this.priceobj.Rnm;
 			} else if (num == 3) {
-
+				this.ratingData.forEach((item) => {
+					if (item.interval == 'S') {
+						Rnm.S = item.Rnm;
+					} else if (item.interval == 'A') {
+						Rnm.A = item.Rnm;
+					} else if (item.interval == 'B') {
+						Rnm.B = item.Rnm;
+					} else if (item.interval == 'C') {
+						Rnm.C = item.Rnm;
+					}
+				});
+				params.H = this.priceobj.H;
+				params.price = this.priceobj.price;
+				params.Rnm = Rnm;
 			}
+			console.log(num, params);
 			update_net_info(params)
 				.then((res) => {
 					console.log(res);
+					if (res.err == 0) {
+						this.$message({
+							type: 'success',
+							message: '修改成功',
+						});
+						this.get_data();
+					}
 				})
 				.catch((error) => {
 					console.log(error);
 				});
 		},
-		updateInterval(row) {
+		updateInterval(row, num) {
 			console.log(row);
 			this.$prompt('请输入RH', '提示', {
 				confirmButtonText: '确定',
@@ -339,41 +404,42 @@ export default {
 					if (!value) {
 						return '输入不能为空';
 					} else {
-						if (row.min <= 0 && row.max <= 500) {
-							if (value < 0 || value > 10) {
-								return '输入RH区间错误';
-							}
-						} else if (row.min <= 500 && row.max <= 1000) {
-							if (value < 10 || value > 20) {
-								return '输入RH区间错误';
-							}
-						} else if (row.min <= 1000 && row.max <= 3000) {
-							if (value < 20 || value > 30) {
-								return '输入RH区间错误';
-							}
-						} else if (row.min <= 3000 && row.max <= 5000) {
-							if (value < 30 || value > 50) {
-								return '输入RH区间错误';
-							}
-						} else if (row.min <= 5000 && row.max <= 10000) {
-							if (value < 50 || value > 80) {
-								return '输入RH区间错误';
-							}
-						} else if (row.max > 1000) {
-							if (value < 80 || value > 100) {
-								return '输入RH区间错误';
-							}
-						}
+						// if (row.min <= 0 && row.max <= 500) {
+						// 	if (value < 0 || value > 10) {
+						// 		return '输入RH区间错误';
+						// 	}
+						// } else if (row.min <= 500 && row.max <= 1000) {
+						// 	if (value < 10 || value > 20) {
+						// 		return '输入RH区间错误';
+						// 	}
+						// } else if (row.min <= 1000 && row.max <= 3000) {
+						// 	if (value < 20 || value > 30) {
+						// 		return '输入RH区间错误';
+						// 	}
+						// } else if (row.min <= 3000 && row.max <= 5000) {
+						// 	if (value < 30 || value > 50) {
+						// 		return '输入RH区间错误';
+						// 	}
+						// } else if (row.min <= 5000 && row.max <= 10000) {
+						// 	if (value < 50 || value > 80) {
+						// 		return '输入RH区间错误';
+						// 	}
+						// } else if (row.max > 1000) {
+						// 	if (value < 80 || value > 100) {
+						// 		return '输入RH区间错误';
+						// 	}
+						// }
 					}
 				},
 				// inputPattern: /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
 				//inputErrorMessage: 'RH不正确',
 			})
 				.then(({ value }) => {
-					this.$message({
-						type: 'success',
-						message: '修改为 ' + value,
-					});
+					// this.$message({
+					// 	type: 'success',
+					// 	message: '修改为 ' + value,
+					// });
+					this.tableData[num].v = value;
 					this.set_price(2);
 				})
 				.catch(() => {
@@ -383,7 +449,7 @@ export default {
 					});
 				});
 		},
-		updateRnm(row) {
+		updateRnm(row, num) {
 			console.log(row);
 			this.$prompt('请输入RNM', '提示', {
 				confirmButtonText: '确定',
@@ -393,42 +459,43 @@ export default {
 					if (!value) {
 						return '输入不能为空';
 					} else {
-						if (row.interval == 'S') {
-							if (
-								value <= this.ratingData[1].rnm ||
-								value > 100
-							) {
-								return '输入RNM区间错误';
-							}
-						} else if (row.interval == 'A') {
-							if (
-								value <= this.ratingData[2].rnm ||
-								value >= this.ratingData[0].rnm
-							) {
-								return '输入RNM区间错误';
-							}
-						} else if (row.interval == 'B') {
-							if (
-								value <= this.ratingData[4].rnm ||
-								value >= this.ratingData[2].rnm
-							) {
-								return '输入RNM区间错误';
-							}
-						} else if (row.interval == 'C') {
-							if (value < 0 || value >= this.ratingData[0].rnm) {
-								return '输入RNM区间错误';
-							}
-						}
+						// if (row.interval == 'S') {
+						// 	if (
+						// 		value <= this.ratingData[1].Rnm ||
+						// 		value > 100
+						// 	) {
+						// 		return '输入RNM区间错误';
+						// 	}
+						// } else if (row.interval == 'A') {
+						// 	if (
+						// 		value <= this.ratingData[2].Rnm ||
+						// 		value >= this.ratingData[0].Rnm
+						// 	) {
+						// 		return '输入RNM区间错误';
+						// 	}
+						// } else if (row.interval == 'B') {
+						// 	if (
+						// 		value <= this.ratingData[3].Rnm ||
+						// 		value >= this.ratingData[2].Rnm
+						// 	) {
+						// 		return '输入RNM区间错误';
+						// 	}
+						// } else if (row.interval == 'C') {
+						// 	if (value < 0 || value >= this.ratingData[0].Rnm) {
+						// 		return '输入RNM区间错误';
+						// 	}
+						// }
 					}
 				},
 				// inputPattern: /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
 				// inputErrorMessage: 'RH不正确',
 			})
 				.then(({ value }) => {
-					this.$message({
-						type: 'success',
-						message: '修改为 ' + value,
-					});
+					this.ratingData[num].Rnm = value;
+					// this.$message({
+					// 	type: 'success',
+					// 	message: '修改为 ' + value,
+					// });
 					this.set_price(3);
 				})
 				.catch(() => {

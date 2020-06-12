@@ -40,11 +40,19 @@
 			</div>
 		</div>
 		<div>
-			<div style="text-align:right;padding: 10px;">
+			<div style="text-align:right;padding: 10px;" v-if="radio == '1'">
 				<el-button
 					type="primary"
 					@click="exportexc()"
-					:disabled="showdisable"
+					:disabled="showdisable1"
+					>导出</el-button
+				>
+			</div>
+			<div style="text-align:right;padding: 10px;" v-if="radio == '2'">
+				<el-button
+					type="primary"
+					@click="exportexc()"
+					:disabled="showdisable2"
 					>导出</el-button
 				>
 			</div>
@@ -69,7 +77,7 @@
 			</div>
 			<div v-if="radio == '2'">
 				<el-table
-					:data="tableData"
+					:data="table_detail_data"
 					border
 					:cell-style="rowClass"
 					:header-cell-style="headClass"
@@ -94,7 +102,7 @@
 					></el-table-column>
 					<el-table-column prop="startTS" sortable label="时间">
 						<template slot-scope="scope">{{
-							scope.row.date | getymd
+							scope.row.date
 						}}</template>
 					</el-table-column>
 				</el-table>
@@ -119,14 +127,15 @@ import {
 	setbatime,
 	dateFormat,
 } from '../../servers/sevdate';
-import { node_pv,node_pv_detail } from '@/servers/api';
+import { node_pv, node_pv_detail, exportexc,export_excel } from '@/servers/api';
 export default {
 	data() {
 		return {
 			radio: '1',
 			input: '',
 			time_value: '',
-			showdisable: true,
+			showdisable1: true,
+			showdisable2: true,
 			order: 0,
 			pageNo: 1,
 			currentPage: 1,
@@ -134,8 +143,8 @@ export default {
 			pagesize: 10,
 			starttime: '',
 			endtime: '',
-            tableData: [],
-            table_detail_data:[],
+			tableData: [],
+			table_detail_data: [],
 			endPickerOptions: {
 				disabledDate(time) {
 					return (
@@ -174,31 +183,33 @@ export default {
 		this.seachuser();
 	},
 	methods: {
-        //切换视图
+		//切换视图
 		switch_table(val) {
-            this.pageNo=1;
+			this.pageNo = 1;
 			this.seachuser();
-        },
-        //搜索
+		},
+		//搜索
 		seachuser() {
-           if (this.radio == 1) {
-               this.get_node_h();
+			if (this.radio == 1) {
+				this.get_node_h();
 			} else {
-                if (this.time_value != '' && this.time_value != null) {
-				this.starttime = dateFormat(this.time_value[0]);
-				this.endtime = dateFormat(this.time_value[1]);
-			} else {
-				var day1 = new Date();
-				day1.setTime(day1.getTime() - 24 * 60 * 60 * 1000);
-				this.starttime =day1.getFullYear() +'-' +(day1.getMonth() + 1) +'-' +day1.getDate();
-                this.endtime = dateFormat(new Date());
-                this.get_node_h_detail();
+				if (this.time_value != '' && this.time_value != null) {
+					this.starttime = dateFormat(this.time_value[0]);
+					this.endtime = dateFormat(this.time_value[1]);
+					this.get_node_h_detail();
+				} else {
+					// var day1 = new Date();
+					// day1.setTime(day1.getTime() - 24 * 60 * 60 * 1000);
+					// this.starttime =day1.getFullYear() +'-' +(day1.getMonth() + 1) +'-' +day1.getDate();
+					this.starttime = dateFormat(new Date());
+					this.endtime = dateFormat(new Date());
+					this.get_node_h_detail();
+				}
 			}
-			}
-        },
-        //获取数据
-        get_node_h(){
-            let params = new Object();
+		},
+		//获取数据
+		get_node_h() {
+			let params = new Object();
 			let ipsos = /^(\d{1,3}\.{1}){3}((\d{1,3}){1})$/;
 			if (ipsos.test(this.input) == true) {
 				params.nodeId = '';
@@ -208,22 +219,29 @@ export default {
 				params.IP = '';
 			}
 			params.curPage = this.pageNo - 1;
-            params.itemCount = this.pagesize;
-            node_pv(params)
+			params.itemCount = this.pagesize;
+			params.dateStart = this.starttime;
+			params.dateEnd = this.endtime;
+			params.order = this.order;
+			node_pv(params)
 				.then((res) => {
-                    console.log(res);
-                    if(res.status==0){
-                        this.tableData=res.data;
-                    }else{
-                        this.$message.error(res.errMsg);
-                    }
+					this.tableData = res.data;
+					if (this.tableData.length > 0) {
+						this.showdisable1 = false;
+					}
+					console.log(res);
+					// if(res.status==0){
+					//     this.tableData=res.data;
+					// }else{
+					//     this.$message.error(res.errMsg);
+					// }
 				})
 				.catch((error) => {
 					console.log(error);
 				});
-        },
-        get_node_h_detail(){
-            let params = new Object();
+		},
+		get_node_h_detail() {
+			let params = new Object();
 			let ipsos = /^(\d{1,3}\.{1}){3}((\d{1,3}){1})$/;
 			if (ipsos.test(this.input) == true) {
 				params.nodeId = '';
@@ -236,27 +254,56 @@ export default {
 			params.dateEnd = this.endtime;
 			params.order = this.order;
 			params.curPage = this.pageNo - 1;
-            params.itemCount = this.pagesize;
-            node_pv_detail(params)
+			params.itemCount = this.pagesize;
+			node_pv_detail(params)
 				.then((res) => {
-                    console.log(res);
-                    if(res.status==0){
-                        this.table_detail_data=res.data;
-                    }else{
-                        this.$message.error(res.errMsg);
-                    }
+					console.log(res);
+					this.table_detail_data = res.data;
+					this.totalCnt = res.dataCount;
+					if (this.table_detail_data.length > 0) {
+						this.showdisable2 = false;
+					}
+					// if(res.status==0){
+					//     this.table_detail_data=res.data;
+					// }else{
+					//     this.$message.error(res.errMsg);
+					// }
 				})
 				.catch((error) => {
 					console.log(error);
 				});
-            
-        },
+		},
 		//导出
 		exportexc() {
-            if (this.radio == 1) {
+			let params = new Object();
+			if (this.radio == 1) {
+				params.exportContext = 'node_pv';
 			} else {
+				params.exportContext = 'node_pv_detail';
 			}
-        },
+			let ipsos = /^(\d{1,3}\.{1}){3}((\d{1,3}){1})$/;
+			if (ipsos.test(this.input) == true) {
+				params.nodeId = '';
+				params.IP = this.input;
+			} else {
+				params.nodeId = this.input;
+				params.IP = '';
+			}
+			params.dateStart = this.starttime;
+			params.dateEnd = this.endtime;
+			export_excel(params)
+				.then((res) => {
+					console.log(res);
+					if (res.status == 0) {
+						this.$message.success('导出成功');
+					} else {
+						this.$message.error(res.err_msg);
+					}
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		},
 		//获取页码
 		getpage(pages) {
 			this.pageNo = pages;

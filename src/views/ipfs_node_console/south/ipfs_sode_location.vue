@@ -133,12 +133,12 @@
 					</li>
 					<li>
 						<span class="ipfs_text_title">总容量:</span>
-						<span class="ipfs_text_con">{{ item.totalCap }}</span>
+						<span class="ipfs_text_con">{{ item.totalCap }}GB</span>
 					</li>
 					<li>
 						<span class="ipfs_text_title">剩余容量:</span>
 						<span class="ipfs_text_con"
-							>{{ item.remainingCap }}G</span
+							>{{ item.remainingCap }}GB</span
 						>
 					</li>
 				</ol>
@@ -312,7 +312,9 @@ export default {
 								} else {
 									item.devstatus = '在线';
 									item.bgccolor = '#5CC77D';
-								}
+                                }
+                                item.totalCap = (item.totalCap /1024 /1024 /1024).toFixed(2);
+                                item.remainingCap = (item.remainingCap /1024 /1024 /1024).toFixed(2);
 								this.ipfsdata.push(item);
 							});
 						}

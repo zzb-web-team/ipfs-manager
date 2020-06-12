@@ -79,9 +79,7 @@
 					label="累计在线时长"
 				></el-table-column>
 				<el-table-column prop="startTS" sortable label="时间">
-					<template slot-scope="scope">{{
-						scope.row.date | getymd
-					}}</template>
+					<template slot-scope="scope">{{ scope.row.date }}</template>
 				</el-table-column>
 			</el-table>
 		</div>
@@ -101,10 +99,10 @@ import {
 	getlocaltimes,
 	settime,
 	getymdtime,
-    setbatime,
-    dateFormat
+	setbatime,
+	dateFormat,
 } from '../../servers/sevdate';
-import { node_pf } from '@/servers/api';
+import { node_pf, export_excel } from '@/servers/api';
 export default {
 	data() {
 		return {
@@ -175,12 +173,17 @@ export default {
 			params.itemCount = this.pagesize;
 			node_pf(params)
 				.then((res) => {
-                    console.log(res);
-                    if(res.status==0){
-                        this.tableData=res.data;
-                    }else{
-                        this.$message.error(res.errMsg);
+					console.log(res);
+					this.tableData = res.data;
+                    this.totalCnt = res.dataCount;
+                    if(this.tableData.length>0){
+                        this.showdisable=false;
                     }
+					if (res.status == 0) {
+						this.tableData = res.data;
+					} else {
+						this.$message.error(res.errMsg);
+					}
 				})
 				.catch((error) => {
 					console.log(error);
@@ -192,15 +195,41 @@ export default {
 				this.starttime = dateFormat(this.time_value[0]);
 				this.endtime = dateFormat(this.time_value[1]);
 			} else {
-				var day1 = new Date();
-				day1.setTime(day1.getTime() - 24 * 60 * 60 * 1000);
-				this.starttime =day1.getFullYear() +'-' +(day1.getMonth() + 1) +'-' +day1.getDate();
+				// var day1 = new Date();
+				// day1.setTime(day1.getTime() - 24 * 60 * 60 * 1000);
+				// this.starttime =day1.getFullYear() +'-' +(day1.getMonth() + 1) +'-' +day1.getDate();
+				this.starttime = dateFormat(new Date());
 				this.endtime = dateFormat(new Date());
 			}
 			this.get_income_list();
 		},
 		//导出
-		exportexc() {},
+		exportexc() {
+			let params = new Object();
+			params.exportContext = 'node_pf';
+			let ipsos = /^(\d{1,3}\.{1}){3}((\d{1,3}){1})$/;
+			if (ipsos.test(this.input) == true) {
+				params.nodeId = '';
+				params.IP = this.input;
+			} else {
+				params.nodeId = this.input;
+				params.IP = '';
+			}
+			params.dateStart = this.starttime;
+			params.dateEnd = this.endtime;
+			export_excel(params)
+				.then((res) => {
+                    console.log(res);
+                    if(res.status==0){
+                       this.$message.success("导出成功"); 
+                    }else{
+                        this.$message.error(res.err_msg);
+                    }
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		},
 		//获取页码
 		getpage(pages) {
 			this.pageNo = pages;
