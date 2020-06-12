@@ -344,20 +344,16 @@ export default {
 			let Rnm = new Object();
 			let price = new Array();
 			if (num == 1) {
-				for (var i = 0; i < 3; i++) {
-					console.log(i);
-					if (i == 0) {
-						this.googleform.netOper = 0;
-					} else if (i == 1) {
-						this.googleform.netOper = 1;
-					} else if (i == 2) {
-						this.googleform.netOper = 2;
-					}
-					price.push(this.googleform);
-				}
+				for (let i = 0; i < 3; i++) {
+                    var temp = Object.assign({},this.googleform);
+                    temp.netOper = i;
+                    price.push(temp);
+					
+                }
+                
 				params.H = this.priceobj.H;
 				params.Rnm = this.priceobj.Rnm;
-				params.price = this.priceobj.price;
+				params.price =price;
 			} else if (num == 2) {
 				params.H = this.tableData;
 				params.price = this.priceobj.price;
