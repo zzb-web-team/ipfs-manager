@@ -289,38 +289,38 @@ export const filter_node = params => {
 };
 
 //西柚机节点收益
-export const node_earnings = params => {
-    return post(`${serverUrl}/earnings/node_earnings `, params).then(
+export const node_pf = params => {
+    return post(`${serverUrl}/ipfs_profit/node_pf`, params).then(
         res => res.data
     );
 };
 //云链节点收益明细
-export const node_earnings_detail = params => {
-    return post(`${serverUrl}/earnings/node_earnings_detail `, params).then(
+export const node_pf_detail = params => {
+    return post(`${serverUrl}/ipfs_profit/node_pf_detail`, params).then(
         res => res.data
     );
 };
 //云链节点算力值
-export const node_h = params => {
-    return post(`${serverUrl}/earnings/node_h `, params).then(
+export const node_pv = params => {
+    return post(`${serverUrl}/ipfs_profit/node_pv`, params).then(
         res => res.data
     );
 };
 //云链节点算力明细
-export const node_h_detail = params => {
-    return post(`${serverUrl}/earnings/node_h_detail `, params).then(
+export const node_pv_detail = params => {
+    return post(`${serverUrl}/ipfs_profit/node_pv_detail`, params).then(
         res => res.data
     );
 };
 //收益参数修改
-export const update_price_param = params => {
-    return post(`${serverUrl}/earnings/update_price_param `, params).then(
+export const update_net_info = params => {
+    return post(`${serverUrl}/ipfs_profit/update_net_info`, params).then(
         res => res.data
     );
 };
 //收益参数获取
-export const get_price_param = params => {
-    return post(`${serverUrl}/earnings/get_price_param `, params).then(
+export const get_net_info = params => {
+    return post(`${serverUrl}/ipfs_profit/get_net_info`, params).then(
         res => res.data
     );
 };

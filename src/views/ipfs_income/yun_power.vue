@@ -119,7 +119,7 @@ import {
 	setbatime,
 	dateFormat,
 } from '../../servers/sevdate';
-import { node_h,node_h_detail } from '@/servers/api';
+import { node_pv,node_pv_detail } from '@/servers/api';
 export default {
 	data() {
 		return {
@@ -209,7 +209,7 @@ export default {
 			}
 			params.curPage = this.pageNo - 1;
             params.itemCount = this.pagesize;
-            node_h(params)
+            node_pv(params)
 				.then((res) => {
                     console.log(res);
                     if(res.status==0){
@@ -237,7 +237,7 @@ export default {
 			params.order = this.order;
 			params.curPage = this.pageNo - 1;
             params.itemCount = this.pagesize;
-            node_h_detail(params)
+            node_pv_detail(params)
 				.then((res) => {
                     console.log(res);
                     if(res.status==0){

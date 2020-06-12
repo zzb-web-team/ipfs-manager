@@ -317,7 +317,7 @@ export default new Router({
             path: '/home_nine',
             name: 'IPFS节点收益',
             component: index,
-            icon: 'iconfont icon-yonghufenzuyingyong',
+            icon: 'iconfont icon-shouyi',
             hidden: true,
             children: [{
                 path: '/xiyouji_income',

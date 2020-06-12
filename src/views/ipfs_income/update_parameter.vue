@@ -18,13 +18,13 @@
 					<p>P2=F1*VF+F2*VF+F3*VF*45% P3=（P1+P2）/2*RH*RNM</p>
 					<p>P3=（P1+P2）/2*RH*RNM</p>
 					<p class="text_title">名词补充释义：</p>
-					<p>
+					<div style="line-height: 20px;">
 						单位带宽[/Mbps]价值（VB）、中国电信带宽（B1）[单位：Mbps]、中国联通带宽（B2）[单位：Mbps]、中国移
 						动带宽（B3）[单位：Mbps]、单位存储[/GB]价值（VS）、日累计在线时长
 						（T）[单位：h]、中国电信网络在线时长（T1）[单位：h]、中国联通带宽网络在线时长（T2）[单位：
 						h]、中国移动网络在线时长（T3）[单位：h]、同一终端地址下，多台运行节点的主机设备总数量（NN）[单位：台]、单位流量[/GB]价值（VF）、中国电信流量（F1）[单位：GB]、中国联通流量（F2）[单位：GB]、中国移动流量
 						（F3）[单位：GB]、节点质量评级奖励收益百分比（RNM）
-					</p>
+					</div>
 				</div></el-col
 			>
 		</el-row>
@@ -35,28 +35,72 @@
 					<p>1） 变量值</p>
 
 					<el-row type="flex">
-						<span>Vb=</span>
-						<el-col :span="2">
+						<span style="margin-bottom: 20px;">Vb=</span>
+						<el-form :model="googleform" ref="ruleFormre">
+							<el-form-item
+								prop="Vb"
+								:rules="[
+									{ validator: jioyzm, trigger: 'blur' },
+								]"
+							>
+								<el-input
+									size="small"
+									v-model="googleform.Vb"
+									placeholder="请输入内容"
+									clearable
+								>
+								</el-input>
+							</el-form-item>
+						</el-form>
+						<!-- <el-col :span="2">
 							<el-input
 								size="small"
-								v-model="vb_input"
+								v-model="Vb"
 								placeholder="请输入内容"
 							></el-input>
-						</el-col>
-						<span>积分/日</span>
-						<el-button type="primary" size="mini">修改</el-button>
+						</el-col> -->
+						<span style="margin-bottom: 20px;">积分/日</span>
+						<el-button
+							type="primary"
+							size="mini"
+							style="margin-bottom: 20px;"
+							@click="set_price(1)"
+							>修改</el-button
+						>
 					</el-row>
 					<el-row type="flex">
-						<span>Vs=</span>
-						<el-col :span="2">
+						<span style="margin-bottom: 20px;">Vs=</span>
+						<el-form :model="googleform" ref="ruleFormre">
+							<el-form-item
+								prop="Vs"
+								:rules="[
+									{ validator: jioyzm, trigger: 'blur' },
+								]"
+							>
+								<el-input
+									size="small"
+									v-model="googleform.Vs"
+									placeholder="请输入内容"
+									clearable
+								>
+								</el-input>
+							</el-form-item>
+						</el-form>
+						<!-- <el-col :span="2">
 							<el-input
 								size="small"
-								v-model="vs_input"
+								v-model="Vs"
 								placeholder="请输入内容"
 							></el-input>
-						</el-col>
-						<span>积分/日</span>
-						<el-button type="primary" size="mini">修改</el-button>
+						</el-col> -->
+						<span style="margin-bottom: 20px;">积分/日</span>
+						<el-button
+							type="primary"
+							size="mini"
+							style="margin-bottom: 20px;"
+							@click="set_price(1)"
+							>修改</el-button
+						>
 					</el-row>
 				</div>
 			</el-col>
@@ -65,16 +109,38 @@
 					<p>2.p2参数</p>
 					<p>1） 变量值</p>
 					<el-row type="flex">
-						<span>VF=</span>
-						<el-col :span="2">
+						<span style="margin-bottom: 20px;">VF=</span>
+						<el-form :model="googleform" ref="ruleFormre">
+							<el-form-item
+								prop="Vf"
+								:rules="[
+									{ validator: jioyzm, trigger: 'blur' },
+								]"
+							>
+								<el-input
+									size="small"
+									v-model="googleform.Vf"
+									placeholder="请输入内容"
+									clearable
+								>
+								</el-input>
+							</el-form-item>
+						</el-form>
+						<!-- <el-col :span="2">
 							<el-input
 								size="small"
-								v-model="vf_input"
+								v-model="Vf"
 								placeholder="请输入内容"
 							></el-input>
-						</el-col>
-						<span>积分/日</span>
-						<el-button type="primary" size="mini">修改</el-button>
+						</el-col> -->
+						<span style="margin-bottom: 20px;">积分/日</span>
+						<el-button
+							type="primary"
+							size="mini"
+							style="margin-bottom: 20px;"
+							@click="set_price(1)"
+							>修改</el-button
+						>
 					</el-row>
 				</div>
 			</el-col>
@@ -92,24 +158,24 @@
 						>
 							<el-table-column label="节点质量级别" width="140">
 								<template slot-scope="scope">
-									<i v-if="scope.row.rh != 100"
+									<i v-if="scope.row.v != 100"
 										>{{ scope.row.min }}<=</i
 									>
 									<i>H</i>
-									<i v-if="scope.row.rh != 100">&lt;</i>
-									<i v-if="scope.row.rh == 100">&gt;</i>
+									<i v-if="scope.row.v != 100">&lt;</i>
+									<i v-if="scope.row.v == 100">&gt;</i>
 									<i>{{ scope.row.max }}</i>
 								</template>
 							</el-table-column>
-							<el-table-column prop="rh" label="RH">
+							<el-table-column prop="v" label="RH">
 								<template slot-scope="scope"
-									><span>{{ scope.row.rh }}%</span></template
+									><span>{{ scope.row.v }}%</span></template
 								>
 							</el-table-column>
 							<el-table-column prop="操作" label="操作">
 								<template slot-scope="scope">
 									<el-button
-										@click="handleClick(scope.row)"
+										@click="updateInterval(scope.row)"
 										type="text"
 										size="small"
 										>修改</el-button
@@ -139,11 +205,14 @@
 							>
 							</el-table-column>
 							<el-table-column prop="rnm" label="RNM">
+								<template slot-scope="scope"
+									><span>{{ scope.row.rnm }}%</span></template
+								>
 							</el-table-column>
 							<el-table-column prop="操作" label="操作">
 								<template slot-scope="scope">
 									<el-button
-										@click="handleClick(scope.row)"
+										@click="updateRnm(scope.row)"
 										type="text"
 										size="small"
 										>修改</el-button
@@ -159,83 +228,100 @@
 </template>
 
 <script>
-import { get_price_param, update_price_param } from '@/servers/api';
+import { get_net_info, update_net_info } from '@/servers/api';
 export default {
 	data() {
 		return {
-			vb_input: '',
-			vs_input: '',
-			vf_input: '',
+			googleform: {
+				Vb: '',
+				Vs: '',
+				Vf: '',
+			},
 			tableData: [
 				{
 					min: 0,
 					max: 500,
-					rh: '10',
+					v: '10',
 				},
 				{
 					min: 500,
 					max: 1000,
-					rh: '20',
+					v: '20',
 				},
 				{
 					min: 1000,
 					max: 3000,
-					rh: '30',
+					v: '30',
 				},
 				{
 					min: 3000,
 					max: 5000,
-					rh: '50',
+					v: '50',
 				},
 				{
 					min: 5000,
 					max: 10000,
-					rh: '80',
+					v: '80',
 				},
 				{
 					min: 10000,
 					max: 10000,
-					rh: '100',
+					v: '100',
 				},
 			],
 			ratingData: [
 				{
 					interval: 'S',
-					rnm: '10%',
+					rnm: '10',
 				},
 				{
 					interval: 'A',
-					rnm: '0%',
+					rnm: '0',
 				},
 				{
 					interval: 'B',
-					rnm: '30%',
+					rnm: '0',
 				},
 				{
 					interval: 'C',
-					rnm: '0%',
+					rnm: '0',
 				},
 			],
+			price: {},
 		};
 	},
 	methods: {
 		get_data() {
 			let params = new Object();
-			get_price_param(params)
+			get_net_info(params)
 				.then((res) => {
 					console.log(res);
 					if (res.status == 0) {
+						this.price = res.data;
+						this.googleform = res.data.price[0];
+						this.tableData = res.data.H;
+						for (k in res.data.Rnm) {
+							let obj = new Object();
+							obj.interval = k;
+							obj.rnm = res.data.Rnm[k];
+							this.ratingData.push(obj);
+						}
 					}
 				})
 				.catch((error) => {
 					console.log(error);
 				});
 		},
-		set_price() {
-            let params = new Object();
-            let arrlist=new Array();
-            params.price=arrlist;
-			update_price_param(params)
+		set_price(num) {
+			let params = new Object();
+            if (num == 1) {
+
+			} else if (num == 2) {
+
+			} else if (num == 3) {
+
+			}
+			update_net_info(params)
 				.then((res) => {
 					console.log(res);
 				})
@@ -243,8 +329,128 @@ export default {
 					console.log(error);
 				});
 		},
-		handleClick(row) {
+		updateInterval(row) {
 			console.log(row);
+			this.$prompt('请输入RH', '提示', {
+				confirmButtonText: '确定',
+				cancelButtonText: '取消',
+				inputValidator: (value) => {
+					// 点击按钮时，对文本框里面的值进行验证
+					if (!value) {
+						return '输入不能为空';
+					} else {
+						if (row.min <= 0 && row.max <= 500) {
+							if (value < 0 || value > 10) {
+								return '输入RH区间错误';
+							}
+						} else if (row.min <= 500 && row.max <= 1000) {
+							if (value < 10 || value > 20) {
+								return '输入RH区间错误';
+							}
+						} else if (row.min <= 1000 && row.max <= 3000) {
+							if (value < 20 || value > 30) {
+								return '输入RH区间错误';
+							}
+						} else if (row.min <= 3000 && row.max <= 5000) {
+							if (value < 30 || value > 50) {
+								return '输入RH区间错误';
+							}
+						} else if (row.min <= 5000 && row.max <= 10000) {
+							if (value < 50 || value > 80) {
+								return '输入RH区间错误';
+							}
+						} else if (row.max > 1000) {
+							if (value < 80 || value > 100) {
+								return '输入RH区间错误';
+							}
+						}
+					}
+				},
+				// inputPattern: /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
+				//inputErrorMessage: 'RH不正确',
+			})
+				.then(({ value }) => {
+					this.$message({
+						type: 'success',
+						message: '修改为 ' + value,
+					});
+					this.set_price(2);
+				})
+				.catch(() => {
+					this.$message({
+						type: 'info',
+						message: '取消修改',
+					});
+				});
+		},
+		updateRnm(row) {
+			console.log(row);
+			this.$prompt('请输入RNM', '提示', {
+				confirmButtonText: '确定',
+				cancelButtonText: '取消',
+				inputValidator: (value) => {
+					// 点击按钮时，对文本框里面的值进行验证
+					if (!value) {
+						return '输入不能为空';
+					} else {
+						if (row.interval == 'S') {
+							if (
+								value <= this.ratingData[1].rnm ||
+								value > 100
+							) {
+								return '输入RNM区间错误';
+							}
+						} else if (row.interval == 'A') {
+							if (
+								value <= this.ratingData[2].rnm ||
+								value >= this.ratingData[0].rnm
+							) {
+								return '输入RNM区间错误';
+							}
+						} else if (row.interval == 'B') {
+							if (
+								value <= this.ratingData[4].rnm ||
+								value >= this.ratingData[2].rnm
+							) {
+								return '输入RNM区间错误';
+							}
+						} else if (row.interval == 'C') {
+							if (value < 0 || value >= this.ratingData[0].rnm) {
+								return '输入RNM区间错误';
+							}
+						}
+					}
+				},
+				// inputPattern: /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
+				// inputErrorMessage: 'RH不正确',
+			})
+				.then(({ value }) => {
+					this.$message({
+						type: 'success',
+						message: '修改为 ' + value,
+					});
+					this.set_price(3);
+				})
+				.catch(() => {
+					this.$message({
+						type: 'info',
+						message: '取消修改',
+					});
+				});
+		},
+		//校验
+		jioyzm(rule, value, callback) {
+			console.log(value);
+			if (value === '') {
+				callback(new Error('不能为空'));
+			} else {
+				var fsyazm = /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/;
+				if (fsyazm.test(value) === false) {
+					callback(new Error('格式错误'));
+				} else {
+					callback();
+				}
+			}
 		},
 		// 表头样式设置
 		headClass() {
@@ -294,6 +500,7 @@ i {
 	}
 	.el-row {
 		align-items: center;
+		vertical-align: middle;
 	}
 	.con_table {
 		margin-top: 15px;

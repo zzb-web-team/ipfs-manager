@@ -104,7 +104,7 @@ import {
     setbatime,
     dateFormat
 } from '../../servers/sevdate';
-import { node_earnings } from '@/servers/api';
+import { node_pf } from '@/servers/api';
 export default {
 	data() {
 		return {
@@ -173,7 +173,7 @@ export default {
 			params.order = this.order;
 			params.curPage = this.pageNo - 1;
 			params.itemCount = this.pagesize;
-			node_earnings(params)
+			node_pf(params)
 				.then((res) => {
                     console.log(res);
                     if(res.status==0){
