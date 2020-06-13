@@ -21,7 +21,7 @@
       <div id="myChartChina" :style="{ width: '100%', height: '500px' }"></div>
       <ol>
         <li v-for="(item, index) in maplist" :key="index">
-          <span>{{ index + 1 }}&nbsp&nbsp&nbsp{{ item.name }}</span
+          <span>{{ index + 1 }}&nbsp;&nbsp;&nbsp;{{ item.name }}</span
           ><span>{{ item.value }}</span>
         </li>
       </ol>

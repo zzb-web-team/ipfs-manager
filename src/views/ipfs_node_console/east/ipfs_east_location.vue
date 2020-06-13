@@ -208,7 +208,14 @@
 				</ol>
 			</div>
 		</div>
-		<!-- <fenye style="margin: 20px 10px 0px 0px;text-align: right;"></fenye> -->
+		 <fenye
+      style="text-align: right;margin: 20px 0px 10px;"
+      @fatherMethod="getpage"
+      @fathernum="gettol"
+      :pagesa="totalCnt"
+      :currentPage="currentPage"
+      v-if="ipfsdata.length > 0"
+    ></fenye>
 	</div>
 </template>
 
@@ -218,6 +225,10 @@ import { query_node, ipfs_region_summary } from '../../../servers/api';
 export default {
 	data() {
 		return {
+			currentPage: 1,
+			pagesize: 10,
+      pageNo: 1,
+      totalCnt: 1,
 			location_name: '华东区域',
 			rotate: 0,
             citys: '福建',
@@ -341,7 +352,7 @@ export default {
 			parmas.state = -1;
 			parmas.province = this.citys;
 			parmas.city = '';
-			parmas.page = 0;
+			parmas.page = this.pageNo - 1;
 			parmas.isp="";
 			query_node(parmas)
 				.then(res => {
@@ -350,6 +361,8 @@ export default {
                              this.showdata=true;
 							this.$message('暂无数据');
 						} else {
+							this.showdata = false;
+							this.totalCnt = res.data.total;
 							this.ipfsdata = [];
 							res.data.result.forEach((item, index) => {
 								//上行带宽-总
@@ -389,6 +402,7 @@ export default {
 				.catch(error => {});
 		},
 		setmap_show(num) {
+			this.ipfsdata = [];
 			this.rotate = 100;
 			this.$nextTick(() => {
 				this.rotate = parseInt(num);
@@ -412,6 +426,16 @@ export default {
 			this.$forceUpdate();
 			this.gettit();
 		},
+		 //获取页码
+    getpage(pages) {
+      this.pageNo = pages;
+      this.getipfsdata();
+    },
+    //获取每页数量
+    gettol(pagetol) {
+      this.pagesize = pagetol;
+      // this.getipfsdata();
+    },
 		godetail(dat) {
 			sessionStorage.setItem('serdata', JSON.stringify(dat));
 			this.$router.push({

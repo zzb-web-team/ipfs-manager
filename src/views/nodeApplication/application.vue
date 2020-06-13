@@ -431,7 +431,8 @@ import {
 	getlocaltimes,
 	settime,
 	getymdtime,
-	setbatime
+	setbatime,
+	getday
 } from '../../servers/sevdate';
 import {
 	ipfs_dataflow_query_conditions,
@@ -885,7 +886,7 @@ export default {
 						);
 						this.dataFlowArray = res.data.dataFlowArray;
 						res.data.timeArray.forEach((item, index) => {
-							this.timeArray.push(getymdtime(item));
+							this.timeArray.push(getday(item));
 						});
 						this.drawLine();
 						this.get_ip_table();
@@ -932,7 +933,7 @@ export default {
 						);
 						this.storeUsageArray = res.data.storeUsageArray;
 						res.data.timeArray.forEach((item, index) => {
-							this.fs_timeArray.push(getymdtime(item));
+							this.fs_timeArray.push(getday(item));
 						});
 						this.drawLine1();
 						this.get_fs_table();
@@ -1248,6 +1249,14 @@ export default {
 				xAxis: {
 					data: this.timeArray
 				},
+				//设置canvas内部表格的内距
+	   	grid:{
+                  x:50,
+                  y:50,
+                  x2:50,
+                  y2:60,
+                  borderWidth:10
+	       },
 				yAxis: {},
 				series: [
 					{
@@ -1284,12 +1293,24 @@ export default {
 					data: this.fs_timeArray
 				},
 				yAxis: {},
+					grid:{
+                  x:50,
+                  y:50,
+                  x2:50,
+                  y2:60,
+                  borderWidth:10
+	       },
 				series: [
 					{
 						name: '销量',
-						type: 'bar',
+						type: 'line',
 						barWidth: 30, //柱图宽度
-						data: this.storeUsageArray
+						data: this.storeUsageArray,
+						itemStyle: {
+							normal: {
+								color: '#09b0f5'
+							}
+						}
 					}
 				]
 			};

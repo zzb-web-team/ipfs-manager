@@ -357,7 +357,8 @@ import {
 	getlocaltimes,
 	settime,
 	getymdtime,
-	setbatime
+	setbatime,
+	getday
 } from '../../servers/sevdate';
 import {
 	ipfs_dataflow_query_conditions,
@@ -773,7 +774,7 @@ export default {
 					if (res.status == 0) {
 						this.avgDataFlowUtily = res.data.avgDataFlowUtily;
 						res.data.timeArray.forEach((item, index) => {
-							this.timeArray.push(getymdtime(item));
+							this.timeArray.push(getday(item));
 						});
 						this.configure();
 						this.get_ip_table();
@@ -814,7 +815,7 @@ export default {
 					if (res.status == 0) {
 						this.avgUsageArray = res.data.avgUsageArray;
 						res.data.timeArray.forEach((item, index) => {
-							this.fs_timeArray.push(getymdtime(item));
+							this.fs_timeArray.push(getday(item));
 						});
 						this.configure1();
 						this.get_fs_table();
@@ -1183,18 +1184,25 @@ export default {
 				yAxis: {
 					type: 'value'
 				},
+					grid:{
+                  x:50,
+                  y:50,
+                  x2:50,
+                  y2:60,
+                  borderWidth:10
+	       },
 				series: [
 					{
 						data: this.avgDataFlowUtily,
 
-						type: 'line',
+						type: 'bar',
 						symbol: 'none',
 						smooth: true,
-						itemStyle: {
-							normal: {
-								color: '#09b0f5'
-							}
-						}
+						// itemStyle: {
+						// 	normal: {
+						// 		color: '#09b0f5'
+						// 	}
+						// }
 					}
 				]
 			};
@@ -1214,11 +1222,18 @@ export default {
 				yAxis: {
 					type: 'value'
 				},
+					grid:{
+                  x:50,
+                  y:50,
+                  x2:50,
+                  y2:60,
+                  borderWidth:10
+	       },
 				series: [
 					{
 						data: this.avgUsageArray,
 
-						type: 'line',
+						type: 'bar',
 						symbol: 'none',
 						smooth: true,
 						itemStyle: {
