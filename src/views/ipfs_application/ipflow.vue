@@ -79,8 +79,8 @@
         <el-table-column prop="usage" label="用途" width="180">
           <template slot-scope="scoped">
             <span v-if="scoped.row.usage == 0">任意用途</span>
-            <span v-else-if="scoped.row.usage == 1">视频存储</span>
-            <span v-else>视频备份</span>
+            <span v-else-if="scoped.row.usage == 1">点播加速</span>
+            <span v-else>点播回源</span>
           </template>
         </el-table-column>
         <el-table-column prop="dataflow" label="共计使用流量(GB)">

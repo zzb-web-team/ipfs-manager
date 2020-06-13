@@ -367,7 +367,7 @@
 										</el-table-column>
 										<el-table-column
 											prop="storeUsage"
-											label="使用流量"
+											label="存储容量"
 										>
 											<template slot-scope="scope">
 												<span
@@ -391,7 +391,7 @@
 										</el-table-column>
 										<el-table-column
 											prop="storeTimes"
-											label="传输次数"
+											label="存储次数"
 										>
 										</el-table-column>
 										<el-table-column
@@ -882,7 +882,7 @@ export default {
 					if (res.status == 0) {
 						this.totalOutputCnt = res.data.totalOutputCnt;
 						this.totalDataFlow = parseInt(
-							res.data.totalDataFlow / 1024 / 1024
+							res.data.totalDataFlow /1024 /1024/1024
 						);
 						this.dataFlowArray = res.data.dataFlowArray;
 						res.data.timeArray.forEach((item, index) => {
@@ -1302,7 +1302,7 @@ export default {
 	       },
 				series: [
 					{
-						name: '销量',
+						name: '容量',
 						type: 'line',
 						barWidth: 30, //柱图宽度
 						data: this.storeUsageArray,

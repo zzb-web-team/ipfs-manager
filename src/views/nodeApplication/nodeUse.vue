@@ -1195,14 +1195,14 @@ export default {
 					{
 						data: this.avgDataFlowUtily,
 
-						type: 'bar',
+						type: 'line',
 						symbol: 'none',
 						smooth: true,
-						// itemStyle: {
-						// 	normal: {
-						// 		color: '#09b0f5'
-						// 	}
-						// }
+						itemStyle: {
+							normal: {
+								color: '#09b0f5'
+							}
+						}
 					}
 				]
 			};
@@ -1233,7 +1233,7 @@ export default {
 					{
 						data: this.avgUsageArray,
 
-						type: 'bar',
+						type: 'line',
 						symbol: 'none',
 						smooth: true,
 						itemStyle: {
