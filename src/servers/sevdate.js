@@ -23,7 +23,7 @@ export function getymdtime(timestamp) {
     let h = ((dateObj.getHours() > 9) ? dateObj.getHours() : '0' + dateObj.getHours()) + ':';
     let m = ((dateObj.getMinutes() > 9) ? dateObj.getMinutes() : '0' + dateObj.getMinutes()) + ':';
     let s = ((dateObj.getSeconds() > 9) ? dateObj.getSeconds() : '0' + dateObj.getSeconds());
-    return Y + M + D + h + m + s //时分秒可以根据自己的需求加上
+    return Y + M + D //时分秒可以根据自己的需求加上
 }
 export function getday(timestamp) {
     // 如果以秒为单位

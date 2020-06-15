@@ -165,14 +165,14 @@
 									</el-table>
 								</el-col>
 							</el-row>
-							<!-- <fenye
+							<fenye
                 style="float:right;margin:10px 0 20px 0;"
                 @fatherMethod="getpage"
                 @fathernum="gettol"
                 :pagesa="totalCnt"
                 :currentPage="currentPage"
                 v-if="tableData.length > 0"
-              ></fenye> -->
+              ></fenye>
 						</div>
 					</el-tab-pane>
 					<el-tab-pane label="FS存储" name="second">
@@ -334,14 +334,14 @@
 									</el-table>
 								</el-col>
 							</el-row>
-							<!-- <fenye
+							<fenye
                 style="float:right;margin:10px 0 20px 0;"
                 @fatherMethod="getpagefs"
                 @fathernum="gettolfs"
                 :pagesa="fs_totalCnt"
                 :currentPage="currentPage"
                 v-if="fs_tableData.length > 0"
-              ></fenye> -->
+              ></fenye>
 						</div>
 					</el-tab-pane>
 				</el-tabs>
@@ -926,7 +926,7 @@ export default {
 		//搜索
 		onseach(stat) {
 			if (stat === 'fs') {
-				if (this.value2fs != null) {
+				if (this.value2fs) {
 					this.starttime = setbatime(this.value2fs[0]);
 					this.endtime = setbatime(this.value2fs[1]);
 					if (this.endtime - this.starttime < 86400) {
@@ -943,7 +943,7 @@ export default {
 				this.valuecfs = 60;
 				this.fs_curve();
 			} else {
-				if (this.value2 != null) {
+				if (this.value2) {
 					this.starttime = setbatime(this.value2[0]);
 					this.endtime = setbatime(this.value2[1]);
 					if (this.endtime - this.starttime < 86400) {
@@ -1181,9 +1181,18 @@ export default {
 					type: 'category',
 					data: this.timeArray
 				},
-				yAxis: {
-					type: 'value'
-				},
+				yAxis: [
+					// type: 'value'
+					{  
+                        type: 'value',
+                        axisLabel: {  
+                            show: true,  
+                            interval: 'auto',  
+                            formatter: '{value} %'  
+                            },  
+                        show: true  
+                    }  
+				],
 					grid:{
                   x:50,
                   y:50,
@@ -1255,9 +1264,21 @@ export default {
 					type: 'category',
 					data: this.fs_timeArray
 				},
-				yAxis: {
-					type: 'value'
-				},
+				yAxis: [
+					// type: 'value'
+					
+					{  
+						type: 'value', 
+						max: 100,
+              			min: 0, 
+                        axisLabel: {  
+                            show: true,  
+                            interval: 'auto',  
+                            formatter: '{value} %'  
+                            },  
+                        show: true  
+                    }  
+				],
 					grid:{
                   x:50,
                   y:50,

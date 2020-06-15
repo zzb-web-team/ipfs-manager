@@ -121,7 +121,7 @@
               :value="item.label"
               :disabled="item.disabled"
             ></el-option>
-          </el-select> -->
+          </el-select>-->
         </div>
         <div class="region_select">
           <span>运营商：</span>
@@ -168,16 +168,16 @@
       <el-table-column prop="ip" label="节点IP"></el-table-column>
       <el-table-column prop="city" label="节点城市"></el-table-column>
       <el-table-column prop="area" label="节点区域"></el-table-column>
-        <!-- <el-table-column prop="area" label="节点一级渠道"></el-table-column>
+      <!-- <el-table-column prop="area" label="节点一级渠道"></el-table-column>
         <el-table-column prop="area" label="节点二级渠道"></el-table-column>
         <el-table-column prop="area" label="设备类型"></el-table-column>
         <el-table-column prop="area" label="硬件类型"></el-table-column>
-        <el-table-column prop="area" label="操作系统"></el-table-column> -->
+      <el-table-column prop="area" label="操作系统"></el-table-column>-->
       <el-table-column prop="isp" label="节点运营商"></el-table-column>
-    
+
       <!-- <el-table-column prop="area" label="CPU占用"></el-table-column>
         <el-table-column prop="area" label="总内存"></el-table-column>
-        <el-table-column prop="area" label="当前内存"></el-table-column> -->
+      <el-table-column prop="area" label="当前内存"></el-table-column>-->
       <el-table-column prop="totalBW" label="总带宽"></el-table-column>
       <el-table-column prop="occupyBW" label="占用带宽"></el-table-column>
       <el-table-column prop="remainingBW" label="剩余带宽"></el-table-column>
@@ -253,7 +253,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <div class="bottom_btn"  v-if="tableData.length > 0">
+    <div class="bottom_btn" v-if="tableData.length > 0">
       <el-button @click="all_qiClick()" type="text" size="small">启用</el-button>
       <el-button @click="all_jinClick()" type="text" size="small">禁用</el-button>
     </div>
@@ -312,10 +312,11 @@ export default {
         }
       ],
       citylist: [
-        // {
-        //   value: 0,
-        //   label: "全部"
-        // },
+        {
+          value: -1,
+          label: "全部",
+          id: -1
+        },
         {
           value: "华北",
           label: "华北",
@@ -568,10 +569,17 @@ export default {
       });
     },
     provinceChange(value) {
-      this.options_city = this.citydata[value[1]].cities;
-      this.city_disable = false;
-      this.city_detil = "";
-      this.getdatalist();
+      if (value == -1) {
+        this.value1 = -1;
+        this.city_disable = true;
+        this.city_detil = "";
+        this.getdatalist();
+      } else {
+        this.options_city = this.citydata[value[1]].cities;
+        this.city_disable = false;
+        this.city_detil = "";
+        this.getdatalist();
+      }
     },
     handleChange(value) {
       this.getdatalist();
@@ -591,7 +599,9 @@ export default {
         parmas.nodeId = this.seachinput;
         parmas.ip = "";
       }
-      if (this.value1[1]) {
+      if (this.value1 == -1) {
+        parmas.province = "";
+      } else if (this.value1[1]) {
         parmas.province = this.value1[1];
       } else {
         parmas.province = "";
@@ -611,7 +621,11 @@ export default {
         parmas.isp = "";
       }
       parmas.enableFlag = this.value_node;
-      parmas.city = this.city_detil;
+      if (this.city_detil == "全部") {
+        parmas.city = "";
+      } else {
+        parmas.city = this.city_detil;
+      }
       parmas.page = this.tolpage;
       query_node(parmas)
         .then(res => {
@@ -741,9 +755,11 @@ export default {
     //重置
     resetseach() {
       this.value = "";
-      this.value1 = "";
+      this.value1 = -1;
       this.value2 = "";
       this.seachinput = "";
+      this.city_disable = true;
+      this.city_detil = "";
       this.getdatalist();
     },
     // 表头样式设置
@@ -772,6 +788,7 @@ export default {
         parmas.ip = "";
       }
       if (this.value1[1]) {
+        this.$message(this.value1);
         parmas.province = this.value1[1];
       } else {
         parmas.province = "";
@@ -860,7 +877,7 @@ export default {
 
 <style lang="scss" scoped>
 .content {
-    height: auto;
+  height: auto;
   .seach_title {
     display: flex;
     justify-content: flex-start;
