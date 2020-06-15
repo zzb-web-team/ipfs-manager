@@ -149,8 +149,8 @@
 			</el-select>
 		</div>
 		<div class="ipfs_box">
-            <div class="nodata" v-show="showdata">
-				<i class="el-icon-document-delete" style="font-size:80px" ></i>
+			<div class="nodata" v-show="showdata">
+				<i class="el-icon-document-delete" style="font-size:80px"></i>
 				<p>暂无数据</p>
 			</div>
 			<div
@@ -208,14 +208,14 @@
 				</ol>
 			</div>
 		</div>
-		 <fenye
-      style="text-align: right;margin: 20px 0px 10px;"
-      @fatherMethod="getpage"
-      @fathernum="gettol"
-      :pagesa="totalCnt"
-      :currentPage="currentPage"
-      v-if="ipfsdata.length > 0"
-    ></fenye>
+		<fenye
+			style="text-align: right;margin: 20px 0px 10px;"
+			@fatherMethod="getpage"
+			@fathernum="gettol"
+			:pagesa="totalCnt"
+			:currentPage="currentPage"
+			v-if="ipfsdata.length > 0"
+		></fenye>
 	</div>
 </template>
 
@@ -227,66 +227,66 @@ export default {
 		return {
 			currentPage: 1,
 			pagesize: 10,
-      pageNo: 1,
-      totalCnt: 1,
+			pageNo: 1,
+			totalCnt: 1,
 			location_name: '华东区域',
 			rotate: 0,
-            citys: '福建',
-             showdata:false,
+			citys: '福建',
+			showdata: false,
 			options: [
 				{
 					value: '1',
-					label: '可用空间从大到小'
+					label: '可用空间从大到小',
 				},
 				{
 					value: '2',
-					label: '可用空间从小到大'
+					label: '可用空间从小到大',
 				},
 				{
 					value: '3',
-					label: '可用带宽从高到低'
+					label: '可用带宽从高到低',
 				},
 				{
 					value: '4',
-					label: '可用带宽从抵到高'
-				}
+					label: '可用带宽从抵到高',
+				},
 			],
 			titledar: [
 				{
 					contit: '总节点',
 					connum: 0,
-					url: require('../../../assets/img/zong.png')
+					url: require('../../../assets/img/zong.png'),
 				},
 				{
 					contit: '在线节点',
 					connum: 0,
-					url: require('../../../assets/img/jie.png')
+					url: require('../../../assets/img/jie.png'),
 				},
 				{
 					contit: '总空间',
 					connum: '0G',
-					url: require('../../../assets/img/kong.png')
+					url: require('../../../assets/img/kong.png'),
 				},
 				{
 					contit: '当前占用空间',
 					connum: '0G',
-					url: require('../../../assets/img/zhan.png')
+					url: require('../../../assets/img/zhan.png'),
 				},
 				{
 					contit: '可用空间',
 					connum: '0G',
-					url: require('../../../assets/img/sheng.png')
+					url: require('../../../assets/img/sheng.png'),
 				},
 				{
 					contit: '累计使用流量',
 					connum: '0G',
-					url: require('../../../assets/img/liu.png')
+					url: require('../../../assets/img/liu.png'),
 				},
 				{
 					contit: '累计存储容量',
 					connum: '0G',
-					url: require('../../../assets/img/liu.png')
-				}
+					url: require('../../../assets/img/liu.png'),
+				},
 			],
 			value: '',
 			ipfsdata: [
@@ -299,14 +299,14 @@ export default {
 				//   total_capacity: 1000,
 				//   remaining: 270
 				// },
-			]
+			],
 		};
 	},
 	components: {
-		fenye
+		fenye,
 	},
 	mounted() {
-        if (this.$route.query.node_city) {
+		if (this.$route.query.node_city) {
 			this.citys = this.$route.query.node_city;
 			this.rotate = this.$route.query.node_num;
 		}
@@ -319,7 +319,7 @@ export default {
 			let parmas = new Object();
 			parmas.region = this.citys;
 			ipfs_region_summary(parmas)
-				.then(res => {
+				.then((res) => {
 					if (res.status == 0) {
 						this.titledar[0].connum = res.data.total_cnt;
 						this.titledar[1].connum = res.data.online_cnt;
@@ -342,7 +342,7 @@ export default {
 						this.$message.error(res.err_msg);
 					}
 				})
-				.catch(error => {});
+				.catch((error) => {});
 		},
 		//获取列表数据
 		getipfsdata() {
@@ -353,12 +353,12 @@ export default {
 			parmas.province = this.citys;
 			parmas.city = '';
 			parmas.page = this.pageNo - 1;
-			parmas.isp="";
+			parmas.isp = '';
 			query_node(parmas)
-				.then(res => {
+				.then((res) => {
 					if (res.status == 0) {
 						if (res.data.result.length <= 0) {
-                             this.showdata=true;
+							this.showdata = true;
 							this.$message('暂无数据');
 						} else {
 							this.showdata = false;
@@ -389,9 +389,19 @@ export default {
 								} else {
 									item.devstatus = '在线';
 									item.bgccolor = '#5CC77D';
-                                }
-                                item.totalCap = (item.totalCap /1024 /1024 /1024).toFixed(2);
-                                item.remainingCap = (item.remainingCap /1024 /1024 /1024).toFixed(2);
+								}
+								item.totalCap = (
+									item.totalCap /
+									1024 /
+									1024 /
+									1024
+								).toFixed(2);
+								item.remainingCap = (
+									item.remainingCap /
+									1024 /
+									1024 /
+									1024
+								).toFixed(2);
 								this.ipfsdata.push(item);
 							});
 						}
@@ -399,7 +409,7 @@ export default {
 						this.$message.error(res.err_msg);
 					}
 				})
-				.catch(error => {});
+				.catch((error) => {});
 		},
 		setmap_show(num) {
 			this.ipfsdata = [];
@@ -426,32 +436,41 @@ export default {
 			this.$forceUpdate();
 			this.gettit();
 		},
-		 //获取页码
-    getpage(pages) {
-      this.pageNo = pages;
-      this.getipfsdata();
-    },
-    //获取每页数量
-    gettol(pagetol) {
-      this.pagesize = pagetol;
-      // this.getipfsdata();
-    },
+		//获取页码
+		getpage(pages) {
+			this.pageNo = pages;
+			this.getipfsdata();
+		},
+		//获取每页数量
+		gettol(pagetol) {
+			this.pagesize = pagetol;
+			// this.getipfsdata();
+		},
 		godetail(dat) {
 			sessionStorage.setItem('serdata', JSON.stringify(dat));
 			this.$router.push({
 				path: '/ipfs_location_details',
-				query: { node_city: this.citys, node_num: this.rotate,address:"/ipfs_east_location" }
+				query: {
+					node_city: this.citys,
+					node_num: this.rotate,
+					address: '/ipfs_east_location',
+				},
 			});
-		}
-	}
+		},
+	},
 };
 </script>
 
 <style lang="scss" scoped>
 .content {
+	width: 1920px;
 	height: 100%;
 	background: rgb(255, 255, 255);
-	margin: 30px;
+	margin: auto;
+	margin-top: 30px;
+	margin-left: 30px;
+	margin-right: 30px;
+	margin-bottom: 30px;
 	.bread_crumbs {
 		width: 100%;
 		padding-bottom: 37px;
@@ -489,7 +508,7 @@ export default {
 			height: 123px;
 			display: flex;
 			.ipfs_con_tit {
-				width: 270px;
+				width: 12%;
 				height: 120px;
 				background: rgba(255, 255, 255, 1);
 				border: 1px solid rgba(216, 226, 240, 1);
@@ -530,14 +549,15 @@ export default {
 		display: flex;
 		flex-flow: row wrap;
 		.ipfs_item {
-			width: 228px;
-			height: 349px;
+			width: 270px;
+			height: 400px;
 			padding: 23px;
 			background: rgba(255, 255, 255, 1);
 			border: 1px solid rgba(216, 226, 240, 1);
 			box-shadow: 0px 0px 18px 0px rgba(211, 215, 221, 0.4);
 			border-radius: 3px;
-			margin-right: 50px;
+			margin-left: 42px;
+			margin-right: 42px;
 			margin-top: 25px;
 			.yuan {
 				width: 10px;

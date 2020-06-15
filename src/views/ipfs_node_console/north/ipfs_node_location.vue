@@ -425,9 +425,14 @@ export default {
 
 <style lang="scss" scoped>
 .content {
+	width: 1920px;
 	height: 100%;
 	background: rgb(255, 255, 255);
-	margin: 30px;
+	margin: auto;
+	margin-top: 30px;
+	margin-left: 30px;
+	margin-right: 30px;
+	margin-bottom: 30px;
 	.bread_crumbs {
 		width: 100%;
 		padding-bottom: 37px;
@@ -465,7 +470,7 @@ export default {
 			height: 123px;
 			display: flex;
 			.ipfs_con_tit {
-				width: 270px;
+				width: 12%;
 				height: 120px;
 				background: rgba(255, 255, 255, 1);
 				border: 1px solid rgba(216, 226, 240, 1);
@@ -506,14 +511,15 @@ export default {
 		display: flex;
 		flex-flow: row wrap;
 		.ipfs_item {
-			width: 228px;
-			height: 349px;
+		width: 270px;
+			height: 400px;
 			padding: 23px;
 			background: rgba(255, 255, 255, 1);
 			border: 1px solid rgba(216, 226, 240, 1);
 			box-shadow: 0px 0px 18px 0px rgba(211, 215, 221, 0.4);
 			border-radius: 3px;
-			margin-right: 50px;
+			margin-left: 42px;
+			margin-right: 42px;
 			margin-top: 25px;
 			.yuan {
 				width: 10px;

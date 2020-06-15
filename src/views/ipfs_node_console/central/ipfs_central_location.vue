@@ -155,9 +155,7 @@
 					</li>
 					<li>
 						<span class="ipfs_text_title">总容量:</span>
-						<span class="ipfs_text_con">{{
-							(item.totalCap / 1024 / 1024 / 1024).toFixed(2)
-						}}GB</span>
+						<span class="ipfs_text_con">{{ item.totalCap }}GB</span>
 					</li>
 					<li>
 						<span class="ipfs_text_title">剩余容量:</span>
@@ -168,14 +166,14 @@
 				</ol>
 			</div>
 		</div>
-		 <fenye
-      style="text-align: right;margin: 20px 0px 10px;"
-      @fatherMethod="getpage"
-      @fathernum="gettol"
-      :pagesa="totalCnt"
-      :currentPage="currentPage"
-      v-if="ipfsdata.length > 0"
-    ></fenye>
+		<fenye
+			style="text-align: right;margin: 20px 0px 10px;"
+			@fatherMethod="getpage"
+			@fathernum="gettol"
+			:pagesa="totalCnt"
+			:currentPage="currentPage"
+			v-if="ipfsdata.length > 0"
+		></fenye>
 	</div>
 </template>
 
@@ -187,8 +185,8 @@ export default {
 		return {
 			currentPage: 1,
 			pagesize: 10,
-      pageNo: 1,
-      totalCnt: 1,
+			pageNo: 1,
+			totalCnt: 1,
 			location_name: '华中区域',
 			rotate: 0,
 			citys: '河南',
@@ -349,8 +347,24 @@ export default {
 									item.devstatus = '在线';
 									item.bgccolor = '#5CC77D';
 								}
-                                item.totalCap = (item.totalCap /1024 /1024 /1024).toFixed(2);
-                                item.remainingCap = (item.remainingCap /1024 /1024 /1024).toFixed(2);
+								item.totalCap = (
+									item.totalCap /
+									1024 /
+									1024 /
+									1024
+								).toFixed(2);
+								item.remainingCap = (
+									item.remainingCap /
+									1024 /
+									1024 /
+									1024
+                                ).toFixed(2);
+                                item.occupyCap=(
+                                    item.occupyCap /
+									1024 /
+									1024 /
+									1024
+                                ).toFixed(2);
 								this.ipfsdata.push(item);
 							});
 						}
@@ -381,17 +395,18 @@ export default {
 			this.$forceUpdate();
 			this.gettit();
 		},
-		 //获取页码
-    getpage(pages) {
-      this.pageNo = pages;
-      this.getipfsdata();
-    },
-    //获取每页数量
-    gettol(pagetol) {
-      this.pagesize = pagetol;
-      // this.getipfsdata();
-    },
+		//获取页码
+		getpage(pages) {
+			this.pageNo = pages;
+			this.getipfsdata();
+		},
+		//获取每页数量
+		gettol(pagetol) {
+			this.pagesize = pagetol;
+			// this.getipfsdata();
+		},
 		godetail(dat) {
+            console.log(dat);
 			sessionStorage.setItem('node_city', JSON.stringify(this.citys));
 			sessionStorage.setItem('node_num', JSON.stringify(this.rotate));
 			sessionStorage.setItem('serdata', JSON.stringify(dat));
@@ -410,9 +425,14 @@ export default {
 
 <style lang="scss" scoped>
 .content {
+	width: 1920px;
 	height: 100%;
 	background: rgb(255, 255, 255);
-	margin: 30px;
+	margin: auto;
+	margin-top: 30px;
+	margin-left: 30px;
+	margin-right: 30px;
+	margin-bottom: 30px;
 	.bread_crumbs {
 		width: 100%;
 		padding-bottom: 37px;
@@ -450,7 +470,7 @@ export default {
 			height: 123px;
 			display: flex;
 			.ipfs_con_tit {
-				width: 270px;
+				width: 12%;
 				height: 120px;
 				background: rgba(255, 255, 255, 1);
 				border: 1px solid rgba(216, 226, 240, 1);
@@ -491,14 +511,15 @@ export default {
 		display: flex;
 		flex-flow: row wrap;
 		.ipfs_item {
-			width: 228px;
-			height: 349px;
+			width: 270px;
+			height: 400px;
 			padding: 23px;
 			background: rgba(255, 255, 255, 1);
 			border: 1px solid rgba(216, 226, 240, 1);
 			box-shadow: 0px 0px 18px 0px rgba(211, 215, 221, 0.4);
 			border-radius: 3px;
-			margin-right: 50px;
+			margin-left: 42px;
+			margin-right: 42px;
 			margin-top: 25px;
 			.yuan {
 				width: 10px;

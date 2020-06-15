@@ -107,12 +107,7 @@
 							<span>总存储:</span>
 							<span
 								>{{
-									(
-										serdata.totalCap /
-										1024 /
-										1024 /
-										1024
-									).toFixed(2)
+									serdata.totalCap
 								}}G</span
 							>
 						</div>
@@ -120,12 +115,7 @@
 							<span>使用存储:</span>
 							<span
 								>{{
-									(
-										serdata.occupyCap /
-										1024 /
-										1024 /
-										1024
-									).toFixed(2)
+									serdata.occupyCap
 								}}G</span
 							>
 						</div>
@@ -133,12 +123,7 @@
 							<span>剩余存储:</span>
 							<span
 								>{{
-									(
-										serdata.remainingCap /
-										1024 /
-										1024 /
-										1024
-									).toFixed(2)
+									serdata.remainingCap
 								}}G</span
 							>
 						</div>
