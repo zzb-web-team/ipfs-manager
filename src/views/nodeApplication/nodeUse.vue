@@ -126,19 +126,19 @@
 										>
 										</el-table-column>
 										<el-table-column
-											prop="dataFlow"
-											label="使用流量"
+											prop="totalOutput"
+											label="使用IP流量(GB)"
 										>
 											<template slot-scope="scope">
 												<span
 													v-if="
-														scope.row.dataFlow == 0
+														scope.row.totalOutput == 0
 													"
 													>0</span
 												><span v-else
 													>{{
 														(
-															scope.row.dataFlow /
+															scope.row.totalOutput /
 															1024 /
 															1024 /
 															1024
@@ -148,9 +148,10 @@
 											</template>
 										</el-table-column>
 										<el-table-column
-											prop="outputCnt"
-											label="传输次数"
+											prop="percent"
+											label="IP流量利用率"
 										>
+                                        <template slot-scope="scope">{{scope.row.percent}}%</template>
 										</el-table-column>
 										<el-table-column
 											prop="timestamp"
@@ -158,7 +159,7 @@
 										>
 											<template slot-scope="scope">
 												<span>{{
-													scope.row.timestamp | getymd
+													scope.row.timeStamp | getymd
 												}}</span>
 											</template>
 										</el-table-column>
@@ -289,17 +290,17 @@
 									>
 										<el-table-column
 											prop="ipfsId"
-											label="节点id"
+											label="节点ID"
 										>
 										</el-table-column>
 										<el-table-column
-											prop="storeUsage"
-											label="使用流量"
+											prop="totalUsage"
+											label="平均使用存储空间"
 										>
 											<template slot-scope="scope">
 												<span
 													v-if="
-														scope.row.storeUsage ==
+														scope.row.totalUsage ==
 															0
 													"
 													>0</span
@@ -307,7 +308,7 @@
 													>{{
 														(
 															scope.row
-																.storeUsage /
+																.totalUsage /
 															1024 /
 															1024 /
 															1024
@@ -317,9 +318,10 @@
 											</template>
 										</el-table-column>
 										<el-table-column
-											prop="storeTimes"
-											label="传输次数"
+											prop="usagePercent"
+											label="FS存储利用率"
 										>
+                                        <template slot-scope="scope">{{scope.row.usagePercent}}%</template>
 										</el-table-column>
 										<el-table-column
 											prop="timestamp"
@@ -362,10 +364,13 @@ import {
 } from '../../servers/sevdate';
 import {
 	ipfs_dataflow_query_conditions,
-	query_ipfs_dataflow_avg_usage_curve,
+    query_ipfs_dataflow_avg_usage_curve,
+    query_ipfs_dataflow_avg_usage_table,
 	query_ipfs_dataflow_table,
 	query_ip_store_avg_usage_curve,
-	query_ip_store_details_table
+    query_ip_store_details_table,
+    query_ip_store_usage_table,
+    query_ip_store_avg_usage_table
 } from '../../servers/api';
 import axios from 'axios';
 export default {
@@ -852,7 +857,7 @@ export default {
 			params.end_ts = this.endtime;
 			params.pageNo = this.fs_pageNo - 1;
 			params.pageSize = this.fs_pageSize;
-			query_ipfs_dataflow_table(params)
+			query_ipfs_dataflow_avg_usage_table(params)
 				.then(res => {
 					this.tableData = [];
 					if (res.status == 0) {
@@ -869,8 +874,8 @@ export default {
 			if (this.inputfs !== '') {
 				params.ipfs_id = this.inputfs;
 			} else {
-				params.ipfs_id = '*';
-			}
+				 params.ipfs_id='*';
+            }
 			if (this.valueafs[1]) {
 				params.region = this.valueafs[1];
 			} else {
@@ -885,12 +890,12 @@ export default {
 				params.time_unit = parseInt(this.valuecfs);
 			} else {
 				params.time_unit = 120;
-			}
+            }
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime;
 			params.pageNo = this.fs_pageNo - 1;
 			params.pageSize = this.fs_pageSize;
-			query_ip_store_details_table(params)
+			query_ip_store_avg_usage_table(params)
 				.then(res => {
 					this.fs_tableData = [];
 					if (res.status == 0) {
@@ -1090,7 +1095,7 @@ export default {
 			params.end_ts = this.endtime;
 			params.pageNo = this.fs_pageNo - 1;
 			params.pageSize = this.fs_pageSize;
-			query_ip_store_details_table(params)
+			query_ip_store_avg_usage_table(params)
 				.then(res => {
 					this.fs_tableData_upload = [];
 					if (res.status == 0) {
@@ -1144,7 +1149,7 @@ export default {
 			params.end_ts = this.endtime;
 			params.pageNo = this.fs_pageNo - 1;
 			params.pageSize = this.fs_pageSize;
-			query_ipfs_dataflow_table(params)
+			query_ipfs_dataflow_avg_usage_table(params)
 				.then(res => {
 					this.ip_tableData_upload = [];
 					if (res.status == 0) {
