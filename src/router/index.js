@@ -74,6 +74,11 @@ import xiyouji_income from '@/views/ipfs_income/xiyouji_income'
 import yun_income from '@/views/ipfs_income/yun_income'
 import yun_power from '@/views/ipfs_income/yun_power'
 
+//ipfs程序管理
+import program_list from '@/views/ipfs_program_management/program_list'
+import program_release from '@/views/ipfs_program_management/program_release'
+
+
 //操作管理
 import operation_management from '@/views/operating/operation_management'
 import demo from '@/views/operating/demo'
@@ -81,8 +86,7 @@ import demo from '@/views/operating/demo'
 import nodeMap from '@/views/nodeApplication/nodeMap'
 import application from '@/views/nodeApplication/application'
 import nodeUse from '@/views/nodeApplication/nodeUse'
-
-
+import data_monitoring from '@/views/nodeApplication/data_monitoring'
 Vue.use(Router)
 
 export default new Router({
@@ -344,6 +348,24 @@ export default new Router({
             }]
         },
         {
+            path: '/d',
+            name: 'IPFS程序管理',
+            component: index,
+            icon: 'iconfont icon-tongji',
+            hidden: true,
+            children: [{
+                    path: '/program_release',
+                    name: 'IPFS程序管理',
+                    component: program_release
+                },
+                {
+                    path: '/program_list',
+                    name: 'IPFS程序包管理',
+                    component: program_list
+                }
+            ]
+        },
+        {
             path: '/c',
             name: 'IPFS 数据统计',
             component: index,
@@ -368,6 +390,13 @@ export default new Router({
                     name: '节点平均利用率',
                     component: nodeUse
                 },
+                {
+                    path: '/data_monitoring',
+                    name: '节点数据监控',
+                    component: data_monitoring,
+                    hidden: true,
+                },
+
             ]
         },
         {
