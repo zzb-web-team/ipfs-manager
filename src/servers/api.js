@@ -331,3 +331,10 @@ export const export_excel = params => {
         res => res.data
     );
 };
+
+//查询搜索条件
+export const get_nodetype_enum = params => {
+    return post(`${serverUrl}/node_mgmt/get_nodetype_enum`, params).then(
+        res => res.data
+    );
+};

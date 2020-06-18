@@ -322,7 +322,7 @@ export default new Router({
             name: 'IPFS节点收益',
             component: index,
             icon: 'iconfont icon-shouyi',
-            hidden: true,
+            // hidden: true,
             children: [{
                 path: '/xiyouji_income',
                 name: '西柚机节点收益',
@@ -352,7 +352,7 @@ export default new Router({
             name: 'IPFS程序管理',
             component: index,
             icon: 'iconfont icon-tongji',
-            hidden: true,
+            // hidden: true,
             children: [{
                     path: '/program_release',
                     name: 'IPFS程序管理',
@@ -394,7 +394,7 @@ export default new Router({
                     path: '/data_monitoring',
                     name: '节点数据监控',
                     component: data_monitoring,
-                    hidden: true,
+                    // hidden: true,
                 },
 
             ]

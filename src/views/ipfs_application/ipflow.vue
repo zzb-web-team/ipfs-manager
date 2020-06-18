@@ -176,12 +176,12 @@
 
 <script>
 import fenye from '@/components/cloudfenye';
-import { query_ip_usage_table } from '@/servers/api';
+import { query_ip_usage_table,get_nodetype_enum } from '@/servers/api';
 import {
 	getlocaltimes,
 	settime,
 	getymdtime,
-	setbatime,
+    setbatime
 } from '../../servers/sevdate';
 export default {
 	data() {
@@ -262,6 +262,20 @@ export default {
 		this.gettab();
 	},
 	methods: {
+        get_search_data() {
+			let params = new Object();
+			get_nodetype_enum(params)
+				.then((res) => {
+					console.log(res);
+					if (res.status == 0) {
+					} else {
+						this.$message.error(res.err_msg);
+					}
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		},
 		gettab() {
 			let params = new Object();
 			if (this.input == '') {

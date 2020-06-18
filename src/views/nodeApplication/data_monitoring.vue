@@ -6,11 +6,53 @@
 			</el-breadcrumb-item>
 		</el-breadcrumb>
 		<!--  -->
+		<div
+			style="margin-top: 20px;margin-bottom: 20px;display: flex;justify-content: space-between;"
+		>
+			<el-radio-group
+				v-model="searchdata.tabname"
+				@change="change_tab"
+				size="small"
+			>
+				<el-radio-button label="first">带宽</el-radio-button>
+				<el-radio-button label="second">存储空间</el-radio-button>
+				<el-radio-button label="third">节点质量</el-radio-button>
+			</el-radio-group>
+			<div>
+				<el-radio-group
+					v-model="searchdata.radio"
+					@change="set_time"
+					size="small"
+				>
+					<el-radio-button label="1">今天</el-radio-button>
+					<el-radio-button label="2">昨天</el-radio-button>
+					<el-radio-button label="3">近7天</el-radio-button>
+					<el-radio-button label="4">近30天</el-radio-button>
+					<el-radio-button label="5">自定义</el-radio-button>
+				</el-radio-group>
+				<el-date-picker
+					size="small"
+					style="margin-left: 10px;"
+					v-show="show_time"
+					v-model="searchdata.value1"
+					type="datetimerange"
+					range-separator="至"
+					start-placeholder="开始日期"
+					end-placeholder="结束日期"
+				>
+				</el-date-picker>
+			</div>
+		</div>
 		<div style="margin-top:10px;">
-			<el-tabs v-model="activeName" @tab-click="handleClick">
+			<el-tabs
+				class="data_monit"
+				v-model="activeName"
+				@tab-click="handleClick"
+			>
 				<el-row style="margin-top:10px;" v-show="activeName == 'third'">
 					<el-col :span="2">
 						<el-select
+							size="small"
 							@change="lastchange()"
 							v-model="searchdata.echartslist"
 							placeholder="请选择"
@@ -28,6 +70,7 @@
 				<el-row :gutter="20">
 					<el-col :span="2"
 						><el-input
+							size="small"
 							v-model="searchdata.input"
 							placeholder="请输入节点ID"
 							prefix-icon="el-icon-search"
@@ -35,6 +78,7 @@
 					></el-col>
 					<el-col :span="2"
 						><el-select
+							size="small"
 							v-model="searchdata.region1"
 							placeholder="请选择一级渠道"
 							><el-option label="全部" value="*"></el-option
@@ -45,6 +89,7 @@
 					></el-col>
 					<el-col :span="2"
 						><el-select
+							size="small"
 							v-model="searchdata.region2"
 							placeholder="请选择二级渠道"
 						>
@@ -56,6 +101,7 @@
 					></el-col>
 					<el-col :span="2"
 						><el-select
+							size="small"
 							v-model="searchdata.region3"
 							placeholder="请选设备类型"
 						>
@@ -67,6 +113,7 @@
 					></el-col>
 					<el-col :span="2" v-show="seacr_yin_show"
 						><el-select
+							size="small"
 							v-model="searchdata.region6"
 							placeholder="请选择设备类型"
 						>
@@ -78,6 +125,7 @@
 					></el-col>
 					<el-col :span="2" v-show="seacr_yin_show"
 						><el-select
+							size="small"
 							v-model="searchdata.region6"
 							placeholder="请选择硬件类型"
 						>
@@ -89,6 +137,7 @@
 					></el-col>
 					<el-col :span="2"
 						><el-select
+							size="small"
 							v-model="searchdata.region4"
 							placeholder="请选择区域"
 						>
@@ -100,6 +149,7 @@
 					></el-col>
 					<el-col :span="2"
 						><el-select
+							size="small"
 							v-model="searchdata.region5"
 							placeholder="请选择城市"
 						>
@@ -111,6 +161,7 @@
 					></el-col>
 					<el-col :span="2"
 						><el-select
+							size="small"
 							v-model="searchdata.region6"
 							placeholder="请选择运营商"
 						>
@@ -121,7 +172,7 @@
 							></el-option> </el-select
 					></el-col>
 
-					<el-col :span="5">
+					<!-- <el-col :span="5">
 						<el-radio-group
 							v-model="searchdata.radio"
 							@change="set_time"
@@ -132,22 +183,12 @@
 							<el-radio-button label="4">近30天</el-radio-button>
 							<el-radio-button label="5">自定义</el-radio-button>
 						</el-radio-group>
-					</el-col>
-					<el-date-picker
-						style="margin-left: 10px;"
-						v-show="show_time"
-						v-model="searchdata.value1"
-						type="datetimerange"
-						range-separator="至"
-						start-placeholder="开始日期"
-						end-placeholder="结束日期"
-					>
-					</el-date-picker>
+					</el-col> -->
 				</el-row>
 
 				<el-tab-pane label="带宽" name="first">
 					<el-row>
-						<el-col :span="18" class="top_title"
+						<el-col :span="24" class="top_title"
 							><div>
 								<p>50.00Mbps/60.25Mbps</p>
 								<p>节点带宽峰值（上/下行）</p>
@@ -158,7 +199,7 @@
 							</div></el-col
 						>
 					</el-row>
-					<div style="text-align:right;width: 80%;">
+					<div style="text-align:left;width: 80%;margin-bottom: 40px;">
 						<el-radio-group v-model="radio1" size="mini">
 							<el-radio-button label="1"
 								>上行带宽</el-radio-button
@@ -173,7 +214,7 @@
 				</el-tab-pane>
 				<el-tab-pane label="存储空间" name="second">
 					<el-row>
-						<el-col :span="18" class="top_title"
+						<el-col :span="24" class="top_title"
 							><div>
 								<p>320GB</p>
 								<p>节点可用存储空间</p>
@@ -188,7 +229,7 @@
 				</el-tab-pane>
 				<el-tab-pane label="节点质量" name="third">
 					<el-row>
-						<el-col :span="18" class="top_title top_title_third"
+						<el-col :span="24" class="top_title top_title_third"
 							><div>
 								<p>30ms</p>
 								<p>平均值</p>
@@ -255,6 +296,7 @@
 </template>
 
 <script>
+import { get_nodetype_enum } from '@/servers/api';
 import echarts from 'echarts';
 export default {
 	data() {
@@ -301,6 +343,7 @@ export default {
 				},
 			],
 			searchdata: {
+				tabname: 'first',
 				echartslist: '1',
 				input: '',
 				region1: '',
@@ -319,11 +362,39 @@ export default {
 		};
 	},
 	mounted() {
-        this._width = this.$refs.luckDraw.offsetWidth - 60;
-        console.log(this._width);
+		this._width = this.$refs.luckDraw.offsetWidth - 60;
+		console.log(this._width);
 		this.firstsharts();
 	},
 	methods: {
+		get_search_data() {
+			let params = new Object();
+			get_nodetype_enum(params)
+				.then((res) => {
+					console.log(res);
+					if (res.status == 0) {
+					} else {
+						this.$message.error(res.err_msg);
+					}
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		},
+		change_tab() {
+            this.activeName = this.searchdata.tabname;
+            if (this.activeName == 'third') {
+				this.seacr_yin_show = true;
+				this.lastsharts('ping_ms', 'PING_MS');
+			} else {
+				this.seacr_yin_show = false;
+				if (this.activeName == 'first') {
+					this.$nextTick(this.firstsharts());
+				} else if (this.activeName == 'second') {
+					this.$nextTick(this.secondsharts());
+				}
+			}
+		},
 		handleClick(tab, event) {
 			if (this.activeName == 'third') {
 				this.seacr_yin_show = true;
@@ -392,7 +463,7 @@ export default {
 					axisPointer: {
 						type: 'cross',
 						label: {
-							backgroundColor: '#6a7985',
+							backgroundColor: '#409EFF',
 						},
 					},
 				},
@@ -432,13 +503,13 @@ export default {
 									color: '#ffffff',
 								},
 							},
-							itemStyle: { color: '#09b0f5' },
+							itemStyle: { color: '#409EFF' },
 						},
 						itemStyle: {
 							normal: {
-								color: '#09b0f5',
+								color: '#409EFF',
 								// color: function(params) {
-								// 	var colorList = ['#09b0f5', 'red', 'green'];
+								// 	var colorList = ['#409EFF', 'red', 'green'];
 								// 	if (params.data == minnum) {
 								// 		console.log(params.data);
 								// 		return colorList[2];
@@ -544,7 +615,7 @@ export default {
 						data: [820, 932, 901, 934, 1290, 1330, 1320],
 						type: 'line',
 						smooth: true,
-						itemStyle: { color: '#09b0f5' },
+						itemStyle: { color: '#409EFF' },
 					},
 				],
 			};
@@ -592,7 +663,7 @@ export default {
 						data: [820, 932, 901, 934, 1290, 1330, 1320],
 						type: 'line',
 						smooth: sa,
-						itemStyle: { color: '#09b0f5' },
+						itemStyle: { color: '#409EFF' },
 					},
 				],
 			};
@@ -636,7 +707,7 @@ export default {
 						data: [820, 932, 901, 934, 1290, 1330, 1320],
 						type: 'bar',
 						smooth: true,
-						itemStyle: { color: '#09b0f5' },
+						itemStyle: { color: '#409EFF' },
 					},
 				],
 			};
@@ -653,19 +724,25 @@ export default {
 		margin-bottom: 20px;
 	}
 	.top_title {
-		border: 1px solid #000000;
-		height: 150px;
+        height: 120px;
 		margin-top: 20px;
 		margin-bottom: 20px;
 		padding: 20px;
 		box-sizing: border-box;
 		display: flex;
 		justify-content: space-around;
+		color: #ffffff;
+		background: linear-gradient(
+			90deg,
+			rgba(100, 167, 252, 1) 0%,
+			rgba(100, 167, 252, 1) 100%
+		);
+		border-radius: 8px;
 		div {
 			width: 50%;
 			text-align: center;
 			p:nth-child(1) {
-				margin-top: 26px;
+				margin-top: 6px;
 				font-size: 38px;
 			}
 			p:nth-child(2) {
@@ -674,7 +751,7 @@ export default {
 			}
 		}
 		div:nth-child(1) {
-			border-right: 1px solid #000000;
+			border-right: 1px solid #ffffff50;
 		}
 	}
 	.top_title_third {
@@ -682,7 +759,7 @@ export default {
 			width: 33%;
 		}
 		div:nth-child(2) {
-			border-right: 1px solid #000000;
+			border-right: 1px solid #ffffff50;
 		}
 	}
 }

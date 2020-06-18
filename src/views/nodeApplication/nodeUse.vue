@@ -434,7 +434,8 @@ import {
 	query_ip_store_avg_usage_curve,
     query_ip_store_details_table,
     query_ip_store_usage_table,
-    query_ip_store_avg_usage_table
+    query_ip_store_avg_usage_table,
+    get_nodetype_enum
 } from '../../servers/api';
 import axios from 'axios';
 export default {
@@ -806,6 +807,20 @@ export default {
 		this.chart = null;
 	},
 	methods: {
+         get_search_data() {
+			let params = new Object();
+			get_nodetype_enum(params)
+				.then((res) => {
+					console.log(res);
+					if (res.status == 0) {
+					} else {
+						this.$message.error(res.err_msg);
+					}
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		},
 		//请求数据----获取搜索条件
 		getseachinput() {
 			axios.get('./static/pro_city.json').then(res => {

@@ -5,7 +5,7 @@
 				<a>全国节点分布</a>
 			</el-breadcrumb-item>
 		</el-breadcrumb>
-		<!-- <div class="top_search">
+		<div class="top_search">
 			<span>时间：</span>
 			<el-date-picker
 				v-model="time_value"
@@ -44,7 +44,7 @@
 				<el-option label="全部" value="*"></el-option>
 				<el-option label="区域一" value="1"></el-option>
 			</el-select>
-		</div> -->
+		</div>
 		<div style="display: flex;" class="mapdal">
 			<div
 				id="myChartChina"
@@ -67,7 +67,7 @@
 </template>
 
 <script>
-import { query_ipfs_node_region_dist } from '@/servers/api';
+import { query_ipfs_node_region_dist,get_nodetype_enum } from '@/servers/api';
 export default {
 	data() {
 		return {
@@ -109,6 +109,20 @@ export default {
 		//this.drawLine();
 	},
 	methods: {
+        get_search_data() {
+			let params = new Object();
+			get_nodetype_enum(params)
+				.then((res) => {
+					console.log(res);
+					if (res.status == 0) {
+					} else {
+						this.$message.error(res.err_msg);
+					}
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		},
 		getdata() {
 			let params = new Object();
 			query_ipfs_node_region_dist(params)

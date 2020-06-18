@@ -360,7 +360,7 @@ export default {
 					nodeId:
 						'1231561fafgfdafgdhdahedadgsgnmakpwngpkelwrangrdfqw',
 					devstatus: '离线',
-                    bgccolor: '#5CC77D',
+                    bgccolor: '#6e6e6e',
                      net_type:'中国电信',
 					node_type: '西柚机节点',
 					dev_type: '西柚机盒子',
@@ -375,7 +375,7 @@ export default {
 					type: '1',
 					nodeId: '1231561fa1gh54ser1h45gawinrgoi[eargeisgetrg1fqw',
 					devstatus: '在线',
-                    bgccolor: '#6e6e6e',
+                    bgccolor: '#5CC77D',
                      net_type:'中国联通',
 					node_type: '云链节点',
 					dev_type: 'PC',
