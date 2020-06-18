@@ -66,7 +66,7 @@
               :value="item.name"
             ></el-option>
           </el-select>
-          <!-- <span>节点渠道商:</span>
+          <span>节点渠道商:</span>
              <el-select
             v-model="city_detil"
             placeholder="一级渠道商"
@@ -121,7 +121,7 @@
               :value="item.label"
               :disabled="item.disabled"
             ></el-option>
-          </el-select>-->
+          </el-select>
         </div>
         <div class="region_select">
           <span>运营商：</span>

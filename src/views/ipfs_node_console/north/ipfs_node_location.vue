@@ -116,19 +116,40 @@
 			</div>
 		</div>
 		<div class="select_sort" v-if="ipfsdata.length > 0">
-			<span>排序：</span>
-			<el-select v-model="value" placeholder="请选择排序方式">
-				<el-option
-					v-for="item in options"
-					:key="item.value"
-					:label="item.label"
-					:value="item.value"
-				></el-option>
-			</el-select>
+			<div>
+				<span>设备类型：</span>
+				<el-select v-model="value" placeholder="请选择设备类型">
+					<el-option label="全部" value="*"></el-option>
+				</el-select>
+				<span>硬件类型：</span>
+				<el-select v-model="value" placeholder="请选择设备类型">
+					<el-option label="全部" value="*"></el-option>
+				</el-select>
+				<span>操作系统：</span>
+				<el-select v-model="value" placeholder="请选择设备类型">
+					<el-option label="全部" value="*"></el-option>
+				</el-select>
+				<span>节点网络运营商：</span>
+				<el-select v-model="value" placeholder="请选择设备类型">
+					<el-option label="全部" value="*"></el-option>
+				</el-select>
+				<el-button type="primary">重置</el-button>
+			</div>
+			<div>
+				<span>排序：</span>
+				<el-select v-model="value" placeholder="请选择排序方式">
+					<el-option
+						v-for="item in options"
+						:key="item.value"
+						:label="item.label"
+						:value="item.value"
+					></el-option>
+				</el-select>
+			</div>
 		</div>
 		<div class="ipfs_box">
-            <div class="nodata" v-show="showdata">
-				<i class="el-icon-document-delete" style="font-size:80px" ></i>
+			<div class="nodata" v-show="showdata">
+				<i class="el-icon-document-delete" style="font-size:80px"></i>
 				<p>暂无数据</p>
 			</div>
 			<div
@@ -146,18 +167,44 @@
 					></div>
 					<span v-bind:style="{ color: item.bgccolor }">{{
 						item.devstatus
-					}}</span>
+					}}&nbsp;{{item.net_type}}</span>
 				</div>
 				<div class="ipfs_item_img">
 					<img
+						v-if="item.type == 0 && item.devstatus == '在线'"
 						src="../../../assets/img/binding_illustration3.png"
 						style="width:60%;"
 						alt
 					/>
-					<p
-						style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;"
-					>
-						节点：{{ item.nodeId }}
+					<img
+						v-if="item.type == 0 && item.devstatus == '离线'"
+						src="../../../assets/img/lixianxiyouji.png"
+						style="width:60%;"
+						alt
+					/>
+					<img
+						v-if="item.type == 1 && item.devstatus == '在线'"
+						src="../../../assets/img/zaixianfuwuqi.png"
+						style="width:60%;"
+						alt=""
+					/>
+					<img
+						v-if="item.type == 1 && item.devstatus == '离线'"
+						src="../../../assets/img/lixianfuwuqi.png"
+						style="width:60%;"
+						alt
+					/>
+					<p style="text-align:center">{{ item.node_type }}</p>
+					<p style="text-align:center">
+						<span>{{item.dev_type}}</span>
+						<span>{{item.system_type}}</span>
+						<span>{{item.hardware_type}}</span>
+					</p>
+					<p>
+						节点ID：
+					</p>
+					<p style="word-wrap:break-word;word-break:normal;">
+						{{ item.nodeId }}
 					</p>
 				</div>
 				<ol>
@@ -186,14 +233,14 @@
 				</ol>
 			</div>
 		</div>
-		 <fenye
-      style="text-align: right;margin: 20px 0px 10px;"
-      @fatherMethod="getpage"
-      @fathernum="gettol"
-      :pagesa="totalCnt"
-      :currentPage="currentPage"
-      v-if="ipfsdata.length > 0"
-    ></fenye>
+		<fenye
+			style="text-align: right;margin: 20px 0px 10px;"
+			@fatherMethod="getpage"
+			@fathernum="gettol"
+			:pagesa="totalCnt"
+			:currentPage="currentPage"
+			v-if="ipfsdata.length > 0"
+		></fenye>
 	</div>
 </template>
 
@@ -205,91 +252,153 @@ export default {
 		return {
 			currentPage: 1,
 			pagesize: 10,
-      pageNo: 1,
-      totalCnt: 1,
+			pageNo: 1,
+			totalCnt: 1,
 			location_name: '华北区域',
 			rotate: 0,
-            citys: '北京',
-             showdata:false,
+			citys: '北京',
+			showdata: false,
 			options: [
 				{
 					value: '1',
-					label: '可用空间从大到小'
+					label: '可用空间从大到小',
 				},
 				{
 					value: '2',
-					label: '可用空间从小到大'
+					label: '可用空间从小到大',
 				},
 				{
 					value: '3',
-					label: '可用带宽从高到低'
+					label: '可用带宽从高到低',
 				},
 				{
 					value: '4',
-					label: '可用带宽从抵到高'
-				}
+					label: '可用带宽从抵到高',
+				},
 			],
 			titledar: [
 				{
 					contit: '总节点',
 					connum: 0,
-					url: require('../../../assets/img/zong.png')
+					url: require('../../../assets/img/jiedian.png'),
+				},
+				{
+					contit: 'K86节点',
+					connum: 0,
+					url: require('../../../assets/img/xjiedian.png'),
+				},
+				{
+					contit: 'ARM节点',
+					connum: 0,
+					url: require('../../../assets/img/armjiedian.png'),
 				},
 				{
 					contit: '在线节点',
 					connum: 0,
-					url: require('../../../assets/img/jie.png')
+					url: require('../../../assets/img/zaixjied.png'),
 				},
 				{
 					contit: '总空间',
 					connum: '0G',
-					url: require('../../../assets/img/kong.png')
+					url: require('../../../assets/img/zongkongj.png'),
 				},
 				{
 					contit: '当前占用空间',
 					connum: '0G',
-					url: require('../../../assets/img/zhan.png')
+					url: require('../../../assets/img/zhanyongkj.png'),
 				},
 				{
 					contit: '可用空间',
 					connum: '0G',
-					url: require('../../../assets/img/sheng.png')
+					url: require('../../../assets/img/keykj.png'),
 				},
 				{
 					contit: '累计使用流量',
 					connum: '0G',
-					url: require('../../../assets/img/liu.png')
+					url: require('../../../assets/img/liuliangs.png'),
 				},
 				{
 					contit: '累计存储容量',
 					connum: '0G',
-					url: require('../../../assets/img/liu.png')
-				}
+					url: require('../../../assets/img/cuncurl.png'),
+				},
 			],
 			value: '',
 			ipfsdata: [
-				// {
-				//   nodeid: "1231561fafqw",
-				//   devstatus: "在线",
-				//   bgccolor: "#5CC77D",
-				//   upstream: 152.1,
-				//   down: 42.33,
-				//   total_capacity: 1000,
-				//   remaining: 270
-				// },
-			]
+				{
+					type: '0',
+					nodeId: '1231561faasfsafssdfsdfsdagfasfqwngfiupaowngwp',
+					devstatus: '在线',
+                    bgccolor: '#5CC77D',
+                    net_type:'中国移动',
+					node_type: '西柚机节点',
+					dev_type: '西柚机盒子',
+					system_type: 'linux',
+					hardware_type: 'x86',
+					totalCap: 1000,
+					remainingCap: 270,
+					upbandwidth: '1920Mbps',
+					downbandwidth: '462Mbps',
+				},
+				{
+					type: '1',
+					nodeId: '1231561fgadfgdasdfsfsagadhhagogmoejmagaefqw',
+					devstatus: '离线',
+                    bgccolor: '#6e6e6e',
+                     net_type:'中国移动',
+					node_type: '云链节点',
+					dev_type: 'PC',
+					system_type: 'linux',
+					hardware_type: 'x86',
+					totalCap: 1000,
+					remainingCap: 270,
+					upbandwidth: '16450Mbps',
+					downbandwidth: '52Mbps',
+				},
+				{
+					type: '0',
+					nodeId:
+						'1231561fafgfdafgdhdahedadgsgnmakpwngpkelwrangrdfqw',
+					devstatus: '离线',
+                    bgccolor: '#5CC77D',
+                     net_type:'中国电信',
+					node_type: '西柚机节点',
+					dev_type: '西柚机盒子',
+					system_type: 'linux',
+					hardware_type: 'x86',
+					totalCap: 1000,
+					remainingCap: 270,
+					upbandwidth: '1920Mbps',
+					downbandwidth: '462Mbps',
+				},
+				{
+					type: '1',
+					nodeId: '1231561fa1gh54ser1h45gawinrgoi[eargeisgetrg1fqw',
+					devstatus: '在线',
+                    bgccolor: '#6e6e6e',
+                     net_type:'中国联通',
+					node_type: '云链节点',
+					dev_type: 'PC',
+					system_type: 'linux',
+					hardware_type: 'x86',
+					totalCap: 1000,
+					remainingCap: 270,
+					upbandwidth: '16450Mbps',
+					downbandwidth: '52Mbps',
+				},
+			],
 		};
 	},
 	components: {
-		fenye
+		fenye,
 	},
 	mounted() {
-        if (this.$route.query.node_city) {
+		if (this.$route.query.node_city) {
 			this.citys = this.$route.query.node_city;
 			this.rotate = this.$route.query.node_num;
 		}
-		this.gettit();
-		this.getipfsdata();
+		// this.gettit();
+		// this.getipfsdata();
 	},
 	methods: {
 		//获取头部预览信息
@@ -297,7 +406,7 @@ export default {
 			let parmas = new Object();
 			parmas.region = this.citys;
 			ipfs_region_summary(parmas)
-				.then(res => {
+				.then((res) => {
 					if (res.status == 0) {
 						this.titledar[0].connum = res.data.total_cnt;
 						this.titledar[1].connum = res.data.online_cnt;
@@ -320,7 +429,7 @@ export default {
 						this.$message.error(res.err_msg);
 					}
 				})
-				.catch(error => {});
+				.catch((error) => {});
 		},
 		//获取列表数据
 		getipfsdata() {
@@ -331,12 +440,12 @@ export default {
 			parmas.province = this.citys;
 			parmas.city = '';
 			parmas.page = this.pageNo - 1;
-			parmas.isp="";
+			parmas.isp = '';
 			query_node(parmas)
-				.then(res => {
+				.then((res) => {
 					if (res.status == 0) {
 						if (res.data.result.length <= 0) {
-                             this.showdata=true;
+							this.showdata = true;
 							this.$message('暂无数据');
 						} else {
 							this.showdata = false;
@@ -367,9 +476,19 @@ export default {
 								} else {
 									item.devstatus = '在线';
 									item.bgccolor = '#5CC77D';
-                                }
-                                item.totalCap = (item.totalCap /1024 /1024 /1024).toFixed(2);
-                                item.remainingCap = (item.remainingCap /1024 /1024 /1024).toFixed(2);
+								}
+								item.totalCap = (
+									item.totalCap /
+									1024 /
+									1024 /
+									1024
+								).toFixed(2);
+								item.remainingCap = (
+									item.remainingCap /
+									1024 /
+									1024 /
+									1024
+								).toFixed(2);
 								this.ipfsdata.push(item);
 							});
 						}
@@ -377,7 +496,7 @@ export default {
 						this.$message.error(res.err_msg);
 					}
 				})
-				.catch(error => {});
+				.catch((error) => {});
 		},
 		setmap_show(num) {
 			this.ipfsdata = [];
@@ -402,24 +521,28 @@ export default {
 			this.$forceUpdate();
 			this.gettit();
 		},
-		 //获取页码
-    getpage(pages) {
-      this.pageNo = pages;
-      this.getipfsdata();
-    },
-    //获取每页数量
-    gettol(pagetol) {
-      this.pagesize = pagetol;
-      // this.getipfsdata();
-    },
+		//获取页码
+		getpage(pages) {
+			this.pageNo = pages;
+			this.getipfsdata();
+		},
+		//获取每页数量
+		gettol(pagetol) {
+			this.pagesize = pagetol;
+			// this.getipfsdata();
+		},
 		godetail(dat) {
 			sessionStorage.setItem('serdata', JSON.stringify(dat));
 			this.$router.push({
 				path: '/ipfs_location_details',
-				query: { node_city: this.citys, node_num: this.rotate,address:"/ipfs_node_location" }
+				query: {
+					node_city: this.citys,
+					node_num: this.rotate,
+					address: '/ipfs_node_location',
+				},
 			});
-		}
-	}
+		},
+	},
 };
 </script>
 
@@ -439,10 +562,10 @@ export default {
 		font-size: 26px;
 	}
 	.ipfs_title {
-		padding-left: 37px;
-		text-align: center;
-		color: #000000;
-		font-size: 26px;
+		text-align: left;
+		color: #1c2e32;
+		font-size: 22px;
+		font-weight: bold;
 	}
 	.ipfs_con {
 		height: 50px;
@@ -450,9 +573,15 @@ export default {
 		display: flex;
 		// padding: 0 37px;
 		justify-content: space-between;
+		.ipfs_con_left {
+			color: #999999;
+			font-size: 16px;
+		}
 		.ipfs_con_right {
 			.setmap_btn {
 				margin-right: 20px;
+				color: #1c2e32;
+				font-size: 18px;
 			}
 		}
 	}
@@ -470,8 +599,8 @@ export default {
 			height: 123px;
 			display: flex;
 			.ipfs_con_tit {
-				width: 12%;
-				height: 120px;
+				width: 148px;
+				height: 117px;
 				background: rgba(255, 255, 255, 1);
 				border: 1px solid rgba(216, 226, 240, 1);
 				box-shadow: 0px 12px 36px 0px rgba(211, 215, 221, 0.4);
@@ -488,21 +617,22 @@ export default {
 					color: #929292;
 					font-size: 18px;
 					img {
-						width: 10%;
-						margin-right: 10px;
+						width: 30%;
 					}
 				}
 				.allnum {
 					line-height: 40px;
 					color: #1c1a1d;
-					font-size: 44px;
+					font-size: 34px;
 				}
 			}
 		}
 	}
 	.select_sort {
 		text-align: left;
-		margin: 37px 0 0 37px;
+		margin: 37px 0 0 0;
+		display: flex;
+		justify-content: space-between;
 	}
 	.ipfs_box {
 		width: 100%;
@@ -511,8 +641,8 @@ export default {
 		display: flex;
 		flex-flow: row wrap;
 		.ipfs_item {
-		width: 270px;
-			height: 400px;
+			width: 270px;
+			// height: 400px;
 			padding: 23px;
 			background: rgba(255, 255, 255, 1);
 			border: 1px solid rgba(216, 226, 240, 1);
@@ -532,6 +662,13 @@ export default {
 				margin: 25px 0;
 				border-bottom: 1px solid #eeeeee;
 				color: #404447;
+				p {
+					text-align: left;
+				}
+				p:nth-child(1) {
+					color: #434343;
+					font-weight: 800;
+				}
 			}
 			ol > li {
 				line-height: 25px;
@@ -571,7 +708,6 @@ export default {
 	margin-top: 15px;
 	margin-bottom: 25px;
 	.ipfs_con_left {
-		font-weight: 600;
 		font-size: 18px;
 		margin-right: 50px;
 		padding-left: 10px;

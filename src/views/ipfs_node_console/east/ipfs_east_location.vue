@@ -138,17 +138,38 @@
 			</div>
 		</div>
 		<div class="select_sort" v-if="ipfsdata.length > 0">
-			<span>排序：</span>
-			<el-select v-model="value" placeholder="请选择排序方式">
-				<el-option
-					v-for="item in options"
-					:key="item.value"
-					:label="item.label"
-					:value="item.value"
-				></el-option>
+			<div>
+			<span>设备类型：</span>
+			<el-select v-model="value" placeholder="请选择设备类型">
+				<el-option label="全部" value="*"></el-option>
 			</el-select>
+			<span>硬件类型：</span>
+			<el-select v-model="value" placeholder="请选择设备类型">
+				<el-option label="全部" value="*"></el-option>
+			</el-select>
+			<span>操作系统：</span>
+			<el-select v-model="value" placeholder="请选择设备类型">
+				<el-option label="全部" value="*"></el-option>
+			</el-select>
+			<span>节点网络运营商：</span>
+			<el-select v-model="value" placeholder="请选择设备类型">
+				<el-option label="全部" value="*"></el-option>
+			</el-select>
+			<el-button type="primary">重置</el-button>
+            </div>
+			<div>
+				<span>排序：</span>
+				<el-select v-model="value" placeholder="请选择排序方式">
+					<el-option
+						v-for="item in options"
+						:key="item.value"
+						:label="item.label"
+						:value="item.value"
+					></el-option>
+				</el-select>
+			</div>
 		</div>
-		<div class="ipfs_box">
+				<div class="ipfs_box">
 			<div class="nodata" v-show="showdata">
 				<i class="el-icon-document-delete" style="font-size:80px"></i>
 				<p>暂无数据</p>
@@ -168,18 +189,44 @@
 					></div>
 					<span v-bind:style="{ color: item.bgccolor }">{{
 						item.devstatus
-					}}</span>
+					}}&nbsp;{{item.net_type}}</span>
 				</div>
 				<div class="ipfs_item_img">
 					<img
+						v-if="item.type == 0 && item.devstatus == '在线'"
 						src="../../../assets/img/binding_illustration3.png"
 						style="width:60%;"
 						alt
 					/>
-					<p
-						style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;"
-					>
-						节点：{{ item.nodeId }}
+					<img
+						v-if="item.type == 0 && item.devstatus == '离线'"
+						src="../../../assets/img/lixianxiyouji.png"
+						style="width:60%;"
+						alt
+					/>
+					<img
+						v-if="item.type == 1 && item.devstatus == '在线'"
+						src="../../../assets/img/zaixianfuwuqi.png"
+						style="width:60%;"
+						alt=""
+					/>
+					<img
+						v-if="item.type == 1 && item.devstatus == '离线'"
+						src="../../../assets/img/lixianfuwuqi.png"
+						style="width:60%;"
+						alt
+					/>
+					<p style="text-align:center">{{ item.node_type }}</p>
+					<p style="text-align:center">
+						<span>{{item.dev_type}}</span>
+						<span>{{item.system_type}}</span>
+						<span>{{item.hardware_type}}</span>
+					</p>
+					<p>
+						节点ID：
+					</p>
+					<p style="word-wrap:break-word;word-break:normal;">
+						{{ item.nodeId }}
 					</p>
 				</div>
 				<ol>
@@ -252,41 +299,50 @@ export default {
 				},
 			],
 			titledar: [
-				{
+								{
 					contit: '总节点',
 					connum: 0,
-					url: require('../../../assets/img/zong.png'),
+					url: require('../../../assets/img/jiedian.png'),
+                },
+                {
+					contit: 'K86节点',
+					connum: 0,
+					url: require('../../../assets/img/xjiedian.png'),
+				},{
+					contit: 'ARM节点',
+					connum: 0,
+					url: require('../../../assets/img/armjiedian.png'),
 				},
 				{
 					contit: '在线节点',
 					connum: 0,
-					url: require('../../../assets/img/jie.png'),
+					url: require('../../../assets/img/zaixjied.png'),
 				},
 				{
 					contit: '总空间',
 					connum: '0G',
-					url: require('../../../assets/img/kong.png'),
+					url: require('../../../assets/img/zongkongj.png'),
 				},
 				{
 					contit: '当前占用空间',
 					connum: '0G',
-					url: require('../../../assets/img/zhan.png'),
+					url: require('../../../assets/img/zhanyongkj.png'),
 				},
 				{
 					contit: '可用空间',
 					connum: '0G',
-					url: require('../../../assets/img/sheng.png'),
+					url: require('../../../assets/img/keykj.png'),
 				},
 				{
 					contit: '累计使用流量',
 					connum: '0G',
-					url: require('../../../assets/img/liu.png'),
+					url: require('../../../assets/img/liuliangs.png'),
 				},
 				{
 					contit: '累计存储容量',
 					connum: '0G',
-					url: require('../../../assets/img/liu.png'),
-				},
+					url: require('../../../assets/img/cuncurl.png'),
+                },
 			],
 			value: '',
 			ipfsdata: [
@@ -477,10 +533,10 @@ export default {
 		font-size: 26px;
 	}
 	.ipfs_title {
-		padding-left: 37px;
-		text-align: center;
-		color: #000000;
-		font-size: 26px;
+		text-align: left;
+		color: #1C2E32;
+		font-size: 22px;
+        font-weight:bold;
 	}
 	.ipfs_con {
 		height: 50px;
@@ -488,9 +544,15 @@ export default {
 		display: flex;
 		// padding: 0 37px;
 		justify-content: space-between;
+        .ipfs_con_left{
+            color: #999999;
+            font-size: 16px;
+        }
 		.ipfs_con_right {
 			.setmap_btn {
 				margin-right: 20px;
+                color: #1C2E32;
+                font-size: 18px;
 			}
 		}
 	}
@@ -508,8 +570,8 @@ export default {
 			height: 123px;
 			display: flex;
 			.ipfs_con_tit {
-				width: 12%;
-				height: 120px;
+				width: 148px;
+				height: 117px;
 				background: rgba(255, 255, 255, 1);
 				border: 1px solid rgba(216, 226, 240, 1);
 				box-shadow: 0px 12px 36px 0px rgba(211, 215, 221, 0.4);
@@ -526,21 +588,22 @@ export default {
 					color: #929292;
 					font-size: 18px;
 					img {
-						width: 10%;
-						margin-right: 10px;
+						width: 30%;
 					}
 				}
 				.allnum {
 					line-height: 40px;
 					color: #1c1a1d;
-					font-size: 44px;
+					font-size: 34px;
 				}
 			}
 		}
 	}
 	.select_sort {
 		text-align: left;
-		margin: 37px 0 0 37px;
+		margin: 37px 0 0 0;
+        display: flex;
+        justify-content: space-between;
 	}
 	.ipfs_box {
 		width: 100%;
@@ -550,7 +613,7 @@ export default {
 		flex-flow: row wrap;
 		.ipfs_item {
 			width: 270px;
-			height: 400px;
+			// height: 400px;
 			padding: 23px;
 			background: rgba(255, 255, 255, 1);
 			border: 1px solid rgba(216, 226, 240, 1);
@@ -609,7 +672,6 @@ export default {
 	margin-top: 15px;
 	margin-bottom: 25px;
 	.ipfs_con_left {
-		font-weight: 600;
 		font-size: 18px;
 		margin-right: 50px;
 		padding-left: 10px;

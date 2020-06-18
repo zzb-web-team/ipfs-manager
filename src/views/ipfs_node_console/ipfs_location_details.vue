@@ -3,96 +3,166 @@
 		<el-page-header @back="goBack" content="节点详情"> </el-page-header>
 		<!-- 主体内容上 -->
 		<div class="ipfs_detail_title">
-			<div class="ipfs_item">
-				<div
-					style="display: flex;justify-content: flex-start;align-items: center;"
-				>
-					<div
-						class="yuan"
-						v-bind:style="{ background: serdata.bgccolor }"
-					></div>
-					<span v-bind:style="{ color: serdata.bgccolor }">{{
-						serdata.devstatus
-					}}</span>
-				</div>
-				<div class="ipfs_item_img">
-					<img
-						src="../../assets//img/binding_illustration3.png"
-						style="width:60%;"
-						alt
-					/>
-					<p
-						style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;"
-					>
-						节点：{{ serdata.nodeId }}
-					</p>
-				</div>
-			</div>
 			<div class="ipfs_item_topright">
-				<div>
-					<div class="ipfs_con">
-						<div class="ipfs_con_tit">
-							<div class="alltitle">
-								<span>累计使用流量</span>
+				<div class="ipfs_con">
+					<div class="ipfs_con_tit_first">
+						<img
+							src="../../assets/img/binding_illustration3.png"
+							alt=""
+						/>
+						<div class="ipfs_con_top">
+							<div class="top_tit_status">
+								<span>xxx节点</span
+								><span
+									v-bind:style="{
+										background: serdata.bgccolor,
+									}"
+									>{{ serdata.devstatus }}</span
+								>
+                                <span v-bind:style="{
+										color: serdata.bgccolor,
+									}">中国移动</span>
 							</div>
-							<div class="allnum">
-								{{ topdata.total_dataflow }}
-							</div>
+                            <div><span>西柚机盒子</span>
+                            <span>linux</span>
+                            <span>x86</span>
+                            <span>123</span></div>
+							<div class="top_tit">节点ID</div>
+							<div class="top_tit_id">{{ serdata.nodeId }}</div>
 						</div>
-						<div class="ipfs_con_tit">
-							<div class="alltitle">
-								<span>累计传输次数</span>
-							</div>
-							<div class="allnum">
-								{{ topdata.total_store_times }}次
-							</div>
+					</div>
+					<div class="ipfs_con_tit">
+						<img src="../../assets/img/liuliang.png" alt="" />
+						<div>
+							<p class="alltitle">累计使用流量</p>
+							<p class="allnum">{{ topdata.total_dataflow }}</p>
 						</div>
-						<div class="ipfs_con_tit">
-							<div class="alltitle">
-								<span>累计存储容量</span>
-							</div>
-							<div class="allnum">
-								{{ topdata.total_storeusage }}
-							</div>
+					</div>
+					<div class="ipfs_con_tit">
+						<img src="../../assets/img/chuanshu.png" alt="" />
+						<div>
+							<p class="alltitle">累计传输次数</p>
+							<p class="allnum">
+								{{ topdata.total_store_times }}
+							</p>
 						</div>
-						<div class="ipfs_con_tit">
-							<div class="alltitle">
-								<span>累计存储次数</span>
-							</div>
-							<div class="allnum">
-								{{ topdata.total_output_times }}次
-							</div>
+					</div>
+					<div class="ipfs_con_tit">
+						<img src="../../assets/img/cunchu.png" alt="" />
+						<div>
+							<p class="alltitle">累计存储容量</p>
+							<p class="allnum">{{ topdata.total_storeusage }}</p>
+						</div>
+					</div>
+					<div class="ipfs_con_tit" style="border:none;">
+						<img src="../../assets/img/cishu.png" alt="" />
+						<div>
+							<p class="alltitle">累计存储次数</p>
+							<p class="allnum">
+								{{ topdata.total_output_times }}
+							</p>
 						</div>
 					</div>
 				</div>
 				<div
-					style="display: flex;justify-content: flex-start;align-items: center;font-size: 16px;"
+					style="display: flex;justify-content: space-between;align-items: center;font-size: 16px;margin-top: 20px;margin-bottom: 20px;border-top: 1px solid #ECF0F3;padding-top: 20px;"
 				>
 					<div class="ipfs_item_toptwo">
-						<div
-							style="display: flex;justify-content: center;align-items: center;"
-						>
-							<span style="font-size: 18px;font-weight: 600;"
-								>ip流量</span
-							>
+						<div style="display: flex;align-items: center;">
 							<qiu :cap="ip_rema"></qiu>
-							<span>可用{{ (ip_rema * 100).toFixed(2) }}%</span>
 						</div>
-
-						<div class="ipfs_item_toptwo_item">
-							<span>总带宽：上下行</span>
-							<span>{{ serdata.totalBW }}</span>
-						</div>
-						<div class="ipfs_item_toptwo_item">
-							<span>使用带宽：上下行</span>
-							<span>{{ serdata.occupyBW }}</span>
-						</div>
-						<div class="ipfs_item_toptwo_item">
-							<span>剩余带宽：上下行</span>
-							<span>{{ serdata.occupyBW }}</span>
+						<div style="text-align:left;line-height: 48px;padding-top: 35px;color: #89949B;">
+							<div style="font-size: 18px;">CPU</div>
+							<div class="ipfs_item_toptwo_item">
+								<span>可用{{ (ip_rema * 100).toFixed(2) }}%</span>
+							</div>
 						</div>
 					</div>
-					<div class="ipfs_item_toptwo">
+                    <div class="ipfs_item_toptwo">
+                        <div style="display: flex;flex-direction: column;align-items: center;">
+							<qiu :cap="ip_rema" style="margin-top:25px;"></qiu>
+                            <span style="color: #64A7FC;">可用{{ (ip_rema * 100).toFixed(2) }}%</span>
+						</div>
+						<div style="text-align:left;line-height: 48px;padding-top: 20px;">
+							<div style="font-size: 18px;">内存</div>
+							<div class="ipfs_item_toptwo_item">
+								<span>总内存:</span>
+								<span>{{ serdata.totalBW }}</span>
+							</div>
+							<div class="ipfs_item_toptwo_item">
+								<span>使用内存：</span>
+								<span>{{ serdata.occupyBW }}</span>
+							</div>
+							<div class="ipfs_item_toptwo_item">
+								<span>剩余内存：</span>
+								<span>{{ serdata.occupyBW }}</span>
+							</div>
+						</div>
+                    </div>
+                     <div class="ipfs_item_toptwo">
+                         <div style="display: flex;flex-direction: column;align-items: center;">
+							<qiu :cap="ip_rema" style="margin-top:25px;"></qiu>
+                            <span style="color: #64A7FC;">可用{{ (ip_rema * 100).toFixed(2) }}%</span>
+						</div>
+						<div style="text-align:left;line-height: 48px;padding-top: 20px;color: #89949B;">
+							<div style="font-size: 18px;">上行带宽</div>
+							<div class="ipfs_item_toptwo_item">
+								<span>总带宽：</span>
+								<span>{{ serdata.totalBW }}</span>
+							</div>
+							<div class="ipfs_item_toptwo_item">
+								<span>使用带宽：</span>
+								<span>{{ serdata.occupyBW }}</span>
+							</div>
+							<div class="ipfs_item_toptwo_item">
+								<span>剩余带宽：</span>
+								<span>{{ serdata.occupyBW }}</span>
+							</div>
+						</div>
+                     </div>
+                      <div class="ipfs_item_toptwo">
+                          <div style="display: flex;flex-direction: column;align-items: center;">
+							<qiu :cap="ip_rema" style="margin-top:25px;"></qiu>
+                            <span style="color: #64A7FC;">可用{{ (ip_rema * 100).toFixed(2) }}%</span>
+						</div>
+						<div style="text-align:left;line-height: 48px;padding-top: 20px;color: #89949B;">
+							<div style="font-size: 18px;">下行带宽</div>
+							<div class="ipfs_item_toptwo_item">
+								<span>总带宽：</span>
+								<span>{{ serdata.totalBW }}</span>
+							</div>
+							<div class="ipfs_item_toptwo_item">
+								<span>使用带宽：</span>
+								<span>{{ serdata.occupyBW }}</span>
+							</div>
+							<div class="ipfs_item_toptwo_item">
+								<span>剩余带宽：</span>
+								<span>{{ serdata.occupyBW }}</span>
+							</div>
+						</div>
+                      </div>
+                       <div class="ipfs_item_toptwo">
+                           <div style="display: flex;flex-direction: column;align-items: center;">
+							<qiu :cap="ip_rema" style="margin-top:25px;"></qiu>
+                            <span style="color: #64A7FC;">可用{{ (ip_rema * 100).toFixed(2) }}%</span>
+						</div>
+						<div style="text-align:left;line-height: 48px;padding-top: 20px;color: #89949B;">
+							<div style="font-size: 18px;">存储空间</div>
+							<div class="ipfs_item_toptwo_item">
+								<span>总空间：</span>
+								<span>{{ serdata.totalBW }}</span>
+							</div>
+							<div class="ipfs_item_toptwo_item">
+								<span>使用空间：</span>
+								<span>{{ serdata.occupyBW }}</span>
+							</div>
+							<div class="ipfs_item_toptwo_item">
+								<span>剩余带宽：空间</span>
+								<span>{{ serdata.occupyBW }}</span>
+							</div>
+						</div>
+                       </div>
+					<!-- <div class="ipfs_item_toptwo">
 						<div
 							style="display: flex;justify-content: center;align-items: center;"
 						>
@@ -105,29 +175,17 @@
 
 						<div class="ipfs_item_toptwo_item">
 							<span>总存储:</span>
-							<span
-								>{{
-									serdata.totalCap
-								}}G</span
-							>
+							<span>{{ serdata.totalCap }}G</span>
 						</div>
 						<div class="ipfs_item_toptwo_item">
 							<span>使用存储:</span>
-							<span
-								>{{
-									serdata.occupyCap
-								}}G</span
-							>
+							<span>{{ serdata.occupyCap }}G</span>
 						</div>
 						<div class="ipfs_item_toptwo_item">
 							<span>剩余存储:</span>
-							<span
-								>{{
-									serdata.remainingCap
-								}}G</span
-							>
+							<span>{{ serdata.remainingCap }}G</span>
 						</div>
-					</div>
+					</div> -->
 				</div>
 			</div>
 		</div>
@@ -157,8 +215,22 @@
 				>
 					<el-table-column
 						prop="usage"
+						label="业务类型"
+						width="180"
+					></el-table-column>
+                    <el-table-column
+						prop="usage"
+						label="业务场景"
+						width="180"
+					></el-table-column>
+                    <el-table-column
+						prop="usage"
 						label="用途"
 						width="180"
+					></el-table-column>
+                    <el-table-column
+						prop="dataflow"
+						label="使用流量"
 					></el-table-column>
 					<el-table-column
 						prop="upstream"
@@ -169,11 +241,13 @@
 							><span v-else>{{ scope.row.upstream }}</span>
 						</template></el-table-column
 					>
-					<el-table-column
-						prop="dataflow"
-						label="使用流量"
-					></el-table-column>
+					
 					<el-table-column prop="startTS" label="启用时间">
+						<template slot-scope="scope">{{
+							scope.row.startTS | getymd
+						}}</template>
+					</el-table-column>
+                    	<el-table-column prop="startTS" label="停用时间">
 						<template slot-scope="scope">{{
 							scope.row.startTS | getymd
 						}}</template>
@@ -195,7 +269,15 @@
 					></el-table-column>
 					<el-table-column
 						prop="userIpInfo"
-						label="点播IP"
+						label="实例ID"
+					></el-table-column>
+                    	<el-table-column
+						prop="userIpInfo"
+						label="视频播放终端"
+					></el-table-column>
+                    	<el-table-column
+						prop="userIpInfo"
+						label="视频播放IP"
 					></el-table-column>
 				</el-table>
 				<!--FS  -->
@@ -207,6 +289,16 @@
 					:header-cell-style="headClass"
 					style="width: 100%"
 				>
+                <el-table-column
+						prop="use"
+						label="业务类型"
+						width="180"
+					></el-table-column>
+                    <el-table-column
+						prop="use"
+						label="业务场景"
+						width="180"
+					></el-table-column>
 					<el-table-column
 						prop="use"
 						label="用途"
@@ -230,6 +322,11 @@
 							scope.row.start_time | getymd
 						}}</template>
 					</el-table-column>
+                    <el-table-column prop="start_time" label="结束时间">
+						<template slot-scope="scope">{{
+							scope.row.start_time | getymd
+						}}</template>
+					</el-table-column>
 					<el-table-column prop="usage_time" label="使用时长">
 						<template slot-scope="scope">{{
 							scope.row.usage_time | s_h
@@ -244,6 +341,18 @@
 					<el-table-column
 						prop="user_id"
 						label="渠道ID"
+					></el-table-column>
+                    <el-table-column
+						prop="user_id"
+						label="实例ID"
+					></el-table-column>
+                    <el-table-column
+						prop="user_id"
+						label="视频播放终端"
+					></el-table-column>
+                    <el-table-column
+						prop="user_id"
+						label="视频播放IP"
 					></el-table-column>
 				</el-table>
 			</div>
@@ -264,7 +373,7 @@ import fenye from '@/components/cloudfenye';
 import {
 	query_ip_usage_table,
 	query_ip_store_usage_table,
-	ipfs_basic_info
+	ipfs_basic_info,
 } from '@/servers/api';
 export default {
 	data() {
@@ -286,13 +395,13 @@ export default {
 				total_dataflow: 0,
 				total_storeusage: 0,
 				total_store_times: 0,
-				total_output_times: 0
-			}
+				total_output_times: 0,
+			},
 		};
 	},
 	components: {
 		qiu,
-		fenye
+		fenye,
 	},
 	created() {
 		this.serdata = JSON.parse(sessionStorage.getItem('serdata'));
@@ -343,7 +452,7 @@ export default {
 				let num = this.$route.query.node_num;
 				this.$router.push({
 					path: address,
-					query: { node_city: city, node_num: num }
+					query: { node_city: city, node_num: num },
 				});
 			} else {
 				this.$router.go(-1);
@@ -355,7 +464,7 @@ export default {
 			params.ipfsId = this.node_id;
 			//params.ipfsId = "ipfs_000005";
 			ipfs_basic_info(params)
-				.then(res => {
+				.then((res) => {
 					if (res.status == 0) {
 						this.topdata.total_dataflow = this.common.formatByteActive(
 							res.data.total_dataflow
@@ -371,7 +480,7 @@ export default {
 						this.$message.error(res.err_msg);
 					}
 				})
-				.catch(error => {});
+				.catch((error) => {});
 		},
 		//获取表格数据
 		getlabel(dat) {
@@ -385,14 +494,14 @@ export default {
 				params.pageNo = this.pageNo - 1;
 				params.pageSize = this.pageSize;
 				query_ip_usage_table(params)
-					.then(res => {
+					.then((res) => {
 						if (res.status == 0) {
 							this.tableData = res.data.list;
 						} else {
 							this.$message.error(res.errMsg);
 						}
 					})
-					.catch(error => {});
+					.catch((error) => {});
 			} else {
 				let params = new Object();
 				params.content_id = '*';
@@ -403,14 +512,14 @@ export default {
 				params.pageNo = this.pageNo - 1;
 				params.pageSize = this.pageSize;
 				query_ip_store_usage_table(params)
-					.then(res => {
+					.then((res) => {
 						if (res.status == 0) {
 							this.tableData = res.data.list;
 						} else {
 							this.$message.error(res.errMsg);
 						}
 					})
-					.catch(error => {});
+					.catch((error) => {});
 			}
 		},
 		setmap_show(dat) {
@@ -436,17 +545,17 @@ export default {
 		},
 		// 表头样式设置
 		headClass() {
-			return 'text-align: center;background:rgb(194, 213, 245);';
+			return 'text-align: center;background:#F4F7FA;';
 		},
 		// 表格样式设置
 		rowClass() {
 			return 'text-align: center;';
-		}
+		},
 	},
 	beforeRouteLeave(to, form, next) {
 		sessionStorage.removeItem('serdata');
 		next();
-	}
+	},
 };
 </script>
 
@@ -462,7 +571,7 @@ export default {
 	}
 	.ipfs_detail_title {
 		display: flex;
-		padding: 37px;
+		padding-top: 37px;
 		.ipfs_item {
 			width: 228px;
 			height: 240px;
@@ -505,11 +614,16 @@ export default {
 			width: 100%;
 		}
 		.ipfs_item_toptwo {
-			width: 282px;
-			margin: 0 30px;
+			width: 287px;
+			height: 159px;
+			background: rgba(255, 255, 255, 1);
+			border: 1px solid rgba(227, 232, 238, 1);
+			border-radius: 7px 7px 7px 7px;
+			display: flex;
+            margin-right: 20px;
 			.ipfs_item_toptwo_item {
-				height: 30px;
-				line-height: 30px;
+				height: 18px;
+				line-height: 18px;
 				overflow: hidden;
 				text-overflow: ellipsis;
 				white-space: nowrap;
@@ -520,7 +634,7 @@ export default {
 		height: 50px;
 		line-height: 50px;
 		display: flex;
-		padding: 0 37px;
+		// padding: 0 37px;
 		justify-content: space-between;
 	}
 	.ipfs_con {
@@ -530,28 +644,78 @@ export default {
 		.ipfs_con_tit {
 			width: 270px;
 			height: 120px;
-			background: rgba(255, 255, 255, 1);
-			border: 1px solid rgba(216, 226, 240, 1);
-			box-shadow: 0px 12px 36px 0px rgba(211, 215, 221, 0.4);
-			border-radius: 4px;
+			display: flex;
+			align-items: center;
+			// background: rgba(255, 255, 255, 1);
+			// border: 1px solid rgba(216, 226, 240, 1);
+			// box-shadow: 0px 12px 36px 0px rgba(211, 215, 221, 0.4);
+			// border-radius: 4px;
 			text-align: left;
 			padding: 2px 30px;
+			border-right: 1px solid #e6e6e6;
+			img {
+				margin-right: 20px;
+			}
 			.alltitle {
+				margin-top: 20px;
+				line-height: 16px;
 				display: inline-block;
-				height: 45px;
 				display: flex;
 				align-items: center;
-				line-height: 45px;
-				color: #929292;
-				font-size: 18px;
+				color: #333333;
+				font-size: 16px;
 			}
 			.allnum {
-				line-height: 40px;
-				color: #1c1a1d;
-				font-size: 44px;
+				height: 46px;
+				line-height: 46px;
+				color: #333333;
+				font-size: 24px;
 				overflow: hidden;
 				text-overflow: ellipsis;
 				white-space: nowrap;
+			}
+		}
+		.ipfs_con_tit_first {
+			width: 400px;
+			height: 120px;
+			border-right: 0;
+			display: flex;
+			align-items: center;
+			text-align: left;
+			padding: 2px 30px 2px 0px;
+			img {
+				width: 25%;
+				margin-right: 20px;
+			}
+			.ipfs_con_top {
+				width: 100%;
+				font-size: 14px;
+				color: #999999;
+				.top_tit_status {
+					height: 26px;
+					line-height: 26px;
+					color: #333333;
+					font-size: 20px;
+					span:nth-child(2) {
+						border-radius: 10px;
+						font-size: 12px;
+						padding-left: 5px;
+						padding-right: 5px;
+						margin-left: 10px;
+						color: #ffffff;
+					}
+				}
+				.top_tit {
+					height: 26px;
+					line-height: 26px;
+					font-size: 14px;
+					color: #999999;
+				}
+				.top_tit_id {
+					height: 26px;
+					line-height: 26px;
+					word-wrap: break-word;
+				}
 			}
 		}
 	}
