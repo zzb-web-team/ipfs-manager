@@ -227,11 +227,11 @@ export default {
 					url: require('../../../assets/img/jiedian.png'),
                 },
                 {
-					contit: 'K86节点',
+					contit: '西柚机节点',
 					connum: 0,
 					url: require('../../../assets/img/xjiedian.png'),
 				},{
-					contit: 'ARM节点',
+					contit: '云链节点',
 					connum: 0,
 					url: require('../../../assets/img/armjiedian.png'),
 				},
@@ -242,27 +242,27 @@ export default {
 				},
 				{
 					contit: '总空间',
-					connum: '0G',
+					connum: '0GB',
 					url: require('../../../assets/img/zongkongj.png'),
 				},
 				{
 					contit: '当前占用空间',
-					connum: '0G',
+					connum: '0GB',
 					url: require('../../../assets/img/zhanyongkj.png'),
 				},
 				{
 					contit: '可用空间',
-					connum: '0G',
+					connum: '0GB',
 					url: require('../../../assets/img/keykj.png'),
 				},
 				{
 					contit: '累计使用流量',
-					connum: '0G',
+					connum: '0GB',
 					url: require('../../../assets/img/liuliangs.png'),
 				},
 				{
 					contit: '累计存储容量',
-					connum: '0G',
+					connum: '0GB',
 					url: require('../../../assets/img/cuncurl.png'),
                 },
       ],

@@ -231,9 +231,25 @@
 			<el-table-column prop="arch" label="硬件类型"></el-table-column>
 			<el-table-column prop="os" label="操作系统"></el-table-column>
 			<el-table-column prop="isp" label="节点运营商"></el-table-column>
-			<el-table-column prop="area" label="CPU占用"></el-table-column>
-			<el-table-column prop="area" label="总内存"></el-table-column>
-			<el-table-column prop="area" label="当前内存"></el-table-column>
+			<el-table-column prop="asda" label="CPU占用"></el-table-column>
+			<el-table-column prop="totalMem" label="总内存">
+                <template slot-scope="scope">
+                    {{
+							(scope.row.totalMem / 1024 / 1024 / 1024).toFixed(
+								2
+							)
+						}}GB
+                </template>
+            </el-table-column>
+			<el-table-column prop="availMem" label="当前内存">
+                 <template slot-scope="scope">
+                    {{
+							(scope.row.availMem / 1024 / 1024 / 1024).toFixed(
+								2
+							)
+						}}GB
+                </template>
+            </el-table-column>
 			<el-table-column prop="totalBW" label="总带宽"></el-table-column>
 			<el-table-column prop="occupyBW" label="占用带宽"></el-table-column>
 			<el-table-column
@@ -242,31 +258,31 @@
 			></el-table-column>
 			<el-table-column prop="totalCap" label="总空间">
 				<template slot-scope="scope">
-					<span v-if="scope.row.totalCap == 0">0G</span>
+					<span v-if="scope.row.totalCap == 0">0GB</span>
 					<span v-else>
 						{{
 							(scope.row.totalCap / 1024 / 1024 / 1024).toFixed(
 								2
 							)
-						}}G
+						}}GB
 					</span>
 				</template>
 			</el-table-column>
 			<el-table-column prop="occupyCap" label="占用空间">
 				<template slot-scope="scope">
-					<span v-if="scope.row.occupyCap == 0">0G</span>
+					<span v-if="scope.row.occupyCap == 0">0GB</span>
 					<span v-else>
 						{{
 							(scope.row.occupyCap / 1024 / 1024 / 1024).toFixed(
 								2
 							)
-						}}G
+						}}GB
 					</span>
 				</template>
 			</el-table-column>
 			<el-table-column prop="remainingCap" label="剩余空间">
 				<template slot-scope="scope">
-					<span v-if="scope.row.remainingCap == 0">0G</span>
+					<span v-if="scope.row.remainingCap == 0">0GB</span>
 					<span v-else>
 						{{
 							(
@@ -275,7 +291,7 @@
 								1024 /
 								1024
 							).toFixed(2)
-						}}G
+						}}GB
 					</span>
 				</template>
 			</el-table-column>
