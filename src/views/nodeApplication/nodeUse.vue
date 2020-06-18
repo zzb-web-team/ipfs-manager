@@ -21,6 +21,30 @@
 								style="width: 15%;"
 								@keyup.enter.native="onseach"
 							></el-input>
+                             <!-- <el-select
+                v-model="valuea"
+                placeholder="请选择一级节点"
+                style="margin-left:10px;"
+                @change="onseach"
+              >
+                <el-option value="*" label="全部"></el-option>
+              </el-select>
+              <el-select
+                v-model="valuea"
+                placeholder="请选择二级节点"
+                style="margin-left:10px;"
+                @change="onseach"
+              >
+                <el-option value="*" label="全部"></el-option>
+              </el-select>
+              <el-select
+                v-model="valuea"
+                placeholder="请选择硬件设备"
+                style="margin-left:10px;"
+                @change="onseach"
+              >
+                <el-option value="*" label="全部"></el-option>
+              </el-select> -->
 							<el-cascader
 								style="margin-left:10px;"
 								placeholder="请选择区域"
@@ -44,6 +68,14 @@
 								>
 								</el-option>
 							</el-select>
+                             <!-- <el-select
+                v-model="valuea"
+                placeholder="请选择运营商"
+                style="margin-left:10px;"
+                @change="onseach"
+              >
+                <el-option value="*" label="全部"></el-option>
+              </el-select> -->
 							<el-button-group
 								class="bantlist"
 								style="margin:0 10px;"
@@ -189,6 +221,30 @@
 								style="width: 15%;"
 								@keyup.enter.native="onseach('fs')"
 							></el-input>
+                             <!-- <el-select
+                v-model="valuea"
+                placeholder="请选择一级节点"
+                style="margin-left:10px;"
+                @change="onseach"
+              >
+                <el-option value="*" label="全部"></el-option>
+              </el-select>
+              <el-select
+                v-model="valuea"
+                placeholder="请选择二级节点"
+                style="margin-left:10px;"
+                @change="onseach"
+              >
+                <el-option value="*" label="全部"></el-option>
+              </el-select>
+              <el-select
+                v-model="valuea"
+                placeholder="请选择硬件设备"
+                style="margin-left:10px;"
+                @change="onseach"
+              >
+                <el-option value="*" label="全部"></el-option>
+              </el-select> -->
 							<el-cascader
 								style="margin-left:10px;"
 								placeholder="请选择区域"
@@ -211,6 +267,14 @@
 								>
 								</el-option>
 							</el-select>
+                             <!-- <el-select
+                v-model="valuea"
+                placeholder="请选择运营商"
+                style="margin-left:10px;"
+                @change="onseach"
+              >
+                <el-option value="*" label="全部"></el-option>
+              </el-select> -->
 							<el-button-group
 								class="bantlist"
 								style="margin:0 10px;"

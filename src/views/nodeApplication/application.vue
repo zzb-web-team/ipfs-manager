@@ -21,19 +21,28 @@
               ></el-input>
               <!-- <el-select
                 v-model="valuea"
-                placeholder="请选择区域"
+                placeholder="请选择一级节点"
                 style="margin-left:10px;"
                 @change="onseach"
               >
                 <el-option value="*" label="全部"></el-option>
-                <el-option
-                  v-for="item in optionsafs"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                >
-                </el-option>
-              </el-select>-->
+              </el-select>
+              <el-select
+                v-model="valuea"
+                placeholder="请选择二级节点"
+                style="margin-left:10px;"
+                @change="onseach"
+              >
+                <el-option value="*" label="全部"></el-option>
+              </el-select>
+              <el-select
+                v-model="valuea"
+                placeholder="请选择硬件设备"
+                style="margin-left:10px;"
+                @change="onseach"
+              >
+                <el-option value="*" label="全部"></el-option>
+              </el-select> -->
               <el-cascader
                 style="margin-left:10px;"
                 placeholder="请选择区域"
@@ -56,6 +65,14 @@
                   :value="item.name"
                 ></el-option>
               </el-select>
+               <!-- <el-select
+                v-model="valuea"
+                placeholder="请选择运营商"
+                style="margin-left:10px;"
+                @change="onseach"
+              >
+                <el-option value="*" label="全部"></el-option>
+              </el-select> -->
               <el-button-group class="bantlist" style="margin:0 10px;">
                 <el-button v-if="zidingyi == false" @click="set_today()">今天</el-button>
                 <el-button v-if="zidingyi == false" @click="set_yesterday()">昨天</el-button>
@@ -168,6 +185,30 @@
                 style="width: 15%;"
                 @keyup.enter.native="onseach('fs')"
               ></el-input>
+               <!-- <el-select
+                v-model="valuea"
+                placeholder="请选择一级节点"
+                style="margin-left:10px;"
+                @change="onseach"
+              >
+                <el-option value="*" label="全部"></el-option>
+              </el-select>
+              <el-select
+                v-model="valuea"
+                placeholder="请选择二级节点"
+                style="margin-left:10px;"
+                @change="onseach"
+              >
+                <el-option value="*" label="全部"></el-option>
+              </el-select>
+              <el-select
+                v-model="valuea"
+                placeholder="请选择硬件设备"
+                style="margin-left:10px;"
+                @change="onseach"
+              >
+                <el-option value="*" label="全部"></el-option>
+              </el-select> -->
               <el-cascader
                 style="margin-left:10px;"
                 placeholder="请选择区域"
@@ -189,6 +230,14 @@
                   :value="item.name"
                 ></el-option>
               </el-select>
+               <!-- <el-select
+                v-model="valuea"
+                placeholder="请选择运营商"
+                style="margin-left:10px;"
+                @change="onseach"
+              >
+                <el-option value="*" label="全部"></el-option>
+              </el-select> -->
               <!-- <el-select
 								v-model="valuecfs"
 								placeholder="时间粒度"

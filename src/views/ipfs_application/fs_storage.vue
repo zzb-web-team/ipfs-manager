@@ -37,6 +37,43 @@
 				</div>
 			</div>
 			<div v-if="optiondisplay" class="seach_bottom">
+				<!-- <span>节点渠道商：</span>
+				<el-select
+					v-model="value"
+					placeholder="请选择一级渠道商"
+					@change="seachuser()"
+					><el-option label="全部" value="0"></el-option>
+				</el-select>
+                <el-select
+					v-model="value"
+					placeholder="请选择二级渠道商"
+					@change="seachuser()"
+					><el-option label="全部" value="0"></el-option>
+				</el-select>
+                <span>设备类型：</span>
+                <el-select
+					v-model="value"
+					placeholder="请选择设备类型"
+					@change="seachuser()"
+				>
+                <el-option label="全部" value="0"></el-option>
+                </el-select>
+                <span>业务类型：</span>
+                <el-select
+					v-model="value"
+					placeholder="请选择业务类型"
+					@change="seachuser()"
+				>
+                <el-option label="全部" value="0"></el-option>
+                </el-select>
+                <span>业务场景及用途：</span>
+                <el-select
+					v-model="value"
+					placeholder="请选择业务场景及用途"
+					@change="seachuser()"
+				>
+                <el-option label="全部" value="0"></el-option>
+                </el-select> -->
 				<span>应用渠道：</span>
 				<el-select
 					v-model="value"
@@ -95,6 +132,18 @@
 						<span v-else>视频备份</span>
 					</template>
 				</el-table-column>
+                <!-- <el-table-column
+					prop="content_id"
+					label="节点一级渠道商"
+				></el-table-column>
+                <el-table-column
+					prop="content_id"
+					label="节点二级渠道商"
+				></el-table-column>
+                <el-table-column
+					prop="content_id"
+					label="设备类型"
+				></el-table-column> -->
 				<el-table-column
 					prop="content_size"
 					label="占用空间"
@@ -112,6 +161,14 @@
 					prop="ipfs_id"
 					label="节点ID"
 				></el-table-column>
+                <!-- <el-table-column
+					prop="ipfs_id"
+					label="业务类型"
+				></el-table-column>
+                <el-table-column
+					prop="ipfs_id"
+					label="业务场景及用途"
+				></el-table-column> -->
 				<el-table-column prop="start_ts" label="启用时间">
 					<template slot-scope="scope">{{
 						scope.row.start_ts | getymd
@@ -132,6 +189,18 @@
 					prop="chan_id"
 					label="渠道ID"
 				></el-table-column>
+                <!-- <el-table-column
+					prop="chan_id"
+					label="实例ID"
+				></el-table-column>
+                 <el-table-column
+					prop="chan_id"
+					label="视频播放终端"
+				></el-table-column>
+                 <el-table-column
+					prop="chan_id"
+					label="视频播放IP"
+				></el-table-column> -->
 			</el-table>
 		</div>
 		<fenye

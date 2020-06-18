@@ -1,7 +1,7 @@
 <template>
 	<div class="content">
 		<!-- 面包屑  -->
-		<div class="bread_crumbs">
+		<!-- <div class="bread_crumbs">
 			<el-breadcrumb separator="/">
 				<el-breadcrumb-item>
 					<a>华中地区</a>
@@ -10,7 +10,7 @@
 					<a>IPFS节点网络分布</a>
 				</el-breadcrumb-item>
 			</el-breadcrumb>
-		</div>
+		</div> -->
 
 		<!-- 标题 -->
 		<div class="ipfs_title">{{ location_name }}</div>
@@ -42,19 +42,19 @@
 			</div>
 		</div>
 		<div class="ipfs_title_next" v-if="rotate == 0">
-			<div class="maptitle">河南</div>
+			<div class="maptitle">节点区域分布（河南）</div>
 			<remap :datalist="datalist" :citys="citys"></remap>
 		</div>
 		<div class="ipfs_title_next" v-if="rotate == 1">
-			<div class="maptitle">湖北</div>
+			<div class="maptitle">节点区域分布（湖北）</div>
 			<remap :datalist="datalist" :citys="citys"></remap>
 		</div>
 		<div class="ipfs_title_next" v-if="rotate == 2">
-			<div class="maptitle">江西</div>
+			<div class="maptitle">节点区域分布（江西）</div>
 			<remap :datalist="datalist" :citys="citys"></remap>
 		</div>
 		<div class="ipfs_title_next" v-if="rotate == 3">
-			<div class="maptitle">湖南</div>
+			<div class="maptitle">节点区域分布（湖南）</div>
 			<remap :datalist="datalist" :citys="citys"></remap>
 		</div>
 	</div>
@@ -148,18 +148,26 @@ export default {
 	.ipfs_title {
 		padding-left: 37px;
 		text-align: left;
-		color: #000000;
-		font-size: 26px;
+		color: #1c2e32;
+		font-size: 24px;
+		font-weight: bold;
+		margin-bottom: 45px;
 	}
 	.ipfs_con {
 		height: 50px;
 		line-height: 50px;
 		display: flex;
 		padding: 0 37px;
-		justify-content: space-between;
+		.ipfs_con_left {
+			color: #1c2e32;
+			font-size: 22px;
+			margin-right: 80px;
+		}
 		.ipfs_con_right {
 			.setmap_btn {
 				margin-right: 20px;
+				font-size: 16px;
+				color: #999999;
 			}
 		}
 	}
@@ -172,7 +180,7 @@ export default {
 		text-align: left;
 		.maptitle {
 			text-align: center;
-			margin-bottom: 47px;
+			margin-bottom: 30px;
 			font-size: 22px;
 			color: #000000;
 		}

@@ -51,6 +51,12 @@
 				:style="{ width: '100%', height: '500px' }"
 			></div>
 			<ol>
+				<!-- <li>
+					<span>省市</span>
+					<span>新增节点</span>
+					<span>累计节点</span>
+					<span>累计占比</span>
+				</li> -->
 				<li v-for="(item, index) in maplist" :key="index">
 					<span>{{ index + 1 }}&nbsp;&nbsp;&nbsp;{{ item.name }}</span
 					><span>{{ item.value }}</span>
