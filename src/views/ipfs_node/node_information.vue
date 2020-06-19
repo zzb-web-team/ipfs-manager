@@ -231,7 +231,11 @@
 			<el-table-column prop="arch" label="硬件类型"></el-table-column>
 			<el-table-column prop="os" label="操作系统"></el-table-column>
 			<el-table-column prop="isp" label="节点运营商"></el-table-column>
-			<el-table-column prop="asda" label="CPU占用"></el-table-column>
+			<el-table-column prop="occupyCpu" label="CPU占用">
+                <template slot-scope="scope">
+                    {{(scope.row.occupyCpu).toFixed(2)}}%
+                </template>
+            </el-table-column>
 			<el-table-column prop="totalMem" label="总内存">
                 <template slot-scope="scope">
                     {{
@@ -815,13 +819,22 @@ export default {
 								//下行带宽-剩余
 								item.downbandwidth_rema = item.remainingBW.substring(
 									item.remainingBW.indexOf('/') + 1
+                                );
+                                //上行带宽-使用
+								item.upbandwidth_occ = item.occupyBW.substring(
+									0,
+									item.occupyBW.lastIndexOf('/')
 								);
+								//下行带宽-使用
+								item.downbandwidth_occ = item.occupyBW.substring(
+									item.occupyBW.indexOf('/') + 1
+                                );
 								if (item.state == 0) {
-									item.devstatus = '在线';
-									item.bgccolor = '#5CC77D';
-								} else {
 									item.devstatus = '离线';
 									item.bgccolor = '#929292';
+								} else {
+									item.devstatus = '在线';
+									item.bgccolor = '#5CC77D';
 								}
 								this.tableData.push(item);
 							});

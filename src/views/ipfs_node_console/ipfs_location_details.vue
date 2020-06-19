@@ -12,21 +12,30 @@
 						/>
 						<div class="ipfs_con_top">
 							<div class="top_tit_status">
-								<span>xxx节点</span
+								<span>{{
+									serdata.devicetype == 'PC服务器'
+										? '云链节点'
+										: '西柚机节点'
+								}}</span
 								><span
 									v-bind:style="{
 										background: serdata.bgccolor,
 									}"
 									>{{ serdata.devstatus }}</span
 								>
-                                <span v-bind:style="{
+								<span
+									v-bind:style="{
 										color: serdata.bgccolor,
-									}">中国移动</span>
+									}"
+									>{{ serdata.isp }}</span
+								>
 							</div>
-                            <div><span>西柚机盒子</span>
-                            <span>linux</span>
-                            <span>x86</span>
-                            <span>123</span></div>
+							<div>
+								<span>{{ serdata.devicetype }}</span>
+								<span>{{ serdata.os }}</span>
+								<span>{{ serdata.arch }}</span>
+								<!-- <span>123</span> -->
+							</div>
 							<div class="top_tit">节点ID</div>
 							<div class="top_tit_id">{{ serdata.nodeId }}</div>
 						</div>
@@ -69,123 +78,184 @@
 				>
 					<div class="ipfs_item_toptwo">
 						<div style="display: flex;align-items: center;">
-							<qiu :cap="ip_rema"></qiu>
+							<qiu :cap="1-serdata.occupyCpu"></qiu>
 						</div>
-						<div style="text-align:left;line-height: 48px;padding-top: 35px;color: #89949B;">
+						<div
+							style="text-align:left;line-height: 48px;padding-top: 35px;color: #89949B;"
+						>
 							<div style="font-size: 18px;">CPU</div>
 							<div class="ipfs_item_toptwo_item">
-								<span>可用{{ (ip_rema * 100).toFixed(2) }}%</span>
+								<span
+									>可用{{
+										(serdata.occupyCpu * 100).toFixed(2)
+									}}%</span
+								>
 							</div>
 						</div>
 					</div>
-                    <div class="ipfs_item_toptwo">
-                        <div style="display: flex;flex-direction: column;align-items: center;">
-							<qiu :cap="ip_rema" style="margin-top:25px;"></qiu>
-                            <span style="color: #64A7FC;">可用{{ (ip_rema * 100).toFixed(2) }}%</span>
+					<div class="ipfs_item_toptwo">
+						<div
+							style="display: flex;flex-direction: column;align-items: center;"
+						>
+							<qiu :cap="1-ram_rema" style="margin-top:25px;"></qiu>
+							<span style="color: #64A7FC;"
+								>可用{{ (ram_rema * 100).toFixed(2) }}%</span
+							>
 						</div>
-						<div style="text-align:left;line-height: 48px;padding-top: 20px;">
+						<div
+							style="text-align:left;line-height: 48px;padding-top: 20px;"
+						>
 							<div style="font-size: 18px;">内存</div>
 							<div class="ipfs_item_toptwo_item">
 								<span>总内存:</span>
-								<span>{{ serdata.totalBW }}</span>
+								<span
+									>{{
+										(
+											serdata.totalMem /
+											1024 /
+											1024 /
+											1024
+										).toFixed(2)
+									}}GB</span
+								>
 							</div>
 							<div class="ipfs_item_toptwo_item">
 								<span>使用内存：</span>
-								<span>{{ serdata.occupyBW }}</span>
+								<span
+									>{{
+										(
+											(serdata.totalMem -
+												serdata.availMem) /
+											1024 /
+											1024 /
+											1024
+										).toFixed(2)
+									}}GB</span
+								>
 							</div>
 							<div class="ipfs_item_toptwo_item">
 								<span>剩余内存：</span>
-								<span>{{ serdata.occupyBW }}</span>
+								<span
+									>{{
+										(
+											serdata.availMem /
+											1024 /
+											1024 /
+											1024
+										).toFixed(2)
+									}}GB</span
+								>
 							</div>
 						</div>
-                    </div>
-                     <div class="ipfs_item_toptwo">
-                         <div style="display: flex;flex-direction: column;align-items: center;">
-							<qiu :cap="ip_rema" style="margin-top:25px;"></qiu>
-                            <span style="color: #64A7FC;">可用{{ (ip_rema * 100).toFixed(2) }}%</span>
+					</div>
+					<div class="ipfs_item_toptwo">
+						<div
+							style="display: flex;flex-direction: column;align-items: center;"
+						>
+							<qiu :cap="1-up_rema" style="margin-top:25px;"></qiu>
+							<span style="color: #64A7FC;"
+								>可用{{ (up_rema * 100).toFixed(2) }}%</span
+							>
 						</div>
-						<div style="text-align:left;line-height: 48px;padding-top: 20px;color: #89949B;">
+						<div
+							style="text-align:left;line-height: 48px;padding-top: 20px;color: #89949B;"
+						>
 							<div style="font-size: 18px;">上行带宽</div>
 							<div class="ipfs_item_toptwo_item">
 								<span>总带宽：</span>
-								<span>{{ serdata.totalBW }}</span>
+								<span>{{ serdata.upbandwidth }}</span>
 							</div>
 							<div class="ipfs_item_toptwo_item">
 								<span>使用带宽：</span>
-								<span>{{ serdata.occupyBW }}</span>
+								<span>{{ serdata.upbandwidth_occ }}</span>
 							</div>
 							<div class="ipfs_item_toptwo_item">
 								<span>剩余带宽：</span>
-								<span>{{ serdata.occupyBW }}</span>
+								<span>{{ serdata.upbandwidth_rema }}</span>
 							</div>
 						</div>
-                     </div>
-                      <div class="ipfs_item_toptwo">
-                          <div style="display: flex;flex-direction: column;align-items: center;">
-							<qiu :cap="ip_rema" style="margin-top:25px;"></qiu>
-                            <span style="color: #64A7FC;">可用{{ (ip_rema * 100).toFixed(2) }}%</span>
+					</div>
+					<div class="ipfs_item_toptwo">
+						<div
+							style="display: flex;flex-direction: column;align-items: center;"
+						>
+							<qiu :cap="1-down_rema" style="margin-top:25px;"></qiu>
+							<span style="color: #64A7FC;"
+								>可用{{ (down_rema * 100).toFixed(2) }}%</span
+							>
 						</div>
-						<div style="text-align:left;line-height: 48px;padding-top: 20px;color: #89949B;">
+						<div
+							style="text-align:left;line-height: 48px;padding-top: 20px;color: #89949B;"
+						>
 							<div style="font-size: 18px;">下行带宽</div>
 							<div class="ipfs_item_toptwo_item">
 								<span>总带宽：</span>
-								<span>{{ serdata.totalBW }}</span>
+								<span>{{ serdata.downbandwidth }}</span>
 							</div>
 							<div class="ipfs_item_toptwo_item">
 								<span>使用带宽：</span>
-								<span>{{ serdata.occupyBW }}</span>
+								<span>{{ serdata.downbandwidth_occ }}</span>
 							</div>
 							<div class="ipfs_item_toptwo_item">
 								<span>剩余带宽：</span>
-								<span>{{ serdata.occupyBW }}</span>
+								<span>{{ serdata.downbandwidth_rema }}</span>
 							</div>
 						</div>
-                      </div>
-                       <div class="ipfs_item_toptwo">
-                           <div style="display: flex;flex-direction: column;align-items: center;">
-							<qiu :cap="ip_rema" style="margin-top:25px;"></qiu>
-                            <span style="color: #64A7FC;">可用{{ (ip_rema * 100).toFixed(2) }}%</span>
+					</div>
+					<div class="ipfs_item_toptwo">
+						<div
+							style="display: flex;flex-direction: column;align-items: center;"
+						>
+							<qiu :cap="1-cap_rema" style="margin-top:25px;"></qiu>
+							<span style="color: #64A7FC;"
+								>可用{{ (cap_rema * 100).toFixed(2) }}%</span
+							>
 						</div>
-						<div style="text-align:left;line-height: 48px;padding-top: 20px;color: #89949B;">
+						<div
+							style="text-align:left;line-height: 48px;padding-top: 20px;color: #89949B;"
+						>
 							<div style="font-size: 18px;">存储空间</div>
 							<div class="ipfs_item_toptwo_item">
 								<span>总空间：</span>
-								<span>{{ serdata.totalBW }}</span>
+								<span
+									>{{
+										(
+											serdata.totalCap /
+											1024 /
+											1024 /
+											1024
+										).toFixed(2)
+									}}GB</span
+								>
 							</div>
 							<div class="ipfs_item_toptwo_item">
 								<span>使用空间：</span>
-								<span>{{ serdata.occupyBW }}</span>
+								<span
+									>{{
+										(
+											serdata.occupyCap /
+											1024 /
+											1024 /
+											1024
+										).toFixed(2)
+									}}GB</span
+								>
 							</div>
 							<div class="ipfs_item_toptwo_item">
 								<span>剩余带宽：空间</span>
-								<span>{{ serdata.occupyBW }}</span>
+								<span
+									>{{
+										(
+											serdata.remainingCap /
+											1024 /
+											1024 /
+											1024
+										).toFixed(2)
+									}}GB</span
+								>
 							</div>
 						</div>
-                       </div>
-					<!-- <div class="ipfs_item_toptwo">
-						<div
-							style="display: flex;justify-content: center;align-items: center;"
-						>
-							<span style="font-size: 18px;font-weight: 600;"
-								>Fs存储</span
-							>
-							<qiu :cap="fs_rema"></qiu>
-							<span>可用{{ (fs_rema * 100).toFixed(2) }}%</span>
-						</div>
-
-						<div class="ipfs_item_toptwo_item">
-							<span>总存储:</span>
-							<span>{{ serdata.totalCap }}G</span>
-						</div>
-						<div class="ipfs_item_toptwo_item">
-							<span>使用存储:</span>
-							<span>{{ serdata.occupyCap }}G</span>
-						</div>
-						<div class="ipfs_item_toptwo_item">
-							<span>剩余存储:</span>
-							<span>{{ serdata.remainingCap }}G</span>
-						</div>
-					</div> -->
+					</div>
 				</div>
 			</div>
 		</div>
@@ -218,17 +288,17 @@
 						label="业务类型"
 						width="180"
 					></el-table-column>
-                    <el-table-column
+					<el-table-column
 						prop="usage"
 						label="业务场景"
 						width="180"
 					></el-table-column>
-                    <el-table-column
+					<el-table-column
 						prop="usage"
 						label="用途"
 						width="180"
 					></el-table-column>
-                    <el-table-column
+					<el-table-column
 						prop="dataflow"
 						label="使用流量"
 					></el-table-column>
@@ -241,13 +311,13 @@
 							><span v-else>{{ scope.row.upstream }}</span>
 						</template></el-table-column
 					>
-					
+
 					<el-table-column prop="startTS" label="启用时间">
 						<template slot-scope="scope">{{
 							scope.row.startTS | getymd
 						}}</template>
 					</el-table-column>
-                    	<el-table-column prop="startTS" label="停用时间">
+					<el-table-column prop="startTS" label="停用时间">
 						<template slot-scope="scope">{{
 							scope.row.startTS | getymd
 						}}</template>
@@ -271,11 +341,11 @@
 						prop="userIpInfo"
 						label="实例ID"
 					></el-table-column>
-                    	<el-table-column
+					<el-table-column
 						prop="userIpInfo"
 						label="视频播放终端"
 					></el-table-column>
-                    	<el-table-column
+					<el-table-column
 						prop="userIpInfo"
 						label="视频播放IP"
 					></el-table-column>
@@ -289,12 +359,12 @@
 					:header-cell-style="headClass"
 					style="width: 100%"
 				>
-                <el-table-column
+					<el-table-column
 						prop="use"
 						label="业务类型"
 						width="180"
 					></el-table-column>
-                    <el-table-column
+					<el-table-column
 						prop="use"
 						label="业务场景"
 						width="180"
@@ -322,7 +392,7 @@
 							scope.row.start_time | getymd
 						}}</template>
 					</el-table-column>
-                    <el-table-column prop="start_time" label="结束时间">
+					<el-table-column prop="start_time" label="结束时间">
 						<template slot-scope="scope">{{
 							scope.row.start_time | getymd
 						}}</template>
@@ -342,15 +412,15 @@
 						prop="user_id"
 						label="渠道ID"
 					></el-table-column>
-                    <el-table-column
+					<el-table-column
 						prop="user_id"
 						label="实例ID"
 					></el-table-column>
-                    <el-table-column
+					<el-table-column
 						prop="user_id"
 						label="视频播放终端"
 					></el-table-column>
-                    <el-table-column
+					<el-table-column
 						prop="user_id"
 						label="视频播放IP"
 					></el-table-column>
@@ -388,9 +458,14 @@ export default {
 			totalCnt: 1,
 			starttime: '',
 			endtime: '',
-			serdata: '',
+			serdata: {},
 			ip_rema: 0,
 			fs_rema: 0,
+			cpu_rema: 0,
+			ram_rema: 0,
+			up_rema: 0,
+			down_rema: 0,
+			cap_rema: 0,
 			topdata: {
 				total_dataflow: 0,
 				total_storeusage: 0,
@@ -407,6 +482,7 @@ export default {
 		this.serdata = JSON.parse(sessionStorage.getItem('serdata'));
 		let serdata_id = JSON.parse(sessionStorage.getItem('serdata'));
 		this.node_id = serdata_id.nodeId;
+		console.log(this.serdata);
 		let upbandwidth_rema = this.serdata.upbandwidth_rema.substring(
 			0,
 			this.serdata.upbandwidth_rema.lastIndexOf('Mbps')
@@ -419,20 +495,41 @@ export default {
 			0,
 			this.serdata.upbandwidth.lastIndexOf('Mbps')
 		);
-		if (upbandwidth * 1 == 0) {
-			this.ip_rema = 0;
+		let dpwnbandwidth = this.serdata.downbandwidth.substring(
+			0,
+			this.serdata.downbandwidth.lastIndexOf('Mbps')
+		);
+		let upbandwidth_occ = this.serdata.upbandwidth_occ.substring(
+			0,
+			this.serdata.upbandwidth_occ.lastIndexOf('Mbps')
+		);
+		let dpwnbandwidth_occ = this.serdata.downbandwidth_occ.substring(
+			0,
+			this.serdata.downbandwidth_occ.lastIndexOf('Mbps')
+		);
+		if (this.serdata.availMem * 1 == 0) {
+			this.ram_rema = 0;
 		} else {
-			let iprema_zz = parseInt(upbandwidth_rema) / parseInt(upbandwidth);
-			if (iprema_zz == 0) {
-				this.ip_rema = 1;
-			} else {
-				this.ip_rema = iprema_zz;
-			}
+			this.ram_rema =
+				parseInt(this.serdata.availMem) /
+				parseInt(this.serdata.totalMem);
 		}
-		if (this.serdata.totalCap * 1 == 0) {
-			this.fs_rema = 0;
+
+		if (upbandwidth * 1 == 0) {
+			this.up_rema = 0;
 		} else {
-			this.fs_rema =
+			this.up_rema = parseInt(upbandwidth_rema) / parseInt(upbandwidth);
+        }
+        if (upbandwidth * 1 == 0) {
+			this.down_rema = 0;
+		} else {
+			this.down_rema = parseInt(upbandwidth_occ) / parseInt(upbandwidth);
+        }
+        
+		if (this.serdata.totalCap * 1 == 0) {
+			this.cap_rema = 0;
+		} else {
+			this.cap_rema =
 				parseInt(this.serdata.remainingCap) /
 				parseInt(this.serdata.totalCap);
 		}
@@ -620,7 +717,7 @@ export default {
 			border: 1px solid rgba(227, 232, 238, 1);
 			border-radius: 7px 7px 7px 7px;
 			display: flex;
-            margin-right: 20px;
+			margin-right: 20px;
 			.ipfs_item_toptwo_item {
 				height: 18px;
 				line-height: 18px;

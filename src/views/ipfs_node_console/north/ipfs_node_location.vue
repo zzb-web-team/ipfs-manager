@@ -167,38 +167,38 @@
 					></div>
 					<span v-bind:style="{ color: item.bgccolor }">{{
 						item.devstatus
-					}}&nbsp;{{item.net_type}}</span>
+					}}&nbsp;{{item.isp}}</span>
 				</div>
 				<div class="ipfs_item_img">
 					<img
-						v-if="item.type == 0 && item.devstatus == '在线'"
+						v-if="item.devicetype!='PC服务器' && item.devstatus == '在线'"
 						src="../../../assets/img/binding_illustration3.png"
 						style="width:60%;"
 						alt
 					/>
 					<img
-						v-if="item.type == 0 && item.devstatus == '离线'"
+						v-if="item.devicetype!='PC服务器' && item.devstatus == '离线'"
 						src="../../../assets/img/lixianxiyouji.png"
 						style="width:60%;"
 						alt
 					/>
 					<img
-						v-if="item.type == 1 && item.devstatus == '在线'"
+						v-if="item.devicetype=='PC服务器' && item.devstatus == '在线'"
 						src="../../../assets/img/zaixianfuwuqi.png"
 						style="width:60%;"
 						alt=""
 					/>
 					<img
-						v-if="item.type == 1 && item.devstatus == '离线'"
+						v-if="item.devicetype=='PC服务器' && item.devstatus == '离线'"
 						src="../../../assets/img/lixianfuwuqi.png"
 						style="width:60%;"
 						alt
 					/>
-					<p style="text-align:center">{{ item.node_type }}</p>
+					<p style="text-align:center">{{ item.devicetype=='PC服务器'?'云链节点':'西柚机节点' }}</p>
 					<p style="text-align:center">
-						<span>{{item.dev_type}}</span>
-						<span>{{item.system_type}}</span>
-						<span>{{item.hardware_type}}</span>
+						<span>{{item.devicetype}}</span>
+						<span>{{item.os}}</span>
+						<span>{{item.arch}}</span>
 					</p>
 					<p>
 						节点ID：
@@ -330,8 +330,8 @@ export default {
 					nodeId: '1231561faasfsafssdfsdfsdagfasfqwngfiupaowngwp',
 					devstatus: '在线',
                     bgccolor: '#5CC77D',
-                    net_type:'中国移动',
-					node_type: '西柚机节点',
+                    isp:'中国移动',
+					devicetype: '西柚机节点',
 					dev_type: '西柚机盒子',
 					system_type: 'linux',
 					hardware_type: 'x86',
@@ -345,8 +345,8 @@ export default {
 					nodeId: '1231561fgadfgdasdfsfsagadhhagogmoejmagaefqw',
 					devstatus: '离线',
                     bgccolor: '#6e6e6e',
-                     net_type:'中国移动',
-					node_type: '云链节点',
+                     isp:'中国移动',
+					devicetype: '云链节点',
 					dev_type: 'PC',
 					system_type: 'linux',
 					hardware_type: 'x86',
@@ -361,8 +361,8 @@ export default {
 						'1231561fafgfdafgdhdahedadgsgnmakpwngpkelwrangrdfqw',
 					devstatus: '离线',
                     bgccolor: '#6e6e6e',
-                     net_type:'中国电信',
-					node_type: '西柚机节点',
+                     isp:'中国电信',
+					devicetype: '西柚机节点',
 					dev_type: '西柚机盒子',
 					system_type: 'linux',
 					hardware_type: 'x86',
@@ -376,8 +376,8 @@ export default {
 					nodeId: '1231561fa1gh54ser1h45gawinrgoi[eargeisgetrg1fqw',
 					devstatus: '在线',
                     bgccolor: '#5CC77D',
-                     net_type:'中国联通',
-					node_type: '云链节点',
+                     isp:'中国联通',
+					devicetype: '云链节点',
 					dev_type: 'PC',
 					system_type: 'linux',
 					hardware_type: 'x86',
@@ -397,8 +397,8 @@ export default {
 			this.citys = this.$route.query.node_city;
 			this.rotate = this.$route.query.node_num;
 		}
-		// this.gettit();
-		// this.getipfsdata();
+		this.gettit();
+		this.getipfsdata();
 	},
 	methods: {
 		//获取头部预览信息
@@ -469,7 +469,16 @@ export default {
 								//下行带宽-剩余
 								item.downbandwidth_rema = item.remainingBW.substring(
 									item.remainingBW.indexOf('/') + 1
+                                );
+                                  //上行带宽-使用
+								item.upbandwidth_occ = item.occupyBW.substring(
+									0,
+									item.occupyBW.lastIndexOf('/')
 								);
+								//下行带宽-使用
+								item.downbandwidth_occ = item.occupyBW.substring(
+									item.occupyBW.indexOf('/') + 1
+                                );
 								if (item.state == 0) {
 									item.devstatus = '离线';
 									item.bgccolor = '#929292';

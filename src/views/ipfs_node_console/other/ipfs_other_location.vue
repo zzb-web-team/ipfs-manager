@@ -125,38 +125,38 @@
 					></div>
 					<span v-bind:style="{ color: item.bgccolor }">{{
 						item.devstatus
-					}}&nbsp;{{item.net_type}}</span>
+					}}&nbsp;{{item.isp}}</span>
 				</div>
 				<div class="ipfs_item_img">
 					<img
-						v-if="item.type == 0 && item.devstatus == '在线'"
+						v-if="item.devicetype!='PC服务器' && item.devstatus == '在线'"
 						src="../../../assets/img/binding_illustration3.png"
 						style="width:60%;"
 						alt
 					/>
 					<img
-						v-if="item.type == 0 && item.devstatus == '离线'"
+						v-if="item.devicetype!='PC服务器' && item.devstatus == '离线'"
 						src="../../../assets/img/lixianxiyouji.png"
 						style="width:60%;"
 						alt
 					/>
 					<img
-						v-if="item.type == 1 && item.devstatus == '在线'"
+						v-if="item.devicetype=='PC服务器' && item.devstatus == '在线'"
 						src="../../../assets/img/zaixianfuwuqi.png"
 						style="width:60%;"
 						alt=""
 					/>
 					<img
-						v-if="item.type == 1 && item.devstatus == '离线'"
+						v-if="item.devicetype=='PC服务器' && item.devstatus == '离线'"
 						src="../../../assets/img/lixianfuwuqi.png"
 						style="width:60%;"
 						alt
 					/>
-					<p style="text-align:center">{{ item.node_type }}</p>
+					<p style="text-align:center">{{ item.devicetype=='PC服务器'?'云链节点':'西柚机节点' }}</p>
 					<p style="text-align:center">
-						<span>{{item.dev_type}}</span>
-						<span>{{item.system_type}}</span>
-						<span>{{item.hardware_type}}</span>
+						<span>{{item.devicetype}}</span>
+						<span>{{item.os}}</span>
+						<span>{{item.arch}}</span>
 					</p>
 					<p>
 						节点ID：
