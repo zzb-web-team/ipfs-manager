@@ -79,33 +79,34 @@
 							v-for="(item, index) in options_city"
 							:key="index"
 							:label="item.name"
-							:value="item.name"
+							:value="item.value"
 						></el-option>
 					</el-select>
 					<span>节点渠道商:</span>
 					<el-select
 						v-model="firstchid"
+						value-key
 						placeholder="一级渠道商"
-						@change="handleChange()"
+						@change="handleChangefirst($event)"
 					>
 						<el-option
 							v-for="(item, index) in firstchan"
 							:key="index"
 							:label="item.name"
-							:value="item.name"
+							:value="item.value"
 						></el-option>
 					</el-select>
 					<el-select
 						v-model="secondchid"
 						placeholder="二级渠道商"
 						@change="handleChange()"
-						:disabled="city_disable"
+						:disabled="chil_disable"
 					>
 						<el-option
-							v-for="(item, index) in options_city"
+							v-for="(item, index) in secondchan"
 							:key="index"
 							:label="item.name"
-							:value="item.name"
+							:value="item.value"
 						></el-option>
 					</el-select>
 					<span>设备类型：</span>
@@ -116,7 +117,7 @@
 					>
 						<el-option
 							v-for="item in device_type"
-							:key="item.value"
+							:key="item.name"
 							:label="item.name"
 							:value="item.name"
 							:disabled="item.disabled"
@@ -130,7 +131,7 @@
 					>
 						<el-option
 							v-for="item in arch"
-							:key="item.value"
+							:key="item.name"
 							:label="item.name"
 							:value="item.name"
 							:disabled="item.disabled"
@@ -144,7 +145,7 @@
 					>
 						<el-option
 							v-for="item in os"
-							:key="item.value"
+							:key="item.name"
 							:label="item.name"
 							:value="item.name"
 							:disabled="item.disabled"
@@ -232,28 +233,20 @@
 			<el-table-column prop="os" label="操作系统"></el-table-column>
 			<el-table-column prop="isp" label="节点运营商"></el-table-column>
 			<el-table-column prop="occupyCpu" label="CPU占用">
-                <template slot-scope="scope">
-                    {{(scope.row.occupyCpu).toFixed(2)}}%
-                </template>
-            </el-table-column>
+				<template slot-scope="scope">
+					{{ scope.row.occupyCpu.toFixed(2) }}%
+				</template>
+			</el-table-column>
 			<el-table-column prop="totalMem" label="总内存">
-                <template slot-scope="scope">
-                    {{
-							(scope.row.totalMem / 1024 / 1024 / 1024).toFixed(
-								2
-							)
-						}}GB
-                </template>
-            </el-table-column>
+				<template slot-scope="scope">
+					{{ (scope.row.totalMem / 1024 / 1024 / 1024).toFixed(2) }}GB
+				</template>
+			</el-table-column>
 			<el-table-column prop="availMem" label="当前内存">
-                 <template slot-scope="scope">
-                    {{
-							(scope.row.availMem / 1024 / 1024 / 1024).toFixed(
-								2
-							)
-						}}GB
-                </template>
-            </el-table-column>
+				<template slot-scope="scope">
+					{{ (scope.row.availMem / 1024 / 1024 / 1024).toFixed(2) }}GB
+				</template>
+			</el-table-column>
 			<el-table-column prop="totalBW" label="总带宽"></el-table-column>
 			<el-table-column prop="occupyBW" label="占用带宽"></el-table-column>
 			<el-table-column
@@ -383,6 +376,7 @@ export default {
 			arch_type: '',
 			os_type: '',
 			city_disable: true,
+			chil_disable: true,
 			show_export: true,
 			options_city: [],
 			stateopt: [
@@ -673,6 +667,7 @@ export default {
 					],
 				},
 			],
+			secondchan: [],
 			value1: '',
 			total_cnt: 1,
 			tolpage: 0,
@@ -699,10 +694,16 @@ export default {
 		},
 		get_search_data() {
 			let params = new Object();
+			params.time = "111";
 			get_nodetype_enum(params)
 				.then((res) => {
 					console.log(res);
 					if (res.status == 0) {
+						this.arch = res.data.arch;
+						this.device_type = res.data.device_type;
+						this.isp = res.data.ips;
+						this.os = res.data.os;
+						this.firstchan = res.data.firstchan;
 					} else {
 						this.$message.error(res.err_msg);
 					}
@@ -742,6 +743,17 @@ export default {
 		},
 		handleChange(value) {
 			this.getdatalist();
+		},
+		handleChangefirst(val) {
+			this.firstchan.find((item) => {
+				if (item.value === val) {
+					//筛选出匹配数据
+					this.secondchan = item.secondchan;
+					this.chil_disable = false;
+				} else {
+					this.chil_disable = true;
+				}
+			});
 		},
 		handleChange_node(value) {
 			this.getdatalist();
@@ -819,8 +831,8 @@ export default {
 								//下行带宽-剩余
 								item.downbandwidth_rema = item.remainingBW.substring(
 									item.remainingBW.indexOf('/') + 1
-                                );
-                                //上行带宽-使用
+								);
+								//上行带宽-使用
 								item.upbandwidth_occ = item.occupyBW.substring(
 									0,
 									item.occupyBW.lastIndexOf('/')
@@ -828,7 +840,7 @@ export default {
 								//下行带宽-使用
 								item.downbandwidth_occ = item.occupyBW.substring(
 									item.occupyBW.indexOf('/') + 1
-                                );
+								);
 								if (item.state == 0) {
 									item.devstatus = '离线';
 									item.bgccolor = '#929292';
@@ -932,6 +944,7 @@ export default {
 			this.value2 = '';
 			this.seachinput = '';
 			this.city_disable = true;
+			this.chil_disable = true;
 			this.city_detil = '';
 			this.getdatalist();
 		},

@@ -117,24 +117,48 @@
 		</div>
 		<div class="select_sort" v-if="ipfsdata.length > 0">
 			<div>
-				<span>设备类型：</span>
-				<el-select v-model="value" placeholder="请选择设备类型">
-					<el-option label="全部" value="*"></el-option>
-				</el-select>
-				<span>硬件类型：</span>
-				<el-select v-model="value" placeholder="请选择设备类型">
-					<el-option label="全部" value="*"></el-option>
-				</el-select>
-				<span>操作系统：</span>
-				<el-select v-model="value" placeholder="请选择设备类型">
-					<el-option label="全部" value="*"></el-option>
-				</el-select>
-				<span>节点网络运营商：</span>
-				<el-select v-model="value" placeholder="请选择设备类型">
-					<el-option label="全部" value="*"></el-option>
-				</el-select>
-				<el-button type="primary">重置</el-button>
-			</div>
+			<span>设备类型：</span>
+			<el-select v-model="devicevalue" placeholder="请选择设备类型" @change="getipfsdata">
+				<el-option label="全部" value="*"></el-option>
+                <el-option
+							v-for="item in device_type"
+							:key="item.name"
+							:label="item.name"
+							:value="item.name"
+						></el-option>
+			</el-select>
+			<span>硬件类型：</span>
+			<el-select v-model="hardwarevalue" placeholder="请选择设备类型" @change="getipfsdata">
+				<el-option label="全部" value="*"></el-option>
+                <el-option
+							v-for="item in hardware_type"
+							:key="item.name"
+							:label="item.name"
+							:value="item.name"
+						></el-option>
+			</el-select>
+			<span>操作系统：</span>
+			<el-select v-model="osvalue" placeholder="请选择设备类型" @change="getipfsdata">
+				<el-option label="全部" value="*"></el-option>
+                <el-option
+							v-for="item in oslist"
+							:key="item.name"
+							:label="item.name"
+							:value="item.name"
+						></el-option>
+			</el-select>
+			<span>节点网络运营商：</span>
+			<el-select v-model="operatovalue" placeholder="请选择设备类型" @change="getipfsdata">
+				<el-option label="全部" value="*"></el-option>
+                <el-option
+							v-for="item in operatorlist"
+							:key="item.name"
+							:label="item.name"
+							:value="item.name"
+						></el-option>
+			</el-select>
+			<el-button type="primary">重置</el-button>
+            </div>
 			<div>
 				<span>排序：</span>
 				<el-select v-model="value" placeholder="请选择排序方式">
@@ -325,68 +349,76 @@ export default {
 			],
 			value: '',
 			ipfsdata: [
-				{
-					type: '0',
-					nodeId: '1231561faasfsafssdfsdfsdagfasfqwngfiupaowngwp',
-					devstatus: '在线',
-                    bgccolor: '#5CC77D',
-                    isp:'中国移动',
-					devicetype: '西柚机节点',
-					dev_type: '西柚机盒子',
-					system_type: 'linux',
-					hardware_type: 'x86',
-					totalCap: 1000,
-					remainingCap: 270,
-					upbandwidth: '1920Mbps',
-					downbandwidth: '462Mbps',
-				},
-				{
-					type: '1',
-					nodeId: '1231561fgadfgdasdfsfsagadhhagogmoejmagaefqw',
-					devstatus: '离线',
-                    bgccolor: '#6e6e6e',
-                     isp:'中国移动',
-					devicetype: '云链节点',
-					dev_type: 'PC',
-					system_type: 'linux',
-					hardware_type: 'x86',
-					totalCap: 1000,
-					remainingCap: 270,
-					upbandwidth: '16450Mbps',
-					downbandwidth: '52Mbps',
-				},
-				{
-					type: '0',
-					nodeId:
-						'1231561fafgfdafgdhdahedadgsgnmakpwngpkelwrangrdfqw',
-					devstatus: '离线',
-                    bgccolor: '#6e6e6e',
-                     isp:'中国电信',
-					devicetype: '西柚机节点',
-					dev_type: '西柚机盒子',
-					system_type: 'linux',
-					hardware_type: 'x86',
-					totalCap: 1000,
-					remainingCap: 270,
-					upbandwidth: '1920Mbps',
-					downbandwidth: '462Mbps',
-				},
-				{
-					type: '1',
-					nodeId: '1231561fa1gh54ser1h45gawinrgoi[eargeisgetrg1fqw',
-					devstatus: '在线',
-                    bgccolor: '#5CC77D',
-                     isp:'中国联通',
-					devicetype: '云链节点',
-					dev_type: 'PC',
-					system_type: 'linux',
-					hardware_type: 'x86',
-					totalCap: 1000,
-					remainingCap: 270,
-					upbandwidth: '16450Mbps',
-					downbandwidth: '52Mbps',
-				},
-			],
+				// {
+				// 	type: '0',
+				// 	nodeId: '1231561faasfsafssdfsdfsdagfasfqwngfiupaowngwp',
+				// 	devstatus: '在线',
+                //     bgccolor: '#5CC77D',
+                //     isp:'中国移动',
+				// 	devicetype: '西柚机节点',
+				// 	dev_type: '西柚机盒子',
+				// 	system_type: 'linux',
+				// 	hardware_type: 'x86',
+				// 	totalCap: 1000,
+				// 	remainingCap: 270,
+				// 	upbandwidth: '1920Mbps',
+				// 	downbandwidth: '462Mbps',
+				// },
+				// {
+				// 	type: '1',
+				// 	nodeId: '1231561fgadfgdasdfsfsagadhhagogmoejmagaefqw',
+				// 	devstatus: '离线',
+                //     bgccolor: '#6e6e6e',
+                //      isp:'中国移动',
+				// 	devicetype: '云链节点',
+				// 	dev_type: 'PC',
+				// 	system_type: 'linux',
+				// 	hardware_type: 'x86',
+				// 	totalCap: 1000,
+				// 	remainingCap: 270,
+				// 	upbandwidth: '16450Mbps',
+				// 	downbandwidth: '52Mbps',
+				// },
+				// {
+				// 	type: '0',
+				// 	nodeId:
+				// 		'1231561fafgfdafgdhdahedadgsgnmakpwngpkelwrangrdfqw',
+				// 	devstatus: '离线',
+                //     bgccolor: '#6e6e6e',
+                //      isp:'中国电信',
+				// 	devicetype: '西柚机节点',
+				// 	dev_type: '西柚机盒子',
+				// 	system_type: 'linux',
+				// 	hardware_type: 'x86',
+				// 	totalCap: 1000,
+				// 	remainingCap: 270,
+				// 	upbandwidth: '1920Mbps',
+				// 	downbandwidth: '462Mbps',
+				// },
+				// {
+				// 	type: '1',
+				// 	nodeId: '1231561fa1gh54ser1h45gawinrgoi[eargeisgetrg1fqw',
+				// 	devstatus: '在线',
+                //     bgccolor: '#5CC77D',
+                //      isp:'中国联通',
+				// 	devicetype: '云链节点',
+				// 	dev_type: 'PC',
+				// 	system_type: 'linux',
+				// 	hardware_type: 'x86',
+				// 	totalCap: 1000,
+				// 	remainingCap: 270,
+				// 	upbandwidth: '16450Mbps',
+				// 	downbandwidth: '52Mbps',
+				// },
+            ],
+            devicevalue:'',
+            hardwarevalue:'',
+            osvalue:'',
+            operatovalue:'',
+            device_type:[],
+            hardware_type:[],
+            oslist:[],
+            operatorlist:[],
 		};
 	},
 	components: {

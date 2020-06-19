@@ -736,7 +736,7 @@ export default {
 	}
 	.ipfs_con {
 		// width: 100%;
-		height: 123px;
+		height:150px;
 		display: flex;
 		.ipfs_con_tit {
 			width: 270px;

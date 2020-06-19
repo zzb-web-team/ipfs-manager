@@ -220,9 +220,6 @@ export default {
 			}
 			params.curPage = this.pageNo - 1;
 			params.itemCount = this.pagesize;
-			params.dateStart = this.starttime;
-			params.dateEnd = this.endtime;
-			params.order = this.order;
 			node_pv(params)
 				.then((res) => {
 					this.tableData = res.data;

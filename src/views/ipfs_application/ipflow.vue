@@ -34,25 +34,45 @@
 				</div>
 			</div>
 			<div v-if="optiondisplay" class="seach_bottom">
-				<!-- <span>节点渠道商:</span>
-           <el-select v-model="value" placeholder="请选择一级渠道商" @change="seachuser()">
-                <el-option value="1" label="全部"></el-option>
-           </el-select>
-           <el-select v-model="value" placeholder="请选择二级渠道商" @change="seachuser()">
-                <el-option value="1" label="全部"></el-option>
-           </el-select>
-            <span>设备类型:</span>
-           <el-select v-model="value" placeholder="请选择设备类型" @change="seachuser()">
-                <el-option value="1" label="全部"></el-option>
-           </el-select>
-           <span>业务类型:</span>
-           <el-select v-model="value" placeholder="请选择业务类型" @change="seachuser()">
-                <el-option value="1" label="全部"></el-option>
-           </el-select>
-             <span>业务场景:</span>
-           <el-select v-model="value" placeholder="请选择业务场景" @change="seachuser()">
-                <el-option value="1" label="全部"></el-option>
-           </el-select> -->
+				<span>节点渠道商:</span>
+				<el-select
+					v-model="firatvalue"
+					placeholder="请选择一级渠道商"
+					@change="seachuser()"
+				>
+					<el-option value="*" label="全部"></el-option>
+				</el-select>
+				<el-select
+					v-model="secondvalue"
+					placeholder="请选择二级渠道商"
+					@change="seachuser()"
+				>
+					<el-option value="*" label="全部"></el-option>
+				</el-select>
+				<span>设备类型:</span>
+				<el-select
+					v-model="devtypevalue"
+					placeholder="请选择设备类型"
+					@change="seachuser()"
+				>
+					<el-option value="*" label="全部"></el-option>
+				</el-select>
+				<span>业务类型:</span>
+				<el-select
+					v-model="busvalue"
+					placeholder="请选择业务类型"
+					@change="seachuser()"
+				>
+					<el-option value="0" label="全部"></el-option>
+				</el-select>
+				<span>业务场景:</span>
+				<el-select
+					v-model="scenevalue"
+					placeholder="请选择业务场景"
+					@change="seachuser()"
+				>
+					<el-option value="0" label="全部"></el-option>
+				</el-select>
 				<span>用途：</span>
 				<el-select
 					v-model="value"
@@ -108,16 +128,19 @@
 				:header-cell-style="headClass"
 				style="width: 100%"
 			>
-				<!-- <el-table-column prop="ipfsIp" label="节点一级渠道商"></el-table-column>
-        <el-table-column prop="ipfsIp" label="节点二级渠道商"></el-table-column>
-        <el-table-column prop="ipfsIp" label="设备类型"></el-table-column> -->
-				<el-table-column prop="usage" label="用途" width="180">
-					<template slot-scope="scoped">
-						<span v-if="scoped.row.usage == 0">任意用途</span>
-						<span v-else-if="scoped.row.usage == 1">点播加速</span>
-						<span v-else>点播回源</span>
-					</template>
-				</el-table-column>
+				<el-table-column
+					prop="firstchannel"
+					label="节点一级渠道商"
+				></el-table-column>
+				<el-table-column
+					prop="secondchannel"
+					label="节点二级渠道商"
+				></el-table-column>
+				<el-table-column
+					prop="devicetype"
+					label="设备类型"
+				></el-table-column>
+				
 				<el-table-column prop="dataflow" label="共计使用流量(GB)">
 					<template slot-scope="scope">
 						{{
@@ -125,12 +148,21 @@
 						}}
 					</template>
 				</el-table-column>
-				<!-- <el-table-column prop="ipfsIp" label="占用带宽"></el-table-column>
-  <el-table-column prop="ipfsIp" label="业务类型"></el-table-column>
-   <el-table-column prop="ipfsIp" label="业务场景"></el-table-column>
-    <el-table-column prop="ipfsIp" label="用途"></el-table-column> -->
-
-				<el-table-column prop="ipfsIp" label="节点IP"></el-table-column>
+				<el-table-column
+					prop="bondWidth"
+					label="占用带宽"
+				></el-table-column>
+				<el-table-column
+					prop="businesstype"
+					label="业务类型"
+				></el-table-column>
+				<el-table-column
+					prop="businessscene"
+					label="业务场景"
+				></el-table-column>
+				<el-table-column prop="usage" label="用途" width="180">
+				</el-table-column>
+				<el-table-column prop="chanId" label="节点IP"></el-table-column>
 				<el-table-column prop="ipfsId" label="节点ID"></el-table-column>
 				<el-table-column prop="startTS" label="启用时间">
 					<template slot-scope="scope">
@@ -142,9 +174,9 @@
 						{{ scope.row.endTS | getymd }}
 					</template>
 				</el-table-column>
-				<el-table-column prop="timeUsage" label="使用时长">
+				<el-table-column prop="timeuse" label="使用时长">
 					<template slot-scope="scope">
-						{{ scope.row.timeUsage | s_h }}
+						{{ scope.row.timeuse | s_h }}h
 					</template>
 				</el-table-column>
 				<el-table-column prop="usageFlag" label="使用状态">
@@ -158,9 +190,18 @@
 					prop="userIpInfo"
 					label="点播IP"
 				></el-table-column>
-				<!-- <el-table-column prop="userIpInfo" label="实例ID"></el-table-column>
-        <el-table-column prop="userIpInfo" label="视频播放终端"></el-table-column>
-        <el-table-column prop="userIpInfo" label="视频播放IP"></el-table-column> -->
+				<el-table-column
+					prop="taskid"
+					label="实例ID"
+				></el-table-column>
+				<el-table-column
+					prop="terminalname"
+					label="视频播放终端"
+				></el-table-column>
+				<el-table-column
+					prop="userIpInfo"
+					label="视频播放IP"
+				></el-table-column>
 			</el-table>
 		</div>
 		<fenye
@@ -176,12 +217,12 @@
 
 <script>
 import fenye from '@/components/cloudfenye';
-import { query_ip_usage_table,get_nodetype_enum } from '@/servers/api';
+import { query_ip_usage_table, get_nodetype_enum } from '@/servers/api';
 import {
 	getlocaltimes,
 	settime,
 	getymdtime,
-    setbatime
+	setbatime,
 } from '../../servers/sevdate';
 export default {
 	data() {
@@ -192,8 +233,13 @@ export default {
 			errTableVisible: false,
 			device_show: false,
 			value1: '',
+			firatvalue: '*',
+			secondvalue: '*',
+			devtypevalue: '*',
+			busvalue: "0",
+			scenevalue: "0",
 			input: '',
-			value: '',
+			value: '3',
 			input1: '', //开始时间
 			input2: '', //结束时间
 			optiondisplay: false,
@@ -208,6 +254,48 @@ export default {
 				date1: '',
 				date2: '',
 			},
+			arch: [
+				//硬件类型
+				{
+					name: 'arm64',
+					value: 'arm64',
+				},
+			],
+			device_type: [
+				//设备类型
+				{
+					name: '西柚机',
+					value: '西柚机',
+				},
+			],
+			os: [
+				//操作系统
+				{
+					name: 'windows',
+					value: 'windows',
+				},
+			],
+			isp: [
+				//运营商
+				{
+					name: '移动',
+					value: '移动',
+				},
+			],
+			firstchan: [
+				//一级渠道商
+				{
+					name: '云链',
+					value: 'yunlian',
+					secondchan: [
+						//二级渠道商
+						{
+							name: 'aaaa',
+							value: 'bbbb',
+						},
+					],
+				},
+			],
 			endPickerOptions: {
 				disabledDate(time) {
 					return (
@@ -262,12 +350,16 @@ export default {
 		this.gettab();
 	},
 	methods: {
-        get_search_data() {
+		get_search_data() {
 			let params = new Object();
 			get_nodetype_enum(params)
 				.then((res) => {
-					console.log(res);
 					if (res.status == 0) {
+						this.arch = res.data.arch;
+						this.device_type = res.data.device_type;
+						this.isp = res.data.ips;
+						this.os = res.data.os;
+						this.firstchan = res.data.firstchan;
 					} else {
 						this.$message.error(res.err_msg);
 					}
@@ -300,6 +392,11 @@ export default {
 			params.end_ts = this.endtime;
 			params.pageNo = this.pageNo - 1;
 			params.pageSize = this.pageSize;
+			params.first_channel = this.firatvalue;
+			params.second_channel = this.secondvalue;
+			params.device_type = this.devtypevalue;
+			params.business_type = this.busvalue;
+			params.business_scene = this.scenevalue;
 			query_ip_usage_table(params)
 				.then((res) => {
 					if (res.status == 0) {
@@ -342,7 +439,12 @@ export default {
 			this.value = '';
 			this.input = '';
 			this.value1 = '';
-			this.gettab();
+			(this.firatvalue = '1'),
+				(this.secondvalue = '1'),
+				(this.devtypevalue = '1'),
+				(this.busvalue = '1'),
+				(this.scenevalue = '1'),
+				this.gettab();
 		},
 		//获取页码
 		getpage(pages) {
@@ -385,7 +487,12 @@ export default {
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime;
 			params.pageNo = this.pageNo2 - 1;
-			params.pageSize = this.pageSize;
+            params.pageSize = this.pageSize;
+            params.first_channel = this.firatvalue;
+			params.second_channel = this.secondvalue;
+			params.device_type = this.devtypevalue;
+			params.business_type = this.busvalue;
+			params.business_scene = this.scenevalue;
 			query_ip_usage_table(params)
 				.then((res) => {
 					if (res.status == 0) {

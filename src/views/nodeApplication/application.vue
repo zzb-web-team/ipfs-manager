@@ -16,11 +16,11 @@
               <el-input
                 v-model="input"
                 placeholder="节点ID"
-                style="width: 15%;"
+                style="width: 10%;"
                 @keyup.enter.native="onseach"
               ></el-input>
-              <!-- <el-select
-                v-model="valuea"
+              <el-select
+                v-model="firstvaluea"
                 placeholder="请选择一级节点"
                 style="margin-left:10px;"
                 @change="onseach"
@@ -28,7 +28,7 @@
                 <el-option value="*" label="全部"></el-option>
               </el-select>
               <el-select
-                v-model="valuea"
+                v-model="secondvalue"
                 placeholder="请选择二级节点"
                 style="margin-left:10px;"
                 @change="onseach"
@@ -36,13 +36,13 @@
                 <el-option value="*" label="全部"></el-option>
               </el-select>
               <el-select
-                v-model="valuea"
+                v-model="devtypevalue"
                 placeholder="请选择硬件设备"
                 style="margin-left:10px;"
                 @change="onseach"
               >
                 <el-option value="*" label="全部"></el-option>
-              </el-select> -->
+              </el-select>
               <el-cascader
                 style="margin-left:10px;"
                 placeholder="请选择区域"
@@ -182,11 +182,11 @@
               <el-input
                 v-model="inputfs"
                 placeholder="节点ID"
-                style="width: 15%;"
+                style="width: 10%;"
                 @keyup.enter.native="onseach('fs')"
               ></el-input>
-               <!-- <el-select
-                v-model="valuea"
+               <el-select
+                v-model="firstvaluea_fs"
                 placeholder="请选择一级节点"
                 style="margin-left:10px;"
                 @change="onseach"
@@ -194,7 +194,7 @@
                 <el-option value="*" label="全部"></el-option>
               </el-select>
               <el-select
-                v-model="valuea"
+                v-model="secondvalue_fs"
                 placeholder="请选择二级节点"
                 style="margin-left:10px;"
                 @change="onseach"
@@ -202,13 +202,13 @@
                 <el-option value="*" label="全部"></el-option>
               </el-select>
               <el-select
-                v-model="valuea"
+                v-model="devtypevalue_fs"
                 placeholder="请选择硬件设备"
                 style="margin-left:10px;"
                 @change="onseach"
               >
                 <el-option value="*" label="全部"></el-option>
-              </el-select> -->
+              </el-select>
               <el-cascader
                 style="margin-left:10px;"
                 placeholder="请选择区域"
@@ -383,6 +383,12 @@ export default {
       currentPage: 1,
       activeName: "first",
       input: "",
+      firstvaluea: '',
+	secondvalue: '',
+    devtypevalue: '',
+     firstvaluea_fs: '',
+	secondvalue_fs: '',
+	devtypevalue_fs: '',
       inputfs: "",
       zidingyi: false,
       city_disable_ip: true,
@@ -726,7 +732,49 @@ export default {
       fs_totalCnt: 1,
       citydata: [],
       fs_tableData_upload: [],
-      ip_tableData_upload: []
+      ip_tableData_upload: [],
+      arch: [
+				//硬件类型
+				{
+					name: 'arm64',
+					value: 'arm64',
+				},
+			],
+			device_type: [
+				//设备类型
+				{
+					name: '西柚机',
+					value: '西柚机',
+				},
+			],
+			os: [
+				//操作系统
+				{
+					name: 'windows',
+					value: 'windows',
+				},
+			],
+			isp: [
+				//运营商
+				{
+					name: '移动',
+					value: '移动',
+				},
+			],
+			firstchan: [
+				//一级渠道商
+				{
+					name: '云链',
+					value: 'yunlian',
+					secondchan: [
+						//二级渠道商
+						{
+							name: 'aaaa',
+							value: 'bbbb',
+						},
+					],
+				},
+			],
     };
   },
   filters: {
@@ -759,8 +807,12 @@ export default {
 			let params = new Object();
 			get_nodetype_enum(params)
 				.then((res) => {
-					console.log(res);
 					if (res.status == 0) {
+						this.arch = res.data.arch;
+						this.device_type = res.data.device_type;
+						this.isp = res.data.ips;
+						this.os = res.data.os;
+						this.firstchan = res.data.firstchan;
 					} else {
 						this.$message.error(res.err_msg);
 					}
@@ -836,7 +888,10 @@ export default {
             this.totalDataFlow = parseInt(
               res.data.totalDataFlow / 1024 / 1024 / 1024
             );
-            this.dataFlowArray = res.data.dataFlowArray;
+            res.data.dataFlowArray.forEach((item)=>{
+                this.dataFlowArray.push((item/1024/1024/1024).toFixed(2))
+            })
+            // this.dataFlowArray = res.data.dataFlowArray;
             res.data.timeArray.forEach((item, index) => {
               this.timeArray.push(getday(item));
             });
@@ -893,7 +948,10 @@ export default {
             this.totalStoreUsage = parseInt(
               res.data.totalStoreUsage / 1024 / 1024
             );
-            this.storeUsageArray = res.data.storeUsageArray;
+            // this.storeUsageArray = res.data.storeUsageArray;
+             res.data.storeUsageArray.forEach((item)=>{
+                this.storeUsageArray.push((item/1024/1024/1024).toFixed(2))
+            })
             res.data.timeArray.forEach((item, index) => {
               this.fs_timeArray.push(getday(item));
             });

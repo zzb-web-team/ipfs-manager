@@ -5,7 +5,7 @@
 				<a>全国节点分布</a>
 			</el-breadcrumb-item>
 		</el-breadcrumb>
-		<div class="top_search">
+		<!-- <div class="top_search">
 			<span>时间：</span>
 			<el-date-picker
 				v-model="time_value"
@@ -44,22 +44,26 @@
 				<el-option label="全部" value="*"></el-option>
 				<el-option label="区域一" value="1"></el-option>
 			</el-select>
-		</div>
+		</div> -->
 		<div style="display: flex;" class="mapdal">
 			<div
 				id="myChartChina"
 				:style="{ width: '100%', height: '500px' }"
 			></div>
 			<ol>
-				<!-- <li>
+				<li>
 					<span>省市</span>
 					<span>新增节点</span>
 					<span>累计节点</span>
 					<span>累计占比</span>
-				</li> -->
+				</li>
 				<li v-for="(item, index) in maplist" :key="index">
-					<span>{{ index + 1 }}&nbsp;&nbsp;&nbsp;{{ item.name }}</span
-					><span>{{ item.value }}</span>
+					<span
+						>{{ index + 1 }}&nbsp;&nbsp;&nbsp;{{ item.name }}</span
+					>
+					<span>{{ item.newCount }}</span>
+					<span>{{ item.value }}</span>
+					<span>{{ (item.totalPercent * 100).toFixed(0) }}%</span>
 				</li>
 			</ol>
 		</div>
@@ -67,19 +71,11 @@
 </template>
 
 <script>
-import { query_ipfs_node_region_dist,get_nodetype_enum } from '@/servers/api';
+import { query_ipfs_node_region_dist, get_nodetype_enum } from '@/servers/api';
 export default {
 	data() {
 		return {
-			maplist: [
-				// { name: "湖北", value: 20 },
-				// { name: "北京", value: 150 },
-				// { name: "湖南", value: 13 },
-				// { name: "上海", value: 900 },
-				// { name: "重庆", value: 1156 },
-				// { name: "广东", value: 6 },
-				// { name: "浙江", value: 156 }
-			],
+			maplist: [],
 			searchdata: {
 				region1: '*',
 				region2: '*',
@@ -88,6 +84,48 @@ export default {
 			},
 			region: '',
 			time_value: '',
+			arch: [
+				//硬件类型
+				{
+					name: 'arm64',
+					value: 'arm64',
+				},
+			],
+			device_type: [
+				//设备类型
+				{
+					name: '西柚机',
+					value: '西柚机',
+				},
+			],
+			os: [
+				//操作系统
+				{
+					name: 'windows',
+					value: 'windows',
+				},
+			],
+			isp: [
+				//运营商
+				{
+					name: '移动',
+					value: '移动',
+				},
+			],
+			firstchan: [
+				//一级渠道商
+				{
+					name: '云链',
+					value: 'yunlian',
+					secondchan: [
+						//二级渠道商
+						{
+							name: 'aaaa',
+							value: 'bbbb',
+						},
+					],
+				},
+			],
 			endPickerOptions: {
 				disabledDate(time) {
 					return (
@@ -109,12 +147,16 @@ export default {
 		//this.drawLine();
 	},
 	methods: {
-        get_search_data() {
+		get_search_data() {
 			let params = new Object();
 			get_nodetype_enum(params)
 				.then((res) => {
-					console.log(res);
 					if (res.status == 0) {
+						this.arch = res.data.arch;
+						this.device_type = res.data.device_type;
+						this.isp = res.data.ips;
+						this.os = res.data.os;
+						this.firstchan = res.data.firstchan;
 					} else {
 						this.$message.error(res.err_msg);
 					}
@@ -125,20 +167,21 @@ export default {
 		},
 		getdata() {
 			let params = new Object();
+			params.timeUnit = 5;
 			query_ipfs_node_region_dist(params)
 				.then((res) => {
 					if (res.status == 0) {
 						let arr = [];
-						res.data.list.forEach((item, index) => {
+						var entries = Object.entries(res.data);
+						entries.forEach((item, index) => {
 							let obj = {};
-							obj.name = item.region.replace('市', '');
+							obj.name = item[0].replace('市', '');
 							obj.name = obj.name.replace('省', '');
-							obj.value = item.nodeCnt;
+							obj.value = item[1].totalCount;
+							obj.newCount = item[1].newCount;
+							obj.totalPercent = item[1].totalPercent;
 							arr.push(obj);
 						});
-						arr.sort((a, b) => {
-							return b.value - a.value;
-						}); //降序
 						this.maplist = arr;
 						this.drawLine();
 					}
@@ -243,17 +286,17 @@ export default {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-
+		span {
+			width: 100px;
+		}
 		span:first-child {
-			width: 260px;
 			overflow: hidden;
 			text-overflow: ellipsis;
 			white-space: nowrap;
 			text-align: left;
-			padding-left: 50px;
+			padding-left: 10px;
 		}
 		span:last-child {
-			width: 160px;
 			overflow: hidden;
 			text-overflow: ellipsis;
 			white-space: nowrap;

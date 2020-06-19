@@ -21,30 +21,30 @@
 								style="width: 15%;"
 								@keyup.enter.native="onseach"
 							></el-input>
-                             <!-- <el-select
-                v-model="valuea"
-                placeholder="请选择一级节点"
-                style="margin-left:10px;"
-                @change="onseach"
-              >
-                <el-option value="*" label="全部"></el-option>
-              </el-select>
-              <el-select
-                v-model="valuea"
-                placeholder="请选择二级节点"
-                style="margin-left:10px;"
-                @change="onseach"
-              >
-                <el-option value="*" label="全部"></el-option>
-              </el-select>
-              <el-select
-                v-model="valuea"
-                placeholder="请选择硬件设备"
-                style="margin-left:10px;"
-                @change="onseach"
-              >
-                <el-option value="*" label="全部"></el-option>
-              </el-select> -->
+							<el-select
+								v-model="valuea"
+								placeholder="请选择一级节点"
+								style="margin-left:10px;"
+								@change="onseach"
+							>
+								<el-option value="*" label="全部"></el-option>
+							</el-select>
+							<el-select
+								v-model="secondvalue"
+								placeholder="请选择二级节点"
+								style="margin-left:10px;"
+								@change="onseach"
+							>
+								<el-option value="*" label="全部"></el-option>
+							</el-select>
+							<el-select
+								v-model="devtypevalue"
+								placeholder="请选择硬件设备"
+								style="margin-left:10px;"
+								@change="onseach"
+							>
+								<el-option value="*" label="全部"></el-option>
+							</el-select>
 							<el-cascader
 								style="margin-left:10px;"
 								placeholder="请选择区域"
@@ -68,7 +68,7 @@
 								>
 								</el-option>
 							</el-select>
-                             <!-- <el-select
+							<!-- <el-select
                 v-model="valuea"
                 placeholder="请选择运营商"
                 style="margin-left:10px;"
@@ -164,13 +164,15 @@
 											<template slot-scope="scope">
 												<span
 													v-if="
-														scope.row.totalOutput == 0
+														scope.row.totalOutput ==
+															0
 													"
 													>0</span
 												><span v-else
 													>{{
 														(
-															scope.row.totalOutput /
+															scope.row
+																.totalOutput /
 															1024 /
 															1024 /
 															1024
@@ -183,7 +185,11 @@
 											prop="percent"
 											label="IP流量利用率"
 										>
-                                        <template slot-scope="scope">{{scope.row.percent}}%</template>
+											<template slot-scope="scope"
+												>{{
+													scope.row.percent
+												}}%</template
+											>
 										</el-table-column>
 										<el-table-column
 											prop="timestamp"
@@ -199,13 +205,13 @@
 								</el-col>
 							</el-row>
 							<fenye
-                style="float:right;margin:10px 0 20px 0;"
-                @fatherMethod="getpage"
-                @fathernum="gettol"
-                :pagesa="totalCnt"
-                :currentPage="currentPage"
-                v-if="tableData.length > 0"
-              ></fenye>
+								style="float:right;margin:10px 0 20px 0;"
+								@fatherMethod="getpage"
+								@fathernum="gettol"
+								:pagesa="totalCnt"
+								:currentPage="currentPage"
+								v-if="tableData.length > 0"
+							></fenye>
 						</div>
 					</el-tab-pane>
 					<el-tab-pane label="FS存储" name="second">
@@ -221,30 +227,30 @@
 								style="width: 15%;"
 								@keyup.enter.native="onseach('fs')"
 							></el-input>
-                             <!-- <el-select
-                v-model="valuea"
-                placeholder="请选择一级节点"
-                style="margin-left:10px;"
-                @change="onseach"
-              >
-                <el-option value="*" label="全部"></el-option>
-              </el-select>
-              <el-select
-                v-model="valuea"
-                placeholder="请选择二级节点"
-                style="margin-left:10px;"
-                @change="onseach"
-              >
-                <el-option value="*" label="全部"></el-option>
-              </el-select>
-              <el-select
-                v-model="valuea"
-                placeholder="请选择硬件设备"
-                style="margin-left:10px;"
-                @change="onseach"
-              >
-                <el-option value="*" label="全部"></el-option>
-              </el-select> -->
+							<el-select
+								v-model="firstvaluea_fs"
+								placeholder="请选择一级节点"
+								style="margin-left:10px;"
+								@change="onseach"
+							>
+								<el-option value="*" label="全部"></el-option>
+							</el-select>
+							<el-select
+								v-model="secondvalue_fs"
+								placeholder="请选择二级节点"
+								style="margin-left:10px;"
+								@change="onseach"
+							>
+								<el-option value="*" label="全部"></el-option>
+							</el-select>
+							<el-select
+								v-model="devtypevalue_fs"
+								placeholder="请选择硬件设备"
+								style="margin-left:10px;"
+								@change="onseach"
+							>
+								<el-option value="*" label="全部"></el-option>
+							</el-select>
 							<el-cascader
 								style="margin-left:10px;"
 								placeholder="请选择区域"
@@ -267,7 +273,7 @@
 								>
 								</el-option>
 							</el-select>
-                             <!-- <el-select
+							<!-- <el-select
                 v-model="valuea"
                 placeholder="请选择运营商"
                 style="margin-left:10px;"
@@ -385,7 +391,11 @@
 											prop="usagePercent"
 											label="FS存储利用率"
 										>
-                                        <template slot-scope="scope">{{scope.row.usagePercent}}%</template>
+											<template slot-scope="scope"
+												>{{
+													scope.row.usagePercent
+												}}%</template
+											>
 										</el-table-column>
 										<el-table-column
 											prop="timestamp"
@@ -401,13 +411,13 @@
 								</el-col>
 							</el-row>
 							<fenye
-                style="float:right;margin:10px 0 20px 0;"
-                @fatherMethod="getpagefs"
-                @fathernum="gettolfs"
-                :pagesa="fs_totalCnt"
-                :currentPage="currentPage"
-                v-if="fs_tableData.length > 0"
-              ></fenye>
+								style="float:right;margin:10px 0 20px 0;"
+								@fatherMethod="getpagefs"
+								@fathernum="gettolfs"
+								:pagesa="fs_totalCnt"
+								:currentPage="currentPage"
+								v-if="fs_tableData.length > 0"
+							></fenye>
 						</div>
 					</el-tab-pane>
 				</el-tabs>
@@ -424,18 +434,18 @@ import {
 	settime,
 	getymdtime,
 	setbatime,
-	getday
+	getday,
 } from '../../servers/sevdate';
 import {
 	ipfs_dataflow_query_conditions,
-    query_ipfs_dataflow_avg_usage_curve,
-    query_ipfs_dataflow_avg_usage_table,
+	query_ipfs_dataflow_avg_usage_curve,
+	query_ipfs_dataflow_avg_usage_table,
 	query_ipfs_dataflow_table,
 	query_ip_store_avg_usage_curve,
-    query_ip_store_details_table,
-    query_ip_store_usage_table,
-    query_ip_store_avg_usage_table,
-    get_nodetype_enum
+	query_ip_store_details_table,
+	query_ip_store_usage_table,
+	query_ip_store_avg_usage_table,
+	get_nodetype_enum,
 } from '../../servers/api';
 import axios from 'axios';
 export default {
@@ -446,6 +456,12 @@ export default {
 			city_disable_ip: true,
 			activeName: 'first',
 			seachinput: '',
+			firatvalue: '',
+			secondvalue: '',
+			devtypevalue: '',
+			firstvaluea_fs: '',
+			secondvalue_fs: '',
+			devtypevalue_fs: '',
 			input: '',
 			inputfs: '',
 			zidingyi: false,
@@ -462,7 +478,7 @@ export default {
 								).getTime()
 							);
 							picker.$emit('pick', [start, end]);
-						}
+						},
 					},
 					{
 						text: '昨天',
@@ -479,7 +495,7 @@ export default {
 									3600 * 24 * 1 * 1000
 							);
 							picker.$emit('pick', [start, end]);
-						}
+						},
 					},
 					{
 						text: '最近一周',
@@ -494,7 +510,7 @@ export default {
 								start.getTime() - 3600 * 1000 * 24 * 6
 							);
 							picker.$emit('pick', [start, end]);
-						}
+						},
 					},
 					{
 						text: '最近一个月',
@@ -509,8 +525,8 @@ export default {
 								start.getTime() - 3600 * 1000 * 24 * 6
 							);
 							picker.$emit('pick', [start, end]);
-						}
-					}
+						},
+					},
 				],
 				disabledDate(time) {
 					return (
@@ -523,7 +539,7 @@ export default {
 								1
 						)
 					);
-				}
+				},
 			},
 
 			value2: '',
@@ -531,38 +547,38 @@ export default {
 			rowHeader: [
 				{
 					prop: 'time',
-					label: '节点ID'
+					label: '节点ID',
 				},
 				{
 					prop: 'totals',
-					label: '使用流量'
+					label: '使用流量',
 				},
 				{
 					prop: 'online_devices',
-					label: '传输次数'
+					label: '传输次数',
 				},
 				{
 					prop: 'average_online',
-					label: '日期'
-				}
+					label: '日期',
+				},
 			],
 			rowHeader1: [
 				{
 					prop: 'time',
-					label: '节点ID'
+					label: '节点ID',
 				},
 				{
 					prop: 'totals',
-					label: '存储容量'
+					label: '存储容量',
 				},
 				{
 					prop: 'online_devices',
-					label: '存储次数'
+					label: '存储次数',
 				},
 				{
 					prop: 'average_online',
-					label: '日期'
-				}
+					label: '日期',
+				},
 			],
 			optionsafs: [
 				// {
@@ -576,25 +592,25 @@ export default {
 					children: [
 						{
 							value: '北京',
-							label: '北京'
+							label: '北京',
 						},
 						{
 							value: '内蒙古',
-							label: '内蒙古'
+							label: '内蒙古',
 						},
 						{
 							value: '山西',
-							label: '山西'
+							label: '山西',
 						},
 						{
 							value: '河北',
-							label: '河北'
+							label: '河北',
 						},
 						{
 							value: '天津',
-							label: '天津'
-						}
-					]
+							label: '天津',
+						},
+					],
 				},
 				{
 					value: '西北',
@@ -603,25 +619,25 @@ export default {
 					children: [
 						{
 							value: '宁夏',
-							label: '宁夏'
+							label: '宁夏',
 						},
 						{
 							value: '陕西',
-							label: '陕西'
+							label: '陕西',
 						},
 						{
 							value: '甘肃',
-							label: '甘肃'
+							label: '甘肃',
 						},
 						{
 							value: 'qinghai',
-							label: '青海'
+							label: '青海',
 						},
 						{
 							value: '新疆',
-							label: '新疆'
-						}
-					]
+							label: '新疆',
+						},
+					],
 				},
 				{
 					value: '东北',
@@ -630,17 +646,17 @@ export default {
 					children: [
 						{
 							value: '黑龙江',
-							label: '黑龙江'
+							label: '黑龙江',
 						},
 						{
 							value: '吉林',
-							label: '吉林'
+							label: '吉林',
 						},
 						{
 							value: '辽宁',
-							label: '辽宁'
-						}
-					]
+							label: '辽宁',
+						},
+					],
 				},
 				{
 					value: '华东',
@@ -649,29 +665,29 @@ export default {
 					children: [
 						{
 							value: '福建',
-							label: '福建'
+							label: '福建',
 						},
 						{
 							value: '江苏',
-							label: '江苏'
+							label: '江苏',
 						},
 						{
 							value: '安徽',
-							label: '安徽'
+							label: '安徽',
 						},
 						{
 							value: '山东',
-							label: '山东'
+							label: '山东',
 						},
 						{
 							value: '上海',
-							label: '上海'
+							label: '上海',
 						},
 						{
 							value: '浙江',
-							label: '浙江'
-						}
-					]
+							label: '浙江',
+						},
+					],
 				},
 				{
 					value: '华中',
@@ -680,21 +696,21 @@ export default {
 					children: [
 						{
 							value: '河南',
-							label: '河南'
+							label: '河南',
 						},
 						{
 							value: '湖北',
-							label: '湖北'
+							label: '湖北',
 						},
 						{
 							value: '江西',
-							label: '江西'
+							label: '江西',
 						},
 						{
 							value: '湖南',
-							label: '湖南'
-						}
-					]
+							label: '湖南',
+						},
+					],
 				},
 				{
 					value: '西南',
@@ -703,25 +719,25 @@ export default {
 					children: [
 						{
 							value: '贵州',
-							label: '贵州'
+							label: '贵州',
 						},
 						{
 							value: '云南',
-							label: '云南'
+							label: '云南',
 						},
 						{
 							value: '重庆',
-							label: '重庆'
+							label: '重庆',
 						},
 						{
 							value: '四川',
-							label: '四川'
+							label: '四川',
 						},
 						{
 							value: '西藏',
-							label: '西藏'
-						}
-					]
+							label: '西藏',
+						},
+					],
 				},
 				{
 					value: '华南',
@@ -730,17 +746,17 @@ export default {
 					children: [
 						{
 							value: '广东',
-							label: '广东'
+							label: '广东',
 						},
 						{
 							value: '广西',
-							label: '广西'
+							label: '广西',
 						},
 						{
 							value: '海南',
-							label: '海南'
-						}
-					]
+							label: '海南',
+						},
+					],
 				},
 				{
 					value: '其他',
@@ -749,18 +765,18 @@ export default {
 					children: [
 						{
 							value: '香港',
-							label: '香港'
+							label: '香港',
 						},
 						{
 							value: '澳门',
-							label: '澳门'
+							label: '澳门',
 						},
 						{
 							value: 'taiwan',
-							label: '台湾'
-						}
-					]
-				}
+							label: '台湾',
+						},
+					],
+				},
 			],
 			tableData: [],
 			optionsa: [],
@@ -787,7 +803,49 @@ export default {
 			fs_totalCnt: 1,
 			citydata: [],
 			ip_tableData_upload: [],
-			fs_tableData_upload: []
+            fs_tableData_upload: [],
+            arch: [
+				//硬件类型
+				{
+					name: 'arm64',
+					value: 'arm64',
+				},
+			],
+			device_type: [
+				//设备类型
+				{
+					name: '西柚机',
+					value: '西柚机',
+				},
+			],
+			os: [
+				//操作系统
+				{
+					name: 'windows',
+					value: 'windows',
+				},
+			],
+			isp: [
+				//运营商
+				{
+					name: '移动',
+					value: '移动',
+				},
+			],
+			firstchan: [
+				//一级渠道商
+				{
+					name: '云链',
+					value: 'yunlian',
+					secondchan: [
+						//二级渠道商
+						{
+							name: 'aaaa',
+							value: 'bbbb',
+						},
+					],
+				},
+			],
 		};
 	},
 	mounted() {
@@ -807,12 +865,16 @@ export default {
 		this.chart = null;
 	},
 	methods: {
-         get_search_data() {
+		get_search_data() {
 			let params = new Object();
 			get_nodetype_enum(params)
 				.then((res) => {
-					console.log(res);
 					if (res.status == 0) {
+						this.arch = res.data.arch;
+						this.device_type = res.data.device_type;
+						this.isp = res.data.ips;
+						this.os = res.data.os;
+						this.firstchan = res.data.firstchan;
 					} else {
 						this.$message.error(res.err_msg);
 					}
@@ -823,7 +885,7 @@ export default {
 		},
 		//请求数据----获取搜索条件
 		getseachinput() {
-			axios.get('./static/pro_city.json').then(res => {
+			axios.get('./static/pro_city.json').then((res) => {
 				this.citydata = res.data;
 			});
 		},
@@ -852,7 +914,7 @@ export default {
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime;
 			query_ipfs_dataflow_avg_usage_curve(params)
-				.then(res => {
+				.then((res) => {
 					this.avgDataFlowUtily = [];
 					this.timeArray = [];
 					if (res.status == 0) {
@@ -866,7 +928,7 @@ export default {
 						this.$message.error(res.errMsg);
 					}
 				})
-				.catch(error => {});
+				.catch((error) => {});
 		},
 		fs_curve() {
 			let params = new Object();
@@ -893,7 +955,7 @@ export default {
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime;
 			query_ip_store_avg_usage_curve(params)
-				.then(res => {
+				.then((res) => {
 					this.avgUsageArray = [];
 					this.fs_timeArray = [];
 					if (res.status == 0) {
@@ -907,7 +969,7 @@ export default {
 						this.$message.error(res.errMsg);
 					}
 				})
-				.catch(Error => {});
+				.catch((Error) => {});
 		},
 		get_ip_table() {
 			let params = new Object();
@@ -937,7 +999,7 @@ export default {
 			params.pageNo = this.fs_pageNo - 1;
 			params.pageSize = this.fs_pageSize;
 			query_ipfs_dataflow_avg_usage_table(params)
-				.then(res => {
+				.then((res) => {
 					this.tableData = [];
 					if (res.status == 0) {
 						this.tableData = res.data.list;
@@ -946,15 +1008,15 @@ export default {
 						this.$message.error(res.err_msg);
 					}
 				})
-				.catch(error => {});
+				.catch((error) => {});
 		},
 		get_fs_table() {
 			let params = new Object();
 			if (this.inputfs !== '') {
 				params.ipfs_id = this.inputfs;
 			} else {
-				 params.ipfs_id='*';
-            }
+				params.ipfs_id = '*';
+			}
 			if (this.valueafs[1]) {
 				params.region = this.valueafs[1];
 			} else {
@@ -969,13 +1031,13 @@ export default {
 				params.time_unit = parseInt(this.valuecfs);
 			} else {
 				params.time_unit = 120;
-            }
+			}
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime;
 			params.pageNo = this.fs_pageNo - 1;
 			params.pageSize = this.fs_pageSize;
 			query_ip_store_avg_usage_table(params)
-				.then(res => {
+				.then((res) => {
 					this.fs_tableData = [];
 					if (res.status == 0) {
 						this.fs_tableData = res.data.list;
@@ -984,7 +1046,7 @@ export default {
 						this.$message.error(res.err_msg);
 					}
 				})
-				.catch(error => {});
+				.catch((error) => {});
 		},
 		//选项卡
 		handleClick(tab, event) {
@@ -1175,7 +1237,7 @@ export default {
 			params.pageNo = this.fs_pageNo - 1;
 			params.pageSize = this.fs_pageSize;
 			query_ip_store_avg_usage_table(params)
-				.then(res => {
+				.then((res) => {
 					this.fs_tableData_upload = [];
 					if (res.status == 0) {
 						this.fs_tableData_upload = res.data.list;
@@ -1196,7 +1258,7 @@ export default {
 						);
 					}
 				})
-				.catch(error => {
+				.catch((error) => {
 					this.fan.fanactionlog('导出', '节点平均利用率FS存储', 0);
 				});
 		},
@@ -1229,7 +1291,7 @@ export default {
 			params.pageNo = this.fs_pageNo - 1;
 			params.pageSize = this.fs_pageSize;
 			query_ipfs_dataflow_avg_usage_table(params)
-				.then(res => {
+				.then((res) => {
 					this.ip_tableData_upload = [];
 					if (res.status == 0) {
 						this.ip_tableData_upload = res.data.list;
@@ -1250,7 +1312,7 @@ export default {
 						);
 					}
 				})
-				.catch(error => {
+				.catch((error) => {
 					this.fan.fanactionlog('导出', '节点平均利用率IP流量', 0);
 				});
 		},
@@ -1259,31 +1321,31 @@ export default {
 			window.onresize = myChart.resize;
 			let options = {
 				title: {
-					text: 'IP流量利用率'
+					text: 'IP流量利用率',
 				},
 				xAxis: {
 					type: 'category',
-					data: this.timeArray
+					data: this.timeArray,
 				},
 				yAxis: [
 					// type: 'value'
-					{  
-                        type: 'value',
-                        axisLabel: {  
-                            show: true,  
-                            interval: 'auto',  
-                            formatter: '{value} %'  
-                            },  
-                        show: true  
-                    }  
+					{
+						type: 'value',
+						axisLabel: {
+							show: true,
+							interval: 'auto',
+							formatter: '{value} %',
+						},
+						show: true,
+					},
 				],
-					grid:{
-                  x:50,
-                  y:50,
-                  x2:50,
-                  y2:60,
-                  borderWidth:10
-	       },
+				grid: {
+					x: 50,
+					y: 50,
+					x2: 50,
+					y2: 60,
+					borderWidth: 10,
+				},
 				series: [
 					{
 						data: this.avgDataFlowUtily,
@@ -1293,47 +1355,52 @@ export default {
 						smooth: true,
 						itemStyle: {
 							normal: {
-								color: '#09b0f5'
+								color: '#09b0f5',
+							},
+						},
+					},
+				],
+				axisLabel: {
+					//坐标轴刻度标签的相关设置。
+					formatter: function(params) {
+						var newParamsName = ''; // 最终拼接成的字符串
+						var paramsNameNumber = params.length; // 实际标签的个数
+						var provideNumber = 6; // 每行能显示的字的个数
+						var rowNumber = Math.ceil(
+							paramsNameNumber / provideNumber
+						); // 换行的话，需要显示几行，向上取整
+						/**
+						 * 判断标签的个数是否大于规定的个数， 如果大于，则进行换行处理 如果不大于，即等于或小于，就返回原标签
+						 */
+						// 条件等同于rowNumber>1
+						if (paramsNameNumber > provideNumber) {
+							/** 循环每一行,p表示行 */
+							for (var p = 0; p < rowNumber; p++) {
+								var tempStr = ''; // 表示每一次截取的字符串
+								var start = p * provideNumber; // 开始截取的位置
+								var end = start + provideNumber; // 结束截取的位置
+								// 此处特殊处理最后一行的索引值
+								if (p == rowNumber - 1) {
+									// 最后一次不换行
+									tempStr = params.substring(
+										start,
+										paramsNameNumber
+									);
+								} else {
+									// 每一次拼接字符串并换行
+									tempStr =
+										params.substring(start, end) + '\n';
+								}
+								newParamsName += tempStr; // 最终拼成的字符串
 							}
+						} else {
+							// 将旧标签的值赋给新标签
+							newParamsName = params;
 						}
-					}
-                ],
-                axisLabel : {//坐标轴刻度标签的相关设置。
-                formatter : function(params){
-                   var newParamsName = "";// 最终拼接成的字符串
-                            var paramsNameNumber = params.length;// 实际标签的个数
-                            var provideNumber = 6;// 每行能显示的字的个数
-                            var rowNumber = Math.ceil(paramsNameNumber / provideNumber);// 换行的话，需要显示几行，向上取整
-                            /**
-                             * 判断标签的个数是否大于规定的个数， 如果大于，则进行换行处理 如果不大于，即等于或小于，就返回原标签
-                             */
-                            // 条件等同于rowNumber>1
-                            if (paramsNameNumber > provideNumber) {
-                                /** 循环每一行,p表示行 */
-                                for (var p = 0; p < rowNumber; p++) {
-                                    var tempStr = "";// 表示每一次截取的字符串
-                                    var start = p * provideNumber;// 开始截取的位置
-                                    var end = start + provideNumber;// 结束截取的位置
-                                    // 此处特殊处理最后一行的索引值
-                                    if (p == rowNumber - 1) {
-                                        // 最后一次不换行
-                                        tempStr = params.substring(start, paramsNameNumber);
-                                    } else {
-                                        // 每一次拼接字符串并换行
-                                        tempStr = params.substring(start, end) + "\n";
-                                    }
-                                    newParamsName += tempStr;// 最终拼成的字符串
-                                }
- 
-                            } else {
-                                // 将旧标签的值赋给新标签
-                                newParamsName = params;
-                            }
-                            //将最终的字符串返回
-                            return newParamsName
-                }
- 
-            }
+						//将最终的字符串返回
+						return newParamsName;
+					},
+				},
 			};
 			myChart.setOption(options);
 		},
@@ -1342,34 +1409,34 @@ export default {
 			window.onresize = myChart.resize;
 			let options = {
 				title: {
-					text: 'FS存储利用率'
+					text: 'FS存储利用率',
 				},
 				xAxis: {
 					type: 'category',
-					data: this.fs_timeArray
+					data: this.fs_timeArray,
 				},
 				yAxis: [
 					// type: 'value'
-					
-					{  
-						type: 'value', 
+
+					{
+						type: 'value',
 						max: 100,
-              			min: 0, 
-                        axisLabel: {  
-                            show: true,  
-                            interval: 'auto',  
-                            formatter: '{value} %'  
-                            },  
-                        show: true  
-                    }  
+						min: 0,
+						axisLabel: {
+							show: true,
+							interval: 'auto',
+							formatter: '{value} %',
+						},
+						show: true,
+					},
 				],
-					grid:{
-                  x:50,
-                  y:50,
-                  x2:50,
-                  y2:60,
-                  borderWidth:10
-	       },
+				grid: {
+					x: 50,
+					y: 50,
+					x2: 50,
+					y2: 60,
+					borderWidth: 10,
+				},
 				series: [
 					{
 						data: this.avgUsageArray,
@@ -1379,54 +1446,59 @@ export default {
 						smooth: true,
 						itemStyle: {
 							normal: {
-								color: '#09b0f5'
+								color: '#09b0f5',
+							},
+						},
+					},
+				],
+				axisLabel: {
+					//坐标轴刻度标签的相关设置。
+					formatter: function(params) {
+						var newParamsName = ''; // 最终拼接成的字符串
+						var paramsNameNumber = params.length; // 实际标签的个数
+						var provideNumber = 6; // 每行能显示的字的个数
+						var rowNumber = Math.ceil(
+							paramsNameNumber / provideNumber
+						); // 换行的话，需要显示几行，向上取整
+						/**
+						 * 判断标签的个数是否大于规定的个数， 如果大于，则进行换行处理 如果不大于，即等于或小于，就返回原标签
+						 */
+						// 条件等同于rowNumber>1
+						if (paramsNameNumber > provideNumber) {
+							/** 循环每一行,p表示行 */
+							for (var p = 0; p < rowNumber; p++) {
+								var tempStr = ''; // 表示每一次截取的字符串
+								var start = p * provideNumber; // 开始截取的位置
+								var end = start + provideNumber; // 结束截取的位置
+								// 此处特殊处理最后一行的索引值
+								if (p == rowNumber - 1) {
+									// 最后一次不换行
+									tempStr = params.substring(
+										start,
+										paramsNameNumber
+									);
+								} else {
+									// 每一次拼接字符串并换行
+									tempStr =
+										params.substring(start, end) + '\n';
+								}
+								newParamsName += tempStr; // 最终拼成的字符串
 							}
+						} else {
+							// 将旧标签的值赋给新标签
+							newParamsName = params;
 						}
-					}
-                ],
-                axisLabel : {//坐标轴刻度标签的相关设置。
-                formatter : function(params){
-                   var newParamsName = "";// 最终拼接成的字符串
-                            var paramsNameNumber = params.length;// 实际标签的个数
-                            var provideNumber = 6;// 每行能显示的字的个数
-                            var rowNumber = Math.ceil(paramsNameNumber / provideNumber);// 换行的话，需要显示几行，向上取整
-                            /**
-                             * 判断标签的个数是否大于规定的个数， 如果大于，则进行换行处理 如果不大于，即等于或小于，就返回原标签
-                             */
-                            // 条件等同于rowNumber>1
-                            if (paramsNameNumber > provideNumber) {
-                                /** 循环每一行,p表示行 */
-                                for (var p = 0; p < rowNumber; p++) {
-                                    var tempStr = "";// 表示每一次截取的字符串
-                                    var start = p * provideNumber;// 开始截取的位置
-                                    var end = start + provideNumber;// 结束截取的位置
-                                    // 此处特殊处理最后一行的索引值
-                                    if (p == rowNumber - 1) {
-                                        // 最后一次不换行
-                                        tempStr = params.substring(start, paramsNameNumber);
-                                    } else {
-                                        // 每一次拼接字符串并换行
-                                        tempStr = params.substring(start, end) + "\n";
-                                    }
-                                    newParamsName += tempStr;// 最终拼成的字符串
-                                }
- 
-                            } else {
-                                // 将旧标签的值赋给新标签
-                                newParamsName = params;
-                            }
-                            //将最终的字符串返回
-                            return newParamsName
-                }
- 
-            }
+						//将最终的字符串返回
+						return newParamsName;
+					},
+				},
 			};
 			myChart.setOption(options);
 		},
 		exportExcel(dataupload, excelname) {
 			require.ensure([], () => {
 				const {
-					export_json_to_excel
+					export_json_to_excel,
 				} = require('../../excel/Export2Excel.js');
 				const tHeader = ['节点ID', '使用流量', '传输次数', '日期'];
 				// 上面设置Excel的表格第一行的标题
@@ -1435,14 +1507,14 @@ export default {
 						'ipfsId',
 						'dataFlow',
 						'outputCnt',
-						'timestamp'
+						'timestamp',
 					];
 				} else {
 					var filterVal = [
 						'ipfsId',
 						'storeUsage',
 						'storeTimes',
-						'timeStamp'
+						'timeStamp',
 					];
 				}
 
@@ -1454,7 +1526,7 @@ export default {
 			});
 		},
 		formatJson(filterVal, jsonData) {
-			jsonData.forEach(item => {
+			jsonData.forEach((item) => {
 				if (item.timestamp) {
 					item.timestamp = getymdtime(item.timestamp);
 					return item;
@@ -1464,22 +1536,22 @@ export default {
 					return item;
 				}
 			});
-			return jsonData.map(v =>
-				filterVal.map(j => {
+			return jsonData.map((v) =>
+				filterVal.map((j) => {
 					return v[j];
 				})
 			);
-		}
+		},
 	},
 	filters: {
 		//时间戳转时间
 		getymd(time) {
 			return getymdtime(time);
-		}
+		},
 	},
 	components: {
-		fenye
-	}
+		fenye,
+	},
 };
 </script>
 

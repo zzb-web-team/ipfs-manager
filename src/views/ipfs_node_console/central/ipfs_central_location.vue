@@ -97,26 +97,50 @@
 		<div class="select_sort" v-if="ipfsdata.length > 0">
 			<div>
 			<span>设备类型：</span>
-			<el-select v-model="value" placeholder="请选择设备类型">
+			<el-select v-model="devicevalue" placeholder="请选择设备类型" @change="getipfsdata">
 				<el-option label="全部" value="*"></el-option>
+                <el-option
+							v-for="item in device_type"
+							:key="item.name"
+							:label="item.name"
+							:value="item.name"
+						></el-option>
 			</el-select>
 			<span>硬件类型：</span>
-			<el-select v-model="value" placeholder="请选择设备类型">
+			<el-select v-model="hardwarevalue" placeholder="请选择设备类型" @change="getipfsdata">
 				<el-option label="全部" value="*"></el-option>
+                <el-option
+							v-for="item in hardware_type"
+							:key="item.name"
+							:label="item.name"
+							:value="item.name"
+						></el-option>
 			</el-select>
 			<span>操作系统：</span>
-			<el-select v-model="value" placeholder="请选择设备类型">
+			<el-select v-model="osvalue" placeholder="请选择设备类型" @change="getipfsdata">
 				<el-option label="全部" value="*"></el-option>
+                <el-option
+							v-for="item in oslist"
+							:key="item.name"
+							:label="item.name"
+							:value="item.name"
+						></el-option>
 			</el-select>
 			<span>节点网络运营商：</span>
-			<el-select v-model="value" placeholder="请选择设备类型">
+			<el-select v-model="operatovalue" placeholder="请选择设备类型" @change="getipfsdata">
 				<el-option label="全部" value="*"></el-option>
+                <el-option
+							v-for="item in operatorlist"
+							:key="item.name"
+							:label="item.name"
+							:value="item.name"
+						></el-option>
 			</el-select>
 			<el-button type="primary">重置</el-button>
             </div>
 			<div>
 				<span>排序：</span>
-				<el-select v-model="value" placeholder="请选择排序方式">
+				<el-select v-model="value" placeholder="请选择排序方式" @change="getipfsdata">
 					<el-option
 						v-for="item in options"
 						:key="item.value"
@@ -312,7 +336,15 @@ export default {
 				//   total_capacity: 1000,
 				//   remaining: 270
 				// },
-			],
+            ],
+            devicevalue:'',
+            hardwarevalue:'',
+            osvalue:'',
+            operatovalue:'',
+            device_type:[],
+             hardware_type:[],
+            oslist:[],
+            operatorlist:[],
 		};
 	},
 	components: {
@@ -459,7 +491,7 @@ export default {
 		gettol(pagetol) {
 			this.pagesize = pagetol;
 			// this.getipfsdata();
-		},
+        },
 		godetail(dat) {
             console.log(dat);
 			sessionStorage.setItem('node_city', JSON.stringify(this.citys));

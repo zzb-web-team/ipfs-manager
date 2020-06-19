@@ -31,6 +31,9 @@ import newsd from '@/views/device/newsd.vue'
 import user from '@/views/account/user'
 import userli from '@/views/account/userli'
 import personal_center from '@/views/account/personal_center'
+import authority_me from '@/views/account/authority_me'
+import organization_me from '@/views/account/organization_me'
+import position_me from '@/views/account/position_me'
 //IPFS节点信息
 import node_information from '@/views/ipfs_node/node_information'
 //ipfs节点控制台
@@ -109,6 +112,21 @@ export default new Router({
                 path: '/userli',
                 name: '账户管理',
                 component: userli,
+            }, {
+                path: '/organization_me',
+                name: '组织管理',
+                component: organization_me,
+                hidden: true
+            }, {
+                path: '/position_me',
+                name: '职位管理',
+                component: position_me,
+                hidden: true
+            }, {
+                path: '/authority_me',
+                name: '权限管理',
+                component: authority_me,
+                hidden: true
             }, {
                 path: '/personal_center',
                 name: '个人中心',
@@ -352,7 +370,7 @@ export default new Router({
             name: 'IPFS程序管理',
             component: index,
             icon: 'iconfont icon-tongji',
-            // hidden: true,
+            hidden: true,
             children: [{
                     path: '/program_release',
                     name: 'IPFS程序管理',
@@ -394,7 +412,7 @@ export default new Router({
                     path: '/data_monitoring',
                     name: '节点数据监控',
                     component: data_monitoring,
-                    // hidden: true,
+                    hidden: true,
                 },
 
             ]

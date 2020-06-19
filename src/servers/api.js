@@ -1,17 +1,17 @@
 import {get, post } from './http';
 //import axios from 'axios'
 
-// var href = window.location.href;
+var href = window.location.href;
 
-// if (href.indexOf('xyj.grapefruitcloud.com') >= 0) {
-//     var serverUrl = 'http://xyj.grapefruitcloud.com'; //PHP服务域名
-// } else {
-//     var serverUrl = 'http://zzb.onezen.net'; //PHP服务域名
+if (href.indexOf('xyj.grapefruitcloud.com') >= 0) {
+    var serverUrl = 'http://xyj.grapefruitcloud.com'; //PHP服务域名
+} else {
+    var serverUrl = 'http://zzb.onezen.net'; //PHP服务域名
 
-//     var serverUrl2 = 'http://test.zzb.com'
-// }
-var serverUrl = 'http://xyj.grapefruitcloud.com'; //PHP服务域名
-
+    var serverUrl2 = 'http://test.zzb.com'
+}
+// var serverUrl = 'http://xyj.grapefruitcloud.com'; //PHP服务域名
+//var serverUrl = 'http://xyj.grapefruitcloud.com'; //PHP服务域名
 //服务器监控
 /**获取微服务信息 */
 // export const login = params => {
@@ -331,7 +331,6 @@ export const export_excel = params => {
         res => res.data
     );
 };
-
 //查询搜索条件
 export const get_nodetype_enum = params => {
     return post(`${serverUrl}/node_mgmt/get_nodetype_enum`, params).then(
