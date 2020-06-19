@@ -10,8 +10,8 @@ if (href.indexOf('xyj.grapefruitcloud.com') >= 0) {
 
     var serverUrl2 = 'http://test.zzb.com'
 }
-// var serverUrl = 'http://xyj.grapefruitcloud.com'; //PHP服务域名
 //var serverUrl = 'http://xyj.grapefruitcloud.com'; //PHP服务域名
+
 //服务器监控
 /**获取微服务信息 */
 // export const login = params => {

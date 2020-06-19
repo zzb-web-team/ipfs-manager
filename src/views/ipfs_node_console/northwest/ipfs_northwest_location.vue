@@ -270,7 +270,7 @@
 
 <script>
 import fenye from '@/components/fenye';
-import { query_node, ipfs_region_summary } from '../../../servers/api';
+import { query_node, ipfs_region_summary,get_nodetype_enum } from '../../../servers/api';
 export default {
 	data() {
 		return {
@@ -380,6 +380,25 @@ export default {
 		this.getipfsdata();
 	},
 	methods: {
+		get_search_data() {
+			let params = new Object();
+			params.time = "111";
+			get_nodetype_enum(params)
+				.then((res) => {
+					console.log(res);
+					if (res.status == 0) {
+						this.hardware_type = res.data.arch;
+						this.device_type = res.data.device_type;
+						this.operatorlist = res.data.ips;
+						this.oslist = res.data.os;
+					} else {
+						this.$message.error(res.err_msg);
+					}
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		},
 		//获取头部预览信息
 		gettit() {
 			let parmas = new Object();
@@ -418,8 +437,14 @@ export default {
 			parmas.state = -1;
 			parmas.province = this.citys;
 			parmas.city = '';
-		parmas.page = this.pageNo - 1;
-			parmas.isp="";
+			parmas.page = this.pageNo - 1;
+			parmas.isp =  this.operatovalue;
+			parmas.os = this.osvalue;
+			parmas.arch = this.hardwarevalue;
+			parmas.devicetype = this.devicevalue;
+			parmas.firstchid = "";
+			parmas.secondchid = "";
+			parmas.enableFlag = '-1';
 			query_node(parmas)
 				.then(res => {
 					if (res.status == 0) {

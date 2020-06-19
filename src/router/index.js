@@ -412,7 +412,7 @@ export default new Router({
                     path: '/data_monitoring',
                     name: '节点数据监控',
                     component: data_monitoring,
-                    hidden: true,
+                    // hidden: true,
                 },
 
             ]
