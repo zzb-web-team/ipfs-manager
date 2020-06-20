@@ -22,28 +22,47 @@
 								@keyup.enter.native="onseach"
 							></el-input>
 							<el-select
-								v-model="valuea"
-								placeholder="请选择一级节点"
-								style="margin-left:10px;"
-								@change="onseach"
+								v-model="firstvalue"
+								placeholder="请选择一级渠道"
+								style="margin-left:10px;width: 8%;"
+								@change="handleChangefirst($event)"
 							>
 								<el-option value="*" label="全部"></el-option>
+								<el-option
+									v-for="(item, index) in firstchan"
+									:key="item.name + index"
+									:label="item.name"
+									:value="item.name"
+								></el-option>
 							</el-select>
 							<el-select
 								v-model="secondvalue"
-								placeholder="请选择二级节点"
-								style="margin-left:10px;"
+								placeholder="请选择二级渠道"
+								style="margin-left:10px;width: 8%;"
+								:disabled="chil_disable"
 								@change="onseach"
 							>
 								<el-option value="*" label="全部"></el-option>
+								<el-option
+									v-for="(item, index) in secondchan"
+									:key="item.value + index"
+									:label="item.label"
+									:value="item.value"
+								></el-option>
 							</el-select>
 							<el-select
 								v-model="devtypevalue"
 								placeholder="请选择硬件设备"
-								style="margin-left:10px;"
+								style="margin-left:10px;width: 8%;"
 								@change="onseach"
 							>
 								<el-option value="*" label="全部"></el-option>
+								<el-option
+									v-for="(item, index) in arch"
+									:key="item.name + index"
+									:label="item.name"
+									:value="item.name"
+								></el-option>
 							</el-select>
 							<el-cascader
 								style="margin-left:10px;"
@@ -56,7 +75,7 @@
 								:disabled="city_disable_ip"
 								v-model="valueb"
 								placeholder="请选择城市"
-								style="margin-left:10px;"
+								style="margin-left:10px;width: 8%;"
 								@change="onseach()"
 							>
 								<el-option value="*" label="全部"></el-option>
@@ -68,14 +87,20 @@
 								>
 								</el-option>
 							</el-select>
-							<!-- <el-select
-                v-model="valuea"
-                placeholder="请选择运营商"
-                style="margin-left:10px;"
-                @change="onseach"
-              >
-                <el-option value="*" label="全部"></el-option>
-              </el-select> -->
+							<el-select
+								v-model="ispvalue"
+								placeholder="请选择运营商"
+								style="margin-left:10px;width: 8%;"
+								@change="onseach"
+							>
+								<el-option value="*" label="全部"></el-option>
+								<el-option
+									v-for="(item, index) in isp"
+									:key="index"
+									:label="item.name"
+									:value="item.name"
+								></el-option>
+							</el-select>
 							<el-button-group
 								class="bantlist"
 								style="margin:0 10px;"
@@ -229,30 +254,49 @@
 							></el-input>
 							<el-select
 								v-model="firstvaluea_fs"
-								placeholder="请选择一级节点"
-								style="margin-left:10px;"
-								@change="onseach"
+								placeholder="请选择一级渠道"
+								style="margin-left:10px;width: 8%;"
+								@change="handleChangefirst_fs($event)"
 							>
 								<el-option value="*" label="全部"></el-option>
+								<el-option
+									v-for="(item, index) in firstchan"
+									:key="item.name + index"
+									:label="item.name"
+									:value="item.name"
+								></el-option>
 							</el-select>
 							<el-select
 								v-model="secondvalue_fs"
-								placeholder="请选择二级节点"
-								style="margin-left:10px;"
+								placeholder="请选择二级渠道"
+								style="margin-left:10px;width: 8%;"
+								:disabled="chil_disable_fs"
 								@change="onseach"
 							>
 								<el-option value="*" label="全部"></el-option>
+								<el-option
+									v-for="(item, index) in secondchan"
+									:key="item.value + index"
+									:label="item.label"
+									:value="item.value"
+								></el-option>
 							</el-select>
 							<el-select
 								v-model="devtypevalue_fs"
 								placeholder="请选择硬件设备"
-								style="margin-left:10px;"
+								style="margin-left:10px;width: 8%;"
 								@change="onseach"
 							>
 								<el-option value="*" label="全部"></el-option>
+								<el-option
+									v-for="(item, index) in arch"
+									:key="item.name + index"
+									:label="item.name"
+									:value="item.name"
+								></el-option>
 							</el-select>
 							<el-cascader
-								style="margin-left:10px;"
+								style="margin-left:10px;width: 8%;"
 								placeholder="请选择区域"
 								v-model="valueafs"
 								:options="optionsafs"
@@ -262,7 +306,7 @@
 								:disabled="city_disable_fs"
 								v-model="valuebfs"
 								placeholder="请选择城市"
-								style="margin-left:10px;"
+								style="margin-left:10px;width: 8%;"
 								@change="onseach('fs')"
 							>
 								<el-option
@@ -273,14 +317,20 @@
 								>
 								</el-option>
 							</el-select>
-							<!-- <el-select
-                v-model="valuea"
-                placeholder="请选择运营商"
-                style="margin-left:10px;"
-                @change="onseach"
-              >
-                <el-option value="*" label="全部"></el-option>
-              </el-select> -->
+							<el-select
+								v-model="ispvalue_fs"
+								placeholder="请选择运营商"
+								style="margin-left:10px;width: 8%;"
+								@change="onseach"
+							>
+								<el-option value="*" label="全部"></el-option>
+								<el-option
+									v-for="(item, index) in isp"
+									:key="index"
+									:label="item.name"
+									:value="item.name"
+								></el-option>
+							</el-select>
 							<el-button-group
 								class="bantlist"
 								style="margin:0 10px;"
@@ -456,16 +506,20 @@ export default {
 			city_disable_ip: true,
 			activeName: 'first',
 			seachinput: '',
-			firatvalue: '',
+			firstvalue: '',
 			secondvalue: '',
 			devtypevalue: '',
+			ispvalue: '',
 			firstvaluea_fs: '',
 			secondvalue_fs: '',
 			devtypevalue_fs: '',
+			ispvalue_fs: '',
 			input: '',
 			inputfs: '',
 			zidingyi: false,
 			zidingyifs: false,
+            chil_disable: true,
+             chil_disable_fs: true,
 			pickerOptions: {
 				shortcuts: [
 					{
@@ -803,8 +857,8 @@ export default {
 			fs_totalCnt: 1,
 			citydata: [],
 			ip_tableData_upload: [],
-            fs_tableData_upload: [],
-            arch: [
+			fs_tableData_upload: [],
+			arch: [
 				//硬件类型
 				{
 					name: 'arm64',
@@ -846,6 +900,7 @@ export default {
 					],
 				},
 			],
+			secondchan: [],
 		};
 	},
 	mounted() {
@@ -872,7 +927,7 @@ export default {
 					if (res.status == 0) {
 						this.arch = res.data.arch;
 						this.device_type = res.data.device_type;
-						this.isp = res.data.ips;
+						this.isp = res.data.isp;
 						this.os = res.data.os;
 						this.firstchan = res.data.firstchan;
 					} else {
@@ -1068,6 +1123,30 @@ export default {
 		////自定义按钮--fs
 		showpickerfs() {
 			this.zidingyifs = !this.zidingyifs;
+		},
+		handleChangefirst(val) {
+			this.firstchan.find((item) => {
+				if (item.name === val) {
+					//筛选出匹配数据
+					this.secondchan = item.secondchan;
+					this.chil_disable = false;
+				} else {
+					this.chil_disable = true;
+				}
+			});
+			this.ip_surve();
+		},
+		handleChangefirst_fs(val) {
+			this.firstchan.find((item) => {
+				if (item.name === val) {
+					//筛选出匹配数据
+					this.secondchan = item.secondchan;
+					this.chil_disable_fs = false;
+				} else {
+					this.chil_disable_fs = true;
+				}
+			});
+			this.fs_curve();
 		},
 		//搜索
 		onseach(stat) {

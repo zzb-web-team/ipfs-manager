@@ -360,7 +360,7 @@
 
 <script>
 import fenye from '@/components/cloudfenye';
-import { query_node, filter_node, get_nodetype_enum } from '../../servers/api';
+import { query_node, filter_node, get_nodetype_enum,nodeinfo_export} from '../../servers/api';
 import axios from 'axios';
 export default {
 	data() {
@@ -628,22 +628,22 @@ export default {
 			arch: [
 				//硬件类型
 				{
-					name: 'arm64',
-					value: 'arm64',
+					name: 'amd64',
+					value: 'amd64',
 				},
 			],
 			device_type: [
 				//设备类型
 				{
-					name: '西柚机',
-					value: '西柚机',
+					name: 'PC服务器',
+					value: 'PC服务器',
 				},
 			],
 			os: [
 				//操作系统
 				{
-					name: 'windows',
-					value: 'windows',
+					name: 'linux',
+					value: 'linux',
 				},
 			],
 			isp: [
@@ -657,12 +657,12 @@ export default {
 				//一级渠道商
 				{
 					name: '云链',
-					value: 'yunlian',
+					value: 'f_computer.unknown_yunlian',
 					secondchan: [
 						//二级渠道商
 						{
-							name: 'aaaa',
-							value: 'bbbb',
+							name: '云链',
+							value: 's_computer.unknown_yunlian',
 						},
 					],
 				},
@@ -701,7 +701,7 @@ export default {
 					if (res.status == 0) {
 						this.arch = res.data.arch;
 						this.device_type = res.data.device_type;
-						this.isp = res.data.ips;
+						this.isp = res.data.isp;
 						this.os = res.data.os;
 						this.firstchan = res.data.firstchan;
 					} else {
@@ -753,7 +753,8 @@ export default {
 				} else {
 					this.chil_disable = true;
 				}
-			});
+            });
+            this.getdatalist();
 		},
 		handleChange_node(value) {
 			this.getdatalist();
@@ -945,7 +946,13 @@ export default {
 			this.seachinput = '';
 			this.city_disable = true;
 			this.chil_disable = true;
-			this.city_detil = '';
+            this.city_detil = '';
+            parmas.os = this.os_type;
+			parmas.arch = this.arch_type;
+			parmas.devicetype = this.dev_type;
+			parmas.firstchid = this.firstchid;
+			parmas.secondchid = this.secondchid;
+			parmas.enableFlag = this.value_node;
 			this.getdatalist();
 		},
 		// 表头样式设置
@@ -973,8 +980,9 @@ export default {
 				parmas.nodeId = this.seachinput;
 				parmas.ip = '';
 			}
-			if (this.value1[1]) {
-				this.$message(this.value1);
+			if (this.value1 == -1) {
+				parmas.province = '';
+			} else if (this.value1[1]) {
 				parmas.province = this.value1[1];
 			} else {
 				parmas.province = '';
@@ -984,23 +992,32 @@ export default {
 			} else {
 				parmas.state = this.value;
 			}
+			if (this.value2) {
+				if (this.value2 == '全部') {
+					parmas.isp = '';
+				} else {
+					parmas.isp = this.value2;
+				}
+			} else {
+				parmas.isp = '';
+			}
+			parmas.os = this.os_type;
+			parmas.arch = this.arch_type;
+			parmas.devicetype = this.dev_type;
+			parmas.firstchid = this.firstchid;
+			parmas.secondchid = this.secondchid;
 			parmas.enableFlag = this.value_node;
-			parmas.city = this.city_detil;
-			parmas.page = this.tolpage_export;
-			parmas.isp = '';
-			query_node(parmas)
+			if (this.city_detil == '全部') {
+				parmas.city = '';
+			} else {
+				parmas.city = this.city_detil;
+			}
+			parmas.page = this.tolpage;
+			nodeinfo_export(parmas)
 				.then((res) => {
 					if (res.status == 0) {
-						this.tableData_export = this.tableData_export.concat(
-							res.data.result
-						);
-						if (res.data.remaining == 0) {
-							this.exportExcel();
-							this.fan.fanactionlog('导出', '节点信息', 1);
-						} else {
-							this.tolpage_export++;
-							this.export_Excel();
-						}
+                        window.open(res.data.down_load);
+						this.fan.fanactionlog('导出', '节点信息', 1);
 					} else {
 						this.fan.fanactionlog('导出', '节点信息', 0);
 					}

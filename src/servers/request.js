@@ -15,7 +15,8 @@ axios.interceptors.request.use(
         })
         config.data = JSON.stringify(config.data)
         config.headers = {
-                'Content-Type': 'application/x-www-form-urlencoded'
+                // 'Content-Type': 'application/x-www-form-urlencoded'
+                'Content-Type': 'application/json'
             }
             // if(token){
             //   config.params = {'token':token}

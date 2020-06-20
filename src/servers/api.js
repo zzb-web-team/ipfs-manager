@@ -337,3 +337,82 @@ export const get_nodetype_enum = params => {
         res => res.data
     );
 };
+//带宽查询接口
+export const ipfs_monit_bandwidth = params => {
+    return post(`${serverUrl}/ipfs_node_monit/ipfs_monit_bandwidth`, params).then(
+        res => res.data
+    );
+};
+//节点质量-CPU占用率查询接口
+export const ipfs_monit_cpuusage = params => {
+    return post(`${serverUrl}/ipfs_node_monit/ipfs_monit_cpuusage`, params).then(
+        res => res.data
+    );
+};
+//节点质量-错误率查询接口
+export const ipfs_monit_etf = params => {
+    return post(`${serverUrl}/ipfs_node_monit/ipfs_monit_etf`, params).then(
+        res => res.data
+    );
+};
+//节点质量-在线率查询接口
+export const ipfs_monit_itf = params => {
+    return post(`${serverUrl}/ipfs_node_monit/ipfs_monit_itf`, params).then(
+        res => res.data
+    );
+};
+//节点质量-LT（失联计数）查询接口
+export const ipfs_monit_lt = params => {
+    return post(`${serverUrl}/ipfs_node_monit/ipfs_monit_lt`, params).then(
+        res => res.data
+    );
+};
+//节点质量-内存占用率查询接口
+export const ipfs_monit_memory = params => {
+    return post(`${serverUrl}/ipfs_node_monit/ipfs_monit_memory`, params).then(
+        res => res.data
+    );
+};
+//节点质量-离线率查询接口
+export const ipfs_monit_otf = params => {
+    return post(`${serverUrl}/ipfs_node_monit/ipfs_monit_otf`, params).then(
+        res => res.data
+    );
+};
+//节点质量-PING_MS查询接口
+export const ipfs_monit_ping_ms = params => {
+    return post(`${serverUrl}/ipfs_node_monit/ipfs_monit_ping_ms`, params).then(
+        res => res.data
+    );
+};
+//节点质量-PING_TTL查询接口
+export const ipfs_monit_ping_ttl = params => {
+    return post(`${serverUrl}/ipfs_node_monit/ipfs_monit_ping_ttl`, params).then(
+        res => res.data
+    );
+};
+//节点质量-重连计数）查询接口
+export const ipfs_monit_rcnt = params => {
+    return post(`${serverUrl}/ipfs_node_monit/ipfs_monit_rcnt`, params).then(
+        res => res.data
+    );
+};
+//存储空间查询接口
+export const ipfs_monit_storage = params => {
+    return post(`${serverUrl}/ipfs_node_monit/ipfs_monit_storage`, params).then(
+        res => res.data
+    );
+};
+//节点质量-TID（响应时差）查询接口
+export const ipfs_monit_tid = params => {
+    return post(`${serverUrl}/ipfs_node_monit/ipfs_monit_tid`, params).then(
+        res => res.data
+    );
+};
+
+//导出节点信息
+export const nodeinfo_export = params => {
+    return post(`${serverUrl}/node_mgmt/nodeinfo_export`, params).then(
+        res => res.data
+    );
+};

@@ -5,7 +5,7 @@
 				<a>全国节点分布</a>
 			</el-breadcrumb-item>
 		</el-breadcrumb>
-		<!-- <div class="top_search">
+		<div class="top_search">
 			<span>时间：</span>
 			<el-date-picker
 				v-model="time_value"
@@ -20,31 +20,57 @@
 			<el-select
 				v-model="searchdata.region1"
 				placeholder="请选择一级渠道"
+				@change="handleChangefirst($event)"
 			>
 				<el-option label="全部" value="*"></el-option>
-				<el-option label="西柚机" value="1"></el-option>
-				<el-option label="云链" value="2"></el-option>
+				<el-option
+					v-for="(item, index) in firstchan"
+					:key="item.name + index"
+					:label="item.name"
+					:value="item.name"
+				></el-option>
 			</el-select>
 			<el-select
 				v-model="searchdata.region2"
 				placeholder="请选择二级渠道"
+				@change="get_search()"
+				:disabled="chil_disable"
 			>
 				<el-option label="全部" value="*"></el-option>
-				<el-option label="西柚机" value="1"></el-option>
-				<el-option label="云链" value="2"></el-option>
+				<el-option
+					v-for="(item, index) in secondchan"
+					:key="item.value + index"
+					:label="item.label"
+					:value="item.value"
+				></el-option>
 			</el-select>
 			<span>设备类型：</span>
-			<el-select v-model="searchdata.region3" placeholder="请选设备类型">
+			<el-select
+				v-model="searchdata.region3"
+				placeholder="请选设备类型"
+				@change="get_search()"
+			>
 				<el-option label="全部" value="*"></el-option>
-				<el-option label="x86" value="1"></el-option>
-				<el-option label="s15-156" value="2"></el-option>
+				<el-option
+					v-for="(item, index) in device_type"
+					:key="item.name + index"
+					:label="item.name"
+					:value="item.name"
+				></el-option>
 			</el-select>
 			<span>区域：</span>
-			<el-select v-model="searchdata.region4" placeholder="请选择区域">
+			<el-cascader
+				size="small"
+				placeholder="请选择区域"
+				v-model="searchdata.region4"
+				:options="citylist"
+				@change="provinceChange"
+			></el-cascader>
+			<!-- <el-select v-model="searchdata.region4" placeholder="请选择区域">
 				<el-option label="全部" value="*"></el-option>
 				<el-option label="区域一" value="1"></el-option>
-			</el-select>
-		</div> -->
+			</el-select> -->
+		</div>
 		<div style="display: flex;" class="mapdal">
 			<div
 				id="myChartChina"
@@ -76,6 +102,7 @@ export default {
 	data() {
 		return {
 			maplist: [],
+			chil_disable: true,
 			searchdata: {
 				region1: '*',
 				region2: '*',
@@ -139,14 +166,242 @@ export default {
 						)
 					);
 				},
-			},
+            },
+            secondchan:[],
+            			citylist: [
+				{
+					value: -1,
+					label: '全部',
+					id: -1,
+				},
+				{
+					value: '华北',
+					label: '华北',
+					id: 0,
+					children: [
+						{
+							value: '北京',
+							label: '北京',
+						},
+						{
+							value: '内蒙古',
+							label: '内蒙古',
+						},
+						{
+							value: '山西',
+							label: '山西',
+						},
+						{
+							value: '河北',
+							label: '河北',
+						},
+						{
+							value: '天津',
+							label: '天津',
+						},
+					],
+				},
+				{
+					value: '西北',
+					label: '西北',
+					id: 1,
+					children: [
+						{
+							value: '宁夏',
+							label: '宁夏',
+						},
+						{
+							value: '陕西',
+							label: '陕西',
+						},
+						{
+							value: '甘肃',
+							label: '甘肃',
+						},
+						{
+							value: 'qinghai',
+							label: '青海',
+						},
+						{
+							value: '新疆',
+							label: '新疆',
+						},
+					],
+				},
+				{
+					value: '东北',
+					label: '东北',
+					id: 2,
+					children: [
+						{
+							value: '黑龙江',
+							label: '黑龙江',
+						},
+						{
+							value: '吉林',
+							label: '吉林',
+						},
+						{
+							value: '辽宁',
+							label: '辽宁',
+						},
+					],
+				},
+				{
+					value: '华东',
+					label: '华东',
+					id: 3,
+					children: [
+						{
+							value: '福建',
+							label: '福建',
+						},
+						{
+							value: '江苏',
+							label: '江苏',
+						},
+						{
+							value: '安徽',
+							label: '安徽',
+						},
+						{
+							value: '山东',
+							label: '山东',
+						},
+						{
+							value: '上海',
+							label: '上海',
+						},
+						{
+							value: '浙江',
+							label: '浙江',
+						},
+					],
+				},
+				{
+					value: '华中',
+					label: '华中',
+					id: 4,
+					children: [
+						{
+							value: '河南',
+							label: '河南',
+						},
+						{
+							value: '湖北',
+							label: '湖北',
+						},
+						{
+							value: '江西',
+							label: '江西',
+						},
+						{
+							value: '湖南',
+							label: '湖南',
+						},
+					],
+				},
+				{
+					value: '西南',
+					label: '西南',
+					id: 5,
+					children: [
+						{
+							value: '贵州',
+							label: '贵州',
+						},
+						{
+							value: '云南',
+							label: '云南',
+						},
+						{
+							value: '重庆',
+							label: '重庆',
+						},
+						{
+							value: '四川',
+							label: '四川',
+						},
+						{
+							value: '西藏',
+							label: '西藏',
+						},
+					],
+				},
+				{
+					value: '华南',
+					label: '华南',
+					id: 6,
+					children: [
+						{
+							value: '广东',
+							label: '广东',
+						},
+						{
+							value: '广西',
+							label: '广西',
+						},
+						{
+							value: '海南',
+							label: '海南',
+						},
+					],
+				},
+				{
+					value: '其他',
+					label: '其他',
+					id: 7,
+					children: [
+						{
+							value: '香港',
+							label: '香港',
+						},
+						{
+							value: '澳门',
+							label: '澳门',
+						},
+						{
+							value: 'taiwan',
+							label: '台湾',
+						},
+					],
+				},
+			],
+            starttime:0,
+            endtime:0,
 		};
 	},
 	mounted() {
 		this.getdata();
 		//this.drawLine();
+		this.get_search_data();
 	},
 	methods: {
+        provinceChange(){
+            this.getdata();
+        },
+		seachuser() {
+			if (this.time_value != null && this.time_value != '') {
+                this.starttime = setbatime(this.searchdata.value1[0]);
+					this.endtime = setbatime(this.searchdata.value1[1]);
+					this.getdata();
+			}
+		},
+		handleChangefirst(val) {
+			this.firstchan.find((item) => {
+				if (item.name === val) {
+					//筛选出匹配数据
+					this.secondchan = item.secondchan;
+					this.chil_disable = false;
+				} else {
+					this.chil_disable = true;
+				}
+			});
+			this.getdata();
+		},
+		get_search() {
+			this.getdata();
+		},
 		get_search_data() {
 			let params = new Object();
 			get_nodetype_enum(params)
@@ -154,7 +409,7 @@ export default {
 					if (res.status == 0) {
 						this.arch = res.data.arch;
 						this.device_type = res.data.device_type;
-						this.isp = res.data.ips;
+						this.isp = res.data.isp;
 						this.os = res.data.os;
 						this.firstchan = res.data.firstchan;
 					} else {

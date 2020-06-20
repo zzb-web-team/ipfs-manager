@@ -322,6 +322,7 @@ export default {
     }
     this.gettit();
     this.getipfsdata();
+    this.get_search_data();
   },
   methods: {
     get_search_data() {
@@ -333,7 +334,7 @@ export default {
 					if (res.status == 0) {
 						this.hardware_type = res.data.arch;
 						this.device_type = res.data.device_type;
-						this.operatorlist = res.data.ips;
+						this.operatorlist = res.data.isp;
 						this.oslist = res.data.os;
 					} else {
 						this.$message.error(res.err_msg);

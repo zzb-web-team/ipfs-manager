@@ -292,6 +292,7 @@ export default {
 				.then((res) => {
 					console.log(res);
 					if (res.status == 0) {
+                        window.open(res.downloadUrl);
 						this.$message.success('导出成功');
 					} else {
 						this.$message.error(res.err_msg);

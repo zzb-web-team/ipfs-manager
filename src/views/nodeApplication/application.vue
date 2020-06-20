@@ -23,17 +23,30 @@
                 v-model="firstvaluea"
                 placeholder="请选择一级节点"
                 style="margin-left:10px;"
-                @change="onseach"
+                 @change="handleChangefirst($event)"
               >
                 <el-option value="*" label="全部"></el-option>
+                <el-option
+								v-for="(item, index) in firstchan"
+								:key="item.name + index"
+								:label="item.name"
+								:value="item.name"
+							></el-option>
               </el-select>
               <el-select
                 v-model="secondvalue"
                 placeholder="请选择二级节点"
                 style="margin-left:10px;"
+                :disabled="chil_disable"
                 @change="onseach"
               >
                 <el-option value="*" label="全部"></el-option>
+                	<el-option
+								v-for="(item, index) in secondchan"
+								:key="item.value + index"
+								:label="item.label"
+								:value="item.value"
+							></el-option>
               </el-select>
               <el-select
                 v-model="devtypevalue"
@@ -42,6 +55,12 @@
                 @change="onseach"
               >
                 <el-option value="*" label="全部"></el-option>
+                <el-option
+								v-for="(item, index) in device_type"
+								:key="item.name + index"
+								:label="item.name"
+								:value="item.name"
+							></el-option>
               </el-select>
               <el-cascader
                 style="margin-left:10px;"
@@ -189,17 +208,30 @@
                 v-model="firstvaluea_fs"
                 placeholder="请选择一级节点"
                 style="margin-left:10px;"
-                @change="onseach"
+                 @change="handleChangefirst_fs($event)"
               >
                 <el-option value="*" label="全部"></el-option>
+                <el-option
+								v-for="(item, index) in firstchan"
+								:key="item.name + index"
+								:label="item.name"
+								:value="item.name"
+							></el-option> 
               </el-select>
               <el-select
                 v-model="secondvalue_fs"
                 placeholder="请选择二级节点"
                 style="margin-left:10px;"
+                :disabled="chil_disable_fs"
                 @change="onseach"
               >
                 <el-option value="*" label="全部"></el-option>
+                    <el-option
+                        v-for="(item, index) in firstchan"
+                        :key="item.name + index"
+                        :label="item.name"
+                        :value="item.name">
+                    </el-option> 
               </el-select>
               <el-select
                 v-model="devtypevalue_fs"
@@ -208,6 +240,12 @@
                 @change="onseach"
               >
                 <el-option value="*" label="全部"></el-option>
+                 <el-option
+								v-for="(item, index) in device_type"
+								:key="item.name + index"
+								:label="item.name"
+								:value="item.name"
+							></el-option>
               </el-select>
               <el-cascader
                 style="margin-left:10px;"
@@ -774,7 +812,10 @@ export default {
 						},
 					],
 				},
-			],
+            ],
+            secondchan:[],
+            chil_disable:true,
+            chil_disable_fs:true,
     };
   },
   filters: {
@@ -791,6 +832,7 @@ export default {
     this.endtime = Date.parse(new Date()) / 1000;
     this.getseachinput();
     this.ip_curve();
+    this.get_search_data();
     // this.drawLine();
     // this.drawLine1();
     // this.configure()
@@ -810,7 +852,7 @@ export default {
 					if (res.status == 0) {
 						this.arch = res.data.arch;
 						this.device_type = res.data.device_type;
-						this.isp = res.data.ips;
+						this.isp = res.data.isp;
 						this.os = res.data.os;
 						this.firstchan = res.data.firstchan;
 					} else {
@@ -1135,6 +1177,30 @@ export default {
     showpickerfs() {
       this.zidingyifs = !this.zidingyifs;
     },
+    handleChangefirst(val) {
+			this.firstchan.find((item) => {
+				if (item.name === val) {
+					//筛选出匹配数据
+					this.secondchan = item.secondchan;
+					this.chil_disable = false;
+				} else {
+					this.chil_disable = true;
+				}
+			});
+			 this.ip_curve();
+        },
+        handleChangefirst_fs(val){
+            this.firstchan.find((item) => {
+				if (item.name === val) {
+					//筛选出匹配数据
+					this.secondchan = item.secondchan;
+					this.chil_disable_fs = false;
+				} else {
+					this.chil_disable_fs = true;
+				}
+			});
+			 this.fs_curve();
+        },
     //搜索
     onseach(stat) {
       if (stat === "fs") {

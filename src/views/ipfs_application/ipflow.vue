@@ -286,6 +286,7 @@ export default {
       new Date(new Date().toLocaleDateString()).getTime() / 1000 - 86400 * 90;
     this.endtime = Date.parse(new Date()) / 1000;
     this.gettab();
+     this.get_search_data();
   },
   methods: {
     get_search_data() {
@@ -295,7 +296,7 @@ export default {
           if (res.status == 0) {
             this.arch = res.data.arch;
             this.device_type = res.data.device_type;
-            this.isp = res.data.ips;
+            this.isp = res.data.isp;
             this.os = res.data.os;
             this.firstchan = res.data.firstchan;
           } else {
