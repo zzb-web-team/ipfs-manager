@@ -858,9 +858,9 @@ export default {
 						this.$nextTick(
 							this.lastsharts('ping_ms', 'PING_MS', this.mslist)
 						);
-						this.max_value = this.getMaximin(arrlist, 'max') + 'ms';
-						this.min_value = this.getMaximin(arrlist, 'min') + 'ms';
-						this.average_value = this.pingjun(arrlist) + 'ms';
+						this.max_value = (this.getMaximin(arrlist, 'max')).toFixed(0) + 'ms';
+						this.min_value = (this.getMaximin(arrlist, 'min')).toFixed(0) + 'ms';
+						this.average_value = (this.pingjun(arrlist)).toFixed(0) + 'ms';
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -902,9 +902,9 @@ export default {
 						this.$nextTick(
 							this.lastsharts('tid', 'TID', this.tidlist)
 						);
-						this.max_value = this.getMaximin(arrlist, 'max') + 'ms';
-						this.min_value = this.getMaximin(arrlist, 'min') + 'ms';
-						this.average_value = this.pingjun(arrlist) + 'ms';
+						this.max_value = (this.getMaximin(arrlist, 'max')).toFixed(0) + 'ms';
+						this.min_value = (this.getMaximin(arrlist, 'min')).toFixed(0) + 'ms';
+						this.average_value = (this.pingjun(arrlist)).toFixed(0) + 'ms';
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -950,9 +950,9 @@ export default {
 								this.etflist
 							)
 						);
-						this.max_value = this.getMaximin(arrlist, 'max') + '%';
-						this.min_value = this.getMaximin(arrlist, 'min') + '%';
-						this.average_value = this.pingjun(arrlist) + '%';
+						this.max_value = (this.getMaximin(arrlist, 'max')).toFixed(4) + '%';
+						this.min_value = (this.getMaximin(arrlist, 'min')).toFixed(4) + '%';
+						this.average_value = (this.pingjun(arrlist)).toFixed(4) + '%';
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -998,9 +998,9 @@ export default {
 								this.ltlist
 							)
 						);
-						this.max_value = this.getMaximin(arrlist, 'max');
-						this.min_value = this.getMaximin(arrlist, 'min');
-						this.average_value = this.pingjun(arrlist);
+						this.max_value = (this.getMaximin(arrlist, 'max')).toFixed(0);
+						this.min_value = (this.getMaximin(arrlist, 'min')).toFixed(0);
+						this.average_value = (this.pingjun(arrlist)).toFixed(0);
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -1046,9 +1046,9 @@ export default {
 								this.itflist
 							)
 						);
-						this.max_value = this.getMaximin(arrlist, 'max') + '%';
-						this.min_value = this.getMaximin(arrlist, 'min') + '%';
-						this.average_value = this.pingjun(arrlist) + '%';
+						this.max_value = (this.getMaximin(arrlist, 'max')).toFixed(0) + '%';
+						this.min_value = (this.getMaximin(arrlist, 'min')).toFixed(0) + '%';
+						this.average_value = (this.pingjun(arrlist)).toFixed(0) + '%';
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -1094,9 +1094,9 @@ export default {
 								this.otflist
 							)
 						);
-						this.max_value = this.getMaximin(arrlist, 'max') + '%';
-						this.min_value = this.getMaximin(arrlist, 'min') + '%';
-						this.average_value = this.pingjun(arrlist) + '%';
+						this.max_value = (this.getMaximin(arrlist, 'max')).toFixed(0) + '%';
+						this.min_value = (this.getMaximin(arrlist, 'min')).toFixed(0) + '%';
+						this.average_value = (this.pingjun(arrlist)).toFixed(0) + '%';
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -1142,9 +1142,9 @@ export default {
 								this.rcntlist
 							)
 						);
-						this.max_value = this.getMaximin(arrlist, 'max');
-						this.min_value = this.getMaximin(arrlist, 'min');
-						this.average_value = this.pingjun(arrlist);
+						this.max_value = (this.getMaximin(arrlist, 'max')).toFixed(0);
+						this.min_value = (this.getMaximin(arrlist, 'min')).toFixed(0);
+						this.average_value = (this.pingjun(arrlist)).toFixed(0);
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -1190,9 +1190,9 @@ export default {
 								this.cpuusaglist
 							)
 						);
-						this.max_value = this.getMaximin(arrlist, 'max') + '%';
-						this.min_value = this.getMaximin(arrlist, 'min') + '%';
-						this.average_value = this.pingjun(arrlist) + '%';
+						this.max_value = (this.getMaximin(arrlist, 'max')).toFixed(2) + '%';
+						this.min_value = (this.getMaximin(arrlist, 'min')).toFixed(2) + '%';
+						this.average_value = (this.pingjun(arrlist)).toFixed(2) + '%';
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -1238,9 +1238,9 @@ export default {
 								this.memorylist
 							)
 						);
-						this.max_value = this.getMaximin(arrlist, 'max') + '%';
-						this.min_value = this.getMaximin(arrlist, 'min') + '%';
-						this.average_value = this.pingjun(arrlist) + '%';
+						this.max_value = (this.getMaximin(arrlist, 'max')).toFixed(2) + '%';
+						this.min_value = (this.getMaximin(arrlist, 'min')).toFixed(2) + '%';
+						this.average_value = (this.pingjun(arrlist)).toFixed(2) + '%';
 					} else {
 						this.$message.error(res.errMsg);
 					}

@@ -9,7 +9,7 @@
 			<span>时间：</span>
 			<el-date-picker
 				v-model="time_value"
-				type="daterange"
+				type="datetimerange"
 				range-separator="至"
 				start-placeholder="开始日期"
 				end-placeholder="结束日期"
@@ -22,7 +22,7 @@
 				placeholder="请选择一级渠道"
 				@change="handleChangefirst($event)"
 			>
-				<el-option label="全部" value="*"></el-option>
+				<el-option label="全部" value=""></el-option>
 				<el-option
 					v-for="(item, index) in firstchan"
 					:key="item.name + index"
@@ -36,7 +36,7 @@
 				@change="get_search()"
 				:disabled="chil_disable"
 			>
-				<el-option label="全部" value="*"></el-option>
+				<el-option label="全部" value=""></el-option>
 				<el-option
 					v-for="(item, index) in secondchan"
 					:key="item.value + index"
@@ -50,7 +50,7 @@
 				placeholder="请选设备类型"
 				@change="get_search()"
 			>
-				<el-option label="全部" value="*"></el-option>
+				<el-option label="全部" value=""></el-option>
 				<el-option
 					v-for="(item, index) in device_type"
 					:key="item.name + index"
@@ -98,16 +98,23 @@
 
 <script>
 import { query_ipfs_node_region_dist, get_nodetype_enum } from '@/servers/api';
+import {
+	getlocaltimes,
+	settime,
+	getymdtime,
+	setbatime,
+	getday,
+} from '../../servers/sevdate';
 export default {
 	data() {
 		return {
 			maplist: [],
 			chil_disable: true,
 			searchdata: {
-				region1: '*',
-				region2: '*',
-				region3: '*',
-				region4: '*',
+				region1: '',
+				region2: '',
+				region3: '',
+				region4: '',
 			},
 			region: '',
 			time_value: '',
@@ -345,6 +352,8 @@ export default {
 		};
 	},
 	mounted() {
+        this.starttime=new Date(new Date().toLocaleDateString()).getTime()/1000;
+        this.endtime= parseInt((new Date()).getTime()/1000);
 		this.getdata();
 		//this.drawLine();
 		this.get_search_data();
@@ -355,9 +364,10 @@ export default {
 		},
 		seachuser() {
 			if (this.time_value != null && this.time_value != '') {
-				this.starttime = setbatime(this.searchdata.value1[0]);
-				this.endtime = setbatime(this.searchdata.value1[1]);
+				this.starttime = setbatime(this.time_value[0]);
+				this.endtime = setbatime(this.time_value[1]);
 				this.getdata();
+			} else {
 			}
 		},
 		handleChangefirst(val) {
@@ -395,7 +405,25 @@ export default {
 		},
 		getdata() {
 			let params = new Object();
-			params.timeUnit = 5;
+			params.deviceType = this.searchdata.region3;
+			params.end_ts = this.endtime;
+			params.firstChannel = this.searchdata.region1;
+			params.isp = '';
+			params.nodeId = '';
+			params.secondChannel = this.searchdata.region2;
+			params.start_ts = this.starttime;
+			if (this.searchdata.region4 == '') {
+				params.region = '';
+				params.city = '';
+			} else {
+				params.region = '';
+				params.city = this.searchdata.region4[1];
+			}
+			if (params.end_ts - params.start_ts > 86400) {
+				params.timeUnit = 1440;
+			} else {
+				params.timeUnit = 60;
+			}
 			query_ipfs_node_region_dist(params)
 				.then((res) => {
 					if (res.status == 0) {

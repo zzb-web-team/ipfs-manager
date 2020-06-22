@@ -488,7 +488,7 @@ export default {
 			parmas.devicetype = this.devicevalue;
 			parmas.firstchid = '';
 			parmas.secondchid = '';
-			parmas.enableFlag = '-1';
+			parmas.enableFlag =-1;
 			parmas.order = this.value;
 			query_node(parmas)
 				.then((res) => {

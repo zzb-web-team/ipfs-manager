@@ -220,7 +220,7 @@ export default {
 			export_excel(params)
 				.then((res) => {
                     console.log(res);
-                    if(res.status==0){
+                    if(res.state==0){
                          window.open(res.downloadUrl);
                        this.$message.success("导出成功"); 
                     }else{
