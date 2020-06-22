@@ -176,7 +176,7 @@ export default {
 					console.log(res);
 					this.tableData = res.data;
                     this.totalCnt = res.dataCount;
-                    if(this.tableData.length>0){
+                    if(res.data&&this.tableData.length>0){
                         this.showdisable=false;
                     }
 					if (res.status == 0) {

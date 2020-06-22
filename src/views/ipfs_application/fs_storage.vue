@@ -132,19 +132,27 @@
             <span v-else>视频备份</span>
           </template>
         </el-table-column>
+          <el-table-column prop="ipfsId" label="节点ID"></el-table-column>
         <el-table-column prop="firstchannel" label="节点一级渠道商"></el-table-column>
         <el-table-column prop="secondchannel" label="节点二级渠道商"></el-table-column>
         <el-table-column prop="devicetype" label="设备类型"></el-table-column>
         <el-table-column prop="dataflow" label="占用空间" width="180"></el-table-column>
         <el-table-column prop="urlname" label="存储内容"></el-table-column>
         <el-table-column prop="contentid" label="内容ID"></el-table-column>
-        <el-table-column prop="ipfsId" label="节点ID"></el-table-column>
+      
         <el-table-column prop="businesstype" label="业务类型"></el-table-column>
         <el-table-column prop="businessscene" label="业务场景及用途"></el-table-column>
         <el-table-column prop="startTS" label="启用时间">
           <template slot-scope="scope">
             {{
             scope.row.startTS | getymd
+            }}
+          </template>
+        </el-table-column>
+         <el-table-column prop="endTS" label="结束时间">
+          <template slot-scope="scope">
+            {{
+            scope.row.endTS | getymd
             }}
           </template>
         </el-table-column>
@@ -219,45 +227,23 @@ export default {
       totalCnt: 1,
       arch: [
         //硬件类型
-        {
-          name: "arm64",
-          value: "arm64"
-        }
+       
       ],
       device_type: [
         //设备类型
-        {
-          name: "西柚机",
-          value: "西柚机"
-        }
+       
       ],
       os: [
         //操作系统
-        {
-          name: "windows",
-          value: "windows"
-        }
+       
       ],
       isp: [
         //运营商
-        {
-          name: "移动",
-          value: "移动"
-        }
+        
       ],
       firstchan: [
         //一级渠道商
-        {
-          name: "云链",
-          value: "yunlian",
-          secondchan: [
-            //二级渠道商
-            {
-              name: "aaaa",
-              value: "bbbb"
-            }
-          ]
-        }
+       
       ],
       secondchan: [],
       endPickerOptions: {

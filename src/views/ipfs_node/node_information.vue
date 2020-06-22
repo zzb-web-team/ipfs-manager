@@ -234,7 +234,8 @@
 			<el-table-column prop="isp" label="节点运营商"></el-table-column>
 			<el-table-column prop="occupyCpu" label="CPU占用">
 				<template slot-scope="scope">
-					{{ scope.row.occupyCpu.toFixed(2) }}%
+                    <span v-if="scope.row.occupyCpu">{{scope.row.occupyCpu.toFixed(2)}}%</span>
+                    <span v-else >--</span>
 				</template>
 			</el-table-column>
 			<el-table-column prop="totalMem" label="总内存">
@@ -829,7 +830,8 @@ export default {
 									item.bgccolor = '#5CC77D';
 								}
 								this.tableData.push(item);
-							});
+                            });
+                            console.log(this.tableData);
 						}
 					} else {
 						this.$message.error(res.err_msg);

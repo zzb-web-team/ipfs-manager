@@ -8,7 +8,7 @@
 			label-width="0px"
 			class="demo-ruleForm login-container"
 		>
-			<div class="title">IPFS后台管理系统</div>
+			<div class="title">IPFS节点后台管理系统</div>
 			<p style="text-align: left;margin: -10px 0 30px 0;color: #A9A9A9;">
 				Welcome欢迎登录
 			</p>

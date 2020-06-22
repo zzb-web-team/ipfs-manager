@@ -7,7 +7,7 @@
 					class="logo"
 					:class="collapsed ? 'logo-collapse-width' : 'logo-width'"
 				>
-					<div style="fontSize:20px;color:#000">IPFS后台管理</div>
+					<div style="fontSize:20px;color:#000">IPFS节点后台管理</div>
 				</el-col>
 				<el-col :span="4" class="userinfo">
 					<el-dropdown trigger="hover">

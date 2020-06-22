@@ -153,7 +153,7 @@
                     style="width: 100%"
                     height="480"
                   >
-                    <el-table-column prop="ipfsId" label="节点id"></el-table-column>
+                    <el-table-column prop="dataFlow" label="节点id"></el-table-column>
                     <el-table-column prop="dataFlow" label="使用流量">
                       <template slot-scope="scope">
                         <span v-if="
@@ -167,16 +167,16 @@
                           1024 /
                           1024
                           ).toFixed(2)
-                          }}G
+                          }}GB
                         </span>
                       </template>
                     </el-table-column>
-                    <el-table-column prop="outputCnt" label="传输次数"></el-table-column>
+                    <el-table-column prop="outputCount" label="传输次数"></el-table-column>
                     <el-table-column prop="timestamp" label="日期">
                       <template slot-scope="scope">
                         <span>
                           {{
-                          scope.row.timestamp | getymd
+                          scope.row.timeReport | getymd
                           }}
                         </span>
                       </template>

@@ -61,7 +61,6 @@
         </el-select>
         <span>用途：</span>
         <el-select v-model="value" placeholder="请选择" @change="seachuser()">
-          <el-option value="3" label="全部"></el-option>
           <el-option
             v-for="(item, index) in options"
             :key="index"
@@ -104,12 +103,13 @@
         :cell-style="rowClass"
         :header-cell-style="headClass"
         style="width: 100%"
-      >
+      > <el-table-column prop="usage" label="用途" width="180"></el-table-column>
+       <el-table-column prop="ipfsId" label="节点ID"></el-table-column>
         <el-table-column prop="firstchannel" label="节点一级渠道商"></el-table-column>
         <el-table-column prop="secondchannel" label="节点二级渠道商"></el-table-column>
         <el-table-column prop="devicetype" label="设备类型"></el-table-column>
 
-        <el-table-column prop="dataflow" label="共计使用流量(GB)">
+        <el-table-column prop="dataflow" label="使用流量(GB)">
           <template slot-scope="scope">
             {{
             (scope.row.dataflow / 1024 / 1024 / 1024).toFixed(2)
@@ -119,9 +119,9 @@
         <el-table-column prop="bondWidth" label="占用带宽"></el-table-column>
         <el-table-column prop="businesstype" label="业务类型"></el-table-column>
         <el-table-column prop="businessscene" label="业务场景"></el-table-column>
-        <el-table-column prop="usage" label="用途" width="180"></el-table-column>
-        <el-table-column prop="chanId" label="节点IP"></el-table-column>
-        <el-table-column prop="ipfsId" label="节点ID"></el-table-column>
+       
+        <!-- <el-table-column prop="chanId" label="节点IP"></el-table-column> -->
+       
         <el-table-column prop="startTS" label="启用时间">
           <template slot-scope="scope">{{ scope.row.startTS | getymd }}</template>
         </el-table-column>
@@ -179,7 +179,7 @@ export default {
       busvalue: "*",
       scenevalue: "*",
       input: "",
-      value: "3",
+      value: 0,
       input1: "", //开始时间
       input2: "", //结束时间
       optiondisplay: false,
@@ -197,45 +197,23 @@ export default {
       },
       arch: [
         //硬件类型
-        {
-          name: "arm64",
-          value: "arm64"
-        }
+       
       ],
       device_type: [
         //设备类型
-        {
-          name: "西柚机",
-          value: "西柚机"
-        }
+       
       ],
       os: [
         //操作系统
-        {
-          name: "windows",
-          value: "windows"
-        }
+      
       ],
       isp: [
         //运营商
-        {
-          name: "移动",
-          value: "移动"
-        }
+       
       ],
       firstchan: [
         //一级渠道商
-        {
-          name: "云链",
-          value: "yunlian",
-          secondchan: [
-            //二级渠道商
-            {
-              name: "aaaa",
-              value: "bbbb"
-            }
-          ]
-        }
+       
       ],
       endPickerOptions: {
         disabledDate(time) {
@@ -250,14 +228,22 @@ export default {
         }
       },
       options: [
+          {
+          value: 0,
+          label: "全部"
+        },
         {
           value: 1,
-          label: "点播加速"
+          label: "内容回源"
         },
         {
           value: 2,
-          label: "点播回源"
-        }
+          label: "内容缓存"
+        },
+        {
+          value: 3,
+          label: "内容分发"
+        },
       ],
       tableData: [],
       tableData2: []
@@ -323,7 +309,7 @@ export default {
         }
       }
       if (!this.value) {
-        params.usage = 3;
+        params.usage = 0;
       } else {
         params.usage = parseInt(this.value);
       }
@@ -380,7 +366,7 @@ export default {
     },
     //重置
     reset() {
-      this.value = "";
+      this.value = 0;
       this.input = "";
       this.value1 = "";
       (this.firatvalue = "1"),

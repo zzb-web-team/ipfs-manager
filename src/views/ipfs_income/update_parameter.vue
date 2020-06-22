@@ -1,10 +1,11 @@
 <template>
 	<div class="content">
-		<el-breadcrumb separator="/">
+        <el-page-header @back="goBack" content="云链节点收益 | 调整收益参数"> </el-page-header>
+		<!-- <el-breadcrumb separator="/">
 			<el-breadcrumb-item>
 				<a>云链节点收益 | 调整收益参数</a>
 			</el-breadcrumb-item>
-		</el-breadcrumb>
+		</el-breadcrumb> -->
 		<el-row>
 			<el-col :span="24"
 				><div class="grid-content bg-purple-dark top_text">
@@ -302,6 +303,9 @@ export default {
 		this.get_data();
 	},
 	methods: {
+        goBack(){
+            this.$router.go(-1);
+        },
 		get_data() {
 			let params = new Object();
 			params.data = {};

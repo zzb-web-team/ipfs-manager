@@ -127,7 +127,12 @@ import {
 	setbatime,
 	dateFormat,
 } from '../../servers/sevdate';
-import { node_pv, node_pv_detail, exportexc,export_excel } from '@/servers/api';
+import {
+	node_pv,
+	node_pv_detail,
+	exportexc,
+	export_excel,
+} from '@/servers/api';
 export default {
 	data() {
 		return {
@@ -223,7 +228,7 @@ export default {
 			node_pv(params)
 				.then((res) => {
 					this.tableData = res.data;
-					if (this.tableData.length > 0) {
+					if (res.data && this.tableData.length > 0) {
 						this.showdisable1 = false;
 					}
 					console.log(res);
@@ -257,7 +262,7 @@ export default {
 					console.log(res);
 					this.table_detail_data = res.data;
 					this.totalCnt = res.dataCount;
-					if (this.table_detail_data.length > 0) {
+					if (res.data && this.table_detail_data.length > 0) {
 						this.showdisable2 = false;
 					}
 					// if(res.status==0){
@@ -292,7 +297,7 @@ export default {
 				.then((res) => {
 					console.log(res);
 					if (res.state == 0) {
-                        window.open(res.downloadUrl);
+						window.open(res.downloadUrl);
 						this.$message.success('导出成功');
 					} else {
 						this.$message.error(res.err_msg);
