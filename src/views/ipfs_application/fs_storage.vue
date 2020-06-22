@@ -33,6 +33,24 @@
         </div>
       </div>
       <div v-if="optiondisplay" class="seach_bottom">
+           <span>业务类型：</span>
+        <el-select v-model="busvalue" placeholder="请选择业务类型" @change="seachuser()">
+          <el-option label="全部" value="*"></el-option>
+          <el-option label="点播加速" value="点播加速"></el-option>
+          <el-option label="直播加速" value="直播加速"></el-option>
+        </el-select>
+        <span>业务场景及用途：</span>
+        <el-select
+          v-model="scenevalue"
+          :disabled="scenedis"
+          placeholder="请选择业务场景及用途"
+          @change="seachuser()"
+        >
+          <el-option label="全部" value="*"></el-option>
+          <el-option label="分发加速播放-内容缓存" value="分发加速播放-内容缓存"></el-option>
+          <el-option v-show="busvalue=='点播加速'" label="内容预热-内容缓存" value="内容预热-内容缓存"></el-option>
+          <el-option v-show="busvalue=='点播加速'" label="缓存刷新-内容缓存" value="缓存刷新-内容缓存"></el-option>
+        </el-select>
         <span>节点渠道商：</span>
         <el-select v-model="firatvalue" placeholder="请选择一级渠道商" @change="seachuser()">
           <el-option label="全部" value="*"></el-option>
@@ -65,25 +83,7 @@
             :disabled="item.disabled"
           ></el-option>
         </el-select>
-        <span>业务类型：</span>
-        <el-select v-model="busvalue" placeholder="请选择业务类型" @change="seachuser()">
-          <el-option label="全部" value="*"></el-option>
-          <el-option label="点播加速" value="点播加速"></el-option>
-          <el-option label="直播加速" value="直播加速"></el-option>
-        </el-select>
-        <span>业务场景及用途：</span>
-        <el-select
-          v-model="scenevalue"
-          :disabled="scenedis"
-          placeholder="请选择业务场景及用途"
-          @change="seachuser()"
-        >
-          <el-option label="全部" value="*"></el-option>
-          <el-option label="分发加速播放-内容缓存" value="分发加速播放-内容缓存"></el-option>
-          <el-option v-show="busvalue=='点播加速'" label="内容预热-内容缓存" value="内容预热-内容缓存"></el-option>
-          <el-option v-show="busvalue=='点播加速'" label="缓存刷新-内容缓存" value="缓存刷新-内容缓存"></el-option>
-        </el-select>
-        <span>应用渠道：</span>
+        <!-- <span>应用渠道：</span>
         <el-select v-model="value" placeholder="请选择" @change="seachuser()">
           <el-option label="任意用途" value="0"></el-option>
           <el-option
@@ -92,7 +92,7 @@
             :label="item.label"
             :value="item.value"
           ></el-option>
-        </el-select>
+        </el-select> -->
         <span>启用时间：</span>
         <el-date-picker
           v-model="value1"
@@ -125,23 +125,18 @@
         :header-cell-style="headClass"
         style="width: 100%"
       >
-        <el-table-column prop="usage" label="用途" width="180">
+        <!-- <el-table-column prop="usage" label="用途" width="180">
           <template slot-scope="scoped">
             <span v-if="scoped.row.usage == 0">任意用途</span>
             <span v-else-if="scoped.row.usage == 1">视频存储</span>
             <span v-else>视频备份</span>
           </template>
-        </el-table-column>
-          <el-table-column prop="ipfsId" label="节点ID"></el-table-column>
-        <el-table-column prop="firstchannel" label="节点一级渠道商"></el-table-column>
-        <el-table-column prop="secondchannel" label="节点二级渠道商"></el-table-column>
-        <el-table-column prop="devicetype" label="设备类型"></el-table-column>
-        <el-table-column prop="dataflow" label="占用空间" width="180"></el-table-column>
+        </el-table-column> -->
+          <el-table-column prop="businessscene" label="业务场景及用途"></el-table-column>
+         <el-table-column prop="businesstype" label="业务类型"></el-table-column>
+  <el-table-column prop="dataflow" label="占用空间" width="180"></el-table-column>
         <el-table-column prop="urlname" label="存储内容"></el-table-column>
         <el-table-column prop="contentid" label="内容ID"></el-table-column>
-      
-        <el-table-column prop="businesstype" label="业务类型"></el-table-column>
-        <el-table-column prop="businessscene" label="业务场景及用途"></el-table-column>
         <el-table-column prop="startTS" label="启用时间">
           <template slot-scope="scope">
             {{
@@ -169,6 +164,10 @@
             <span v-else>使用中</span>
           </template>
         </el-table-column>
+          <el-table-column prop="ipfsId" label="节点ID"></el-table-column>
+        <el-table-column prop="firstchannel" label="节点一级渠道商"></el-table-column>
+        <el-table-column prop="secondchannel" label="节点二级渠道商"></el-table-column>
+        <el-table-column prop="devicetype" label="设备类型"></el-table-column>
         <el-table-column prop="userIpInfo" label="渠道ID"></el-table-column>
         <el-table-column prop="taskid" label="实例ID"></el-table-column>
         <el-table-column prop="terminalname" label="视频播放终端"></el-table-column>

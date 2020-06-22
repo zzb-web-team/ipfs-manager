@@ -30,18 +30,7 @@
         </div>
       </div>
       <div v-if="optiondisplay" class="seach_bottom">
-        <span>节点渠道商:</span>
-        <el-select v-model="firatvalue" placeholder="请选择一级渠道商" @change="seachuser()">
-          <el-option value="*" label="全部"></el-option>
-        </el-select>
-        <el-select v-model="secondvalue" placeholder="请选择二级渠道商" @change="seachuser()">
-          <el-option value="*" label="全部"></el-option>
-        </el-select>
-        <span>设备类型:</span>
-        <el-select v-model="devtypevalue" placeholder="请选择设备类型" @change="seachuser()">
-          <el-option value="*" label="全部"></el-option>
-        </el-select>
-        <span>业务类型:</span>
+           <span>业务类型:</span>
         <el-select v-model="busvalue" placeholder="请选择业务类型" @change="seachuser()">
           <el-option value="*" label="全部"></el-option>
           <el-option value="点播加速" label="点播加速"></el-option>
@@ -59,7 +48,7 @@
           <el-option v-show="busvalue=='点播加速'" value="内容预热" label="内容预热"></el-option>
           <el-option v-show="busvalue=='点播加速'" value="缓存刷新" label="缓存刷新"></el-option>
         </el-select>
-        <span>用途：</span>
+         <span>用途：</span>
         <el-select v-model="value" placeholder="请选择" @change="seachuser()">
           <el-option
             v-for="(item, index) in options"
@@ -67,6 +56,17 @@
             :label="item.label"
             :value="item.value"
           ></el-option>
+        </el-select>
+        <span>节点渠道商:</span>
+        <el-select v-model="firatvalue" placeholder="请选择一级渠道商" @change="seachuser()">
+          <el-option value="*" label="全部"></el-option>
+        </el-select>
+        <el-select v-model="secondvalue" placeholder="请选择二级渠道商" @change="seachuser()">
+          <el-option value="*" label="全部"></el-option>
+        </el-select>
+        <span>设备类型:</span>
+        <el-select v-model="devtypevalue" placeholder="请选择设备类型" @change="seachuser()">
+          <el-option value="*" label="全部"></el-option>
         </el-select>
         <span>选择日期：</span>
         <el-date-picker
@@ -104,24 +104,16 @@
         :header-cell-style="headClass"
         style="width: 100%"
       > <el-table-column prop="usage" label="用途" width="180"></el-table-column>
-       <el-table-column prop="ipfsId" label="节点ID"></el-table-column>
-        <el-table-column prop="firstchannel" label="节点一级渠道商"></el-table-column>
-        <el-table-column prop="secondchannel" label="节点二级渠道商"></el-table-column>
-        <el-table-column prop="devicetype" label="设备类型"></el-table-column>
-
-        <el-table-column prop="dataflow" label="使用流量(GB)">
+        <el-table-column prop="businesstype" label="业务类型"></el-table-column>
+        <el-table-column prop="businessscene" label="业务场景"></el-table-column>
+          <el-table-column prop="dataflow" label="使用流量(GB)">
           <template slot-scope="scope">
             {{
             (scope.row.dataflow / 1024 / 1024 / 1024).toFixed(2)
             }}
           </template>
         </el-table-column>
-        <el-table-column prop="bondWidth" label="占用带宽"></el-table-column>
-        <el-table-column prop="businesstype" label="业务类型"></el-table-column>
-        <el-table-column prop="businessscene" label="业务场景"></el-table-column>
-       
-        <!-- <el-table-column prop="chanId" label="节点IP"></el-table-column> -->
-       
+         <el-table-column prop="bondWidth" label="占用带宽"></el-table-column>
         <el-table-column prop="startTS" label="启用时间">
           <template slot-scope="scope">{{ scope.row.startTS | getymd }}</template>
         </el-table-column>
@@ -137,8 +129,13 @@
             <span v-else>进行中</span>
           </template>
         </el-table-column>
+       <el-table-column prop="ipfsId" label="节点ID"></el-table-column>
+       <el-table-column prop="chanId" label="节点IP"></el-table-column>
+        <el-table-column prop="firstchannel" label="节点一级渠道商"></el-table-column>
+        <el-table-column prop="secondchannel" label="节点二级渠道商"></el-table-column>
+        <el-table-column prop="devicetype" label="设备类型"></el-table-column>
         <el-table-column prop="chanId" label="渠道ID"></el-table-column>
-        <el-table-column prop="userIpInfo" label="点播IP"></el-table-column>
+        <!-- <el-table-column prop="userIpInfo" label="点播IP"></el-table-column> -->
         <el-table-column prop="taskid" label="实例ID"></el-table-column>
         <el-table-column prop="terminalname" label="视频播放终端"></el-table-column>
         <el-table-column prop="userIpInfo" label="视频播放IP"></el-table-column>
