@@ -52,14 +52,13 @@
           <el-option v-show="busvalue=='点播加速'" label="缓存刷新-内容缓存" value="缓存刷新-内容缓存"></el-option>
         </el-select>
         <span>节点渠道商：</span>
-        <el-select v-model="firatvalue" placeholder="请选择一级渠道商" @change="seachuser()">
+        <el-select v-model="firatvalue" placeholder="请选择一级渠道商" @change="handleChangefirst($event)">
           <el-option label="全部" value="*"></el-option>
           <el-option
             v-for="item in firstchan"
             :key="item.name"
             :label="item.name"
-            :value="item.name"
-            :disabled="item.disabled"
+            :value="item.value"
           ></el-option>
         </el-select>
         <el-select v-model="secondvalue" placeholder="请选择二级渠道商" @change="seachuser()">
@@ -68,8 +67,8 @@
             v-for="item in secondchan"
             :key="item.name"
             :label="item.name"
-            :value="item.name"
-            :disabled="item.disabled"
+            :value="item.value"
+            :disabled="chil_disable"
           ></el-option>
         </el-select>
         <span>设备类型：</span>
@@ -80,7 +79,6 @@
             :key="item.name"
             :label="item.name"
             :value="item.name"
-            :disabled="item.disabled"
           ></el-option>
         </el-select>
         <!-- <span>应用渠道：</span>
@@ -244,6 +242,7 @@ export default {
         //一级渠道商
        
       ],
+      chil_disable:true,
       secondchan: [],
       endPickerOptions: {
         disabledDate(time) {
@@ -301,6 +300,18 @@ export default {
     this.get_search_data();
   },
   methods: {
+      handleChangefirst(val) {
+			this.firstchan.find((item) => {
+				if (item.value === val) {
+					//筛选出匹配数据
+					this.secondchan = item.secondchan;
+					this.chil_disable = false;
+				} else {
+					this.chil_disable = true;
+				}
+			});
+			this.gettab();
+		},
     get_search_data() {
       let params = new Object();
       get_nodetype_enum(params)

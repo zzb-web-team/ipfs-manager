@@ -139,6 +139,7 @@
 				v-for="(item, index) in ipfsdata"
 				:key="index"
 				@click="godetail(item)"
+                v-show="!showdata"
 			>
 				<div
 					style="display: flex;justify-content: flex-start;align-items: center;"
@@ -221,7 +222,7 @@
       @fathernum="gettol"
       :pagesa="totalCnt"
       :currentPage="currentPage"
-      v-if="ipfsdata.length > 0"
+     v-show="!showdata"
     ></fenye>
 	</div>
 </template>
@@ -413,8 +414,8 @@ export default {
 				.then(res => {
 					if (res.status == 0) {
 						if (res.data.result.length <= 0) {
-                             this.showdata=true;
-							this.$message('暂无数据');
+                            this.showdata=true;
+                            this.$message('暂无数据');
 						} else {
 							this.showdata = false;
 							this.totalCnt = res.data.total;

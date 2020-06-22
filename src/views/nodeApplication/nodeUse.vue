@@ -1100,7 +1100,7 @@ export default {
 		},
 		handleChangefirst(val) {
 			this.firstchan.find((item) => {
-				if (item.name === val) {
+				if (item.value === val) {
 					//筛选出匹配数据
 					this.secondchan = item.secondchan;
 					this.chil_disable = false;
@@ -1112,7 +1112,7 @@ export default {
 		},
 		handleChangefirst_fs(val) {
 			this.firstchan.find((item) => {
-				if (item.name === val) {
+				if (item.value === val) {
 					//筛选出匹配数据
 					this.secondchan = item.secondchan;
 					this.chil_disable_fs = false;

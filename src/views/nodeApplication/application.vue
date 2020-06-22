@@ -30,7 +30,7 @@
 								v-for="(item, index) in firstchan"
 								:key="item.name + index"
 								:label="item.name"
-								:value="item.name"
+								:value="item.value"
 							></el-option>
               </el-select>
               <el-select
@@ -44,7 +44,7 @@
                 	<el-option
 								v-for="(item, index) in secondchan"
 								:key="item.value + index"
-								:label="item.label"
+								:label="item.name"
 								:value="item.value"
 							></el-option>
               </el-select>
@@ -215,7 +215,7 @@
 								v-for="(item, index) in firstchan"
 								:key="item.name + index"
 								:label="item.name"
-								:value="item.name"
+								:value="item.value"
 							></el-option> 
               </el-select>
               <el-select
@@ -230,7 +230,7 @@
                         v-for="(item, index) in firstchan"
                         :key="item.name + index"
                         :label="item.name"
-                        :value="item.name">
+                        :value="item.value">
                     </el-option> 
               </el-select>
               <el-select
@@ -1157,7 +1157,7 @@ export default {
     },
     handleChangefirst(val) {
 			this.firstchan.find((item) => {
-				if (item.name === val) {
+				if (item.value === val) {
 					//筛选出匹配数据
 					this.secondchan = item.secondchan;
 					this.chil_disable = false;
@@ -1169,7 +1169,7 @@ export default {
         },
         handleChangefirst_fs(val){
             this.firstchan.find((item) => {
-				if (item.name === val) {
+				if (item.value === val) {
 					//筛选出匹配数据
 					this.secondchan = item.secondchan;
 					this.chil_disable_fs = false;

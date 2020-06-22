@@ -58,15 +58,34 @@
           ></el-option>
         </el-select>
         <span>节点渠道商:</span>
-        <el-select v-model="firatvalue" placeholder="请选择一级渠道商" @change="seachuser()">
+        <el-select v-model="firatvalue" placeholder="请选择一级渠道商" @change="handleChangefirst($event)">
           <el-option value="*" label="全部"></el-option>
+           <el-option
+            v-for="item in firstchan"
+            :key="item.name"
+            :label="item.name"
+            :value="item.value"
+          ></el-option>
         </el-select>
         <el-select v-model="secondvalue" placeholder="请选择二级渠道商" @change="seachuser()">
           <el-option value="*" label="全部"></el-option>
+          <el-option
+            v-for="item in secondchan"
+            :key="item.name"
+            :label="item.name"
+            :value="item.value"
+            :disabled="chil_disable"
+          ></el-option>
         </el-select>
         <span>设备类型:</span>
         <el-select v-model="devtypevalue" placeholder="请选择设备类型" @change="seachuser()">
           <el-option value="*" label="全部"></el-option>
+           <el-option
+            v-for="item in device_type"
+            :key="item.name"
+            :label="item.name"
+            :value="item.name"
+          ></el-option>
         </el-select>
         <span>选择日期：</span>
         <el-date-picker
@@ -224,6 +243,7 @@ export default {
           );
         }
       },
+      chil_disable:true,
       options: [
           {
           value: 0,
@@ -272,6 +292,18 @@ export default {
      this.get_search_data();
   },
   methods: {
+      handleChangefirst(val) {
+			this.firstchan.find((item) => {
+				if (item.value === val) {
+					//筛选出匹配数据
+					this.secondchan = item.secondchan;
+					this.chil_disable = false;
+				} else {
+					this.chil_disable = true;
+				}
+			});
+			this.gettab();
+		},
     get_search_data() {
       let params = new Object();
       get_nodetype_enum(params)
