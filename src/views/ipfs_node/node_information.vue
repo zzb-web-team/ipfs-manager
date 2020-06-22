@@ -627,45 +627,23 @@ export default {
 			],
 			arch: [
 				//硬件类型
-				{
-					name: 'amd64',
-					value: 'amd64',
-				},
+				
 			],
 			device_type: [
 				//设备类型
-				{
-					name: 'PC服务器',
-					value: 'PC服务器',
-				},
+				
 			],
 			os: [
 				//操作系统
-				{
-					name: 'linux',
-					value: 'linux',
-				},
+				
 			],
 			isp: [
 				//运营商
-				{
-					name: '移动',
-					value: '移动',
-				},
+				
 			],
 			firstchan: [
 				//一级渠道商
-				{
-					name: '云链',
-					value: 'f_computer.unknown_yunlian',
-					secondchan: [
-						//二级渠道商
-						{
-							name: '云链',
-							value: 's_computer.unknown_yunlian',
-						},
-					],
-				},
+				
 			],
 			secondchan: [],
 			value1: '',
@@ -803,7 +781,8 @@ export default {
 			} else {
 				parmas.city = this.city_detil;
 			}
-			parmas.page = this.tolpage;
+            parmas.page = this.tolpage;
+            parmas.order=0;
 			query_node(parmas)
 				.then((res) => {
 					if (res.status == 0) {

@@ -773,45 +773,23 @@ export default {
       ip_tableData_upload: [],
       arch: [
 				//硬件类型
-				{
-					name: 'arm64',
-					value: 'arm64',
-				},
+				
 			],
 			device_type: [
 				//设备类型
-				{
-					name: '西柚机',
-					value: '西柚机',
-				},
+				
 			],
 			os: [
 				//操作系统
-				{
-					name: 'windows',
-					value: 'windows',
-				},
+			
 			],
 			isp: [
 				//运营商
-				{
-					name: '移动',
-					value: '移动',
-				},
+				
 			],
 			firstchan: [
 				//一级渠道商
-				{
-					name: '云链',
-					value: 'yunlian',
-					secondchan: [
-						//二级渠道商
-						{
-							name: 'aaaa',
-							value: 'bbbb',
-						},
-					],
-				},
+				
             ],
             secondchan:[],
             chil_disable:true,
@@ -1601,7 +1579,8 @@ export default {
 }
 
 .user-title .user-item {
-  background: #f2f2f2;
+  background: #409EFF;
+  color: #ffffff;
   padding: 0 25px;
   border-radius: 5px;
   display: flex;

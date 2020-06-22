@@ -199,7 +199,7 @@
 			</div>
 			<div>
 				<span>排序：</span>
-				<el-select v-model="value" placeholder="请选择排序方式">
+				<el-select v-model="value" placeholder="请选择排序方式" @change="getipfsdata">
 					<el-option
 						v-for="item in options"
 						:key="item.value"
@@ -339,21 +339,25 @@ export default {
 			citys: '福建',
 			showdata: false,
 			options: [
-				{
-					value: '1',
-					label: '可用空间从大到小',
+                {
+					value: 0,
+					label: '全部',
 				},
 				{
-					value: '2',
-					label: '可用空间从小到大',
+					value: 1,
+					label: '可用空间降序',
 				},
 				{
-					value: '3',
-					label: '可用带宽从高到低',
+					value: 2,
+					label: '可用空间升序',
 				},
 				{
-					value: '4',
-					label: '可用带宽从抵到高',
+					value: 3,
+					label: '上行带宽降序',
+				},
+				{
+					value: 4,
+					label: '上行带宽升序',
 				},
 			],
 			titledar: [
@@ -403,7 +407,7 @@ export default {
 					url: require('../../../assets/img/cuncurl.png'),
 				},
 			],
-			value: '',
+			value: 0,
 			ipfsdata: [
 				// {
 				//   nodeid: "1231561fafqw",
@@ -502,7 +506,8 @@ export default {
 			parmas.devicetype = this.devicevalue;
 			parmas.firstchid = "";
 			parmas.secondchid = "";
-			parmas.enableFlag = '-1';
+            parmas.enableFlag = '-1';
+             parmas.order=this.value;
 			query_node(parmas)
 				.then((res) => {
 					if (res.status == 0) {

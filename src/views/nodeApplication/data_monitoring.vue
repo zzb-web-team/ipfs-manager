@@ -214,49 +214,34 @@
 
 				<el-tab-pane label="带宽" name="first">
 					<el-row>
-						<el-col :span="5" class="top_title"
-							>
-								<p>
-									{{
-										(
-											upbandwidth /
-											1024 /
-											1024 /
-											1024
-										).toFixed(2)
-									}}Mbps/{{
-										(
-											downbandwidth /
-											1024 /
-											1024 /
-											1024
-										).toFixed(2)
-									}}Mbps
-								</p>
-								<p>节点带宽峰值（上/下行）</p>
-							
+						<el-col :span="5" class="top_title">
+							<p>
+								{{
+									(upbandwidth / 1024 / 1024 / 1024).toFixed(
+										2
+									)
+								}}Mbps/{{
+									(
+										downbandwidth /
+										1024 /
+										1024 /
+										1024
+									).toFixed(2)
+								}}Mbps
+							</p>
+							<p>节点带宽峰值（上/下行）</p>
 						</el-col>
 						<el-col :span="5" class="top_title">
-						
-								<p>
-									{{
-										(
-											averageup /
-											1024 /
-											1024 /
-											1024
-										).toFixed(2)
-									}}Mbps/{{
-										(
-											averagedown /
-											1024 /
-											1024 /
-											1024
-										).toFixed(2)
-									}}Mbps
-								</p>
-								<p>节点带宽平均值（上/下行）</p>
-							
+							<p>
+								{{
+									(averageup / 1024 / 1024 / 1024).toFixed(2)
+								}}Mbps/{{
+									(averagedown / 1024 / 1024 / 1024).toFixed(
+										2
+									)
+								}}Mbps
+							</p>
+							<p>节点带宽平均值（上/下行）</p>
 						</el-col>
 					</el-row>
 					<div
@@ -282,26 +267,21 @@
 					<el-row>
 						<el-col :span="5" class="top_title">
 							<p>
-									{{
-										(
-											availablecap /
-											1024 /
-											1024 /
-											1024
-										).toFixed(2)
-									}}GB
-								</p>
-								<p>节点可用存储空间</p>
+								{{
+									(availablecap / 1024 / 1024 / 1024).toFixed(
+										2
+									)
+								}}GB
+							</p>
+							<p>节点可用存储空间</p>
 						</el-col>
 						<el-col :span="5" class="top_title">
 							<p>
-									{{
-										(totalcap / 1024 / 1024 / 1024).toFixed(
-											2
-										)
-									}}GB
-								</p>
-								<p>节点总存储空间</p>
+								{{
+									(totalcap / 1024 / 1024 / 1024).toFixed(2)
+								}}GB
+							</p>
+							<p>节点总存储空间</p>
 						</el-col>
 					</el-row>
 					<div id="secondChart" style="height:500px;width:100%"></div>
@@ -310,13 +290,16 @@
 					<el-row>
 						<el-col :span="5" class="top_title"
 							><p>{{ average_value }}</p>
-								<p>平均值</p>
-							</el-col
+							<p>平均值</p>
+						</el-col>
+						<el-col :span="5" class="top_title"
+							><p>{{ max_value }}</p>
+							<p>最大值</p></el-col
 						>
-                        <el-col :span="5" class="top_title"><p>{{ max_value }}</p>
-								<p>最大值</p></el-col>
-                         <el-col :span="5" class="top_title"><p>{{ min_value }}</p>
-								<p>最小值</p></el-col>
+						<el-col :span="5" class="top_title"
+							><p>{{ min_value }}</p>
+							<p>最小值</p></el-col
+						>
 					</el-row>
 					<div
 						id="ping_ms"
@@ -458,45 +441,18 @@ export default {
 			},
 			arch: [
 				//硬件类型
-				{
-					name: 'arm64',
-					value: 'arm64',
-				},
 			],
 			device_type: [
 				//设备类型
-				{
-					name: '西柚机',
-					value: '西柚机',
-				},
 			],
 			oslist: [
 				//操作系统
-				{
-					name: 'windows',
-					value: 'windows',
-				},
 			],
 			isp: [
 				//运营商
-				{
-					name: '移动',
-					value: '移动',
-				},
 			],
 			firstchan: [
 				//一级渠道商
-				{
-					name: '云链',
-					value: 'yunlian',
-					secondchan: [
-						//二级渠道商
-						{
-							name: 'aaaa',
-							value: 'bbbb',
-						},
-					],
-				},
 			],
 			citylist: [
 				{
@@ -1713,9 +1669,9 @@ export default {
 		height: 120px;
 		margin-top: 20px;
 		margin-bottom: 30px;
-        margin-right: 20px;
+		margin-right: 20px;
 		padding: 20px;
-        text-align: left;
+		text-align: left;
 		box-sizing: border-box;
 		// display: flex;
 		// justify-content: space-around;
@@ -1726,14 +1682,17 @@ export default {
 			rgba(100, 167, 252, 1) 100%
 		);
 		border-radius: 8px;
-		    p:nth-child(1) {
-				margin-top: 6px;
-				font-size: 38px;
-			}
-			p:nth-child(2) {
-				font-size: 14px;
-				line-height: 30px;
-			}
+		p:nth-child(1) {
+			margin-top: 6px;
+			font-size: 30px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+		p:nth-child(2) {
+			font-size: 14px;
+			line-height: 30px;
+		}
 	}
 }
 </style>

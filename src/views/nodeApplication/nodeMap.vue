@@ -113,45 +113,18 @@ export default {
 			time_value: '',
 			arch: [
 				//硬件类型
-				{
-					name: 'arm64',
-					value: 'arm64',
-				},
 			],
 			device_type: [
 				//设备类型
-				{
-					name: '西柚机',
-					value: '西柚机',
-				},
 			],
 			os: [
 				//操作系统
-				{
-					name: 'windows',
-					value: 'windows',
-				},
 			],
 			isp: [
 				//运营商
-				{
-					name: '移动',
-					value: '移动',
-				},
 			],
 			firstchan: [
 				//一级渠道商
-				{
-					name: '云链',
-					value: 'yunlian',
-					secondchan: [
-						//二级渠道商
-						{
-							name: 'aaaa',
-							value: 'bbbb',
-						},
-					],
-				},
 			],
 			endPickerOptions: {
 				disabledDate(time) {
@@ -166,9 +139,9 @@ export default {
 						)
 					);
 				},
-            },
-            secondchan:[],
-            			citylist: [
+			},
+			secondchan: [],
+			citylist: [
 				{
 					value: -1,
 					label: '全部',
@@ -367,8 +340,8 @@ export default {
 					],
 				},
 			],
-            starttime:0,
-            endtime:0,
+			starttime: 0,
+			endtime: 0,
 		};
 	},
 	mounted() {
@@ -377,14 +350,14 @@ export default {
 		this.get_search_data();
 	},
 	methods: {
-        provinceChange(){
-            this.getdata();
-        },
+		provinceChange() {
+			this.getdata();
+		},
 		seachuser() {
 			if (this.time_value != null && this.time_value != '') {
-                this.starttime = setbatime(this.searchdata.value1[0]);
-					this.endtime = setbatime(this.searchdata.value1[1]);
-					this.getdata();
+				this.starttime = setbatime(this.searchdata.value1[0]);
+				this.endtime = setbatime(this.searchdata.value1[1]);
+				this.getdata();
 			}
 		},
 		handleChangefirst(val) {
