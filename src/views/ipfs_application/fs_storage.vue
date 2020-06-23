@@ -228,7 +228,11 @@
 				<el-table-column
 					prop="terminalname"
 					label="视频播放终端"
-				></el-table-column>
+				>
+                <template slot-scope="scope">
+                    {{scope.row.timeUsage=='Unknown'?'--':scope.row.timeUsage}}
+                </template>
+                </el-table-column>
 				<el-table-column
 					prop="userIpInfo"
 					label="视频播放IP"

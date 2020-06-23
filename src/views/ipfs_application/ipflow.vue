@@ -42,7 +42,7 @@
 				>
 					<el-option value="*" label="全部"></el-option>
 					<el-option value="点播加速" label="点播加速"></el-option>
-					<el-option value="直播加速" label="直播加速"></el-option>
+					<el-option value="直播加速" label="直播加速"   :disabled='true'></el-option>
 				</el-select>
 				<span>业务场景:</span>
 				<el-select
