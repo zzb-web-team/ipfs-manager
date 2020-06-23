@@ -75,48 +75,64 @@
 		</div>
 		<div class="select_sort" v-if="ipfsdata.length > 0">
 			<div>
-			<span>设备类型：</span>
-			<el-select v-model="devicevalue" placeholder="请选择设备类型" @change="getipfsdata">
-				<el-option label="全部" value="*"></el-option>
-                <el-option
-							v-for="item in device_type"
-							:key="item.name"
-							:label="item.name"
-							:value="item.name"
-						></el-option>
-			</el-select>
-			<span>硬件类型：</span>
-			<el-select v-model="hardwarevalue" placeholder="请选择设备类型" @change="getipfsdata">
-				<el-option label="全部" value="*"></el-option>
-                <el-option
-							v-for="item in hardware_type"
-							:key="item.name"
-							:label="item.name"
-							:value="item.name"
-						></el-option>
-			</el-select>
-			<span>操作系统：</span>
-			<el-select v-model="osvalue" placeholder="请选择设备类型" @change="getipfsdata">
-				<el-option label="全部" value="*"></el-option>
-                <el-option
-							v-for="item in oslist"
-							:key="item.name"
-							:label="item.name"
-							:value="item.name"
-						></el-option>
-			</el-select>
-			<span>节点网络运营商：</span>
-			<el-select v-model="operatovalue" placeholder="请选择设备类型" @change="getipfsdata">
-				<el-option label="全部" value="*"></el-option>
-                <el-option
-							v-for="item in operatorlist"
-							:key="item.name"
-							:label="item.name"
-							:value="item.name"
-						></el-option>
-			</el-select>
-			<el-button type="primary">重置</el-button>
-            </div>
+				<span>设备类型：</span>
+				<el-select
+					v-model="devicevalue"
+					placeholder="请选择设备类型"
+					@change="getipfsdata"
+				>
+					<el-option label="全部" value=""></el-option>
+					<el-option
+						v-for="item in device_type"
+						:key="item.name"
+						:label="item.name"
+						:value="item.name"
+					></el-option>
+				</el-select>
+				<span>硬件类型：</span>
+				<el-select
+					v-model="hardwarevalue"
+					placeholder="请选择设备类型"
+					@change="getipfsdata"
+				>
+					<el-option label="全部" value=""></el-option>
+					<el-option
+						v-for="item in hardware_type"
+						:key="item.name"
+						:label="item.name"
+						:value="item.name"
+					></el-option>
+				</el-select>
+				<span>操作系统：</span>
+				<el-select
+					v-model="osvalue"
+					placeholder="请选择设备类型"
+					@change="getipfsdata"
+				>
+					<el-option label="全部" value=""></el-option>
+					<el-option
+						v-for="item in oslist"
+						:key="item.name"
+						:label="item.name"
+						:value="item.name"
+					></el-option>
+				</el-select>
+				<span>节点网络运营商：</span>
+				<el-select
+					v-model="operatovalue"
+					placeholder="请选择设备类型"
+					@change="getipfsdata"
+				>
+					<el-option label="全部" value=""></el-option>
+					<el-option
+						v-for="item in operatorlist"
+						:key="item.name"
+						:label="item.name"
+						:value="item.name"
+					></el-option>
+				</el-select>
+				<el-button type="primary" @click="uopset">重置</el-button>
+			</div>
 			<div>
 				<span>排序：</span>
 				<el-select v-model="value" placeholder="请选择排序方式" @change="getipfsdata">
@@ -344,6 +360,13 @@ export default {
         this.get_search_data();
 	},
 	methods: {
+        uopset() {
+			this.operatovalue = '';
+			this.osvalue = '';
+			this.hardwarevalue = '';
+			this.devicevalue = '';
+			this.getipfsdata();
+		},
 		get_search_data() {
 			let params = new Object();
 			params.time = "111";
@@ -369,22 +392,24 @@ export default {
 			parmas.region = this.citys;
 			ipfs_region_summary(parmas)
 				.then(res => {
-					if (res.status == 0) {
-						this.titledar[0].connum = res.data.total_cnt;
-						this.titledar[1].connum = res.data.online_cnt;
-						this.titledar[2].connum = this.common.formatByteActive(
+				if (res.status == 0) {
+                        this.titledar[0].connum = res.data.total_cnt;
+                        this.titledar[1].connum = 0;
+						this.titledar[2].connum = res.data.online_cnt;
+						this.titledar[3].connum = res.data.online_cnt;
+						this.titledar[4].connum = this.common.formatByteActive(
 							res.data.total_cap
 						);
-						this.titledar[3].connum = this.common.formatByteActive(
+						this.titledar[5].connum = this.common.formatByteActive(
 							res.data.total_usedcap
 						);
-						this.titledar[4].connum = this.common.formatByteActive(
+						this.titledar[6].connum = this.common.formatByteActive(
 							res.data.total_freecap
 						);
-						this.titledar[5].connum = this.common.formatByteActive(
+						this.titledar[7].connum = this.common.formatByteActive(
 							res.data.total_dataflow
 						);
-						this.titledar[6].connum = this.common.formatByteActive(
+						this.titledar[9].connum = this.common.formatByteActive(
 							res.data.total_storeusage
 						);
 					} else {

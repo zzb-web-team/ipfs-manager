@@ -23,7 +23,7 @@ export function getymdtime(timestamp) {
     let h = ((dateObj.getHours() > 9) ? dateObj.getHours() : '0' + dateObj.getHours()) + ':';
     let m = ((dateObj.getMinutes() > 9) ? dateObj.getMinutes() : '0' + dateObj.getMinutes()) + ':';
     let s = ((dateObj.getSeconds() > 9) ? dateObj.getSeconds() : '0' + dateObj.getSeconds());
-    return Y + M + D //时分秒可以根据自己的需求加上
+    return Y + M + D + h + m + s; //时分秒可以根据自己的需求加上
 }
 export function getday(timestamp) {
     // 如果以秒为单位
@@ -78,4 +78,21 @@ export function dateFormat(d) {
     }
     // return year + "-" + month + "-" + date + " " + hour + ":" + minute + ":" + second;
     return year + "-" + month + "-" + date;
+}
+export function formatDuring(mes) {
+    var mss = mes * 1000;
+    var days = parseInt(mss / (1000 * 60 * 60 * 24));
+    var hours = parseInt((mss % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = parseInt((mss % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = (mss % (1000 * 60)) / 1000;
+    if (days == 0 && hours != 0) {
+        return hours + " 小时 " + minutes + " 分钟 " + seconds + " 秒 ";
+    } else if (days == 0 && hours == 0 && minutes != 0) {
+        return minutes + " 分钟 " + seconds + " 秒 ";
+    } else if (days == 0 && hours == 0 && minutes == 0) {
+        return seconds + " 秒 ";
+    } else {
+        return days + " 天 " + hours + " 小时 " + minutes + " 分钟 " + seconds + " 秒 ";
+    }
+
 }

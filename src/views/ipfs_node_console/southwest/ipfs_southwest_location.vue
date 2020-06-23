@@ -126,7 +126,7 @@
 					placeholder="请选择设备类型"
 					@change="getipfsdata"
 				>
-					<el-option label="全部" value="*"></el-option>
+					<el-option label="全部" value=""></el-option>
 					<el-option
 						v-for="item in device_type"
 						:key="item.name"
@@ -140,7 +140,7 @@
 					placeholder="请选择设备类型"
 					@change="getipfsdata"
 				>
-					<el-option label="全部" value="*"></el-option>
+					<el-option label="全部" value=""></el-option>
 					<el-option
 						v-for="item in hardware_type"
 						:key="item.name"
@@ -154,7 +154,7 @@
 					placeholder="请选择设备类型"
 					@change="getipfsdata"
 				>
-					<el-option label="全部" value="*"></el-option>
+					<el-option label="全部" value=""></el-option>
 					<el-option
 						v-for="item in oslist"
 						:key="item.name"
@@ -168,7 +168,7 @@
 					placeholder="请选择设备类型"
 					@change="getipfsdata"
 				>
-					<el-option label="全部" value="*"></el-option>
+					<el-option label="全部" value=""></el-option>
 					<el-option
 						v-for="item in operatorlist"
 						:key="item.name"
@@ -176,11 +176,15 @@
 						:value="item.name"
 					></el-option>
 				</el-select>
-				<el-button type="primary">重置</el-button>
+				<el-button type="primary" @click="uopset">重置</el-button>
 			</div>
 			<div>
 				<span>排序：</span>
-				<el-select v-model="value" placeholder="请选择排序方式" @change="getipfsdata">
+				<el-select
+					v-model="value"
+					placeholder="请选择排序方式"
+					@change="getipfsdata"
+				>
 					<el-option
 						v-for="item in options"
 						:key="item.value"
@@ -200,7 +204,7 @@
 				v-for="(item, index) in ipfsdata"
 				:key="index"
 				@click="godetail(item)"
-                v-show="!showdata"
+				v-show="!showdata"
 			>
 				<div
 					style="display: flex;justify-content: flex-start;align-items: center;"
@@ -301,7 +305,7 @@
 			@fathernum="gettol"
 			:pagesa="totalCnt"
 			:currentPage="currentPage"
-			 v-show="!showdata"
+			v-show="!showdata"
 		></fenye>
 	</div>
 </template>
@@ -428,6 +432,13 @@ export default {
 		this.get_search_data();
 	},
 	methods: {
+		uopset() {
+			this.operatovalue = '';
+			this.osvalue = '';
+			this.hardwarevalue = '';
+			this.devicevalue = '';
+			this.getipfsdata();
+		},
 		get_search_data() {
 			let params = new Object();
 			params.time = '111';
@@ -455,20 +466,22 @@ export default {
 				.then((res) => {
 					if (res.status == 0) {
 						this.titledar[0].connum = res.data.total_cnt;
-						this.titledar[1].connum = res.data.online_cnt;
-						this.titledar[2].connum = this.common.formatByteActive(
+						this.titledar[1].connum = 0;
+						this.titledar[2].connum = res.data.online_cnt;
+						this.titledar[3].connum = res.data.online_cnt;
+						this.titledar[4].connum = this.common.formatByteActive(
 							res.data.total_cap
 						);
-						this.titledar[3].connum = this.common.formatByteActive(
+						this.titledar[5].connum = this.common.formatByteActive(
 							res.data.total_usedcap
 						);
-						this.titledar[4].connum = this.common.formatByteActive(
+						this.titledar[6].connum = this.common.formatByteActive(
 							res.data.total_freecap
 						);
-						this.titledar[5].connum = this.common.formatByteActive(
+						this.titledar[7].connum = this.common.formatByteActive(
 							res.data.total_dataflow
 						);
-						this.titledar[6].connum = this.common.formatByteActive(
+						this.titledar[9].connum = this.common.formatByteActive(
 							res.data.total_storeusage
 						);
 					} else {
@@ -492,7 +505,7 @@ export default {
 			parmas.devicetype = this.devicevalue;
 			parmas.firstchid = '';
 			parmas.secondchid = '';
-			parmas.enableFlag =-1;
+			parmas.enableFlag = -1;
 			parmas.order = this.value;
 			query_node(parmas)
 				.then((res) => {

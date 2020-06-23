@@ -602,7 +602,8 @@ export default {
             message: "已取消删除"
           });
         });
-    }, // 表头样式设置
+    }, 
+    // 表头样式设置
     headClass() {
       return "text-align: center;background:#eef1f6;";
     },

@@ -160,3 +160,19 @@ body {
 .data_monit .el-tabs__header {
     display: none;
 }
+
+.firstorganization_dialog .el-form-item__error {
+    margin-left: 150px;
+    margin-top: 5px;
+}
+
+.organization_dialog .el-form-item__error {
+    margin-left: 70px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.posi_dialog .el-form-item__error {
+    margin-left: 40px;
+    margin-top: 5px;
+}

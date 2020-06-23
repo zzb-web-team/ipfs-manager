@@ -178,7 +178,7 @@
 							v-for="(item, index) in options_city"
 							:key="index"
 							:label="item.name"
-							:value="item.value"
+							:value="item.name"
 						></el-option>
 					</el-select>
 
@@ -428,14 +428,14 @@ export default {
 				tabname: 'first',
 				echartslist: '1',
 				input: '',
-				region1: '', //一级渠道商
-				region2: '', //二级渠道商
-				region3: '', //设备类型
-				region4: '-1', //区域
+				region1: '*', //一级渠道商
+				region2: '*', //二级渠道商
+				region3: '*', //设备类型
+				region4: '*', //区域
 				region5: '', //城市
-				region6: '', //运营商
-				region7: '', //硬件类型
-				region8: '', //操作系统
+				region6: '*', //运营商
+				region7: '*', //硬件类型
+				region8: '*', //操作系统
 				radio: '1',
 				value1: '',
 			},
@@ -456,7 +456,7 @@ export default {
 			],
 			citylist: [
 				{
-					value: -1,
+					value: '*',
 					label: '全部',
 					id: -1,
 				},
@@ -699,7 +699,8 @@ export default {
 				this.searchdata.region6 = '';
 				this.set_time();
 			} else {
-				this.options_city = this.citydata[value[1]].cities;
+                this.options_city = this.citydata[value[1]].cities;
+                console.log(this.options_city);
 				this.city_disable = false;
 				this.searchdata.region6 = '';
 				this.set_time();
@@ -737,8 +738,22 @@ export default {
 			params.deviceType = this.searchdata.region3;
 			params.end_ts = this.endtime;
 			params.isp = this.searchdata.region6;
-			params.nodeId = this.searchdata.input;
-			params.region = this.searchdata.region4[1];
+			if (this.searchdata.input) {
+				params.nodeId = this.searchdata.input;
+			} else {
+				params.nodeId = '*';
+            }
+            console.log(this.searchdata.region5);
+			if(this.searchdata.region4=='*'){
+                params.region = '*';
+            }else{
+                params.region = this.searchdata.region4[1];
+            }
+            if(this.searchdata.region5=='全部'||this.searchdata.region5==''){
+                params.city='*';
+            }else{
+                params.city=this.searchdata.region5;
+            }
 			params.start_ts = this.starttime;
 			if (params.end_ts - params.end_ts > 86400) {
 				params.timeUnit = 1440;
@@ -792,8 +807,21 @@ export default {
 			params.deviceType = this.searchdata.region3;
 			params.end_ts = this.endtime;
 			params.isp = this.searchdata.region6;
-			params.nodeId = this.searchdata.input;
-			params.region = this.searchdata.region4[1];
+			if (this.searchdata.input) {
+				params.nodeId = this.searchdata.input;
+			} else {
+				params.nodeId = '*';
+			}
+			if(this.searchdata.region4=='*'){
+                params.region = '*';
+            }else{
+                params.region = this.searchdata.region4[1];
+            }
+            if(this.searchdata.region5=='全部'||this.searchdata.region5==''){
+                params.city='*';
+            }else{
+                params.city=this.searchdata.region5;
+            }
 			params.start_ts = this.starttime;
 			ipfs_monit_storage(params)
 				.then((res) => {
@@ -837,7 +865,16 @@ export default {
 			params.isp = this.searchdata.region6;
 			params.nodeId = this.searchdata.input;
 			params.osType = this.searchdata.region8;
-			params.region = this.searchdata.region4[1];
+			if(this.searchdata.region4=='*'){
+                params.region = '*';
+            }else{
+                params.region = this.searchdata.region4[1];
+            }
+            if(this.searchdata.region5=='全部'||this.searchdata.region5==''){
+                params.city='*';
+            }else{
+                params.city=this.searchdata.region5;
+            }
 			params.start_ts = this.starttime;
 			if (params.end_ts - params.end_ts > 86400) {
 				params.timeUnit = 1440;
@@ -858,9 +895,12 @@ export default {
 						this.$nextTick(
 							this.lastsharts('ping_ms', 'PING_MS', this.mslist)
 						);
-						this.max_value = (this.getMaximin(arrlist, 'max')).toFixed(0) + 'ms';
-						this.min_value = (this.getMaximin(arrlist, 'min')).toFixed(0) + 'ms';
-						this.average_value = (this.pingjun(arrlist)).toFixed(0) + 'ms';
+						this.max_value =
+							this.getMaximin(arrlist, 'max').toFixed(0) + 'ms';
+						this.min_value =
+							this.getMaximin(arrlist, 'min').toFixed(0) + 'ms';
+						this.average_value =
+							this.pingjun(arrlist).toFixed(0) + 'ms';
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -879,9 +919,22 @@ export default {
 			params.deviceType = this.searchdata.region3;
 			params.end_ts = this.endtime;
 			params.isp = this.searchdata.region6;
-			params.nodeId = this.searchdata.input;
+			if (this.searchdata.input) {
+				params.nodeId = this.searchdata.input;
+			} else {
+				params.nodeId = '*';
+			}
 			params.osType = this.searchdata.region8;
-			params.region = this.searchdata.region4[1];
+			if(this.searchdata.region4=='*'){
+                params.region = '*';
+            }else{
+                params.region = this.searchdata.region4[1];
+            }
+            if(this.searchdata.region5=='全部'||this.searchdata.region5==''){
+                params.city='*';
+            }else{
+                params.city=this.searchdata.region5;
+            }
 			params.start_ts = this.starttime;
 			if (params.end_ts - params.end_ts > 86400) {
 				params.timeUnit = 1440;
@@ -902,9 +955,12 @@ export default {
 						this.$nextTick(
 							this.lastsharts('tid', 'TID', this.tidlist)
 						);
-						this.max_value = (this.getMaximin(arrlist, 'max')).toFixed(0) + 'ms';
-						this.min_value = (this.getMaximin(arrlist, 'min')).toFixed(0) + 'ms';
-						this.average_value = (this.pingjun(arrlist)).toFixed(0) + 'ms';
+						this.max_value =
+							this.getMaximin(arrlist, 'max').toFixed(0) + 'ms';
+						this.min_value =
+							this.getMaximin(arrlist, 'min').toFixed(0) + 'ms';
+						this.average_value =
+							this.pingjun(arrlist).toFixed(0) + 'ms';
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -923,9 +979,22 @@ export default {
 			params.deviceType = this.searchdata.region3;
 			params.end_ts = this.endtime;
 			params.isp = this.searchdata.region6;
-			params.nodeId = this.searchdata.input;
+			if (this.searchdata.input) {
+				params.nodeId = this.searchdata.input;
+			} else {
+				params.nodeId = '*';
+			}
 			params.osType = this.searchdata.region8;
-			params.region = this.searchdata.region4[1];
+			if(this.searchdata.region4=='*'){
+                params.region = '*';
+            }else{
+                params.region = this.searchdata.region4[1];
+            }
+            if(this.searchdata.region5=='全部'||this.searchdata.region5==''){
+                params.city='*';
+            }else{
+                params.city=this.searchdata.region5;
+            }
 			params.start_ts = this.starttime;
 			if (params.end_ts - params.end_ts > 86400) {
 				params.timeUnit = 1440;
@@ -950,9 +1019,12 @@ export default {
 								this.etflist
 							)
 						);
-						this.max_value = (this.getMaximin(arrlist, 'max')).toFixed(4) + '%';
-						this.min_value = (this.getMaximin(arrlist, 'min')).toFixed(4) + '%';
-						this.average_value = (this.pingjun(arrlist)).toFixed(4) + '%';
+						this.max_value =
+							this.getMaximin(arrlist, 'max').toFixed(4) + '%';
+						this.min_value =
+							this.getMaximin(arrlist, 'min').toFixed(4) + '%';
+						this.average_value =
+							this.pingjun(arrlist).toFixed(4) + '%';
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -971,9 +1043,22 @@ export default {
 			params.deviceType = this.searchdata.region3;
 			params.end_ts = this.endtime;
 			params.isp = this.searchdata.region6;
-			params.nodeId = this.searchdata.input;
+			if (this.searchdata.input) {
+				params.nodeId = this.searchdata.input;
+			} else {
+				params.nodeId = '*';
+			}
 			params.osType = this.searchdata.region8;
-			params.region = this.searchdata.region4[1];
+			if(this.searchdata.region4=='*'){
+                params.region = '*';
+            }else{
+                params.region = this.searchdata.region4[1];
+            }
+            if(this.searchdata.region5=='全部'||this.searchdata.region5==''){
+                params.city='*';
+            }else{
+                params.city=this.searchdata.region5;
+            }
 			params.start_ts = this.starttime;
 			if (params.end_ts - params.end_ts > 86400) {
 				params.timeUnit = 1440;
@@ -998,9 +1083,15 @@ export default {
 								this.ltlist
 							)
 						);
-						this.max_value = (this.getMaximin(arrlist, 'max')).toFixed(0);
-						this.min_value = (this.getMaximin(arrlist, 'min')).toFixed(0);
-						this.average_value = (this.pingjun(arrlist)).toFixed(0);
+						this.max_value = this.getMaximin(
+							arrlist,
+							'max'
+						).toFixed(0);
+						this.min_value = this.getMaximin(
+							arrlist,
+							'min'
+						).toFixed(0);
+						this.average_value = this.pingjun(arrlist).toFixed(0);
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -1019,9 +1110,22 @@ export default {
 			params.deviceType = this.searchdata.region3;
 			params.end_ts = this.endtime;
 			params.isp = this.searchdata.region6;
-			params.nodeId = this.searchdata.input;
+			if (this.searchdata.input) {
+				params.nodeId = this.searchdata.input;
+			} else {
+				params.nodeId = '*';
+			}
 			params.osType = this.searchdata.region8;
-			params.region = this.searchdata.region4[1];
+			if(this.searchdata.region4=='*'){
+                params.region = '*';
+            }else{
+                params.region = this.searchdata.region4[1];
+            }
+            if(this.searchdata.region5=='全部'||this.searchdata.region5==''){
+                params.city='*';
+            }else{
+                params.city=this.searchdata.region5;
+            }
 			params.start_ts = this.starttime;
 			if (params.end_ts - params.end_ts > 86400) {
 				params.timeUnit = 1440;
@@ -1046,9 +1150,12 @@ export default {
 								this.itflist
 							)
 						);
-						this.max_value = (this.getMaximin(arrlist, 'max')).toFixed(0) + '%';
-						this.min_value = (this.getMaximin(arrlist, 'min')).toFixed(0) + '%';
-						this.average_value = (this.pingjun(arrlist)).toFixed(0) + '%';
+						this.max_value =
+							this.getMaximin(arrlist, 'max').toFixed(0) + '%';
+						this.min_value =
+							this.getMaximin(arrlist, 'min').toFixed(0) + '%';
+						this.average_value =
+							this.pingjun(arrlist).toFixed(0) + '%';
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -1067,9 +1174,22 @@ export default {
 			params.deviceType = this.searchdata.region3;
 			params.end_ts = this.endtime;
 			params.isp = this.searchdata.region6;
-			params.nodeId = this.searchdata.input;
+			if (this.searchdata.input) {
+				params.nodeId = this.searchdata.input;
+			} else {
+				params.nodeId = '*';
+			}
 			params.osType = this.searchdata.region8;
-			params.region = this.searchdata.region4[1];
+			if(this.searchdata.region4=='*'){
+                params.region = '*';
+            }else{
+                params.region = this.searchdata.region4[1];
+            }
+            if(this.searchdata.region5=='全部'||this.searchdata.region5==''){
+                params.city='*';
+            }else{
+                params.city=this.searchdata.region5;
+            }
 			params.start_ts = this.starttime;
 			if (params.end_ts - params.end_ts > 86400) {
 				params.timeUnit = 1440;
@@ -1094,9 +1214,12 @@ export default {
 								this.otflist
 							)
 						);
-						this.max_value = (this.getMaximin(arrlist, 'max')).toFixed(0) + '%';
-						this.min_value = (this.getMaximin(arrlist, 'min')).toFixed(0) + '%';
-						this.average_value = (this.pingjun(arrlist)).toFixed(0) + '%';
+						this.max_value =
+							this.getMaximin(arrlist, 'max').toFixed(0) + '%';
+						this.min_value =
+							this.getMaximin(arrlist, 'min').toFixed(0) + '%';
+						this.average_value =
+							this.pingjun(arrlist).toFixed(0) + '%';
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -1115,9 +1238,22 @@ export default {
 			params.deviceType = this.searchdata.region3;
 			params.end_ts = this.endtime;
 			params.isp = this.searchdata.region6;
-			params.nodeId = this.searchdata.input;
+			if (this.searchdata.input) {
+				params.nodeId = this.searchdata.input;
+			} else {
+				params.nodeId = '*';
+			}
 			params.osType = this.searchdata.region8;
-			params.region = this.searchdata.region4[1];
+			if(this.searchdata.region4=='*'){
+                params.region = '*';
+            }else{
+                params.region = this.searchdata.region4[1];
+            }
+            if(this.searchdata.region5=='全部'||this.searchdata.region5==''){
+                params.city='*';
+            }else{
+                params.city=this.searchdata.region5;
+            }
 			params.start_ts = this.starttime;
 			if (params.end_ts - params.end_ts > 86400) {
 				params.timeUnit = 1440;
@@ -1142,9 +1278,15 @@ export default {
 								this.rcntlist
 							)
 						);
-						this.max_value = (this.getMaximin(arrlist, 'max')).toFixed(0);
-						this.min_value = (this.getMaximin(arrlist, 'min')).toFixed(0);
-						this.average_value = (this.pingjun(arrlist)).toFixed(0);
+						this.max_value = this.getMaximin(
+							arrlist,
+							'max'
+						).toFixed(0);
+						this.min_value = this.getMaximin(
+							arrlist,
+							'min'
+						).toFixed(0);
+						this.average_value = this.pingjun(arrlist).toFixed(0);
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -1163,9 +1305,22 @@ export default {
 			params.deviceType = this.searchdata.region3;
 			params.end_ts = this.endtime;
 			params.isp = this.searchdata.region6;
-			params.nodeId = this.searchdata.input;
+			if (this.searchdata.input) {
+				params.nodeId = this.searchdata.input;
+			} else {
+				params.nodeId = '*';
+			}
 			params.osType = this.searchdata.region8;
-			params.region = this.searchdata.region4[1];
+			if(this.searchdata.region4=='*'){
+                params.region = '*';
+            }else{
+                params.region = this.searchdata.region4[1];
+            }
+            if(this.searchdata.region5=='全部'||this.searchdata.region5==''){
+                params.city='*';
+            }else{
+                params.city=this.searchdata.region5;
+            }
 			params.start_ts = this.starttime;
 			if (params.end_ts - params.end_ts > 86400) {
 				params.timeUnit = 1440;
@@ -1190,9 +1345,12 @@ export default {
 								this.cpuusaglist
 							)
 						);
-						this.max_value = (this.getMaximin(arrlist, 'max')).toFixed(2) + '%';
-						this.min_value = (this.getMaximin(arrlist, 'min')).toFixed(2) + '%';
-						this.average_value = (this.pingjun(arrlist)).toFixed(2) + '%';
+						this.max_value =
+							this.getMaximin(arrlist, 'max').toFixed(2) + '%';
+						this.min_value =
+							this.getMaximin(arrlist, 'min').toFixed(2) + '%';
+						this.average_value =
+							this.pingjun(arrlist).toFixed(2) + '%';
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -1211,9 +1369,22 @@ export default {
 			params.deviceType = this.searchdata.region3;
 			params.end_ts = this.endtime;
 			params.isp = this.searchdata.region6;
-			params.nodeId = this.searchdata.input;
+			if (this.searchdata.input) {
+				params.nodeId = this.searchdata.input;
+			} else {
+				params.nodeId = '*';
+			}
 			params.osType = this.searchdata.region8;
-			params.region = this.searchdata.region4[1];
+			if(this.searchdata.region4=='*'){
+                params.region = '*';
+            }else{
+                params.region = this.searchdata.region4[1];
+            }
+            if(this.searchdata.region5=='全部'||this.searchdata.region5==''){
+                params.city='*';
+            }else{
+                params.city=this.searchdata.region5;
+            }
 			params.start_ts = this.starttime;
 			if (params.end_ts - params.end_ts > 86400) {
 				params.timeUnit = 1440;
@@ -1238,9 +1409,12 @@ export default {
 								this.memorylist
 							)
 						);
-						this.max_value = (this.getMaximin(arrlist, 'max')).toFixed(2) + '%';
-						this.min_value = (this.getMaximin(arrlist, 'min')).toFixed(2) + '%';
-						this.average_value = (this.pingjun(arrlist)).toFixed(2) + '%';
+						this.max_value =
+							this.getMaximin(arrlist, 'max').toFixed(2) + '%';
+						this.min_value =
+							this.getMaximin(arrlist, 'min').toFixed(2) + '%';
+						this.average_value =
+							this.pingjun(arrlist).toFixed(2) + '%';
 					} else {
 						this.$message.error(res.errMsg);
 					}

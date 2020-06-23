@@ -2,75 +2,292 @@
 	<div class="content">
 		<el-breadcrumb separator="/">
 			<el-breadcrumb-item>
-				<a href="/">账户管理</a>
+				<a href="/">组织管理</a>
 			</el-breadcrumb-item>
 		</el-breadcrumb>
 		<!--  -->
 		<div class="org_con">
-			<el-button type="primary">新建部门</el-button>
-			<el-button type="primary">新建下级部门</el-button>
-            <el-table
-    ref="multipleTable"
-    :data="tableData"
-    tooltip-effect="dark"
-    style="width: 100%"
-    @selection-change="handleSelectionChange">
-    <el-table-column
-      type="selection">
-    </el-table-column>
-    <el-table-column
-      label="日期">
-      <template slot-scope="scope">{{ scope.row.date }}</template>
-    </el-table-column>
-    <el-table-column
-      prop="name"
-      label="姓名"
-      width="120">
-    </el-table-column>
-    <el-table-column
-      prop="address"
-      label="地址"
-      show-overflow-tooltip>
-    </el-table-column>
-  </el-table>
+			<div class="btn_area">
+				<el-button type="primary" @click="uodatadialogVisible"
+					>新建部门</el-button
+				>
+				<el-button type="primary" @click="nwisible"
+					>新建下级部门</el-button
+				>
+			</div>
+			<!-- 新建部门弹窗 -->
+			<el-dialog
+				title="新建部门"
+				:visible.sync="dialogFormVisible"
+				width="650px"
+				class="firstorganization_dialog"
+			>
+				<el-form :model="form" ref="firstruleForm">
+					<el-form-item
+						label=""
+						prop="nuname"
+						:rules="[{ validator: jioname, trigger: 'blur' }]"
+					>
+						<el-col :span="12" :offset="6">
+							<el-input
+								v-model="form.nuname"
+								autocomplete="off"
+							></el-input>
+						</el-col>
+					</el-form-item>
+					<el-col :span="18" :offset="6">
+						<p>
+							4-20字符，英文字母、汉字、数字组合，可为纯英文、汉字、数字
+						</p>
+					</el-col>
+				</el-form>
+				<div
+					slot="footer"
+					class="dialog-footer"
+					style="text-align:center;"
+				>
+					<el-button @click="resetForm('firstruleForm')"
+						>取 消</el-button
+					>
+					<el-button
+						type="primary"
+						@click="firstsubmitForm('firstruleForm')"
+						>确 定</el-button
+					>
+				</div>
+			</el-dialog>
+			<!-- 新建下级部门弹窗 -->
+			<el-dialog
+				title="新建下级部门"
+				:visible.sync="nwFormVisible"
+				width="650px"
+				class="organization_dialog"
+			>
+				<el-col :span="19" :offset="4">
+					<el-form :model="form" ref="ruleForm">
+						<el-form-item
+							label="部　　门"
+							prop="region"
+							:rules="[
+								{ validator: jioregion, trigger: 'change' },
+							]"
+						>
+							<el-select
+								v-model="form.region"
+								placeholder="请选择部门"
+							>
+								<el-option
+									label="区域一"
+									value="shanghai"
+								></el-option>
+								<el-option
+									label="区域二"
+									value="beijing"
+								></el-option>
+							</el-select>
+						</el-form-item>
+						<el-form-item
+							label="下级部门"
+							prop="name"
+							:rules="[{ validator: jioname, trigger: 'blur' }]"
+						>
+							<el-col :span="11">
+								<el-input
+									v-model="form.name"
+									autocomplete="off"
+								></el-input>
+							</el-col>
+						</el-form-item>
+						<p>
+							4-20字符，英文字母、汉字、数字组合，可为纯英文、汉字、数字
+						</p>
+					</el-form>
+				</el-col>
+				<div
+					slot="footer"
+					class="dialog-footer"
+					style="text-align:center;"
+				>
+					<el-button @click="resetForm('ruleForm')">取 消</el-button>
+					<el-button type="primary" @click="submitForm('ruleForm')"
+						>确 定</el-button
+					>
+				</div>
+			</el-dialog>
+			<!--  -->
+			<el-table
+				ref="multipleTable"
+				:data="tableData"
+				tooltip-effect="dark"
+				style="width: 100%"
+				border
+				:cell-style="rowClass"
+				:header-cell-style="headClass"
+				@selection-change="handleSelectionChange"
+			>
+				<el-table-column type="selection"> </el-table-column>
+				<el-table-column label="ID">
+					<template slot-scope="scope">{{ scope.row.id }}</template>
+				</el-table-column>
+				<el-table-column prop="first_level" label="一级部门">
+				</el-table-column>
+				<el-table-column
+					prop="second_level"
+					label="二级部门"
+					show-overflow-tooltip
+				>
+				</el-table-column>
+				<el-table-column label="操作">
+					<template slot-scope="scope">
+						<el-button
+							@click="handleClick(scope.row)"
+							type="text"
+							size="small"
+							>修改</el-button
+						>
+						<el-button
+							@click.native.prevent="
+								deleteRow(scope.$index, tableData)
+							"
+							type="text"
+							size="small"
+							>删除</el-button
+						>
+					</template>
+				</el-table-column>
+			</el-table>
+			<div class="btn_area">
+				<el-button type="primary">删除</el-button>
+				<fenye
+					style="float:right;margin:10px 0 0 0;"
+					@fatherMethod="getpage"
+					@fathernum="gettol"
+					:pagesa="total_cnt"
+					:currentPage="currentPage"
+				></fenye>
+			</div>
 		</div>
 	</div>
 </template>
 
 <script>
+import fenye from '@/components/fenye';
 export default {
 	data() {
 		return {
-             tableData: [{
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-08',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-06',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-07',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }],
-        };
+			pagesize: 10,
+			total_cnt: 1,
+			currentPage: 0,
+			dialogFormVisible: false,
+			nwFormVisible: false,
+			tableData: [
+				{
+					id: '1',
+					first_level: 'AI组',
+					second_level: 'ROM组',
+				},
+				{
+					id: '2',
+					first_level: '大数据组',
+					second_level: 'IPFS组',
+				},
+			],
+			form: {
+				region: '',
+				name: '',
+				nuname: '',
+			},
+		};
+	},
+	methods: {
+		//新建部门
+		uodatadialogVisible() {
+			this.dialogFormVisible = true;
+		},
+		//新建下级部门
+		nwisible() {
+			this.nwFormVisible = true;
+		},
+		//新建部门--确定
+		firstsubmitForm(formName) {
+			this.$refs[formName].validate((valid) => {
+				if (valid) {
+					alert('submit!');
+					this.dialogFormVisible = false;
+				} else {
+					return false;
+				}
+			});
+		},
+		//新建下级部门--确定
+		submitForm(formName) {
+			this.$refs[formName].validate((valid) => {
+				if (valid) {
+					alert('submit!');
+					this.nwFormVisible = false;
+				} else {
+					return false;
+				}
+			});
+		},
+		//弹窗-取消
+		resetForm(formName) {
+			this.$refs[formName].resetFields();
+			this.nwFormVisible = false;
+			this.dialogFormVisible = false;
+		},
+		// 全选
+		handleSelectionChange(val) {
+			this.multipleSelection = val;
+		},
+		handleClick(data) {
+			console.log(data);
+		},
+		deleteRow(num, arr) {
+			console.log(num, arr);
+		},
+		//获取页码
+		getpage(pages) {
+			this.tolpage = pages;
+			//this.getdata();
+		},
+		//获取每页数量
+		gettol(pagetol) {
+			this.pagesize = pagetol;
+			//this.getdata();
+		},
+		// 表头样式设置
+		headClass() {
+			return 'text-align: center;background:#eef1f6;';
+		},
+		// 表格样式设置
+		rowClass() {
+			return 'text-align: center;';
+		},
+		//校验格式
+		jioname(rule, value, callback) {
+			if (value === '') {
+				callback(new Error('部门名称不能为空'));
+			} else {
+				var fsdtel = /^[\u4e00-\u9fa50-9a-zA-Z]{4,20}$/;
+				if (fsdtel.test(value) === false) {
+					callback(new Error('部门名称格式错误'));
+				} else {
+					callback();
+				}
+			}
+		},
+		jioregion(rule, value, callback) {
+			console.log(value);
+			if (value === '') {
+				callback(new Error('请选择一级部门'));
+			} else {
+				callback();
+			}
+		},
+	},
+	components: {
+		fenye,
 	},
 };
 </script>
@@ -81,6 +298,10 @@ export default {
 	.org_con {
 		margin-top: 20px;
 		margin-bottom: 20px;
+		.btn_area {
+			margin-top: 20px;
+			margin-bottom: 20px;
+		}
 	}
 }
 </style>

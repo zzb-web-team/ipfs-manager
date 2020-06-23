@@ -22,7 +22,7 @@
 				placeholder="请选择一级渠道"
 				@change="handleChangefirst($event)"
 			>
-				<el-option label="全部" value=""></el-option>
+				<el-option label="全部" value="*"></el-option>
 				<el-option
 					v-for="(item, index) in firstchan"
 					:key="item.name + index"
@@ -36,7 +36,7 @@
 				@change="get_search()"
 				:disabled="chil_disable"
 			>
-				<el-option label="全部" value=""></el-option>
+				<el-option label="全部" value="*"></el-option>
 				<el-option
 					v-for="(item, index) in secondchan"
 					:key="item.value + index"
@@ -50,7 +50,7 @@
 				placeholder="请选设备类型"
 				@change="get_search()"
 			>
-				<el-option label="全部" value=""></el-option>
+				<el-option label="全部" value="*"></el-option>
 				<el-option
 					v-for="(item, index) in device_type"
 					:key="item.name + index"
@@ -60,7 +60,6 @@
 			</el-select>
 			<span>区域：</span>
 			<el-cascader
-				size="small"
 				placeholder="请选择区域"
 				v-model="searchdata.region4"
 				:options="citylist"
@@ -111,10 +110,10 @@ export default {
 			maplist: [],
 			chil_disable: true,
 			searchdata: {
-				region1: '',
-				region2: '',
-				region3: '',
-				region4: '',
+				region1: '*',
+				region2: '*',
+				region3: '*',
+				region4: '*',
 			},
 			region: '',
 			time_value: '',
@@ -146,7 +145,7 @@ export default {
 						)
 					);
 				},
-			},
+            },
 			secondchan: [],
 			citylist: [
 				{
@@ -352,8 +351,9 @@ export default {
 		};
 	},
 	mounted() {
-        this.starttime=new Date(new Date().toLocaleDateString()).getTime()/1000;
-        this.endtime= parseInt((new Date()).getTime()/1000);
+		this.starttime =
+			new Date(new Date().toLocaleDateString()).getTime() / 1000;
+		this.endtime = parseInt(new Date().getTime() / 1000);
 		this.getdata();
 		//this.drawLine();
 		this.get_search_data();
@@ -408,16 +408,16 @@ export default {
 			params.deviceType = this.searchdata.region3;
 			params.end_ts = this.endtime;
 			params.firstChannel = this.searchdata.region1;
-			params.isp = '';
-			params.nodeId = '';
+			params.isp = '*';
+			params.nodeId = '*';
 			params.secondChannel = this.searchdata.region2;
 			params.start_ts = this.starttime;
-			if (this.searchdata.region4 == '') {
-				params.region = '';
-				params.city = '';
+			if (this.searchdata.region4 == '*') {
+				params.region = '*';
+				params.city = '*';
 			} else {
-				params.region = '';
-				params.city = this.searchdata.region4[1];
+				params.region = this.searchdata.region4[1];
+				params.city = '*';
 			}
 			if (params.end_ts - params.start_ts > 86400) {
 				params.timeUnit = 1440;
