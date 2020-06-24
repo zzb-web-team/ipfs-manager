@@ -418,7 +418,7 @@ export default {
 			new Date(new Date().toLocaleDateString()).getTime() / 1000 -
 			86400 * 90;
 		this.endtime = Date.parse(new Date()) / 1000;
-		this.gettab();
+		// this.gettab();
 	},
 	methods: {
 		handleChangefirst(val) {
