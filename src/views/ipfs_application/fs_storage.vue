@@ -217,9 +217,9 @@
 						{{ scope.row.endTS | getymd }}
 					</template>
 				</el-table-column>
-				<el-table-column prop="timeUsage" label="使用时长">
+				<el-table-column prop="timeuse" label="使用时长">
 					<template slot-scope="scope">
-						{{ scope.row.timeUsage | s_h }}
+						{{ scope.row.timeuse | s_h }}
 					</template>
 				</el-table-column>
 				<el-table-column prop="accelstate" label="使用状态">

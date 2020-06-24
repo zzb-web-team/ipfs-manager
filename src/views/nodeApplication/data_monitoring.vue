@@ -428,14 +428,14 @@ export default {
 				tabname: 'first',
 				echartslist: '1',
 				input: '',
-				region1: '*', //一级渠道商
-				region2: '*', //二级渠道商
-				region3: '*', //设备类型
-				region4: '*', //区域
+				region1: '', //一级渠道商
+				region2: '', //二级渠道商
+				region3: '', //设备类型
+				region4: '', //区域
 				region5: '', //城市
-				region6: '*', //运营商
-				region7: '*', //硬件类型
-				region8: '*', //操作系统
+				region6: '', //运营商
+				region7: '', //硬件类型
+				region8: '', //操作系统
 				radio: '1',
 				value1: '',
 			},
@@ -733,17 +733,31 @@ export default {
 			this.upBandwidthMap = [];
 			this.downBandwidthMap = [];
 			let params = new Object();
-			params.firstChannel = this.searchdata.region1;
-			params.secondChannel = this.searchdata.region2;
-			params.deviceType = this.searchdata.region3;
-			params.end_ts = this.endtime;
-			params.isp = this.searchdata.region6;
+			if (this.searchdata.region1) {
+				params.firstChannel = this.searchdata.region1;
+			} else {
+				params.firstChannel = '*';
+            }
+            if (this.searchdata.region2) {
+				params.secondChannel = this.searchdata.region2;
+			} else {
+				params.secondChannel = '*';
+            }
+             if (this.searchdata.region3) {
+				params.deviceType = this.searchdata.region3;
+			} else {
+				params.deviceType = '*';
+            }
+             if (this.searchdata.region6) {
+				params.isp = this.searchdata.region6;
+			} else {
+				params.isp = '*';
+            }
 			if (this.searchdata.input) {
 				params.nodeId = this.searchdata.input;
 			} else {
 				params.nodeId = '*';
             }
-            console.log(this.searchdata.region5);
 			if(this.searchdata.region4=='*'){
                 params.region = '*';
             }else{
@@ -754,7 +768,8 @@ export default {
             }else{
                 params.city=this.searchdata.region5;
             }
-			params.start_ts = this.starttime;
+            params.start_ts = this.starttime;
+            params.end_ts = this.endtime;
 			if (params.end_ts - params.end_ts > 86400) {
 				params.timeUnit = 1440;
 			} else {
@@ -802,15 +817,30 @@ export default {
 		get_monit() {
 			this.dataStore = [];
 			let params = new Object();
-			params.firstChannel = this.searchdata.region1;
-			params.secondChannel = this.searchdata.region2;
-			params.deviceType = this.searchdata.region3;
-			params.end_ts = this.endtime;
-			params.isp = this.searchdata.region6;
-			if (this.searchdata.input) {
-				params.nodeId = this.searchdata.input;
+            if (this.searchdata.region1) {
+				params.firstChannel = this.searchdata.region1;
 			} else {
-				params.nodeId = '*';
+				params.firstChannel = '*';
+            }
+            if (this.searchdata.region2) {
+				params.secondChannel = this.searchdata.region2;
+			} else {
+				params.secondChannel = '*';
+            }
+             if (this.searchdata.region3) {
+				params.deviceType = this.searchdata.region3;
+			} else {
+				params.deviceType = '*';
+            }
+             if (this.searchdata.region6) {
+				params.isp = this.searchdata.region6;
+			} else {
+				params.isp = '*';
+            }
+			if (this.searchdata.input) {
+                params.nodeId = this.searchdata.input;
+			} else {
+                params.nodeId = '*';
 			}
 			if(this.searchdata.region4=='*'){
                 params.region = '*';
@@ -822,6 +852,7 @@ export default {
             }else{
                 params.city=this.searchdata.region5;
             }
+			params.end_ts = this.endtime;
 			params.start_ts = this.starttime;
 			ipfs_monit_storage(params)
 				.then((res) => {
@@ -857,14 +888,41 @@ export default {
 		get_pingms() {
 			this.mslist = [];
 			let params = new Object();
-			params.firstChannel = this.searchdata.region1;
-			params.secondChannel = this.searchdata.region2;
-			params.cpuType = this.searchdata.region7;
-			params.deviceType = this.searchdata.region3;
-			params.end_ts = this.endtime;
-			params.isp = this.searchdata.region6;
-			params.nodeId = this.searchdata.input;
-			params.osType = this.searchdata.region8;
+            if (this.searchdata.region1) {
+				params.firstChannel = this.searchdata.region1;
+			} else {
+				params.firstChannel = '*';
+            }
+            if (this.searchdata.region2) {
+				params.secondChannel = this.searchdata.region2;
+			} else {
+				params.secondChannel = '*';
+            }
+             if (this.searchdata.region3) {
+				params.deviceType = this.searchdata.region3;
+			} else {
+				params.deviceType = '*';
+            }
+             if (this.searchdata.region6) {
+				params.isp = this.searchdata.region6;
+			} else {
+				params.isp = '*';
+            }
+             if (this.searchdata.region7) {
+				params.cpuType = this.searchdata.region7;
+			} else {
+				params.cpuType = '*';
+            }
+			if (this.searchdata.input) {
+                params.nodeId = this.searchdata.input;
+			} else {
+                params.nodeId = '*';
+			}
+            if (this.searchdata.region8) {
+                params.osType = this.searchdata.region8;
+			} else {
+                params.osType = '*';
+			}
 			if(this.searchdata.region4=='*'){
                 params.region = '*';
             }else{
@@ -876,6 +934,7 @@ export default {
                 params.city=this.searchdata.region5;
             }
 			params.start_ts = this.starttime;
+			params.end_ts = this.endtime;
 			if (params.end_ts - params.end_ts > 86400) {
 				params.timeUnit = 1440;
 			} else {
@@ -913,18 +972,41 @@ export default {
 		get_tid() {
 			this.tidlist = [];
 			let params = new Object();
-			params.firstChannel = this.searchdata.region1;
-			params.secondChannel = this.searchdata.region2;
-			params.cpuType = this.searchdata.region7;
-			params.deviceType = this.searchdata.region3;
-			params.end_ts = this.endtime;
-			params.isp = this.searchdata.region6;
-			if (this.searchdata.input) {
-				params.nodeId = this.searchdata.input;
+			            if (this.searchdata.region1) {
+				params.firstChannel = this.searchdata.region1;
 			} else {
-				params.nodeId = '*';
+				params.firstChannel = '*';
+            }
+            if (this.searchdata.region2) {
+				params.secondChannel = this.searchdata.region2;
+			} else {
+				params.secondChannel = '*';
+            }
+             if (this.searchdata.region3) {
+				params.deviceType = this.searchdata.region3;
+			} else {
+				params.deviceType = '*';
+            }
+             if (this.searchdata.region6) {
+				params.isp = this.searchdata.region6;
+			} else {
+				params.isp = '*';
+            }
+             if (this.searchdata.region7) {
+				params.cpuType = this.searchdata.region7;
+			} else {
+				params.cpuType = '*';
+            }
+			if (this.searchdata.input) {
+                params.nodeId = this.searchdata.input;
+			} else {
+                params.nodeId = '*';
 			}
-			params.osType = this.searchdata.region8;
+            if (this.searchdata.region8) {
+                params.osType = this.searchdata.region8;
+			} else {
+                params.osType = '*';
+			}
 			if(this.searchdata.region4=='*'){
                 params.region = '*';
             }else{
@@ -936,6 +1018,7 @@ export default {
                 params.city=this.searchdata.region5;
             }
 			params.start_ts = this.starttime;
+			params.end_ts = this.endtime;
 			if (params.end_ts - params.end_ts > 86400) {
 				params.timeUnit = 1440;
 			} else {
@@ -973,18 +1056,41 @@ export default {
 		get_etf() {
 			this.etflist = [];
 			let params = new Object();
-			params.firstChannel = this.searchdata.region1;
-			params.secondChannel = this.searchdata.region2;
-			params.cpuType = this.searchdata.region7;
-			params.deviceType = this.searchdata.region3;
-			params.end_ts = this.endtime;
-			params.isp = this.searchdata.region6;
-			if (this.searchdata.input) {
-				params.nodeId = this.searchdata.input;
+			            if (this.searchdata.region1) {
+				params.firstChannel = this.searchdata.region1;
 			} else {
-				params.nodeId = '*';
+				params.firstChannel = '*';
+            }
+            if (this.searchdata.region2) {
+				params.secondChannel = this.searchdata.region2;
+			} else {
+				params.secondChannel = '*';
+            }
+             if (this.searchdata.region3) {
+				params.deviceType = this.searchdata.region3;
+			} else {
+				params.deviceType = '*';
+            }
+             if (this.searchdata.region6) {
+				params.isp = this.searchdata.region6;
+			} else {
+				params.isp = '*';
+            }
+             if (this.searchdata.region7) {
+				params.cpuType = this.searchdata.region7;
+			} else {
+				params.cpuType = '*';
+            }
+			if (this.searchdata.input) {
+                params.nodeId = this.searchdata.input;
+			} else {
+                params.nodeId = '*';
 			}
-			params.osType = this.searchdata.region8;
+            if (this.searchdata.region8) {
+                params.osType = this.searchdata.region8;
+			} else {
+                params.osType = '*';
+			}
 			if(this.searchdata.region4=='*'){
                 params.region = '*';
             }else{
@@ -996,6 +1102,7 @@ export default {
                 params.city=this.searchdata.region5;
             }
 			params.start_ts = this.starttime;
+			params.end_ts = this.endtime;
 			if (params.end_ts - params.end_ts > 86400) {
 				params.timeUnit = 1440;
 			} else {
@@ -1037,18 +1144,41 @@ export default {
 		get_lt() {
 			this.ltlist = [];
 			let params = new Object();
-			params.firstChannel = this.searchdata.region1;
-			params.secondChannel = this.searchdata.region2;
-			params.cpuType = this.searchdata.region7;
-			params.deviceType = this.searchdata.region3;
-			params.end_ts = this.endtime;
-			params.isp = this.searchdata.region6;
-			if (this.searchdata.input) {
-				params.nodeId = this.searchdata.input;
+			            if (this.searchdata.region1) {
+				params.firstChannel = this.searchdata.region1;
 			} else {
-				params.nodeId = '*';
+				params.firstChannel = '*';
+            }
+            if (this.searchdata.region2) {
+				params.secondChannel = this.searchdata.region2;
+			} else {
+				params.secondChannel = '*';
+            }
+             if (this.searchdata.region3) {
+				params.deviceType = this.searchdata.region3;
+			} else {
+				params.deviceType = '*';
+            }
+             if (this.searchdata.region6) {
+				params.isp = this.searchdata.region6;
+			} else {
+				params.isp = '*';
+            }
+             if (this.searchdata.region7) {
+				params.cpuType = this.searchdata.region7;
+			} else {
+				params.cpuType = '*';
+            }
+			if (this.searchdata.input) {
+                params.nodeId = this.searchdata.input;
+			} else {
+                params.nodeId = '*';
 			}
-			params.osType = this.searchdata.region8;
+            if (this.searchdata.region8) {
+                params.osType = this.searchdata.region8;
+			} else {
+                params.osType = '*';
+			}
 			if(this.searchdata.region4=='*'){
                 params.region = '*';
             }else{
@@ -1060,6 +1190,7 @@ export default {
                 params.city=this.searchdata.region5;
             }
 			params.start_ts = this.starttime;
+			params.end_ts = this.endtime;
 			if (params.end_ts - params.end_ts > 86400) {
 				params.timeUnit = 1440;
 			} else {
@@ -1104,18 +1235,41 @@ export default {
 		get_itf() {
 			this.itflist = [];
 			let params = new Object();
-			params.firstChannel = this.searchdata.region1;
-			params.secondChannel = this.searchdata.region2;
-			params.cpuType = this.searchdata.region7;
-			params.deviceType = this.searchdata.region3;
-			params.end_ts = this.endtime;
-			params.isp = this.searchdata.region6;
-			if (this.searchdata.input) {
-				params.nodeId = this.searchdata.input;
+			            if (this.searchdata.region1) {
+				params.firstChannel = this.searchdata.region1;
 			} else {
-				params.nodeId = '*';
+				params.firstChannel = '*';
+            }
+            if (this.searchdata.region2) {
+				params.secondChannel = this.searchdata.region2;
+			} else {
+				params.secondChannel = '*';
+            }
+             if (this.searchdata.region3) {
+				params.deviceType = this.searchdata.region3;
+			} else {
+				params.deviceType = '*';
+            }
+             if (this.searchdata.region6) {
+				params.isp = this.searchdata.region6;
+			} else {
+				params.isp = '*';
+            }
+             if (this.searchdata.region7) {
+				params.cpuType = this.searchdata.region7;
+			} else {
+				params.cpuType = '*';
+            }
+			if (this.searchdata.input) {
+                params.nodeId = this.searchdata.input;
+			} else {
+                params.nodeId = '*';
 			}
-			params.osType = this.searchdata.region8;
+            if (this.searchdata.region8) {
+                params.osType = this.searchdata.region8;
+			} else {
+                params.osType = '*';
+			}
 			if(this.searchdata.region4=='*'){
                 params.region = '*';
             }else{
@@ -1127,11 +1281,13 @@ export default {
                 params.city=this.searchdata.region5;
             }
 			params.start_ts = this.starttime;
-			if (params.end_ts - params.end_ts > 86400) {
-				params.timeUnit = 1440;
-			} else {
-				params.timeUnit = 60;
-			}
+            params.end_ts = this.endtime-1;
+            params.timeUnit = 1440;
+			// if (params.end_ts - params.end_ts > 86400) {
+			// 	params.timeUnit = 1440;
+			// } else {
+			// 	params.timeUnit = 60;
+			// }
 			ipfs_monit_itf(params)
 				.then((res) => {
 					if (res.status == 0) {
@@ -1168,18 +1324,41 @@ export default {
 		get_otf() {
 			this.otflist = [];
 			let params = new Object();
-			params.firstChannel = this.searchdata.region1;
-			params.secondChannel = this.searchdata.region2;
-			params.cpuType = this.searchdata.region7;
-			params.deviceType = this.searchdata.region3;
-			params.end_ts = this.endtime;
-			params.isp = this.searchdata.region6;
-			if (this.searchdata.input) {
-				params.nodeId = this.searchdata.input;
+			            if (this.searchdata.region1) {
+				params.firstChannel = this.searchdata.region1;
 			} else {
-				params.nodeId = '*';
+				params.firstChannel = '*';
+            }
+            if (this.searchdata.region2) {
+				params.secondChannel = this.searchdata.region2;
+			} else {
+				params.secondChannel = '*';
+            }
+             if (this.searchdata.region3) {
+				params.deviceType = this.searchdata.region3;
+			} else {
+				params.deviceType = '*';
+            }
+             if (this.searchdata.region6) {
+				params.isp = this.searchdata.region6;
+			} else {
+				params.isp = '*';
+            }
+             if (this.searchdata.region7) {
+				params.cpuType = this.searchdata.region7;
+			} else {
+				params.cpuType = '*';
+            }
+			if (this.searchdata.input) {
+                params.nodeId = this.searchdata.input;
+			} else {
+                params.nodeId = '*';
 			}
-			params.osType = this.searchdata.region8;
+            if (this.searchdata.region8) {
+                params.osType = this.searchdata.region8;
+			} else {
+                params.osType = '*';
+			}
 			if(this.searchdata.region4=='*'){
                 params.region = '*';
             }else{
@@ -1191,11 +1370,13 @@ export default {
                 params.city=this.searchdata.region5;
             }
 			params.start_ts = this.starttime;
-			if (params.end_ts - params.end_ts > 86400) {
-				params.timeUnit = 1440;
-			} else {
-				params.timeUnit = 60;
-			}
+            params.end_ts = this.endtime-1;
+            params.timeUnit = 1440;
+			// if (params.end_ts - params.end_ts > 86400) {
+			// 	params.timeUnit = 1440;
+			// } else {
+			// 	params.timeUnit = 60;
+			// }
 			ipfs_monit_otf(params)
 				.then((res) => {
 					if (res.status == 0) {
@@ -1232,18 +1413,41 @@ export default {
 		get_rcnt() {
 			this.rcntlist = [];
 			let params = new Object();
-			params.firstChannel = this.searchdata.region1;
-			params.secondChannel = this.searchdata.region2;
-			params.cpuType = this.searchdata.region7;
-			params.deviceType = this.searchdata.region3;
-			params.end_ts = this.endtime;
-			params.isp = this.searchdata.region6;
-			if (this.searchdata.input) {
-				params.nodeId = this.searchdata.input;
+			            if (this.searchdata.region1) {
+				params.firstChannel = this.searchdata.region1;
 			} else {
-				params.nodeId = '*';
+				params.firstChannel = '*';
+            }
+            if (this.searchdata.region2) {
+				params.secondChannel = this.searchdata.region2;
+			} else {
+				params.secondChannel = '*';
+            }
+             if (this.searchdata.region3) {
+				params.deviceType = this.searchdata.region3;
+			} else {
+				params.deviceType = '*';
+            }
+             if (this.searchdata.region6) {
+				params.isp = this.searchdata.region6;
+			} else {
+				params.isp = '*';
+            }
+             if (this.searchdata.region7) {
+				params.cpuType = this.searchdata.region7;
+			} else {
+				params.cpuType = '*';
+            }
+			if (this.searchdata.input) {
+                params.nodeId = this.searchdata.input;
+			} else {
+                params.nodeId = '*';
 			}
-			params.osType = this.searchdata.region8;
+            if (this.searchdata.region8) {
+                params.osType = this.searchdata.region8;
+			} else {
+                params.osType = '*';
+			}
 			if(this.searchdata.region4=='*'){
                 params.region = '*';
             }else{
@@ -1255,6 +1459,7 @@ export default {
                 params.city=this.searchdata.region5;
             }
 			params.start_ts = this.starttime;
+			params.end_ts = this.endtime;
 			if (params.end_ts - params.end_ts > 86400) {
 				params.timeUnit = 1440;
 			} else {
@@ -1299,18 +1504,41 @@ export default {
 		get_cpuusag() {
 			this.cpuusaglist = [];
 			let params = new Object();
-			params.firstChannel = this.searchdata.region1;
-			params.secondChannel = this.searchdata.region2;
-			params.cpuType = this.searchdata.region7;
-			params.deviceType = this.searchdata.region3;
-			params.end_ts = this.endtime;
-			params.isp = this.searchdata.region6;
-			if (this.searchdata.input) {
-				params.nodeId = this.searchdata.input;
+			            if (this.searchdata.region1) {
+				params.firstChannel = this.searchdata.region1;
 			} else {
-				params.nodeId = '*';
+				params.firstChannel = '*';
+            }
+            if (this.searchdata.region2) {
+				params.secondChannel = this.searchdata.region2;
+			} else {
+				params.secondChannel = '*';
+            }
+             if (this.searchdata.region3) {
+				params.deviceType = this.searchdata.region3;
+			} else {
+				params.deviceType = '*';
+            }
+             if (this.searchdata.region6) {
+				params.isp = this.searchdata.region6;
+			} else {
+				params.isp = '*';
+            }
+             if (this.searchdata.region7) {
+				params.cpuType = this.searchdata.region7;
+			} else {
+				params.cpuType = '*';
+            }
+			if (this.searchdata.input) {
+                params.nodeId = this.searchdata.input;
+			} else {
+                params.nodeId = '*';
 			}
-			params.osType = this.searchdata.region8;
+            if (this.searchdata.region8) {
+                params.osType = this.searchdata.region8;
+			} else {
+                params.osType = '*';
+			}
 			if(this.searchdata.region4=='*'){
                 params.region = '*';
             }else{
@@ -1322,6 +1550,7 @@ export default {
                 params.city=this.searchdata.region5;
             }
 			params.start_ts = this.starttime;
+			params.end_ts = this.endtime;
 			if (params.end_ts - params.end_ts > 86400) {
 				params.timeUnit = 1440;
 			} else {
@@ -1363,18 +1592,41 @@ export default {
 		get_memory() {
 			this.memorylist = [];
 			let params = new Object();
-			params.firstChannel = this.searchdata.region1;
-			params.secondChannel = this.searchdata.region2;
-			params.cpuType = this.searchdata.region7;
-			params.deviceType = this.searchdata.region3;
-			params.end_ts = this.endtime;
-			params.isp = this.searchdata.region6;
-			if (this.searchdata.input) {
-				params.nodeId = this.searchdata.input;
+			            if (this.searchdata.region1) {
+				params.firstChannel = this.searchdata.region1;
 			} else {
-				params.nodeId = '*';
+				params.firstChannel = '*';
+            }
+            if (this.searchdata.region2) {
+				params.secondChannel = this.searchdata.region2;
+			} else {
+				params.secondChannel = '*';
+            }
+             if (this.searchdata.region3) {
+				params.deviceType = this.searchdata.region3;
+			} else {
+				params.deviceType = '*';
+            }
+             if (this.searchdata.region6) {
+				params.isp = this.searchdata.region6;
+			} else {
+				params.isp = '*';
+            }
+             if (this.searchdata.region7) {
+				params.cpuType = this.searchdata.region7;
+			} else {
+				params.cpuType = '*';
+            }
+			if (this.searchdata.input) {
+                params.nodeId = this.searchdata.input;
+			} else {
+                params.nodeId = '*';
 			}
-			params.osType = this.searchdata.region8;
+            if (this.searchdata.region8) {
+                params.osType = this.searchdata.region8;
+			} else {
+                params.osType = '*';
+			}
 			if(this.searchdata.region4=='*'){
                 params.region = '*';
             }else{
@@ -1386,6 +1638,7 @@ export default {
                 params.city=this.searchdata.region5;
             }
 			params.start_ts = this.starttime;
+			params.end_ts = this.endtime;
 			if (params.end_ts - params.end_ts > 86400) {
 				params.timeUnit = 1440;
 			} else {

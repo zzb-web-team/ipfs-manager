@@ -463,6 +463,15 @@ export default {
 								//下行带宽-剩余
 								item.downbandwidth_rema = item.remainingBW.substring(
 									item.remainingBW.indexOf('/') + 1
+                                );
+                                //上行带宽-使用
+								item.upbandwidth_occ = item.occupyBW.substring(
+									0,
+									item.occupyBW.lastIndexOf('/')
+								);
+								//下行带宽-使用
+								item.downbandwidth_occ = item.occupyBW.substring(
+									item.occupyBW.indexOf('/') + 1
 								);
 								if (item.state == 0) {
 									item.devstatus = '离线';
