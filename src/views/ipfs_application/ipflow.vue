@@ -198,7 +198,7 @@
 				<el-table-column prop="businessscene" label="业务场景">
 					<template slot-scope="scope">
 						<span v-if="scope.row.businessscene == 4"
-							>点播加速</span
+							>分发加速播放</span
 						>
 						<span
 							v-else-if="
