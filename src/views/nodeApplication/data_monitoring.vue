@@ -947,19 +947,19 @@ export default {
 						for (let k in res.data) {
 							let obj = {};
 							obj.name = getday(k);
-							obj.value = res.data[k];
+							obj.value = (res.data[k])/1000;
 							this.mslist.push(obj);
-							arrlist.push(res.data[k]);
+							arrlist.push(res.data[k]/1000);
 						}
 						this.$nextTick(
 							this.lastsharts('ping_ms', 'PING_MS', this.mslist)
 						);
 						this.max_value =
-							this.getMaximin(arrlist, 'max').toFixed(0) + 'ms';
+							this.getMaximin(arrlist, 'max').toFixed(2) + 'ms';
 						this.min_value =
-							this.getMaximin(arrlist, 'min').toFixed(0) + 'ms';
+							this.getMaximin(arrlist, 'min').toFixed(2) + 'ms';
 						this.average_value =
-							this.pingjun(arrlist).toFixed(0) + 'ms';
+							this.pingjun(arrlist).toFixed(2) + 'ms';
 					} else {
 						this.$message.error(res.errMsg);
 					}

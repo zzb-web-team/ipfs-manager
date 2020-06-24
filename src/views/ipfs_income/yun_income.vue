@@ -272,12 +272,12 @@ export default {
 		//获取页码
 		getpage(pages) {
 			this.pageNo = pages;
-			this.gettab();
+			this.get_income_list();
 		},
 		//获取每页数量
 		gettol(pagetol) {
 			this.pagesize = pagetol;
-			// this.gettab();
+			// this.get_income_list();
 		},
 		// 表头样式设置
 		headClass() {

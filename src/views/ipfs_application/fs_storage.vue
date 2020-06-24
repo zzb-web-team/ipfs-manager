@@ -442,7 +442,7 @@ export default {
 				});
 		},
 		gettab() {
-			this.tableData = [];
+			
 			let params = new Object();
 			if (this.input == '') {
 				params.ipfs_id = '*';
@@ -482,6 +482,7 @@ export default {
 			}
 			query_ip_store_usage_table(params)
 				.then((res) => {
+                    this.tableData = [];
 					if (res.status == 0) {
 						// this.tableData = res.data.list;
 						this.totalCnt = res.data.totalCnt;
