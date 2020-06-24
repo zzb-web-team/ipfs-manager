@@ -258,11 +258,21 @@
 				<el-table-column prop="taskid" label="实例ID"></el-table-column>
 				<el-table-column prop="terminalname" label="视频播放终端">
 					<template slot-scope="scope">
-						{{
-							scope.row.terminalname == 'Unknown'
-								? '--'
-								: scope.row.terminalname
-						}}
+						<span
+							v-if="
+								scope.row.businessscene == 0 ||
+									scope.row.businessscene == 1 ||
+									scope.row.businessscene == 4
+							"
+							>{{ scope.row.terminalname }}
+						</span>
+						<span v-else>
+							{{
+								scope.row.terminalname == 'Unknown'
+									? '--'
+									: scope.row.terminalname
+							}}
+						</span>
 					</template>
 				</el-table-column>
 				<el-table-column

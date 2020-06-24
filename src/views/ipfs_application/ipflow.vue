@@ -407,7 +407,7 @@ export default {
 		//时间戳转时间
 		getymd(time) {
 			if (time === 0) {
-				return time;
+				return '--';
 			} else {
 				return getymdtime(time);
 			}
