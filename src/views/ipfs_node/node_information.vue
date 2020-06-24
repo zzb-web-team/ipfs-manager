@@ -79,7 +79,7 @@
 							v-for="(item, index) in options_city"
 							:key="index"
 							:label="item.name"
-							:value="item.value"
+							:value="item.name"
 						></el-option>
 					</el-select>
 					<span>节点渠道商:</span>
@@ -714,7 +714,7 @@ export default {
 				this.city_detil = '';
 				this.getdatalist();
 			} else {
-				this.options_city = this.citydata[value[1]].cities;
+                this.options_city = this.citydata[value[1]].cities;
 				this.city_disable = false;
 				this.city_detil = '';
 				this.getdatalist();

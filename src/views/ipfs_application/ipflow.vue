@@ -41,29 +41,30 @@
 					@change="seachuser()"
 				>
 					<el-option value="*" label="全部"></el-option>
-					<el-option value="点播加速" label="点播加速"></el-option>
-					<el-option value="直播加速" label="直播加速"   :disabled='true'></el-option>
+					<el-option value="0" label="点播加速"></el-option>
+					<el-option
+						value="1"
+						label="直播加速"
+						:disabled="true"
+					></el-option>
 				</el-select>
 				<span>业务场景:</span>
 				<el-select
 					v-model="scenevalue"
 					:disabled="scenedis"
 					placeholder="请选择业务场景"
-					@change="seachuser()"
+					@change="seachuser_yongtu()"
 				>
 					<el-option value="*" label="全部"></el-option>
+					<el-option value="4" label="分发加速播放"></el-option>
 					<el-option
-						value="分发加速播放"
-						label="分发加速播放"
-					></el-option>
-					<el-option
-						v-show="busvalue == '点播加速'"
-						value="内容预热"
+						v-show="busvalue == 0"
+						value="0"
 						label="内容预热"
 					></el-option>
 					<el-option
-						v-show="busvalue == '点播加速'"
-						value="缓存刷新"
+						v-show="busvalue == 0"
+						value="1"
 						label="缓存刷新"
 					></el-option>
 				</el-select>
@@ -72,13 +73,26 @@
 					v-model="value"
 					placeholder="请选择"
 					@change="seachuser()"
+					:disabled="yongtu"
 				>
+					<el-option value="0" label="全部"></el-option>
 					<el-option
+						value="1"
+						v-show="scenevalue != 1 && scenevalue != '*'"
+						label="内容回源"
+					></el-option>
+					<el-option value="2" label="内容缓存"></el-option>
+					<el-option
+						value="3"
+						v-show="scenevalue == 4"
+						label="内容分发"
+					></el-option>
+					<!-- <el-option
 						v-for="(item, index) in options"
 						:key="index"
 						:label="item.label"
 						:value="item.value"
-					></el-option>
+					></el-option> -->
 				</el-select>
 				<span>节点渠道商:</span>
 				<el-select
@@ -163,34 +177,65 @@
 				:header-cell-style="headClass"
 				style="width: 100%"
 			>
-				<el-table-column
-					prop="usage"
-					label="用途"
-					width="180"
-				>
-                <template slot-scope="scope">
-						{{ scope.row.usage }}
-                        <span></span>
-                        <span></span>
+				<el-table-column prop="usage" label="用途" width="180">
+					<template slot-scope="scope">
+						<span v-if="scope.row.usage == 1">内容回源</span>
+						<span v-else-if="scope.row.usage == 2">内容缓存</span>
+						<span v-else-if="scope.row.usage == 3">内容分发</span>
+						<span v-else>{{ scope.row.usage }}</span>
 					</template>
-                </el-table-column>
-				<el-table-column
-					prop="businesstype"
-					label="业务类型"
-				></el-table-column>
-				<el-table-column
-					prop="businessscene"
-					label="业务场景"
-				></el-table-column>
+				</el-table-column>
+				<el-table-column prop="businesstype" label="业务类型">
+					<template slot-scope="scope">
+						<span v-if="scope.row.businesstype == 0">点播加速</span>
+						<span v-else-if="scope.row.businesstype == 1"
+							>直播加速</span
+						>
+						<span v-else>{{ scope.row.businesstype }}</span>
+					</template>
+				</el-table-column>
+				<el-table-column prop="businessscene" label="业务场景">
+					<template slot-scope="scope">
+						<span v-if="scope.row.businessscene == 4"
+							>点播加速</span
+						>
+						<span
+							v-else-if="
+								scope.row.businessscene == 0 ||
+									scope.row.businessscene == 2
+							"
+							>内容预热</span
+						>
+						<span
+							v-else-if="
+								scope.row.businessscene == 1 ||
+									scope.row.businessscene == 3
+							"
+							>缓存刷新</span
+						>
+						<span v-else>{{ scope.row.businessscene }}</span>
+					</template>
+				</el-table-column>
 				<el-table-column prop="dataflow" label="使用流量">
 					<template slot-scope="scope">
 						{{ scope.row.dataflow | formatBytes }}
 					</template>
 				</el-table-column>
-				<el-table-column
-					prop="bondWidth"
-					label="占用带宽"
-				></el-table-column>
+				<el-table-column prop="bondWidth" label="占用带宽">
+					<template slot-scope="scope">
+						<span v-if="scope.row.dataflow == 0"
+							>{{ scope.row.bondWidth }}0Mbps</span
+						>
+						<span v-else
+							>{{ scope.row.bondWidth
+							}}{{
+								(
+									scope.row.dataflow / scope.row.timeuse
+								).toFixed(2)
+							}}Mbps</span
+						>
+					</template>
+				</el-table-column>
 				<el-table-column prop="startTS" label="启用时间">
 					<template slot-scope="scope">{{
 						scope.row.startTS | getymd
@@ -202,9 +247,9 @@
 					}}</template>
 				</el-table-column>
 				<el-table-column prop="timeuse" label="使用时长">
-					<template slot-scope="scope"
-						>{{ scope.row.timeuse | s_h }}</template
-					>
+					<template slot-scope="scope">{{
+						scope.row.timeuse | s_h
+					}}</template>
 				</el-table-column>
 				<el-table-column prop="accelstate" label="使用状态">
 					<template slot-scope="scope">
@@ -257,8 +302,8 @@ import {
 	getlocaltimes,
 	settime,
 	getymdtime,
-    setbatime,
-    formatDuring
+	setbatime,
+	formatDuring,
 } from '../../servers/sevdate';
 export default {
 	data() {
@@ -268,6 +313,7 @@ export default {
 			showdisable: true,
 			errTableVisible: false,
 			device_show: false,
+			yongtu: true,
 			value1: '',
 			firatvalue: '*',
 			secondvalue: '*',
@@ -275,7 +321,7 @@ export default {
 			busvalue: '*',
 			scenevalue: '*',
 			input: '',
-			value: 0,
+			value: '0',
 			input1: '', //开始时间
 			input2: '', //结束时间
 			optiondisplay: false,
@@ -392,6 +438,7 @@ export default {
 					this.chil_disable = false;
 				} else {
 					this.chil_disable = true;
+					this.secondvalue = '*';
 				}
 			});
 			this.gettab();
@@ -442,9 +489,16 @@ export default {
 			params.first_channel = this.firatvalue;
 			params.second_channel = this.secondvalue;
 			params.device_type = this.devtypevalue;
-			params.business_type = this.busvalue;
-			params.business_scene = this.scenevalue;
-
+			if (this.scenevalue == '*') {
+				params.business_scene = '*';
+			} else {
+				params.business_scene = this.scenevalue * 1;
+			}
+			if (this.busvalue == '*') {
+				params.business_type = '*';
+			} else {
+				params.business_type = this.busvalue * 1;
+			}
 			query_ip_usage_table(params)
 				.then((res) => {
 					if (res.status == 0) {
@@ -492,6 +546,9 @@ export default {
 				this.scenedis = false;
 			} else {
 				this.scenedis = true;
+				this.yongtu = true;
+				this.scenevalue = '*';
+				this.value = '0';
 			}
 			if (this.value1 != '' && this.value1 != null) {
 				this.starttime = setbatime(this.value1[0]);
@@ -502,6 +559,15 @@ export default {
 					86400 * 90;
 				this.endtime = Date.parse(new Date()) / 1000;
 			}
+			this.gettab();
+		},
+		seachuser_yongtu() {
+			if (this.scenevalue != '*') {
+				this.yongtu = false;
+			} else {
+				this.yongtu = true;
+			}
+			this.value = '0';
 			this.gettab();
 		},
 		//重置
@@ -515,7 +581,7 @@ export default {
 			this.busvalue = '*';
 			this.scenevalue = '*';
 			this.scenedis = true;
-			this.gettab();
+			this.seachuser();
 		},
 		//获取页码
 		getpage(pages) {

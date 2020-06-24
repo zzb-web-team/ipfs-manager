@@ -44,8 +44,12 @@
 					@change="seachuser()"
 				>
 					<el-option label="全部" value="*"></el-option>
-					<el-option label="点播加速" value="点播加速"></el-option>
-					<el-option label="直播加速" value="直播加速"></el-option>
+					<el-option label="点播加速" value="0"></el-option>
+					<el-option
+						label="直播加速"
+						value="1"
+						:disabled="true"
+					></el-option>
 				</el-select>
 				<span>业务场景及用途：</span>
 				<el-select
@@ -55,19 +59,16 @@
 					@change="seachuser()"
 				>
 					<el-option label="全部" value="*"></el-option>
+					<el-option label="分发加速播放" value="0"></el-option>
 					<el-option
-						label="分发加速播放-内容缓存"
-						value="分发加速播放-内容缓存"
+						v-show="busvalue == 0"
+						label="内容预热"
+						value="2"
 					></el-option>
 					<el-option
-						v-show="busvalue == '点播加速'"
-						label="内容预热-内容缓存"
-						value="内容预热-内容缓存"
-					></el-option>
-					<el-option
-						v-show="busvalue == '点播加速'"
-						label="缓存刷新-内容缓存"
-						value="缓存刷新-内容缓存"
+						v-show="busvalue == 0"
+						label="缓存刷新"
+						value="3"
 					></el-option>
 				</el-select>
 				<span>节点渠道商：</span>
@@ -166,17 +167,36 @@
             <span v-else>视频备份</span>
           </template>
         </el-table-column> -->
-				<el-table-column
-					prop="businessscene"
-					label="业务场景及用途"
-				></el-table-column>
-				<el-table-column
-					prop="businesstype"
-					label="业务类型"
-				></el-table-column>
+				<el-table-column prop="businessscene" label="业务场景及用途">
+					<template slot-scope="scope">
+						<span
+							v-if="
+								scope.row.businessscene == 0 ||
+									scope.row.businessscene == 1
+							"
+							>分发加速播放</span
+						>
+						<span v-else-if="scope.row.businessscene == 2"
+							>内容预热</span
+						>
+						<span v-else-if="scope.row.businessscene == 3"
+							>刷新缓存</span
+						>
+						<span v-else>{{ scope.row.businessscene }}</span>
+					</template>
+				</el-table-column>
+				<el-table-column prop="businesstype" label="业务类型">
+					<template slot-scope="scope">
+						<span v-if="scope.row.businesstype == 0">点播加速</span>
+						<span v-else-if="scope.row.businesstype == 1"
+							>直播加速</span
+						>
+						<span v-else>{{ scope.row.businesstype }}</span>
+					</template>
+				</el-table-column>
 				<el-table-column prop="dataflow" label="占用空间" width="180">
 					<template slot-scope="scope">
-						{{ scope.row.endTS | formatBytes }}
+						{{ scope.row.dataflow | formatBytes }}
 					</template>
 				</el-table-column>
 				<el-table-column
@@ -225,14 +245,15 @@
 				></el-table-column>
 				<el-table-column prop="chanId" label="渠道ID"></el-table-column>
 				<el-table-column prop="taskid" label="实例ID"></el-table-column>
-				<el-table-column
-					prop="terminalname"
-					label="视频播放终端"
-				>
-                <template slot-scope="scope">
-                    {{scope.row.timeUsage=='Unknown'?'--':scope.row.timeUsage}}
-                </template>
-                </el-table-column>
+				<el-table-column prop="terminalname" label="视频播放终端">
+					<template slot-scope="scope">
+						{{
+							scope.row.timeUsage == 'Unknown'
+								? '--'
+								: scope.row.timeUsage
+						}}
+					</template>
+				</el-table-column>
 				<el-table-column
 					prop="userIpInfo"
 					label="视频播放IP"
@@ -396,7 +417,8 @@ export default {
 					this.secondchan = item.secondchan;
 					this.chil_disable = false;
 				} else {
-					this.chil_disable = true;
+                    this.chil_disable = true;
+                    this.secondvalue='*'
 				}
 			});
 			this.gettab();
@@ -447,8 +469,17 @@ export default {
 			params.first_channel = this.firatvalue;
 			params.second_channel = this.secondvalue;
 			params.device_type = this.devtypevalue;
-			params.business_type = this.busvalue;
-			params.business_scene = this.scenevalue;
+
+			if (this.busvalue == '*') {
+				params.business_type = '*';
+			} else {
+				params.business_type = this.busvalue * 1;
+			}
+			if (this.scenevalue == '*') {
+				params.business_scene = '*';
+			} else {
+				params.business_scene = this.scenevalue * 1;
+			}
 			query_ip_store_usage_table(params)
 				.then((res) => {
 					if (res.status == 0) {
@@ -496,6 +527,7 @@ export default {
 				this.scenedis = false;
 			} else {
 				this.scenedis = true;
+				this.scenevalue = '*';
 			}
 			if (this.value1 != '' && this.value1 != null) {
 				this.starttime = setbatime(this.value1[0]);

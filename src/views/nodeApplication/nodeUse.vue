@@ -78,7 +78,7 @@
 								style="margin-left:10px;width: 8%;"
 								@change="onseach()"
 							>
-								<el-option value="*" label="全部"></el-option>
+								<!-- <el-option value="*" label="全部"></el-option> -->
 								<el-option
 									v-for="(item, index) in optionsb"
 									:key="item.name + index"
@@ -930,7 +930,7 @@ export default {
 			} else {
 				params.region = '*';
 			}
-			if (this.valueb !== '') {
+			if (this.valueb !== ''&&this.valueb !== '全部') {
 				params.city = this.valueb;
 			} else {
 				params.city = '*';
@@ -1012,7 +1012,7 @@ export default {
 			} else {
 				params.region = '*';
 			}
-			if (this.valueb !== '') {
+			if (this.valueb !== ''&&this.valueb != '全部') {
 				params.city = this.valueb;
 			} else {
 				params.city = '*';
