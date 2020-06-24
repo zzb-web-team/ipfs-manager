@@ -176,7 +176,8 @@
 						<span
 							v-if="
 								scope.row.businessscene == 0 ||
-									scope.row.businessscene == 1
+									scope.row.businessscene == 1 ||
+									scope.row.businessscene == 4
 							"
 							>分发加速播放-内容缓存</span
 						>
