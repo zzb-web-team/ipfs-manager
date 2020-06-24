@@ -234,8 +234,10 @@
 			<el-table-column prop="isp" label="节点运营商"></el-table-column>
 			<el-table-column prop="occupyCpu" label="CPU占用">
 				<template slot-scope="scope">
-                    <span v-if="scope.row.occupyCpu">{{scope.row.occupyCpu.toFixed(2)}}%</span>
-                    <span v-else >--</span>
+					<span v-if="scope.row.occupyCpu"
+						>{{ scope.row.occupyCpu.toFixed(2) }}%</span
+					>
+					<span v-else>--</span>
 				</template>
 			</el-table-column>
 			<el-table-column prop="totalMem" label="总内存">
@@ -361,7 +363,12 @@
 
 <script>
 import fenye from '@/components/cloudfenye';
-import { query_node, filter_node, get_nodetype_enum,nodeinfo_export} from '../../servers/api';
+import {
+	query_node,
+	filter_node,
+	get_nodetype_enum,
+	nodeinfo_export,
+} from '../../servers/api';
 import axios from 'axios';
 export default {
 	data() {
@@ -628,23 +635,18 @@ export default {
 			],
 			arch: [
 				//硬件类型
-				
 			],
 			device_type: [
 				//设备类型
-				
 			],
 			os: [
 				//操作系统
-				
 			],
 			isp: [
 				//运营商
-				
 			],
 			firstchan: [
 				//一级渠道商
-				
 			],
 			secondchan: [],
 			value1: '',
@@ -673,7 +675,7 @@ export default {
 		},
 		get_search_data() {
 			let params = new Object();
-			params.time = "111";
+			params.time = '111';
 			get_nodetype_enum(params)
 				.then((res) => {
 					console.log(res);
@@ -714,7 +716,7 @@ export default {
 				this.city_detil = '';
 				this.getdatalist();
 			} else {
-                this.options_city = this.citydata[value[1]].cities;
+				this.options_city = this.citydata[value[1]].cities;
 				this.city_disable = false;
 				this.city_detil = '';
 				this.getdatalist();
@@ -732,8 +734,8 @@ export default {
 				} else {
 					this.chil_disable = true;
 				}
-            });
-            this.getdatalist();
+			});
+			this.getdatalist();
 		},
 		handleChange_node(value) {
 			this.getdatalist();
@@ -782,8 +784,8 @@ export default {
 			} else {
 				parmas.city = this.city_detil;
 			}
-            parmas.page = this.tolpage;
-            parmas.order=0;
+			parmas.page = this.tolpage;
+			parmas.order = 0;
 			query_node(parmas)
 				.then((res) => {
 					if (res.status == 0) {
@@ -830,8 +832,8 @@ export default {
 									item.bgccolor = '#5CC77D';
 								}
 								this.tableData.push(item);
-                            });
-                            console.log(this.tableData);
+							});
+							console.log(this.tableData);
 						}
 					} else {
 						this.$message.error(res.err_msg);
@@ -921,19 +923,19 @@ export default {
 		},
 		//重置
 		resetseach() {
-			this.value = '';
-			this.value1 = -1;
+			this.value = -1;
+			this.value1 = '';
 			this.value2 = '';
 			this.seachinput = '';
 			this.city_disable = true;
 			this.chil_disable = true;
-            this.city_detil = '';
-            parmas.os = this.os_type;
-			parmas.arch = this.arch_type;
-			parmas.devicetype = this.dev_type;
-			parmas.firstchid = this.firstchid;
-			parmas.secondchid = this.secondchid;
-			parmas.enableFlag = this.value_node;
+			this.city_detil = '';
+			this.os_type = '';
+			this.arch_type = '';
+			this.dev_type = '';
+			this.firstchid = '';
+			this.secondchid = '';
+			this.value_node = -1;
 			this.getdatalist();
 		},
 		// 表头样式设置
@@ -997,7 +999,7 @@ export default {
 			nodeinfo_export(parmas)
 				.then((res) => {
 					if (res.status == 0) {
-                        window.open(res.data.down_load);
+						window.open(res.data.down_load);
 						this.fan.fanactionlog('导出', '节点信息', 1);
 					} else {
 						this.fan.fanactionlog('导出', '节点信息', 0);

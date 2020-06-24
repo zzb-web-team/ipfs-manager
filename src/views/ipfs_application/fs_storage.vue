@@ -59,15 +59,18 @@
 					@change="seachuser()"
 				>
 					<el-option label="全部" value="*"></el-option>
-					<el-option label="分发加速播放" value="0"></el-option>
+					<el-option
+						label="分发加速播放-内容缓存"
+						value="0"
+					></el-option>
 					<el-option
 						v-show="busvalue == 0"
-						label="内容预热"
+						label="内容预热-内容缓存"
 						value="2"
 					></el-option>
 					<el-option
 						v-show="busvalue == 0"
-						label="缓存刷新"
+						label="缓存刷新-内容缓存"
 						value="3"
 					></el-option>
 				</el-select>
@@ -158,6 +161,7 @@
 				border
 				:cell-style="rowClass"
 				:header-cell-style="headClass"
+				@sort-change="changeSort"
 				style="width: 100%"
 			>
 				<!-- <el-table-column prop="usage" label="用途" width="180">
@@ -174,13 +178,13 @@
 								scope.row.businessscene == 0 ||
 									scope.row.businessscene == 1
 							"
-							>分发加速播放</span
+							>分发加速播放-内容缓存</span
 						>
 						<span v-else-if="scope.row.businessscene == 2"
-							>内容预热</span
+							>内容预热-内容缓存</span
 						>
 						<span v-else-if="scope.row.businessscene == 3"
-							>刷新缓存</span
+							>刷新缓存-内容缓存</span
 						>
 						<span v-else>{{ scope.row.businessscene }}</span>
 					</template>
@@ -207,7 +211,13 @@
 					prop="contentid"
 					label="内容ID"
 				></el-table-column>
-				<el-table-column prop="startTS" label="启用时间">
+				<el-table-column
+					prop="startTS"
+					width="103"
+					sortable
+					:sort-orders="['ascending', 'descending']"
+					label="启用时间"
+				>
 					<template slot-scope="scope">
 						{{ scope.row.startTS | getymd }}
 					</template>
@@ -248,9 +258,9 @@
 				<el-table-column prop="terminalname" label="视频播放终端">
 					<template slot-scope="scope">
 						{{
-							scope.row.timeUsage == 'Unknown'
+							scope.row.terminalname == 'Unknown'
 								? '--'
-								: scope.row.timeUsage
+								: scope.row.terminalname
 						}}
 					</template>
 				</el-table-column>
@@ -368,13 +378,14 @@ export default {
 			],
 			tableData: [],
 			tableData2: [],
+			order: 2,
 		};
 	},
 	filters: {
 		//时间戳转时间
 		getymd(time) {
 			if (time === 0) {
-				return time;
+				return '--';
 			} else {
 				return getymdtime(time);
 			}
@@ -402,12 +413,12 @@ export default {
 	},
 	components: { fenye },
 	mounted() {
+		this.get_search_data();
 		this.starttime =
 			new Date(new Date().toLocaleDateString()).getTime() / 1000 -
 			86400 * 90;
 		this.endtime = Date.parse(new Date()) / 1000;
 		this.gettab();
-		this.get_search_data();
 	},
 	methods: {
 		handleChangefirst(val) {
@@ -417,11 +428,22 @@ export default {
 					this.secondchan = item.secondchan;
 					this.chil_disable = false;
 				} else {
-                    this.chil_disable = true;
-                    this.secondvalue='*'
+					this.chil_disable = true;
+					this.secondvalue = '*';
 				}
 			});
 			this.gettab();
+		},
+		changeSort(val) {
+			console.log(val.order); // column: {…} order: "ascending" prop: "date"
+			// 根据当前排序重新获取后台数据,一般后台会需要一个排序的参数
+			if (val.order == 'ascending') {
+				this.order = 1;
+				this.gettab();
+			} else {
+				this.order = 2;
+				this.gettab();
+			}
 		},
 		get_search_data() {
 			let params = new Object();
@@ -436,13 +458,13 @@ export default {
 					} else {
 						this.$message.error(res.err_msg);
 					}
+					this.gettab();
 				})
 				.catch((error) => {
 					console.log(error);
 				});
 		},
 		gettab() {
-			
 			let params = new Object();
 			if (this.input == '') {
 				params.ipfs_id = '*';
@@ -469,7 +491,7 @@ export default {
 			params.first_channel = this.firatvalue;
 			params.second_channel = this.secondvalue;
 			params.device_type = this.devtypevalue;
-
+			params.orderBy = this.order;
 			if (this.busvalue == '*') {
 				params.business_type = '*';
 			} else {
@@ -482,7 +504,7 @@ export default {
 			}
 			query_ip_store_usage_table(params)
 				.then((res) => {
-                    this.tableData = [];
+					this.tableData = [];
 					if (res.status == 0) {
 						// this.tableData = res.data.list;
 						this.totalCnt = res.data.totalCnt;
@@ -552,6 +574,7 @@ export default {
 			this.busvalue = '*';
 			this.scenevalue = '*';
 			this.scenedis = true;
+			this.chil_disable = true;
 			this.gettab();
 		},
 

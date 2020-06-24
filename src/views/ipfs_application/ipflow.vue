@@ -175,6 +175,7 @@
 				border
 				:cell-style="rowClass"
 				:header-cell-style="headClass"
+				@sort-change="changeSort"
 				style="width: 100%"
 			>
 				<el-table-column prop="usage" label="用途" width="180">
@@ -236,7 +237,13 @@
 						>
 					</template>
 				</el-table-column>
-				<el-table-column prop="startTS" label="启用时间">
+				<el-table-column
+					prop="startTS"
+					sortable
+					width="103"
+					:sort-orders="['ascending', 'descending']"
+					label="启用时间"
+				>
 					<template slot-scope="scope">{{
 						scope.row.startTS | getymd
 					}}</template>
@@ -258,7 +265,7 @@
 					</template>
 				</el-table-column>
 				<el-table-column prop="ipfsId" label="节点ID"></el-table-column>
-				<el-table-column prop="chanId" label="节点IP"></el-table-column>
+				<el-table-column prop="ipfsip" label="节点IP"></el-table-column>
 				<el-table-column
 					prop="firstchname"
 					label="节点一级渠道商"
@@ -274,10 +281,15 @@
 				<el-table-column prop="chanId" label="渠道ID"></el-table-column>
 				<!-- <el-table-column prop="userIpInfo" label="点播IP"></el-table-column> -->
 				<el-table-column prop="taskid" label="实例ID"></el-table-column>
-				<el-table-column
-					prop="terminalname"
-					label="视频播放终端"
-				></el-table-column>
+				<el-table-column prop="terminalname" label="视频播放终端">
+					<template slot-scope="scope">
+						{{
+							scope.row.terminalname == 'Unknown'
+								? '--'
+								: scope.row.terminalname
+						}}
+					</template>
+				</el-table-column>
 				<el-table-column
 					prop="userIpInfo"
 					label="视频播放IP"
@@ -388,6 +400,7 @@ export default {
 			],
 			tableData: [],
 			tableData2: [],
+			order: 2,
 		};
 	},
 	filters: {
@@ -403,7 +416,7 @@ export default {
 			if (time !== 0) {
 				return formatDuring(time);
 			} else {
-				return time;
+				return '--';
 			}
 		},
 		formatBytes(a) {
@@ -422,12 +435,12 @@ export default {
 	},
 	components: { fenye },
 	mounted() {
+		this.get_search_data();
 		this.starttime =
 			new Date(new Date().toLocaleDateString()).getTime() / 1000 -
 			86400 * 90;
 		this.endtime = Date.parse(new Date()) / 1000;
 		this.gettab();
-		this.get_search_data();
 	},
 	methods: {
 		handleChangefirst(val) {
@@ -456,13 +469,24 @@ export default {
 					} else {
 						this.$message.error(res.err_msg);
 					}
+					this.gettab();
 				})
 				.catch((error) => {
 					console.log(error);
 				});
 		},
+		changeSort(val) {
+			console.log(val.order); // column: {…} order: "ascending" prop: "date"
+			// 根据当前排序重新获取后台数据,一般后台会需要一个排序的参数
+			if (val.order == 'ascending') {
+				this.order = 1;
+				this.gettab();
+			} else {
+				this.order = 2;
+				this.gettab();
+			}
+		},
 		gettab() {
-			
 			let params = new Object();
 			if (this.input == '') {
 				params.ipfs_id = '*';
@@ -489,6 +513,7 @@ export default {
 			params.first_channel = this.firatvalue;
 			params.second_channel = this.secondvalue;
 			params.device_type = this.devtypevalue;
+			params.orderBy = this.order;
 			if (this.scenevalue == '*') {
 				params.business_scene = '*';
 			} else {
@@ -501,7 +526,7 @@ export default {
 			}
 			query_ip_usage_table(params)
 				.then((res) => {
-                    this.tableData = [];
+					this.tableData = [];
 					if (res.status == 0) {
 						// this.tableData = res.data.list;
 						this.totalCnt = res.data.totalCnt;
@@ -582,6 +607,7 @@ export default {
 			this.busvalue = '*';
 			this.scenevalue = '*';
 			this.scenedis = true;
+			this.chil_disable = true;
 			this.seachuser();
 		},
 		//获取页码
