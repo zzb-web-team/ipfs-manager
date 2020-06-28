@@ -265,7 +265,7 @@
 					</template>
 				</el-table-column>
 				<el-table-column prop="ipfsId" label="节点ID"></el-table-column>
-				<el-table-column prop="ipfsip" label="节点IP"></el-table-column>
+				<!-- <el-table-column prop="ipfsip" label="节点IP"></el-table-column> -->
 				<el-table-column
 					prop="firstchname"
 					label="节点一级渠道商"
@@ -302,6 +302,7 @@
 			@fathernum="gettol"
 			:pagesa="totalCnt"
 			:currentPage="currentPage"
+            ref="paginations"
 			v-if="tableData.length > 0"
 		></fenye>
 	</div>
@@ -440,7 +441,7 @@ export default {
 			new Date(new Date().toLocaleDateString()).getTime() / 1000 -
 			86400 * 90;
 		this.endtime = Date.parse(new Date()) / 1000;
-		// this.gettab();
+		this.gettab();
 	},
 	methods: {
 		handleChangefirst(val) {
@@ -454,7 +455,7 @@ export default {
 					this.secondvalue = '*';
 				}
 			});
-			this.gettab();
+			//this.gettab();
 		},
 		get_search_data() {
 			let params = new Object();
@@ -597,7 +598,8 @@ export default {
 			this.gettab();
 		},
 		//重置
-		reset() {
+		reset() { 
+            this.$refs.paginations.$data.currentPage=1;
 			this.value = 0;
 			this.input = '';
 			this.value1 = '';
@@ -606,6 +608,7 @@ export default {
 			this.devtypevalue = '*';
 			this.busvalue = '*';
 			this.scenevalue = '*';
+			this.pageNo = 1;
 			this.scenedis = true;
 			this.chil_disable = true;
 			this.seachuser();

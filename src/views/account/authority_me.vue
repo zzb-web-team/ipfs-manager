@@ -7,6 +7,19 @@
 		</el-breadcrumb>
 		<!--  -->
 		<div class="org_con">
+			<el-row :gutter="24">
+				<el-col :span="4"
+					><el-input
+						v-model="input"
+						placeholder="请输入分组名称"
+						@keyup.enter="search"
+						><i
+							slot="prefix"
+							class="el-input__icon el-icon-search"
+							@click="search"
+						></i></el-input
+				></el-col>
+			</el-row>
 			<div class="btn_area">
 				<el-button type="primary" @click="nwisible"
 					>新建权限分组</el-button
@@ -63,7 +76,8 @@
 						>
 							<el-cascader
 								:options="options"
-								v-model="form.userlist"
+								:props="props"
+								collapse-tags
 								clearable
 							></el-cascader>
 						</el-form-item>
@@ -97,11 +111,19 @@
 			>
 				<el-table-column type="selection"> </el-table-column>
 				<el-table-column label="ID" prop="id"> </el-table-column>
-				<el-table-column label="分组名称" prop="grouping_name">
+				<el-table-column label="分组名称" prop="name">
 				</el-table-column>
-				<el-table-column label="分组描述" prop="group_description">
+				<el-table-column label="分组描述" prop="description">
 				</el-table-column>
-				<el-table-column prop="userlist" label="用户列表">
+				<el-table-column prop="users" label="用户列表">
+					<template slot-scope="scope">
+						<span v-if="scope.row.users.length <= 0">
+							--
+						</span>
+						<span v-else v-for="item in scope.row.users">
+							{{ item.name }}
+						</span>
+					</template>
 				</el-table-column>
 				<el-table-column label="操作">
 					<template slot-scope="scope">
@@ -173,27 +195,24 @@
 
 <script>
 import fenye from '@/components/fenye';
+import {
+	rolelist,
+	addrole,
+	updaterole,
+	delrole,
+    searchuser,
+    userlistaddrole
+} from '@/servers/api';
 export default {
 	data() {
 		return {
+            props: { multiple: true },
+            input:'',
 			pagesize: 10,
 			total_cnt: 1,
 			currentPage: 0,
 			title: '新建职位',
-			tableData: [
-				{
-					id: '1',
-					grouping_name: 'AI组',
-					group_description: '系统管理员',
-					userlist: '皮皮虾，可达鸭',
-				},
-				{
-					id: '2',
-					grouping_name: '大数据组',
-					group_description: '研发人员',
-					userlist: '泡泡',
-				},
-			],
+			tableData: [],
 			dialogFormVisible: false,
 			quanVisible: false,
 			form: {
@@ -304,7 +323,26 @@ export default {
 			},
 		};
 	},
+	mounted() {
+		this.get_datalist();
+	},
 	methods: {
+		search() {},
+		get_datalist() {
+			let params = new Object();
+			params.page = this.currentPage;
+			rolelist(params)
+				.then((res) => {
+					if (res.status == 0) {
+						this.tableData = res.result.cols;
+					} else {
+						this.$message.error(res.msg);
+					}
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		},
 		//新建
 		nwisible() {
 			this.dialogFormVisible = true;
@@ -314,6 +352,12 @@ export default {
 			this.$refs[formName].validate((valid) => {
 				if (valid) {
 					this.dialogFormVisible = false;
+					let params = new Object();
+					params.name = '';
+					params.description = '';
+					addrole(params)
+						.then((res) => {})
+						.catch((error) => {});
 				} else {
 					return false;
 				}
@@ -337,8 +381,8 @@ export default {
 		},
 		//权限配置--取消
 		resetChecked() {
-            this.$refs.tree.setCheckedKeys([]);
-            this.quanVisible = false;
+			this.$refs.tree.setCheckedKeys([]);
+			this.quanVisible = false;
 		},
 		// 全选
 		handleSelectionChange(val) {
@@ -379,11 +423,18 @@ export default {
 			if (value === '') {
 				callback(new Error('分组名称不能为空'));
 			} else {
-				var fsdtel = /^[\u4e00-\u9fa50-9a-zA-Z]{4,20}$/;
-				if (fsdtel.test(value) === false) {
-					callback(new Error('分组名称格式错误'));
+				if (
+					value.replace(/[^\u0000-\u00ff]/g, 'aa').length >= 4 &&
+					value.replace(/[^\u0000-\u00ff]/g, 'aa').length <= 20
+				) {
+					var fsdtel = /^[\u4e00-\u9fa50-9a-zA-Z]{2,10}$/;
+					if (fsdtel.test(value) === false) {
+						callback(new Error('分组名称格式错误'));
+					} else {
+						callback();
+					}
 				} else {
-					callback();
+					callback(new Error('分组名称长度不合规范'));
 				}
 			}
 		},

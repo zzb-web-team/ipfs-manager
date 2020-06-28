@@ -356,6 +356,7 @@
 			@fathernum="gettol"
 			:pagesa="total_cnt"
 			:currentPage="currentPage"
+            ref="paginations"
 			v-if="tableData.length > 0"
 		></fenye>
 	</div>
@@ -923,6 +924,7 @@ export default {
 		},
 		//重置
 		resetseach() {
+            this.$refs.paginations.$data.currentPage=1;
 			this.value = -1;
 			this.value1 = '';
 			this.value2 = '';

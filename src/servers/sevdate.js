@@ -96,3 +96,25 @@ export function formatDuring(mes) {
     }
 
 }
+export function get_units(a) {
+    if (0 == a) return 'B';
+    var k = 1024;
+    var e = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
+        f = Math.floor(Math.log(a) / Math.log(k));
+    return e[f];
+}
+export function formatBkb(a, b) {
+    if (0 == a) return 0;
+    if (b == 'KB') {
+        return (a / 1024).toFixed(2)
+    } else if (b == 'MB') {
+        return (a / 1024 / 1024).toFixed(2);
+    } else if (b == 'GB') {
+        return (a / 1024 / 1024 / 1024).toFixed(2);
+    } else if (b == 'TB') {
+        return (a / 1024 / 1024 / 1024 / 1024).toFixed(4);
+    } else if (b == 'PB') {
+        return (a / 1024 / 1024 / 1024 / 1024 / 1024).toFixed(4);
+    }
+
+};

@@ -78,7 +78,7 @@
 				>
 					<div class="ipfs_item_toptwo">
 						<div style="display: flex;align-items: center;">
-							<qiu :cap="1-serdata.occupyCpu"></qiu>
+							<qiu :cap="1 - serdata.occupyCpu"></qiu>
 						</div>
 						<div
 							style="text-align:left;line-height: 48px;padding-top: 35px;color: #89949B;"
@@ -97,7 +97,10 @@
 						<div
 							style="display: flex;flex-direction: column;align-items: center;"
 						>
-							<qiu :cap="1-ram_rema" style="margin-top:25px;"></qiu>
+							<qiu
+								:cap="1 - ram_rema"
+								style="margin-top:25px;"
+							></qiu>
 							<span style="color: #64A7FC;"
 								>可用{{ (ram_rema * 100).toFixed(2) }}%</span
 							>
@@ -152,7 +155,10 @@
 						<div
 							style="display: flex;flex-direction: column;align-items: center;"
 						>
-							<qiu :cap="1-up_rema" style="margin-top:25px;"></qiu>
+							<qiu
+								:cap="1 - up_rema"
+								style="margin-top:25px;"
+							></qiu>
 							<span style="color: #64A7FC;"
 								>可用{{ (up_rema * 100).toFixed(2) }}%</span
 							>
@@ -179,7 +185,10 @@
 						<div
 							style="display: flex;flex-direction: column;align-items: center;"
 						>
-							<qiu :cap="1-down_rema" style="margin-top:25px;"></qiu>
+							<qiu
+								:cap="1 - down_rema"
+								style="margin-top:25px;"
+							></qiu>
 							<span style="color: #64A7FC;"
 								>可用{{ (down_rema * 100).toFixed(2) }}%</span
 							>
@@ -206,7 +215,10 @@
 						<div
 							style="display: flex;flex-direction: column;align-items: center;"
 						>
-							<qiu :cap="1-cap_rema" style="margin-top:25px;"></qiu>
+							<qiu
+								:cap="1 - cap_rema"
+								style="margin-top:25px;"
+							></qiu>
 							<span style="color: #64A7FC;"
 								>可用{{ (cap_rema * 100).toFixed(2) }}%</span
 							>
@@ -283,68 +295,116 @@
 					:header-cell-style="headClass"
 					style="width: 100%"
 				>
-					<el-table-column
-						prop="usage"
-						label="业务类型"
-						width="180"
-					></el-table-column>
-					<el-table-column
-						prop="usage"
-						label="业务场景"
-						width="180"
-					></el-table-column>
-					<el-table-column
-						prop="usage"
-						label="用途"
-						width="180"
-					></el-table-column>
-					<el-table-column
-						prop="dataflow"
-						label="使用流量"
-					></el-table-column>
-					<el-table-column
-						prop="upstream"
-						label="占用带宽"
-						width="180"
-						><template slot-scope="scope">
-							<span v-if="!scope.row.upstream">--</span
-							><span v-else>{{ scope.row.upstream }}</span>
-						</template></el-table-column
-					>
-
-					<el-table-column prop="startTS" label="启用时间">
-						<template slot-scope="scope">{{
-							scope.row.startTS | getymd
-						}}</template>
-					</el-table-column>
-					<el-table-column prop="startTS" label="停用时间">
-						<template slot-scope="scope">{{
-							scope.row.startTS | getymd
-						}}</template>
-					</el-table-column>
-					<el-table-column prop="timeUsage" label="使用时长">
-						<template slot-scope="scope">{{
-							scope.row.timeUsage | s_h
-						}}</template></el-table-column
-					>
-					<el-table-column prop="usageFlag" label="使用状态">
+					<el-table-column prop="businesstype" label="业务类型">
 						<template slot-scope="scope">
-							<span v-if="scope.row.usageFlag == 0">已完成</span>
-							<span v-else>进行中</span>
+							<span v-if="scope.row.businesstype == 0"
+								>点播加速</span
+							>
+							<span v-else-if="scope.row.businesstype == 1"
+								>直播加速</span
+							>
+							<span v-else>{{ scope.row.businesstype }}</span>
+						</template>
+					</el-table-column>
+					<el-table-column prop="businessscene" label="业务场景">
+						<template slot-scope="scope">
+							<span v-if="scope.row.businessscene == 4"
+								>分发加速播放</span
+							>
+							<span
+								v-else-if="
+									scope.row.businessscene == 0 ||
+										scope.row.businessscene == 2
+								"
+								>内容预热</span
+							>
+							<span
+								v-else-if="
+									scope.row.businessscene == 1 ||
+										scope.row.businessscene == 3
+								"
+								>缓存刷新</span
+							>
+							<span v-else>{{ scope.row.businessscene }}</span>
+						</template>
+					</el-table-column>
+					<el-table-column prop="usage" label="用途" width="180">
+						<template slot-scope="scope">
+							<span v-if="scope.row.usage == 1">内容回源</span>
+							<span v-else-if="scope.row.usage == 2"
+								>内容缓存</span
+							>
+							<span v-else-if="scope.row.usage == 3"
+								>内容分发</span
+							>
+							<span v-else>{{ scope.row.usage }}</span>
+						</template>
+					</el-table-column>
+					<el-table-column prop="dataflow" label="使用流量">
+						<template slot-scope="scope">
+							{{ scope.row.dataflow | formatBytes }}
+						</template>
+					</el-table-column>
+					<el-table-column prop="bondWidth" label="占用带宽">
+						<template slot-scope="scope">
+							<span v-if="scope.row.dataflow == 0"
+								>{{ scope.row.bondWidth }}0Mbps</span
+							>
+							<span v-else
+								>{{ scope.row.bondWidth
+								}}{{
+									(
+										scope.row.dataflow / scope.row.timeuse
+									).toFixed(2)
+								}}Mbps</span
+							>
+						</template>
+					</el-table-column>
+					<el-table-column
+						prop="startTS"
+						sortable
+						width="103"
+						:sort-orders="['ascending', 'descending']"
+						label="启用时间"
+					>
+						<template slot-scope="scope">{{
+							scope.row.startTS | getymd
+						}}</template>
+					</el-table-column>
+					<el-table-column prop="endTS" label="结束时间">
+						<template slot-scope="scope">{{
+							scope.row.endTS | getymd
+						}}</template>
+					</el-table-column>
+					<el-table-column prop="timeuse" label="使用时长">
+						<template slot-scope="scope">{{
+							scope.row.timeuse | s_h
+						}}</template>
+					</el-table-column>
+					<el-table-column prop="accelstate" label="使用状态">
+						<template slot-scope="scope">
+							<span v-if="scope.row.accelstate == 0">使用中</span>
+							<span v-else>已停用</span>
 						</template>
 					</el-table-column>
 					<el-table-column
 						prop="chanId"
 						label="渠道ID"
 					></el-table-column>
+					<!-- <el-table-column prop="userIpInfo" label="点播IP"></el-table-column> -->
 					<el-table-column
-						prop="userIpInfo"
+						prop="taskid"
 						label="实例ID"
 					></el-table-column>
-					<el-table-column
-						prop="userIpInfo"
-						label="视频播放终端"
-					></el-table-column>
+					<el-table-column prop="terminalname" label="视频播放终端">
+						<template slot-scope="scope">
+							{{
+								scope.row.terminalname == 'Unknown'
+									? '--'
+									: scope.row.terminalname
+							}}
+						</template>
+					</el-table-column>
 					<el-table-column
 						prop="userIpInfo"
 						label="视频播放IP"
@@ -359,69 +419,119 @@
 					:header-cell-style="headClass"
 					style="width: 100%"
 				>
-					<el-table-column
-						prop="use"
-						label="业务类型"
-						width="180"
-					></el-table-column>
-					<el-table-column
-						prop="use"
-						label="业务场景"
-						width="180"
-					></el-table-column>
-					<el-table-column
-						prop="use"
-						label="用途"
-						width="180"
-					></el-table-column>
-					<el-table-column
-						prop="take_up_space"
-						label="占用空间"
-						width="180"
-					></el-table-column>
-					<el-table-column
-						prop="storage_content"
-						label="存储内容"
-					></el-table-column>
-					<el-table-column
-						prop="content_id"
-						label="内容ID"
-					></el-table-column>
-					<el-table-column prop="start_time" label="启用时间">
-						<template slot-scope="scope">{{
-							scope.row.start_time | getymd
-						}}</template>
-					</el-table-column>
-					<el-table-column prop="start_time" label="结束时间">
-						<template slot-scope="scope">{{
-							scope.row.start_time | getymd
-						}}</template>
-					</el-table-column>
-					<el-table-column prop="usage_time" label="使用时长">
-						<template slot-scope="scope">{{
-							scope.row.usage_time | s_h
-						}}</template>
-					</el-table-column>
-					<el-table-column prop="status_use" label="使用状态">
+					<el-table-column prop="businesstype" label="业务类型">
 						<template slot-scope="scope">
-							<span v-if="scope.row.status_use == 0">已完成</span>
-							<span v-else>进行中</span>
+							<span v-if="scope.row.businesstype == 0"
+								>点播加速</span
+							>
+							<span v-else-if="scope.row.businesstype == 1"
+								>直播加速</span
+							>
+							<span v-else>{{ scope.row.businesstype }}</span>
 						</template>
 					</el-table-column>
 					<el-table-column
-						prop="user_id"
+						prop="businessscene"
+						label="业务场景及用途"
+					>
+						<template slot-scope="scope">
+							<span
+								v-if="
+									scope.row.businessscene == 0 ||
+										scope.row.businessscene == 1 ||
+										scope.row.businessscene == 4
+								"
+								>分发加速播放-内容缓存</span
+							>
+							<span v-else-if="scope.row.businessscene == 2"
+								>内容预热-内容缓存</span
+							>
+							<span v-else-if="scope.row.businessscene == 3"
+								>刷新缓存-内容缓存</span
+							>
+							<span v-else>{{ scope.row.businessscene }}</span>
+						</template>
+					</el-table-column>
+					<!-- <el-table-column
+						prop="use"
+						label="用途"
+						width="180"
+					></el-table-column> -->
+					<el-table-column
+						prop="dataflow"
+						label="占用空间"
+						width="180"
+					>
+						<template slot-scope="scope">
+							{{ scope.row.dataflow | formatBytes }}
+						</template>
+					</el-table-column>
+					<el-table-column
+						prop="urlname"
+						label="存储内容"
+					></el-table-column>
+					<el-table-column
+						prop="contentid"
+						label="内容ID"
+					></el-table-column>
+					<el-table-column
+						prop="startTS"
+						width="103"
+						sortable
+						:sort-orders="['ascending', 'descending']"
+						label="启用时间"
+					>
+						<template slot-scope="scope">
+							{{ scope.row.startTS | getymd }}
+						</template>
+					</el-table-column>
+					<el-table-column prop="endTS" label="结束时间">
+						<template slot-scope="scope">
+							{{ scope.row.endTS | getymd }}
+						</template>
+					</el-table-column>
+					<el-table-column prop="timeuse" label="使用时长">
+						<template slot-scope="scope">
+							{{ scope.row.timeuse | s_h }}
+						</template>
+					</el-table-column>
+					<el-table-column prop="accelstate" label="使用状态">
+						<template slot-scope="scope">
+							<span v-if="scope.row.accelstate == 0">使用中</span>
+							<span v-else-if="scope.row.accelstate == 1"
+								>已停用</span
+							>
+						</template>
+					</el-table-column>
+					<el-table-column
+						prop="chanId"
 						label="渠道ID"
 					></el-table-column>
 					<el-table-column
-						prop="user_id"
+						prop="taskid"
 						label="实例ID"
 					></el-table-column>
+					<el-table-column prop="terminalname" label="视频播放终端">
+						<template slot-scope="scope">
+							<span
+								v-if="
+									scope.row.businessscene == 0 ||
+										scope.row.businessscene == 1 ||
+										scope.row.businessscene == 4
+								"
+								>{{ scope.row.terminalname }}
+							</span>
+							<span v-else>
+								{{
+									scope.row.terminalname == 'Unknown'
+										? '--'
+										: scope.row.terminalname
+								}}
+							</span>
+						</template>
+					</el-table-column>
 					<el-table-column
-						prop="user_id"
-						label="视频播放终端"
-					></el-table-column>
-					<el-table-column
-						prop="user_id"
+						prop="userIpInfo"
 						label="视频播放IP"
 					></el-table-column>
 				</el-table>
@@ -445,6 +555,13 @@ import {
 	query_ip_store_usage_table,
 	ipfs_basic_info,
 } from '@/servers/api';
+import {
+	getlocaltimes,
+	settime,
+	getymdtime,
+	setbatime,
+	formatDuring,
+} from '../../servers/sevdate';
 export default {
 	data() {
 		return {
@@ -477,6 +594,35 @@ export default {
 	components: {
 		qiu,
 		fenye,
+	},
+	filters: {
+		getymd(time) {
+			if (time === 0) {
+				return '--';
+			} else {
+				return getymdtime(time);
+			}
+		},
+		s_h(time) {
+			if (time !== 0) {
+				return formatDuring(time);
+			} else {
+				return '--';
+			}
+		},
+		formatBytes(a) {
+			if (0 == a) return '0 B';
+			var d = 2;
+			var c = 1024,
+				e = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
+				f = Math.floor(Math.log(a) / Math.log(c));
+			if (e[f] == 'TB' || e[f] == 'PB') {
+				d = 4;
+			} else {
+				d = 2;
+			}
+			return parseFloat((a / Math.pow(c, f)).toFixed(d)) + ' ' + e[f];
+		},
 	},
 	created() {
 		this.serdata = JSON.parse(sessionStorage.getItem('serdata'));
@@ -519,13 +665,13 @@ export default {
 			this.up_rema = 0;
 		} else {
 			this.up_rema = parseInt(upbandwidth_rema) / parseInt(upbandwidth);
-        }
-        if (upbandwidth * 1 == 0) {
+		}
+		if (upbandwidth * 1 == 0) {
 			this.down_rema = 0;
 		} else {
 			this.down_rema = parseInt(upbandwidth_occ) / parseInt(upbandwidth);
-        }
-        
+		}
+
 		if (this.serdata.totalCap * 1 == 0) {
 			this.cap_rema = 0;
 		} else {
@@ -536,7 +682,8 @@ export default {
 	},
 	mounted() {
 		this.starttime =
-			new Date(new Date().toLocaleDateString()).getTime() / 1000;
+			new Date(new Date().toLocaleDateString()).getTime() / 1000 -
+			86400 * 90;
 		this.endtime = Date.parse(new Date()) / 1000;
 		this.gettitledata();
 		this.getlabel();
@@ -585,15 +732,22 @@ export default {
 				let params = new Object();
 				params.ipfs_id = this.node_id;
 				params.ipfs_ip = '*';
-				params.usage = 3;
+				params.usage = 0;
 				params.start_ts = this.starttime;
 				params.end_ts = this.endtime;
 				params.pageNo = this.pageNo - 1;
 				params.pageSize = this.pageSize;
+				params.first_channel = '*';
+				params.second_channel = '*';
+				params.device_type = '*';
+				params.orderBy = 2;
+				params.business_scene = '*';
+				params.business_type = '*';
 				query_ip_usage_table(params)
 					.then((res) => {
 						if (res.status == 0) {
-							this.tableData = res.data.list;
+							this.tableDataip = res.data.list;
+							this.totalCnt = res.data.totalCnt;
 						} else {
 							this.$message.error(res.errMsg);
 						}
@@ -603,15 +757,22 @@ export default {
 				let params = new Object();
 				params.content_id = '*';
 				params.ipfs_id = this.node_id;
-				params.usage = 3;
+				params.usage = 0;
 				params.start_ts = this.starttime;
 				params.end_ts = this.endtime;
 				params.pageNo = this.pageNo - 1;
 				params.pageSize = this.pageSize;
+				params.first_channel = '*';
+				params.second_channel = '*';
+				params.device_type = '*';
+				params.orderBy = 2;
+				params.business_type = '*';
+				params.business_scene = '*';
 				query_ip_store_usage_table(params)
 					.then((res) => {
 						if (res.status == 0) {
-							this.tableData = res.data.list;
+							this.tableDatafs = res.data.list;
+							this.totalCnt = res.data.totalCnt;
 						} else {
 							this.$message.error(res.errMsg);
 						}
@@ -633,7 +794,11 @@ export default {
 		//获取页码
 		getpage(pages) {
 			this.pageNo = pages;
-			this.getlabel();
+			if (this.rotate == false) {
+				this.getlabel();
+			} else {
+				this.getlabel('fs');
+			}
 		},
 		//获取每页数量
 		gettol(pagetol) {
@@ -736,7 +901,7 @@ export default {
 	}
 	.ipfs_con {
 		// width: 100%;
-		height:150px;
+		height: 150px;
 		display: flex;
 		.ipfs_con_tit {
 			width: 270px;

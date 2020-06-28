@@ -416,3 +416,100 @@ export const nodeinfo_export = params => {
         res => res.data
     );
 };
+//部门列表
+export const departmentlist = params => {
+    return post(`${serverUrl}/system/departmentlist`, params).then(
+        res => res.data
+    );
+};
+//添加部门
+export const adddepartment = params => {
+    return post(`${serverUrl}/system/adddepartment`, params).then(
+        res => res.data
+    );
+};
+//修改部门
+export const updatedepartment = params => {
+    return post(`${serverUrl}/system/updatedepartment`, params).then(
+        res => res.data
+    );
+};
+//删除部门
+export const deldepartment = params => {
+    return post(`${serverUrl}/system/deldepartment`, params).then(
+        res => res.data
+    );
+};
+//职位列表
+export const positionlist = params => {
+    return post(`${serverUrl}/system/positionlist`, params).then(
+        res => res.data
+    );
+};
+//添加职位
+export const addposition = params => {
+    return post(`${serverUrl}/system/addposition`, params).then(
+        res => res.data
+    );
+};
+//修改职位
+export const updateposition = params => {
+    return post(`${serverUrl}/system/updateposition`, params).then(
+        res => res.data
+    );
+};
+//删除职位
+export const delposition = params => {
+    return post(`${serverUrl}/system/delposition`, params).then(
+        res => res.data
+    );
+};
+//菜单列表
+export const menulistuser = params => {
+    return post(`${serverUrl}/system/menulistuser`, params).then(
+        res => res.data
+    );
+};
+//权限列表
+export const rolelist = params => {
+    return post(`${serverUrl}/system/rolelist`, params).then(
+        res => res.data
+    );
+};
+//添加权限
+export const addrole = params => {
+    return post(`${serverUrl}/system/addrole`, params).then(
+        res => res.data
+    );
+};
+//权限更新
+export const updaterole = params => {
+    return post(`${serverUrl}/system/updaterole`, params).then(
+        res => res.data
+    );
+};
+//删除权限
+export const delrole = params => {
+    return post(`${serverUrl}/system/delrole`, params).then(
+        res => res.data
+    );
+};
+//搜索权限
+export const searchuser = params => {
+    return post(`${serverUrl}/system/searchuser`, params).then(
+        res => res.data
+    );
+};
+//获取一级部门
+export const gettopdepartment = params => {
+    return post(`${serverUrl}/system/gettopdepartment`, params).then(
+        res => res.data
+    );
+};
+
+//获取分组用户
+export const userlistaddrole = params => {
+    return post(`${serverUrl}/system/userlistaddrole`, params).then(
+        res => res.data
+    );
+};

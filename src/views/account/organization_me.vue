@@ -17,7 +17,7 @@
 			</div>
 			<!-- 新建部门弹窗 -->
 			<el-dialog
-				title="新建部门"
+				:title="netitle"
 				:visible.sync="dialogFormVisible"
 				width="650px"
 				class="firstorganization_dialog"
@@ -58,7 +58,7 @@
 			</el-dialog>
 			<!-- 新建下级部门弹窗 -->
 			<el-dialog
-				title="新建下级部门"
+				:title="titlename"
 				:visible.sync="nwFormVisible"
 				width="650px"
 				class="organization_dialog"
@@ -77,13 +77,12 @@
 								placeholder="请选择部门"
 							>
 								<el-option
-									label="区域一"
-									value="shanghai"
-								></el-option>
-								<el-option
-									label="区域二"
-									value="beijing"
-								></el-option>
+									v-for="item in firstme"
+									:key="item.id"
+									:label="item.name"
+									:value="item.id"
+								>
+								</el-option>
 							</el-select>
 						</el-form-item>
 						<el-form-item
@@ -129,13 +128,23 @@
 				<el-table-column label="ID">
 					<template slot-scope="scope">{{ scope.row.id }}</template>
 				</el-table-column>
-				<el-table-column prop="first_level" label="一级部门">
+				<el-table-column prop="parent" label="一级部门">
+					<template slot-scope="scope">
+						{{
+							scope.row.parent == '-'
+								? scope.row.name
+								: scope.row.parent
+						}}
+					</template>
 				</el-table-column>
 				<el-table-column
-					prop="second_level"
+					prop="name"
 					label="二级部门"
 					show-overflow-tooltip
 				>
+					<template slot-scope="scope">
+						{{ scope.row.parent != '-' ? scope.row.name : '--' }}
+					</template>
 				</el-table-column>
 				<el-table-column label="操作">
 					<template slot-scope="scope">
@@ -146,9 +155,7 @@
 							>修改</el-button
 						>
 						<el-button
-							@click.native.prevent="
-								deleteRow(scope.$index, tableData)
-							"
+							@click.native.prevent="deleteRow(scope.row)"
 							type="text"
 							size="small"
 							>删除</el-button
@@ -157,7 +164,12 @@
 				</el-table-column>
 			</el-table>
 			<div class="btn_area">
-				<el-button type="primary">删除</el-button>
+				<el-button
+					type="primary"
+					@click="deleteRow()"
+					:disabled="deldisable"
+					>删除</el-button
+				>
 				<fenye
 					style="float:right;margin:10px 0 0 0;"
 					@fatherMethod="getpage"
@@ -172,48 +184,129 @@
 
 <script>
 import fenye from '@/components/fenye';
+import {
+	departmentlist,
+	adddepartment,
+	updatedepartment,
+	deldepartment,
+	gettopdepartment,
+} from '@/servers/api';
 export default {
 	data() {
 		return {
 			pagesize: 10,
 			total_cnt: 1,
-			currentPage: 0,
+			currentPage: 1,
+			netitle: '新建部门',
+			titlename: '新建下级部门',
 			dialogFormVisible: false,
 			nwFormVisible: false,
-			tableData: [
-				{
-					id: '1',
-					first_level: 'AI组',
-					second_level: 'ROM组',
-				},
-				{
-					id: '2',
-					first_level: '大数据组',
-					second_level: 'IPFS组',
-				},
-			],
+			tableData: [],
 			form: {
 				region: '',
 				name: '',
 				nuname: '',
+				id: 0,
 			},
+			multipleSelection: [],
+			firstme: [],
+			deldisable: true,
 		};
 	},
+	mounted() {
+		this.get_firstme();
+		this.getdatalist();
+	},
 	methods: {
+		//获取部门列表
+		getdatalist() {
+			let params = new Object();
+			params.page = this.currentPage - 1;
+			departmentlist(params)
+				.then((res) => {
+					console.log(res);
+					if (res.status == 0) {
+						this.tableData = res.result.cols;
+						if (res.result.les_count == 0) {
+							this.total_cnt = res.result.cols.length;
+						} else {
+							this.total_cnt = res.result.les_count + 10;
+						}
+					} else {
+						this.$message(res.msg);
+					}
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		},
+		//获取一级部门
+		get_firstme() {
+			let params = new Object();
+			gettopdepartment(params)
+				.then((res) => {
+					if (res.status == 0) {
+						this.firstme = res.result.cols;
+					}
+				})
+				.catch((error) => {});
+		},
 		//新建部门
 		uodatadialogVisible() {
+			this.netitle = '新建部门';
 			this.dialogFormVisible = true;
 		},
 		//新建下级部门
 		nwisible() {
+			this.titlename = '新建下级部门';
 			this.nwFormVisible = true;
 		},
 		//新建部门--确定
 		firstsubmitForm(formName) {
 			this.$refs[formName].validate((valid) => {
 				if (valid) {
-					alert('submit!');
-					this.dialogFormVisible = false;
+					if (this.netitle == '新建部门') {
+						let params = new Object();
+						params.pid = 0;
+						params.name = this.form.nuname;
+						adddepartment(params)
+							.then((res) => {
+								this.dialogFormVisible = false;
+								if (res.status == 0) {
+									this.form.nuname = '';
+									this.$message.success('新建成功');
+									this.get_firstme();
+									this.getdatalist();
+								} else {
+									this.$message.error(res.msg);
+								}
+							})
+							.catch((error) => {
+								console.log(error);
+							});
+					} else {
+						let params = new Object();
+						params.id = this.form.id;
+						params.pid = 0;
+						params.name = this.form.nuname;
+						updatedepartment(params)
+							.then((res) => {
+								this.dialogFormVisible = false;
+								this.form.id = '';
+								this.form.pid = '';
+								this.form.name = '';
+								if (res.status == 0) {
+									this.$message.success('修改成功');
+									this.getdatalist();
+									this.get_firstme();
+								} else {
+									this.$message.error(res.msg);
+								}
+							})
+							.catch((error) => {
+								console.log(error);
+							});
+					}
 				} else {
 					return false;
 				}
@@ -223,8 +316,48 @@ export default {
 		submitForm(formName) {
 			this.$refs[formName].validate((valid) => {
 				if (valid) {
-					alert('submit!');
-					this.nwFormVisible = false;
+					console.log(this.titlename);
+					if (this.titlename == '新建下级部门') {
+						let params = new Object();
+						params.pid = this.form.region;
+						params.name = this.form.name;
+						adddepartment(params)
+							.then((res) => {
+								this.nwFormVisible = false;
+								if (res.status == 0) {
+									this.form.nuname = '';
+									this.$message.success('新建成功');
+									this.getdatalist();
+								} else {
+									this.$message.error(res.msg);
+								}
+							})
+							.catch((error) => {
+								console.log(error);
+							});
+					} else {
+						let params = new Object();
+						params.id = this.form.id;
+						params.pid = this.form.region;
+						params.name = this.form.name;
+						updatedepartment(params)
+							.then((res) => {
+								this.nwFormVisible = false;
+								this.form.id = '';
+								this.form.pid = '';
+								this.form.name = '';
+								if (res.status == 0) {
+									this.$message.success('修改成功');
+									this.getdatalist();
+									this.get_firstme();
+								} else {
+									this.$message.error(res.msg);
+								}
+							})
+							.catch((error) => {
+								console.log(error);
+							});
+					}
 				} else {
 					return false;
 				}
@@ -239,17 +372,61 @@ export default {
 		// 全选
 		handleSelectionChange(val) {
 			this.multipleSelection = val;
+			if (this.multipleSelection.length <= 0) {
+				this.deldisable = true;
+			} else {
+				this.deldisable = false;
+			}
 		},
+		//修改
 		handleClick(data) {
 			console.log(data);
+			if (data.pdepartment) {
+				this.titlename = '修改部门';
+				this.nwFormVisible = true;
+				this.form.region = data.pid;
+				this.form.name = data.name;
+				this.form.id = data.id;
+			} else {
+				this.netitle = '修改部门';
+				this.dialogFormVisible = true;
+				this.form.nuname = data.name;
+				this.form.id = data.id;
+			}
 		},
-		deleteRow(num, arr) {
-			console.log(num, arr);
+		//删除
+		deleteRow(data) {
+			let params = new Object();
+			params.ids = [];
+			if (data) {
+				let obj = new Object();
+				obj.id = data.id;
+				params.ids.push(obj);
+			} else {
+				this.multipleSelection.forEach((item) => {
+					let obj = new Object();
+					obj.id = item.id;
+					params.ids.push(obj);
+				});
+			}
+			deldepartment(params)
+				.then((res) => {
+					if (res.status == 0) {
+						this.$message.success('删除成功');
+						this.get_firstme();
+						this.getdatalist();
+					} else {
+						this.$message.error(res.msg);
+					}
+				})
+				.catch((error) => {
+					console.log(error);
+				});
 		},
 		//获取页码
 		getpage(pages) {
 			this.tolpage = pages;
-			//this.getdata();
+			this.getdatalist();
 		},
 		//获取每页数量
 		gettol(pagetol) {
@@ -269,11 +446,18 @@ export default {
 			if (value === '') {
 				callback(new Error('部门名称不能为空'));
 			} else {
-				var fsdtel = /^[\u4e00-\u9fa50-9a-zA-Z]{4,20}$/;
-				if (fsdtel.test(value) === false) {
-					callback(new Error('部门名称格式错误'));
+				if (
+					value.replace(/[^\u0000-\u00ff]/g, 'aa').length >= 4 &&
+					value.replace(/[^\u0000-\u00ff]/g, 'aa').length <= 20
+				) {
+					var fsdtel = /^[\u4e00-\u9fa50-9a-zA-Z]{2,10}$/;
+					if (fsdtel.test(value) === false) {
+						callback(new Error('部门名称格式错误'));
+					} else {
+						callback();
+					}
 				} else {
-					callback();
+					callback(new Error('部门名称长度不合规范'));
 				}
 			}
 		},

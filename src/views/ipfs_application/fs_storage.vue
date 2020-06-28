@@ -211,7 +211,11 @@
 				<el-table-column
 					prop="contentid"
 					label="内容ID"
-				></el-table-column>
+				>
+                <!-- <template slot-scope="scope">
+                    <span>{{scope.row.contentid}}</span>
+                </template> -->
+                </el-table-column>
 				<el-table-column
 					prop="startTS"
 					width="103"
@@ -287,6 +291,7 @@
 			@fathernum="gettol"
 			:pagesa="totalCnt"
 			:currentPage="currentPage"
+            ref="paginations"
 			v-if="tableData.length > 0"
 		></fenye>
 	</div>
@@ -303,7 +308,8 @@ import {
 	settime,
 	getymdtime,
 	setbatime,
-	formatDuring,
+    formatDuring,
+    formatBkb
 } from '../../servers/sevdate';
 export default {
 	data() {
@@ -429,7 +435,7 @@ export default {
 			new Date(new Date().toLocaleDateString()).getTime() / 1000 -
 			86400 * 90;
 		this.endtime = Date.parse(new Date()) / 1000;
-		// this.gettab();
+		 //this.gettab();
 	},
 	methods: {
 		handleChangefirst(val) {
@@ -576,6 +582,7 @@ export default {
 		},
 		//重置
 		reset() {
+             this.$refs.paginations.$data.currentPage=1;
 			this.value = '';
 			this.input = '';
 			this.value1 = '';
@@ -583,7 +590,8 @@ export default {
 			this.secondvalue = '*';
 			this.devtypevalue = '*';
 			this.busvalue = '*';
-			this.scenevalue = '*';
+            this.scenevalue = '*';
+            this.pageNo=1;
 			this.scenedis = true;
 			this.chil_disable = true;
 			this.gettab();

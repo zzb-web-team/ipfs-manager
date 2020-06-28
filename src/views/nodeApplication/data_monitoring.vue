@@ -215,32 +215,11 @@
 				<el-tab-pane label="带宽" name="first">
 					<el-row>
 						<el-col :span="5" class="top_title">
-							<p>
-								{{
-									(upbandwidth / 1024 / 1024 / 1024).toFixed(
-										2
-									)
-								}}Mbps/{{
-									(
-										downbandwidth /
-										1024 /
-										1024 /
-										1024
-									).toFixed(2)
-								}}Mbps
-							</p>
+							<p>{{ upbandwidth }}Mbps/{{ downbandwidth }}Mbps</p>
 							<p>节点带宽峰值（上/下行）</p>
 						</el-col>
 						<el-col :span="5" class="top_title">
-							<p>
-								{{
-									(averageup / 1024 / 1024 / 1024).toFixed(2)
-								}}Mbps/{{
-									(averagedown / 1024 / 1024 / 1024).toFixed(
-										2
-									)
-								}}Mbps
-							</p>
+							<p>{{ averageup }}Mbps/{{ averagedown }}Mbps</p>
 							<p>节点带宽平均值（上/下行）</p>
 						</el-col>
 					</el-row>
@@ -267,19 +246,13 @@
 					<el-row>
 						<el-col :span="5" class="top_title">
 							<p>
-								{{
-									(availablecap / 1024 / 1024 / 1024).toFixed(
-										2
-									)
-								}}GB
+								{{ availablecap | formatBytes }}
 							</p>
 							<p>节点可用存储空间</p>
 						</el-col>
 						<el-col :span="5" class="top_title">
 							<p>
-								{{
-									(totalcap / 1024 / 1024 / 1024).toFixed(2)
-								}}GB
+								{{ totalcap | formatBytes }}
 							</p>
 							<p>节点总存储空间</p>
 						</el-col>
@@ -369,7 +342,7 @@ import {
 	ipfs_monit_storage,
 	ipfs_monit_tid,
 } from '@/servers/api';
-import { getday, setbatime } from '../../servers/sevdate';
+import { getday, setbatime, get_units, formatBkb } from '../../servers/sevdate';
 import echarts from 'echarts';
 export default {
 	data() {
@@ -686,6 +659,16 @@ export default {
 		this.get_search_data();
 		this.set_time();
 	},
+	filters: {
+		formatBytes(a, b) {
+			if (0 == a) return '0 B';
+			var c = 1024,
+				d = b || 2,
+				e = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
+				f = Math.floor(Math.log(a) / Math.log(c));
+			return parseFloat((a / Math.pow(c, f)).toFixed(d)) + ' ' + e[f];
+		},
+	},
 	methods: {
 		getJson() {
 			axios.get('./static/pro_city.json').then((res) => {
@@ -699,8 +682,8 @@ export default {
 				this.searchdata.region6 = '';
 				this.set_time();
 			} else {
-                this.options_city = this.citydata[value[1]].cities;
-                console.log(this.options_city);
+				this.options_city = this.citydata[value[1]].cities;
+				console.log(this.options_city);
 				this.city_disable = false;
 				this.searchdata.region6 = '';
 				this.set_time();
@@ -728,8 +711,6 @@ export default {
 		},
 		//请求带宽数据
 		get_nodetype(num) {
-			// let params=new Object();
-			// get_nodetype_enum(params).then(res=>{console.log(res)}).catch(error=>{console.log(error)})
 			this.upBandwidthMap = [];
 			this.downBandwidthMap = [];
 			let params = new Object();
@@ -737,39 +718,42 @@ export default {
 				params.firstChannel = this.searchdata.region1;
 			} else {
 				params.firstChannel = '*';
-            }
-            if (this.searchdata.region2) {
+			}
+			if (this.searchdata.region2) {
 				params.secondChannel = this.searchdata.region2;
 			} else {
 				params.secondChannel = '*';
-            }
-             if (this.searchdata.region3) {
+			}
+			if (this.searchdata.region3) {
 				params.deviceType = this.searchdata.region3;
 			} else {
 				params.deviceType = '*';
-            }
-             if (this.searchdata.region6) {
+			}
+			if (this.searchdata.region6) {
 				params.isp = this.searchdata.region6;
 			} else {
 				params.isp = '*';
-            }
+			}
 			if (this.searchdata.input) {
 				params.nodeId = this.searchdata.input;
 			} else {
 				params.nodeId = '*';
-            }
-			if(this.searchdata.region4=='*'){
-                params.region = '*';
-            }else{
-                params.region = this.searchdata.region4[1];
-            }
-            if(this.searchdata.region5=='全部'||this.searchdata.region5==''){
-                params.city='*';
-            }else{
-                params.city=this.searchdata.region5;
-            }
-            params.start_ts = this.starttime;
-            params.end_ts = this.endtime;
+			}
+			if (this.searchdata.region4 == '*') {
+				params.region = '*';
+			} else {
+				params.region = this.searchdata.region4[1];
+			}
+			if (
+				this.searchdata.region5 == '全部' ||
+				this.searchdata.region5 == ''
+			) {
+				params.city = '*';
+			} else {
+				params.city = this.searchdata.region5;
+			}
+			params.start_ts = this.starttime;
+			params.end_ts = this.endtime;
 			if (params.end_ts - params.end_ts > 86400) {
 				params.timeUnit = 1440;
 			} else {
@@ -798,13 +782,10 @@ export default {
 							downarrlist,
 							'max'
 						);
-
 						this.upbandwidth = this.getMaximin(uparrlist, 'max');
-						this.averageup = this.pingjun(res.data.upBandwidthMap);
-						this.averagedown = this.pingjun(
-							res.data.downBandwidthMap
-						);
-						this.$nextTick(this.firstsharts(this.downBandwidthMap));
+						this.averageup = this.pingjun(uparrlist);
+						this.averagedown = this.pingjun(downarrlist);
+						this.$nextTick(this.firstsharts(this.upBandwidthMap));
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -817,41 +798,44 @@ export default {
 		get_monit() {
 			this.dataStore = [];
 			let params = new Object();
-            if (this.searchdata.region1) {
+			if (this.searchdata.region1) {
 				params.firstChannel = this.searchdata.region1;
 			} else {
 				params.firstChannel = '*';
-            }
-            if (this.searchdata.region2) {
+			}
+			if (this.searchdata.region2) {
 				params.secondChannel = this.searchdata.region2;
 			} else {
 				params.secondChannel = '*';
-            }
-             if (this.searchdata.region3) {
+			}
+			if (this.searchdata.region3) {
 				params.deviceType = this.searchdata.region3;
 			} else {
 				params.deviceType = '*';
-            }
-             if (this.searchdata.region6) {
+			}
+			if (this.searchdata.region6) {
 				params.isp = this.searchdata.region6;
 			} else {
 				params.isp = '*';
-            }
-			if (this.searchdata.input) {
-                params.nodeId = this.searchdata.input;
-			} else {
-                params.nodeId = '*';
 			}
-			if(this.searchdata.region4=='*'){
-                params.region = '*';
-            }else{
-                params.region = this.searchdata.region4[1];
-            }
-            if(this.searchdata.region5=='全部'||this.searchdata.region5==''){
-                params.city='*';
-            }else{
-                params.city=this.searchdata.region5;
-            }
+			if (this.searchdata.input) {
+				params.nodeId = this.searchdata.input;
+			} else {
+				params.nodeId = '*';
+			}
+			if (this.searchdata.region4 == '*') {
+				params.region = '*';
+			} else {
+				params.region = this.searchdata.region4[1];
+			}
+			if (
+				this.searchdata.region5 == '全部' ||
+				this.searchdata.region5 == ''
+			) {
+				params.city = '*';
+			} else {
+				params.city = this.searchdata.region5;
+			}
 			params.end_ts = this.endtime;
 			params.start_ts = this.starttime;
 			ipfs_monit_storage(params)
@@ -875,7 +859,10 @@ export default {
 						}
 						this.availablecap = this.getMaximin(avaarrlist, 'max');
 						this.totalcap = this.getMaximin(tolarrlist, 'max');
-						this.$nextTick(this.secondsharts(this.dataStore));
+						let kunits = get_units(this.availablecap);
+						this.$nextTick(
+							this.secondsharts(this.dataStore, kunits)
+						);
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -888,51 +875,54 @@ export default {
 		get_pingms() {
 			this.mslist = [];
 			let params = new Object();
-            if (this.searchdata.region1) {
+			if (this.searchdata.region1) {
 				params.firstChannel = this.searchdata.region1;
 			} else {
 				params.firstChannel = '*';
-            }
-            if (this.searchdata.region2) {
+			}
+			if (this.searchdata.region2) {
 				params.secondChannel = this.searchdata.region2;
 			} else {
 				params.secondChannel = '*';
-            }
-             if (this.searchdata.region3) {
+			}
+			if (this.searchdata.region3) {
 				params.deviceType = this.searchdata.region3;
 			} else {
 				params.deviceType = '*';
-            }
-             if (this.searchdata.region6) {
+			}
+			if (this.searchdata.region6) {
 				params.isp = this.searchdata.region6;
 			} else {
 				params.isp = '*';
-            }
-             if (this.searchdata.region7) {
+			}
+			if (this.searchdata.region7) {
 				params.cpuType = this.searchdata.region7;
 			} else {
 				params.cpuType = '*';
-            }
+			}
 			if (this.searchdata.input) {
-                params.nodeId = this.searchdata.input;
+				params.nodeId = this.searchdata.input;
 			} else {
-                params.nodeId = '*';
+				params.nodeId = '*';
 			}
-            if (this.searchdata.region8) {
-                params.osType = this.searchdata.region8;
+			if (this.searchdata.region8) {
+				params.osType = this.searchdata.region8;
 			} else {
-                params.osType = '*';
+				params.osType = '*';
 			}
-			if(this.searchdata.region4=='*'){
-                params.region = '*';
-            }else{
-                params.region = this.searchdata.region4[1];
-            }
-            if(this.searchdata.region5=='全部'||this.searchdata.region5==''){
-                params.city='*';
-            }else{
-                params.city=this.searchdata.region5;
-            }
+			if (this.searchdata.region4 == '*') {
+				params.region = '*';
+			} else {
+				params.region = this.searchdata.region4[1];
+			}
+			if (
+				this.searchdata.region5 == '全部' ||
+				this.searchdata.region5 == ''
+			) {
+				params.city = '*';
+			} else {
+				params.city = this.searchdata.region5;
+			}
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime;
 			if (params.end_ts - params.end_ts > 86400) {
@@ -947,9 +937,9 @@ export default {
 						for (let k in res.data) {
 							let obj = {};
 							obj.name = getday(k);
-							obj.value = (res.data[k])/1000;
+							obj.value = res.data[k] / 1000;
 							this.mslist.push(obj);
-							arrlist.push(res.data[k]/1000);
+							arrlist.push(res.data[k] / 1000);
 						}
 						this.$nextTick(
 							this.lastsharts('ping_ms', 'PING_MS', this.mslist)
@@ -972,51 +962,54 @@ export default {
 		get_tid() {
 			this.tidlist = [];
 			let params = new Object();
-			            if (this.searchdata.region1) {
+			if (this.searchdata.region1) {
 				params.firstChannel = this.searchdata.region1;
 			} else {
 				params.firstChannel = '*';
-            }
-            if (this.searchdata.region2) {
+			}
+			if (this.searchdata.region2) {
 				params.secondChannel = this.searchdata.region2;
 			} else {
 				params.secondChannel = '*';
-            }
-             if (this.searchdata.region3) {
+			}
+			if (this.searchdata.region3) {
 				params.deviceType = this.searchdata.region3;
 			} else {
 				params.deviceType = '*';
-            }
-             if (this.searchdata.region6) {
+			}
+			if (this.searchdata.region6) {
 				params.isp = this.searchdata.region6;
 			} else {
 				params.isp = '*';
-            }
-             if (this.searchdata.region7) {
+			}
+			if (this.searchdata.region7) {
 				params.cpuType = this.searchdata.region7;
 			} else {
 				params.cpuType = '*';
-            }
+			}
 			if (this.searchdata.input) {
-                params.nodeId = this.searchdata.input;
+				params.nodeId = this.searchdata.input;
 			} else {
-                params.nodeId = '*';
+				params.nodeId = '*';
 			}
-            if (this.searchdata.region8) {
-                params.osType = this.searchdata.region8;
+			if (this.searchdata.region8) {
+				params.osType = this.searchdata.region8;
 			} else {
-                params.osType = '*';
+				params.osType = '*';
 			}
-			if(this.searchdata.region4=='*'){
-                params.region = '*';
-            }else{
-                params.region = this.searchdata.region4[1];
-            }
-            if(this.searchdata.region5=='全部'||this.searchdata.region5==''){
-                params.city='*';
-            }else{
-                params.city=this.searchdata.region5;
-            }
+			if (this.searchdata.region4 == '*') {
+				params.region = '*';
+			} else {
+				params.region = this.searchdata.region4[1];
+			}
+			if (
+				this.searchdata.region5 == '全部' ||
+				this.searchdata.region5 == ''
+			) {
+				params.city = '*';
+			} else {
+				params.city = this.searchdata.region5;
+			}
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime;
 			if (params.end_ts - params.end_ts > 86400) {
@@ -1056,51 +1049,54 @@ export default {
 		get_etf() {
 			this.etflist = [];
 			let params = new Object();
-			            if (this.searchdata.region1) {
+			if (this.searchdata.region1) {
 				params.firstChannel = this.searchdata.region1;
 			} else {
 				params.firstChannel = '*';
-            }
-            if (this.searchdata.region2) {
+			}
+			if (this.searchdata.region2) {
 				params.secondChannel = this.searchdata.region2;
 			} else {
 				params.secondChannel = '*';
-            }
-             if (this.searchdata.region3) {
+			}
+			if (this.searchdata.region3) {
 				params.deviceType = this.searchdata.region3;
 			} else {
 				params.deviceType = '*';
-            }
-             if (this.searchdata.region6) {
+			}
+			if (this.searchdata.region6) {
 				params.isp = this.searchdata.region6;
 			} else {
 				params.isp = '*';
-            }
-             if (this.searchdata.region7) {
+			}
+			if (this.searchdata.region7) {
 				params.cpuType = this.searchdata.region7;
 			} else {
 				params.cpuType = '*';
-            }
+			}
 			if (this.searchdata.input) {
-                params.nodeId = this.searchdata.input;
+				params.nodeId = this.searchdata.input;
 			} else {
-                params.nodeId = '*';
+				params.nodeId = '*';
 			}
-            if (this.searchdata.region8) {
-                params.osType = this.searchdata.region8;
+			if (this.searchdata.region8) {
+				params.osType = this.searchdata.region8;
 			} else {
-                params.osType = '*';
+				params.osType = '*';
 			}
-			if(this.searchdata.region4=='*'){
-                params.region = '*';
-            }else{
-                params.region = this.searchdata.region4[1];
-            }
-            if(this.searchdata.region5=='全部'||this.searchdata.region5==''){
-                params.city='*';
-            }else{
-                params.city=this.searchdata.region5;
-            }
+			if (this.searchdata.region4 == '*') {
+				params.region = '*';
+			} else {
+				params.region = this.searchdata.region4[1];
+			}
+			if (
+				this.searchdata.region5 == '全部' ||
+				this.searchdata.region5 == ''
+			) {
+				params.city = '*';
+			} else {
+				params.city = this.searchdata.region5;
+			}
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime;
 			if (params.end_ts - params.end_ts > 86400) {
@@ -1144,51 +1140,54 @@ export default {
 		get_lt() {
 			this.ltlist = [];
 			let params = new Object();
-			            if (this.searchdata.region1) {
+			if (this.searchdata.region1) {
 				params.firstChannel = this.searchdata.region1;
 			} else {
 				params.firstChannel = '*';
-            }
-            if (this.searchdata.region2) {
+			}
+			if (this.searchdata.region2) {
 				params.secondChannel = this.searchdata.region2;
 			} else {
 				params.secondChannel = '*';
-            }
-             if (this.searchdata.region3) {
+			}
+			if (this.searchdata.region3) {
 				params.deviceType = this.searchdata.region3;
 			} else {
 				params.deviceType = '*';
-            }
-             if (this.searchdata.region6) {
+			}
+			if (this.searchdata.region6) {
 				params.isp = this.searchdata.region6;
 			} else {
 				params.isp = '*';
-            }
-             if (this.searchdata.region7) {
+			}
+			if (this.searchdata.region7) {
 				params.cpuType = this.searchdata.region7;
 			} else {
 				params.cpuType = '*';
-            }
+			}
 			if (this.searchdata.input) {
-                params.nodeId = this.searchdata.input;
+				params.nodeId = this.searchdata.input;
 			} else {
-                params.nodeId = '*';
+				params.nodeId = '*';
 			}
-            if (this.searchdata.region8) {
-                params.osType = this.searchdata.region8;
+			if (this.searchdata.region8) {
+				params.osType = this.searchdata.region8;
 			} else {
-                params.osType = '*';
+				params.osType = '*';
 			}
-			if(this.searchdata.region4=='*'){
-                params.region = '*';
-            }else{
-                params.region = this.searchdata.region4[1];
-            }
-            if(this.searchdata.region5=='全部'||this.searchdata.region5==''){
-                params.city='*';
-            }else{
-                params.city=this.searchdata.region5;
-            }
+			if (this.searchdata.region4 == '*') {
+				params.region = '*';
+			} else {
+				params.region = this.searchdata.region4[1];
+			}
+			if (
+				this.searchdata.region5 == '全部' ||
+				this.searchdata.region5 == ''
+			) {
+				params.city = '*';
+			} else {
+				params.city = this.searchdata.region5;
+			}
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime;
 			if (params.end_ts - params.end_ts > 86400) {
@@ -1235,54 +1234,57 @@ export default {
 		get_itf() {
 			this.itflist = [];
 			let params = new Object();
-			            if (this.searchdata.region1) {
+			if (this.searchdata.region1) {
 				params.firstChannel = this.searchdata.region1;
 			} else {
 				params.firstChannel = '*';
-            }
-            if (this.searchdata.region2) {
+			}
+			if (this.searchdata.region2) {
 				params.secondChannel = this.searchdata.region2;
 			} else {
 				params.secondChannel = '*';
-            }
-             if (this.searchdata.region3) {
+			}
+			if (this.searchdata.region3) {
 				params.deviceType = this.searchdata.region3;
 			} else {
 				params.deviceType = '*';
-            }
-             if (this.searchdata.region6) {
+			}
+			if (this.searchdata.region6) {
 				params.isp = this.searchdata.region6;
 			} else {
 				params.isp = '*';
-            }
-             if (this.searchdata.region7) {
+			}
+			if (this.searchdata.region7) {
 				params.cpuType = this.searchdata.region7;
 			} else {
 				params.cpuType = '*';
-            }
+			}
 			if (this.searchdata.input) {
-                params.nodeId = this.searchdata.input;
+				params.nodeId = this.searchdata.input;
 			} else {
-                params.nodeId = '*';
+				params.nodeId = '*';
 			}
-            if (this.searchdata.region8) {
-                params.osType = this.searchdata.region8;
+			if (this.searchdata.region8) {
+				params.osType = this.searchdata.region8;
 			} else {
-                params.osType = '*';
+				params.osType = '*';
 			}
-			if(this.searchdata.region4=='*'){
-                params.region = '*';
-            }else{
-                params.region = this.searchdata.region4[1];
-            }
-            if(this.searchdata.region5=='全部'||this.searchdata.region5==''){
-                params.city='*';
-            }else{
-                params.city=this.searchdata.region5;
-            }
+			if (this.searchdata.region4 == '*') {
+				params.region = '*';
+			} else {
+				params.region = this.searchdata.region4[1];
+			}
+			if (
+				this.searchdata.region5 == '全部' ||
+				this.searchdata.region5 == ''
+			) {
+				params.city = '*';
+			} else {
+				params.city = this.searchdata.region5;
+			}
 			params.start_ts = this.starttime;
-            params.end_ts = this.endtime-1;
-            params.timeUnit = 1440;
+			params.end_ts = this.endtime - 1;
+			params.timeUnit = 1440;
 			// if (params.end_ts - params.end_ts > 86400) {
 			// 	params.timeUnit = 1440;
 			// } else {
@@ -1324,54 +1326,57 @@ export default {
 		get_otf() {
 			this.otflist = [];
 			let params = new Object();
-			            if (this.searchdata.region1) {
+			if (this.searchdata.region1) {
 				params.firstChannel = this.searchdata.region1;
 			} else {
 				params.firstChannel = '*';
-            }
-            if (this.searchdata.region2) {
+			}
+			if (this.searchdata.region2) {
 				params.secondChannel = this.searchdata.region2;
 			} else {
 				params.secondChannel = '*';
-            }
-             if (this.searchdata.region3) {
+			}
+			if (this.searchdata.region3) {
 				params.deviceType = this.searchdata.region3;
 			} else {
 				params.deviceType = '*';
-            }
-             if (this.searchdata.region6) {
+			}
+			if (this.searchdata.region6) {
 				params.isp = this.searchdata.region6;
 			} else {
 				params.isp = '*';
-            }
-             if (this.searchdata.region7) {
+			}
+			if (this.searchdata.region7) {
 				params.cpuType = this.searchdata.region7;
 			} else {
 				params.cpuType = '*';
-            }
+			}
 			if (this.searchdata.input) {
-                params.nodeId = this.searchdata.input;
+				params.nodeId = this.searchdata.input;
 			} else {
-                params.nodeId = '*';
+				params.nodeId = '*';
 			}
-            if (this.searchdata.region8) {
-                params.osType = this.searchdata.region8;
+			if (this.searchdata.region8) {
+				params.osType = this.searchdata.region8;
 			} else {
-                params.osType = '*';
+				params.osType = '*';
 			}
-			if(this.searchdata.region4=='*'){
-                params.region = '*';
-            }else{
-                params.region = this.searchdata.region4[1];
-            }
-            if(this.searchdata.region5=='全部'||this.searchdata.region5==''){
-                params.city='*';
-            }else{
-                params.city=this.searchdata.region5;
-            }
+			if (this.searchdata.region4 == '*') {
+				params.region = '*';
+			} else {
+				params.region = this.searchdata.region4[1];
+			}
+			if (
+				this.searchdata.region5 == '全部' ||
+				this.searchdata.region5 == ''
+			) {
+				params.city = '*';
+			} else {
+				params.city = this.searchdata.region5;
+			}
 			params.start_ts = this.starttime;
-            params.end_ts = this.endtime-1;
-            params.timeUnit = 1440;
+			params.end_ts = this.endtime - 1;
+			params.timeUnit = 1440;
 			// if (params.end_ts - params.end_ts > 86400) {
 			// 	params.timeUnit = 1440;
 			// } else {
@@ -1413,51 +1418,54 @@ export default {
 		get_rcnt() {
 			this.rcntlist = [];
 			let params = new Object();
-			            if (this.searchdata.region1) {
+			if (this.searchdata.region1) {
 				params.firstChannel = this.searchdata.region1;
 			} else {
 				params.firstChannel = '*';
-            }
-            if (this.searchdata.region2) {
+			}
+			if (this.searchdata.region2) {
 				params.secondChannel = this.searchdata.region2;
 			} else {
 				params.secondChannel = '*';
-            }
-             if (this.searchdata.region3) {
+			}
+			if (this.searchdata.region3) {
 				params.deviceType = this.searchdata.region3;
 			} else {
 				params.deviceType = '*';
-            }
-             if (this.searchdata.region6) {
+			}
+			if (this.searchdata.region6) {
 				params.isp = this.searchdata.region6;
 			} else {
 				params.isp = '*';
-            }
-             if (this.searchdata.region7) {
+			}
+			if (this.searchdata.region7) {
 				params.cpuType = this.searchdata.region7;
 			} else {
 				params.cpuType = '*';
-            }
+			}
 			if (this.searchdata.input) {
-                params.nodeId = this.searchdata.input;
+				params.nodeId = this.searchdata.input;
 			} else {
-                params.nodeId = '*';
+				params.nodeId = '*';
 			}
-            if (this.searchdata.region8) {
-                params.osType = this.searchdata.region8;
+			if (this.searchdata.region8) {
+				params.osType = this.searchdata.region8;
 			} else {
-                params.osType = '*';
+				params.osType = '*';
 			}
-			if(this.searchdata.region4=='*'){
-                params.region = '*';
-            }else{
-                params.region = this.searchdata.region4[1];
-            }
-            if(this.searchdata.region5=='全部'||this.searchdata.region5==''){
-                params.city='*';
-            }else{
-                params.city=this.searchdata.region5;
-            }
+			if (this.searchdata.region4 == '*') {
+				params.region = '*';
+			} else {
+				params.region = this.searchdata.region4[1];
+			}
+			if (
+				this.searchdata.region5 == '全部' ||
+				this.searchdata.region5 == ''
+			) {
+				params.city = '*';
+			} else {
+				params.city = this.searchdata.region5;
+			}
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime;
 			if (params.end_ts - params.end_ts > 86400) {
@@ -1504,51 +1512,54 @@ export default {
 		get_cpuusag() {
 			this.cpuusaglist = [];
 			let params = new Object();
-			            if (this.searchdata.region1) {
+			if (this.searchdata.region1) {
 				params.firstChannel = this.searchdata.region1;
 			} else {
 				params.firstChannel = '*';
-            }
-            if (this.searchdata.region2) {
+			}
+			if (this.searchdata.region2) {
 				params.secondChannel = this.searchdata.region2;
 			} else {
 				params.secondChannel = '*';
-            }
-             if (this.searchdata.region3) {
+			}
+			if (this.searchdata.region3) {
 				params.deviceType = this.searchdata.region3;
 			} else {
 				params.deviceType = '*';
-            }
-             if (this.searchdata.region6) {
+			}
+			if (this.searchdata.region6) {
 				params.isp = this.searchdata.region6;
 			} else {
 				params.isp = '*';
-            }
-             if (this.searchdata.region7) {
+			}
+			if (this.searchdata.region7) {
 				params.cpuType = this.searchdata.region7;
 			} else {
 				params.cpuType = '*';
-            }
+			}
 			if (this.searchdata.input) {
-                params.nodeId = this.searchdata.input;
+				params.nodeId = this.searchdata.input;
 			} else {
-                params.nodeId = '*';
+				params.nodeId = '*';
 			}
-            if (this.searchdata.region8) {
-                params.osType = this.searchdata.region8;
+			if (this.searchdata.region8) {
+				params.osType = this.searchdata.region8;
 			} else {
-                params.osType = '*';
+				params.osType = '*';
 			}
-			if(this.searchdata.region4=='*'){
-                params.region = '*';
-            }else{
-                params.region = this.searchdata.region4[1];
-            }
-            if(this.searchdata.region5=='全部'||this.searchdata.region5==''){
-                params.city='*';
-            }else{
-                params.city=this.searchdata.region5;
-            }
+			if (this.searchdata.region4 == '*') {
+				params.region = '*';
+			} else {
+				params.region = this.searchdata.region4[1];
+			}
+			if (
+				this.searchdata.region5 == '全部' ||
+				this.searchdata.region5 == ''
+			) {
+				params.city = '*';
+			} else {
+				params.city = this.searchdata.region5;
+			}
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime;
 			if (params.end_ts - params.end_ts > 86400) {
@@ -1592,51 +1603,54 @@ export default {
 		get_memory() {
 			this.memorylist = [];
 			let params = new Object();
-			            if (this.searchdata.region1) {
+			if (this.searchdata.region1) {
 				params.firstChannel = this.searchdata.region1;
 			} else {
 				params.firstChannel = '*';
-            }
-            if (this.searchdata.region2) {
+			}
+			if (this.searchdata.region2) {
 				params.secondChannel = this.searchdata.region2;
 			} else {
 				params.secondChannel = '*';
-            }
-             if (this.searchdata.region3) {
+			}
+			if (this.searchdata.region3) {
 				params.deviceType = this.searchdata.region3;
 			} else {
 				params.deviceType = '*';
-            }
-             if (this.searchdata.region6) {
+			}
+			if (this.searchdata.region6) {
 				params.isp = this.searchdata.region6;
 			} else {
 				params.isp = '*';
-            }
-             if (this.searchdata.region7) {
+			}
+			if (this.searchdata.region7) {
 				params.cpuType = this.searchdata.region7;
 			} else {
 				params.cpuType = '*';
-            }
+			}
 			if (this.searchdata.input) {
-                params.nodeId = this.searchdata.input;
+				params.nodeId = this.searchdata.input;
 			} else {
-                params.nodeId = '*';
+				params.nodeId = '*';
 			}
-            if (this.searchdata.region8) {
-                params.osType = this.searchdata.region8;
+			if (this.searchdata.region8) {
+				params.osType = this.searchdata.region8;
 			} else {
-                params.osType = '*';
+				params.osType = '*';
 			}
-			if(this.searchdata.region4=='*'){
-                params.region = '*';
-            }else{
-                params.region = this.searchdata.region4[1];
-            }
-            if(this.searchdata.region5=='全部'||this.searchdata.region5==''){
-                params.city='*';
-            }else{
-                params.city=this.searchdata.region5;
-            }
+			if (this.searchdata.region4 == '*') {
+				params.region = '*';
+			} else {
+				params.region = this.searchdata.region4[1];
+			}
+			if (
+				this.searchdata.region5 == '全部' ||
+				this.searchdata.region5 == ''
+			) {
+				params.city = '*';
+			} else {
+				params.city = this.searchdata.region5;
+			}
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime;
 			if (params.end_ts - params.end_ts > 86400) {
@@ -1690,9 +1704,9 @@ export default {
 		},
 		changeup_down() {
 			if (this.radio1 == '1') {
-				this.$nextTick(this.firstsharts(this.downBandwidthMap));
-			} else {
 				this.$nextTick(this.firstsharts(this.upBandwidthMap));
+			} else {
+				this.$nextTick(this.firstsharts(this.downBandwidthMap));
 			}
 		},
 		change_tab() {
@@ -1824,10 +1838,7 @@ export default {
 			}
 		},
 		firstsharts(echartsdata) {
-			// var dataCount = 2e3;
-			// var data = generateData(dataCount);
-			// var maxnum = getMaximin(data.valueData, 'max');
-			// var minnum = getMaximin(data.valueData, 'min');
+			let _this = this;
 			let chartdom = document.getElementById('firstChart');
 			chartdom.style.width = this._width + 'px';
 			let myChart = echarts.init(chartdom); //这里是为了获得容器所在位置
@@ -1846,11 +1857,20 @@ export default {
 				},
 				tooltip: {
 					trigger: 'axis',
-					axisPointer: {
-						type: 'cross',
-						label: {
-							backgroundColor: '#409EFF',
-						},
+					// axisPointer: {
+					// 	type: 'cross',
+					// 	label: {
+					// 		backgroundColor: '#409EFF',
+					// 	},
+					// },
+					formatter: function(params, ticket, callback) {
+						return (
+							params[0].name +
+							'<br />' +
+							'带宽：' +
+							params[0].value +
+							'Mbps'
+						);
 					},
 				},
 				grid: {
@@ -1873,6 +1893,7 @@ export default {
 					splitArea: {
 						show: false,
 					},
+					name: 'Mbps',
 				},
 				series: [
 					{
@@ -1933,8 +1954,8 @@ export default {
 			myChart.setOption(options);
 		},
 
-		secondsharts(dataStore) {
-			console.log(this._width);
+		secondsharts(dataStore, dataunits) {
+			let _this = this;
 			let chartdom2 = document.getElementById('secondChart');
 			chartdom2.style.width = this._width + 'px';
 			let myChart2 = echarts.init(chartdom2);
@@ -1952,6 +1973,7 @@ export default {
 				},
 				yAxis: {
 					type: 'value',
+					name: dataunits,
 				},
 				toolbox: {
 					feature: {
@@ -1962,17 +1984,26 @@ export default {
 				},
 				tooltip: {
 					trigger: 'axis',
-					axisPointer: {
-						type: 'cross',
-						label: {
-							backgroundColor: '#6a7985',
-						},
+					// axisPointer: {
+					// 	type: 'cross',
+					// 	label: {
+					// 		backgroundColor: '#6a7985',
+					// 	},
+					// },
+					formatter: function(params, ticket, callback) {
+						return (
+							params[0].name +
+							'<br />' +
+							'可用空间' +
+							params[0].value +
+							dataunits
+						);
 					},
 				},
 				series: [
 					{
 						data: dataStore.map(function(item) {
-							return item.value;
+							return formatBkb(item.value, dataunits);
 						}),
 						type: 'line',
 						smooth: true,
@@ -1983,9 +2014,14 @@ export default {
 			myChart2.setOption(options);
 		},
 		tiredsharts(id, titlename, datas) {
+			let _this = this;
 			let sa = true;
+			let dadaunits = '%';
 			if (id == 'itf' || id == 'otf') {
 				sa = false;
+			}
+			if (id == 'lt' || id == 'rcnt') {
+				dadaunits = '次';
 			}
 			let chartdom2 = document.getElementById(id);
 			chartdom2.style.width = this._width + 'px';
@@ -2004,6 +2040,7 @@ export default {
 				},
 				yAxis: {
 					type: 'value',
+					name: dadaunits,
 				},
 				toolbox: {
 					feature: {
@@ -2014,11 +2051,19 @@ export default {
 				},
 				tooltip: {
 					trigger: 'axis',
-					axisPointer: {
-						type: 'cross',
-						label: {
-							backgroundColor: '#6a7985',
-						},
+					// axisPointer: {
+					// 	type: 'cross',
+					// 	label: {
+					// 		backgroundColor: '#6a7985',
+					// 	},
+					// },
+					formatter: function(params, ticket, callback) {
+						return (
+							params[0].name +
+							'<br />' +
+							params[0].value +
+							dadaunits
+						);
 					},
 				},
 				series: [
@@ -2035,6 +2080,7 @@ export default {
 			myChart2.setOption(options);
 		},
 		lastsharts(id, titlename, datas) {
+			let _this = this;
 			let chartdom2 = document.getElementById(id);
 			chartdom2.style.width = this._width + 'px';
 			let myChart2 = echarts.init(chartdom2);
@@ -2052,6 +2098,7 @@ export default {
 				},
 				yAxis: {
 					type: 'value',
+					name: 'ms',
 				},
 				toolbox: {
 					feature: {
@@ -2062,11 +2109,16 @@ export default {
 				},
 				tooltip: {
 					trigger: 'axis',
-					axisPointer: {
-						type: 'cross',
-						label: {
-							backgroundColor: '#6a7985',
-						},
+					// axisPointer: {
+					// 	type: 'cross',
+					// 	label: {
+					// 		backgroundColor: '#6a7985',
+					// 	},
+					// },
+					formatter: function(params, ticket, callback) {
+						return (
+							params[0].name + '<br />' + params[0].value + 'ms'
+						);
 					},
 				},
 				series: [

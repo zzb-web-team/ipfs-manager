@@ -10,32 +10,33 @@
 			<div class="btn_area">
 				<el-button type="primary" @click="nwisible">新建职位</el-button>
 			</div>
-            <!--  -->
-            <!-- 新建部门弹窗 -->
+			<!--  -->
+			<!-- 新建部门弹窗 -->
 			<el-dialog
-				title="新建职位"
+				:title="diatitle"
 				:visible.sync="dialogFormVisible"
 				width="650px"
 				class="posi_dialog"
-			>	<el-col :span="19" :offset="4">
-				<el-form :model="form" ref="firstruleForm">
-					<el-form-item
-						label="职位"
-						prop="nuname"
-						:rules="[{ validator: jioname, trigger: 'blur' }]"
-					>
-						<el-col :span="11">
-							<el-input
-								v-model="form.nuname"
-								autocomplete="off"
-							></el-input>
-						</el-col>
-					</el-form-item>
-					<p>
+			>
+				<el-col :span="19" :offset="4">
+					<el-form :model="form" ref="firstruleForm">
+						<el-form-item
+							label="职位"
+							prop="nuname"
+							:rules="[{ validator: jioname, trigger: 'blur' }]"
+						>
+							<el-col :span="11">
+								<el-input
+									v-model="form.nuname"
+									autocomplete="off"
+								></el-input>
+							</el-col>
+						</el-form-item>
+						<p>
 							4-20字符，英文字母、汉字、数字组合，可为纯英文、汉字、数字
 						</p>
-				</el-form>
-                </el-col>
+					</el-form>
+				</el-col>
 				<div
 					slot="footer"
 					class="dialog-footer"
@@ -51,7 +52,7 @@
 					>
 				</div>
 			</el-dialog>
-            <!--  -->
+			<!--  -->
 			<el-table
 				ref="multipleTable"
 				:data="tableData"
@@ -66,8 +67,7 @@
 				<el-table-column label="ID">
 					<template slot-scope="scope">{{ scope.row.id }}</template>
 				</el-table-column>
-				<el-table-column prop="position" label="职位">
-				</el-table-column>
+				<el-table-column prop="name" label="职位"> </el-table-column>
 				<el-table-column label="操作">
 					<template slot-scope="scope">
 						<el-button
@@ -77,9 +77,7 @@
 							>修改</el-button
 						>
 						<el-button
-							@click.native.prevent="
-								deleteRow(scope.$index, tableData)
-							"
+							@click.native.prevent="deleteRow(scope.row)"
 							type="text"
 							size="small"
 							>删除</el-button
@@ -88,7 +86,12 @@
 				</el-table-column>
 			</el-table>
 			<div class="btn_area">
-				<el-button type="primary">删除</el-button>
+				<el-button
+					type="primary"
+					@click="deleteRow()"
+					:disabled="deldisable"
+					>删除</el-button
+				>
 				<fenye
 					style="float:right;margin:10px 0 0 0;"
 					@fatherMethod="getpage"
@@ -103,32 +106,68 @@
 
 <script>
 import fenye from '@/components/fenye';
+import {
+	positionlist,
+	addposition,
+	updateposition,
+	delposition,
+} from '@/servers/api';
 export default {
 	data() {
 		return {
 			pagesize: 10,
 			total_cnt: 1,
-            currentPage: 0,
-            dialogFormVisible:false,
+			currentPage: 1,
+			dialogFormVisible: false,
+			diatitle: '新建职位',
 			tableData: [
 				{
 					id: '1',
-					position: 'AI组',
-					
+					name: 'AI组',
 				},
 				{
 					id: '2',
-					position: '大数据组',
+					name: '大数据组',
 				},
-            ],
-            form:{
-                nuname:''
-            }
+			],
+			multipleSelection: [],
+			deldisable: true,
+			form: {
+				nuname: '',
+				id: 0,
+			},
 		};
 	},
+	mounted() {
+		this.getposition_list();
+	},
 	methods: {
-        //新建下级部门
+		getposition_list() {
+			let params = new Object();
+			params.page = this.currentPage - 1;
+			positionlist(params)
+				.then((res) => {
+					console.log(res);
+					if (res.status == 0) {
+						this.tableData = res.result.cols;
+						if (params.page == 0) {
+							if (res.result.les_count == 0) {
+								this.total_cnt = res.result.cols.length;
+							} else {
+								this.total_cnt = res.result.les_count + 10;
+							}
+						}
+					} else {
+						this.$message(res.msg);
+					}
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		},
+		//新建下级部门
 		nwisible() {
+			this.diatitle = '新建职位';
 			this.dialogFormVisible = true;
 		},
 		//新建部门--确定
@@ -136,6 +175,42 @@ export default {
 			this.$refs[formName].validate((valid) => {
 				if (valid) {
 					this.dialogFormVisible = false;
+					if (this.diatitle == '新建职位') {
+						let params = new Object();
+						params.name = this.form.nuname;
+						addposition(params)
+							.then((res) => {
+								console.log(res);
+								if (res.status == 0) {
+									this.$message.success('添加成功');
+									this.form.nuname = '';
+									this.getposition_list();
+								} else {
+									this.$message(res.msg);
+								}
+							})
+							.catch((error) => {
+								console.log(error);
+							});
+					} else {
+						let parame = new Object();
+						parame.id = this.form.id;
+						parame.name = this.form.nuname;
+						updateposition(parame)
+							.then((res) => {
+								if (res.status == 0) {
+									this.$message.success('修改成功');
+									this.form.nuname = '';
+									this.form.id = 0;
+									this.getposition_list();
+								} else {
+									this.$message(res.msg);
+								}
+							})
+							.catch((error) => {
+								console.log(error);
+							});
+					}
 				} else {
 					return false;
 				}
@@ -149,19 +224,56 @@ export default {
 		// 全选
 		handleSelectionChange(val) {
 			this.multipleSelection = val;
+			if (this.multipleSelection.length <= 0) {
+				this.deldisable = true;
+			} else {
+				this.deldisable = false;
+			}
 		},
 		handleClick(data) {
-            console.log(data);
-            this.form.nuname=data.position;
-            this.dialogFormVisible=true;
+			console.log(data);
+			this.form.nuname = data.name;
+			this.form.id = data.id;
+			this.diatitle = '修改职位';
+			this.dialogFormVisible = true;
 		},
-		deleteRow(num, arr) {
-			console.log(num, arr);
+		//删除
+		deleteRow(data) {
+			let params = new Object();
+			params.ids = [];
+			if (data) {
+				let obj = {};
+				obj.id = data.id;
+				params.ids.push(obj);
+			} else {
+				console.log(this.multipleSelection);
+				this.multipleSelection.forEach((item) => {
+					let obj = {};
+					obj.id = item.id;
+					params.ids.push(obj);
+				});
+			}
+			delposition(params)
+				.then((res) => {
+					console.log(res);
+					if (res.status == 0) {
+						this.$message({
+							message: '删除成功',
+							type: 'success',
+						});
+						this.getposition_list();
+					} else {
+						this.$message(res.msg);
+					}
+				})
+				.catch((error) => {
+					console.log(error);
+				});
 		},
 		//获取页码
 		getpage(pages) {
-			this.tolpage = pages;
-			//this.getdata();
+			this.currentPage = pages;
+			this.getposition_list();
 		},
 		//获取每页数量
 		gettol(pagetol) {
@@ -175,17 +287,24 @@ export default {
 		// 表格样式设置
 		rowClass() {
 			return 'text-align: center;';
-        },
-        //校验格式
+		},
+		//校验格式
 		jioname(rule, value, callback) {
 			if (value === '') {
 				callback(new Error('职位名称不能为空'));
 			} else {
-				var fsdtel = /^[\u4e00-\u9fa50-9a-zA-Z]{4,20}$/;
-				if (fsdtel.test(value) === false) {
-					callback(new Error('职位名称格式错误'));
+				if (
+					value.replace(/[^\u0000-\u00ff]/g, 'aa').length >= 4 &&
+					value.replace(/[^\u0000-\u00ff]/g, 'aa').length <= 20
+				) {
+					var fsdtel = /^[\u4e00-\u9fa50-9a-zA-Z]{2,10}$/;
+					if (fsdtel.test(value) === false) {
+						callback(new Error('职位名称格式错误'));
+					} else {
+						callback();
+					}
 				} else {
-					callback();
+					callback(new Error('职位名称长度不合规范'));
 				}
 			}
 		},
