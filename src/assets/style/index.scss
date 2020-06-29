@@ -176,3 +176,7 @@ body {
     margin-left: 40px;
     margin-top: 5px;
 }
+
+.el-tree-node.is-expanded>.el-tree-node__children {
+    display: flex;
+}

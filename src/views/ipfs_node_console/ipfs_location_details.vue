@@ -7,8 +7,40 @@
 				<div class="ipfs_con">
 					<div class="ipfs_con_tit_first">
 						<img
+							v-if="
+								serdata.devicetype != 'PC服务器' &&
+									serdata.devstatus == '在线'
+							"
 							src="../../assets/img/binding_illustration3.png"
+							style="width:60%;"
+							alt
+						/>
+						<img
+							v-if="
+								serdata.devicetype != 'PC服务器' &&
+									serdata.devstatus == '离线'
+							"
+							src="../../assets/img/lixianxiyouji.png"
+							style="width:60%;"
+							alt
+						/>
+						<img
+							v-if="
+								serdata.devicetype == 'PC服务器' &&
+									serdata.devstatus == '在线'
+							"
+							src="../../assets/img/zaixianfuwuqi.png"
+							style="width:60%;"
 							alt=""
+						/>
+						<img
+							v-if="
+								serdata.devicetype == 'PC服务器' &&
+									serdata.devstatus == '离线'
+							"
+							src="../../assets/img/lixianfuwuqi.png"
+							style="width:60%;"
+							alt
 						/>
 						<div class="ipfs_con_top">
 							<div class="top_tit_status">

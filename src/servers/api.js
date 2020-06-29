@@ -513,3 +513,9 @@ export const userlistaddrole = params => {
         res => res.data
     );
 };
+//获取用户所属部门id
+export const getuserdepartment = params => {
+    return post(`${serverUrl}/system/getuserdepartment`, params).then(
+        res => res.data
+    );
+};

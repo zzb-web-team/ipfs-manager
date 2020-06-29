@@ -153,7 +153,7 @@
                     style="width: 100%"
                     height="480"
                   >
-                    <el-table-column prop="dataFlow" label="节点id"></el-table-column>
+                    <el-table-column prop="ipfsHashId" label="节点id"></el-table-column>
                     <el-table-column prop="dataFlow" label="使用流量">
                       <template slot-scope="scope">
                         <span v-if="

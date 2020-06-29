@@ -116,17 +116,17 @@ export default new Router({
                 path: '/organization_me',
                 name: '组织管理',
                 component: organization_me,
-                hidden: true
+                // hidden: true
             }, {
                 path: '/position_me',
                 name: '职位管理',
                 component: position_me,
-                hidden: true
+                // hidden: true
             }, {
                 path: '/authority_me',
                 name: '权限管理',
                 component: authority_me,
-                hidden: true
+                // hidden: true
             }, {
                 path: '/personal_center',
                 name: '个人中心',

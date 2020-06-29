@@ -227,10 +227,12 @@ export default {
 					console.log(res);
 					if (res.status == 0) {
 						this.tableData = res.result.cols;
-						if (res.result.les_count == 0) {
-							this.total_cnt = res.result.cols.length;
-						} else {
-							this.total_cnt = res.result.les_count + 10;
+						if (params.page == 0) {
+							if (res.result.les_count == 0) {
+								this.total_cnt = res.result.cols.length;
+							} else {
+								this.total_cnt = res.result.les_count + 10;
+							}
 						}
 					} else {
 						this.$message(res.msg);
@@ -381,7 +383,7 @@ export default {
 		//修改
 		handleClick(data) {
 			console.log(data);
-			if (data.pdepartment) {
+			if (data.name != '-') {
 				this.titlename = '修改部门';
 				this.nwFormVisible = true;
 				this.form.region = data.pid;
@@ -390,7 +392,7 @@ export default {
 			} else {
 				this.netitle = '修改部门';
 				this.dialogFormVisible = true;
-				this.form.nuname = data.name;
+				this.form.nuname = data.parent;
 				this.form.id = data.id;
 			}
 		},
@@ -425,7 +427,7 @@ export default {
 		},
 		//获取页码
 		getpage(pages) {
-			this.tolpage = pages;
+			this.currentPage = pages;
 			this.getdatalist();
 		},
 		//获取每页数量

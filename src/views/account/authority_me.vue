@@ -12,7 +12,7 @@
 					><el-input
 						v-model="input"
 						placeholder="请输入分组名称"
-						@keyup.enter="search"
+						@keyup.enter.native="search"
 						><i
 							slot="prefix"
 							class="el-input__icon el-icon-search"
@@ -61,6 +61,8 @@
 									maxlength="30"
 									v-model="form.description"
 									show-word-limit
+									collapse-tags
+									:show-all-levels="false"
 								>
 								</el-input>
 							</el-col>
@@ -75,9 +77,11 @@
 							}"
 						>
 							<el-cascader
+								v-model="form.userlist"
 								:options="options"
 								:props="props"
-								collapse-tags
+								:key="form.userlist.id"
+								ref="refSubCat"
 								clearable
 							></el-cascader>
 						</el-form-item>
@@ -107,21 +111,19 @@
 				border
 				:cell-style="rowClass"
 				:header-cell-style="headClass"
-				@selection-change="handleSelectionChange"
 			>
-				<el-table-column type="selection"> </el-table-column>
 				<el-table-column label="ID" prop="id"> </el-table-column>
 				<el-table-column label="分组名称" prop="name">
 				</el-table-column>
 				<el-table-column label="分组描述" prop="description">
 				</el-table-column>
-				<el-table-column prop="users" label="用户列表">
+				<el-table-column prop="user" label="用户列表">
 					<template slot-scope="scope">
-						<span v-if="scope.row.users.length <= 0">
+						<span v-if="scope.row.user.length <= 0">
 							--
 						</span>
-						<span v-else v-for="item in scope.row.users">
-							{{ item.name }}
+						<span v-else v-for="item in scope.row.user">
+							{{ item.label }},
 						</span>
 					</template>
 				</el-table-column>
@@ -140,9 +142,7 @@
 							>权限管理</el-button
 						>
 						<el-button
-							@click.native.prevent="
-								deleteRow(scope.$index, tableData)
-							"
+							@click.native.prevent="deleteRow(scope.row)"
 							type="text"
 							size="small"
 							>删除</el-button
@@ -180,7 +180,6 @@
 
 			<!--  -->
 			<div class="btn_area">
-				<el-button type="primary">删除</el-button>
 				<fenye
 					style="float:right;margin:10px 0 0 0;"
 					@fatherMethod="getpage"
@@ -200,14 +199,17 @@ import {
 	addrole,
 	updaterole,
 	delrole,
-    searchuser,
-    userlistaddrole
+	searchuser,
+	userlistaddrole,
+	menulistuser,
+	getuserdepartment,
 } from '@/servers/api';
+import { arrTrans } from '../../servers/sevdate';
 export default {
 	data() {
 		return {
-            props: { multiple: true },
-            input:'',
+			props: { value: 'id', currentLabels: 'label', multiple: true },
+			input: '',
 			pagesize: 10,
 			total_cnt: 1,
 			currentPage: 0,
@@ -221,98 +223,53 @@ export default {
 				userlist: '',
 			},
 			props: { multiple: true },
-			options: [
-				{
-					value: 1,
-					label: '东南',
-					children: [
-						{
-							value: 2,
-							label: '上海',
-							children: [
-								{ value: 3, label: '普陀' },
-								{ value: 4, label: '黄埔' },
-								{ value: 5, label: '徐汇' },
-							],
-						},
-						{
-							value: 7,
-							label: '江苏',
-							children: [
-								{ value: 8, label: '南京' },
-								{ value: 9, label: '苏州' },
-								{ value: 10, label: '无锡' },
-							],
-						},
-						{
-							value: 12,
-							label: '浙江',
-							children: [
-								{ value: 13, label: '杭州' },
-								{ value: 14, label: '宁波' },
-								{ value: 15, label: '嘉兴' },
-							],
-						},
-					],
-				},
-				{
-					value: 17,
-					label: '西北',
-					children: [
-						{
-							value: 18,
-							label: '陕西',
-							children: [
-								{ value: 19, label: '西安' },
-								{ value: 20, label: '延安' },
-							],
-						},
-						{
-							value: 21,
-							label: '新疆维吾尔族自治区',
-							children: [
-								{ value: 22, label: '乌鲁木齐' },
-								{ value: 23, label: '克拉玛依' },
-							],
-						},
-					],
-				},
-			],
+			options: [],
 			data: [
 				{
 					id: 1,
-					label: '一级 2',
+					label: '一级 1',
 					children: [
 						{
-							id: 3,
-							label: '二级 2-1',
+							id: 4,
+							label: '二级 1-1',
 							children: [
 								{
-									id: 4,
-									label: '三级 3-1-1',
+									id: 9,
+									label: '三级 1-1-1',
 								},
 								{
-									id: 5,
-									label: '三级 3-1-2',
-									// disabled: true,
+									id: 10,
+									label: '三级 1-1-2',
 								},
 							],
 						},
+					],
+				},
+				{
+					id: 2,
+					label: '一级 2',
+					children: [
 						{
-							id: 2,
+							id: 5,
+							label: '二级 2-1',
+						},
+						{
+							id: 6,
 							label: '二级 2-2',
-							// disabled: true,
-							children: [
-								{
-									id: 6,
-									label: '三级 3-2-1',
-								},
-								{
-									id: 7,
-									label: '三级 3-2-2',
-									// disabled: true,
-								},
-							],
+						},
+					],
+				},
+				{
+					id: 3,
+					label: '一级 3',
+					children: [
+						{
+							id: 7,
+							label: '二级 3-1',
+						},
+						{
+							id: 8,
+							label: '二级 3-2',
 						},
 					],
 				},
@@ -321,16 +278,26 @@ export default {
 				children: 'children',
 				label: 'label',
 			},
+			user_list: [],
 		};
 	},
+	filters: {},
 	mounted() {
 		this.get_datalist();
+		this.get_user_list();
 	},
 	methods: {
-		search() {},
+		search() {
+			console.log('1d51a61d651');
+			this.get_datalist();
+		},
 		get_datalist() {
 			let params = new Object();
 			params.page = this.currentPage;
+			if (this.input) {
+				params.name = this.input;
+			}
+
 			rolelist(params)
 				.then((res) => {
 					if (res.status == 0) {
@@ -343,6 +310,36 @@ export default {
 					console.log(error);
 				});
 		},
+		//获取分组用户
+		get_user_list() {
+			let params = new Object();
+			userlistaddrole()
+				.then((res) => {
+					if (res.status == 0) {
+						res.data.forEach((item) => {
+							item.label = item.name;
+							item.value = item.id;
+							if (item.children) {
+								item.children.forEach((amite) => {
+									amite.label = amite.name;
+									amite.value = amite.id;
+									if (amite.user) {
+										amite.user.forEach((cimt) => {
+											cimt.value = cimt.id;
+										});
+										amite.children = amite.user;
+									}
+								});
+							}
+						});
+						this.options = res.data;
+						console.log(this.options);
+					} else {
+						this.$message.error(res.msg);
+					}
+				})
+				.catch((error) => {});
+		},
 		//新建
 		nwisible() {
 			this.dialogFormVisible = true;
@@ -351,12 +348,34 @@ export default {
 		firstsubmitForm(formName) {
 			this.$refs[formName].validate((valid) => {
 				if (valid) {
-					this.dialogFormVisible = false;
 					let params = new Object();
-					params.name = '';
-					params.description = '';
+					params.name = this.form.title;
+					params.description = this.form.description;
+					params.userid = '';
+					this.form.userlist.forEach((item) => {
+						if (item[2]) {
+							let str = '';
+							str = item[2] + ',';
+							params.userid += str;
+						}
+					});
+					params.userid = params.userid.substring(
+						0,
+						params.userid.length - 1
+					);
 					addrole(params)
-						.then((res) => {})
+						.then((res) => {
+							this.form.title = '';
+							this.form.description = '';
+							this.form.userlist = '';
+							this.dialogFormVisible = false;
+							if (res.status == 0) {
+								this.$message.success('添加成功');
+								this.get_datalist();
+							} else {
+								this.$message.error(res.msg);
+							}
+						})
 						.catch((error) => {});
 				} else {
 					return false;
@@ -373,6 +392,11 @@ export default {
 			console.log(data);
 			this.quanVisible = true;
 			//this.$refs.tree.setCheckedKeys([3]);
+			let params = new Object();
+			params.roleid = data.id;
+			menulistuser(params)
+				.then((res) => {})
+				.catch((error) => {});
 		},
 		//权限配置--确定
 		queChecked() {
@@ -384,21 +408,46 @@ export default {
 			this.$refs.tree.setCheckedKeys([]);
 			this.quanVisible = false;
 		},
-		// 全选
-		handleSelectionChange(val) {
-			this.multipleSelection = val;
-		},
-
+		//修改
 		updatahandleClick(data) {
-			console.log(data);
+			let _this = this;
+			_this.user_list = [];
 			this.title = '权限分组修改';
 			this.dialogFormVisible = true;
-			this.form.title = data.grouping_name;
-			this.form.description = data.group_description;
-			this.form.userlist = data.userlist;
+			this.form.title = data.name;
+			this.form.description = data.description;
+			var id_list = '';
+			let params = new Object();
+			data.user.forEach((item) => {
+				id_list += item.id + ',';
+            });
+            params.userid = id_list.slice(0,-1);
+			getuserdepartment(params)
+				.then((res) => {
+					if (res.status == 0) {
+						_this.user_list.push(res.data.pdepartment_id);
+						_this.user_list.push(res.data.department_id);
+						_this.user_list.push(res.data.userid);
+					}
+				})
+				.catch((error) => {});
+			console.log(_this.user_list);
+			console.log(arrTrans(3, _this.user_list));
+			this.form.userlist = arrTrans(3, _this.user_list);
 		},
-		deleteRow(num, arr) {
-			console.log(num, arr);
+		deleteRow(data) {
+			let params = new Object();
+			params.roleid = data.id;
+			delrole(params)
+				.then((res) => {
+					if (res.status == 0) {
+						this.$message.success('删除成功');
+						this.get_datalist();
+					} else {
+						this.$message.error(res.msg);
+					}
+				})
+				.catch((error) => {});
 		},
 		//获取页码
 		getpage(pages) {
@@ -460,6 +509,7 @@ export default {
 		margin-top: 20px;
 		margin-bottom: 20px;
 		.btn_area {
+			height: 40px;
 			margin-top: 20px;
 			margin-bottom: 20px;
 		}
