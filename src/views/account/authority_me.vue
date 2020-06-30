@@ -29,7 +29,7 @@
 			<el-dialog
 				:title="title"
 				:visible.sync="dialogFormVisible"
-				width="650px"
+				width="850px"
 				class="organization_dialog"
 			>
 				<el-col :span="19" :offset="4">
@@ -67,22 +67,16 @@
 								</el-input>
 							</el-col>
 						</el-form-item>
-						<el-form-item
-							label="分组用户"
-							prop="userlist"
-							:rules="{
-								required: true,
-								message: '请选择分组用户',
-								trigger: 'change',
-							}"
-						>
+						<el-form-item label="分组用户" prop="userlist">
 							<el-cascader
 								v-model="form.userlist"
 								:options="options"
 								:props="props"
 								:key="form.userlist.id"
 								ref="refSubCat"
+								:show-all-levels="false"
 								clearable
+								:disabled="updatadis"
 							></el-cascader>
 						</el-form-item>
 					</el-form>
@@ -212,15 +206,16 @@ export default {
 			input: '',
 			pagesize: 10,
 			total_cnt: 1,
-			currentPage: 0,
-			title: '新建职位',
+			currentPage: 1,
+			title: '新建权限分组',
 			tableData: [],
 			dialogFormVisible: false,
 			quanVisible: false,
+			updatadis: false,
 			form: {
 				title: '',
 				description: '',
-				userlist: '',
+				userlist: [],
 			},
 			props: { multiple: true },
 			options: [],
@@ -293,15 +288,21 @@ export default {
 		},
 		get_datalist() {
 			let params = new Object();
-			params.page = this.currentPage;
+			params.page = this.currentPage - 1;
 			if (this.input) {
 				params.name = this.input;
 			}
-
 			rolelist(params)
 				.then((res) => {
 					if (res.status == 0) {
 						this.tableData = res.result.cols;
+						if (params.page == 0) {
+							if (res.result.les_count == 0) {
+								this.total_cnt = res.result.cols.length;
+							} else {
+								this.total_cnt = res.result.les_count + 10;
+							}
+						}
 					} else {
 						this.$message.error(res.msg);
 					}
@@ -343,40 +344,65 @@ export default {
 		//新建
 		nwisible() {
 			this.dialogFormVisible = true;
+			this.updatadis = false;
+			this.title = '新建权限分组';
 		},
 		//新建--确定
 		firstsubmitForm(formName) {
 			this.$refs[formName].validate((valid) => {
 				if (valid) {
-					let params = new Object();
-					params.name = this.form.title;
-					params.description = this.form.description;
-					params.userid = '';
-					this.form.userlist.forEach((item) => {
-						if (item[2]) {
-							let str = '';
-							str = item[2] + ',';
-							params.userid += str;
+					if (this.title == '新建权限分组') {
+						let params = new Object();
+						params.name = this.form.title;
+						params.description = this.form.description;
+						if (this.form.userlist.length > 0) {
+							this.form.userlist.forEach((item) => {
+								if (item[2]) {
+									let str = '';
+									str = item[2] + ',';
+									params.userid += str;
+								}
+							});
+							params.userid = params.userid.substring(
+								0,
+								params.userid.length - 1
+							);
 						}
-					});
-					params.userid = params.userid.substring(
-						0,
-						params.userid.length - 1
-					);
-					addrole(params)
-						.then((res) => {
-							this.form.title = '';
-							this.form.description = '';
-							this.form.userlist = '';
-							this.dialogFormVisible = false;
-							if (res.status == 0) {
-								this.$message.success('添加成功');
-								this.get_datalist();
-							} else {
-								this.$message.error(res.msg);
-							}
-						})
-						.catch((error) => {});
+
+						addrole(params)
+							.then((res) => {
+								this.form.title = '';
+								this.form.description = '';
+								this.form.userlist = [];
+								this.dialogFormVisible = false;
+								if (res.status == 0) {
+									this.$message.success('添加成功');
+									this.get_datalist();
+								} else {
+									this.$message.error(res.msg);
+								}
+							})
+							.catch((error) => {});
+					} else {
+						let params = new Object();
+						params.roleid = '';
+						params.data = [];
+
+						updaterole(params)
+							.then((res) => {
+								this.form.title = '';
+								this.form.description = '';
+								this.form.userlist = [];
+								this.dialogFormVisible = false;
+								if (res.status == 0) {
+									this.$message.success('修改成功');
+									this.get_datalist();
+								} else {
+									this.$message.error(res.msg);
+								}
+							})
+							.catch((eerror) => {});
+					}
 				} else {
 					return false;
 				}
@@ -411,29 +437,32 @@ export default {
 		//修改
 		updatahandleClick(data) {
 			let _this = this;
-			_this.user_list = [];
+			_this.form.userlist = [];
 			this.title = '权限分组修改';
 			this.dialogFormVisible = true;
+			this.updatadis = true;
 			this.form.title = data.name;
 			this.form.description = data.description;
 			var id_list = '';
 			let params = new Object();
 			data.user.forEach((item) => {
 				id_list += item.id + ',';
-            });
-            params.userid = id_list.slice(0,-1);
+			});
+			params.userid = id_list.slice(0, -1);
 			getuserdepartment(params)
 				.then((res) => {
 					if (res.status == 0) {
-						_this.user_list.push(res.data.pdepartment_id);
-						_this.user_list.push(res.data.department_id);
-						_this.user_list.push(res.data.userid);
+						var newArr = new Array();
+						res.data.forEach((item) => {
+							newArr.push(item.pdepartmentid);
+							newArr.push(item.departmentid);
+							newArr.push(item.userid);
+							_this.user_list.push(newArr.splice(0, 3));
+						});
+						_this.form.userlist = _this.user_list;
 					}
 				})
 				.catch((error) => {});
-			console.log(_this.user_list);
-			console.log(arrTrans(3, _this.user_list));
-			this.form.userlist = arrTrans(3, _this.user_list);
 		},
 		deleteRow(data) {
 			let params = new Object();
@@ -451,13 +480,13 @@ export default {
 		},
 		//获取页码
 		getpage(pages) {
-			this.tolpage = pages;
-			//this.getdata();
+			this.currentPage = pages;
+			this.get_datalist();
 		},
 		//获取每页数量
 		gettol(pagetol) {
 			this.pagesize = pagetol;
-			//this.getdata();
+			//this.get_datalist();
 		},
 		// 表头样式设置
 		headClass() {

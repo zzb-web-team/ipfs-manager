@@ -20,7 +20,7 @@
             </div>-->
 						<el-input
 							style="width:15%;"
-							placeholder="请输入帐户"
+							placeholder="请输入帐户名"
 							@keyup.enter.native="searchInfo"
 							v-model="searchText"
 						>
@@ -62,8 +62,21 @@
 								></el-option>
 							</el-select>
 						</el-form-item>
-						<el-form-item>
-							<!-- <el-button type="primary" @click="searchInfo">确定</el-button> -->
+						<el-form-item label="职位:" style="display: flex;">
+							<el-select
+								v-model="searchposition"
+								placeholder="请选择职位"
+								@change="searchInfo"
+							>
+								<el-option label="全部" value="*"></el-option>
+								<el-option
+									v-for="item in position_list"
+									:key="item.id"
+									:label="item.name"
+									:value="item.id"
+								>
+								</el-option>
+							</el-select>
 						</el-form-item>
 						<el-form-item>
 							<el-button type="primary" plain @click="reset()"
@@ -134,6 +147,7 @@
 				:visible.sync="dialogVisible"
 				width="20%"
 				@close="handleClose"
+				title="新建用户"
 			>
 				<div class="addaccout">
 					<el-form
@@ -142,75 +156,185 @@
 						label-position="left"
 						class="demo-ruleForm"
 					>
-						<h3 class="title">新建用户</h3>
-						<el-form-item label="使用状态:">
+						<!-- <el-form-item label="使用状态:">
 							<el-radio v-model="ruleForm2.radio" label="0"
 								>启用</el-radio
 							>
 							<el-radio v-model="ruleForm2.radio" label="1"
 								>禁用</el-radio
 							>
-						</el-form-item>
+						</el-form-item> -->
 						<el-form-item
-							prop="username"
+							prop="department"
+							label="部门："
 							:rules="[
-								{ validator: jiousername, trigger: 'blur' },
+								{
+									required: true,
+									message: '请选择部门',
+									trigger: 'change',
+								},
 							]"
 						>
-							<el-form-item label="账号:">
+							<el-select v-model="ruleForm2.department">
+								<el-option
+									v-for="item in department_list"
+									:label="item.name"
+									:value="item.id"
+									:key="item.id"
+								>
+								</el-option>
+							</el-select>
+						</el-form-item>
+					
+							<el-form-item label="昵称:" prop="name"
+							:rules="[
+								{
+									required: true,
+									message: '请填写昵称',
+									validator: jioname,
+									trigger: 'blur',
+								},
+							]">
+								<el-input
+									v-model="ruleForm2.name"
+									placeholder="4-20位汉字数字字母组合"
+								></el-input>
+							</el-form-item>
+					
+							<el-form-item label="账户名:" prop="username"
+							:rules="[
+								{
+									required: true,
+									message: '请填写账户名',
+									validator: jiousername,
+									trigger: 'blur',
+								},
+							]">
 								<el-input
 									v-model="ruleForm2.username"
 									placeholder="4-20位英文加数字组合"
 								></el-input>
 							</el-form-item>
+						<el-form-item
+							label="性别:"
+							prop="sex"
+							:rules="[
+								{
+									required: true,
+									message: '请选择性别',
+									trigger: 'change',
+								},
+							]"
+						>
+							<el-select
+								v-model="ruleForm2.sex"
+								placeholder="请选择性别"
+							>
+								<el-option label="男" value="男"></el-option>
+								<el-option label="女" value="女"></el-option>
+							</el-select>
 						</el-form-item>
 						<el-form-item
-							prop="password"
-							:rules="[{ validator: jiopwd, trigger: 'blur' }]"
+							label="职位:"
+							prop="position_id"
+							:rules="[
+								{
+									required: true,
+									message: '请选择职位',
+									trigger: 'change',
+								},
+							]"
 						>
-							<el-form-item label="密码:" placeholder="密码">
+							<el-select
+								v-model="ruleForm2.position_id"
+								placeholder="请选择职位"
+							>
+								<el-option
+									v-for="item in position_list"
+									:key="item.id"
+									:label="item.name"
+									:value="item.id"
+								>
+								</el-option>
+							</el-select>
+						</el-form-item>
+						<el-form-item
+							label="分组:"
+							prop="grouping"
+							:rules="[
+								{
+									required: true,
+									message: '请选择分组',
+									trigger: 'change',
+								},
+							]"
+						>
+							<el-select
+								v-model="ruleForm2.grouping"
+								placeholder="请选择分组"
+							>
+								<el-option
+									v-for="item in permission_list"
+									:key="item.id"
+									:label="item.name"
+									:value="item.id"
+								>
+								</el-option>
+							</el-select>
+						</el-form-item>
+					
+							<el-form-item label="密码:" prop="password"
+							:rules="[
+								{
+									required: true,
+									message: '请输入密码',
+									validator: jiopwd,
+									trigger: 'blur',
+								},
+							]">
 								<el-input
 									v-model="ruleForm2.password"
 									type="password"
 									placeholder="6-20位数字字母_组成"
 								></el-input>
 							</el-form-item>
-						</el-form-item>
 						<el-form-item
+							label="确认密码:"
 							prop="password2"
-							:rules="[{ validator: jioqpwd, trigger: 'blur' }]"
+							:rules="[
+								{
+									required: true,
+									message: '请再次输入密码',
+									validator: jioqpwd,
+									trigger: 'blur',
+								},
+							]"
 						>
-							<el-form-item label="确认密码:">
-								<el-input
-									v-model="ruleForm2.password2"
-									placeholder="两次密码须一致"
-									type="password"
-								></el-input>
-							</el-form-item>
+							<el-input
+								v-model="ruleForm2.password2"
+								placeholder="两次密码须一致"
+								type="password"
+							></el-input>
 						</el-form-item>
-						<el-form-item
-							prop="name"
-							:rules="[{ validator: jioname, trigger: 'blur' }]"
-						>
-							<el-form-item label="真实姓名:">
-								<el-input
-									v-model="ruleForm2.name"
-									placeholder="4-20位汉字数字字母组合"
-								></el-input>
-							</el-form-item>
-						</el-form-item>
+
 						<el-form-item
 							prop="phone"
-							:rules="[{ validator: jiophone, trigger: 'blur' }]"
+							label="联系电话:"
+							:rules="[
+								{
+									required: true,
+									message: '请填写联系电话',
+								},
+								{ validator: jiophone, trigger: 'blur' },
+							]"
 						>
-							<el-form-item label="联系方式:">
-								<el-input
-									v-model="ruleForm2.phone"
-									maxlength="11"
-									placeholder="11位有效手机号"
-								></el-input>
-							</el-form-item>
+							<el-input
+								v-model="ruleForm2.phone"
+								maxlength="11"
+								placeholder="11位有效手机号"
+							></el-input>
 						</el-form-item>
+
 						<el-form-item
 							style="width:100%;display: flex;justify-content:center;"
 						>
@@ -231,6 +355,7 @@
 				:visible.sync="dialogVisible2"
 				width="20%"
 				@close="handleClose2"
+				title="修改账户"
 			>
 				<div class="addaccout">
 					<el-form
@@ -239,14 +364,24 @@
 						label-position="left"
 						class="demo-ruleForm"
 					>
-						<h3 class="title">修改信息</h3>
-						<el-form-item label="状态:">
+						<!-- <el-form-item label="状态:">
 							<el-radio v-model="ruleForm3.radio" label="0"
 								>启用</el-radio
 							>
 							<el-radio v-model="ruleForm3.radio" label="1"
 								>禁用</el-radio
 							>
+						</el-form-item> -->
+						<el-form-item prop="department_id" label="部门：">
+							<el-select v-model="ruleForm3.department_id">
+								<el-option
+									v-for="item in department_list"
+									:label="item.name"
+									:value="item.id"
+									:key="item.id"
+								>
+								</el-option>
+							</el-select>
 						</el-form-item>
 						<el-form-item
 							prop="username"
@@ -272,6 +407,43 @@
 									placeholder="真实姓名为4-20位汉字数字字母组合"
 								></el-input>
 							</el-form-item>
+						</el-form-item>
+						<el-form-item label="性别:" prop="sex">
+							<el-select
+								v-model="ruleForm3.sex"
+								placeholder="请选择性别"
+							>
+								<el-option label="男" value="男"></el-option>
+								<el-option label="女" value="女"></el-option>
+							</el-select>
+						</el-form-item>
+						<el-form-item label="职位:" prop="position_id">
+							<el-select
+								v-model="ruleForm3.position_id"
+								placeholder="请选择职位"
+							>
+								<el-option
+									v-for="item in position_list"
+									:key="item.id"
+									:label="item.name"
+									:value="item.id"
+								>
+								</el-option>
+							</el-select>
+						</el-form-item>
+						<el-form-item label="分组:" prop="grouping">
+							<el-select
+								v-model="ruleForm3.grouping"
+								placeholder="请选择分组"
+							>
+								<el-option
+									v-for="item in permission_list"
+									:key="item.id"
+									:label="item.name"
+									:value="item.id"
+								>
+								</el-option>
+							</el-select>
 						</el-form-item>
 						<el-form-item
 							prop="phone"
@@ -305,6 +477,7 @@
 				:visible.sync="dialogVisible3"
 				width="20%"
 				@close="handleClose3"
+				title="密码重置"
 			>
 				<div class="addaccout">
 					<el-form
@@ -315,7 +488,6 @@
 						label-position="left"
 						class="demo-ruleForm"
 					>
-						<h3 class="title">密码重置</h3>
 						<el-form-item prop="username">
 							<el-form-item label="账号:">
 								<el-input
@@ -360,7 +532,11 @@
 					</el-form>
 				</div>
 			</el-dialog>
-			<el-dialog :visible.sync="dialogVisible4" width="20%">
+			<el-dialog
+				:visible.sync="dialogVisible4"
+				width="20%"
+				title="用户信息"
+			>
 				<div class="addaccout">
 					<el-form
 						:model="ruleForm7"
@@ -368,7 +544,6 @@
 						label-position="left"
 						class="demo-ruleForm"
 					>
-						<h3 class="title">用户信息</h3>
 						<el-form-item label="状态:">
 							<el-radio
 								v-model="ruleForm7.radio"
@@ -451,6 +626,9 @@ import {
 	userupdate,
 	userdelete,
 	userctrl,
+	rolelist,
+	positionlist,
+	departmentlist,
 } from '../../servers/api';
 import common from '../../comm/js/util.js';
 export default {
@@ -495,6 +673,7 @@ export default {
 			value1: '',
 			value2: '',
 			value: '',
+			searchposition: '*',
 			options2: [
 				{
 					value: '0',
@@ -514,6 +693,10 @@ export default {
 				radio: '0',
 				name: '',
 				phone: '',
+				department: '',
+				sex: '',
+				position_id: '',
+				grouping: '',
 			},
 			ruleForm3: {
 				username: '',
@@ -525,6 +708,10 @@ export default {
 				name: '',
 				phone: '',
 				id: '',
+				sex: '',
+				position_id: '',
+				grouping: '',
+				department_id: '',
 			},
 			ruleForm4: {
 				password: '',
@@ -537,28 +724,51 @@ export default {
 			},
 			rowHeader: [
 				{
-					prop: 'status',
-					label: '状态',
-					width: '100px',
+					prop: 'id',
+					label: 'ID',
+					width: '70px',
 				},
+
 				{
-					prop: 'username',
-					label: '账号',
-				},
-				// {
-				//   prop: "nickname",
-				//   label: "用户名",
-				//   width: "150px"
-				// },
-				{
-					prop: 'user_update',
-					label: '修改人',
+					prop: 'name',
+					label: '昵称',
 					width: '150px',
 				},
 				{
-					prop: 'time_update',
-					label: '修改时间',
+					prop: 'username',
+					label: '账户名',
+					width: '150px',
+				},
+				// {
+				// 	prop: 'user_update',
+				//     label: '修改人',
+				//     width: '150px',
+
+				// },
+				{
+					prop: 'position_name',
+					label: '职位',
+					width: '150px',
+				},
+				{
+					prop: 'sex',
+					label: '性别',
+					width: '150px',
+				},
+				{
+					prop: 'phone',
+					label: '联系电话',
+					width: '150px',
+				},
+				{
+					prop: 'last_login',
+					label: '最后登录',
 					sortable: 'custom',
+				},
+				{
+					prop: 'status',
+					label: '状态',
+					width: '100px',
 				},
 			],
 			tableData: [],
@@ -581,11 +791,11 @@ export default {
 						type: 'danger',
 						methods: 'disable',
 					},
-					{
-						label: '删除',
-						type: 'danger',
-						methods: 'delete',
-					},
+					// {
+					// 	label: '删除',
+					// 	type: 'danger',
+					// 	methods: 'delete',
+					// },
 				],
 			},
 			pager: {
@@ -607,14 +817,96 @@ export default {
 			},
 			ipfs_id: 0,
 			ipfs_user: '',
+			permission_list: [],
+			position_list: [],
+			departmentoptions: [],
+			department_list: [],
 		};
 	},
 	mounted: function() {
 		this.ipfs_id = parseInt(this.$cookies.get('ipfs_id'));
 		this.ipfs_user = this.$cookies.get('ipfs_user');
 		this.queryUserList();
+		this.get_permission_list(0);
+		this.get_position_list(0);
+		this.getdatalist(0);
 	},
 	methods: {
+		//获取部门列表
+		getdatalist(pagenum) {
+			let params = new Object();
+			params.page = pagenum;
+			departmentlist(params)
+				.then((res) => {
+					console.log(res);
+					if (res.status == 0) {
+						if (res.result.les_count == 0) {
+							this.department_list = res.result.cols;
+						} else {
+							this.department_list = this.department_list.concat(
+								res.result.cols
+							);
+							pagenum++;
+							this.getdatalist(pagenum);
+						}
+					} else {
+						this.$message(res.msg);
+					}
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		},
+		//职位分组
+		get_position_list(pagenum) {
+			let params = new Object();
+			params.page = pagenum;
+			positionlist(params)
+				.then((res) => {
+					if (res.status == 0) {
+						if (res.result.les_count == 0) {
+							this.position_list = res.result.cols;
+						} else {
+							this.position_list = this.position_list.concat(
+								res.result.cols
+							);
+							pagenum++;
+							this.get_position_list(pagenum);
+						}
+					} else {
+						this.$message(res.msg);
+					}
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		},
+		//获取权限分组
+		get_permission_list(pagenum) {
+			let params = new Object();
+			params.page = pagenum;
+			rolelist(params)
+				.then((res) => {
+					if (res.status == 0) {
+						if (res.result.les_count == 0) {
+							this.permission_list = res.result.cols;
+							return false;
+						} else {
+							this.permission_list = this.permission_list.concat(
+								res.result.cols
+							);
+							pagenum++;
+							this.get_permission_list(pagenum);
+						}
+						console.log(this.permission_list);
+					} else {
+						this.$message.error(res.msg);
+					}
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		},
 		//排序
 		tableSortChange(column) {
 			if (column.order == 'ascending') {
@@ -631,6 +923,8 @@ export default {
 		reset() {
 			this.value = '';
 			this.searchText = '';
+			this.searchposition = '*';
+			this.pager.page = 1;
 			this.queryUserList();
 		},
 		handleSelectionChange(val) {
@@ -842,6 +1136,11 @@ export default {
 			param.search = this.searchText;
 			param.status = parseInt(this.value);
 			param.order = this.order;
+			if (this.searchposition == '*') {
+				param.position_id = null;
+			} else {
+				param.position_id = parseInt(this.searchposition);
+			}
 			userlist(param)
 				.then((res) => {
 					if (res.status != 0) {
@@ -867,6 +1166,9 @@ export default {
 							);
 							nowArr[i].time_update = this.common.getTimes(
 								parseInt(nowArr[i].time_update * 1000)
+							);
+							nowArr[i].last_login = this.common.getTimes(
+								parseInt(nowArr[i].last_login * 1000)
 							);
 							if (nowArr[i].status == 0) {
 								nowArr[i].status = '启用';
@@ -896,21 +1198,24 @@ export default {
 		},
 		//新增
 		handleSubmit(ev) {
-			//return false
+			console.log(this.ruleForm2);
 			var _this = this;
 			this.$refs.ruleForm2.validate((valid) => {
 				if (valid) {
 					var loginParams = {
 						username: this.ruleForm2.username,
-						nickname: 'aa',
+						nickname: this.ruleForm2.name,
 						password: this.ruleForm2.password,
 						password2: this.ruleForm2.password2,
-						role_id: 0,
+						role_id: this.ruleForm2.grouping,
 						phone: this.ruleForm2.phone,
 						status: parseInt(this.ruleForm2.radio),
 						name: this.ruleForm2.name,
 						uid: this.ipfs_user,
 						uname: this.ipfs_user,
+						department_id: this.ruleForm2.department,
+						sex: this.ruleForm2.sex,
+						position_id: this.ruleForm2.position_id,
 					};
 					userinsert(loginParams).then((data) => {
 						this.dialogVisible = false;
@@ -943,13 +1248,7 @@ export default {
 						}
 					});
 				} else {
-					this.fan.fanactionlog(
-						'新增',
-						'添加账号',
-						0,
-						'-',
-						loginParams.username
-					);
+					console.log(valid);
 					return false;
 				}
 			});
@@ -976,10 +1275,16 @@ export default {
 			this.ruleForm3.id = val.id;
 			this.ruleForm3.name = val.name;
 			this.ruleForm3.phone = val.phone;
-			(this.ruleForm3.nickname = 'aa'),
-				(this.ruleForm3.password = ''),
-				(this.ruleForm3.password2 = ''),
-				(this.ruleForm3.role_id = 0);
+			this.ruleForm3.sex = val.sex;
+			this.ruleForm3.position_id = val.position_id;
+			this.ruleForm3.grouping = val.role_id;
+			this.ruleForm3.nickname = val.nickname;
+			this.ruleForm3.password = '';
+			this.ruleForm3.password2 = '';
+			this.ruleForm3.role_id = val.role_id;
+			this.ruleForm3.department_id = val.department_id;
+			this.ruleForm3.sex = val.sex;
+			this.ruleForm3.position_id = val.position_id;
 			if (val.status == '启用') {
 				this.ruleForm3.status = 1;
 			} else {
@@ -1040,16 +1345,22 @@ export default {
 		},
 		//修改
 		toChange(val) {
+			console.log(val);
 			this.dialogVisible2 = true;
 			this.ruleForm3.username = val.username;
 			this.ruleForm3.id = val.id;
 			this.ruleForm3.name = val.name;
 			this.ruleForm3.phone = val.phone;
-			(this.ruleForm3.nickname = 'aa'),
-				(this.ruleForm3.password = ''),
-				(this.ruleForm3.password2 = ''),
-				(this.ruleForm3.role_id = 0);
-
+			this.ruleForm3.sex = val.sex;
+			this.ruleForm3.position_id = val.position_id;
+			this.ruleForm3.grouping = val.role_id;
+			this.ruleForm3.nickname = val.nickname;
+			this.ruleForm3.password = '';
+			this.ruleForm3.password2 = '';
+			this.ruleForm3.role_id = val.role_id;
+			this.ruleForm3.department_id = val.department_id;
+			this.ruleForm3.sex = val.sex;
+			this.ruleForm3.position_id = val.position_id;
 			//this.ruleForm3.status = parseInt(this.ruleForm3.radio)
 		},
 		//修改--关闭按钮
@@ -1078,7 +1389,16 @@ export default {
 			this.ruleForm3.id = val.id;
 			this.ruleForm3.name = val.name;
 			this.ruleForm3.phone = val.phone;
-			(this.ruleForm3.nickname = 'aa'), (this.ruleForm3.role_id = 0);
+			this.ruleForm3.sex = val.sex;
+			this.ruleForm3.position_id = val.position_id;
+			this.ruleForm3.grouping = val.role_id;
+			this.ruleForm3.nickname = val.nickname;
+			this.ruleForm3.password = '';
+			this.ruleForm3.password2 = '';
+			this.ruleForm3.role_id = val.role_id;
+			this.ruleForm3.department_id = val.department_id;
+			this.ruleForm3.sex = val.sex;
+			this.ruleForm3.position_id = val.position_id;
 		},
 		//重置密码--关闭按钮
 		handleClose3() {
@@ -1130,6 +1450,7 @@ export default {
 					this.ruleForm3.status = parseInt(this.ruleForm3.radio);
 					loginParams.uid = this.ipfs_id;
 					loginParams.uname = this.ipfs_user;
+					console.log(loginParams);
 					userupdate(loginParams).then((data) => {
 						this.dialogVisible2 = false;
 						let { msg, status, user } = data;
@@ -1181,6 +1502,7 @@ export default {
 					this.ruleForm3.status = parseInt(this.ruleForm3.radio);
 					loginParams.uid = this.ipfs_id;
 					loginParams.uname = this.ipfs_user;
+					console.log(loginParams);
 					userupdate(loginParams).then((data) => {
 						let { msg, status, user } = data;
 						if (status !== 0) {
@@ -1389,7 +1711,7 @@ export default {
 .addaccout {
 	.title {
 		width: 100%;
-		text-align: center;
+		text-align: left;
 		margin: 10px;
 	}
 
@@ -1402,13 +1724,13 @@ export default {
 	}
 
 	.el-form--label-left .el-form-item__label {
-		text-align: right;
+		text-align: left;
 		width: 90px;
 	}
 
-	.el-form-item__error {
-		margin-left: 80px;
-	}
+	// .el-form-item__error {
+	// 	margin-left: 80px;
+	// }
 }
 //旋转
 .aa {

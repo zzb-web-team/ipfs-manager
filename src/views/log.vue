@@ -171,7 +171,7 @@ export default {
 					login(loginParams).then((data) => {
 						this.logining = false;
 						if (data.status == 0) {
-							let datalist = data.msg;
+							let datalist = data.data;
 							datalist.google = data.google;
 							localStorage.setItem(
 								'user_information',
@@ -179,20 +179,20 @@ export default {
 							);
 							sessionStorage.setItem(
 								'ipfs_id',
-								JSON.stringify(data.msg.id)
+								JSON.stringify(data.data.id)
 							);
 							sessionStorage.setItem(
 								'ipfs_user',
-								JSON.stringify(data.msg.username)
+								JSON.stringify(data.data.username)
 							);
 							this.$cookies.set(
 								'ipfs_user',
-								data.msg.username,
+								data.data.username,
 								7 * 24 * 60 * 60
 							);
 							this.$cookies.set(
 								'ipfs_id',
-								data.msg.id,
+								data.data.id,
 								7 * 24 * 60 * 60
 							);
 
