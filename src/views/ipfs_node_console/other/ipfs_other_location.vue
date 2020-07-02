@@ -394,8 +394,18 @@ export default {
 				.then(res => {
 				if (res.status == 0) {
                         this.titledar[0].connum = res.data.total_cnt;
-                        this.titledar[1].connum = 0;
-						this.titledar[2].connum = res.data.online_cnt;
+                       var arr = [];
+						for (var k in res.data.classify_cnt) {
+							console.log(res.data.classify_cnt[k]);
+							arr.push(res.data.classify_cnt[k]);
+						}
+						if (arr.length <= 0) {
+							this.titledar[1].connum = 0;
+							this.titledar[2].connum = 0;
+						} else {
+							this.titledar[1].connum = arr[0];
+							this.titledar[2].connum = arr[1];
+						}
 						this.titledar[3].connum = res.data.online_cnt;
 						this.titledar[4].connum = this.common.formatByteActive(
 							res.data.total_cap

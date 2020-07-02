@@ -42,6 +42,7 @@
 		<div>
 			<div style="text-align:right;padding: 10px;" v-if="radio == '1'">
 				<el-button
+					v-show="menutype.roleE == 1"
 					type="primary"
 					@click="exportexc()"
 					:disabled="showdisable1"
@@ -50,6 +51,7 @@
 			</div>
 			<div style="text-align:right;padding: 10px;" v-if="radio == '2'">
 				<el-button
+					v-show="menutype.roleE == 1"
 					type="primary"
 					@click="exportexc()"
 					:disabled="showdisable2"
@@ -126,6 +128,7 @@ import {
 	getymdtime,
 	setbatime,
 	dateFormat,
+	menudisable,
 } from '../../servers/sevdate';
 import {
 	node_pv,
@@ -164,6 +167,7 @@ export default {
 					);
 				},
 			},
+			menutype: {},
 		};
 	},
 	components: { fenye },
@@ -186,6 +190,10 @@ export default {
 	},
 	mounted() {
 		this.seachuser();
+		let munulist = JSON.parse(sessionStorage.getItem('menus'));
+		let pathname = this.$route.path;
+		this.menutype = menudisable(munulist, pathname);
+		console.log(this.menutype);
 	},
 	methods: {
 		//切换视图

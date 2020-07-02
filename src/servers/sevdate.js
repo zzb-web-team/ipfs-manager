@@ -125,3 +125,38 @@ export function arrTrans(num, arr) {
     }
     return newArr;
 };
+
+export function delshang(arr) {
+    arr.forEach((item) => {
+        item.component = item.component.replace("\"", "").replace("\"", "");
+        if (item.children) {
+            delshang(item.children);
+        }
+    })
+}
+export function menudisable(arr, name) {
+    for (var i = 0; i < arr.length; i++) {
+        if (arr[i].children) {
+            for (var k = 0; k < arr[i].children.length; k++) {
+                if (arr[i].children[k].children) {
+                    for (var n = 0; n < arr[i].children[k].children.length; n++) {
+                        if (arr[i].children[k].children[n].path == name) {
+                            return arr[i].children[k].children[n];
+                        }
+                    }
+
+                }
+                if (arr[i].children[k].path == name) {
+                    return arr[i].children[k];
+                }
+            }
+
+        } else {
+            // if (arr[i].path == name) {
+            //     return arr[i];
+
+            // }
+        }
+    }
+
+}

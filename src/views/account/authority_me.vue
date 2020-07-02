@@ -10,6 +10,7 @@
 			<el-row :gutter="24">
 				<el-col :span="4"
 					><el-input
+						v-show="menutype.roleC == 1"
 						v-model="input"
 						placeholder="请输入分组名称"
 						@keyup.enter.native="search"
@@ -21,7 +22,10 @@
 				></el-col>
 			</el-row>
 			<div class="btn_area">
-				<el-button type="primary" @click="nwisible"
+				<el-button
+					type="primary"
+					@click="nwisible"
+					v-show="menutype.roleC == 1"
 					>新建权限分组</el-button
 				>
 			</div>
@@ -124,18 +128,21 @@
 				<el-table-column label="操作">
 					<template slot-scope="scope">
 						<el-button
+							v-show="menutype.roleU == 1"
 							@click="updatahandleClick(scope.row)"
 							type="text"
 							size="small"
 							>修改</el-button
 						>
 						<el-button
+							v-show="menutype.roleU == 1"
 							@click="handleClick(scope.row)"
 							type="text"
 							size="small"
 							>权限管理</el-button
 						>
 						<el-button
+							v-show="menutype.roleD == 1"
 							@click.native.prevent="deleteRow(scope.row)"
 							type="text"
 							size="small"
@@ -197,8 +204,9 @@ import {
 	userlistaddrole,
 	menulistuser,
 	getuserdepartment,
+	updateroleinfo,
 } from '@/servers/api';
-import { arrTrans } from '../../servers/sevdate';
+import { arrTrans, menudisable } from '../../servers/sevdate';
 export default {
 	data() {
 		return {
@@ -220,82 +228,180 @@ export default {
 			props: { multiple: true },
 			options: [],
 			data: [
-				{
-					id: 1,
-					label: '一级 1',
-					children: [
-						{
-							id: 4,
-							label: '二级 1-1',
-							children: [
-								{
-									id: 9,
-									label: '三级 1-1-1',
-								},
-								{
-									id: 10,
-									label: '三级 1-1-2',
-								},
-							],
-						},
-					],
-				},
-				{
-					id: 2,
-					label: '一级 2',
-					children: [
-						{
-							id: 5,
-							label: '二级 2-1',
-						},
-						{
-							id: 6,
-							label: '二级 2-2',
-						},
-					],
-				},
-				{
-					id: 3,
-					label: '一级 3',
-					children: [
-						{
-							id: 7,
-							label: '二级 3-1',
-						},
-						{
-							id: 8,
-							label: '二级 3-2',
-						},
-					],
-				},
+				// {
+				// 	id: 1,
+				// 	label: '一级 1',
+				// 	children: [
+				// 		{
+				// 			id: 4,
+				// 			label: '二级 1-1',
+				// 			children: [
+				// 				{
+				// 					id: 9,
+				// 					label: '三级 1-1-1',
+				// 				},
+				// 				{
+				// 					id: 10,
+				// 					label: '三级 1-1-2',
+				// 				},
+				// 			],
+				// 		},
+				// 	],
+				// },
 			],
 			defaultProps: {
 				children: 'children',
 				label: 'label',
 			},
 			user_list: [],
+			item_menuid: 0,
+			menutype: {},
 		};
 	},
 	filters: {},
 	mounted() {
 		this.get_datalist();
 		this.get_user_list();
+		let munulist = JSON.parse(sessionStorage.getItem('menus'));
+		let pathname = this.$route.path;
+		this.menutype = menudisable(munulist, pathname);
+		console.log(this.menutype);
 	},
 	methods: {
 		search() {
-			console.log('1d51a61d651');
 			this.get_datalist();
 		},
 		get_datalist() {
 			let params = new Object();
 			params.page = this.currentPage - 1;
-			if (this.input) {
-				params.name = this.input;
-			}
+			params.search = this.input;
 			rolelist(params)
 				.then((res) => {
 					if (res.status == 0) {
 						this.tableData = res.result.cols;
+						if (res.menulist && res.menulist.length > 0) {
+							res.menulist.forEach((item) => {
+								if (item.children && item.children.length > 0) {
+									item.children.forEach((k) => {
+										if (
+											k.children &&
+											k.children.length > 0
+										) {
+                                            k.children.forEach((i)=>{
+                                                if (i.read_status == 1) {
+												let obj = {};
+												obj.id = parseInt(i.id + '1');
+												obj.label = '浏览';
+												i.children.push(obj);
+											}
+											if (i.export_status == 1) {
+												let obj = {};
+												obj.id = parseInt(i.id + '2');
+												obj.label = '导出';
+												i.children.push(obj);
+											}
+											if (i.insert_status == 1) {
+												let obj = {};
+												obj.id = parseInt(i.id + '3');
+												if (i.label == '账户管理') {
+													obj.label = '新建账户';
+												} else if (
+													i.label == '组织管理'
+												) {
+													obj.label = '新建组织';
+												} else if (
+													i.label == '权限管理'
+												) {
+													obj.label = '新建权限分组';
+												}
+												obj.label = '添加';
+												i.children.push(obj);
+											}
+
+											if (i.update_status == 1) {
+												let obj = {};
+												obj.id = parseInt(i.id + '4');
+												if (i.label == '节点信息') {
+													obj.label = '启用/禁用';
+												} else {
+													obj.label = '修改';
+												}
+												i.children.push(obj);
+											}
+											if (i.import_status == 1) {
+												let obj = {};
+												obj.id = parseInt(i.id + '5');
+												obj.label = '导入';
+												i.children.push(obj);
+											}
+											if (i.delete_status == 1) {
+												let obj = {};
+												obj.id = parseInt(i.id + '6');
+												obj.label = '删除';
+												i.children.push(obj);
+											}
+                                            })
+										} else {
+											if (k.read_status == 1) {
+												let obj = {};
+												obj.id = parseInt(k.id + '1');
+												obj.label = '浏览';
+												k.children.push(obj);
+											}
+											if (k.export_status == 1) {
+												let obj = {};
+												obj.id = parseInt(k.id + '2');
+												obj.label = '导出';
+												k.children.push(obj);
+											}
+											if (k.insert_status == 1) {
+												let obj = {};
+												obj.id = parseInt(k.id + '3');
+												if (k.label == '账户管理') {
+													obj.label = '新建账户';
+												} else if (
+													k.label == '组织管理'
+												) {
+													obj.label = '新建组织';
+												} else if (
+													k.label == '权限管理'
+												) {
+													obj.label = '新建权限分组';
+												}
+												obj.label = '添加';
+												k.children.push(obj);
+											}
+
+											if (k.update_status == 1) {
+												let obj = {};
+												obj.id = parseInt(k.id + '4');
+												if (k.label == '节点信息') {
+													obj.label = '启用/禁用';
+												} else {
+													obj.label = '修改';
+												}
+												k.children.push(obj);
+											}
+											if (k.import_status == 1) {
+												let obj = {};
+												obj.id = parseInt(k.id + '5');
+												obj.label = '导入';
+												k.children.push(obj);
+											}
+											if (k.delete_status == 1) {
+												let obj = {};
+												obj.id = parseInt(k.id + '6');
+												obj.label = '删除';
+												k.children.push(obj);
+											}
+										}
+									});
+								} else {
+								}
+							});
+						}
+						this.data = res.menulist;
+
 						if (params.page == 0) {
 							if (res.result.les_count == 0) {
 								this.total_cnt = res.result.cols.length;
@@ -334,7 +440,6 @@ export default {
 							}
 						});
 						this.options = res.data;
-						console.log(this.options);
 					} else {
 						this.$message.error(res.msg);
 					}
@@ -385,7 +490,9 @@ export default {
 							.catch((error) => {});
 					} else {
 						let params = new Object();
-						params.roleid = '';
+						params.roleid = this.form.id;
+						params.name = this.form.title;
+						params.description = this.form.description;
 						params.data = [];
 
 						updaterole(params)
@@ -415,19 +522,97 @@ export default {
 		},
 		//配置权限
 		handleClick(data) {
-			console.log(data);
 			this.quanVisible = true;
-			//this.$refs.tree.setCheckedKeys([3]);
-			let params = new Object();
-			params.roleid = data.id;
-			menulistuser(params)
-				.then((res) => {})
-				.catch((error) => {});
+			this.item_menuid = data.id;
+			if (data.roleinfo && data.roleinfo.length > 0) {
+				var id_arr = [];
+				data.roleinfo.forEach((item) => {
+					let num = 0;
+					if (item.roleC == 1) {
+						num = item.menuid + '3';
+						id_arr.push(parseInt(num));
+						id_arr.push(parseInt(item.menuid + '1'));
+					}
+					if (item.roleD == 1) {
+						num = item.menuid + '6';
+						id_arr.push(parseInt(num));
+						id_arr.push(parseInt(item.menuid + '1'));
+					}
+					if (item.roleE == 1) {
+						num = item.menuid + '2';
+						id_arr.push(parseInt(num));
+						id_arr.push(parseInt(item.menuid + '1'));
+					}
+					if (item.roleI == 1) {
+						num = item.menuid + '5';
+						id_arr.push(parseInt(num));
+						id_arr.push(parseInt(item.menuid + '1'));
+					}
+					if (item.roleR == 1) {
+						num = item.menuid + '1';
+						id_arr.push(parseInt(num));
+					}
+					if (item.roleU == 1) {
+						num = item.menuid + '4';
+						id_arr.push(parseInt(num));
+						id_arr.push(parseInt(item.menuid + '1'));
+					}
+				});
+			}
+			if (id_arr && id_arr.length > 0) {
+				this.$nextTick(() => {
+					this.$refs.tree.setCheckedKeys(id_arr);
+				});
+			}
 		},
 		//权限配置--确定
 		queChecked() {
-			console.log(this.$refs.tree.getCheckedKeys());
-			this.quanVisible = true;
+			console.log(this.$refs.tree);
+			let arrlist = [];
+			let idlist = this.$refs.tree.getCheckedKeys(true);
+			idlist.forEach((item, index) => {
+				let obj = {};
+				item = item + '';
+				let menuid = item.substring(0, item.length - 1);
+				let role = item.charAt(item.length - 1, 1);
+
+				obj.menuid = menuid;
+				if (role == 1) {
+					obj.roleR = 1;
+				}
+				if (role == 2) {
+					obj.roleE = 1;
+				}
+				if (role == 3) {
+					obj.roleC = 1;
+				}
+				if (role == 4) {
+					obj.roleU = 1;
+				}
+				if (role == 5) {
+					obj.roleI = 1;
+				}
+				if (role == 6) {
+					obj.roleD = 1;
+				}
+				arrlist.push(obj);
+			});
+			let params = new Object();
+			params.roleid = this.item_menuid;
+			params.data = [];
+			params.data = arrlist;
+			updateroleinfo(params)
+				.then((res) => {
+					if (res.status == 0) {
+						this.$message.success('配置成功');
+						this.quanVisible = false;
+						this.get_datalist();
+						this.get_user_list();
+					} else {
+						this.$message.error(res.msg);
+					}
+				})
+				.catch((error) => {});
 		},
 		//权限配置--取消
 		resetChecked() {
@@ -443,26 +628,29 @@ export default {
 			this.updatadis = true;
 			this.form.title = data.name;
 			this.form.description = data.description;
-			var id_list = '';
-			let params = new Object();
-			data.user.forEach((item) => {
-				id_list += item.id + ',';
-			});
-			params.userid = id_list.slice(0, -1);
-			getuserdepartment(params)
-				.then((res) => {
-					if (res.status == 0) {
-						var newArr = new Array();
-						res.data.forEach((item) => {
-							newArr.push(item.pdepartmentid);
-							newArr.push(item.departmentid);
-							newArr.push(item.userid);
-							_this.user_list.push(newArr.splice(0, 3));
-						});
-						_this.form.userlist = _this.user_list;
-					}
-				})
-				.catch((error) => {});
+			this.form.id = data.id;
+			if (data.user.length > 0) {
+				var id_list = '';
+				let params = new Object();
+				data.user.forEach((item) => {
+					id_list += item.id + ',';
+				});
+				params.userid = id_list.slice(0, -1);
+				getuserdepartment(params)
+					.then((res) => {
+						if (res.status == 0) {
+							var newArr = new Array();
+							res.data.forEach((item) => {
+								newArr.push(item.pdepartmentid);
+								newArr.push(item.departmentid);
+								newArr.push(item.userid);
+								_this.user_list.push(newArr.splice(0, 3));
+							});
+							_this.form.userlist = _this.user_list;
+						}
+					})
+					.catch((error) => {});
+			}
 		},
 		deleteRow(data) {
 			let params = new Object();

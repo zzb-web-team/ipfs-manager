@@ -177,6 +177,9 @@ body {
     margin-top: 5px;
 }
 
-.el-tree-node.is-expanded>.el-tree-node__children {
-    display: flex;
+// .el-tree-node.is-expanded>.el-tree-node__children:nth-child(1) {
+//     display: flex;
+// }
+.el-tree-node.is-expanded>.el-tree-node__children>.el-tree-node>.el-tree-node__content {
+    display: flex !important;
 }

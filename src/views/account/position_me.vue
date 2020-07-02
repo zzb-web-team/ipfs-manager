@@ -8,7 +8,12 @@
 		<!--  -->
 		<div class="org_con">
 			<div class="btn_area">
-				<el-button type="primary" @click="nwisible">新建职位</el-button>
+				<el-button
+					type="primary"
+					@click="nwisible"
+					v-show="menutype.roleC == 1"
+					>新建职位</el-button
+				>
 			</div>
 			<!--  -->
 			<!-- 新建部门弹窗 -->
@@ -71,12 +76,14 @@
 				<el-table-column label="操作">
 					<template slot-scope="scope">
 						<el-button
+							v-show="menutype.roleU == 1"
 							@click="handleClick(scope.row)"
 							type="text"
 							size="small"
 							>修改</el-button
 						>
 						<el-button
+							v-show="menutype.roleD == 1"
 							@click.native.prevent="deleteRow(scope.row)"
 							type="text"
 							size="small"
@@ -87,6 +94,7 @@
 			</el-table>
 			<div class="btn_area">
 				<el-button
+					v-show="menutype.roleD == 1"
 					type="primary"
 					@click="deleteRow()"
 					:disabled="deldisable"
@@ -112,6 +120,7 @@ import {
 	updateposition,
 	delposition,
 } from '@/servers/api';
+import { menudisable } from '../../servers/sevdate';
 export default {
 	data() {
 		return {
@@ -136,10 +145,15 @@ export default {
 				nuname: '',
 				id: 0,
 			},
+			menutype: {},
 		};
 	},
 	mounted() {
 		this.getposition_list();
+		let munulist = JSON.parse(sessionStorage.getItem('menus'));
+		let pathname = this.$route.path;
+		this.menutype = menudisable(munulist, pathname);
+		console.log(this.menutype);
 	},
 	methods: {
 		getposition_list() {
@@ -324,6 +338,7 @@ export default {
 		.btn_area {
 			margin-top: 20px;
 			margin-bottom: 20px;
+            height: 40px;
 		}
 	}
 }

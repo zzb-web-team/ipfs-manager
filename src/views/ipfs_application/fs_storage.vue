@@ -149,6 +149,7 @@
 		<!-- 表格 -->
 		<div style="text-align:right;padding: 10px;">
 			<el-button
+            v-show="menutype.roleE==1"
 				type="primary"
 				@click="exportexe()"
 				:disabled="showdisable"
@@ -292,7 +293,7 @@
 			:pagesa="totalCnt"
 			:currentPage="currentPage"
             ref="paginations"
-			v-if="tableData.length > 0"
+			v-show="tableData.length > 0"
 		></fenye>
 	</div>
 </template>
@@ -309,7 +310,8 @@ import {
 	getymdtime,
 	setbatime,
     formatDuring,
-    formatBkb
+    formatBkb,
+    menudisable
 } from '../../servers/sevdate';
 export default {
 	data() {
@@ -395,7 +397,8 @@ export default {
 			],
 			tableData: [],
 			tableData2: [],
-			order: 2,
+            order: 2,
+            menutype:{},
 		};
 	},
 	filters: {
@@ -435,7 +438,11 @@ export default {
 			new Date(new Date().toLocaleDateString()).getTime() / 1000 -
 			86400 * 90;
 		this.endtime = Date.parse(new Date()) / 1000;
-		 this.gettab();
+         this.gettab();
+         let munulist = JSON.parse(sessionStorage.getItem('menus'));
+		let pathname = this.$route.path;
+		this.menutype = menudisable(munulist, pathname);
+		console.log(this.menutype);
 	},
 	methods: {
 		handleChangefirst(val) {

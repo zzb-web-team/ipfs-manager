@@ -38,6 +38,7 @@
 		<div>
 			<div style="text-align:right;padding: 10px;">
 				<el-button
+					v-show="menutype.roleE == 1"
 					type="primary"
 					@click="exportexc()"
 					:disabled="showdisable"
@@ -101,6 +102,7 @@ import {
 	getymdtime,
 	setbatime,
 	dateFormat,
+	menudisable,
 } from '../../servers/sevdate';
 import { node_pf, export_excel } from '@/servers/api';
 export default {
@@ -131,6 +133,7 @@ export default {
 					);
 				},
 			},
+			menutype: {},
 		};
 	},
 	components: { fenye },
@@ -153,6 +156,10 @@ export default {
 	},
 	mounted() {
 		this.seachuser();
+		let munulist = JSON.parse(sessionStorage.getItem('menus'));
+		let pathname = this.$route.path;
+		this.menutype = menudisable(munulist, pathname);
+		console.log(this.menutype);
 	},
 	methods: {
 		//收益
@@ -175,10 +182,10 @@ export default {
 				.then((res) => {
 					console.log(res);
 					this.tableData = res.data;
-                    this.totalCnt = res.dataCount;
-                    if(res.data&&this.tableData.length>0){
-                        this.showdisable=false;
-                    }
+					this.totalCnt = res.dataCount;
+					if (res.data && this.tableData.length > 0) {
+						this.showdisable = false;
+					}
 					if (res.status == 0) {
 						this.tableData = res.data;
 					} else {
@@ -219,13 +226,13 @@ export default {
 			params.dateEnd = this.endtime;
 			export_excel(params)
 				.then((res) => {
-                    console.log(res);
-                    if(res.state==0){
-                         window.open(res.downloadUrl);
-                       this.$message.success("导出成功"); 
-                    }else{
-                        this.$message.error(res.err_msg);
-                    }
+					console.log(res);
+					if (res.state == 0) {
+						window.open(res.downloadUrl);
+						this.$message.success('导出成功');
+					} else {
+						this.$message.error(res.err_msg);
+					}
 				})
 				.catch((error) => {
 					console.log(error);

@@ -165,7 +165,7 @@
 								<el-col
 									:span="24"
 									style="text-align:left;    font-weight: bold;"
-									>IP流量平均利用率表</el-col
+									>IP流量利用率表</el-col
 								>
 							</el-row>
 							<el-row type="flex" class="row_active">
@@ -396,7 +396,7 @@
 								<el-col
 									:span="24"
 									style="text-align:left;    font-weight: bold;"
-									>IP流量平均利用率表</el-col
+									>IP流量利用率表</el-col
 								>
 							</el-row>
 							<el-row type="flex" class="row_active">
@@ -415,7 +415,7 @@
 										</el-table-column>
 										<el-table-column
 											prop="totalUsage"
-											label="平均使用存储空间"
+											label="使用存储空间"
 										>
 											<template slot-scope="scope">
 												<span
@@ -484,7 +484,8 @@ import {
 	settime,
 	getymdtime,
 	setbatime,
-	getday,
+    getday,
+    menudisable
 } from '../../servers/sevdate';
 import {
 	ipfs_dataflow_query_conditions,
@@ -873,7 +874,8 @@ export default {
 			firstchan: [
 				//一级渠道商
 			],
-			secondchan: [],
+            secondchan: [],
+            menutype:{}
 		};
 	},
 	mounted() {
@@ -884,7 +886,10 @@ export default {
         this.ip_surve();
         this.get_search_data();
 		// this.configure();
-		// this.configure1();
+        // this.configure1();
+        let munulist = JSON.parse(sessionStorage.getItem('menus'));
+		let pathname = this.$route.path;
+		this.menutype = menudisable(munulist, pathname);
 	},
 	beforeDestroy() {
 		if (!this.chart) {
@@ -1296,23 +1301,23 @@ export default {
 						this.fs_tableData_upload = res.data.list;
 						this.exportExcel(
 							this.fs_tableData_upload,
-							'节点平均利用率FS存储'
+							'节点利用率FS存储'
 						);
 						this.fan.fanactionlog(
 							'导出',
-							'节点平均利用率FS存储',
+							'节点利用率FS存储',
 							1
 						);
 					} else {
 						this.fan.fanactionlog(
 							'导出',
-							'节点平均利用率FS存储',
+							'节点利用率FS存储',
 							0
 						);
 					}
 				})
 				.catch((error) => {
-					this.fan.fanactionlog('导出', '节点平均利用率FS存储', 0);
+					this.fan.fanactionlog('导出', '节点利用率FS存储', 0);
 				});
 		},
 		//导出--IP
@@ -1350,23 +1355,23 @@ export default {
 						this.ip_tableData_upload = res.data.list;
 						this.exportExcel(
 							this.ip_tableData_upload,
-							'节点平均利用率IP流量'
+							'节点利用率IP流量'
 						);
 						this.fan.fanactionlog(
 							'导出',
-							'节点平均利用率IP流量',
+							'节点利用率IP流量',
 							1
 						);
 					} else {
 						this.fan.fanactionlog(
 							'导出',
-							'节点平均利用率IP流量',
+							'节点利用率IP流量',
 							0
 						);
 					}
 				})
 				.catch((error) => {
-					this.fan.fanactionlog('导出', '节点平均利用率IP流量', 0);
+					this.fan.fanactionlog('导出', '节点利用率IP流量', 0);
 				});
 		},
 		configure() {
@@ -1555,7 +1560,7 @@ export default {
 				} = require('../../excel/Export2Excel.js');
 				const tHeader = ['节点ID', '使用流量', '传输次数', '日期'];
 				// 上面设置Excel的表格第一行的标题
-				if (excelname == '节点平均利用率IP流量') {
+				if (excelname == '节点利用率IP流量') {
 					var filterVal = [
 						'ipfsId',
 						'dataFlow',

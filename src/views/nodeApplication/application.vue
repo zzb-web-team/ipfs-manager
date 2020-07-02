@@ -405,7 +405,8 @@ import {
   settime,
   getymdtime,
   setbatime,
-  getday
+  getday,
+  menudisable
 } from "../../servers/sevdate";
 import {
   ipfs_dataflow_query_conditions,
@@ -794,6 +795,7 @@ export default {
             secondchan:[],
             chil_disable:true,
             chil_disable_fs:true,
+            menutype:{},
     };
   },
   filters: {
@@ -814,6 +816,10 @@ export default {
     // this.drawLine();
     // this.drawLine1();
     // this.configure()
+     let munulist = JSON.parse(sessionStorage.getItem('menus'));
+		let pathname = this.$route.path;
+		this.menutype = menudisable(munulist, pathname);
+		console.log(this.menutype);
   },
   beforeDestroy() {
     if (!this.chart) {

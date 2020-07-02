@@ -108,7 +108,10 @@
 </template>
 
 <script>
-import { login, check_login } from '../servers/api';
+import Vue from 'vue';
+import Router from 'vue-router';
+import { login, check_login, menulistuser } from '../servers/api';
+import { delshang } from '../servers/sevdate';
 //import NProgress from 'nprogress'
 export default {
 	data() {
@@ -168,44 +171,42 @@ export default {
 					// this.$router.push({
 					//   path: "/user"
 					// });
-					login(loginParams).then((data) => {
+					login(loginParams).then((res) => {
 						this.logining = false;
-						if (data.status == 0) {
-							let datalist = data.data;
-							datalist.google = data.google;
+						if (res.status == 0) {
+							let datalist = res.data;
+							datalist.google = res.google;
 							localStorage.setItem(
 								'user_information',
 								JSON.stringify(datalist)
 							);
 							sessionStorage.setItem(
 								'ipfs_id',
-								JSON.stringify(data.data.id)
+								JSON.stringify(res.data.id)
 							);
 							sessionStorage.setItem(
 								'ipfs_user',
-								JSON.stringify(data.data.username)
+								JSON.stringify(res.data.username)
 							);
 							this.$cookies.set(
 								'ipfs_user',
-								data.data.username,
+								res.data.username,
 								7 * 24 * 60 * 60
 							);
 							this.$cookies.set(
 								'ipfs_id',
-								data.data.id,
+								res.data.id,
 								7 * 24 * 60 * 60
 							);
 
-							this.$router.push({
-								path: '/userli',
-							});
-						} else if (data.status == 1) {
-							this.ipfs_token = data.token;
+							this.get_datalist(res.data.role_id);
+						} else if (res.status == 1) {
+							this.ipfs_token = res.token;
 							this.googleVisible = true;
-						} else if (data.status == -900) {
+						} else if (res.status == -900) {
 						} else {
 							this.$message({
-								message: data.err_msg,
+								message: res.err_msg,
 								type: 'error',
 							});
 						}
@@ -215,6 +216,26 @@ export default {
 				}
 			});
 		},
+		get_datalist(id) {
+			let params = new Object();
+			params.roleid = id;
+			menulistuser(params)
+				.then((res) => {
+					if (res.status == 0) {
+						sessionStorage.setItem(
+							'menus',
+							JSON.stringify(res.data)
+						);
+                        if(res.data&&res.data.length>0){
+                            window.location.href="./"
+                        }else{
+                            this.$router.push({path:'/error404'});
+                        }
+					}
+				})
+				.catch((error) => {});
+		},
+
 		//--弹窗--取消
 		nohand(formName) {
 			this.googleVisible = false;

@@ -23,6 +23,7 @@
         "vue-baidu-map": "^0.21.22",
         "vue-cookies": "^1.5.13",
         "vue-router": "^3.0.1",
+        "vuex": "^3.5.1",
         "xlsx": "^0.15.2"
     },
     "devDependencies": {

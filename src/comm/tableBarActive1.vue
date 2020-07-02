@@ -31,10 +31,12 @@
 			<template slot-scope="scope">
 				<!-- <el-button @click="detail(scope.row)" size="mini">详情</el-button> -->
 				<el-button @click="toChange(scope.row)" size="mini" type="text"
+                v-show="obnj.roleU==1"
 					>修改</el-button
 				>
 
 				<el-button
+                v-show="obnj.roleU==1"
 					@click="disable(scope.row)"
 					type="text"
 					size="mini"
@@ -47,6 +49,7 @@
 					>启用</el-button
 				>
 				<el-button
+                v-show="obnj.roleU==1"
 					@click="disable(scope.row)"
 					type="text"
 					size="mini"
@@ -59,12 +62,14 @@
 					>禁用</el-button
 				>
 				<el-button
+                v-show="obnj.roleU==1"
 					@click="changePassword(scope.row)"
 					size="mini"
 					type="text"
 					>重置密码</el-button
 				>
 				<el-button
+                v-show="obnj.roleD==1"
 					@click="toDelete(scope.row)"
 					type="text"
 					size="mini"
@@ -106,7 +111,11 @@ export default {
 		ipfs_id: {
 			type: Number,
 			default: () => {},
-		},
+        },
+        obnj:{
+            type:Object,
+            default:()=>{}
+        }
 	},
 	data() {
 		return {};

@@ -185,6 +185,7 @@
 		<!-- 主体表格 -->
 		<div style="text-align:right;padding:0 10px 10px 10px;">
 			<el-button
+            v-show="menutype.roleE==1"
 				type="primary"
 				@click="export_Excel()"
 				:disabled="show_export"
@@ -323,6 +324,7 @@
 							>详情</el-button
 						>
 						<el-button
+                        v-show="menutype.roleU==1"
 							@click="qiClick(scope.row)"
 							type="text"
 							size="small"
@@ -331,6 +333,7 @@
 							>启用</el-button
 						>
 						<el-button
+                        v-show="menutype.roleU==1"
 							@click="jinClick(scope.row)"
 							type="text"
 							size="small"
@@ -344,9 +347,11 @@
 		</el-table>
 		<div class="bottom_btn" v-if="tableData.length > 0">
 			<el-button @click="all_qiClick()" type="text" size="small"
+            v-show="menutype.roleU==1"
 				>启用</el-button
 			>
 			<el-button @click="all_jinClick()" type="text" size="small"
+            v-show="menutype.roleU==1"
 				>禁用</el-button
 			>
 		</div>
@@ -370,6 +375,7 @@ import {
 	get_nodetype_enum,
 	nodeinfo_export,
 } from '../../servers/api';
+import{menudisable} from"../../servers/sevdate"
 import axios from 'axios';
 export default {
 	data() {
@@ -662,13 +668,17 @@ export default {
 			citydata: {},
 			tolpage_export: 0,
 			tableData_export: [],
-			temporary_arr: [],
+            temporary_arr: [],
+            menutype:{},
 		};
 	},
 	mounted() {
 		this.getJson();
 		this.get_search_data();
-		this.getdatalist();
+        this.getdatalist();
+         let munulist = JSON.parse(sessionStorage.getItem('menus'));
+		let pathname = this.$route.path;
+		this.menutype = menudisable(munulist, pathname);
 	},
 	methods: {
 		getRowKey(row) {

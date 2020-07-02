@@ -41,15 +41,16 @@
 						router
 					>
 						<!-- 一级菜单 -->
-						<template
-							v-for="item in $router.options.routes"
-							v-if="!item.hidden"
-						>
+
+						<template v-for="item in menlist">
 							<el-submenu
-								v-if="item.children && item.children.length"
+								v-if="
+									item.children && item.children.length != 0
+								"
 								:index="item.path"
 								:key="item.path"
 								style="text-align: left;"
+								v-show="item.name != '设备监控'"
 							>
 								<template slot="title">
 									<i
@@ -60,14 +61,11 @@
 								</template>
 
 								<!-- 二级菜单 -->
-								<template
-									v-for="itemChild in item.children"
-									v-if="!itemChild.hidden"
-								>
+								<template v-for="itemChild in item.children">
 									<el-submenu
 										v-if="
 											itemChild.children &&
-												itemChild.children.length
+												itemChild.children.length > 0
 										"
 										:index="itemChild.path"
 										:key="itemChild.path"
@@ -82,7 +80,7 @@
 											v-for="itemChild_Child in itemChild.children"
 											:index="itemChild_Child.path"
 											:key="itemChild_Child.path"
-											v-if="!itemChild_Child.hidden"
+											v-show="itemChild_Child.hidden != 1"
 										>
 											<i
 												:class="itemChild_Child.icon"
@@ -97,6 +95,10 @@
 										v-else
 										:index="itemChild.path"
 										:key="itemChild.path"
+										v-show="
+											itemChild.name != '个人中心' &&
+												itemChild.name != '节点详情'
+										"
 									>
 										<i :class="itemChild.icon"></i>
 										<span slot="title">{{
@@ -163,6 +165,7 @@ export default {
 				resource: '',
 				desc: '',
 			},
+			menlist: [],
 		};
 	},
 	methods: {
@@ -179,6 +182,7 @@ export default {
 				.then(() => {
 					sessionStorage.removeItem('ipfs_user');
 					sessionStorage.removeItem('ipfs_id');
+					sessionStorage.removeItem('menus');
 					localStorage.removeItem('user_information');
 					_this.$cookies.remove('ipfs_user');
 					_this.$cookies.remove('ipfs_id');
@@ -199,7 +203,15 @@ export default {
 		//   )[0].style.display = status ? "block" : "none";
 		// }
 	},
+	// created() {
+	// 	console.log(JSON.parse(sessionStorage.getItem('menus')));
+	// 	this.menlist = JSON.parse(sessionStorage.getItem('menus'));
+	// 	console.log(this.menlist);
+	// },
 	mounted() {
+		this.$nextTick(function() {
+			this.menlist = JSON.parse(sessionStorage.getItem('menus'));
+		});
 		var user = this.$cookies.get('ipfs_user');
 		if (user) {
 			// user = JSON.parse(user);

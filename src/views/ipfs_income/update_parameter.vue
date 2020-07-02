@@ -62,6 +62,7 @@
 						</el-col> -->
 						<span style="margin-bottom: 20px;">积分/日</span>
 						<el-button
+                        v-show="menutype.roleU==1"
 							type="primary"
 							size="mini"
 							style="margin-bottom: 20px;"
@@ -96,6 +97,7 @@
 						</el-col> -->
 						<span style="margin-bottom: 20px;">积分/日</span>
 						<el-button
+                        v-show="menutype.roleU==1"
 							type="primary"
 							size="mini"
 							style="margin-bottom: 20px;"
@@ -136,6 +138,7 @@
 						</el-col> -->
 						<span style="margin-bottom: 20px;">积分/日</span>
 						<el-button
+                        v-show="menutype.roleU==1"
 							type="primary"
 							size="mini"
 							style="margin-bottom: 20px;"
@@ -176,6 +179,7 @@
 							<el-table-column prop="操作" label="操作">
 								<template slot-scope="scope">
 									<el-button
+                                    v-show="menutype.roleU==1"
 										@click="
 											updateInterval(
 												scope.row,
@@ -218,6 +222,7 @@
 							<el-table-column prop="操作" label="操作">
 								<template slot-scope="scope">
 									<el-button
+                                    v-show="menutype.roleU==1"
 										@click="
 											updateRnm(scope.row, scope.$index)
 										"
@@ -238,6 +243,7 @@
 <script>
 import { get_net_info, update_net_info } from '@/servers/api';
 import { Slider } from 'element-ui';
+import {menudisable} from "../../servers/sevdate"
 export default {
 	data() {
 		return {
@@ -296,11 +302,15 @@ export default {
 					Rnm: 0,
 				},
 			],
-			priceobj: {},
+            priceobj: {},
+            menutype:{},
 		};
 	},
 	mounted() {
-		this.get_data();
+        this.get_data();
+         let munulist = JSON.parse(sessionStorage.getItem('menus'));
+		let pathname = this.$route.path;
+		this.menutype = menudisable(munulist, pathname);
 	},
 	methods: {
         goBack(){

@@ -464,12 +464,6 @@ export const delposition = params => {
         res => res.data
     );
 };
-//菜单列表
-export const menulistuser = params => {
-    return post(`${serverUrl}/system/menulistuser`, params).then(
-        res => res.data
-    );
-};
 //权限列表
 export const rolelist = params => {
     return post(`${serverUrl}/system/rolelist`, params).then(
@@ -516,6 +510,19 @@ export const userlistaddrole = params => {
 //获取用户所属部门id
 export const getuserdepartment = params => {
     return post(`${serverUrl}/system/getuserdepartment`, params).then(
+        res => res.data
+    );
+};
+
+//配置权限
+export const updateroleinfo = params => {
+    return post(`${serverUrl}/system/updateroleinfo`, params).then(
+        res => res.data
+    );
+};
+//用户菜单
+export const menulistuser = params => {
+    return post(`${serverUrl}/system/menulistuser`, params).then(
         res => res.data
     );
 };

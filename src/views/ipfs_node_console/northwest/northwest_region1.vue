@@ -76,7 +76,7 @@ import { query_node, node_distribute } from '../../../servers/api';
 export default {
 	data() {
 		return {
-			location_name: '华北1（宁夏）区域',
+			location_name: '西北区域',
 			rotate: 0,
 			datalist: [],
 			citys: '宁夏',

@@ -8,10 +8,16 @@
 		<!--  -->
 		<div class="org_con">
 			<div class="btn_area">
-				<el-button type="primary" @click="uodatadialogVisible"
+				<el-button
+					type="primary"
+					@click="uodatadialogVisible"
+					v-show="menutype.roleC == 1"
 					>新建部门</el-button
 				>
-				<el-button type="primary" @click="nwisible"
+				<el-button
+					type="primary"
+					@click="nwisible"
+					v-show="menutype.roleC == 1"
 					>新建下级部门</el-button
 				>
 			</div>
@@ -149,12 +155,14 @@
 				<el-table-column label="操作">
 					<template slot-scope="scope">
 						<el-button
+							v-show="menutype.roleU == 1"
 							@click="handleClick(scope.row)"
 							type="text"
 							size="small"
 							>修改</el-button
 						>
 						<el-button
+							v-show="menutype.roleD == 1"
 							@click.native.prevent="deleteRow(scope.row)"
 							type="text"
 							size="small"
@@ -165,6 +173,7 @@
 			</el-table>
 			<div class="btn_area">
 				<el-button
+					v-show="menutype.roleD == 1"
 					type="primary"
 					@click="deleteRow()"
 					:disabled="deldisable"
@@ -184,6 +193,7 @@
 
 <script>
 import fenye from '@/components/fenye';
+import { menudisable } from '../../servers/sevdate';
 import {
 	departmentlist,
 	adddepartment,
@@ -211,11 +221,16 @@ export default {
 			multipleSelection: [],
 			firstme: [],
 			deldisable: true,
+			menutype: {},
 		};
 	},
 	mounted() {
 		this.get_firstme();
 		this.getdatalist();
+		let munulist = JSON.parse(sessionStorage.getItem('menus'));
+		let pathname = this.$route.path;
+		this.menutype = menudisable(munulist, pathname);
+		console.log(this.menutype);
 	},
 	methods: {
 		//获取部门列表

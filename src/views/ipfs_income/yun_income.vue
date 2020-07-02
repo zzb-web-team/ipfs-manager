@@ -46,6 +46,7 @@
 					>调整收益参数</el-button
 				>
 				<el-button
+					v-show="menutype.roleE == 1"
 					type="primary"
 					@click="exportexc()"
 					:disabled="showdisable"
@@ -93,16 +94,11 @@
 					prop="oper"
 					label="网络运营商"
 				></el-table-column>
-				<el-table-column
-					prop="UDBw"
-					label="上下行带宽"
-				>
-                <template slot-scope="scope">
-                    {{
-						scope.row.UDBw?scope.row.UDBw:'--'
-					}}
-                    </template>
-                </el-table-column>
+				<el-table-column prop="UDBw" label="上下行带宽">
+					<template slot-scope="scope">
+						{{ scope.row.UDBw ? scope.row.UDBw : '--' }}
+					</template>
+				</el-table-column>
 				<el-table-column
 					prop="online"
 					label="累计在线时长"
@@ -112,9 +108,7 @@
 					label="节点当日实际使用流量"
 				></el-table-column>
 				<el-table-column prop="startTS" sortable label="时间">
-					<template slot-scope="scope">{{
-						scope.row.date
-					}}</template>
+					<template slot-scope="scope">{{ scope.row.date }}</template>
 				</el-table-column>
 			</el-table>
 		</div>
@@ -136,8 +130,9 @@ import {
 	getymdtime,
 	setbatime,
 	dateFormat,
+	menudisable,
 } from '../../servers/sevdate';
-import { node_pf_detail,export_excel } from '@/servers/api';
+import { node_pf_detail, export_excel } from '@/servers/api';
 export default {
 	data() {
 		return {
@@ -166,6 +161,7 @@ export default {
 					);
 				},
 			},
+			menutype: {},
 		};
 	},
 	components: { fenye },
@@ -188,6 +184,10 @@ export default {
 	},
 	mounted() {
 		this.seachuser();
+		let munulist = JSON.parse(sessionStorage.getItem('menus'));
+		let pathname = this.$route.path;
+		this.menutype = menudisable(munulist, pathname);
+		console.log(this.menutype);
 	},
 	methods: {
 		//收益
@@ -208,17 +208,17 @@ export default {
 			params.itemCount = this.pagesize;
 			node_pf_detail(params)
 				.then((res) => {
-                    console.log(res);
-                    this.tableData=res.data;
-                    this.totalCnt=res.dataCount;
-                   if(res.data&&this.tableData.length>0){
-                        this.showdisable=false;
-                    }
-                    // if(res.status==0){
-                    //     this.tableData=res.data;
-                    // }else{
-                    //     this.$message.error(res.errMsg);
-                    // }
+					console.log(res);
+					this.tableData = res.data;
+					this.totalCnt = res.dataCount;
+					if (res.data && this.tableData.length > 0) {
+						this.showdisable = false;
+					}
+					// if(res.status==0){
+					//     this.tableData=res.data;
+					// }else{
+					//     this.$message.error(res.errMsg);
+					// }
 				})
 				.catch((error) => {
 					console.log(error);
@@ -236,14 +236,14 @@ export default {
 				// var day1 = new Date();
 				// day1.setTime(day1.getTime() - 24 * 60 * 60 * 1000);
 				// this.starttime =day1.getFullYear() +'-' +(day1.getMonth() + 1) +'-' +day1.getDate();
-                this.starttime = dateFormat(new Date());
-                this.endtime = dateFormat(new Date());
+				this.starttime = dateFormat(new Date());
+				this.endtime = dateFormat(new Date());
 			}
 			this.get_income_list();
 		},
 		//导出
 		exportexc() {
-            	let params = new Object();
+			let params = new Object();
 			params.exportContext = 'node_pf_detail';
 			let ipsos = /^(\d{1,3}\.{1}){3}((\d{1,3}){1})$/;
 			if (ipsos.test(this.input) == true) {
@@ -257,18 +257,18 @@ export default {
 			params.dateEnd = this.endtime;
 			export_excel(params)
 				.then((res) => {
-                    console.log(res);
-                    if(res.state==0){
-                        window.open(res.downloadUrl);
-                       this.$message.success("导出成功"); 
-                    }else{
-                        this.$message.error(res.err_msg);
-                    }
+					console.log(res);
+					if (res.state == 0) {
+						window.open(res.downloadUrl);
+						this.$message.success('导出成功');
+					} else {
+						this.$message.error(res.err_msg);
+					}
 				})
 				.catch((error) => {
 					console.log(error);
 				});
-        },
+		},
 		//获取页码
 		getpage(pages) {
 			this.pageNo = pages;

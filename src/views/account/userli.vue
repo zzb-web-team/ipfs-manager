@@ -89,7 +89,7 @@
 			<div class="user_devide_table">
 				<el-row type="flex" class="row_active">
 					<el-col :span="6">
-						<el-button type="primary" @click="addAccout">
+						<el-button type="primary" @click="addAccout" v-show="obnj.roleC==1">
 							新建
 							<span class="el-icon-plus"></span>
 						</el-button>
@@ -102,6 +102,7 @@
 							ref="table1"
 							tooltip-effect="dark"
 							:tableData="tableData"
+                            :obnj='obnj'
 							:ipfs_id="ipfs_id"
 							@handleSelectionChange="handleSelectionChange"
 							:clomnSelection="clomnSelection"
@@ -126,9 +127,9 @@
 						:span="6"
 						style="display: flex;justify-content: justify-content: flex-start;"
 					>
-						<el-button size="small" @click="allOn">启用</el-button>
-						<el-button size="small" @click="allOff">禁用</el-button>
-						<el-button type="danger" size="small" @click="allDelete"
+						<el-button size="small" @click="allOn" v-show="obnj.roleU==1">启用</el-button>
+						<el-button size="small" @click="allOff"  v-show="obnj.roleU==1">禁用</el-button>
+						<el-button type="danger" size="small" @click="allDelete"  v-show="obnj.roleD==1"
 							>删除</el-button
 						>
 					</el-col>
@@ -185,8 +186,10 @@
 								</el-option>
 							</el-select>
 						</el-form-item>
-					
-							<el-form-item label="昵称:" prop="name"
+
+						<el-form-item
+							label="昵称:"
+							prop="name"
 							:rules="[
 								{
 									required: true,
@@ -194,14 +197,17 @@
 									validator: jioname,
 									trigger: 'blur',
 								},
-							]">
-								<el-input
-									v-model="ruleForm2.name"
-									placeholder="4-20位汉字数字字母组合"
-								></el-input>
-							</el-form-item>
-					
-							<el-form-item label="账户名:" prop="username"
+							]"
+						>
+							<el-input
+								v-model="ruleForm2.name"
+								placeholder="4-20位汉字数字字母组合"
+							></el-input>
+						</el-form-item>
+
+						<el-form-item
+							label="账户名:"
+							prop="username"
 							:rules="[
 								{
 									required: true,
@@ -209,12 +215,13 @@
 									validator: jiousername,
 									trigger: 'blur',
 								},
-							]">
-								<el-input
-									v-model="ruleForm2.username"
-									placeholder="4-20位英文加数字组合"
-								></el-input>
-							</el-form-item>
+							]"
+						>
+							<el-input
+								v-model="ruleForm2.username"
+								placeholder="4-20位英文加数字组合"
+							></el-input>
+						</el-form-item>
 						<el-form-item
 							label="性别:"
 							prop="sex"
@@ -282,8 +289,10 @@
 								</el-option>
 							</el-select>
 						</el-form-item>
-					
-							<el-form-item label="密码:" prop="password"
+
+						<el-form-item
+							label="密码:"
+							prop="password"
 							:rules="[
 								{
 									required: true,
@@ -291,13 +300,14 @@
 									validator: jiopwd,
 									trigger: 'blur',
 								},
-							]">
-								<el-input
-									v-model="ruleForm2.password"
-									type="password"
-									placeholder="6-20位数字字母_组成"
-								></el-input>
-							</el-form-item>
+							]"
+						>
+							<el-input
+								v-model="ruleForm2.password"
+								type="password"
+								placeholder="6-20位数字字母_组成"
+							></el-input>
+						</el-form-item>
 						<el-form-item
 							label="确认密码:"
 							prop="password2"
@@ -433,7 +443,7 @@
 						</el-form-item>
 						<el-form-item label="分组:" prop="grouping">
 							<el-select
-								v-model="ruleForm3.grouping"
+								v-model="ruleForm3.role_id"
 								placeholder="请选择分组"
 							>
 								<el-option
@@ -631,6 +641,7 @@ import {
 	departmentlist,
 } from '../../servers/api';
 import common from '../../comm/js/util.js';
+import {menudisable} from '../../servers/sevdate';
 export default {
 	data() {
 		var validatePass = (rule, value, callback) => {
@@ -701,8 +712,6 @@ export default {
 			ruleForm3: {
 				username: '',
 				nickname: '',
-				password: '',
-				password2: '',
 				value: '',
 				radio: '0',
 				name: '',
@@ -710,7 +719,7 @@ export default {
 				id: '',
 				sex: '',
 				position_id: '',
-				grouping: '',
+				role_id: '',
 				department_id: '',
 			},
 			ruleForm4: {
@@ -820,10 +829,15 @@ export default {
 			permission_list: [],
 			position_list: [],
 			departmentoptions: [],
-			department_list: [],
+            department_list: [],
+            obnj:{},
 		};
 	},
 	mounted: function() {
+		let munulist = JSON.parse(sessionStorage.getItem('menus'));
+		let pathname = this.$route.path;
+        this.obnj=menudisable(munulist, pathname);
+        console.log(this.obnj);
 		this.ipfs_id = parseInt(this.$cookies.get('ipfs_id'));
 		this.ipfs_user = this.$cookies.get('ipfs_user');
 		this.queryUserList();
@@ -840,12 +854,12 @@ export default {
 				.then((res) => {
 					console.log(res);
 					if (res.status == 0) {
+						this.department_list = this.department_list.concat(
+							res.result.cols
+						);
 						if (res.result.les_count == 0) {
-							this.department_list = res.result.cols;
+							return false;
 						} else {
-							this.department_list = this.department_list.concat(
-								res.result.cols
-							);
 							pagenum++;
 							this.getdatalist(pagenum);
 						}
@@ -864,14 +878,15 @@ export default {
 			positionlist(params)
 				.then((res) => {
 					if (res.status == 0) {
-						if (res.result.les_count == 0) {
-							this.position_list = res.result.cols;
-						} else {
-							this.position_list = this.position_list.concat(
+                        this.position_list = this.position_list.concat(
 								res.result.cols
 							);
+						if (res.result.les_count == 0) {
+							return false;
+						} else {
 							pagenum++;
 							this.get_position_list(pagenum);
+							
 						}
 					} else {
 						this.$message(res.msg);
@@ -885,16 +900,17 @@ export default {
 		get_permission_list(pagenum) {
 			let params = new Object();
 			params.page = pagenum;
+			params.search = '';
 			rolelist(params)
 				.then((res) => {
 					if (res.status == 0) {
-						if (res.result.les_count == 0) {
-							this.permission_list = res.result.cols;
-							return false;
-						} else {
-							this.permission_list = this.permission_list.concat(
+                        this.permission_list = this.permission_list.concat(
 								res.result.cols
 							);
+						if (res.result.les_count == 0) {
+							return false;
+						} else {
+							
 							pagenum++;
 							this.get_permission_list(pagenum);
 						}
@@ -1277,10 +1293,7 @@ export default {
 			this.ruleForm3.phone = val.phone;
 			this.ruleForm3.sex = val.sex;
 			this.ruleForm3.position_id = val.position_id;
-			this.ruleForm3.grouping = val.role_id;
 			this.ruleForm3.nickname = val.nickname;
-			this.ruleForm3.password = '';
-			this.ruleForm3.password2 = '';
 			this.ruleForm3.role_id = val.role_id;
 			this.ruleForm3.department_id = val.department_id;
 			this.ruleForm3.sex = val.sex;
@@ -1355,8 +1368,6 @@ export default {
 			this.ruleForm3.position_id = val.position_id;
 			this.ruleForm3.grouping = val.role_id;
 			this.ruleForm3.nickname = val.nickname;
-			this.ruleForm3.password = '';
-			this.ruleForm3.password2 = '';
 			this.ruleForm3.role_id = val.role_id;
 			this.ruleForm3.department_id = val.department_id;
 			this.ruleForm3.sex = val.sex;
