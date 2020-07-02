@@ -50,7 +50,7 @@
 								:index="item.path"
 								:key="item.path"
 								style="text-align: left;"
-								v-show="item.name != '设备监控'"
+								v-show="item.name != '设备监控'&&item.name != 'IPFS程序管理'"
 							>
 								<template slot="title">
 									<i
