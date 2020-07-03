@@ -16,16 +16,12 @@
 <script>
 export default {
 	name: 'pagination',
-	data() {
-		return {
-			currentPage: 1, //初始页
-		};
-	},
 	props: {
 		pagesa: {
 			type: Number,
 			default: 0,
-		},
+        },
+        currentPage: { type: Number, default: 1 }
 	},
 	mounted() {},
 	methods: {

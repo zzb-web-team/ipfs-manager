@@ -78,6 +78,7 @@ export default {
     },
     //将时间格式化
     getTimes: function(b) {
+        if (b == 0) { return '未登录' }
         let e = new Date(b)
         let year = e.getFullYear();
         let month = e.getMonth() + 1;

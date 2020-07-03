@@ -69,7 +69,7 @@
 					</el-col>
 				</el-row>
 				<el-row :gutter="20">
-					<el-col :span="2"
+					<el-col :span="4"
 						><el-input
 							size="small"
 							v-model="searchdata.input"
@@ -160,27 +160,31 @@
 								:value="item.name"
 							></el-option></el-select
 					></el-col>
-					<el-cascader
-						size="small"
-						placeholder="请选择区域"
-						v-model="searchdata.region4"
-						:options="citylist"
-						@change="provinceChange"
-					></el-cascader>
-					<el-select
-						size="small"
-						v-model="searchdata.region5"
-						placeholder="请选择城市"
-						@change="set_time()"
-						:disabled="city_disable"
-					>
-						<el-option
-							v-for="(item, index) in options_city"
-							:key="index"
-							:label="item.name"
-							:value="item.name"
-						></el-option>
-					</el-select>
+					<el-col :span="2">
+						<el-cascader
+							size="small"
+							placeholder="请选择区域"
+							v-model="searchdata.region4"
+							:options="citylist"
+							@change="provinceChange"
+						></el-cascader>
+					</el-col>
+					<el-col :span="2">
+						<el-select
+							size="small"
+							v-model="searchdata.region5"
+							placeholder="请选择城市"
+							@change="set_time()"
+							:disabled="city_disable"
+						>
+							<el-option
+								v-for="(item, index) in options_city"
+								:key="index"
+								:label="item.name"
+								:value="item.name"
+							></el-option>
+						</el-select>
+					</el-col>
 
 					<el-col :span="2"
 						><el-select
@@ -676,16 +680,17 @@ export default {
 			});
 		},
 		provinceChange(value) {
-			if (value == -1) {
+			console.log(value);
+			if (value[0] == '*') {
 				this.value1 = -1;
 				this.city_disable = true;
-				this.searchdata.region6 = '';
+				this.searchdata.region5 = '';
 				this.set_time();
 			} else {
 				this.options_city = this.citydata[value[1]].cities;
 				console.log(this.options_city);
 				this.city_disable = false;
-				this.searchdata.region6 = '';
+				this.searchdata.region5 = '全部';
 				this.set_time();
 			}
 		},
@@ -837,7 +842,8 @@ export default {
 				params.city = this.searchdata.region5;
 			}
 			params.end_ts = this.endtime;
-			params.start_ts = this.starttime;
+            params.start_ts = this.starttime;
+            params.timeUnit=5;
 			ipfs_monit_storage(params)
 				.then((res) => {
 					if (res.status == 0) {
@@ -1111,9 +1117,9 @@ export default {
 						for (let k in res.data) {
 							let obj = {};
 							obj.name = getday(k);
-							obj.value = res.data[k];
+							obj.value = (res.data[k]*100).toFixed(4);
 							this.etflist.push(obj);
-							arrlist.push(res.data[k]);
+							arrlist.push(res.data[k]*100);
 						}
 						this.$nextTick(
 							this.tiredsharts(
@@ -1297,9 +1303,9 @@ export default {
 						for (let k in res.data) {
 							let obj = {};
 							obj.name = getday(k);
-							obj.value = res.data[k];
+							obj.value = (res.data[k]*100).toFixed(2);
 							this.itflist.push(obj);
-							arrlist.push(res.data[k]);
+							arrlist.push(res.data[k]*100);
 						}
 						this.$nextTick(
 							this.tiredsharts(
@@ -1309,11 +1315,11 @@ export default {
 							)
 						);
 						this.max_value =
-							this.getMaximin(arrlist, 'max').toFixed(0) + '%';
+							this.getMaximin(arrlist, 'max').toFixed(2) + '%';
 						this.min_value =
-							this.getMaximin(arrlist, 'min').toFixed(0) + '%';
+							this.getMaximin(arrlist, 'min').toFixed(2) + '%';
 						this.average_value =
-							this.pingjun(arrlist).toFixed(0) + '%';
+							this.pingjun(arrlist).toFixed(2) + '%';
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -1389,9 +1395,9 @@ export default {
 						for (let k in res.data) {
 							let obj = {};
 							obj.name = getday(k);
-							obj.value = res.data[k];
+							obj.value = (res.data[k]*100).toFixed(2);
 							this.otflist.push(obj);
-							arrlist.push(res.data[k]);
+							arrlist.push(res.data[k]*100);
 						}
 						this.$nextTick(
 							this.tiredsharts(
@@ -1401,11 +1407,11 @@ export default {
 							)
 						);
 						this.max_value =
-							this.getMaximin(arrlist, 'max').toFixed(0) + '%';
+							this.getMaximin(arrlist, 'max').toFixed(2) + '%';
 						this.min_value =
-							this.getMaximin(arrlist, 'min').toFixed(0) + '%';
+							this.getMaximin(arrlist, 'min').toFixed(2) + '%';
 						this.average_value =
-							this.pingjun(arrlist).toFixed(0) + '%';
+							this.pingjun(arrlist).toFixed(2) + '%';
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -1574,9 +1580,9 @@ export default {
 						for (let k in res.data) {
 							let obj = {};
 							obj.name = getday(k);
-							obj.value = res.data[k];
+							obj.value = (res.data[k]*100).toFixed(2);
 							this.cpuusaglist.push(obj);
-							arrlist.push(res.data[k]);
+							arrlist.push(res.data[k]*100);
 						}
 						this.$nextTick(
 							this.tiredsharts(
@@ -1665,9 +1671,9 @@ export default {
 						for (let k in res.data) {
 							let obj = {};
 							obj.name = getday(k);
-							obj.value = res.data[k];
+							obj.value = (res.data[k]*100).toFixed(2);
 							this.memorylist.push(obj);
-							arrlist.push(res.data[k]);
+							arrlist.push(res.data[k]*100);
 						}
 						this.$nextTick(
 							this.tiredsharts(
@@ -1752,6 +1758,7 @@ export default {
 				}
 			} else if (this.searchdata.radio == '4') {
 				this.show_time = false;
+				this.searchdata.value1 = '';
 				let endt =
 					new Date(new Date().toLocaleDateString()).getTime() / 1000;
 				this.starttime = endt - 24 * 60 * 60 * 29;
@@ -1759,6 +1766,7 @@ export default {
 				this.handleClick();
 			} else if (this.searchdata.radio == '3') {
 				this.show_time = false;
+				this.searchdata.value1 = '';
 				let endt =
 					new Date(new Date().toLocaleDateString()).getTime() / 1000;
 				this.starttime = endt - 24 * 60 * 60 * 6;
@@ -1766,6 +1774,7 @@ export default {
 				this.handleClick();
 			} else if (this.searchdata.radio == '2') {
 				this.show_time = false;
+				this.searchdata.value1 = '';
 				this.endtime =
 					new Date(new Date().toLocaleDateString()).getTime() / 1000;
 				this.starttime =
@@ -1774,6 +1783,7 @@ export default {
 				this.handleClick();
 			} else if (this.searchdata.radio == '1') {
 				this.show_time = false;
+				this.searchdata.value1 = '';
 				this.starttime =
 					new Date(new Date().toLocaleDateString()).getTime() / 1000;
 				this.endtime = Date.parse(new Date()) / 1000;
@@ -1875,6 +1885,9 @@ export default {
 				},
 				grid: {
 					bottom: 90,
+					left: 50,
+					right: 50,
+					top: 100,
 				},
 
 				xAxis: {
@@ -1975,6 +1988,12 @@ export default {
 					type: 'value',
 					name: dataunits,
 				},
+				grid: {
+					bottom: 90,
+					left: 50,
+					right: 50,
+					top: 100,
+				},
 				toolbox: {
 					feature: {
 						saveAsImage: {
@@ -2037,6 +2056,12 @@ export default {
 					data: datas.map(function(item) {
 						return item.name;
 					}),
+				},
+				grid: {
+					bottom: 90,
+					left: 50,
+					right: 50,
+					top: 100,
 				},
 				yAxis: {
 					type: 'value',
@@ -2106,6 +2131,12 @@ export default {
 							pixelRatio: 2,
 						},
 					},
+				},
+				grid: {
+					bottom: 90,
+					left: 50,
+					right: 50,
+					top: 100,
 				},
 				tooltip: {
 					trigger: 'axis',

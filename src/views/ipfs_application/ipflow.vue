@@ -517,7 +517,7 @@ export default {
 			}
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime;
-			params.pageNo = this.pageNo - 1;
+			params.pageNo = this.currentPage - 1;
 			params.pageSize = this.pageSize;
 			params.first_channel = this.firatvalue;
 			params.second_channel = this.secondvalue;
@@ -577,6 +577,7 @@ export default {
 		},
 		//确定搜索
 		seachuser() {
+            this.currentPage=1;
 			if (this.busvalue != '*') {
 				this.scenedis = false;
 			} else {
@@ -597,6 +598,7 @@ export default {
 			this.gettab();
 		},
 		seachuser_yongtu() {
+            this.currentPage=1;
 			if (this.scenevalue != '*') {
 				this.yongtu = false;
 			} else {
@@ -607,7 +609,10 @@ export default {
 		},
 		//重置
 		reset() { 
-            this.$refs.paginations.$data.currentPage=1;
+           this.starttime =
+			new Date(new Date().toLocaleDateString()).getTime() / 1000 -
+			86400 * 90;
+		this.endtime = Date.parse(new Date()) / 1000;
 			this.value = 0;
 			this.input = '';
 			this.value1 = '';
@@ -616,14 +621,14 @@ export default {
 			this.devtypevalue = '*';
 			this.busvalue = '*';
 			this.scenevalue = '*';
-			this.pageNo = 1;
+			this.currentPage = 1;
 			this.scenedis = true;
 			this.chil_disable = true;
 			this.seachuser();
 		},
 		//获取页码
 		getpage(pages) {
-			this.pageNo = pages;
+			this.currentPage = pages;
 			this.gettab();
 		},
 		//获取每页数量

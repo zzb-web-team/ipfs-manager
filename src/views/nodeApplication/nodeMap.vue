@@ -6,69 +6,78 @@
 			</el-breadcrumb-item>
 		</el-breadcrumb>
 		<div class="top_search">
-			<span>时间：</span>
-			<el-date-picker
-				v-model="time_value"
-				type="datetimerange"
-				range-separator="至"
-				start-placeholder="开始日期"
-				end-placeholder="结束日期"
-				@change="seachuser()"
-				:picker-options="endPickerOptions"
-			></el-date-picker>
-			<span>节点渠道商：</span>
-			<el-select
-				v-model="searchdata.region1"
-				placeholder="请选择一级渠道"
-				@change="handleChangefirst($event)"
-			>
-				<el-option label="全部" value="*"></el-option>
-				<el-option
-					v-for="(item, index) in firstchan"
-					:key="item.name + index"
-					:label="item.name"
-					:value="item.value"
-				></el-option>
-			</el-select>
-			<el-select
-				v-model="searchdata.region2"
-				placeholder="请选择二级渠道"
-				@change="get_search()"
-				:disabled="chil_disable"
-			>
-				<el-option label="全部" value="*"></el-option>
-				<el-option
-					v-for="(item, index) in secondchan"
-					:key="item.value + index"
-					:label="item.name"
-					:value="item.value"
-				></el-option>
-			</el-select>
-			<span>设备类型：</span>
-			<el-select
-				v-model="searchdata.region3"
-				placeholder="请选设备类型"
-				@change="get_search()"
-			>
-				<el-option label="全部" value="*"></el-option>
-				<el-option
-					v-for="(item, index) in device_type"
-					:key="item.name + index"
-					:label="item.name"
-					:value="item.name"
-				></el-option>
-			</el-select>
-			<span>区域：</span>
-			<el-cascader
-				placeholder="请选择区域"
-				v-model="searchdata.region4"
-				:options="citylist"
-				@change="provinceChange"
-			></el-cascader>
-			<!-- <el-select v-model="searchdata.region4" placeholder="请选择区域">
-				<el-option label="全部" value="*"></el-option>
-				<el-option label="区域一" value="1"></el-option>
-			</el-select> -->
+			<el-row>
+				<el-col :span="5">
+					<el-date-picker
+						class="mapdateinput"
+						v-model="time_value"
+						type="datetimerange"
+						range-separator="至"
+						start-placeholder="开始日期"
+						end-placeholder="结束日期"
+						@change="seachuser()"
+						:picker-options="endPickerOptions"
+					>
+					</el-date-picker>
+				</el-col>
+				<el-col :span="4">
+					节点渠道商：
+					<el-select
+						v-model="searchdata.region1"
+						placeholder="请选择一级渠道"
+						@change="handleChangefirst($event)"
+					>
+						<el-option label="全部" value="*"></el-option>
+						<el-option
+							v-for="(item, index) in firstchan"
+							:key="item.name + index"
+							:label="item.name"
+							:value="item.value"
+						></el-option>
+					</el-select>
+				</el-col>
+				<el-col :span="3">
+					<el-select
+						v-model="searchdata.region2"
+						placeholder="请选择二级渠道"
+						@change="get_search()"
+						:disabled="chil_disable"
+					>
+						<el-option label="全部" value="*"></el-option>
+						<el-option
+							v-for="(item, index) in secondchan"
+							:key="item.value + index"
+							:label="item.name"
+							:value="item.value"
+						></el-option>
+					</el-select>
+				</el-col>
+				<el-col :span="4">
+					<span>设备类型：</span>
+					<el-select
+						v-model="searchdata.region3"
+						placeholder="请选设备类型"
+						@change="get_search()"
+					>
+						<el-option label="全部" value="*"></el-option>
+						<el-option
+							v-for="(item, index) in device_type"
+							:key="item.name + index"
+							:label="item.name"
+							:value="item.name"
+						></el-option>
+					</el-select>
+				</el-col>
+				<el-col :span="4">
+					<span>区域：</span>
+					<el-cascader
+						placeholder="请选择区域"
+						v-model="searchdata.region4"
+						:options="citylist"
+						@change="provinceChange"
+					></el-cascader>
+				</el-col>
+			</el-row>
 		</div>
 		<div style="display: flex;" class="mapdal">
 			<div
@@ -88,7 +97,7 @@
 					>
 					<span>{{ item.newCount }}</span>
 					<span>{{ item.value }}</span>
-					<span>{{ (item.totalPercent * 100).toFixed(0) }}%</span>
+					<span>{{ (item.totalPercent * 100).toFixed(2) }}%</span>
 				</li>
 			</ol>
 		</div>
@@ -145,7 +154,7 @@ export default {
 						)
 					);
 				},
-            },
+			},
 			secondchan: [],
 			citylist: [
 				{
@@ -521,12 +530,16 @@ export default {
 	text-align: left;
 	margin-top: 20px;
 	margin-bottom: 20px;
-	span {
-		margin-left: 20px;
-	}
-	span:nth-child(1) {
-		margin-left: 0;
-	}
+	width: 100%;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	// span {
+	// 	margin-left: 20px;
+	// }
+	// span:nth-child(1) {
+	// 	margin-left: 0;
+	// }
 }
 .mapdal {
 	ol {

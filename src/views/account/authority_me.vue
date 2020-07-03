@@ -287,60 +287,73 @@ export default {
 											k.children &&
 											k.children.length > 0
 										) {
-                                            k.children.forEach((i)=>{
-                                                if (i.read_status == 1) {
-												let obj = {};
-												obj.id = parseInt(i.id + '1');
-												obj.label = '浏览';
-												i.children.push(obj);
-											}
-											if (i.export_status == 1) {
-												let obj = {};
-												obj.id = parseInt(i.id + '2');
-												obj.label = '导出';
-												i.children.push(obj);
-											}
-											if (i.insert_status == 1) {
-												let obj = {};
-												obj.id = parseInt(i.id + '3');
-												if (i.label == '账户管理') {
-													obj.label = '新建账户';
-												} else if (
-													i.label == '组织管理'
-												) {
-													obj.label = '新建组织';
-												} else if (
-													i.label == '权限管理'
-												) {
-													obj.label = '新建权限分组';
+											k.children.forEach((i) => {
+												if (i.read_status == 1) {
+													let obj = {};
+													obj.id = parseInt(
+														i.id + '1'
+													);
+													obj.label = '浏览';
+													i.children.push(obj);
 												}
-												obj.label = '添加';
-												i.children.push(obj);
-											}
+												if (i.export_status == 1) {
+													let obj = {};
+													obj.id = parseInt(
+														i.id + '2'
+													);
+													obj.label = '导出';
+													i.children.push(obj);
+												}
+												if (i.insert_status == 1) {
+													let obj = {};
+													obj.id = parseInt(
+														i.id + '3'
+													);
+													if (i.label == '账户管理') {
+														obj.label = '新建账户';
+													} else if (
+														i.label == '组织管理'
+													) {
+														obj.label = '新建组织';
+													} else if (
+														i.label == '权限管理'
+													) {
+														obj.label =
+															'新建权限分组';
+													}
+													obj.label = '添加';
+													i.children.push(obj);
+												}
 
-											if (i.update_status == 1) {
-												let obj = {};
-												obj.id = parseInt(i.id + '4');
-												if (i.label == '节点信息') {
-													obj.label = '启用/禁用';
-												} else {
-													obj.label = '修改';
+												if (i.update_status == 1) {
+													let obj = {};
+													obj.id = parseInt(
+														i.id + '4'
+													);
+													if (i.label == '节点信息') {
+														obj.label = '启用/禁用';
+													} else {
+														obj.label = '修改';
+													}
+													i.children.push(obj);
 												}
-												i.children.push(obj);
-											}
-											if (i.import_status == 1) {
-												let obj = {};
-												obj.id = parseInt(i.id + '5');
-												obj.label = '导入';
-												i.children.push(obj);
-											}
-											if (i.delete_status == 1) {
-												let obj = {};
-												obj.id = parseInt(i.id + '6');
-												obj.label = '删除';
-												i.children.push(obj);
-											}
-                                            })
+												if (i.import_status == 1) {
+													let obj = {};
+													obj.id = parseInt(
+														i.id + '5'
+													);
+													obj.label = '导入';
+													i.children.push(obj);
+												}
+												if (i.delete_status == 1) {
+													let obj = {};
+													obj.id = parseInt(
+														i.id + '6'
+													);
+													obj.label = '删除';
+													i.children.push(obj);
+												}
+											});
 										} else {
 											if (k.read_status == 1) {
 												let obj = {};
@@ -653,7 +666,16 @@ export default {
 			}
 		},
 		deleteRow(data) {
+			console.log(data);
 			let params = new Object();
+			let userstr = '';
+			if (data.user) {
+				data.user.forEach((item) => {
+					userstr += item.id + ',';
+				});
+				params.userid = userstr.slice(0, -1);
+			}
+			params.userid = '';
 			params.roleid = data.id;
 			delrole(params)
 				.then((res) => {

@@ -165,15 +165,21 @@
 							:disabled="item.disabled"
 						></el-option>
 					</el-select>
-				</div>
-				<div class="region_select">
-					<el-button
+                    <el-button
 						plain
 						@click="resetseach()"
 						class="resetseach_btn"
 						>重置</el-button
 					>
 				</div>
+				<!-- <div class="region_select">
+					<el-button
+						plain
+						@click="resetseach()"
+						class="resetseach_btn"
+						>重置</el-button
+					>
+				</div> -->
 			</div>
 
 			<div style="margin-top: 5px;">

@@ -399,7 +399,7 @@
 								{ validator: jiousername, trigger: 'blur' },
 							]"
 						>
-							<el-form-item label="账号:">
+							<el-form-item label="账户名:">
 								<el-input
 									v-model="ruleForm3.username"
 									placeholder="账号为4-20位英文加数字组合"
@@ -411,7 +411,7 @@
 							prop="name"
 							:rules="[{ validator: jioname, trigger: 'blur' }]"
 						>
-							<el-form-item label="真实姓名:">
+							<el-form-item label="昵称:">
 								<el-input
 									v-model="ruleForm3.name"
 									placeholder="真实姓名为4-20位汉字数字字母组合"
@@ -441,7 +441,7 @@
 								</el-option>
 							</el-select>
 						</el-form-item>
-						<el-form-item label="分组:" prop="grouping">
+						<el-form-item label="分组:" prop="role_id">
 							<el-select
 								v-model="ruleForm3.role_id"
 								placeholder="请选择分组"
@@ -680,7 +680,7 @@ export default {
 			operatingStatus: true,
 			clomnSelection: true,
 			reserveselection: true,
-			order: 'time_update desc',
+			order: 'last_login desc',
 			value1: '',
 			value2: '',
 			value: '',
@@ -826,7 +826,7 @@ export default {
 			},
 			ipfs_id: 0,
 			ipfs_user: '',
-			permission_list: [],
+			permission_list: [{id:0,name:'受限用户'}],
 			position_list: [],
 			departmentoptions: [],
             department_list: [],
@@ -926,11 +926,11 @@ export default {
 		//排序
 		tableSortChange(column) {
 			if (column.order == 'ascending') {
-				this.order = 'time_update desc';
+				this.order = 'last_login desc';
 				this.pager.page = 1;
 				this.queryUserList();
 			} else {
-				this.order = 'time_update asc';
+				this.order = 'last_login asc';
 				this.pager.page = 1;
 				this.queryUserList();
 			}
@@ -1199,6 +1199,7 @@ export default {
 		},
 		//搜索
 		searchInfo() {
+            this.pager.page=1;
 			this.queryUserList();
 		},
 		getShow() {
