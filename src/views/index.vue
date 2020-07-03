@@ -185,7 +185,8 @@ export default {
 					sessionStorage.removeItem('menus');
 					localStorage.removeItem('user_information');
 					_this.$cookies.remove('ipfs_user');
-					_this.$cookies.remove('ipfs_id');
+                    _this.$cookies.remove('ipfs_id');
+                    _this.$cookies.remove('ipfs_path');
 					_this.$router.push('/');
 				})
 				.catch(() => {});

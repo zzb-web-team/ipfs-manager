@@ -149,10 +149,17 @@ export default {
 		};
 	},
 	mounted() {
+        console.log(this.$cookies.get('ipfs_id'));
+        console.log(this.$cookies.get('ipfs_path'));
 		if (this.$cookies.get('ipfs_id')) {
-			this.$router.push({
-				path: '/userli',
-			});
+
+			if (!this.$cookies.get('ipfs_path')) {
+				this.$router.push({ path: '/error404' });
+			} else {
+				this.$router.push({
+					path: '/' + this.$cookies.get('ipfs_path'),
+				});
+			}
 		}
 	},
 	methods: {
@@ -222,18 +229,45 @@ export default {
 			menulistuser(params)
 				.then((res) => {
 					if (res.status == 0) {
-						sessionStorage.setItem(
-							'menus',
-							JSON.stringify(res.data)
-						);
-                        if(res.data&&res.data.length>0){
-                            window.location.href="./"
-                        }else{
-                            this.$router.push({path:'/error404'});
-                        }
+						console.log(res.data);
+						if (res.data && res.data.length > 0) {
+							sessionStorage.setItem(
+								'menus',
+								JSON.stringify(res.data)
+							);
+							let mtpath = this.menudisable(res.data);
+							this.$cookies.set(
+								'ipfs_path',
+								mtpath,
+								7 * 24 * 60 * 60
+							);
+							window.location.href = './';
+						} else {
+							this.$router.push({ path: '/error404' });
+						}
 					}
 				})
 				.catch((error) => {});
+		},
+		menudisable(arr) {
+			for (var i = 0; i < arr.length; i++) {
+				if (arr[i].children) {
+					for (var k = 0; k < arr[i].children.length; k++) {
+						if (arr[i].children[k].children) {
+							for (
+								var n = 0;
+								n < arr[i].children[k].children.length;
+								n++
+							) {
+								return arr[i].children[k].children[n].component;
+							}
+						}
+						return arr[i].children[k].component;
+					}
+				} else {
+					return arr[i].component;
+				}
+			}
 		},
 
 		//--弹窗--取消
@@ -284,9 +318,9 @@ export default {
 							7 * 24 * 60 * 60
 						);
 
-						this.$router.push({
-							path: '/userli',
-						});
+						// this.$router.push({
+						// 	path: '/userli',
+						// });
 					} else {
 						this.$message({
 							type: 'error',
