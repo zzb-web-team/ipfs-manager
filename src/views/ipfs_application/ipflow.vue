@@ -446,7 +446,7 @@ export default {
 			86400 * 90;
 		this.endtime = Date.parse(new Date()) / 1000;
         this.gettab();
-        let munulist = JSON.parse(sessionStorage.getItem('menus'));
+        let munulist = JSON.parse(localStorage.getItem('menus'));
 		let pathname = this.$route.path;
 		this.menutype = menudisable(munulist, pathname);
 		console.log(this.menutype);
@@ -793,9 +793,9 @@ export default {
 		text-align: center;
 	}
 }
-.el-select {
-	margin-bottom: 20px;
-}
+// .el-select {
+// 	margin-bottom: 20px;
+// }
 //旋转
 .aa {
 	transition: all 1s;

@@ -204,8 +204,8 @@ router.beforeEach((to, from, next) => {
     next()
 })
 
-if (sessionStorage.getItem('menus')) {
-    var accroute = JSON.parse(sessionStorage.getItem('menus'));
+if (localStorage.getItem('menus')) {
+    var accroute = JSON.parse(localStorage.getItem('menus'));
     var routers = common.trans(accroute, keymap);
     router.addRoutes(routers);
 }

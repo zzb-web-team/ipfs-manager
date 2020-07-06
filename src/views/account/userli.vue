@@ -62,6 +62,36 @@
 								></el-option>
 							</el-select>
 						</el-form-item>
+						<el-form-item label="部门:" style="display: flex;">
+							<el-select
+								placeholder="一级部门"
+								@change="searchdepartment"
+								v-model="search_department"
+								value-key="item"
+							>
+								<el-option label="全部" value="*"></el-option>
+								<el-option
+									v-for="(item, index) in department_list"
+									:key="index"
+									:label="item.name"
+									:value="item.id"
+								></el-option>
+							</el-select>
+							<el-select
+								placeholder="二级部门"
+								@change="searchInfo"
+								v-model="search_pdepartment"
+								:disabled="partmant_disable"
+							>
+								<el-option label="全部" value="*"></el-option>
+								<el-option
+									v-for="item in pdepartment_list"
+									:key="item.ids"
+									:label="item.name"
+									:value="item.id"
+								></el-option>
+							</el-select>
+						</el-form-item>
 						<el-form-item label="职位:" style="display: flex;">
 							<el-select
 								v-model="searchposition"
@@ -89,7 +119,11 @@
 			<div class="user_devide_table">
 				<el-row type="flex" class="row_active">
 					<el-col :span="6">
-						<el-button type="primary" @click="addAccout" v-show="obnj.roleC==1">
+						<el-button
+							type="primary"
+							@click="addAccout"
+							v-show="obnj.roleC == 1"
+						>
 							新建
 							<span class="el-icon-plus"></span>
 						</el-button>
@@ -102,7 +136,7 @@
 							ref="table1"
 							tooltip-effect="dark"
 							:tableData="tableData"
-                            :obnj='obnj'
+							:obnj="obnj"
 							:ipfs_id="ipfs_id"
 							@handleSelectionChange="handleSelectionChange"
 							:clomnSelection="clomnSelection"
@@ -127,9 +161,23 @@
 						:span="6"
 						style="display: flex;justify-content: justify-content: flex-start;"
 					>
-						<el-button size="small" @click="allOn" v-show="obnj.roleU==1">启用</el-button>
-						<el-button size="small" @click="allOff"  v-show="obnj.roleU==1">禁用</el-button>
-						<el-button type="danger" size="small" @click="allDelete"  v-show="obnj.roleD==1"
+						<el-button
+							size="small"
+							@click="allOn"
+							v-show="obnj.roleU == 1"
+							>启用</el-button
+						>
+						<el-button
+							size="small"
+							@click="allOff"
+							v-show="obnj.roleU == 1"
+							>禁用</el-button
+						>
+						<el-button
+							type="danger"
+							size="small"
+							@click="allDelete"
+							v-show="obnj.roleD == 1"
 							>删除</el-button
 						>
 					</el-col>
@@ -148,7 +196,7 @@
 				:visible.sync="dialogVisible"
 				width="20%"
 				@close="handleClose"
-				title="新建用户"
+				title="新建账户"
 			>
 				<div class="addaccout">
 					<el-form
@@ -176,14 +224,23 @@
 								},
 							]"
 						>
-							<el-select v-model="ruleForm2.department">
-								<el-option
-									v-for="item in department_list"
-									:label="item.name"
-									:value="item.id"
-									:key="item.id"
+							<el-select
+								v-model="ruleForm2.department"
+								placeholder="请选择分组"
+							>
+								<el-option-group
+									v-for="group in department_list"
+									:key="group.id"
+									:label="group.name"
 								>
-								</el-option>
+									<el-option
+										v-for="item in group.children"
+										:key="item.id + item.name"
+										:label="item.name"
+										:value="item.id"
+									>
+									</el-option>
+								</el-option-group>
 							</el-select>
 						</el-form-item>
 
@@ -193,8 +250,7 @@
 							:rules="[
 								{
 									required: true,
-									message: '请填写昵称',
-									validator: jioname,
+									validator: jiousername,
 									trigger: 'blur',
 								},
 							]"
@@ -211,7 +267,6 @@
 							:rules="[
 								{
 									required: true,
-									message: '请填写账户名',
 									validator: jiousername,
 									trigger: 'blur',
 								},
@@ -219,7 +274,7 @@
 						>
 							<el-input
 								v-model="ruleForm2.username"
-								placeholder="4-20位英文加数字组合"
+								placeholder="4-20位汉字英文数字组合"
 							></el-input>
 						</el-form-item>
 						<el-form-item
@@ -296,7 +351,6 @@
 							:rules="[
 								{
 									required: true,
-									message: '请输入密码',
 									validator: jiopwd,
 									trigger: 'blur',
 								},
@@ -305,7 +359,8 @@
 							<el-input
 								v-model="ruleForm2.password"
 								type="password"
-								placeholder="6-20位数字字母_组成"
+								placeholder="8位数字字母组成"
+								maxlength="8"
 							></el-input>
 						</el-form-item>
 						<el-form-item
@@ -314,7 +369,6 @@
 							:rules="[
 								{
 									required: true,
-									message: '请再次输入密码',
 									validator: jioqpwd,
 									trigger: 'blur',
 								},
@@ -324,19 +378,14 @@
 								v-model="ruleForm2.password2"
 								placeholder="两次密码须一致"
 								type="password"
+								maxlength="8"
 							></el-input>
 						</el-form-item>
 
 						<el-form-item
 							prop="phone"
 							label="联系电话:"
-							:rules="[
-								{
-									required: true,
-									message: '请填写联系电话',
-								},
-								{ validator: jiophone, trigger: 'blur' },
-							]"
+							:rules="[{ validator: jiophone, trigger: 'blur' }]"
 						>
 							<el-input
 								v-model="ruleForm2.phone"
@@ -383,14 +432,23 @@
 							>
 						</el-form-item> -->
 						<el-form-item prop="department_id" label="部门：">
-							<el-select v-model="ruleForm3.department_id">
-								<el-option
-									v-for="item in department_list"
-									:label="item.name"
-									:value="item.id"
-									:key="item.id"
+							<el-select
+								v-model="ruleForm3.department_id"
+								placeholder="请选择分组"
+							>
+								<el-option-group
+									v-for="group in department_list"
+									:key="group.id"
+									:label="group.name"
 								>
-								</el-option>
+									<el-option
+										v-for="item in group.children"
+										:key="item.id + item.name"
+										:label="item.name"
+										:value="item.id"
+									>
+									</el-option>
+								</el-option-group>
 							</el-select>
 						</el-form-item>
 						<el-form-item
@@ -402,19 +460,21 @@
 							<el-form-item label="账户名:">
 								<el-input
 									v-model="ruleForm3.username"
-									placeholder="账号为4-20位英文加数字组合"
+									placeholder="4-20位汉字英文数字组合"
 								></el-input>
 							</el-form-item>
 						</el-form-item>
 
 						<el-form-item
 							prop="name"
-							:rules="[{ validator: jioname, trigger: 'blur' }]"
+							:rules="[
+								{ validator: jiousername, trigger: 'blur' },
+							]"
 						>
 							<el-form-item label="昵称:">
 								<el-input
 									v-model="ruleForm3.name"
-									placeholder="真实姓名为4-20位汉字数字字母组合"
+									placeholder="4-20位汉字数字字母组合"
 								></el-input>
 							</el-form-item>
 						</el-form-item>
@@ -510,9 +570,10 @@
 							<el-form-item label="新密码:">
 								<el-input
 									v-model="ruleForm4.password"
-									placeholder="6-20位数字字母_组成"
+									placeholder="8位数字字母组成"
 									type="password"
 									autocomplete="off"
+									maxlength="8"
 								></el-input>
 							</el-form-item>
 						</el-form-item>
@@ -520,9 +581,10 @@
 							<el-form-item label="确认密码:">
 								<el-input
 									v-model="ruleForm4.password2"
-									placeholder="再出输入密码"
+									placeholder="请再次输入密码"
 									type="password"
 									autocomplete="off"
+									maxlength="8"
 								></el-input>
 							</el-form-item>
 						</el-form-item>
@@ -641,7 +703,7 @@ import {
 	departmentlist,
 } from '../../servers/api';
 import common from '../../comm/js/util.js';
-import {menudisable} from '../../servers/sevdate';
+import { menudisable } from '../../servers/sevdate';
 export default {
 	data() {
 		var validatePass = (rule, value, callback) => {
@@ -670,6 +732,8 @@ export default {
 		};
 		return {
 			form: {},
+			search_department: '',
+			search_pdepartment: '',
 			dialogVisible: false,
 			rotate: false,
 			dialogVisible2: false,
@@ -703,7 +767,6 @@ export default {
 				value: '',
 				radio: '0',
 				name: '',
-				phone: '',
 				department: '',
 				sex: '',
 				position_id: '',
@@ -715,7 +778,6 @@ export default {
 				value: '',
 				radio: '0',
 				name: '',
-				phone: '',
 				id: '',
 				sex: '',
 				position_id: '',
@@ -754,6 +816,16 @@ export default {
 				//     width: '150px',
 
 				// },
+				{
+					prop: 'pdepartment_name',
+					label: '一级部门',
+					width: '150px',
+				},
+				{
+					prop: 'department_name',
+					label: '二级部门',
+					width: '150px',
+				},
 				{
 					prop: 'position_name',
 					label: '职位',
@@ -822,22 +894,23 @@ export default {
 				value: '',
 				radio: '1',
 				name: '',
-				phone: '',
 			},
 			ipfs_id: 0,
 			ipfs_user: '',
-			permission_list: [{id:0,name:'受限用户'}],
+			permission_list: [{ id: 0, name: '受限用户' }],
 			position_list: [],
 			departmentoptions: [],
-            department_list: [],
-            obnj:{},
+			department_list: [],
+			obnj: {},
+			partmant_disable: true,
+			pdepartment_list: [],
 		};
 	},
 	mounted: function() {
-		let munulist = JSON.parse(sessionStorage.getItem('menus'));
+		let munulist = JSON.parse(localStorage.getItem('menus'));
 		let pathname = this.$route.path;
-        this.obnj=menudisable(munulist, pathname);
-        console.log(this.obnj);
+		this.obnj = menudisable(munulist, pathname);
+		console.log(this.obnj);
 		this.ipfs_id = parseInt(this.$cookies.get('ipfs_id'));
 		this.ipfs_user = this.$cookies.get('ipfs_user');
 		this.queryUserList();
@@ -854,15 +927,7 @@ export default {
 				.then((res) => {
 					console.log(res);
 					if (res.status == 0) {
-						this.department_list = this.department_list.concat(
-							res.result.cols
-						);
-						if (res.result.les_count == 0) {
-							return false;
-						} else {
-							pagenum++;
-							this.getdatalist(pagenum);
-						}
+						this.department_list = res.result.tree;
 					} else {
 						this.$message(res.msg);
 					}
@@ -878,15 +943,14 @@ export default {
 			positionlist(params)
 				.then((res) => {
 					if (res.status == 0) {
-                        this.position_list = this.position_list.concat(
-								res.result.cols
-							);
+						this.position_list = this.position_list.concat(
+							res.result.cols
+						);
 						if (res.result.les_count == 0) {
 							return false;
 						} else {
 							pagenum++;
 							this.get_position_list(pagenum);
-							
 						}
 					} else {
 						this.$message(res.msg);
@@ -904,13 +968,12 @@ export default {
 			rolelist(params)
 				.then((res) => {
 					if (res.status == 0) {
-                        this.permission_list = this.permission_list.concat(
-								res.result.cols
-							);
+						this.permission_list = this.permission_list.concat(
+							res.result.cols
+						);
 						if (res.result.les_count == 0) {
 							return false;
 						} else {
-							
 							pagenum++;
 							this.get_permission_list(pagenum);
 						}
@@ -941,6 +1004,9 @@ export default {
 			this.searchText = '';
 			this.searchposition = '*';
 			this.pager.page = 1;
+			this.search_department = '';
+			this.search_pdepartment = '';
+			this.partmant_disable = true;
 			this.queryUserList();
 		},
 		handleSelectionChange(val) {
@@ -1157,6 +1223,19 @@ export default {
 			} else {
 				param.position_id = parseInt(this.searchposition);
 			}
+
+			if (this.search_department != '' && this.search_department != '*') {
+				if (
+					this.search_pdepartment != '' &&
+					this.search_pdepartment != '*'
+				) {
+					param.department_id = this.search_pdepartment;
+				} else {
+					param.department_id = this.search_department;
+				}
+			} else {
+				param.department_id = null;
+			}
 			userlist(param)
 				.then((res) => {
 					if (res.status != 0) {
@@ -1199,7 +1278,24 @@ export default {
 		},
 		//搜索
 		searchInfo() {
-            this.pager.page=1;
+			this.pager.page = 1;
+			this.queryUserList();
+		},
+		searchdepartment(value) {
+			this.department_list.forEach((item, index) => {
+				if (item.id == value) {
+					console.log(item.children);
+					this.pdepartment_list = item.children;
+				}
+			});
+			this.pager.page = 1;
+			if (this.search_department == '*' || this.search_department == '') {
+				this.partmant_disable = true;
+			} else {
+				this.partmant_disable = false;
+			}
+			this.search_pdepartment = '*';
+			console.log(this.pdepartment_list);
 			this.queryUserList();
 		},
 		getShow() {
@@ -1277,7 +1373,6 @@ export default {
 			this.ruleForm2.username = '';
 			this.ruleForm2.password = '';
 			this.ruleForm2.password2 = '';
-			this.ruleForm2.phone = '';
 			this.ruleForm2.name = '';
 		},
 		//新增--关闭按钮
@@ -1291,7 +1386,9 @@ export default {
 			this.ruleForm3.username = val.username;
 			this.ruleForm3.id = val.id;
 			this.ruleForm3.name = val.name;
-			this.ruleForm3.phone = val.phone;
+			if (val.phone) {
+				this.ruleForm3.phone = val.phone;
+			}
 			this.ruleForm3.sex = val.sex;
 			this.ruleForm3.position_id = val.position_id;
 			this.ruleForm3.nickname = val.nickname;
@@ -1364,7 +1461,9 @@ export default {
 			this.ruleForm3.username = val.username;
 			this.ruleForm3.id = val.id;
 			this.ruleForm3.name = val.name;
-			this.ruleForm3.phone = val.phone;
+			if (val.phone) {
+				this.ruleForm3.phone = val.phone;
+			}
 			this.ruleForm3.sex = val.sex;
 			this.ruleForm3.position_id = val.position_id;
 			this.ruleForm3.grouping = val.role_id;
@@ -1400,7 +1499,9 @@ export default {
 			this.ruleForm3.username = val.username;
 			this.ruleForm3.id = val.id;
 			this.ruleForm3.name = val.name;
-			this.ruleForm3.phone = val.phone;
+			if (val.phone) {
+				this.ruleForm3.phone = val.phone;
+			}
 			this.ruleForm3.sex = val.sex;
 			this.ruleForm3.position_id = val.position_id;
 			this.ruleForm3.grouping = val.role_id;
@@ -1549,7 +1650,7 @@ export default {
 				callback(new Error('请输入账号'));
 			} else {
 				// /^(?!\d+$)[\da-zA-Z]+$/;
-				var fsdusername = /^(?![0-9]+$)[0-9A-Za-z]{4,20}$/;
+				var fsdusername = /^(?![0-9]+$)[\u4e00-\u9fa50-9A-Za-z]{4,20}$/;
 				if (fsdusername.test(value) === false) {
 					callback(new Error('账号格式错误'));
 				} else {
@@ -1579,7 +1680,7 @@ export default {
 		//校验电话号
 		jiophone(rule, value, callback) {
 			if (value === '') {
-				callback(new Error('请输入手机号'));
+				callback();
 			} else {
 				var fsdtel = /^[1]([3-9])[0-9]{9}$/;
 				if (fsdtel.test(value) === false) {
@@ -1591,8 +1692,11 @@ export default {
 		},
 		//校验密码
 		jiopwd(rule, value, callback) {
-			let fsdfpwd = /^(?![\d]+$)(?![a-zA-Z]+$)(?![^\da-zA-Z]+$).{6,20}$/;
-			if (fsdfpwd.test(value) === false) {
+			// let fsdfpwd = /^(?![\d]+$)(?![a-zA-Z]+$)(?![^\da-zA-Z]+$).{6,20}$/;
+			let fsdpwd = /^[a-zA-z]\w{8}$/;
+			if (value === '') {
+				callback(new Error('请输入密码'));
+			} else if (fsdfpwd.test(value) === false) {
 				callback(new Error('密码格式错误'));
 			} else {
 				if (this.ruleForm2.password2 !== '') {

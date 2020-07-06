@@ -181,8 +181,9 @@ export default {
 			})
 				.then(() => {
 					sessionStorage.removeItem('ipfs_user');
-					sessionStorage.removeItem('ipfs_id');
-					sessionStorage.removeItem('menus');
+                    sessionStorage.removeItem('ipfs_id');
+                    // sessionStorage.removeItem('menus');
+					localStorage.removeItem('menus');
 					localStorage.removeItem('user_information');
 					_this.$cookies.remove('ipfs_user');
                     _this.$cookies.remove('ipfs_id');
@@ -211,7 +212,7 @@ export default {
 	// },
 	mounted() {
 		this.$nextTick(function() {
-			this.menlist = JSON.parse(sessionStorage.getItem('menus'));
+			this.menlist = JSON.parse(localStorage.getItem('menus'));
 		});
 		var user = this.$cookies.get('ipfs_user');
 		if (user) {

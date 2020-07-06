@@ -135,7 +135,7 @@
               </el-col>-->
             </el-row>
             <div class="device_form">
-              <el-button class="ip_upload_btn" @click="ip_upload" type="text" size="medium">
+              <el-button class="ip_upload_btn" @click="ip_upload" type="text" size="medium" v-show="menutype.roleE==1">
                 <i class="el-icon-download"></i>
               </el-button>
               <div id="myChart" :style="{ height: '300px' }"></div>
@@ -327,7 +327,7 @@
               </el-col>
             </el-row>
             <div class="device_form">
-              <el-button class="ip_upload_btn" @click="fs_upload" type="text" size="medium">
+              <el-button class="ip_upload_btn" @click="fs_upload" type="text" size="medium" v-show="menutype.roleE==1">
                 <i class="el-icon-download"></i>
               </el-button>
               <div id="myChart1" :style="{ height: '300px' }"></div>
@@ -816,7 +816,7 @@ export default {
     // this.drawLine();
     // this.drawLine1();
     // this.configure()
-     let munulist = JSON.parse(sessionStorage.getItem('menus'));
+     let munulist = JSON.parse(localStorage.getItem('menus'));
 		let pathname = this.$route.path;
 		this.menutype = menudisable(munulist, pathname);
 		console.log(this.menutype);

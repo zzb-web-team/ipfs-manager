@@ -7,8 +7,9 @@
 			</el-breadcrumb-item>
 		</el-breadcrumb>
 		<div class="search">
-			<div class="search_left">
+			<el-row type="flex">
 				<el-input
+					style="width:15%;"
 					placeholder="请输入节点id,节点ip"
 					v-model="input"
 					class="input-with-select"
@@ -20,8 +21,19 @@
 						@click="seachuser()"
 					></i>
 				</el-input>
-			</div>
-			<div class="search_right">
+				<div @click="getShow()" class="div_show" style="color:#606266">
+					筛选
+					<i
+						class="el-icon-caret-bottom"
+						:class="[
+							rotate
+								? 'fa fa-arrow-down go'
+								: 'fa fa-arrow-down aa',
+						]"
+					></i>
+				</div>
+			</el-row>
+			<div class="search_bottom" v-show="showState">
 				<span>时间：</span>
 				<el-date-picker
 					v-model="time_value"
@@ -32,6 +44,43 @@
 					@change="seachuser()"
 					:picker-options="endPickerOptions"
 				></el-date-picker>
+				<span>节点渠道商:</span>
+				<el-select
+					v-model="firstchid"
+					value-key
+					placeholder="一级渠道商"
+					@change="handleChangefirst($event)"
+				>
+					<el-option value="*" label="全部"></el-option>
+					<el-option
+						v-for="(item, index) in firstchan"
+						:key="index"
+						:label="item.name"
+						:value="item.value"
+					></el-option>
+				</el-select>
+				<el-select
+					v-model="secondchid"
+					placeholder="二级渠道商"
+					@change="seachuser()"
+					:disabled="chil_disable"
+				>
+					<el-option value="*" label="全部"></el-option>
+					<el-option
+						v-for="(item, index) in secondchan"
+						:key="index"
+						:label="item.name"
+						:value="item.value"
+					></el-option>
+				</el-select>
+
+				<el-button
+					type="primary"
+					plain
+					@click="reset()"
+					style="margin-left: 20px;"
+					>重置</el-button
+				>
 			</div>
 		</div>
 		<!-- 主体表格 -->
@@ -62,6 +111,14 @@
 			>
 				<el-table-column prop="nodeId" label="节点ID"></el-table-column>
 				<el-table-column prop="IP" label="节点IP"></el-table-column>
+				<el-table-column
+					prop="firstch"
+					label="节点一级渠道"
+				></el-table-column>
+				<el-table-column
+					prop="secondch"
+					label="节点二级渠道"
+				></el-table-column>
 				<el-table-column
 					prop="P"
 					label="当日收益[单位:积分](p)"
@@ -132,12 +189,14 @@ import {
 	dateFormat,
 	menudisable,
 } from '../../servers/sevdate';
-import { node_pf_detail, export_excel } from '@/servers/api';
+import { node_pf_detail, export_excel, get_nodetype_enum } from '@/servers/api';
 export default {
 	data() {
 		return {
 			input: '',
 			time_value: '',
+			firstchid: '',
+			secondchid: '',
 			showdisable: true,
 			order: 0,
 			pageNo: 1,
@@ -147,6 +206,9 @@ export default {
 			starttime: '',
 			endtime: '',
 			tableData: [],
+			rotate: false,
+			showState: false,
+			chil_disable: true,
 			endPickerOptions: {
 				disabledDate(time) {
 					return (
@@ -162,6 +224,8 @@ export default {
 				},
 			},
 			menutype: {},
+			firstchan: [],
+			secondchan: [],
 		};
 	},
 	components: { fenye },
@@ -183,13 +247,45 @@ export default {
 		},
 	},
 	mounted() {
-		this.seachuser();
-		let munulist = JSON.parse(sessionStorage.getItem('menus'));
+		this.get_search_data();
+		let munulist = JSON.parse(localStorage.getItem('menus'));
 		let pathname = this.$route.path;
 		this.menutype = menudisable(munulist, pathname);
 		console.log(this.menutype);
+		this.seachuser();
 	},
 	methods: {
+		getShow() {
+			this.showState = !this.showState;
+			this.rotate = !this.rotate;
+		},
+		//重置
+		reset() {
+			this.input = '';
+			this.time_value = '';
+			this.firstchid = '';
+			this.secondchid = '';
+			this.chil_disable = true;
+			this.starttime = dateFormat(new Date());
+			this.endtime = dateFormat(new Date());
+			this.seachuser();
+		},
+		get_search_data() {
+			let params = new Object();
+			params.time = '111';
+			get_nodetype_enum(params)
+				.then((res) => {
+					console.log(res);
+					if (res.status == 0) {
+						this.firstchan = res.data.firstchan;
+					} else {
+						this.$message.error(res.err_msg);
+					}
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		},
 		//收益
 		get_income_list() {
 			let params = new Object();
@@ -209,7 +305,24 @@ export default {
 			node_pf_detail(params)
 				.then((res) => {
 					console.log(res);
-					this.tableData = res.data;
+					//this.tableData = res.data;
+                    
+					res.data.forEach((item) => {
+						this.firstchan.forEach((fitem) => {
+							if (fitem.value == item.firstchannel) {
+								item.firstchname = fitem.name;
+								if (fitem.secondchan) {
+									fitem.secondchan.forEach((xime) => {
+										if (item.secondchannel == xime.value) {
+											item.secondname = xime.name;
+										}
+									});
+								}
+							}
+						});
+						this.tableData.push(item);
+					});
+
 					this.totalCnt = res.dataCount;
 					if (res.data && this.tableData.length > 0) {
 						this.showdisable = false;
@@ -226,6 +339,18 @@ export default {
 		},
 		goupdate_parameter() {
 			this.$router.push({ path: '/update_parameter' });
+		},
+		handleChangefirst(val) {
+			this.firstchan.find((item) => {
+				if (item.value === val) {
+					//筛选出匹配数据
+					this.secondchan = item.secondchan;
+					this.chil_disable = false;
+				} else {
+					this.chil_disable = true;
+				}
+			});
+			this.seachuser();
 		},
 		//搜索
 		seachuser() {
@@ -297,11 +422,38 @@ export default {
 	.search {
 		width: 100%;
 		margin-top: 20px;
-		display: flex;
-		align-items: center;
-		.search_right {
+		// display: flex;
+		// align-items: center;
+		.div_show {
+			width: auto;
+			display: flex;
+			height: 40px;
+			justify-content: center;
+			align-items: center;
+			color: #409eff;
+			cursor: pointer;
 			margin-left: 20px;
 		}
+		.search_bottom {
+			margin-top: 20px;
+			display: flex;
+			justify-content: flex-start;
+			align-items: center;
+			background: #f0f5f5;
+			padding: 17px 0;
+			border-radius: 10px;
+			span {
+				margin-left: 20px;
+			}
+		}
 	}
+}
+//旋转
+.aa {
+	transition: all 1s;
+}
+.go {
+	transform: rotate(-180deg);
+	transition: all 1s;
 }
 </style>

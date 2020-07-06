@@ -150,7 +150,7 @@ export default {
 	},
 	mounted() {
 		this.getposition_list();
-		let munulist = JSON.parse(sessionStorage.getItem('menus'));
+		let munulist = JSON.parse(localStorage.getItem('menus'));
 		let pathname = this.$route.path;
 		this.menutype = menudisable(munulist, pathname);
 		console.log(this.menutype);

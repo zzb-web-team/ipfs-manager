@@ -887,7 +887,7 @@ export default {
         this.get_search_data();
 		// this.configure();
         // this.configure1();
-        let munulist = JSON.parse(sessionStorage.getItem('menus'));
+        let munulist = JSON.parse(localStorage.getItem('menus'));
 		let pathname = this.$route.path;
 		this.menutype = menudisable(munulist, pathname);
 	},

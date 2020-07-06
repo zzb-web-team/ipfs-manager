@@ -27,6 +27,7 @@
 				:visible.sync="dialogFormVisible"
 				width="650px"
 				class="firstorganization_dialog"
+                @close='showfirsterror'
 			>
 				<el-form :model="form" ref="firstruleForm">
 					<el-form-item
@@ -68,6 +69,7 @@
 				:visible.sync="nwFormVisible"
 				width="650px"
 				class="organization_dialog"
+                @close='showerror'
 			>
 				<el-col :span="19" :offset="4">
 					<el-form :model="form" ref="ruleForm">
@@ -152,6 +154,13 @@
 						{{ scope.row.parent != '-' ? scope.row.name : '--' }}
 					</template>
 				</el-table-column>
+				<el-table-column prop="user" label="账户">
+					<template slot-scope="scope">
+						<span v-for="(item, index) in scope.row.user" :key="index">
+							{{ item.name }},
+						</span>
+					</template>
+				</el-table-column>
 				<el-table-column label="操作">
 					<template slot-scope="scope">
 						<el-button
@@ -227,7 +236,7 @@ export default {
 	mounted() {
 		this.get_firstme();
 		this.getdatalist();
-		let munulist = JSON.parse(sessionStorage.getItem('menus'));
+		let munulist = JSON.parse(localStorage.getItem('menus'));
 		let pathname = this.$route.path;
 		this.menutype = menudisable(munulist, pathname);
 		console.log(this.menutype);
@@ -379,7 +388,13 @@ export default {
 					return false;
 				}
 			});
-		},
+        },
+        showfirsterror(){
+           this.resetForm('firstruleForm'); 
+        },
+        showerror(){
+            this.resetForm('ruleForm');
+        },
 		//弹窗-取消
 		resetForm(formName) {
 			this.$refs[formName].resetFields();

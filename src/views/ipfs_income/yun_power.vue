@@ -12,8 +12,9 @@
 			</el-radio-group>
 		</div>
 		<div class="search">
-			<div class="search_left">
+			<el-row type="flex">
 				<el-input
+					style="width:15%;"
 					placeholder="请输入节点id,节点ip"
 					v-model="input"
 					class="input-with-select"
@@ -25,20 +26,76 @@
 						@click="seachuser()"
 					></i>
 				</el-input>
-			</div>
-			<div class="search_right" v-if="radio == '2'">
-				<span>时间：</span>
-				<el-date-picker
-					v-model="time_value"
-					type="daterange"
-					range-separator="至"
-					start-placeholder="开始日期"
-					end-placeholder="结束日期"
-					@change="seachuser()"
-					:picker-options="endPickerOptions"
-				></el-date-picker>
-			</div>
+				<div @click="getShow()" class="div_show" style="color:#606266">
+					筛选
+					<i
+						class="el-icon-caret-bottom"
+						:class="[
+							rotate
+								? 'fa fa-arrow-down go'
+								: 'fa fa-arrow-down aa',
+						]"
+					></i>
+				</div>
+			</el-row>
+			<el-row
+				style="margin-top: 20px;"
+				type="flex"
+				v-show="showState"
+				class="showsearch"
+			>
+				<div class="search_bottom">
+					<span>节点渠道商:</span>
+					<el-select
+						v-model="firstchid"
+						value-key
+						placeholder="一级渠道商"
+						@change="handleChangefirst($event)"
+					>
+						<el-option value="*" label="全部"></el-option>
+						<el-option
+							v-for="(item, index) in firstchan"
+							:key="index"
+							:label="item.name"
+							:value="item.value"
+						></el-option>
+					</el-select>
+					<el-select
+						v-model="secondchid"
+						placeholder="二级渠道商"
+						@change="seachuser()"
+						:disabled="chil_disable"
+					>
+						<el-option value="*" label="全部"></el-option>
+						<el-option
+							v-for="(item, index) in secondchan"
+							:key="index"
+							:label="item.name"
+							:value="item.value"
+						></el-option>
+					</el-select>
+					<span v-if="radio == '2'">时间：</span>
+					<el-date-picker
+						v-if="radio == '2'"
+						v-model="time_value"
+						type="daterange"
+						range-separator="至"
+						start-placeholder="开始日期"
+						end-placeholder="结束日期"
+						@change="seachuser()"
+						:picker-options="endPickerOptions"
+					></el-date-picker>
+				</div>
+				<el-button
+					type="primary"
+					plain
+					@click="reset()"
+					style="margin-left: 20px;"
+					>重置</el-button
+				>
+			</el-row>
 		</div>
+
 		<div>
 			<div style="text-align:right;padding: 10px;" v-if="radio == '1'">
 				<el-button
@@ -72,6 +129,14 @@
 					></el-table-column>
 					<el-table-column prop="IP" label="节点IP"></el-table-column>
 					<el-table-column
+						prop="firstch"
+						label="节点一级渠道"
+					></el-table-column>
+					<el-table-column
+						prop="secondch"
+						label="节点二级渠道"
+					></el-table-column>
+					<el-table-column
 						prop="H"
 						label="节点算力"
 					></el-table-column>
@@ -90,6 +155,14 @@
 						label="节点ID"
 					></el-table-column>
 					<el-table-column prop="IP" label="节点IP"></el-table-column>
+					<el-table-column
+						prop="firstch"
+						label="节点一级渠道"
+					></el-table-column>
+					<el-table-column
+						prop="secondch"
+						label="节点二级渠道"
+					></el-table-column>
 					<el-table-column
 						prop="HChange"
 						label="算力变化值"
@@ -135,6 +208,7 @@ import {
 	node_pv_detail,
 	exportexc,
 	export_excel,
+	get_nodetype_enum,
 } from '@/servers/api';
 export default {
 	data() {
@@ -142,6 +216,8 @@ export default {
 			radio: '1',
 			input: '',
 			time_value: '',
+			firstchid: '',
+			secondchid: '',
 			showdisable1: true,
 			showdisable2: true,
 			order: 0,
@@ -151,6 +227,9 @@ export default {
 			pagesize: 10,
 			starttime: '',
 			endtime: '',
+			rotate: false,
+			showState: false,
+			chil_disable: true,
 			tableData: [],
 			table_detail_data: [],
 			endPickerOptions: {
@@ -168,6 +247,8 @@ export default {
 				},
 			},
 			menutype: {},
+			firstchan: [],
+			secondchan: [],
 		};
 	},
 	components: { fenye },
@@ -189,16 +270,40 @@ export default {
 		},
 	},
 	mounted() {
-		this.seachuser();
-		let munulist = JSON.parse(sessionStorage.getItem('menus'));
+		this.get_search_data();
+		let munulist = JSON.parse(localStorage.getItem('menus'));
 		let pathname = this.$route.path;
 		this.menutype = menudisable(munulist, pathname);
-		console.log(this.menutype);
+		this.seachuser();
 	},
 	methods: {
+		getShow() {
+			this.showState = !this.showState;
+			this.rotate = !this.rotate;
+		},
+		reset() {
+			this.input = '';
+			this.firstchid = '';
+			this.secondchid = '';
+			this.time_value = '';
+			this.chil_disable = true;
+			this.seachuser();
+		},
 		//切换视图
 		switch_table(val) {
 			this.pageNo = 1;
+			this.seachuser();
+		},
+		handleChangefirst(val) {
+			this.firstchan.find((item) => {
+				if (item.value === val) {
+					//筛选出匹配数据
+					this.secondchan = item.secondchan;
+					this.chil_disable = false;
+				} else {
+					this.chil_disable = true;
+				}
+			});
 			this.seachuser();
 		},
 		//搜索
@@ -220,6 +325,22 @@ export default {
 				}
 			}
 		},
+		get_search_data() {
+			let params = new Object();
+			params.time = '111';
+			get_nodetype_enum(params)
+				.then((res) => {
+					console.log(res);
+					if (res.status == 0) {
+						this.firstchan = res.data.firstchan;
+					} else {
+						this.$message.error(res.err_msg);
+					}
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		},
 		//获取数据
 		get_node_h() {
 			let params = new Object();
@@ -235,7 +356,23 @@ export default {
 			params.itemCount = this.pagesize;
 			node_pv(params)
 				.then((res) => {
-					this.tableData = res.data;
+					// this.tableData = res.data;
+					res.data.forEach((item) => {
+						this.firstchan.forEach((fitem) => {
+							if (fitem.value == item.firstchannel) {
+								item.firstchname = fitem.name;
+								if (fitem.secondchan) {
+									fitem.secondchan.forEach((xime) => {
+										if (item.secondchannel == xime.value) {
+											item.secondname = xime.name;
+										}
+									});
+								}
+							}
+						});
+						this.tableData.push(item);
+					});
+
 					if (res.data && this.tableData.length > 0) {
 						this.showdisable1 = false;
 					}
@@ -268,7 +405,23 @@ export default {
 			node_pv_detail(params)
 				.then((res) => {
 					console.log(res);
-					this.table_detail_data = res.data;
+					// this.table_detail_data = res.data;
+					res.data.forEach((item) => {
+						this.firstchan.forEach((fitem) => {
+							if (fitem.value == item.firstchannel) {
+								item.firstchname = fitem.name;
+								if (fitem.secondchan) {
+									fitem.secondchan.forEach((xime) => {
+										if (item.secondchannel == xime.value) {
+											item.secondname = xime.name;
+										}
+									});
+								}
+							}
+						});
+						this.table_detail_data.push(item);
+					});
+
 					this.totalCnt = res.dataCount;
 					if (res.data && this.table_detail_data.length > 0) {
 						this.showdisable2 = false;
@@ -347,11 +500,43 @@ export default {
 	.search {
 		width: 100%;
 		margin-top: 20px;
-		display: flex;
-		align-items: center;
-		.search_right {
+		// display: flex;
+		// align-items: center;
+		.div_show {
+			width: auto;
+			display: flex;
+			height: 40px;
+			justify-content: center;
+			align-items: center;
+			color: #409eff;
+			cursor: pointer;
 			margin-left: 20px;
 		}
 	}
+	.showsearch {
+		margin-top: 20px;
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+		background: #f0f5f5;
+		padding: 17px 0;
+		border-radius: 10px;
+	}
+	.search_bottom {
+		span {
+			margin-left: 20px;
+		}
+		span:first-child {
+			margin-left: 0;
+		}
+	}
+}
+//旋转
+.aa {
+	transition: all 1s;
+}
+.go {
+	transform: rotate(-180deg);
+	transition: all 1s;
 }
 </style>

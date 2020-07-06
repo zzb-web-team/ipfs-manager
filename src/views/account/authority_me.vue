@@ -35,6 +35,7 @@
 				:visible.sync="dialogFormVisible"
 				width="850px"
 				class="organization_dialog"
+				@close="closediao"
 			>
 				<el-col :span="19" :offset="4">
 					<el-form :model="form" ref="firstruleForm">
@@ -71,7 +72,11 @@
 								</el-input>
 							</el-col>
 						</el-form-item>
-						<el-form-item label="分组用户" prop="userlist">
+						<el-form-item
+							label="分组用户"
+							prop="userlist"
+							v-show="updatadis == false"
+						>
 							<el-cascader
 								v-model="form.userlist"
 								:options="options"
@@ -82,6 +87,21 @@
 								clearable
 								:disabled="updatadis"
 							></el-cascader>
+						</el-form-item>
+						<el-form-item
+							label="分组用户"
+							prop="userid"
+							v-show="updatadis != true&&title!='新建权限分组'"
+						>
+							<el-select v-model="form.userid" multiple disabled>
+								<el-option
+									v-for="item in form.userlist"
+									:key="item.id"
+									:label="item.label"
+									:value="item.id"
+								>
+								</el-option>
+							</el-select>
 						</el-form-item>
 					</el-form>
 				</el-col>
@@ -224,6 +244,7 @@ export default {
 				title: '',
 				description: '',
 				userlist: [],
+				userid: [],
 			},
 			props: { multiple: true },
 			options: [],
@@ -262,7 +283,7 @@ export default {
 	mounted() {
 		this.get_datalist();
 		this.get_user_list();
-		let munulist = JSON.parse(sessionStorage.getItem('menus'));
+		let munulist = JSON.parse(localStorage.getItem('menus'));
 		let pathname = this.$route.path;
 		this.menutype = menudisable(munulist, pathname);
 		console.log(this.menutype);
@@ -473,14 +494,16 @@ export default {
 						let params = new Object();
 						params.name = this.form.title;
 						params.description = this.form.description;
+
 						if (this.form.userlist.length > 0) {
-							this.form.userlist.forEach((item) => {
-								if (item[2]) {
-									let str = '';
-									str = item[2] + ',';
-									params.userid += str;
-								}
-							});
+							(params.userid = ''),
+								this.form.userlist.forEach((item) => {
+									if (item[2]) {
+										let str = '';
+										str = item[2] + ',';
+										params.userid += str;
+									}
+								});
 							params.userid = params.userid.substring(
 								0,
 								params.userid.length - 1
@@ -527,6 +550,9 @@ export default {
 					return false;
 				}
 			});
+		},
+		closediao() {
+			this.resetForm('firstruleForm');
 		},
 		//弹窗-取消
 		resetForm(formName) {
@@ -634,18 +660,22 @@ export default {
 		},
 		//修改
 		updatahandleClick(data) {
+			console.log(data);
 			let _this = this;
-			_this.form.userlist = [];
+			this.form.userid = [];
 			this.title = '权限分组修改';
 			this.dialogFormVisible = true;
 			this.updatadis = true;
 			this.form.title = data.name;
 			this.form.description = data.description;
 			this.form.id = data.id;
+			this.form.userlist = data.user;
 			if (data.user.length > 0) {
+				this.updatadis = false;
 				var id_list = '';
 				let params = new Object();
 				data.user.forEach((item) => {
+					this.form.userid.push(item.label);
 					id_list += item.id + ',';
 				});
 				params.userid = id_list.slice(0, -1);
@@ -670,12 +700,12 @@ export default {
 			let params = new Object();
 			let userstr = '';
 			if (data.user) {
+				params.userid = '';
 				data.user.forEach((item) => {
 					userstr += item.id + ',';
 				});
 				params.userid = userstr.slice(0, -1);
 			}
-			params.userid = '';
 			params.roleid = data.id;
 			delrole(params)
 				.then((res) => {

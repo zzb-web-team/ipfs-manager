@@ -89,6 +89,7 @@
 						placeholder="一级渠道商"
 						@change="handleChangefirst($event)"
 					>
+						<el-option value="*" label="全部"></el-option>
 						<el-option
 							v-for="(item, index) in firstchan"
 							:key="index"
@@ -102,6 +103,7 @@
 						@change="handleChange()"
 						:disabled="chil_disable"
 					>
+						<el-option value="*" label="全部"></el-option>
 						<el-option
 							v-for="(item, index) in secondchan"
 							:key="index"
@@ -165,7 +167,7 @@
 							:disabled="item.disabled"
 						></el-option>
 					</el-select>
-                    <el-button
+					<el-button
 						plain
 						@click="resetseach()"
 						class="resetseach_btn"
@@ -191,7 +193,7 @@
 		<!-- 主体表格 -->
 		<div style="text-align:right;padding:0 10px 10px 10px;">
 			<el-button
-            v-show="menutype.roleE==1"
+				v-show="menutype.roleE == 1"
 				type="primary"
 				@click="export_Excel()"
 				:disabled="show_export"
@@ -330,7 +332,7 @@
 							>详情</el-button
 						>
 						<el-button
-                        v-show="menutype.roleU==1"
+							v-show="menutype.roleU == 1"
 							@click="qiClick(scope.row)"
 							type="text"
 							size="small"
@@ -339,7 +341,7 @@
 							>启用</el-button
 						>
 						<el-button
-                        v-show="menutype.roleU==1"
+							v-show="menutype.roleU == 1"
 							@click="jinClick(scope.row)"
 							type="text"
 							size="small"
@@ -352,12 +354,18 @@
 			</el-table-column>
 		</el-table>
 		<div class="bottom_btn" v-if="tableData.length > 0">
-			<el-button @click="all_qiClick()" type="text" size="small"
-            v-show="menutype.roleU==1"
+			<el-button
+				@click="all_qiClick()"
+				type="text"
+				size="small"
+				v-show="menutype.roleU == 1"
 				>启用</el-button
 			>
-			<el-button @click="all_jinClick()" type="text" size="small"
-            v-show="menutype.roleU==1"
+			<el-button
+				@click="all_jinClick()"
+				type="text"
+				size="small"
+				v-show="menutype.roleU == 1"
 				>禁用</el-button
 			>
 		</div>
@@ -367,7 +375,7 @@
 			@fathernum="gettol"
 			:pagesa="total_cnt"
 			:currentPage="currentPage"
-            ref="paginations"
+			ref="paginations"
 			v-if="tableData.length > 0"
 		></fenye>
 	</div>
@@ -381,7 +389,7 @@ import {
 	get_nodetype_enum,
 	nodeinfo_export,
 } from '../../servers/api';
-import{menudisable} from"../../servers/sevdate"
+import { menudisable } from '../../servers/sevdate';
 import axios from 'axios';
 export default {
 	data() {
@@ -674,15 +682,15 @@ export default {
 			citydata: {},
 			tolpage_export: 0,
 			tableData_export: [],
-            temporary_arr: [],
-            menutype:{},
+			temporary_arr: [],
+			menutype: {},
 		};
 	},
 	mounted() {
 		this.getJson();
 		this.get_search_data();
-        this.getdatalist();
-         let munulist = JSON.parse(sessionStorage.getItem('menus'));
+		this.getdatalist();
+		let munulist = JSON.parse(localStorage.getItem('menus'));
 		let pathname = this.$route.path;
 		this.menutype = menudisable(munulist, pathname);
 	},
@@ -940,7 +948,7 @@ export default {
 		},
 		//重置
 		resetseach() {
-            this.$refs.paginations.$data.currentPage=1;
+			this.$refs.paginations.$data.currentPage = 1;
 			this.value = -1;
 			this.value1 = '';
 			this.value2 = '';

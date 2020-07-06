@@ -149,11 +149,8 @@ export default {
 		};
 	},
 	mounted() {
-        console.log(this.$cookies.get('ipfs_id'));
-        console.log(this.$cookies.get('ipfs_path'));
 		if (this.$cookies.get('ipfs_id')) {
-
-			if (!this.$cookies.get('ipfs_path')) {
+			if (!JSON.parse(localStorage.getItem('menus'))) {
 				this.$router.push({ path: '/error404' });
 			} else {
 				this.$router.push({
@@ -161,6 +158,7 @@ export default {
 				});
 			}
 		}
+		
 	},
 	methods: {
 		handleReset2() {
@@ -231,7 +229,11 @@ export default {
 					if (res.status == 0) {
 						console.log(res.data);
 						if (res.data && res.data.length > 0) {
-							sessionStorage.setItem(
+							// sessionStorage.setItem(
+							// 	'menus',
+							// 	JSON.stringify(res.data)
+							// );
+							localStorage.setItem(
 								'menus',
 								JSON.stringify(res.data)
 							);
