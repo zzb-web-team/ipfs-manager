@@ -143,7 +143,7 @@
 				<el-select
 					v-model="devicevalue"
 					placeholder="请选择设备类型"
-					@change="getipfsdata"
+					@change="searchdata"
 				>
 					<el-option label="全部" value=""></el-option>
 					<el-option
@@ -157,7 +157,7 @@
 				<el-select
 					v-model="hardwarevalue"
 					placeholder="请选择设备类型"
-					@change="getipfsdata"
+					@change="searchdata"
 				>
 					<el-option label="全部" value=""></el-option>
 					<el-option
@@ -171,7 +171,7 @@
 				<el-select
 					v-model="osvalue"
 					placeholder="请选择设备类型"
-					@change="getipfsdata"
+					@change="searchdata"
 				>
 					<el-option label="全部" value=""></el-option>
 					<el-option
@@ -185,7 +185,7 @@
 				<el-select
 					v-model="operatovalue"
 					placeholder="请选择设备类型"
-					@change="getipfsdata"
+					@change="searchdata"
 				>
 					<el-option label="全部" value=""></el-option>
 					<el-option
@@ -199,7 +199,7 @@
 			</div>
 			<div>
 				<span>排序：</span>
-				<el-select v-model="value" placeholder="请选择排序方式" @change="getipfsdata">
+				<el-select v-model="value" placeholder="请选择排序方式" @change="searchdata">
 					<el-option
 						v-for="item in options"
 						:key="item.value"
@@ -443,6 +443,10 @@ export default {
         this.get_search_data();
 	},
 	methods: {
+        searchdata(){
+            this.currentPage=1;
+            this.getipfsdata();
+        },
         uopset() {
 			this.operatovalue = '';
 			this.osvalue = '';
@@ -519,7 +523,7 @@ export default {
 			parmas.state = -1;
 			parmas.province = this.citys;
 			parmas.city = '';
-			parmas.page = this.pageNo - 1;
+			parmas.page = this.currentPage - 1;
 			parmas.isp =  this.operatovalue;
 			parmas.os = this.osvalue;
 			parmas.arch = this.hardwarevalue;
@@ -621,7 +625,7 @@ export default {
 		},
 		//获取页码
 		getpage(pages) {
-			this.pageNo = pages;
+			this.currentPage = pages;
 			this.getipfsdata();
 		},
 		//获取每页数量

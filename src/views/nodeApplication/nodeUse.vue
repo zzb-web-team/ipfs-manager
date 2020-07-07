@@ -65,7 +65,7 @@
 								></el-option>
 							</el-select>
 							<el-cascader
-								style="margin-left:10px;"
+								style="margin-left:10px;width: 8%;"
 								placeholder="请选择区域"
 								v-model="valuea"
 								:options="optionsafs"
@@ -149,6 +149,7 @@
 						<!--  -->
 						<div class="device_form" style>
 							<el-button
+								v-show="menutype.roleE == 1"
 								class="ip_upload_btn"
 								@click="ip_upload"
 								type="text"
@@ -212,7 +213,9 @@
 										>
 											<template slot-scope="scope"
 												>{{
-													scope.row.percent
+													(
+														scope.row.percent * 100
+													).toFixed(2)
 												}}%</template
 											>
 										</el-table-column>
@@ -235,7 +238,7 @@
 								@fathernum="gettol"
 								:pagesa="totalCnt"
 								:currentPage="currentPage"
-								v-if="tableData.length > 0"
+								v-show="tableData.length > 0"
 							></fenye>
 						</div>
 					</el-tab-pane>
@@ -380,6 +383,7 @@
 						<!--  -->
 						<div class="device_form" style>
 							<el-button
+								v-show="menutype.roleE == 1"
 								class="ip_upload_btn"
 								@click="fs_upload"
 								type="text"
@@ -428,7 +432,7 @@
 													>{{
 														(
 															scope.row
-																.totalUsage /
+																.storeUsage /
 															1024 /
 															1024 /
 															1024
@@ -443,7 +447,11 @@
 										>
 											<template slot-scope="scope"
 												>{{
-													scope.row.usagePercent
+													(
+														scope.row
+															.storeUsagePercent *
+														100
+													).toFixed(2)
 												}}%</template
 											>
 										</el-table-column>
@@ -465,8 +473,8 @@
 								@fatherMethod="getpagefs"
 								@fathernum="gettolfs"
 								:pagesa="fs_totalCnt"
-								:currentPage="currentPage"
-								v-if="fs_tableData.length > 0"
+								:currentPage="currentPagefs"
+								v-show="fs_tableData.length > 0"
 							></fenye>
 						</div>
 					</el-tab-pane>
@@ -478,14 +486,14 @@
 
 <script>
 import echarts from 'echarts';
-import fenye from '../../components/cloudfenye';
+import fenye from '../../components/fenye';
 import {
 	getlocaltimes,
 	settime,
 	getymdtime,
 	setbatime,
-    getday,
-    menudisable
+	getday,
+	menudisable,
 } from '../../servers/sevdate';
 import {
 	ipfs_dataflow_query_conditions,
@@ -503,6 +511,7 @@ export default {
 	data() {
 		return {
 			currentPage: 1,
+			currentPagefs: 1,
 			city_disable_fs: true,
 			city_disable_ip: true,
 			activeName: 'first',
@@ -522,67 +531,6 @@ export default {
 			chil_disable: true,
 			chil_disable_fs: true,
 			pickerOptions: {
-				shortcuts: [
-					{
-						text: '今天',
-						onClick(picker) {
-							const end = new Date();
-							const start = new Date(
-								new Date(
-									new Date().toLocaleDateString()
-								).getTime()
-							);
-							picker.$emit('pick', [start, end]);
-						},
-					},
-					{
-						text: '昨天',
-						onClick(picker) {
-							const end = new Date(
-								new Date(
-									new Date().toLocaleDateString()
-								).getTime()
-							);
-							const start = new Date(
-								new Date(
-									new Date().toLocaleDateString()
-								).getTime() -
-									3600 * 24 * 1 * 1000
-							);
-							picker.$emit('pick', [start, end]);
-						},
-					},
-					{
-						text: '最近一周',
-						onClick(picker) {
-							const end = new Date();
-							const start = new Date(
-								new Date(
-									new Date().toLocaleDateString()
-								).getTime()
-							);
-							start.setTime(
-								start.getTime() - 3600 * 1000 * 24 * 6
-							);
-							picker.$emit('pick', [start, end]);
-						},
-					},
-					{
-						text: '最近一个月',
-						onClick(picker) {
-							const end = new Date();
-							const start = new Date(
-								new Date(
-									new Date().toLocaleDateString()
-								).getTime()
-							);
-							start.setTime(
-								start.getTime() - 3600 * 1000 * 24 * 6
-							);
-							picker.$emit('pick', [start, end]);
-						},
-					},
-				],
 				disabledDate(time) {
 					return (
 						time.getTime() >
@@ -874,8 +822,8 @@ export default {
 			firstchan: [
 				//一级渠道商
 			],
-            secondchan: [],
-            menutype:{}
+			secondchan: [],
+			menutype: {},
 		};
 	},
 	mounted() {
@@ -883,11 +831,11 @@ export default {
 			new Date(new Date().toLocaleDateString()).getTime() / 1000;
 		this.endtime = Date.parse(new Date()) / 1000;
 		this.getseachinput();
-        this.ip_surve();
-        this.get_search_data();
+		this.ip_surve();
+		this.get_search_data();
 		// this.configure();
-        // this.configure1();
-        let munulist = JSON.parse(localStorage.getItem('menus'));
+		// this.configure1();
+		let munulist = JSON.parse(localStorage.getItem('menus'));
 		let pathname = this.$route.path;
 		this.menutype = menudisable(munulist, pathname);
 	},
@@ -935,18 +883,40 @@ export default {
 			} else {
 				params.region = '*';
 			}
-			if (this.valueb !== ''&&this.valueb !== '全部') {
+			if (this.valueb !== '' && this.valueb !== '全部') {
 				params.city = this.valueb;
 			} else {
 				params.city = '*';
 			}
-			if (this.valuec !== '') {
-				params.time_unit = parseInt(this.valuec);
+
+			if (this.firstvalue == '') {
+				params.first_channel = '*';
 			} else {
-				params.time_unit = 120;
+				params.first_channel = this.firstvalue;
 			}
+			if (this.secondvalue == '') {
+				params.second_channel = '*';
+			} else {
+				params.second_channel = this.secondvalue;
+			}
+			if (this.devtypevalue == '') {
+				params.device_type = '*';
+			} else {
+				params.device_type = this.devtypevalue;
+			}
+			if (this.ispvalue == '') {
+				params.isp = '*';
+			} else {
+				params.isp = this.ispvalue;
+			}
+
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime;
+			if (params.end_ts - params.start_ts >= 2592000) {
+				params.time_unit = 1440;
+			} else {
+				params.time_unit = 5;
+			}
 			query_ipfs_dataflow_avg_usage_curve(params)
 				.then((res) => {
 					this.avgDataFlowUtily = [];
@@ -981,13 +951,34 @@ export default {
 			} else {
 				params.city = '*';
 			}
-			if (this.valuecfs !== '') {
-				params.time_unit = parseInt(this.valuecfs);
+			if (this.firstvalue_fs == '') {
+				params.first_channel = '*';
 			} else {
-				params.time_unit = 120;
+				params.first_channel = this.firstvalue_fs;
 			}
+			if (this.secondvalue_fs == '') {
+				params.second_channel = '*';
+			} else {
+				params.second_channel = this.secondvalue_fs;
+			}
+			if (this.devtypevalue_fs == '') {
+				params.device_type = '*';
+			} else {
+				params.device_type = this.devtypevalue_fs;
+			}
+			if (this.ispvalue_fs == '') {
+				params.isp = '*';
+			} else {
+				params.isp = this.ispvalue_fs;
+			}
+
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime;
+			if (params.end_ts - params.start_ts >= 2592000) {
+				params.time_unit = 1440;
+			} else {
+				params.time_unit = 5;
+			}
 			query_ip_store_avg_usage_curve(params)
 				.then((res) => {
 					this.avgUsageArray = [];
@@ -1017,21 +1008,40 @@ export default {
 			} else {
 				params.region = '*';
 			}
-			if (this.valueb !== ''&&this.valueb != '全部') {
+			if (this.valueb !== '' && this.valueb != '全部') {
 				params.city = this.valueb;
 			} else {
 				params.city = '*';
 			}
-			if (this.valuec !== '') {
-				params.time_unit = parseInt(this.valuec);
+			if (this.firstvalue == '') {
+				params.first_channel = '*';
 			} else {
-				params.time_unit = 120;
+				params.first_channel = this.firstvalue;
 			}
-
+			if (this.secondvalue == '') {
+				params.second_channel = '*';
+			} else {
+				params.second_channel = this.secondvalue;
+			}
+			if (this.devtypevalue == '') {
+				params.device_type = '*';
+			} else {
+				params.device_type = this.devtypevalue;
+			}
+			if (this.ispvalue == '') {
+				params.isp = '*';
+			} else {
+				params.isp = this.ispvalue;
+			}
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime;
-			params.pageNo = this.fs_pageNo - 1;
+			params.pageNo = this.currentPage - 1;
 			params.pageSize = this.fs_pageSize;
+			if (params.end_ts - params.start_ts >= 2592000) {
+				params.time_unit = 1440;
+			} else {
+				params.time_unit = 5;
+			}
 			query_ipfs_dataflow_avg_usage_table(params)
 				.then((res) => {
 					this.tableData = [];
@@ -1061,15 +1071,35 @@ export default {
 			} else {
 				params.city = '*';
 			}
-			if (this.valuecfs !== '') {
-				params.time_unit = parseInt(this.valuecfs);
+			if (this.firstvalue_fs == '') {
+				params.first_channel = '*';
 			} else {
-				params.time_unit = 120;
+				params.first_channel = this.firstvalue_fs;
+			}
+			if (this.secondvalue_fs == '') {
+				params.second_channel = '*';
+			} else {
+				params.second_channel = this.secondvalue_fs;
+			}
+			if (this.devtypevalue_fs == '') {
+				params.device_type = '*';
+			} else {
+				params.device_type = this.devtypevalue_fs;
+			}
+			if (this.ispvalue_fs == '') {
+				params.isp = '*';
+			} else {
+				params.isp = this.ispvalue_fs;
 			}
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime;
-			params.pageNo = this.fs_pageNo - 1;
+			params.pageNo = this.currentPagefs - 1;
 			params.pageSize = this.fs_pageSize;
+			if (params.end_ts - params.start_ts >= 2592000) {
+				params.time_unit = 1440;
+			} else {
+				params.time_unit = 5;
+			}
 			query_ip_store_avg_usage_table(params)
 				.then((res) => {
 					this.fs_tableData = [];
@@ -1084,8 +1114,8 @@ export default {
 		},
 		//选项卡
 		handleClick(tab, event) {
-			this.valuec = 60;
-			this.valuecfs = 60;
+			this.valuec = 5;
+			this.valuecfs = 5;
 			this.starttime =
 				new Date(new Date().toLocaleDateString()).getTime() / 1000;
 			this.endtime = Date.parse(new Date()) / 1000;
@@ -1130,11 +1160,12 @@ export default {
 		//搜索
 		onseach(stat) {
 			if (stat === 'fs') {
+				this.valuecfs = 5;
 				if (this.value2fs) {
 					this.starttime = setbatime(this.value2fs[0]);
 					this.endtime = setbatime(this.value2fs[1]);
-					if (this.endtime - this.starttime < 86400) {
-						this.valuecfs = 60;
+					if (this.endtime - this.starttime < 43200) {
+						this.valuecfs = 5;
 					} else {
 						this.valuecfs = 1440;
 					}
@@ -1144,14 +1175,15 @@ export default {
 						1000;
 					this.endtime = Date.parse(new Date()) / 1000;
 				}
-				this.valuecfs = 60;
+
 				this.fs_curve();
 			} else {
+				this.valuecfs = 5;
 				if (this.value2) {
 					this.starttime = setbatime(this.value2[0]);
 					this.endtime = setbatime(this.value2[1]);
-					if (this.endtime - this.starttime < 86400) {
-						this.valuec = 60;
+					if (this.endtime - this.starttime < 43200) {
+						this.valuec = 5;
 					} else {
 						this.valuec = 1440;
 					}
@@ -1161,7 +1193,7 @@ export default {
 						1000;
 					this.endtime = Date.parse(new Date()) / 1000;
 				}
-				this.valuecfs = 60;
+
 				this.ip_surve();
 			}
 		},
@@ -1189,10 +1221,10 @@ export default {
 				new Date(new Date().toLocaleDateString()).getTime() / 1000;
 			this.endtime = Date.parse(new Date()) / 1000;
 			if (mark == 'fs') {
-				this.valuecfs = 60;
+				this.valuecfs = 5;
 				this.fs_curve();
 			} else {
-				this.valuec = 60;
+				this.valuec = 5;
 				this.ip_surve();
 			}
 		},
@@ -1204,10 +1236,10 @@ export default {
 			this.endtime =
 				new Date(new Date().toLocaleDateString()).getTime() / 1000;
 			if (mark == 'fs') {
-				this.valuecfs = 60;
+				this.valuecfs = 5;
 				this.fs_curve();
 			} else {
-				this.valuecfs = 60;
+				this.valuecfs = 5;
 				this.ip_surve();
 			}
 		},
@@ -1241,7 +1273,7 @@ export default {
 		},
 		//获取页码--ip
 		getpage(pages) {
-			this.pageNo = pages;
+			this.currentPage = pages;
 			this.get_ip_table();
 		},
 		//获取每页数量--ip
@@ -1251,7 +1283,7 @@ export default {
 		},
 		//获取页码--fs
 		getpagefs(pages) {
-			this.fs_pageNo = pages;
+			this.currentPagefs = pages;
 			this.get_ip_table();
 		},
 		//获取每页数量--ip
@@ -1288,7 +1320,7 @@ export default {
 			if (this.valuecfs !== '') {
 				params.time_unit = parseInt(this.valuecfs);
 			} else {
-				params.time_unit = 120;
+				params.time_unit = 5;
 			}
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime;
@@ -1303,17 +1335,9 @@ export default {
 							this.fs_tableData_upload,
 							'节点利用率FS存储'
 						);
-						this.fan.fanactionlog(
-							'导出',
-							'节点利用率FS存储',
-							1
-						);
+						this.fan.fanactionlog('导出', '节点利用率FS存储', 1);
 					} else {
-						this.fan.fanactionlog(
-							'导出',
-							'节点利用率FS存储',
-							0
-						);
+						this.fan.fanactionlog('导出', '节点利用率FS存储', 0);
 					}
 				})
 				.catch((error) => {
@@ -1341,7 +1365,7 @@ export default {
 			if (this.valuec !== '') {
 				params.time_unit = parseInt(this.valuec);
 			} else {
-				params.time_unit = 120;
+				params.time_unit = 5;
 			}
 
 			params.start_ts = this.starttime;
@@ -1357,17 +1381,9 @@ export default {
 							this.ip_tableData_upload,
 							'节点利用率IP流量'
 						);
-						this.fan.fanactionlog(
-							'导出',
-							'节点利用率IP流量',
-							1
-						);
+						this.fan.fanactionlog('导出', '节点利用率IP流量', 1);
 					} else {
-						this.fan.fanactionlog(
-							'导出',
-							'节点利用率IP流量',
-							0
-						);
+						this.fan.fanactionlog('导出', '节点利用率IP流量', 0);
 					}
 				})
 				.catch((error) => {
@@ -1384,6 +1400,15 @@ export default {
 				xAxis: {
 					type: 'category',
 					data: this.timeArray,
+				},
+				tooltip: {
+					trigger: 'axis',
+					axisPointer: {
+						type: 'cross',
+						crossStyle: {
+							color: '#999',
+						},
+					},
 				},
 				yAxis: [
 					// type: 'value'
@@ -1488,6 +1513,15 @@ export default {
 						show: true,
 					},
 				],
+				tooltip: {
+					trigger: 'axis',
+					axisPointer: {
+						type: 'cross',
+						crossStyle: {
+							color: '#999',
+						},
+					},
+				},
 				grid: {
 					x: 50,
 					y: 50,

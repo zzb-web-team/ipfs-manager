@@ -89,7 +89,7 @@
 						placeholder="一级渠道商"
 						@change="handleChangefirst($event)"
 					>
-						<el-option value="*" label="全部"></el-option>
+						<el-option value="" label="全部"></el-option>
 						<el-option
 							v-for="(item, index) in firstchan"
 							:key="index"
@@ -103,7 +103,7 @@
 						@change="handleChange()"
 						:disabled="chil_disable"
 					>
-						<el-option value="*" label="全部"></el-option>
+						<el-option value="" label="全部"></el-option>
 						<el-option
 							v-for="(item, index) in secondchan"
 							:key="index"
@@ -117,6 +117,7 @@
 						placeholder="请选择"
 						@change="seachipfs"
 					>
+                    <el-option value="" label="全部"></el-option>
 						<el-option
 							v-for="item in device_type"
 							:key="item.name"
@@ -131,6 +132,7 @@
 						placeholder="请选择"
 						@change="seachipfs"
 					>
+                     <el-option value="" label="全部"></el-option>
 						<el-option
 							v-for="item in arch"
 							:key="item.name"
@@ -145,6 +147,7 @@
 						placeholder="请选择"
 						@change="seachipfs"
 					>
+                     <el-option value="" label="全部"></el-option>
 						<el-option
 							v-for="item in os"
 							:key="item.name"
@@ -159,6 +162,7 @@
 						placeholder="请选择"
 						@change="seachipfs"
 					>
+                     <el-option value="" label="全部"></el-option>
 						<el-option
 							v-for="item in isp"
 							:key="item.value"
@@ -382,7 +386,7 @@
 </template>
 
 <script>
-import fenye from '@/components/cloudfenye';
+import fenye from '@/components/fenye';
 import {
 	query_node,
 	filter_node,
@@ -670,7 +674,7 @@ export default {
 				//一级渠道商
 			],
 			secondchan: [],
-			value1: '',
+			value1: -1,
 			total_cnt: 1,
 			tolpage: 0,
 			pagesize: 10,
@@ -735,22 +739,26 @@ export default {
 			});
 		},
 		provinceChange(value) {
+            this.currentPage=1;
 			if (value == -1) {
 				this.value1 = -1;
 				this.city_disable = true;
 				this.city_detil = '';
 				this.getdatalist();
 			} else {
-				this.options_city = this.citydata[value[1]].cities;
+                this.options_city = this.citydata[value[1]].cities;
+                console.log(this.options_city)
 				this.city_disable = false;
 				this.city_detil = '';
 				this.getdatalist();
 			}
 		},
 		handleChange(value) {
+            this.currentPage=1;
 			this.getdatalist();
 		},
 		handleChangefirst(val) {
+            this.currentPage=1;
 			this.firstchan.find((item) => {
 				if (item.value === val) {
 					//筛选出匹配数据
@@ -763,6 +771,7 @@ export default {
 			this.getdatalist();
 		},
 		handleChange_node(value) {
+            this.currentPage=1;
 			this.getdatalist();
 		},
 		//请求数据
@@ -809,7 +818,7 @@ export default {
 			} else {
 				parmas.city = this.city_detil;
 			}
-			parmas.page = this.tolpage;
+			parmas.page = this.currentPage-1;
 			parmas.order = 0;
 			query_node(parmas)
 				.then((res) => {
@@ -931,7 +940,7 @@ export default {
 		},
 		//获取页码
 		getpage(pages) {
-			this.tolpage = pages;
+			this.currentPage = pages;
 			this.getdatalist();
 		},
 		//获取每页数量
@@ -941,16 +950,18 @@ export default {
 		},
 		//搜索按钮
 		seachipfs() {
+            this.currentPage=1;
 			this.getdatalist();
 		},
 		seach() {
+            this.currentPage=1;
 			this.getdatalist();
 		},
 		//重置
 		resetseach() {
-			this.$refs.paginations.$data.currentPage = 1;
+            this.currentPage=1;
 			this.value = -1;
-			this.value1 = '';
+			this.value1 = -1;
 			this.value2 = '';
 			this.seachinput = '';
 			this.city_disable = true;

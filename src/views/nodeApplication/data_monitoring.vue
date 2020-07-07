@@ -346,7 +346,7 @@ import {
 	ipfs_monit_storage,
 	ipfs_monit_tid,
 } from '@/servers/api';
-import { getday, setbatime, get_units, formatBkb } from '../../servers/sevdate';
+import { getday, setbatime, get_units, formatBkb,menudisable } from '../../servers/sevdate';
 import echarts from 'echarts';
 export default {
 	data() {
@@ -650,10 +650,20 @@ export default {
 			endtime: 0,
 			citydata: {},
 			options_city: [],
-			city_disable: true,
+            city_disable: true,
+            echartsexport:true,
+            obnj:{},
 		};
 	},
 	mounted() {
+        let munulist = JSON.parse(localStorage.getItem('menus'));
+		let pathname = this.$route.path;
+		this.obnj = menudisable(munulist, pathname);
+        if(this.obnj.roleE==1){
+            this.echartsexport=true
+        }else{
+            this.echartsexport=false;
+        }
 		this.getJson();
 		this.starttime =
 			new Date(new Date().toLocaleDateString()).getTime() / 1000 -
@@ -1846,7 +1856,8 @@ export default {
 				let mean = sum / arr.length;
 				return mean;
 			}
-		},
+        },
+        exportant_dataflow(){},
 		firstsharts(echartsdata) {
 			let _this = this;
 			let chartdom = document.getElementById('firstChart');
@@ -1860,8 +1871,14 @@ export default {
 				},
 				toolbox: {
 					feature: {
-						saveAsImage: {
-							pixelRatio: 2,
+                        mydow: {
+							show: _this.echartsexport,
+							title: '导出',
+							icon:
+								'path://M552 586.178l60.268-78.53c13.45-17.526 38.56-20.83 56.085-7.38s20.829 38.56 7.38 56.085l-132 172c-16.012 20.863-47.454 20.863-63.465 0l-132-172c-13.45-17.526-10.146-42.636 7.38-56.085 17.525-13.45 42.635-10.146 56.084 7.38L472 586.177V152c0-22.091 17.909-40 40-40s40 17.909 40 40v434.178zM832 512c0-22.091 17.909-40 40-40s40 17.909 40 40v288c0 61.856-50.144 112-112 112H224c-61.856 0-112-50.144-112-112V512c0-22.091 17.909-40 40-40s40 17.909 40 40v288c0 17.673 14.327 32 32 32h576c17.673 0 32-14.327 32-32V512z',
+							onclick: function() {
+								_this.exportant_dataflow();
+							},
 						},
 					},
 				},
@@ -1996,8 +2013,14 @@ export default {
 				},
 				toolbox: {
 					feature: {
-						saveAsImage: {
-							pixelRatio: 2,
+                        mydow: {
+							show: _this.echartsexport,
+							title: '导出',
+							icon:
+								'path://M552 586.178l60.268-78.53c13.45-17.526 38.56-20.83 56.085-7.38s20.829 38.56 7.38 56.085l-132 172c-16.012 20.863-47.454 20.863-63.465 0l-132-172c-13.45-17.526-10.146-42.636 7.38-56.085 17.525-13.45 42.635-10.146 56.084 7.38L472 586.177V152c0-22.091 17.909-40 40-40s40 17.909 40 40v434.178zM832 512c0-22.091 17.909-40 40-40s40 17.909 40 40v288c0 61.856-50.144 112-112 112H224c-61.856 0-112-50.144-112-112V512c0-22.091 17.909-40 40-40s40 17.909 40 40v288c0 17.673 14.327 32 32 32h576c17.673 0 32-14.327 32-32V512z',
+							onclick: function() {
+								_this.exportant_dataflow();
+							},
 						},
 					},
 				},
@@ -2069,8 +2092,14 @@ export default {
 				},
 				toolbox: {
 					feature: {
-						saveAsImage: {
-							pixelRatio: 2,
+                        mydow: {
+							show: _this.echartsexport,
+							title: '导出',
+							icon:
+								'path://M552 586.178l60.268-78.53c13.45-17.526 38.56-20.83 56.085-7.38s20.829 38.56 7.38 56.085l-132 172c-16.012 20.863-47.454 20.863-63.465 0l-132-172c-13.45-17.526-10.146-42.636 7.38-56.085 17.525-13.45 42.635-10.146 56.084 7.38L472 586.177V152c0-22.091 17.909-40 40-40s40 17.909 40 40v434.178zM832 512c0-22.091 17.909-40 40-40s40 17.909 40 40v288c0 61.856-50.144 112-112 112H224c-61.856 0-112-50.144-112-112V512c0-22.091 17.909-40 40-40s40 17.909 40 40v288c0 17.673 14.327 32 32 32h576c17.673 0 32-14.327 32-32V512z',
+							onclick: function() {
+								_this.exportant_dataflow();
+							},
 						},
 					},
 				},
@@ -2127,8 +2156,14 @@ export default {
 				},
 				toolbox: {
 					feature: {
-						saveAsImage: {
-							pixelRatio: 2,
+                        mydow: {
+							show: _this.echartsexport,
+							title: '导出',
+							icon:
+								'path://M552 586.178l60.268-78.53c13.45-17.526 38.56-20.83 56.085-7.38s20.829 38.56 7.38 56.085l-132 172c-16.012 20.863-47.454 20.863-63.465 0l-132-172c-13.45-17.526-10.146-42.636 7.38-56.085 17.525-13.45 42.635-10.146 56.084 7.38L472 586.177V152c0-22.091 17.909-40 40-40s40 17.909 40 40v434.178zM832 512c0-22.091 17.909-40 40-40s40 17.909 40 40v288c0 61.856-50.144 112-112 112H224c-61.856 0-112-50.144-112-112V512c0-22.091 17.909-40 40-40s40 17.909 40 40v288c0 17.673 14.327 32 32 32h576c17.673 0 32-14.327 32-32V512z',
+							onclick: function() {
+								_this.exportant_dataflow();
+							},
 						},
 					},
 				},

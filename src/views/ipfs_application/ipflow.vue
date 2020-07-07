@@ -310,7 +310,7 @@
 </template>
 
 <script>
-import fenye from '@/components/cloudfenye';
+import fenye from '@/components/fenye';
 import { query_ip_usage_table, get_nodetype_enum } from '@/servers/api';
 import {
 	getlocaltimes,

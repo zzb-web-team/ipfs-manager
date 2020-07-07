@@ -184,14 +184,14 @@
                   </el-table>
                 </el-col>
               </el-row>
-              <!-- <fenye
+              <fenye
 								style="float:right;margin:10px 0 20px 0;"
 								@fatherMethod="getpage"
 								@fathernum="gettol"
 								:pagesa="totalCnt"
 								:currentPage="currentPage"
-								v-if="tableData.length > 0"
-              ></fenye>-->
+								v-show="tableData.length > 0"
+              ></fenye>
             </div>
           </el-tab-pane>
           <el-tab-pane label="FS存储" name="second">
@@ -380,14 +380,14 @@
                   </el-table>
                 </el-col>
               </el-row>
-              <!-- <fenye
+              <fenye
 								style="float:right;margin:10px 0 20px 0;"
 								@fatherMethod="getpagefs"
 								@fathernum="gettolfs"
 								:pagesa="fs_totalCnt"
-								:currentPage="currentPage"
-								v-if="fs_tableData.length > 0"
-              ></fenye>-->
+								:currentPage="fs_currentPage"
+								v-show="fs_tableData.length > 0"
+              ></fenye>
             </div>
           </el-tab-pane>
         </el-tabs>
@@ -398,7 +398,7 @@
 
 <script>
 import echarts from "echarts";
-import fenye from "../../components/cloudfenye";
+import fenye from "../../components/fenye";
 import axios from "axios";
 import {
   getlocaltimes,
@@ -420,6 +420,7 @@ export default {
   data() {
     return {
       currentPage: 1,
+      fs_currentPage:1,
       activeName: "first",
       input: "",
       firstvaluea: '',
@@ -858,7 +859,7 @@ export default {
         this.value1 = -1;
         this.city_disable_ip = true;
         this.valueb = "";
-        this.fs_curve();
+        this.ip_curve();
       } else {
         this.city_disable_ip = false;
         this.valueb = "";
@@ -888,7 +889,11 @@ export default {
         params.ipfsId = "*";
       }
       if (this.valuea !== "") {
-        params.region = this.valuea[1];
+          if(this.valuea==-1){
+              params.region = "*";
+          }else{
+              params.region = this.valuea[1];
+          }
       } else {
         params.region = "*";
       }
@@ -901,8 +906,29 @@ export default {
       } else {
         params.city = "*";
       }
+        if(this.firstvaluea==''){
+            params.first_channel="*";
+        }else{
+            params.first_channel=this.firstvalue;
+        }
+        if(this.secondvalue==''){
+            params.second_channel="*";
+        }else{
+            params.second_channel=this.secondvalue;
+        }
+        if(this.devtypevalue==''){
+            params.device_type="*";
+        }else{
+            params.device_type=this.devtypevalue;
+        }
+        params.time_unit=this.time_unit;
       params.start_ts = this.starttime;
       params.end_ts = this.endtime;
+      if(params.end_ts-params.start_ts>=2592000){
+          params.time_unit=1440
+      }else{
+          params.time_unit=5
+      }
       query_ipfs_dataflow_curve(params)
         .then(res => {
           this.totalOutputCnt = "";
@@ -961,8 +987,28 @@ export default {
       } else {
         params.time_unit = 120;
       }
+        if(this.firstvaluea_fs==''){
+            params.first_channel="*";
+        }else{
+            params.first_channel=this.firstvaluea_fs;
+        }
+        if(this.secondvalue_fs==''){
+            params.second_channel="*";
+        }else{
+            params.second_channel=this.secondvalue_fs;
+        }
+        if(this.devtypevalue_fs==''){
+            params.device_type="*";
+        }else{
+            params.device_type=this.devtypevalue_fs;
+        }
       params.start_ts = this.starttime;
       params.end_ts = this.endtime;
+      if(params.end_ts-params.start_ts>=2592000){
+          params.time_unit=1440
+      }else{
+          params.time_unit=5
+      }
       query_ip_store_details_curve(params)
         .then(res => {
           this.totalStoreTimes = "";
@@ -1010,16 +1056,36 @@ export default {
       } else {
         params.city = "*";
       }
+      if(this.firstvaluea==''){
+            params.first_channel="*";
+        }else{
+            params.first_channel=this.firstvalue;
+        }
+        if(this.secondvalue==''){
+            params.second_channel="*";
+        }else{
+            params.second_channel=this.secondvalue;
+        }
+        if(this.devtypevalue==''){
+            params.device_type="*";
+        }else{
+            params.device_type=this.devtypevalue;
+        }
       params.start_ts = this.starttime;
       params.end_ts = this.endtime;
-      params.pageNo = this.pageNo - 1;
+      params.pageNo = this.currentPage - 1;
       params.pageSize = this.pageSize;
+      if(params.end_ts-params.start_ts>=2592000){
+          params.time_unit=1440
+      }else{
+          params.time_unit=5
+      }
       query_ipfs_dataflow_table(params)
         .then(res => {
           this.tableData = [];
           if (res.status == 0) {
             this.tableData = res.data.list;
-            this.totalCnt = res.data.totalCnt;
+            this.totalCnt = res.data.totalPageCnt;
           } else {
             this.$message.error(res.errMsg);
           }
@@ -1034,7 +1100,11 @@ export default {
         params.ipfs_id = "*";
       }
       if (this.valueafs !== "") {
-        params.region = this.valueafs[1];
+          if (this.valueafs == -1) {
+          params.region = "*";
+        } else {
+          params.region = this.valueafs[1];
+        }
       } else {
         params.region = "*";
       }
@@ -1048,10 +1118,30 @@ export default {
       } else {
         params.time_unit = 120;
       }
+      if(this.firstvaluea_fs==''){
+            params.first_channel="*";
+        }else{
+            params.first_channel=this.firstvaluea_fs;
+        }
+        if(this.secondvalue_fs==''){
+            params.second_channel="*";
+        }else{
+            params.second_channel=this.secondvalue_fs;
+        }
+        if(this.devtypevalue_fs==''){
+            params.device_type="*";
+        }else{
+            params.device_type=this.devtypevalue_fs;
+        }
       params.start_ts = this.starttime;
       params.end_ts = this.endtime;
-      params.pageNo = this.fs_pageNo - 1;
+      params.pageNo = this.fs_currentPage - 1;
       params.pageSize = this.fs_pageSize;
+      if(params.end_ts-params.start_ts>=2592000){
+          params.time_unit=1440
+      }else{
+          params.time_unit=5
+      }
       query_ip_store_details_table(params)
         .then(res => {
           this.fs_tableData = [];
@@ -1279,7 +1369,7 @@ export default {
     },
     //获取页码--ip
     getpage(pages) {
-      this.pageNo = pages;
+      this.currentPage = pages;
       this.get_ip_table();
     },
     //获取每页数量--ip
@@ -1289,8 +1379,8 @@ export default {
     },
     //获取页码--fs
     getpagefs(pages) {
-      this.fs_pageNo = pages;
-      this.get_ip_table();
+      this.fs_currentPage = pages;
+      this.get_fs_table();
     },
     //获取每页数量--ip
     gettolfs(pagetol) {
@@ -1314,7 +1404,15 @@ export default {
         title: {
           text: "流量"
         },
-        tooltip: {},
+        tooltip: {
+					trigger: 'axis',
+					axisPointer: {
+						type: 'cross',
+						crossStyle: {
+							color: '#999',
+						},
+					},
+				},
         xAxis: {
           data: this.timeArray
         },
@@ -1383,14 +1481,14 @@ export default {
           text: "存储"
         },
         tooltip: {
-          trigger: "axis",
-          axisPointer: {
-            type: "cross",
-            label: {
-              backgroundColor: "#6a7985"
-            }
-          }
-        },
+					trigger: 'axis',
+					axisPointer: {
+						type: 'cross',
+						crossStyle: {
+							color: '#999',
+						},
+					},
+				},
         xAxis: {
           data: this.fs_timeArray
         },

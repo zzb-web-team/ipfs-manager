@@ -61,13 +61,14 @@
 							<el-col :span="11">
 								<el-input
 									type="textarea"
-									:autosize="{ minRows: 3, maxRows: 1 }"
+									:autosize="{ minRows: 6, maxRows: 1 }"
 									placeholder="请输入内容"
 									maxlength="30"
 									v-model="form.description"
 									show-word-limit
 									collapse-tags
 									:show-all-levels="false"
+                                    style="white-space:pre-wrap;"
 								>
 								</el-input>
 							</el-col>
@@ -75,7 +76,7 @@
 						<el-form-item
 							label="分组用户"
 							prop="userlist"
-							v-show="updatadis == false"
+							v-show="updatadis == true||title=='新建权限分组'"
 						>
 							<el-cascader
 								v-model="form.userlist"
@@ -85,7 +86,6 @@
 								ref="refSubCat"
 								:show-all-levels="false"
 								clearable
-								:disabled="updatadis"
 							></el-cascader>
 						</el-form-item>
 						<el-form-item
@@ -290,6 +290,7 @@ export default {
 	},
 	methods: {
 		search() {
+            this.currentPage=1;
 			this.get_datalist();
 		},
 		get_datalist() {
@@ -529,8 +530,21 @@ export default {
 						params.roleid = this.form.id;
 						params.name = this.form.title;
 						params.description = this.form.description;
-						params.data = [];
-
+						params.userid = '';
+                        if (this.form.userlist.length > 0) {
+							(params.userid = ''),
+								this.form.userlist.forEach((item) => {
+									if (item[2]) {
+										let str = '';
+										str = item[2] + ',';
+										params.userid += str;
+									}
+								});
+							params.userid = params.userid.substring(
+								0,
+								params.userid.length - 1
+							);
+						}
 						updaterole(params)
 							.then((res) => {
 								this.form.title = '';

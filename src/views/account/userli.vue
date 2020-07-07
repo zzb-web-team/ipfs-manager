@@ -224,24 +224,27 @@
 								},
 							]"
 						>
-							<el-select
-								v-model="ruleForm2.department"
-								placeholder="请选择分组"
-							>
-								<el-option-group
-									v-for="group in department_list"
-									:key="group.id"
-									:label="group.name"
+							<el-col :span="22">
+								<el-select
+									style="width:100%"
+									v-model="ruleForm2.department"
+									placeholder="请选择部门"
 								>
-									<el-option
-										v-for="item in group.children"
-										:key="item.id + item.name"
-										:label="item.name"
-										:value="item.id"
+									<el-option-group
+										v-for="group in department_list"
+										:key="group.id"
+										:label="group.name"
 									>
-									</el-option>
-								</el-option-group>
-							</el-select>
+										<el-option
+											v-for="item in group.children"
+											:key="item.id + item.name"
+											:label="item.name"
+											:value="item.id"
+										>
+										</el-option>
+									</el-option-group>
+								</el-select>
+							</el-col>
 						</el-form-item>
 
 						<el-form-item
@@ -250,14 +253,14 @@
 							:rules="[
 								{
 									required: true,
-									validator: jiousername,
+									validator: jioname,
 									trigger: 'blur',
 								},
 							]"
 						>
 							<el-input
 								v-model="ruleForm2.name"
-								placeholder="4-20位汉字数字字母组合"
+								placeholder="请输入昵称"
 							></el-input>
 						</el-form-item>
 
@@ -274,7 +277,7 @@
 						>
 							<el-input
 								v-model="ruleForm2.username"
-								placeholder="4-20位汉字英文数字组合"
+								placeholder="请输入账户名"
 							></el-input>
 						</el-form-item>
 						<el-form-item
@@ -288,13 +291,21 @@
 								},
 							]"
 						>
-							<el-select
-								v-model="ruleForm2.sex"
-								placeholder="请选择性别"
-							>
-								<el-option label="男" value="男"></el-option>
-								<el-option label="女" value="女"></el-option>
-							</el-select>
+							<el-col :span="22">
+								<el-select
+									v-model="ruleForm2.sex"
+									placeholder="请选择性别"
+								>
+									<el-option
+										label="男"
+										value="男"
+									></el-option>
+									<el-option
+										label="女"
+										value="女"
+									></el-option>
+								</el-select>
+							</el-col>
 						</el-form-item>
 						<el-form-item
 							label="职位:"
@@ -307,18 +318,20 @@
 								},
 							]"
 						>
-							<el-select
-								v-model="ruleForm2.position_id"
-								placeholder="请选择职位"
-							>
-								<el-option
-									v-for="item in position_list"
-									:key="item.id"
-									:label="item.name"
-									:value="item.id"
+							<el-col :span="22">
+								<el-select
+									v-model="ruleForm2.position_id"
+									placeholder="请选择职位"
 								>
-								</el-option>
-							</el-select>
+									<el-option
+										v-for="item in position_list"
+										:key="item.id"
+										:label="item.name"
+										:value="item.id"
+									>
+									</el-option>
+								</el-select>
+							</el-col>
 						</el-form-item>
 						<el-form-item
 							label="分组:"
@@ -326,23 +339,25 @@
 							:rules="[
 								{
 									required: true,
-									message: '请选择分组',
+									message: '请选择部门',
 									trigger: 'change',
 								},
 							]"
 						>
-							<el-select
-								v-model="ruleForm2.grouping"
-								placeholder="请选择分组"
-							>
-								<el-option
-									v-for="item in permission_list"
-									:key="item.id"
-									:label="item.name"
-									:value="item.id"
+							<el-col :span="22">
+								<el-select
+									v-model="ruleForm2.grouping"
+									placeholder="请选择部门"
 								>
-								</el-option>
-							</el-select>
+									<el-option
+										v-for="item in permission_list"
+										:key="item.id"
+										:label="item.name"
+										:value="item.id"
+									>
+									</el-option>
+								</el-select>
+							</el-col>
 						</el-form-item>
 
 						<el-form-item
@@ -359,7 +374,7 @@
 							<el-input
 								v-model="ruleForm2.password"
 								type="password"
-								placeholder="8位数字字母组成"
+								placeholder="请输入密码"
 								maxlength="8"
 							></el-input>
 						</el-form-item>
@@ -390,7 +405,7 @@
 							<el-input
 								v-model="ruleForm2.phone"
 								maxlength="11"
-								placeholder="11位有效手机号"
+								placeholder="请输入联系电话"
 							></el-input>
 						</el-form-item>
 
@@ -411,6 +426,7 @@
 			</el-dialog>
 
 			<el-dialog
+				v-if="addDialogVisible"
 				:visible.sync="dialogVisible2"
 				width="20%"
 				@close="handleClose2"
@@ -431,101 +447,160 @@
 								>禁用</el-radio
 							>
 						</el-form-item> -->
-						<el-form-item prop="department_id" label="部门：">
-							<el-select
-								v-model="ruleForm3.department_id"
-								placeholder="请选择分组"
-							>
-								<el-option-group
-									v-for="group in department_list"
-									:key="group.id"
-									:label="group.name"
+						<el-form-item
+							prop="department_id"
+							label="部门："
+							:rules="[
+								{
+									required: true,
+									message: '请选择部门',
+									trigger: 'change',
+								},
+							]"
+						>
+							<el-col :span="22">
+								<el-select
+									v-model="ruleForm3.department_id"
+									placeholder="请选择分组"
+								>
+									<el-option-group
+										v-for="group in department_list"
+										:key="group.id"
+										:label="group.name"
+									>
+										<el-option
+											v-for="item in group.children"
+											:key="item.id + item.name"
+											:label="item.name"
+											:value="item.id"
+										>
+										</el-option>
+									</el-option-group>
+								</el-select>
+							</el-col>
+						</el-form-item>
+						<el-form-item
+							label="账户名:"
+							prop="username"
+							:rules="[
+								{
+									required: true,
+									validator: jiousername,
+									trigger: 'blur',
+								},
+							]"
+						>
+							<el-input
+								v-model="ruleForm3.username"
+								placeholder="4-20位汉字英文数字组合"
+							></el-input>
+						</el-form-item>
+
+						<el-form-item
+							label="昵称:"
+							prop="name"
+							:rules="[
+								{
+									required: true,
+									validator: jioname,
+									trigger: 'blur',
+								},
+							]"
+						>
+							<el-input
+								v-model="ruleForm3.name"
+								placeholder="4-20位汉字数字字母组合"
+							></el-input>
+						</el-form-item>
+						<el-form-item
+							label="性别:"
+							prop="sex"
+							:rules="[
+								{
+									required: true,
+									message: '请选择性别',
+									trigger: 'change',
+								},
+							]"
+						>
+							<el-col :span="22">
+								<el-select
+									v-model="ruleForm3.sex"
+									placeholder="请选择性别"
 								>
 									<el-option
-										v-for="item in group.children"
-										:key="item.id + item.name"
+										label="男"
+										value="男"
+									></el-option>
+									<el-option
+										label="女"
+										value="女"
+									></el-option>
+								</el-select>
+							</el-col>
+						</el-form-item>
+						<el-form-item
+							label="职位:"
+							prop="position_id"
+							:rules="[
+								{
+									required: true,
+									message: '请选择职位',
+									trigger: 'change',
+								},
+							]"
+						>
+							<el-col :span="22">
+								<el-select
+									v-model="ruleForm3.position_id"
+									placeholder="请选择职位"
+								>
+									<el-option
+										v-for="item in position_list"
+										:key="item.id"
 										:label="item.name"
 										:value="item.id"
 									>
 									</el-option>
-								</el-option-group>
-							</el-select>
+								</el-select>
+							</el-col>
 						</el-form-item>
 						<el-form-item
-							prop="username"
+							label="分组:"
+							prop="role_id"
 							:rules="[
-								{ validator: jiousername, trigger: 'blur' },
+								{
+									required: true,
+									message: '请选择分组',
+									trigger: 'change',
+								},
 							]"
 						>
-							<el-form-item label="账户名:">
-								<el-input
-									v-model="ruleForm3.username"
-									placeholder="4-20位汉字英文数字组合"
-								></el-input>
-							</el-form-item>
-						</el-form-item>
-
-						<el-form-item
-							prop="name"
-							:rules="[
-								{ validator: jiousername, trigger: 'blur' },
-							]"
-						>
-							<el-form-item label="昵称:">
-								<el-input
-									v-model="ruleForm3.name"
-									placeholder="4-20位汉字数字字母组合"
-								></el-input>
-							</el-form-item>
-						</el-form-item>
-						<el-form-item label="性别:" prop="sex">
-							<el-select
-								v-model="ruleForm3.sex"
-								placeholder="请选择性别"
-							>
-								<el-option label="男" value="男"></el-option>
-								<el-option label="女" value="女"></el-option>
-							</el-select>
-						</el-form-item>
-						<el-form-item label="职位:" prop="position_id">
-							<el-select
-								v-model="ruleForm3.position_id"
-								placeholder="请选择职位"
-							>
-								<el-option
-									v-for="item in position_list"
-									:key="item.id"
-									:label="item.name"
-									:value="item.id"
+							<el-col :span="22">
+								<el-select
+									v-model="ruleForm3.role_id"
+									placeholder="请选择分组"
 								>
-								</el-option>
-							</el-select>
-						</el-form-item>
-						<el-form-item label="分组:" prop="role_id">
-							<el-select
-								v-model="ruleForm3.role_id"
-								placeholder="请选择分组"
-							>
-								<el-option
-									v-for="item in permission_list"
-									:key="item.id"
-									:label="item.name"
-									:value="item.id"
-								>
-								</el-option>
-							</el-select>
+									<el-option
+										v-for="item in permission_list"
+										:key="item.id"
+										:label="item.name"
+										:value="item.id"
+									>
+									</el-option>
+								</el-select>
+							</el-col>
 						</el-form-item>
 						<el-form-item
+							label="联系方式:"
 							prop="phone"
 							:rules="[{ validator: jiophone, trigger: 'blur' }]"
 						>
-							<el-form-item label="联系方式:">
-								<el-input
-									v-model="ruleForm3.phone"
-									maxlength="11"
-									placeholder="11位有效手机号"
-								></el-input>
-							</el-form-item>
+							<el-input
+								v-model="ruleForm3.phone"
+								maxlength="11"
+								placeholder="11位有效手机号"
+							></el-input>
 						</el-form-item>
 						<el-form-item
 							style="width:100%;display: flex;justify-content:center;"
@@ -736,6 +811,7 @@ export default {
 			search_pdepartment: '',
 			dialogVisible: false,
 			rotate: false,
+			addDialogVisible: false,
 			dialogVisible2: false,
 			dialogVisible3: false,
 			dialogVisible4: false,
@@ -780,6 +856,7 @@ export default {
 				name: '',
 				id: '',
 				sex: '',
+				phone: '',
 				position_id: '',
 				role_id: '',
 				department_id: '',
@@ -1417,6 +1494,7 @@ export default {
 				.then(() => {
 					userupdate(param).then((data) => {
 						this.dialogVisible2 = false;
+						this.addDialogVisible = false;
 						let { msg, status, user } = data;
 						if (status !== 0) {
 							this.$message({
@@ -1458,6 +1536,7 @@ export default {
 		toChange(val) {
 			console.log(val);
 			this.dialogVisible2 = true;
+			this.addDialogVisible = true;
 			this.ruleForm3.username = val.username;
 			this.ruleForm3.id = val.id;
 			this.ruleForm3.name = val.name;
@@ -1472,7 +1551,11 @@ export default {
 			this.ruleForm3.department_id = val.department_id;
 			this.ruleForm3.sex = val.sex;
 			this.ruleForm3.position_id = val.position_id;
-			//this.ruleForm3.status = parseInt(this.ruleForm3.radio)
+			if (val.status == '启用') {
+				this.ruleForm3.status = 0;
+			} else {
+				this.ruleForm3.status = 1;
+			}
 		},
 		//修改--关闭按钮
 		handleClose2() {
@@ -1560,12 +1643,13 @@ export default {
 			this.$refs.ruleForm3.validate((valid) => {
 				if (valid) {
 					var loginParams = this.ruleForm3;
-					this.ruleForm3.status = parseInt(this.ruleForm3.radio);
+					// this.ruleForm3.status = parseInt(this.ruleForm3.radio);
 					loginParams.uid = this.ipfs_id;
 					loginParams.uname = this.ipfs_user;
 					console.log(loginParams);
 					userupdate(loginParams).then((data) => {
 						this.dialogVisible2 = false;
+						this.addDialogVisible = false;
 						let { msg, status, user } = data;
 						if (status !== 0) {
 							this.$message({
@@ -1602,6 +1686,7 @@ export default {
 		//取消修改
 		nohandleSubmit4(formName) {
 			this.dialogVisible2 = false;
+			this.addDialogVisible = false;
 			this.$refs[formName].resetFields();
 		},
 		//重置密码确认
@@ -1647,7 +1732,7 @@ export default {
 		//校验账户名
 		jiousername(rule, value, callback) {
 			if (value === '') {
-				callback(new Error('请输入账号'));
+				callback(new Error('请输入账号(4-20位汉字字母数字组合)'));
 			} else {
 				// /^(?!\d+$)[\da-zA-Z]+$/;
 				var fsdusername = /^(?![0-9]+$)[\u4e00-\u9fa50-9A-Za-z]{4,20}$/;
@@ -1661,25 +1746,32 @@ export default {
 		//校验真实姓名
 		jioname(rule, value, callback) {
 			if (value === '') {
-				callback(new Error('请输入真实姓名'));
+				callback(new Error('请输入昵称(4-20位汉字字母数字组合)'));
 			} else {
-				//var fsdname = /^[\u4e00-\u9fa5\dA-Za-z]{2,10}$|^[\dA-Za-z]{4,20}$/;
-				var fsdname = /^[\u4e00-\u9fa5]{2,10}$/;
-				if (fsdname.test(value) === false) {
-					callback(new Error('真实姓名格式错误'));
+				var fsdusername = /^(?![0-9]+$)[\u4e00-\u9fa50-9A-Za-z]{4,20}$/;
+				if (fsdusername.test(value) === false) {
+					callback(new Error('昵称格式错误'));
 				} else {
-					var fsdname2 = /^[0-9]{1,20}$/;
-					if (fsdname2.test(value)) {
-						callback(new Error('真实姓名格式错误'));
-					} else {
-						callback();
-					}
+					callback();
 				}
+				//var fsdname = /^[\u4e00-\u9fa5\dA-Za-z]{2,10}$|^[\dA-Za-z]{4,20}$/;
+				// var fsdname = /^[\u4e00-\u9fa5]{2,10}$/;
+				// if (fsdname.test(value) === false) {
+				// 	callback(new Error('昵称格式错误'));
+				// } else {
+				// 	var fsdname2 = /^[0-9]{1,20}$/;
+				// 	if (fsdname2.test(value)) {
+				// 		callback(new Error('昵称格式错误'));
+				// 	} else {
+				// 		callback();
+				// 	}
+				// }
 			}
 		},
 		//校验电话号
 		jiophone(rule, value, callback) {
-			if (value === '') {
+			console.log(value);
+			if (!value) {
 				callback();
 			} else {
 				var fsdtel = /^[1]([3-9])[0-9]{9}$/;
@@ -1693,9 +1785,9 @@ export default {
 		//校验密码
 		jiopwd(rule, value, callback) {
 			// let fsdfpwd = /^(?![\d]+$)(?![a-zA-Z]+$)(?![^\da-zA-Z]+$).{6,20}$/;
-			let fsdpwd = /^[a-zA-z]\w{8}$/;
+             let fsdfpwd=/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8}$/
 			if (value === '') {
-				callback(new Error('请输入密码'));
+				callback(new Error('请输入密码(8位字母数字组合)'));
 			} else if (fsdfpwd.test(value) === false) {
 				callback(new Error('密码格式错误'));
 			} else {

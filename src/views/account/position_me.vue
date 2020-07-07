@@ -22,6 +22,7 @@
 				:visible.sync="dialogFormVisible"
 				width="650px"
 				class="posi_dialog"
+				@close="showerror"
 			>
 				<el-col :span="19" :offset="4">
 					<el-form :model="form" ref="firstruleForm">
@@ -153,7 +154,6 @@ export default {
 		let munulist = JSON.parse(localStorage.getItem('menus'));
 		let pathname = this.$route.path;
 		this.menutype = menudisable(munulist, pathname);
-		console.log(this.menutype);
 	},
 	methods: {
 		getposition_list() {
@@ -161,7 +161,6 @@ export default {
 			params.page = this.currentPage - 1;
 			positionlist(params)
 				.then((res) => {
-					console.log(res);
 					if (res.status == 0) {
 						this.tableData = res.result.cols;
 						if (params.page == 0) {
@@ -194,7 +193,8 @@ export default {
 						params.name = this.form.nuname;
 						addposition(params)
 							.then((res) => {
-								console.log(res);
+								this.form.nuname = '';
+								this.form.id = '';
 								if (res.status == 0) {
 									this.$message.success('添加成功');
 									this.form.nuname = '';
@@ -212,6 +212,8 @@ export default {
 						parame.name = this.form.nuname;
 						updateposition(parame)
 							.then((res) => {
+								this.form.nuname = '';
+								this.form.id = '';
 								if (res.status == 0) {
 									this.$message.success('修改成功');
 									this.form.nuname = '';
@@ -230,8 +232,15 @@ export default {
 				}
 			});
 		},
+		showerror() {
+			this.form.nuname = '';
+			this.form.id = '';
+			this.resetForm('firstruleForm');
+		},
 		//弹窗-取消
 		resetForm(formName) {
+			this.form.nuname = '';
+			this.form.id = '';
 			this.$refs[formName].resetFields();
 			this.dialogFormVisible = false;
 		},
@@ -245,7 +254,6 @@ export default {
 			}
 		},
 		handleClick(data) {
-			console.log(data);
 			this.form.nuname = data.name;
 			this.form.id = data.id;
 			this.diatitle = '修改职位';
@@ -260,7 +268,6 @@ export default {
 				obj.id = data.id;
 				params.ids.push(obj);
 			} else {
-				console.log(this.multipleSelection);
 				this.multipleSelection.forEach((item) => {
 					let obj = {};
 					obj.id = item.id;
@@ -269,7 +276,6 @@ export default {
 			}
 			delposition(params)
 				.then((res) => {
-					console.log(res);
 					if (res.status == 0) {
 						this.$message({
 							message: '删除成功',
@@ -338,7 +344,7 @@ export default {
 		.btn_area {
 			margin-top: 20px;
 			margin-bottom: 20px;
-            height: 40px;
+			height: 40px;
 		}
 	}
 }

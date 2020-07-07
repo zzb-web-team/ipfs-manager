@@ -180,7 +180,7 @@
 </template>
 
 <script>
-import fenye from '@/components/cloudfenye';
+import fenye from '@/components/fenye';
 import {
 	getlocaltimes,
 	settime,
@@ -300,7 +300,7 @@ export default {
 			params.dateStart = this.starttime;
 			params.dateEnd = this.endtime;
 			params.order = this.order;
-			params.curPage = this.pageNo - 1;
+			params.curPage = this.currentPage - 1;
 			params.itemCount = this.pagesize;
 			node_pf_detail(params)
 				.then((res) => {
@@ -341,6 +341,7 @@ export default {
 			this.$router.push({ path: '/update_parameter' });
 		},
 		handleChangefirst(val) {
+            this.currentPage=1;
 			this.firstchan.find((item) => {
 				if (item.value === val) {
 					//筛选出匹配数据
@@ -354,6 +355,7 @@ export default {
 		},
 		//搜索
 		seachuser() {
+            this.currentPage=1;
 			if (this.time_value != '' && this.time_value != null) {
 				this.starttime = dateFormat(this.time_value[0]);
 				this.endtime = dateFormat(this.time_value[1]);
@@ -396,7 +398,7 @@ export default {
 		},
 		//获取页码
 		getpage(pages) {
-			this.pageNo = pages;
+			this.currentPage = pages;
 			this.get_income_list();
 		},
 		//获取每页数量

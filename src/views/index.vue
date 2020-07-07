@@ -50,7 +50,10 @@
 								:index="item.path"
 								:key="item.path"
 								style="text-align: left;"
-								v-show="item.name != '设备监控'&&item.name != 'IPFS程序管理'"
+								v-show="
+									item.name != '设备监控' &&
+										item.name != 'IPFS程序管理'
+								"
 							>
 								<template slot="title">
 									<i
@@ -97,7 +100,8 @@
 										:key="itemChild.path"
 										v-show="
 											itemChild.name != '个人中心' &&
-												itemChild.name != '节点详情'
+												itemChild.name != '节点详情' &&
+												itemChild.name != '调整收益参数'
 										"
 									>
 										<i :class="itemChild.icon"></i>
@@ -181,13 +185,13 @@ export default {
 			})
 				.then(() => {
 					sessionStorage.removeItem('ipfs_user');
-                    sessionStorage.removeItem('ipfs_id');
-                    // sessionStorage.removeItem('menus');
+					sessionStorage.removeItem('ipfs_id');
+					// sessionStorage.removeItem('menus');
 					localStorage.removeItem('menus');
 					localStorage.removeItem('user_information');
 					_this.$cookies.remove('ipfs_user');
-                    _this.$cookies.remove('ipfs_id');
-                    _this.$cookies.remove('ipfs_path');
+					_this.$cookies.remove('ipfs_id');
+					_this.$cookies.remove('ipfs_path');
 					_this.$router.push('/');
 				})
 				.catch(() => {});
