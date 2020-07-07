@@ -1435,7 +1435,7 @@ export default {
 
 						type: 'line',
 						symbol: 'none',
-						smooth: true,
+						smooth:true,
 						itemStyle: {
 							normal: {
 								color: '#09b0f5',
@@ -1535,7 +1535,7 @@ export default {
 
 						type: 'line',
 						symbol: 'none',
-						smooth: true,
+						smooth:true,
 						itemStyle: {
 							normal: {
 								color: '#09b0f5',

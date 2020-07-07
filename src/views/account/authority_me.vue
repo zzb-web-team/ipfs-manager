@@ -68,7 +68,7 @@
 									show-word-limit
 									collapse-tags
 									:show-all-levels="false"
-                                    style="white-space:pre-wrap;"
+									style="white-space:pre-wrap;"
 								>
 								</el-input>
 							</el-col>
@@ -76,7 +76,9 @@
 						<el-form-item
 							label="分组用户"
 							prop="userlist"
-							v-show="updatadis == true||title=='新建权限分组'"
+							v-show="
+								updatadis == true || title == '新建权限分组'
+							"
 						>
 							<el-cascader
 								v-model="form.userlist"
@@ -91,7 +93,9 @@
 						<el-form-item
 							label="分组用户"
 							prop="userid"
-							v-show="updatadis != true&&title!='新建权限分组'"
+							v-show="
+								updatadis != true && title != '新建权限分组'
+							"
 						>
 							<el-select v-model="form.userid" multiple disabled>
 								<el-option
@@ -290,7 +294,7 @@ export default {
 	},
 	methods: {
 		search() {
-            this.currentPage=1;
+			this.currentPage = 1;
 			this.get_datalist();
 		},
 		get_datalist() {
@@ -531,7 +535,7 @@ export default {
 						params.name = this.form.title;
 						params.description = this.form.description;
 						params.userid = '';
-                        if (this.form.userlist.length > 0) {
+						if (this.form.userlist.length > 0) {
 							(params.userid = ''),
 								this.form.userlist.forEach((item) => {
 									if (item[2]) {
@@ -571,6 +575,10 @@ export default {
 		//弹窗-取消
 		resetForm(formName) {
 			this.$refs[formName].resetFields();
+			this.form.title = '';
+			this.form.titledescription = '';
+			this.form.titleuserlist = [];
+			this.form.titleuserid = [];
 			this.dialogFormVisible = false;
 		},
 		//配置权限

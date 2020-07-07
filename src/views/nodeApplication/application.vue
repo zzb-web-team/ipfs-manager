@@ -1429,6 +1429,7 @@ export default {
           {
             name: "流量",
             type: "bar",
+            smooth:true,
             barWidth: 30, //柱图宽度
             data: this.dataFlowArray
           }
@@ -1506,6 +1507,7 @@ export default {
             type: "line",
             barWidth: 30, //柱图宽度
             data: this.storeUsageArray,
+            smooth:true,
             itemStyle: {
               normal: {
                 color: "#09b0f5"

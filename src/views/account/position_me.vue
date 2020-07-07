@@ -233,15 +233,13 @@ export default {
 			});
 		},
 		showerror() {
-			this.form.nuname = '';
-			this.form.id = '';
 			this.resetForm('firstruleForm');
 		},
 		//弹窗-取消
 		resetForm(formName) {
+			this.$refs[formName].resetFields();
 			this.form.nuname = '';
 			this.form.id = '';
-			this.$refs[formName].resetFields();
 			this.dialogFormVisible = false;
 		},
 		// 全选
