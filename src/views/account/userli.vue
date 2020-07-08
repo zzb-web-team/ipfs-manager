@@ -20,7 +20,7 @@
             </div>-->
 						<el-input
 							style="width:15%;"
-							placeholder="请输入帐户名"
+							placeholder="请输入帐户名、昵称"
 							@keyup.enter.native="searchInfo"
 							v-model="searchText"
 						>
@@ -627,22 +627,26 @@
 				<div class="addaccout">
 					<el-form
 						:model="ruleForm4"
-						status-icon
 						:rules="rules4"
 						ref="ruleForm4"
 						label-position="left"
 						class="demo-ruleForm"
 					>
-						<el-form-item prop="username">
-							<el-form-item label="账号:">
+					
+							<el-form-item label="账号:" prop="username">
 								<el-input
 									v-model="ruleForm3.username"
 									:disabled="true"
 								></el-input>
 							</el-form-item>
-						</el-form-item>
-						<el-form-item prop="password">
-							<el-form-item label="新密码:">
+					
+							<el-form-item prop="password" label="新密码:" :rules="[
+								{
+									required: true,
+									validator: jiopwd2,
+									trigger: 'blur',
+								},
+							]">
 								<el-input
 									v-model="ruleForm4.password"
 									placeholder="8位数字字母组成"
@@ -651,9 +655,15 @@
 									maxlength="8"
 								></el-input>
 							</el-form-item>
-						</el-form-item>
-						<el-form-item prop="password2">
-							<el-form-item label="确认密码:">
+						
+						<el-form-item prop="password2" label="确认密码:" :rules="[
+								{
+									required: true,
+									validator: jioqpwd2,
+									trigger: 'blur',
+								},
+							]">
+						
 								<el-input
 									v-model="ruleForm4.password2"
 									placeholder="请再次输入密码"
@@ -661,7 +671,7 @@
 									autocomplete="off"
 									maxlength="8"
 								></el-input>
-							</el-form-item>
+							
 						</el-form-item>
 
 						<el-form-item
@@ -1782,8 +1792,9 @@ export default {
 		},
 		//校验密码
 		jiopwd(rule, value, callback) {
-			// let fsdfpwd = /^(?![\d]+$)(?![a-zA-Z]+$)(?![^\da-zA-Z]+$).{6,20}$/;
-             let fsdfpwd=/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8}$/
+            console.log(value);
+			// let fsdfpwd = /^(?![\d]+$)(?![a-zA-Z]+$)(?![^\da-zA-Z]+$).{8}$/;
+             let fsdfpwd=/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8}$/;
 			if (value === '') {
 				callback(new Error('请输入密码(8位字母数字组合)'));
 			} else if (fsdfpwd.test(value) === false) {
@@ -1804,7 +1815,34 @@ export default {
 			} else {
 				callback();
 			}
+        },
+        //校验密码
+		jiopwd2(rule, value, callback) {
+            console.log(value);
+			// let fsdfpwd = /^(?![\d]+$)(?![a-zA-Z]+$)(?![^\da-zA-Z]+$).{8}$/;
+             let fsdfpwd=/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8}$/;
+			if (value === '') {
+				callback(new Error('请输入密码(8位字母数字组合)'));
+			} else if (fsdfpwd.test(value) === false) {
+				callback(new Error('密码格式错误'));
+			} else {
+				if (this.ruleForm4.password2 !== '') {
+					this.$refs.ruleForm4.validateField('password2');
+				}
+				callback();
+			}
 		},
+        //校验确认密码
+		jioqpwd2(rule, value, callback) {
+			if (value === '') {
+				callback(new Error('请再次输入密码'));
+			} else if (value !== this.ruleForm4.password) {
+				callback(new Error('两次输入密码不一致!'));
+			} else {
+				callback();
+			}
+        },
+        
 	},
 	components: {
 		pageNation: pageNation,
