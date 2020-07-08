@@ -247,7 +247,15 @@ export default {
 				},
 			},
 			menutype: {},
-			firstchan: [],
+			firstchan: [
+                // {
+				// 	name: '云链',   
+				// 	secondchan: [
+				// 		{ name: '云链', value: 's_computer.unknown_yunlian' },
+				// 	],
+				// 	value: 'f_computer.unknown_yunlian',
+				// },
+            ],
 			secondchan: [],
 		};
 	},
@@ -296,15 +304,21 @@ export default {
 		},
 		handleChangefirst(val) {
             this.currentPage=1;
-			this.firstchan.find((item) => {
-				if (item.value === val) {
-					//筛选出匹配数据
-					this.secondchan = item.secondchan;
-					this.chil_disable = false;
-				} else {
-					this.chil_disable = true;
-				}
-			});
+            if(val=='*'||val==''){
+                this.chil_disable = true;
+                this.secondchan=[];
+                this.secondchid='';
+            }else{
+                this.firstchan.find((item) => {
+                    if (item.value === val) {
+                        //筛选出匹配数据
+                        this.secondchan = item.secondchan;
+                        this.chil_disable = false;
+                    } else {
+                        this.chil_disable = true;
+                    }
+                });
+            }
 			this.seachuser();
 		},
 		//搜索

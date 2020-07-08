@@ -153,7 +153,7 @@
 				></el-table-column>
 				<el-table-column prop="UDBw" label="上下行带宽">
 					<template slot-scope="scope">
-						{{ scope.row.UDBw ? scope.row.UDBw : '--' }}
+						{{ !scope.row.UDBw ? '--' : scope.row.UDBw }}
 					</template>
 				</el-table-column>
 				<el-table-column
@@ -224,7 +224,15 @@ export default {
 				},
 			},
 			menutype: {},
-			firstchan: [],
+			firstchan: [
+				// {
+				// 	name: '云链',
+				// 	secondchan: [
+				// 		{ name: '云链', value: 's_computer.unknown_yunlian' },
+				// 	],
+				// 	value: 'f_computer.unknown_yunlian',
+				// },
+			],
 			secondchan: [],
 		};
 	},
@@ -306,7 +314,7 @@ export default {
 				.then((res) => {
 					console.log(res);
 					//this.tableData = res.data;
-                    
+
 					res.data.forEach((item) => {
 						this.firstchan.forEach((fitem) => {
 							if (fitem.value == item.firstchannel) {
@@ -341,21 +349,27 @@ export default {
 			this.$router.push({ path: '/update_parameter' });
 		},
 		handleChangefirst(val) {
-            this.currentPage=1;
-			this.firstchan.find((item) => {
-				if (item.value === val) {
-					//筛选出匹配数据
-					this.secondchan = item.secondchan;
-					this.chil_disable = false;
-				} else {
-					this.chil_disable = true;
-				}
-			});
+			this.currentPage = 1;
+			if (val == '*' || val == '') {
+				this.chil_disable = true;
+				this.secondchan = [];
+				this.secondchid = '';
+			} else {
+				this.firstchan.find((item) => {
+					if (item.value === val) {
+						//筛选出匹配数据
+						this.secondchan = item.secondchan;
+						this.chil_disable = false;
+					} else {
+						this.chil_disable = true;
+					}
+				});
+			}
 			this.seachuser();
 		},
 		//搜索
 		seachuser() {
-            this.currentPage=1;
+			this.currentPage = 1;
 			if (this.time_value != '' && this.time_value != null) {
 				this.starttime = dateFormat(this.time_value[0]);
 				this.endtime = dateFormat(this.time_value[1]);
