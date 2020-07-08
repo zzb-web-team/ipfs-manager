@@ -354,16 +354,6 @@ export default {
 			],
 			firstchan: [
 				//一级渠道商
-				// {
-				// 	name: '云链',
-				// 	value: 'f_computer.unknown_yunlian',
-				// 	secondchan: [
-				// 		{
-				// 			name: '云链',
-				// 			value: 's_computer.unknown_yunlian',
-				// 		},
-				// 	],
-				// },
 			],
 			chil_disable: true,
 			secondchan: [],
@@ -447,16 +437,22 @@ export default {
 	methods: {
 		handleChangefirst(val) {
             this.currentPage=1;
-			this.firstchan.find((item) => {
-				if (item.value === val) {
-					//筛选出匹配数据
-					this.secondchan = item.secondchan;
-					this.chil_disable = false;
-				} else {
-					this.chil_disable = true;
-					this.secondvalue = '*';
-				}
-			});
+            if(val=='*'||val==''){
+                this.secondvalue='*';
+                this.chil_disable = true;
+                this.secondchan=[];
+            }else{
+                this.firstchan.find((item) => {
+                    if (item.value === val) {
+                        //筛选出匹配数据
+                        this.secondchan = item.secondchan;
+                        this.chil_disable = false;
+                    } else {
+                        this.chil_disable = true;
+                        this.secondvalue = '*';
+                    }
+                });
+            }
 			this.gettab();
 		},
 		changeSort(val) {

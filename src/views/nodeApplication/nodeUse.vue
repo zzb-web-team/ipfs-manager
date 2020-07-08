@@ -32,7 +32,7 @@
 									v-for="(item, index) in firstchan"
 									:key="item.name + index"
 									:label="item.name"
-									:value="item.name"
+									:value="item.value"
 								></el-option>
 							</el-select>
 							<el-select
@@ -46,7 +46,7 @@
 								<el-option
 									v-for="(item, index) in secondchan"
 									:key="item.value + index"
-									:label="item.label"
+									:label="item.name"
 									:value="item.value"
 								></el-option>
 							</el-select>
@@ -256,7 +256,7 @@
 								@keyup.enter.native="onseach('fs')"
 							></el-input>
 							<el-select
-								v-model="firstvaluea_fs"
+								v-model="firstvalue_fs"
 								placeholder="请选择一级渠道"
 								style="margin-left:10px;width: 8%;"
 								@change="handleChangefirst_fs($event)"
@@ -266,7 +266,7 @@
 									v-for="(item, index) in firstchan"
 									:key="item.name + index"
 									:label="item.name"
-									:value="item.name"
+									:value="item.value"
 								></el-option>
 							</el-select>
 							<el-select
@@ -274,13 +274,13 @@
 								placeholder="请选择二级渠道"
 								style="margin-left:10px;width: 8%;"
 								:disabled="chil_disable_fs"
-								@change="onseach"
+								@change="onseach('fs')"
 							>
 								<el-option value="*" label="全部"></el-option>
 								<el-option
 									v-for="(item, index) in secondchan"
 									:key="item.value + index"
-									:label="item.label"
+									:label="item.name"
 									:value="item.value"
 								></el-option>
 							</el-select>
@@ -288,7 +288,7 @@
 								v-model="devtypevalue_fs"
 								placeholder="请选择硬件设备"
 								style="margin-left:10px;width: 8%;"
-								@change="onseach"
+								@change="onseach('fs')"
 							>
 								<el-option value="*" label="全部"></el-option>
 								<el-option
@@ -324,7 +324,7 @@
 								v-model="ispvalue_fs"
 								placeholder="请选择运营商"
 								style="margin-left:10px;width: 8%;"
-								@change="onseach"
+								@change="onseach('fs')"
 							>
 								<el-option value="*" label="全部"></el-option>
 								<el-option
@@ -520,7 +520,7 @@ export default {
 			secondvalue: '',
 			devtypevalue: '',
 			ispvalue: '',
-			firstvaluea_fs: '',
+			firstvalue_fs: '',
 			secondvalue_fs: '',
 			devtypevalue_fs: '',
 			ispvalue_fs: '',
@@ -821,6 +821,13 @@ export default {
 			],
 			firstchan: [
 				//一级渠道商
+				// {
+				// 	name: '云链',
+				// 	secondchan: [
+				// 		{ name: '云链', value: 's_computer.unknown_yunlian' },
+				// 	],
+				// 	value: 'f_computer.unknown_yunlian',
+				// },
 			],
 			secondchan: [],
 			menutype: {},
@@ -912,10 +919,14 @@ export default {
 
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime;
-			if (params.end_ts - params.start_ts >= 2592000) {
+			if (params.end_ts - params.start_ts > 2505600) {
 				params.time_unit = 1440;
-			} else {
+			} else if (params.end_ts - params.start_ts > 86400) {
+				params.time_unit = 60;
+			} else if (params.end_ts - params.start_ts > 21600) {
 				params.time_unit = 5;
+			} else {
+				params.time_unit = 1;
 			}
 			query_ipfs_dataflow_avg_usage_curve(params)
 				.then((res) => {
@@ -974,10 +985,14 @@ export default {
 
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime;
-			if (params.end_ts - params.start_ts >= 2592000) {
+			if (params.end_ts - params.start_ts > 2505600) {
 				params.time_unit = 1440;
-			} else {
+			} else if (params.end_ts - params.start_ts > 86400) {
+				params.time_unit = 60;
+			} else if (params.end_ts - params.start_ts > 21600) {
 				params.time_unit = 5;
+			} else {
+				params.time_unit = 1;
 			}
 			query_ip_store_avg_usage_curve(params)
 				.then((res) => {
@@ -1037,10 +1052,14 @@ export default {
 			params.end_ts = this.endtime;
 			params.pageNo = this.currentPage - 1;
 			params.pageSize = this.fs_pageSize;
-			if (params.end_ts - params.start_ts >= 2592000) {
+			if (params.end_ts - params.start_ts > 2505600) {
 				params.time_unit = 1440;
-			} else {
+			} else if (params.end_ts - params.start_ts > 86400) {
+				params.time_unit = 60;
+			} else if (params.end_ts - params.start_ts > 21600) {
 				params.time_unit = 5;
+			} else {
+				params.time_unit = 1;
 			}
 			query_ipfs_dataflow_avg_usage_table(params)
 				.then((res) => {
@@ -1095,10 +1114,14 @@ export default {
 			params.end_ts = this.endtime;
 			params.pageNo = this.currentPagefs - 1;
 			params.pageSize = this.fs_pageSize;
-			if (params.end_ts - params.start_ts >= 2592000) {
+			if (params.end_ts - params.start_ts > 2505600) {
 				params.time_unit = 1440;
-			} else {
+			} else if (params.end_ts - params.start_ts > 86400) {
+				params.time_unit = 60;
+			} else if (params.end_ts - params.start_ts > 21600) {
 				params.time_unit = 5;
+			} else {
+				params.time_unit = 1;
 			}
 			query_ip_store_avg_usage_table(params)
 				.then((res) => {
@@ -1134,27 +1157,39 @@ export default {
 			this.zidingyifs = !this.zidingyifs;
 		},
 		handleChangefirst(val) {
-			this.firstchan.find((item) => {
-				if (item.value === val) {
-					//筛选出匹配数据
-					this.secondchan = item.secondchan;
-					this.chil_disable = false;
-				} else {
-					this.chil_disable = true;
-				}
-			});
+			if (val == '*' || val == '') {
+				this.secondvalue = '';
+				this.secondchan = [];
+				this.chil_disable = true;
+			} else {
+				this.firstchan.find((item) => {
+					if (item.value === val) {
+						//筛选出匹配数据
+						this.secondchan = item.secondchan;
+						this.chil_disable = false;
+					} else {
+						this.chil_disable = true;
+					}
+				});
+			}
 			this.ip_surve();
 		},
 		handleChangefirst_fs(val) {
-			this.firstchan.find((item) => {
-				if (item.value === val) {
-					//筛选出匹配数据
-					this.secondchan = item.secondchan;
-					this.chil_disable_fs = false;
-				} else {
-					this.chil_disable_fs = true;
-				}
-			});
+			if (val == '*' || val == '') {
+				this.secondvalue_fs = '';
+				this.secondchan = [];
+				this.chil_disable_fs = true;
+			} else {
+				this.firstchan.find((item) => {
+					if (item.value === val) {
+						//筛选出匹配数据
+						this.secondchan = item.secondchan;
+						this.chil_disable_fs = false;
+					} else {
+						this.chil_disable_fs = true;
+					}
+				});
+			}
 			this.fs_curve();
 		},
 		//搜索
@@ -1435,7 +1470,7 @@ export default {
 
 						type: 'line',
 						symbol: 'none',
-						smooth:true,
+						smooth: true,
 						itemStyle: {
 							normal: {
 								color: '#09b0f5',
@@ -1535,7 +1570,7 @@ export default {
 
 						type: 'line',
 						symbol: 'none',
-						smooth:true,
+						smooth: true,
 						itemStyle: {
 							normal: {
 								color: '#09b0f5',

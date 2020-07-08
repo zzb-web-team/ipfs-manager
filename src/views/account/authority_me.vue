@@ -576,7 +576,7 @@ export default {
 		resetForm(formName) {
 			this.$refs[formName].resetFields();
 			this.form.title = '';
-			this.form.titledescription = '';
+			this.form.description = '';
 			this.form.titleuserlist = [];
 			this.form.titleuserid = [];
 			this.dialogFormVisible = false;

@@ -140,6 +140,7 @@ export default {
 			],
 			firstchan: [
 				//一级渠道商
+				
 			],
 			endPickerOptions: {
 				disabledDate(time) {
@@ -380,15 +381,21 @@ export default {
 			}
 		},
 		handleChangefirst(val) {
-			this.firstchan.find((item) => {
-				if (item.value === val) {
-					//筛选出匹配数据
-					this.secondchan = item.secondchan;
-					this.chil_disable = false;
-				} else {
-					this.chil_disable = true;
-				}
-			});
+			if (val == '*' || val == '') {
+				this.chil_disable = true;
+				this.searchdata.region2 = '';
+				this.secondchan = [];
+			} else {
+				this.firstchan.find((item) => {
+					if (item.value === val) {
+						//筛选出匹配数据
+						this.secondchan = item.secondchan;
+						this.chil_disable = false;
+					} else {
+						this.chil_disable = true;
+					}
+				});
+			}
 			this.getdata();
 		},
 		get_search() {

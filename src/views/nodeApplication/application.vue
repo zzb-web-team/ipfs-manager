@@ -223,7 +223,7 @@
                 placeholder="请选择二级节点"
                 style="margin-left:10px;"
                 :disabled="chil_disable_fs"
-                @change="onseach"
+                @change="onseach('fs')"
               >
                 <el-option value="*" label="全部"></el-option>
                     <el-option
@@ -237,7 +237,7 @@
                 v-model="devtypevalue_fs"
                 placeholder="请选择硬件设备"
                 style="margin-left:10px;"
-                @change="onseach"
+                @change="onseach('fs')"
               >
                 <el-option value="*" label="全部"></el-option>
                  <el-option
@@ -790,7 +790,14 @@ export default {
 				
 			],
 			firstchan: [
-				//一级渠道商
+                //一级渠道商
+                // {
+				// 	name: '云链',
+				// 	secondchan: [
+				// 		{ name: '云链', value: 's_computer.unknown_yunlian' },
+				// 	],
+				// 	value: 'f_computer.unknown_yunlian',
+				// },
 				
             ],
             secondchan:[],
@@ -909,7 +916,7 @@ export default {
         if(this.firstvaluea==''){
             params.first_channel="*";
         }else{
-            params.first_channel=this.firstvalue;
+            params.first_channel=this.firstvaluea;
         }
         if(this.secondvalue==''){
             params.second_channel="*";
@@ -924,11 +931,15 @@ export default {
         params.time_unit=this.time_unit;
       params.start_ts = this.starttime;
       params.end_ts = this.endtime;
-      if(params.end_ts-params.start_ts>=2592000){
-          params.time_unit=1440
-      }else{
-          params.time_unit=5
-      }
+      if (params.end_ts - params.start_ts > 2505600) {
+				params.time_unit = 1440;
+			} else if (params.end_ts - params.start_ts > 86400) {
+				params.time_unit = 60;
+			} else if (params.end_ts - params.start_ts > 21600) {
+				params.time_unit = 5;
+			} else {
+				params.time_unit = 1;
+			}
       query_ipfs_dataflow_curve(params)
         .then(res => {
           this.totalOutputCnt = "";
@@ -1004,11 +1015,15 @@ export default {
         }
       params.start_ts = this.starttime;
       params.end_ts = this.endtime;
-      if(params.end_ts-params.start_ts>=2592000){
-          params.time_unit=1440
-      }else{
-          params.time_unit=5
-      }
+     if (params.end_ts - params.start_ts > 2505600) {
+				params.time_unit = 1440;
+			} else if (params.end_ts - params.start_ts > 86400) {
+				params.time_unit = 60;
+			} else if (params.end_ts - params.start_ts > 21600) {
+				params.time_unit = 5;
+			} else {
+				params.time_unit = 1;
+			}
       query_ip_store_details_curve(params)
         .then(res => {
           this.totalStoreTimes = "";
@@ -1059,7 +1074,7 @@ export default {
       if(this.firstvaluea==''){
             params.first_channel="*";
         }else{
-            params.first_channel=this.firstvalue;
+            params.first_channel=this.firstvaluea;
         }
         if(this.secondvalue==''){
             params.second_channel="*";
@@ -1075,11 +1090,15 @@ export default {
       params.end_ts = this.endtime;
       params.pageNo = this.currentPage - 1;
       params.pageSize = this.pageSize;
-      if(params.end_ts-params.start_ts>=2592000){
-          params.time_unit=1440
-      }else{
-          params.time_unit=5
-      }
+      if (params.end_ts - params.start_ts > 2505600) {
+				params.time_unit = 1440;
+			} else if (params.end_ts - params.start_ts > 86400) {
+				params.time_unit = 60;
+			} else if (params.end_ts - params.start_ts > 21600) {
+				params.time_unit = 5;
+			} else {
+				params.time_unit = 1;
+			}
       query_ipfs_dataflow_table(params)
         .then(res => {
           this.tableData = [];
@@ -1137,11 +1156,15 @@ export default {
       params.end_ts = this.endtime;
       params.pageNo = this.fs_currentPage - 1;
       params.pageSize = this.fs_pageSize;
-      if(params.end_ts-params.start_ts>=2592000){
-          params.time_unit=1440
-      }else{
-          params.time_unit=5
-      }
+     if (params.end_ts - params.start_ts > 2505600) {
+				params.time_unit = 1440;
+			} else if (params.end_ts - params.start_ts > 86400) {
+				params.time_unit = 60;
+			} else if (params.end_ts - params.start_ts > 21600) {
+				params.time_unit = 5;
+			} else {
+				params.time_unit = 1;
+			}
       query_ip_store_details_table(params)
         .then(res => {
           this.fs_tableData = [];
@@ -1252,6 +1275,11 @@ export default {
       this.zidingyifs = !this.zidingyifs;
     },
     handleChangefirst(val) {
+        if(val=="*"||val==''){
+            this.secondvalue='';
+            this.chil_disable = true;
+            this.secondchan=[];
+        }else{
 			this.firstchan.find((item) => {
 				if (item.value === val) {
 					//筛选出匹配数据
@@ -1261,9 +1289,15 @@ export default {
 					this.chil_disable = true;
 				}
 			});
+        }
 			 this.ip_curve();
         },
         handleChangefirst_fs(val){
+             if(val=="*"||val==''){
+            this.secondvalue_fs='';
+            this.chil_disable_fs = true;
+            this.secondchan=[];
+        }else{
             this.firstchan.find((item) => {
 				if (item.value === val) {
 					//筛选出匹配数据
@@ -1272,7 +1306,8 @@ export default {
 				} else {
 					this.chil_disable_fs = true;
 				}
-			});
+            });
+        }
 			 this.fs_curve();
         },
     //搜索
@@ -1431,7 +1466,10 @@ export default {
             type: "bar",
             smooth:true,
             barWidth: 30, //柱图宽度
-            data: this.dataFlowArray
+            data: this.dataFlowArray,
+            itemStyle:{
+                color:'#409EFF',
+            }
           }
         ],
         axisLabel: {

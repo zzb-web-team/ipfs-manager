@@ -365,7 +365,8 @@ export default {
 				//运营商
 			],
 			firstchan: [
-				//一级渠道商
+                //一级渠道商
+               
 			],
 			secondchan: [],
 			endPickerOptions: {
@@ -453,6 +454,12 @@ export default {
 	},
 	methods: {
 		handleChangefirst(val) {
+            this.currentPage=1;
+            if(val=='*'||val==''){
+                this.secondvalue='*';
+                this.chil_disable = true;
+                this.secondchan=[];
+            }
 			this.firstchan.find((item) => {
 				if (item.value === val) {
 					//筛选出匹配数据
@@ -463,7 +470,7 @@ export default {
 					this.secondvalue = '*';
 				}
 			});
-			//this.gettab();
+			this.gettab();
 		},
 		get_search_data() {
 			let params = new Object();

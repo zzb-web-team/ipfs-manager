@@ -189,7 +189,7 @@
 					>删除</el-button
 				>
 				<fenye
-					style="float:right;margin:10px 0 0 0;"
+					style="text-align: right;margin:10px 0 0 0;"
 					@fatherMethod="getpage"
 					@fathernum="gettol"
 					:pagesa="total_cnt"

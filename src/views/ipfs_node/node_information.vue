@@ -117,7 +117,7 @@
 						placeholder="请选择"
 						@change="seachipfs"
 					>
-                    <el-option value="" label="全部"></el-option>
+						<el-option value="" label="全部"></el-option>
 						<el-option
 							v-for="item in device_type"
 							:key="item.name"
@@ -132,7 +132,7 @@
 						placeholder="请选择"
 						@change="seachipfs"
 					>
-                     <el-option value="" label="全部"></el-option>
+						<el-option value="" label="全部"></el-option>
 						<el-option
 							v-for="item in arch"
 							:key="item.name"
@@ -147,7 +147,7 @@
 						placeholder="请选择"
 						@change="seachipfs"
 					>
-                     <el-option value="" label="全部"></el-option>
+						<el-option value="" label="全部"></el-option>
 						<el-option
 							v-for="item in os"
 							:key="item.name"
@@ -162,7 +162,7 @@
 						placeholder="请选择"
 						@change="seachipfs"
 					>
-                     <el-option value="" label="全部"></el-option>
+						<el-option value="" label="全部"></el-option>
 						<el-option
 							v-for="item in isp"
 							:key="item.value"
@@ -739,39 +739,45 @@ export default {
 			});
 		},
 		provinceChange(value) {
-            this.currentPage=1;
+			this.currentPage = 1;
 			if (value == -1) {
 				this.value1 = -1;
 				this.city_disable = true;
 				this.city_detil = '';
 				this.getdatalist();
 			} else {
-                this.options_city = this.citydata[value[1]].cities;
-                console.log(this.options_city)
+				this.options_city = this.citydata[value[1]].cities;
+				console.log(this.options_city);
 				this.city_disable = false;
 				this.city_detil = '';
 				this.getdatalist();
 			}
 		},
 		handleChange(value) {
-            this.currentPage=1;
+			this.currentPage = 1;
 			this.getdatalist();
 		},
 		handleChangefirst(val) {
-            this.currentPage=1;
-			this.firstchan.find((item) => {
-				if (item.value === val) {
-					//筛选出匹配数据
-					this.secondchan = item.secondchan;
-					this.chil_disable = false;
-				} else {
-					this.chil_disable = true;
-				}
-			});
+			this.currentPage = 1;
+			if (val == '*' || val == '') {
+				this.chil_disable = true;
+				this.secondchan = [];
+				this.secondchid = '*';
+			} else {
+				this.firstchan.find((item) => {
+					if (item.value === val) {
+						//筛选出匹配数据
+						this.secondchan = item.secondchan;
+						this.chil_disable = false;
+					} else {
+						this.chil_disable = true;
+					}
+				});
+			}
 			this.getdatalist();
 		},
 		handleChange_node(value) {
-            this.currentPage=1;
+			this.currentPage = 1;
 			this.getdatalist();
 		},
 		//请求数据
@@ -818,7 +824,7 @@ export default {
 			} else {
 				parmas.city = this.city_detil;
 			}
-			parmas.page = this.currentPage-1;
+			parmas.page = this.currentPage - 1;
 			parmas.order = 0;
 			query_node(parmas)
 				.then((res) => {
@@ -950,16 +956,16 @@ export default {
 		},
 		//搜索按钮
 		seachipfs() {
-            this.currentPage=1;
+			this.currentPage = 1;
 			this.getdatalist();
 		},
 		seach() {
-            this.currentPage=1;
+			this.currentPage = 1;
 			this.getdatalist();
 		},
 		//重置
 		resetseach() {
-            this.currentPage=1;
+			this.currentPage = 1;
 			this.value = -1;
 			this.value1 = -1;
 			this.value2 = '';

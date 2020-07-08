@@ -95,7 +95,7 @@
 								v-for="(item, index) in firstchan"
 								:key="item.name + index"
 								:label="item.name"
-								:value="item.name"
+								:value="item.value"
 							></el-option> </el-select
 					></el-col>
 					<el-col :span="2"
@@ -110,7 +110,7 @@
 							<el-option
 								v-for="(item, index) in secondchan"
 								:key="item.value + index"
-								:label="item.label"
+								:label="item.name"
 								:value="item.value"
 							></el-option></el-select
 					></el-col>
@@ -346,7 +346,13 @@ import {
 	ipfs_monit_storage,
 	ipfs_monit_tid,
 } from '@/servers/api';
-import { getday, setbatime, get_units, formatBkb,menudisable } from '../../servers/sevdate';
+import {
+	getday,
+	setbatime,
+	get_units,
+	formatBkb,
+	menudisable,
+} from '../../servers/sevdate';
 import echarts from 'echarts';
 export default {
 	data() {
@@ -650,20 +656,20 @@ export default {
 			endtime: 0,
 			citydata: {},
 			options_city: [],
-            city_disable: true,
-            echartsexport:true,
-            obnj:{},
+			city_disable: true,
+			echartsexport: true,
+			obnj: {},
 		};
 	},
 	mounted() {
-        let munulist = JSON.parse(localStorage.getItem('menus'));
+		let munulist = JSON.parse(localStorage.getItem('menus'));
 		let pathname = this.$route.path;
 		this.obnj = menudisable(munulist, pathname);
-        if(this.obnj.roleE==1){
-            this.echartsexport=true
-        }else{
-            this.echartsexport=false;
-        }
+		if (this.obnj.roleE == 1) {
+			this.echartsexport = true;
+		} else {
+			this.echartsexport = false;
+		}
 		this.getJson();
 		this.starttime =
 			new Date(new Date().toLocaleDateString()).getTime() / 1000 -
@@ -776,6 +782,10 @@ export default {
 			}
 			ipfs_monit_bandwidth(params)
 				.then((res) => {
+					this.upbandwidth = 0;
+					this.averageup = 0;
+					this.averagedown = 0;
+					this.downbandwidth = 0;
 					if (res.status == 0) {
 						let downarrlist = [];
 						let uparrlist = [];
@@ -852,10 +862,12 @@ export default {
 				params.city = this.searchdata.region5;
 			}
 			params.end_ts = this.endtime;
-            params.start_ts = this.starttime;
-            params.timeUnit=5;
+			params.start_ts = this.starttime;
+			params.timeUnit = 5;
 			ipfs_monit_storage(params)
 				.then((res) => {
+					this.availablecap = 0;
+					this.totalcap = 0;
 					if (res.status == 0) {
 						let avaarrlist = [];
 						let tolarrlist = [];
@@ -890,6 +902,9 @@ export default {
 		//请求节点质量--ms
 		get_pingms() {
 			this.mslist = [];
+			this.max_value = 0;
+			this.min_value = 0;
+			this.average_value = 0;
 			let params = new Object();
 			if (this.searchdata.region1) {
 				params.firstChannel = this.searchdata.region1;
@@ -977,6 +992,9 @@ export default {
 		//请求节点质量--响应时差
 		get_tid() {
 			this.tidlist = [];
+			this.max_value = 0;
+			this.min_value = 0;
+			this.average_value = 0;
 			let params = new Object();
 			if (this.searchdata.region1) {
 				params.firstChannel = this.searchdata.region1;
@@ -1064,6 +1082,9 @@ export default {
 		//请求节点质量--错误率
 		get_etf() {
 			this.etflist = [];
+			this.max_value = 0;
+			this.min_value = 0;
+			this.average_value = 0;
 			let params = new Object();
 			if (this.searchdata.region1) {
 				params.firstChannel = this.searchdata.region1;
@@ -1127,9 +1148,9 @@ export default {
 						for (let k in res.data) {
 							let obj = {};
 							obj.name = getday(k);
-							obj.value = (res.data[k]*100).toFixed(4);
+							obj.value = (res.data[k] * 100).toFixed(4);
 							this.etflist.push(obj);
-							arrlist.push(res.data[k]*100);
+							arrlist.push(res.data[k] * 100);
 						}
 						this.$nextTick(
 							this.tiredsharts(
@@ -1155,6 +1176,9 @@ export default {
 		//请求节点质量--失联计数
 		get_lt() {
 			this.ltlist = [];
+			this.max_value = 0;
+			this.min_value = 0;
+			this.average_value = 0;
 			let params = new Object();
 			if (this.searchdata.region1) {
 				params.firstChannel = this.searchdata.region1;
@@ -1249,6 +1273,9 @@ export default {
 		//请求节点质量--在线率
 		get_itf() {
 			this.itflist = [];
+			this.max_value = 0;
+			this.min_value = 0;
+			this.average_value = 0;
 			let params = new Object();
 			if (this.searchdata.region1) {
 				params.firstChannel = this.searchdata.region1;
@@ -1313,9 +1340,9 @@ export default {
 						for (let k in res.data) {
 							let obj = {};
 							obj.name = getday(k);
-							obj.value = (res.data[k]*100).toFixed(2);
+							obj.value = (res.data[k] * 100).toFixed(2);
 							this.itflist.push(obj);
-							arrlist.push(res.data[k]*100);
+							arrlist.push(res.data[k] * 100);
 						}
 						this.$nextTick(
 							this.tiredsharts(
@@ -1341,6 +1368,9 @@ export default {
 		//请求节点质量--离线率
 		get_otf() {
 			this.otflist = [];
+			this.max_value = 0;
+			this.min_value = 0;
+			this.average_value = 0;
 			let params = new Object();
 			if (this.searchdata.region1) {
 				params.firstChannel = this.searchdata.region1;
@@ -1405,9 +1435,9 @@ export default {
 						for (let k in res.data) {
 							let obj = {};
 							obj.name = getday(k);
-							obj.value = (res.data[k]*100).toFixed(2);
+							obj.value = (res.data[k] * 100).toFixed(2);
 							this.otflist.push(obj);
-							arrlist.push(res.data[k]*100);
+							arrlist.push(res.data[k] * 100);
 						}
 						this.$nextTick(
 							this.tiredsharts(
@@ -1433,6 +1463,9 @@ export default {
 		//请求节点质量--重连次数
 		get_rcnt() {
 			this.rcntlist = [];
+			this.max_value = 0;
+			this.min_value = 0;
+			this.average_value = 0;
 			let params = new Object();
 			if (this.searchdata.region1) {
 				params.firstChannel = this.searchdata.region1;
@@ -1527,6 +1560,9 @@ export default {
 		//请求节点质量--CPU占用率
 		get_cpuusag() {
 			this.cpuusaglist = [];
+			this.max_value = 0;
+			this.min_value = 0;
+			this.average_value = 0;
 			let params = new Object();
 			if (this.searchdata.region1) {
 				params.firstChannel = this.searchdata.region1;
@@ -1590,9 +1626,9 @@ export default {
 						for (let k in res.data) {
 							let obj = {};
 							obj.name = getday(k);
-							obj.value = (res.data[k]*100).toFixed(2);
+							obj.value = (res.data[k] * 100).toFixed(2);
 							this.cpuusaglist.push(obj);
-							arrlist.push(res.data[k]*100);
+							arrlist.push(res.data[k] * 100);
 						}
 						this.$nextTick(
 							this.tiredsharts(
@@ -1618,6 +1654,9 @@ export default {
 		//请求节点质量--CPU占用率
 		get_memory() {
 			this.memorylist = [];
+			this.max_value = 0;
+			this.min_value = 0;
+			this.average_value = 0;
 			let params = new Object();
 			if (this.searchdata.region1) {
 				params.firstChannel = this.searchdata.region1;
@@ -1681,9 +1720,9 @@ export default {
 						for (let k in res.data) {
 							let obj = {};
 							obj.name = getday(k);
-							obj.value = (res.data[k]*100).toFixed(2);
+							obj.value = (res.data[k] * 100).toFixed(2);
 							this.memorylist.push(obj);
-							arrlist.push(res.data[k]*100);
+							arrlist.push(res.data[k] * 100);
 						}
 						this.$nextTick(
 							this.tiredsharts(
@@ -1707,15 +1746,22 @@ export default {
 				});
 		},
 		handleChangefirst(val) {
-			this.firstchan.find((item) => {
-				if (item.value === val) {
-					//筛选出匹配数据
-					this.secondchan = item.secondchan;
-					this.chil_disable = false;
-				} else {
-					this.chil_disable = true;
-				}
-			});
+            console.log(val);
+			if (val == '*'||val=='') {
+                this.secondchan=[];
+                this.searchdata.region2 = '';
+				this.chil_disable = true;
+			} else {
+				this.firstchan.find((item) => {
+					if (item.value === val) {
+						//筛选出匹配数据
+						this.secondchan = item.secondchan;
+						this.chil_disable = false;
+					} else {
+						this.chil_disable = true;
+					}
+				});
+			}
 			this.set_time();
 		},
 		changeup_down() {
@@ -1856,8 +1902,8 @@ export default {
 				let mean = sum / arr.length;
 				return mean;
 			}
-        },
-        exportant_dataflow(){},
+		},
+		exportant_dataflow() {},
 		firstsharts(echartsdata) {
 			let _this = this;
 			let chartdom = document.getElementById('firstChart');
@@ -1871,7 +1917,7 @@ export default {
 				},
 				toolbox: {
 					feature: {
-                        mydow: {
+						mydow: {
 							show: _this.echartsexport,
 							title: '导出',
 							icon:
@@ -2013,7 +2059,7 @@ export default {
 				},
 				toolbox: {
 					feature: {
-                        mydow: {
+						mydow: {
 							show: _this.echartsexport,
 							title: '导出',
 							icon:
@@ -2092,7 +2138,7 @@ export default {
 				},
 				toolbox: {
 					feature: {
-                        mydow: {
+						mydow: {
 							show: _this.echartsexport,
 							title: '导出',
 							icon:
@@ -2156,7 +2202,7 @@ export default {
 				},
 				toolbox: {
 					feature: {
-                        mydow: {
+						mydow: {
 							show: _this.echartsexport,
 							title: '导出',
 							icon:
