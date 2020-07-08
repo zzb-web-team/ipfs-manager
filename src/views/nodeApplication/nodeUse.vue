@@ -185,26 +185,13 @@
 										</el-table-column>
 										<el-table-column
 											prop="totalOutput"
-											label="使用IP流量(GB)"
+											label="使用IP流量"
 										>
 											<template slot-scope="scope">
-												<span
-													v-if="
-														scope.row.totalOutput ==
-															0
-													"
-													>0</span
-												><span v-else
-													>{{
-														(
-															scope.row
-																.totalOutput /
-															1024 /
-															1024 /
-															1024
-														).toFixed(2)
-													}}G</span
-												>
+												<span>{{
+													scope.row.totalOutput
+														| zhuanbkb
+												}}</span>
 											</template>
 										</el-table-column>
 										<el-table-column
@@ -422,38 +409,39 @@
 											label="使用存储空间"
 										>
 											<template slot-scope="scope">
-												<span
-													v-if="
-														scope.row.totalUsage ==
-															0
-													"
-													>0</span
-												><span v-else
-													>{{
-														(
-															scope.row
-																.storeUsage /
-															1024 /
-															1024 /
-															1024
-														).toFixed(2)
-													}}G</span
-												>
+												<span>{{
+													scope.row.storeUsage
+														| zhuanbkb
+												}}</span>
 											</template>
 										</el-table-column>
 										<el-table-column
 											prop="usagePercent"
 											label="FS存储利用率"
 										>
-											<template slot-scope="scope"
-												>{{
-													(
+											<template slot-scope="scope">
+												<span
+													v-if="
 														scope.row
-															.storeUsagePercent *
-														100
-													).toFixed(2)
-												}}%</template
-											>
+															.storeUsagePercent ==
+															Infinity
+													"
+												>
+													{{
+														scope.row
+															.storeUsagePercent
+													}}
+												</span>
+												<span v-else>
+													{{
+														(
+															scope.row
+																.storeUsagePercent *
+															100
+														).toFixed(2)
+													}}%
+												</span>
+											</template>
 										</el-table-column>
 										<el-table-column
 											prop="timestamp"
@@ -1678,6 +1666,13 @@ export default {
 		//时间戳转时间
 		getymd(time) {
 			return getymdtime(time);
+		},
+		zhuanbkb(bytes) {
+			if (bytes === 0) return '0 B';
+			var k = 1024,
+				sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
+				i = Math.floor(Math.log(bytes) / Math.log(k));
+			return (bytes / Math.pow(k, i)).toFixed(2) + ' ' + sizes[i];
 		},
 	},
 	components: {

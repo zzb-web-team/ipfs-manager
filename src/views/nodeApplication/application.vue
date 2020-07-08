@@ -118,7 +118,7 @@
               <el-col :span="5">
                 <div class="user-item">
                   <div class="item-text">累计使用流量</div>
-                  <div class="item-count">{{ totalDataFlow }}GB</div>
+                  <div class="item-count">{{ totalDataFlow |zhuanbkb}}</div>
                 </div>
               </el-col>
               <el-col :span="5" style="margin-left:30px;">
@@ -160,14 +160,7 @@
 														scope.row.dataFlow == 0
 													">0</span>
                         <span v-else>
-                          {{
-                          (
-                          scope.row.dataFlow /
-                          1024 /
-                          1024 /
-                          1024
-                          ).toFixed(2)
-                          }}GB
+                          {{scope.row.dataFlow |zhuanbkb}}
                         </span>
                       </template>
                     </el-table-column>
@@ -316,7 +309,7 @@
               <el-col :span="5">
                 <div class="user-item">
                   <div class="item-text">累计存储容量</div>
-                  <div class="item-count">{{ totalStoreUsage }}GB</div>
+                  <div class="item-count">{{ totalStoreUsage |zhuanbkb}}</div>
                 </div>
               </el-col>
               <el-col :span="5" style="margin-left:30px;">
@@ -355,15 +348,7 @@
 													"
                         >0</span>
                         <span v-else>
-                          {{
-                          (
-                          scope.row
-                          .storeUsage /
-                          1024 /
-                          1024 /
-                          1024
-                          ).toFixed(2)
-                          }}G
+                          {{scope.row.storeUsage |zhuanbkb}}
                         </span>
                       </template>
                     </el-table-column>
@@ -810,7 +795,14 @@ export default {
     //时间戳转时间
     getymd(time) {
       return getymdtime(time);
-    }
+    },
+    zhuanbkb(bytes) {
+    if (bytes === 0) return '0 B';
+    var k = 1024,
+        sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
+        i = Math.floor(Math.log(bytes) / Math.log(k));
+    return (bytes / Math.pow(k, i)).toFixed(2) + ' ' + sizes[i];
+}
   },
   components: {
     fenye
@@ -948,9 +940,7 @@ export default {
           this.timeArray = [];
           if (res.status == 0) {
             this.totalOutputCnt = res.data.totalOutputCnt;
-            this.totalDataFlow = parseInt(
-              res.data.totalDataFlow / 1024 / 1024 / 1024
-            );
+            this.totalDataFlow =res.data.totalDataFlow;
             res.data.dataFlowArray.forEach((item)=>{
                 this.dataFlowArray.push((item/1024/1024/1024).toFixed(2))
             })
@@ -1032,9 +1022,7 @@ export default {
           this.fs_timeArray = [];
           if (res.status == 0) {
             this.totalStoreTimes = res.data.totalStoreTimes;
-            this.totalStoreUsage = parseInt(
-              res.data.totalStoreUsage / 1024 / 1024
-            );
+            this.totalStoreUsage =res.data.totalStoreUsage
             // this.storeUsageArray = res.data.storeUsageArray;
              res.data.storeUsageArray.forEach((item)=>{
                 this.storeUsageArray.push((item/1024/1024/1024).toFixed(2))
