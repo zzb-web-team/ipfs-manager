@@ -1139,6 +1139,10 @@ export default {
 		handleClick(tab, event) {
 			this.valuec = 5;
 			this.valuecfs = 5;
+			this.zidingyi = false;
+			this.zidingyifs = false;
+			this.value2 = '';
+			this.value2fs = '';
 			this.starttime =
 				new Date(new Date().toLocaleDateString()).getTime() / 1000;
 			this.endtime = Date.parse(new Date()) / 1000;

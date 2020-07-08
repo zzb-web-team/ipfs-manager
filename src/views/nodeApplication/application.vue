@@ -1182,6 +1182,10 @@ export default {
       this.starttime =
         new Date(new Date().toLocaleDateString()).getTime() / 1000;
       this.endtime = Date.parse(new Date()) / 1000;
+      this.zidingyi = false;
+      this.zidingyifs = false;
+        this.value2='';
+        this.value2fs='';
       if (tab.index == "1") {
         this.fs_curve();
       } else {

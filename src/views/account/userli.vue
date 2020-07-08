@@ -1540,9 +1540,7 @@ export default {
 			this.ruleForm3.username = val.username;
 			this.ruleForm3.id = val.id;
 			this.ruleForm3.name = val.name;
-			if (val.phone) {
-				this.ruleForm3.phone = val.phone;
-			}
+			this.ruleForm3.phone = val.phone;
 			this.ruleForm3.sex = val.sex;
 			this.ruleForm3.position_id = val.position_id;
 			this.ruleForm3.grouping = val.role_id;
