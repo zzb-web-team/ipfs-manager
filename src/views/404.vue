@@ -16,7 +16,8 @@ export default {
 		};
 	},
 	mounted() {
-		this.scrollerHeight = window.screen.availHeight - 300 + 'px';
+        this.scrollerHeight = window.screen.availHeight - 300 + 'px';
+        
 	},
 };
 </script>

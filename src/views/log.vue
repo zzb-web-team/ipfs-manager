@@ -158,7 +158,6 @@ export default {
 				});
 			}
 		}
-		
 	},
 	methods: {
 		handleReset2() {
@@ -203,7 +202,6 @@ export default {
 								res.data.id,
 								7 * 24 * 60 * 60
 							);
-
 							this.get_datalist(res.data.role_id);
 						} else if (res.status == 1) {
 							this.ipfs_token = res.token;
@@ -247,6 +245,16 @@ export default {
 						} else {
 							this.$router.push({ path: '/error404' });
 						}
+					} else {
+						// window.location.href = './';
+						this.$message.error(res.msg);
+						sessionStorage.removeItem('ipfs_user');
+						sessionStorage.removeItem('ipfs_id');
+						localStorage.removeItem('menus');
+						localStorage.removeItem('user_information');
+						this.$cookies.remove('ipfs_user');
+						this.$cookies.remove('ipfs_id');
+						this.$cookies.remove('ipfs_path');
 					}
 				})
 				.catch((error) => {});
