@@ -369,18 +369,28 @@ export default {
 				params.IP = '';
 			}
 			params.curPage = this.currentPage - 1;
-			params.itemCount = this.pagesize;
+            params.itemCount = this.pagesize;
+            if (this.firstchid == '*') {
+				params.channel1 = '';
+			} else {
+				params.channel1 = this.firstchid;
+			}
+			if (this.secondchid == '*') {
+				params.channel2 = '';
+			} else {
+				params.channel2 = this.secondchid;
+			}
 			node_pv(params)
 				.then((res) => {
 					// this.tableData = res.data;
 					res.data.forEach((item) => {
 						this.firstchan.forEach((fitem) => {
 							if (fitem.value == item.firstchannel) {
-								item.firstchname = fitem.name;
+								item.firstch = fitem.name;
 								if (fitem.secondchan) {
 									fitem.secondchan.forEach((xime) => {
 										if (item.secondchannel == xime.value) {
-											item.secondname = xime.name;
+											item.secondch = xime.name;
 										}
 									});
 								}
@@ -417,7 +427,17 @@ export default {
 			params.dateEnd = this.endtime;
 			params.order = this.order;
 			params.curPage = this.pageNo - 1;
-			params.itemCount = this.pagesize;
+            params.itemCount = this.pagesize;
+            if (this.firstchid == '*') {
+				params.channel1 = '';
+			} else {
+				params.channel1 = this.firstchid;
+			}
+			if (this.secondchid == '*') {
+				params.channel2 = '';
+			} else {
+				params.channel2 = this.secondchid;
+			}
 			node_pv_detail(params)
 				.then((res) => {
 					console.log(res);
@@ -425,11 +445,11 @@ export default {
 					res.data.forEach((item) => {
 						this.firstchan.forEach((fitem) => {
 							if (fitem.value == item.firstchannel) {
-								item.firstchname = fitem.name;
+								item.firstch = fitem.name;
 								if (fitem.secondchan) {
 									fitem.secondchan.forEach((xime) => {
 										if (item.secondchannel == xime.value) {
-											item.secondname = xime.name;
+											item.secondch = xime.name;
 										}
 									});
 								}
@@ -469,7 +489,17 @@ export default {
 				params.IP = '';
 			}
 			params.dateStart = this.starttime;
-			params.dateEnd = this.endtime;
+            params.dateEnd = this.endtime;
+            if (this.firstchid == '*') {
+				params.channel1 = '';
+			} else {
+				params.channel1 = this.firstchid;
+			}
+			if (this.secondchid == '*') {
+				params.channel2 = '';
+			} else {
+				params.channel2 = this.secondchid;
+			}
 			export_excel(params)
 				.then((res) => {
 					console.log(res);

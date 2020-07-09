@@ -202,7 +202,7 @@ export default {
 								res.data.id,
 								7 * 24 * 60 * 60
 							);
-							this.get_datalist(res.data.role_id);
+							this.get_datalist(res.data.role_id, res.data.id);
 						} else if (res.status == 1) {
 							this.ipfs_token = res.token;
 							this.googleVisible = true;
@@ -219,9 +219,10 @@ export default {
 				}
 			});
 		},
-		get_datalist(id) {
+		get_datalist(role_id, id) {
 			let params = new Object();
-			params.roleid = id;
+			params.id = id;
+			params.roleid = role_id;
 			menulistuser(params)
 				.then((res) => {
 					if (res.status == 0) {

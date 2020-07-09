@@ -572,10 +572,10 @@ export default {
 				},
 			],
 			optionsafs: [
-				// {
-				//   value: 0,
-				//   label: "全部"
-				// },
+				{
+					value: 0,
+					label: '全部',
+				},
 				{
 					value: '华北',
 					label: '华北',
@@ -1125,6 +1125,8 @@ export default {
 		},
 		//选项卡
 		handleClick(tab, event) {
+			this.currentPagefs = 1;
+			this.currentPage = 1;
 			this.valuec = 5;
 			this.valuecfs = 5;
 			this.zidingyi = false;
@@ -1149,6 +1151,8 @@ export default {
 			this.zidingyifs = !this.zidingyifs;
 		},
 		handleChangefirst(val) {
+			this.currentPagefs = 1;
+			this.currentPage = 1;
 			if (val == '*' || val == '') {
 				this.secondvalue = '';
 				this.secondchan = [];
@@ -1167,6 +1171,8 @@ export default {
 			this.ip_surve();
 		},
 		handleChangefirst_fs(val) {
+			this.currentPagefs = 1;
+			this.currentPage = 1;
 			if (val == '*' || val == '') {
 				this.secondvalue_fs = '';
 				this.secondchan = [];
@@ -1186,6 +1192,8 @@ export default {
 		},
 		//搜索
 		onseach(stat) {
+			this.currentPagefs = 1;
+			this.currentPage = 1;
 			if (stat === 'fs') {
 				this.valuecfs = 5;
 				if (this.value2fs) {
@@ -1225,25 +1233,34 @@ export default {
 			}
 		},
 		seach_operce_fs(value) {
+			this.currentPagefs = 1;
+			this.currentPage = 1;
+			this.valuebfs = '';
 			if (this.valueafs[1]) {
 				this.city_disable_fs = false;
-				this.onseach('fs');
+
 				this.optionsbfs = this.citydata[value[1]].cities;
 			} else {
 				this.city_disable_fs = true;
 			}
+			this.onseach('fs');
 		},
 		seach_operce_ip(value) {
+			this.currentPagefs = 1;
+			this.currentPage = 1;
+			this.valueb = '';
 			if (this.valuea[1]) {
 				this.city_disable_ip = false;
-				this.onseach();
 				this.optionsb = this.citydata[value[1]].cities;
 			} else {
 				this.city_disable_ip = true;
 			}
+			this.onseach();
 		},
 		//今天
 		set_today(mark) {
+			this.currentPagefs = 1;
+			this.currentPage = 1;
 			this.starttime =
 				new Date(new Date().toLocaleDateString()).getTime() / 1000;
 			this.endtime = Date.parse(new Date()) / 1000;
@@ -1257,6 +1274,8 @@ export default {
 		},
 		//昨天
 		set_yesterday(mark) {
+			this.currentPagefs = 1;
+			this.currentPage = 1;
 			this.starttime =
 				new Date(new Date().toLocaleDateString()).getTime() / 1000 -
 				24 * 60 * 60;
@@ -1272,6 +1291,8 @@ export default {
 		},
 		//七天
 		set_sevenday(mark) {
+			this.currentPagefs = 1;
+			this.currentPage = 1;
 			this.starttime =
 				new Date(new Date().toLocaleDateString()).getTime() / 1000 -
 				6 * 24 * 60 * 60;
@@ -1286,6 +1307,8 @@ export default {
 		},
 		//三十天
 		set_thirtyday(mark) {
+			this.currentPagefs = 1;
+			this.currentPage = 1;
 			this.starttime =
 				new Date(new Date().toLocaleDateString()).getTime() / 1000 -
 				29 * 24 * 60 * 60;
@@ -1435,6 +1458,14 @@ export default {
 						crossStyle: {
 							color: '#999',
 						},
+                    },
+                     formatter: function(params) {
+						return (
+							params[0].name +
+							'<br>' +
+							params[0].data +
+							'%'
+						);
 					},
 				},
 				yAxis: [
@@ -1450,7 +1481,7 @@ export default {
 					},
 				],
 				grid: {
-					x: 50,
+					x: 70,
 					y: 50,
 					x2: 50,
 					y2: 60,
@@ -1458,7 +1489,10 @@ export default {
 				},
 				series: [
 					{
-						data: this.avgDataFlowUtily,
+						// data: this.avgDataFlowUtily,
+						data: this.avgDataFlowUtily.map(function(item) {
+							return item * 100;
+						}),
 
 						type: 'line',
 						symbol: 'none',
@@ -1525,13 +1559,25 @@ export default {
 					type: 'category',
 					data: this.fs_timeArray,
 				},
-				yAxis: [
-					// type: 'value'
+				// yAxis: [
+				// 	// type: 'value'
 
+				// 	{
+				// 		type: 'value',
+				// 		max: 100,
+				// 		min: 0,
+				// 		axisLabel: {
+				// 			show: true,
+				// 			interval: 'auto',
+				// 			formatter: '{value} %',
+				// 		},
+				// 		show: true,
+				// 	},
+                // ],
+                yAxis: [
+					// type: 'value'
 					{
 						type: 'value',
-						max: 100,
-						min: 0,
 						axisLabel: {
 							show: true,
 							interval: 'auto',
@@ -1547,10 +1593,18 @@ export default {
 						crossStyle: {
 							color: '#999',
 						},
+                    },
+                    formatter: function(params) {
+						return (
+							params[0].name +
+							'<br>' +
+							params[0].data +
+							'%'
+						);
 					},
-				},
+                },
 				grid: {
-					x: 50,
+					x: 70,
 					y: 50,
 					x2: 50,
 					y2: 60,
@@ -1558,8 +1612,10 @@ export default {
 				},
 				series: [
 					{
-						data: this.avgUsageArray,
-
+						// data: this.avgUsageArray,
+						data: this.avgUsageArray.map(function(item) {
+							return item * 100;
+						}),
 						type: 'line',
 						symbol: 'none',
 						smooth: true,

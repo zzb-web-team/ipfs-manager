@@ -854,6 +854,7 @@ export default {
       });
     },
     seach_operce(value) {
+        this.currentPage=1;
       if (value == -1) {
         this.value1 = -1;
         this.city_disable_ip = true;
@@ -867,6 +868,7 @@ export default {
       }
     },
     seach_operce_fs(value) {
+        this.fs_currentPage=1;
       if (value == -1) {
         this.value1 = -1;
         this.city_disable_fs = true;
@@ -934,8 +936,8 @@ export default {
 			}
       query_ipfs_dataflow_curve(params)
         .then(res => {
-          this.totalOutputCnt = "";
-          this.totalDataFlow = "";
+          this.totalOutputCnt = 0;
+          this.totalDataFlow = 0;
           this.dataFlowArray = [];
           this.timeArray = [];
           if (res.status == 0) {
@@ -1016,8 +1018,8 @@ export default {
 			}
       query_ip_store_details_curve(params)
         .then(res => {
-          this.totalStoreTimes = "";
-          this.totalStoreUsage = "";
+          this.totalStoreTimes = 0;
+          this.totalStoreUsage = 0;
           this.storeUsageArray = [];
           this.fs_timeArray = [];
           if (res.status == 0) {
@@ -1092,7 +1094,7 @@ export default {
           this.tableData = [];
           if (res.status == 0) {
             this.tableData = res.data.list;
-            this.totalCnt = res.data.totalPageCnt;
+            this.totalCnt = res.data.totalCnt;
           } else {
             this.$message.error(res.errMsg);
           }
@@ -1167,6 +1169,8 @@ export default {
     },
     //选项卡
     handleClick(tab, event) {
+        this.fs_currentPage=1;
+        this.currentPage=1;
       this.starttime =
         new Date(new Date().toLocaleDateString()).getTime() / 1000;
       this.endtime = Date.parse(new Date()) / 1000;
@@ -1304,6 +1308,8 @@ export default {
         },
     //搜索
     onseach(stat) {
+        this.fs_currentPage=1;
+        this.currentPage=1;
       if (stat === "fs") {
         if (this.value2fs != null && this.value2fs != "") {
           this.starttime = setbatime(this.value2fs[0]);
@@ -1337,6 +1343,8 @@ export default {
     },
     //今天
     set_today(mark) {
+        this.fs_currentPage=1;
+        this.currentPage=1;
       this.starttime =
         new Date(new Date().toLocaleDateString()).getTime() / 1000;
       this.endtime = Date.parse(new Date()) / 1000;
@@ -1351,6 +1359,8 @@ export default {
     },
     //昨天
     set_yesterday(mark) {
+        this.fs_currentPage=1;
+        this.currentPage=1;
       this.starttime =
         new Date(new Date().toLocaleDateString()).getTime() / 1000 -
         24 * 60 * 60;
@@ -1366,6 +1376,8 @@ export default {
     },
     //七天
     set_sevenday(mark) {
+        this.fs_currentPage=1;
+        this.currentPage=1;
       this.starttime =
         new Date(new Date().toLocaleDateString()).getTime() / 1000 -
         6 * 24 * 60 * 60;
@@ -1381,6 +1393,8 @@ export default {
     },
     //三十天
     set_thirtyday(mark) {
+        this.fs_currentPage=1;
+        this.currentPage=1;
       this.starttime =
         new Date(new Date().toLocaleDateString()).getTime() / 1000 -
         29 * 24 * 60 * 60;
@@ -1445,13 +1459,15 @@ export default {
         },
         //设置canvas内部表格的内距
         grid: {
-          x: "10%",
+          x: 70,
           y: 50,
           x2: 50,
           y2: 60,
           borderWidth: 10
         },
-        yAxis: {},
+        yAxis: {
+            name:'GB'
+        },
         series: [
           {
             name: "流量",
@@ -1523,9 +1539,11 @@ export default {
         xAxis: {
           data: this.fs_timeArray
         },
-        yAxis: {},
+        yAxis: {
+            name:'GB'
+        },
         grid: {
-          x: "10%",
+          x: 70,
           y: 50,
           x2: 50,
           y2: 60,
