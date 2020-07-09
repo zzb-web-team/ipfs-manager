@@ -156,6 +156,7 @@
 							@click="updatahandleClick(scope.row)"
 							type="text"
 							size="small"
+                            :disabled="scope.row.id==1"
 							>修改</el-button
 						>
 						<el-button
@@ -163,6 +164,7 @@
 							@click="handleClick(scope.row)"
 							type="text"
 							size="small"
+                            :disabled="scope.row.id==1"
 							>权限管理</el-button
 						>
 						<el-button
@@ -170,6 +172,7 @@
 							@click.native.prevent="deleteRow(scope.row)"
 							type="text"
 							size="small"
+                            :disabled="scope.row.id==1"
 							>删除</el-button
 						>
 					</template>

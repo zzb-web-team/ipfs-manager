@@ -3,7 +3,7 @@
 		<!-- 头部搜索栏 -->
 		<el-breadcrumb separator="/">
 			<el-breadcrumb-item>
-				<a>云链节点收益明细</a>
+				<a>节点收益明细</a>
 			</el-breadcrumb-item>
 		</el-breadcrumb>
 		<div class="search">
