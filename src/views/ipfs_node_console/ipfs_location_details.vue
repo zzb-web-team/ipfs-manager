@@ -529,8 +529,12 @@
 					</el-table-column>
 					<el-table-column prop="accelstate" label="使用状态">
 						<template slot-scope="scope">
-							<span v-if="scope.row.accelstate == 0">使用中</span>
+							<!-- <span v-if="scope.row.accelstate == 0">使用中</span>
 							<span v-else-if="scope.row.accelstate == 1"
+								>已停用</span
+							> -->
+                            <span v-if="scope.row.accelstate == 1">使用中</span>
+							<span v-else-if="scope.row.accelstate == 0"
 								>已停用</span
 							>
 						</template>
@@ -604,7 +608,7 @@ export default {
 			tableDatafs: [],
 			pageSize: 10,
 			pageNo: 1,
-			totalCnt: 1,
+			totalCnt: 0,
 			starttime: '',
 			endtime: '',
 			serdata: {},
@@ -721,6 +725,9 @@ export default {
 		this.getlabel();
 	},
 	methods: {
+        bkb(){
+
+        },
 		goBack() {
 			if (this.$route.query.address) {
 				let address = this.$route.query.address;
@@ -767,7 +774,7 @@ export default {
 				params.usage = 0;
 				params.start_ts = this.starttime;
 				params.end_ts = this.endtime;
-				params.pageNo = this.pageNo - 1;
+				params.pageNo = this.currentPage - 1;
 				params.pageSize = this.pageSize;
 				params.first_channel = '*';
 				params.second_channel = '*';
@@ -792,7 +799,7 @@ export default {
 				params.usage = 0;
 				params.start_ts = this.starttime;
 				params.end_ts = this.endtime;
-				params.pageNo = this.pageNo - 1;
+				params.pageNo = this.currentPage - 1;
 				params.pageSize = this.pageSize;
 				params.first_channel = '*';
 				params.second_channel = '*';
@@ -813,9 +820,9 @@ export default {
 			}
 		},
 		setmap_show(dat) {
-			this.pageNo = 1;
+			this.currentPage = 1;
 			this.pageSize = 10;
-			this.totalCnt = 1;
+			this.totalCnt = 0;
 			this.rotate = !this.rotate;
 			if (dat == 'fs') {
 				this.getlabel('fs');
@@ -825,7 +832,7 @@ export default {
 		},
 		//获取页码
 		getpage(pages) {
-			this.pageNo = pages;
+			this.currentPage = pages;
 			if (this.rotate == false) {
 				this.getlabel();
 			} else {

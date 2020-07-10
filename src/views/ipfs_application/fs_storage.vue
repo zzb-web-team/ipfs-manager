@@ -136,7 +136,9 @@
 					@change="seachuser()"
 					:picker-options="endPickerOptions"
 				></el-date-picker>
-				<el-button plain @click="reset()">重置</el-button>
+				<el-button plain type="primary" @click="reset()"
+					>重置</el-button
+				>
 				<!-- <div class="seach_bottom_btn">
           <el-button type="primary" plain size="mini" @click="seachuser()"
             >确定</el-button
@@ -149,7 +151,7 @@
 		<!-- 表格 -->
 		<div style="text-align:right;padding: 10px;">
 			<el-button
-            v-show="menutype.roleE==1"
+				v-show="menutype.roleE == 1"
 				type="primary"
 				@click="exportexe()"
 				:disabled="showdisable"
@@ -209,14 +211,11 @@
 					prop="urlname"
 					label="存储内容"
 				></el-table-column>
-				<el-table-column
-					prop="contentid"
-					label="内容ID"
-				>
-                <!-- <template slot-scope="scope">
+				<el-table-column prop="contentid" label="内容ID">
+					<!-- <template slot-scope="scope">
                     <span>{{scope.row.contentid}}</span>
                 </template> -->
-                </el-table-column>
+				</el-table-column>
 				<el-table-column
 					prop="startTS"
 					width="103"
@@ -240,8 +239,12 @@
 				</el-table-column>
 				<el-table-column prop="accelstate" label="使用状态">
 					<template slot-scope="scope">
-						<span v-if="scope.row.accelstate == 0">使用中</span>
+						<!-- <span v-if="scope.row.accelstate == 0">使用中</span>
 						<span v-else-if="scope.row.accelstate == 1"
+							>已停用</span
+						> -->
+						<span v-if="scope.row.accelstate == 1">使用中</span>
+						<span v-else-if="scope.row.accelstate == 0"
 							>已停用</span
 						>
 					</template>
@@ -292,7 +295,7 @@
 			@fathernum="gettol"
 			:pagesa="totalCnt"
 			:currentPage="currentPage"
-            ref="paginations"
+			ref="paginations"
 			v-show="tableData.length > 0"
 		></fenye>
 	</div>
@@ -309,9 +312,9 @@ import {
 	settime,
 	getymdtime,
 	setbatime,
-    formatDuring,
-    formatBkb,
-    menudisable
+	formatDuring,
+	formatBkb,
+	menudisable,
 } from '../../servers/sevdate';
 export default {
 	data() {
@@ -387,8 +390,8 @@ export default {
 			],
 			tableData: [],
 			tableData2: [],
-            order: 2,
-            menutype:{},
+			order: 2,
+			menutype: {},
 		};
 	},
 	filters: {
@@ -428,31 +431,31 @@ export default {
 			new Date(new Date().toLocaleDateString()).getTime() / 1000 -
 			86400 * 90;
 		this.endtime = Date.parse(new Date()) / 1000;
-         this.gettab();
-         let munulist = JSON.parse(localStorage.getItem('menus'));
+		this.gettab();
+		let munulist = JSON.parse(localStorage.getItem('menus'));
 		let pathname = this.$route.path;
 		this.menutype = menudisable(munulist, pathname);
 		console.log(this.menutype);
 	},
 	methods: {
 		handleChangefirst(val) {
-            this.currentPage=1;
-            if(val=='*'||val==''){
-                this.secondvalue='*';
-                this.chil_disable = true;
-                this.secondchan=[];
-            }else{
-                this.firstchan.find((item) => {
-                    if (item.value === val) {
-                        //筛选出匹配数据
-                        this.secondchan = item.secondchan;
-                        this.chil_disable = false;
-                    } else {
-                        this.chil_disable = true;
-                        this.secondvalue = '*';
-                    }
-                });
-            }
+			this.currentPage = 1;
+			if (val == '*' || val == '') {
+				this.secondvalue = '*';
+				this.chil_disable = true;
+				this.secondchan = [];
+			} else {
+				this.firstchan.find((item) => {
+					if (item.value === val) {
+						//筛选出匹配数据
+						this.secondchan = item.secondchan;
+						this.chil_disable = false;
+					} else {
+						this.chil_disable = true;
+						this.secondvalue = '*';
+					}
+				});
+			}
 			this.gettab();
 		},
 		changeSort(val) {
@@ -567,7 +570,7 @@ export default {
 		},
 		//确定搜索
 		seachuser() {
-            this.currentPage=1;
+			this.currentPage = 1;
 			if (this.busvalue != '*') {
 				this.scenedis = false;
 			} else {
@@ -594,14 +597,14 @@ export default {
 			this.secondvalue = '*';
 			this.devtypevalue = '*';
 			this.busvalue = '*';
-            this.scenevalue = '*';
-            this.currentPage=1;
+			this.scenevalue = '*';
+			this.currentPage = 1;
 			this.scenedis = true;
-            this.chil_disable = true;
-            this.starttime =
-			new Date(new Date().toLocaleDateString()).getTime() / 1000 -
-			86400 * 90;
-		this.endtime = Date.parse(new Date()) / 1000;
+			this.chil_disable = true;
+			this.starttime =
+				new Date(new Date().toLocaleDateString()).getTime() / 1000 -
+				86400 * 90;
+			this.endtime = Date.parse(new Date()) / 1000;
 			this.gettab();
 		},
 

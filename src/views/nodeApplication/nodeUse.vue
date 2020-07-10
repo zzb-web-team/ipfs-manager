@@ -202,7 +202,7 @@
 												>{{
 													(
 														scope.row.percent * 100
-													).toFixed(2)
+													)
 												}}%</template
 											>
 										</el-table-column>
@@ -438,7 +438,7 @@
 															scope.row
 																.storeUsagePercent *
 															100
-														).toFixed(2)
+														)
 													}}%
 												</span>
 											</template>
@@ -1125,10 +1125,28 @@ export default {
 		},
 		//选项卡
 		handleClick(tab, event) {
+            this.inputfs = '';
+            this.input = '';
+            this.firstvalue_fs = '';
+			this.secondvalue_fs = '';
+			this.firstvalue = '';
+            this.secondvalue = '';
+            this.devtypevalue='';
+            this.devtypevalue_fs='';
+            this.valuea='';
+            this.valueafs='';
+            this.valueb='';
+            this.valuebfs='';
+            this.ispvalue='';
+            this.ispvalue_fs='';
 			this.currentPagefs = 1;
 			this.currentPage = 1;
 			this.valuec = 5;
-			this.valuecfs = 5;
+            this.valuecfs = 5;
+            this.city_disable_fs=true;
+            this.city_disable_ip=true;
+            this.chil_disable_fs=true;
+            this.chil_disable=true;
 			this.zidingyi = false;
 			this.zidingyifs = false;
 			this.value2 = '';
@@ -1204,12 +1222,13 @@ export default {
 					} else {
 						this.valuecfs = 1440;
 					}
-				} else {
-					this.starttime =
-						new Date(new Date().toLocaleDateString()).getTime() /
-						1000;
-					this.endtime = Date.parse(new Date()) / 1000;
-				}
+                } 
+                // else {
+				// 	this.starttime =
+				// 		new Date(new Date().toLocaleDateString()).getTime() /
+				// 		1000;
+				// 	this.endtime = Date.parse(new Date()) / 1000;
+				// }
 
 				this.fs_curve();
 			} else {
@@ -1222,12 +1241,13 @@ export default {
 					} else {
 						this.valuec = 1440;
 					}
-				} else if (this.value2) {
-					this.starttime =
-						new Date(new Date().toLocaleDateString()).getTime() /
-						1000;
-					this.endtime = Date.parse(new Date()) / 1000;
-				}
+                } 
+                // else {
+				// 	this.starttime =
+				// 		new Date(new Date().toLocaleDateString()).getTime() /
+				// 		1000;
+				// 	this.endtime = Date.parse(new Date()) / 1000;
+				// }
 
 				this.ip_surve();
 			}
@@ -1458,14 +1478,9 @@ export default {
 						crossStyle: {
 							color: '#999',
 						},
-                    },
-                     formatter: function(params) {
-						return (
-							params[0].name +
-							'<br>' +
-							params[0].data +
-							'%'
-						);
+					},
+					formatter: function(params) {
+						return params[0].name + '<br>' + params[0].data + '%';
 					},
 				},
 				yAxis: [
@@ -1573,8 +1588,8 @@ export default {
 				// 		},
 				// 		show: true,
 				// 	},
-                // ],
-                yAxis: [
+				// ],
+				yAxis: [
 					// type: 'value'
 					{
 						type: 'value',
@@ -1593,16 +1608,11 @@ export default {
 						crossStyle: {
 							color: '#999',
 						},
-                    },
-                    formatter: function(params) {
-						return (
-							params[0].name +
-							'<br>' +
-							params[0].data +
-							'%'
-						);
 					},
-                },
+					formatter: function(params) {
+						return params[0].name + '<br>' + params[0].data + '%';
+					},
+				},
 				grid: {
 					x: 70,
 					y: 50,
@@ -1725,6 +1735,23 @@ export default {
 		},
 		zhuanbkb(bytes) {
 			if (bytes === 0) return '0 B';
+			if (bytes < 0) {
+				var byt = Math.abs(bytes);
+				var b = 1024,
+					bsize = [
+						'B',
+						'KB',
+						'MB',
+						'GB',
+						'TB',
+						'PB',
+						'EB',
+						'ZB',
+						'YB',
+					],
+					n = Math.floor(Math.log(byt) / Math.log(b));
+				return '-' + (byt / Math.pow(b, n)).toFixed(2) + ' ' + bsize[n];
+			}
 			var k = 1024,
 				sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
 				i = Math.floor(Math.log(bytes) / Math.log(k));

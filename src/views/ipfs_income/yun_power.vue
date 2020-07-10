@@ -136,6 +136,7 @@
 						prop="secondch"
 						label="节点二级渠道"
 					></el-table-column>
+
 					<el-table-column
 						prop="H"
 						label="节点算力"
@@ -162,6 +163,15 @@
 					<el-table-column
 						prop="secondch"
 						label="节点二级渠道"
+					></el-table-column>
+					<el-table-column prop="onlineDur" label="当日在线时长">
+						<template slot-scope="scopew">
+							<span>{{ scope.row.onlineDur | s_h }}</span>
+						</template>
+					</el-table-column>
+					<el-table-column
+						prop="offlineTime"
+						label="当日离线次数"
 					></el-table-column>
 					<el-table-column
 						prop="HChange"
@@ -248,14 +258,14 @@ export default {
 			},
 			menutype: {},
 			firstchan: [
-                // {
-				// 	name: '云链',   
+				// {
+				// 	name: '云链',
 				// 	secondchan: [
 				// 		{ name: '云链', value: 's_computer.unknown_yunlian' },
 				// 	],
 				// 	value: 'f_computer.unknown_yunlian',
 				// },
-            ],
+			],
 			secondchan: [],
 		};
 	},
@@ -271,9 +281,19 @@ export default {
 		},
 		s_h(time) {
 			if (time !== 0) {
-				return parseInt(time / 60 / 60);
+				if (time % 24 == 0) {
+					return time / 24 + '天';
+				} else {
+					if (parseInt(time / 24) <= 0) {
+						return time + '小时';
+					} else {
+						return (
+							parseInt(time / 24) + '天' + (time % 24) + '小时'
+						);
+					}
+				}
 			} else {
-				return time;
+				return time + '小时';
 			}
 		},
 	},
@@ -303,27 +323,27 @@ export default {
 			this.seachuser();
 		},
 		handleChangefirst(val) {
-            this.currentPage=1;
-            if(val=='*'||val==''){
-                this.chil_disable = true;
-                this.secondchan=[];
-                this.secondchid='';
-            }else{
-                this.firstchan.find((item) => {
-                    if (item.value === val) {
-                        //筛选出匹配数据
-                        this.secondchan = item.secondchan;
-                        this.chil_disable = false;
-                    } else {
-                        this.chil_disable = true;
-                    }
-                });
-            }
+			this.currentPage = 1;
+			if (val == '*' || val == '') {
+				this.chil_disable = true;
+				this.secondchan = [];
+				this.secondchid = '';
+			} else {
+				this.firstchan.find((item) => {
+					if (item.value === val) {
+						//筛选出匹配数据
+						this.secondchan = item.secondchan;
+						this.chil_disable = false;
+					} else {
+						this.chil_disable = true;
+					}
+				});
+			}
 			this.seachuser();
 		},
 		//搜索
 		seachuser() {
-            this.currentPage=1;
+			this.currentPage = 1;
 			if (this.radio == 1) {
 				this.get_node_h();
 			} else {
@@ -359,6 +379,7 @@ export default {
 		},
 		//获取数据
 		get_node_h() {
+			this.tableData = [];
 			let params = new Object();
 			let ipsos = /^(\d{1,3}\.{1}){3}((\d{1,3}){1})$/;
 			if (ipsos.test(this.input) == true) {
@@ -369,8 +390,8 @@ export default {
 				params.IP = '';
 			}
 			params.curPage = this.currentPage - 1;
-            params.itemCount = this.pagesize;
-            if (this.firstchid == '*') {
+			params.itemCount = this.pagesize;
+			if (this.firstchid == '*') {
 				params.channel1 = '';
 			} else {
 				params.channel1 = this.firstchid;
@@ -385,11 +406,11 @@ export default {
 					// this.tableData = res.data;
 					res.data.forEach((item) => {
 						this.firstchan.forEach((fitem) => {
-							if (fitem.value == item.firstchannel) {
+							if (fitem.value == item.channel1) {
 								item.firstch = fitem.name;
 								if (fitem.secondchan) {
 									fitem.secondchan.forEach((xime) => {
-										if (item.secondchannel == xime.value) {
+										if (item.channel2 == xime.value) {
 											item.secondch = xime.name;
 										}
 									});
@@ -414,6 +435,7 @@ export default {
 				});
 		},
 		get_node_h_detail() {
+			this.table_detail_data = [];
 			let params = new Object();
 			let ipsos = /^(\d{1,3}\.{1}){3}((\d{1,3}){1})$/;
 			if (ipsos.test(this.input) == true) {
@@ -427,8 +449,8 @@ export default {
 			params.dateEnd = this.endtime;
 			params.order = this.order;
 			params.curPage = this.pageNo - 1;
-            params.itemCount = this.pagesize;
-            if (this.firstchid == '*') {
+			params.itemCount = this.pagesize;
+			if (this.firstchid == '*') {
 				params.channel1 = '';
 			} else {
 				params.channel1 = this.firstchid;
@@ -444,11 +466,11 @@ export default {
 					// this.table_detail_data = res.data;
 					res.data.forEach((item) => {
 						this.firstchan.forEach((fitem) => {
-							if (fitem.value == item.firstchannel) {
+							if (fitem.value == item.channel1) {
 								item.firstch = fitem.name;
 								if (fitem.secondchan) {
 									fitem.secondchan.forEach((xime) => {
-										if (item.secondchannel == xime.value) {
+										if (item.channel2 == xime.value) {
 											item.secondch = xime.name;
 										}
 									});
@@ -489,8 +511,8 @@ export default {
 				params.IP = '';
 			}
 			params.dateStart = this.starttime;
-            params.dateEnd = this.endtime;
-            if (this.firstchid == '*') {
+			params.dateEnd = this.endtime;
+			if (this.firstchid == '*') {
 				params.channel1 = '';
 			} else {
 				params.channel1 = this.firstchid;

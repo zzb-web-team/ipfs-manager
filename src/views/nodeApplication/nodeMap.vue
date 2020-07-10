@@ -20,63 +20,64 @@
 					>
 					</el-date-picker>
 				</el-col>
-				<el-col :span="4">
+				<span>
 					节点渠道商：
-					<el-select
-						v-model="searchdata.region1"
-						placeholder="请选择一级渠道"
-						@change="handleChangefirst($event)"
-					>
-						<el-option label="全部" value="*"></el-option>
-						<el-option
-							v-for="(item, index) in firstchan"
-							:key="item.name + index"
-							:label="item.name"
-							:value="item.value"
-						></el-option>
-					</el-select>
-				</el-col>
-				<el-col :span="3">
-					<el-select
-						v-model="searchdata.region2"
-						placeholder="请选择二级渠道"
-						@change="get_search()"
-						:disabled="chil_disable"
-					>
-						<el-option label="全部" value="*"></el-option>
-						<el-option
-							v-for="(item, index) in secondchan"
-							:key="item.value + index"
-							:label="item.name"
-							:value="item.value"
-						></el-option>
-					</el-select>
-				</el-col>
-				<el-col :span="4">
-					<span>设备类型：</span>
-					<el-select
-						v-model="searchdata.region3"
-						placeholder="请选设备类型"
-						@change="get_search()"
-					>
-						<el-option label="全部" value="*"></el-option>
-						<el-option
-							v-for="(item, index) in device_type"
-							:key="item.name + index"
-							:label="item.name"
-							:value="item.name"
-						></el-option>
-					</el-select>
-				</el-col>
-				<el-col :span="4">
-					<span>区域：</span>
-					<el-cascader
-						placeholder="请选择区域"
-						v-model="searchdata.region4"
-						:options="citylist"
-						@change="provinceChange"
-					></el-cascader>
-				</el-col>
+				</span>
+				<el-select
+					style="width: 8%;"
+					v-model="searchdata.region1"
+					placeholder="请选择一级渠道"
+					@change="handleChangefirst($event)"
+				>
+					<el-option label="全部" value="*"></el-option>
+					<el-option
+						v-for="(item, index) in firstchan"
+						:key="item.name + index"
+						:label="item.name"
+						:value="item.value"
+					></el-option>
+				</el-select>
+
+				<el-select
+					style="width: 8%;"
+					v-model="searchdata.region2"
+					placeholder="请选择二级渠道"
+					@change="get_search()"
+					:disabled="chil_disable"
+				>
+					<el-option label="全部" value="*"></el-option>
+					<el-option
+						v-for="(item, index) in secondchan"
+						:key="item.value + index"
+						:label="item.name"
+						:value="item.value"
+					></el-option>
+				</el-select>
+
+				<span>设备类型：</span>
+				<el-select
+					style="width: 8%;"
+					v-model="searchdata.region3"
+					placeholder="请选设备类型"
+					@change="get_search()"
+				>
+					<el-option label="全部" value="*"></el-option>
+					<el-option
+						v-for="(item, index) in device_type"
+						:key="item.name + index"
+						:label="item.name"
+						:value="item.name"
+					></el-option>
+				</el-select>
+
+				<span>区域：</span>
+				<el-cascader
+					style="width: 8%;"
+					placeholder="请选择区域"
+					v-model="searchdata.region4"
+					:options="citylist"
+					@change="provinceChange"
+				></el-cascader>
 			</el-row>
 		</div>
 		<div style="display: flex;" class="mapdal">
@@ -140,7 +141,6 @@ export default {
 			],
 			firstchan: [
 				//一级渠道商
-				
 			],
 			endPickerOptions: {
 				disabledDate(time) {

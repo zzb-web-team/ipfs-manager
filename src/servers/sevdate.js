@@ -100,7 +100,7 @@ export function get_units(a) {
     if (0 == a) return 'B';
     var k = 1024;
     var e = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
-        f = Math.floor(Math.log(a) / Math.log(k));
+        f = Math.floor(Math.log(Math.abs(a)) / Math.log(k));
     return e[f];
 }
 export function formatBkb(a, b) {

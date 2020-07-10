@@ -296,6 +296,7 @@ export default {
 		},
 		//收益
 		get_income_list() {
+            this.tableData=[];
 			let params = new Object();
 			let ipsos = /^(\d{1,3}\.{1}){3}((\d{1,3}){1})$/;
 			if (ipsos.test(this.input) == true) {
@@ -327,11 +328,11 @@ export default {
 
 					res.data.forEach((item) => {
 						this.firstchan.forEach((fitem) => {
-							if (fitem.channel1 == item.firstchannel) {
+							if (fitem.value == item.channel1) {
 								item.firstch = fitem.name;
 								if (fitem.secondchan) {
 									fitem.secondchan.forEach((xime) => {
-										if (item.secondchannel == xime.value) {
+										if (item.channel2 == xime.value) {
 											item.secondch = xime.name;
 										}
 									});

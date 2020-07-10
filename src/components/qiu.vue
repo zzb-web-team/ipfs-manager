@@ -38,8 +38,8 @@ export default {
 			myChart.setOption({
 				series: [
 					{
-                        type: 'liquidFill',
-                        radius:"68%",
+						type: 'liquidFill',
+						radius: '68%',
 						data: this.num,
 						color: ['#2FD8FF', '#FF3CB7'],
 						itemStyle: {
@@ -53,14 +53,26 @@ export default {
 								shadowBlur: 20,
 							},
 						},
+						// label: {
+						// 	normal: {
+						// 		textStyle: {
+						// 			color: '#2FD8FF',
+						// 			insideColor: 'yellow',
+						// 			fontSize: 20,
+						// 		},
+						// 	},
+						// },
 						label: {
-							normal: {
-								textStyle: {
-									color: '#2FD8FF',
-									insideColor: 'yellow',
-									fontSize: 20,
-								},
+							formatter(options) {
+								const { value } = options;
+								// return `${parseInt(
+								// 	(value * 100).toFixed(4)
+                                // )} %`;
+                                return (value*100).toFixed(2)+'%';
 							},
+							color: '#2FD8FF',
+							insideColor: 'yellow',
+							fontSize: 16,
 						},
 						color: [
 							{

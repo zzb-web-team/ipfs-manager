@@ -73,14 +73,9 @@
 								</el-input>
 							</el-col>
 						</el-form-item>
-						<el-form-item
-							label="分组用户"
-							prop="userlist"
-							v-show="
-								updatadis == true || title == '新建权限分组'
-							"
-						>
+						<el-form-item label="分组用户" prop="userlist">
 							<el-cascader
+								@change="fen"
 								v-model="form.userlist"
 								:options="options"
 								:props="props"
@@ -90,12 +85,9 @@
 								clearable
 							></el-cascader>
 						</el-form-item>
-						<el-form-item
+						<!-- <el-form-item
 							label="分组用户"
 							prop="userid"
-							v-show="
-								updatadis != true && title != '新建权限分组'
-							"
 						>
 							<el-select v-model="form.userid" multiple disabled>
 								<el-option
@@ -106,7 +98,7 @@
 								>
 								</el-option>
 							</el-select>
-						</el-form-item>
+						</el-form-item> -->
 					</el-form>
 				</el-col>
 				<div
@@ -156,7 +148,7 @@
 							@click="updatahandleClick(scope.row)"
 							type="text"
 							size="small"
-                            :disabled="scope.row.id==1"
+							:disabled="scope.row.id == 1"
 							>修改</el-button
 						>
 						<el-button
@@ -164,7 +156,7 @@
 							@click="handleClick(scope.row)"
 							type="text"
 							size="small"
-                            :disabled="scope.row.id==1"
+							:disabled="scope.row.id == 1"
 							>权限管理</el-button
 						>
 						<el-button
@@ -172,7 +164,7 @@
 							@click.native.prevent="deleteRow(scope.row)"
 							type="text"
 							size="small"
-                            :disabled="scope.row.id==1"
+							:disabled="scope.row.id == 1"
 							>删除</el-button
 						>
 					</template>
@@ -296,6 +288,9 @@ export default {
 		console.log(this.menutype);
 	},
 	methods: {
+		fen(val) {
+            console.log(val);
+		},
 		search() {
 			this.currentPage = 1;
 			this.get_datalist();
@@ -533,6 +528,7 @@ export default {
 							})
 							.catch((error) => {});
 					} else {
+						console.log(this.form.userlist);
 						let params = new Object();
 						params.roleid = this.form.id;
 						params.name = this.form.title;
@@ -552,6 +548,8 @@ export default {
 								params.userid.length - 1
 							);
 						}
+						console.log(params);
+						return false;
 						updaterole(params)
 							.then((res) => {
 								this.form.title = '';
@@ -578,6 +576,9 @@ export default {
 		//弹窗-取消
 		resetForm(formName) {
 			this.$refs[formName].resetFields();
+			this.$nextTick(() => {
+				this.form.userlist = []; ////重置选项
+			});
 			this.form.title = '';
 			this.form.description = '';
 			this.form.titleuserlist = [];
@@ -685,39 +686,85 @@ export default {
 		},
 		//修改
 		updatahandleClick(data) {
-			console.log(data);
+			// console.log(data);
 			let _this = this;
-			this.form.userid = [];
+			 this.form.userid = [];
 			this.title = '权限分组修改';
 			this.dialogFormVisible = true;
 			this.updatadis = true;
 			this.form.title = data.name;
 			this.form.description = data.description;
 			this.form.id = data.id;
-			this.form.userlist = data.user;
+			// this.form.userlist = data.user;
+
 			if (data.user.length > 0) {
 				this.updatadis = false;
 				var id_list = '';
+				var arr = [];
 				let params = new Object();
+				var newuser = {};
 				data.user.forEach((item) => {
 					this.form.userid.push(item.label);
 					id_list += item.id + ',';
+					arr.push(item.pdepartmentid);
+					arr.push(item.departmentid);
+					arr.push(item.id);
+					if (!newuser[item.pdepartmentid]) {
+						newuser[item.pdepartmentid] = {
+							id: item.pdepartmentid,
+							label: item.pdepartmentname,
+							children: [
+								{
+									id: item.departmentid,
+									label: item.departmentname,
+									children: [
+										{ id: item.id, label: item.label },
+									],
+								},
+							],
+						};
+					} else {
+						newuser[item.pdepartmentid].children.forEach(
+							(xtime) => {
+								if (xtime.id == item.departmentid) {
+									xtime.children.push({
+										id: item.id,
+										label: item.label,
+									});
+								} else {
+									xtime.push({
+										id: item.departmentid,
+										label: item.departmentname,
+										children: [
+											{ id: item.id, label: item.label },
+										],
+									});
+								}
+							}
+						);
+					}
 				});
-				params.userid = id_list.slice(0, -1);
-				getuserdepartment(params)
-					.then((res) => {
-						if (res.status == 0) {
-							var newArr = new Array();
-							res.data.forEach((item) => {
-								newArr.push(item.pdepartmentid);
-								newArr.push(item.departmentid);
-								newArr.push(item.userid);
-								_this.user_list.push(newArr.splice(0, 3));
-							});
-							_this.form.userlist = _this.user_list;
-						}
-					})
-					.catch((error) => {});
+				for (var k in newuser) {
+					this.options.push(newuser[k]);
+                }
+               this.form.userlist=[];
+				this.form.userlist = arrTrans(3, arr);
+                console.log(this.form.userlist);
+				// params.userid = id_list.slice(0, -1);
+				// getuserdepartment(params)
+				// 	.then((res) => {
+				// 		if (res.status == 0) {
+				// 			var newArr = new Array();
+				// 			res.data.forEach((item) => {
+				// 				newArr.push(item.pdepartmentid);
+				// 				newArr.push(item.departmentid);
+				// 				newArr.push(item.userid);
+				// 				_this.user_list.push(newArr.splice(0, 3));
+				// 			});
+				// 			_this.form.userlist = _this.user_list;
+				// 		}
+				// 	})
+				// 	.catch((error) => {});
 			}
 		},
 		deleteRow(data) {

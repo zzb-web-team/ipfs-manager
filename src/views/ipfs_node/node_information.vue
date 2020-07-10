@@ -35,7 +35,7 @@
 		<div class="seach_bottom" v-if="optiondisplay">
 			<div class="seach_bottom_tw">
 				<div class="location_select">
-					<span>节点任务状态：</span>
+					<span>任务状态：</span>
 					<el-select
 						placeholder="请选择状态"
 						v-model="value_node"
@@ -48,7 +48,7 @@
 							:value="item.value"
 						></el-option>
 					</el-select>
-					<span>节点运行状态：</span>
+					<span>运行状态：</span>
 					<el-select
 						placeholder="请选择状态"
 						v-model="value"
@@ -63,6 +63,7 @@
 					</el-select>
 					<span>节点区域：</span>
 					<el-cascader
+                    style="width:150px;"
 						placeholder="请选择区域"
 						v-model="value1"
 						:options="citylist"
@@ -111,7 +112,17 @@
 							:value="item.value"
 						></el-option>
 					</el-select>
-					<span>设备类型：</span>
+
+					<el-button
+						plain
+                        type="primary"
+						@click="resetseach()"
+						class="resetseach_btn"
+						>重置</el-button
+					>
+				</div>
+                <div class="location_select">
+                    					<span>设备类型：</span>
 					<el-select
 						v-model="dev_type"
 						placeholder="请选择"
@@ -171,13 +182,7 @@
 							:disabled="item.disabled"
 						></el-option>
 					</el-select>
-					<el-button
-						plain
-						@click="resetseach()"
-						class="resetseach_btn"
-						>重置</el-button
-					>
-				</div>
+                </div>
 				<!-- <div class="region_select">
 					<el-button
 						plain
@@ -1140,7 +1145,7 @@ export default {
 	padding: 10px 15px 5px 15px;
 	margin-bottom: 10px;
 	.seach_bottom_tw {
-		display: flex;
+		// display: flex;
 		.location_select {
 			margin: 0 0;
 		}

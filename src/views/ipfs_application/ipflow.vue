@@ -146,7 +146,7 @@
 					@change="seachuser()"
 					:picker-options="endPickerOptions"
 				></el-date-picker>
-				<el-button plain @click="reset()">重置</el-button>
+				<el-button plain type="primary" @click="reset()">重置</el-button>
 				<!-- <div class="seach_bottom_btn">
 					<el-button
 						type="primary"
