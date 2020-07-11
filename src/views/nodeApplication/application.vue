@@ -1769,15 +1769,16 @@ export default {
 				const {
 					export_json_to_excel,
 				} = require('../../excel/Export2Excel.js');
-				const tHeader = ['节点ID', '使用流量', '传输次数', '日期'];
+				
 				// 上面设置Excel的表格第一行的标题
 				if (excelname == '节点应用统计IP流量') {
 					var filterVal = [
-						'ipfsId',
+						'ipfsHashId',
 						'dataFlow',
-						'outputCnt',
-						'timestamp',
+						'outputCount',
+						'timeReport',
 					];
+					var tHeader = ['节点ID', '使用流量', '传输次数', '日期'];
 				} else {
 					var filterVal = [
 						'ipfsId',
@@ -1785,6 +1786,7 @@ export default {
 						'storeTimes',
 						'timeStamp',
 					];
+					var tHeader = ['节点ID', '存储容量', '存储次数', '日期'];
 				}
 
 				// 上面的index、nickName、name是tableData里对象的属性
@@ -1796,8 +1798,8 @@ export default {
 		},
 		formatJson(filterVal, jsonData) {
 			jsonData.forEach((item) => {
-				if (item.timestamp) {
-					item.timestamp = getymdtime(item.timestamp);
+				if (item.timeReport) {
+					item.timeReport = getymdtime(item.timeReport);
 					return item;
 				}
 				if (item.timeStamp) {
