@@ -494,19 +494,19 @@ export default {
 							this.titledar[2].connum = arr[1];
 						}
 						this.titledar[3].connum = res.data.online_cnt;
-						this.titledar[4].connum = this.common.formatByteActive(
+						this.titledar[4].connum = this.common.formatBytes(
 							res.data.total_cap
 						);
-						this.titledar[5].connum = this.common.formatByteActive(
+						this.titledar[5].connum = this.common.formatBytes(
 							res.data.total_usedcap
 						);
-						this.titledar[6].connum = this.common.formatByteActive(
+						this.titledar[6].connum = this.common.formatBytes(
 							res.data.total_freecap
 						);
-						this.titledar[7].connum = this.common.formatByteActive(
+						this.titledar[7].connum = this.common.formatBytes(
 							res.data.total_dataflow
 						);
-						this.titledar[9].connum = this.common.formatByteActive(
+						this.titledar[9].connum = this.common.formatBytes(
 							res.data.total_storeusage
 						);
 					} else {
@@ -725,7 +725,7 @@ export default {
 				.allnum {
 					line-height: 40px;
 					color: #1c1a1d;
-					font-size: 34px;
+					font-size: 30px;
 				}
 			}
 		}

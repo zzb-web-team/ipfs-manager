@@ -10,6 +10,10 @@ export default {
 	name: 'thermalmap',
 	data() {
 		return {
+			urlyuny: require('../assets/img/zaixianfuwuqi.png'),
+			urlyunn: require('../assets/img/lixianfuwuqi.png'),
+			urlxiy: require('../assets/img/binding_illustration3.png'),
+			urlxin: require('../assets/img/lixianxiyouji.png'),
 			dkmaosj: true,
 			// 热力图的点数据，lng：点的经度 点的lat纬度 count：点的热力程度
 			points: [
@@ -240,10 +244,18 @@ export default {
 			var opts = { offset: new BMap.Size(10, 10) };
 			this.map.addControl(new BMap.NavigationControl(opts));
 			// 设置地图默认缩放比例
-			this.map.setZoom(12);
+            this.map.setZoom(12);
+            
+
+            
 		},
 		// 方法 - 添加热力图覆盖物
 		initHeatMap() {
+			// var pt = new BMap.Point(116.417, 39.909);
+			// var myIcon = new BMap.Icon(this.urlyuny, new BMap.Size(300, 157));
+			// var marker2 = new BMap.Marker(pt, { icon: myIcon });
+			// this.map.addOverlay(marker2);
+
 			this.heatmapOverlay = new BMapLib.HeatmapOverlay({
 				// 热力图的每个点的半径大小
 				radius: BMAP_POINT_SIZE_SMALL * 4,

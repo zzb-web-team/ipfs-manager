@@ -146,7 +146,9 @@
 					@change="seachuser()"
 					:picker-options="endPickerOptions"
 				></el-date-picker>
-				<el-button plain type="primary" @click="reset()">重置</el-button>
+				<el-button plain type="primary" @click="reset()"
+					>重置</el-button
+				>
 				<!-- <div class="seach_bottom_btn">
 					<el-button
 						type="primary"
@@ -164,7 +166,7 @@
 		<div>
 			<div style="text-align:right;padding: 10px;">
 				<el-button
-                v-show="menutype.roleE==1"
+					v-show="menutype.roleE == 1"
 					type="primary"
 					@click="exportexc()"
 					:disabled="showdisable"
@@ -225,15 +227,16 @@
 				</el-table-column>
 				<el-table-column prop="bondWidth" label="占用带宽">
 					<template slot-scope="scope">
-						<span v-if="scope.row.dataflow == 0"
-							>{{ scope.row.bondWidth }}0Mbps</span
-						>
+						<span v-if="scope.row.dataflow == 0">0Mbps</span>
 						<span v-else
 							>{{ scope.row.bondWidth
 							}}{{
 								(
-									scope.row.dataflow / scope.row.timeuse
-								).toFixed(2)
+									scope.row.dataflow /
+									scope.row.timeuse /
+									1024 /
+									1024
+								).toFixed(4)
 							}}Mbps</span
 						>
 					</template>
@@ -303,7 +306,7 @@
 			@fathernum="gettol"
 			:pagesa="totalCnt"
 			:currentPage="currentPage"
-            ref="paginations"
+			ref="paginations"
 			v-show="tableData.length > 0"
 		></fenye>
 	</div>
@@ -317,8 +320,8 @@ import {
 	settime,
 	getymdtime,
 	setbatime,
-    formatDuring,
-    menudisable
+	formatDuring,
+	menudisable,
 } from '../../servers/sevdate';
 export default {
 	data() {
@@ -365,8 +368,7 @@ export default {
 				//运营商
 			],
 			firstchan: [
-                //一级渠道商
-               
+				//一级渠道商
 			],
 			secondchan: [],
 			endPickerOptions: {
@@ -404,8 +406,8 @@ export default {
 			],
 			tableData: [],
 			tableData2: [],
-            order: 2,
-            menutype:{},
+			order: 2,
+			menutype: {},
 		};
 	},
 	filters: {
@@ -436,8 +438,8 @@ export default {
 				d = 2;
 			}
 			return parseFloat((a / Math.pow(c, f)).toFixed(d)) + ' ' + e[f];
-        },
-        menutype:{}
+		},
+		menutype: {},
 	},
 	components: { fenye },
 	mounted() {
@@ -446,20 +448,20 @@ export default {
 			new Date(new Date().toLocaleDateString()).getTime() / 1000 -
 			86400 * 90;
 		this.endtime = Date.parse(new Date()) / 1000;
-        this.gettab();
-        let munulist = JSON.parse(localStorage.getItem('menus'));
+		this.gettab();
+		let munulist = JSON.parse(localStorage.getItem('menus'));
 		let pathname = this.$route.path;
 		this.menutype = menudisable(munulist, pathname);
 		console.log(this.menutype);
 	},
 	methods: {
 		handleChangefirst(val) {
-            this.currentPage=1;
-            if(val=='*'||val==''){
-                this.secondvalue='*';
-                this.chil_disable = true;
-                this.secondchan=[];
-            }
+			this.currentPage = 1;
+			if (val == '*' || val == '') {
+				this.secondvalue = '*';
+				this.chil_disable = true;
+				this.secondchan = [];
+			}
 			this.firstchan.find((item) => {
 				if (item.value === val) {
 					//筛选出匹配数据
@@ -584,7 +586,7 @@ export default {
 		},
 		//确定搜索
 		seachuser() {
-            this.currentPage=1;
+			this.currentPage = 1;
 			if (this.busvalue != '*') {
 				this.scenedis = false;
 			} else {
@@ -605,7 +607,7 @@ export default {
 			this.gettab();
 		},
 		seachuser_yongtu() {
-            this.currentPage=1;
+			this.currentPage = 1;
 			if (this.scenevalue != '*') {
 				this.yongtu = false;
 			} else {
@@ -615,11 +617,11 @@ export default {
 			this.gettab();
 		},
 		//重置
-		reset() { 
-           this.starttime =
-			new Date(new Date().toLocaleDateString()).getTime() / 1000 -
-			86400 * 90;
-		this.endtime = Date.parse(new Date()) / 1000;
+		reset() {
+			this.starttime =
+				new Date(new Date().toLocaleDateString()).getTime() / 1000 -
+				86400 * 90;
+			this.endtime = Date.parse(new Date()) / 1000;
 			this.value = 0;
 			this.input = '';
 			this.value1 = '';

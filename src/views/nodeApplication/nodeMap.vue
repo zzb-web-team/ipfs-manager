@@ -454,7 +454,8 @@ export default {
 							obj.totalPercent = item[1].totalPercent;
 							arr.push(obj);
 						});
-						this.maplist = arr;
+                        this.maplist = arr;
+                        console.log(this.maplist);
 						this.drawLine();
 					}
 				})
@@ -483,7 +484,7 @@ export default {
 				},
 				visualMap: {
 					min: 0,
-					max: 10000,
+					max: 500,
 					left: '5%',
 					top: 'bottom',
 					text: ['高', '低'],
