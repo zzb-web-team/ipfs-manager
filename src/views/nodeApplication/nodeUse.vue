@@ -200,9 +200,7 @@
 										>
 											<template slot-scope="scope"
 												>{{
-													(
-														scope.row.percent * 100
-													)
+													scope.row.percent * 100
 												}}%</template
 											>
 										</el-table-column>
@@ -434,11 +432,9 @@
 												</span>
 												<span v-else>
 													{{
-														(
-															scope.row
-																.storeUsagePercent *
+														scope.row
+															.storeUsagePercent *
 															100
-														)
 													}}%
 												</span>
 											</template>
@@ -482,6 +478,7 @@ import {
 	setbatime,
 	getday,
 	menudisable,
+	zhuanbkbs,
 } from '../../servers/sevdate';
 import {
 	ipfs_dataflow_query_conditions,
@@ -1125,28 +1122,28 @@ export default {
 		},
 		//选项卡
 		handleClick(tab, event) {
-            this.inputfs = '';
-            this.input = '';
-            this.firstvalue_fs = '';
+			this.inputfs = '';
+			this.input = '';
+			this.firstvalue_fs = '';
 			this.secondvalue_fs = '';
 			this.firstvalue = '';
-            this.secondvalue = '';
-            this.devtypevalue='';
-            this.devtypevalue_fs='';
-            this.valuea='';
-            this.valueafs='';
-            this.valueb='';
-            this.valuebfs='';
-            this.ispvalue='';
-            this.ispvalue_fs='';
+			this.secondvalue = '';
+			this.devtypevalue = '';
+			this.devtypevalue_fs = '';
+			this.valuea = '';
+			this.valueafs = '';
+			this.valueb = '';
+			this.valuebfs = '';
+			this.ispvalue = '';
+			this.ispvalue_fs = '';
 			this.currentPagefs = 1;
 			this.currentPage = 1;
 			this.valuec = 5;
-            this.valuecfs = 5;
-            this.city_disable_fs=true;
-            this.city_disable_ip=true;
-            this.chil_disable_fs=true;
-            this.chil_disable=true;
+			this.valuecfs = 5;
+			this.city_disable_fs = true;
+			this.city_disable_ip = true;
+			this.chil_disable_fs = true;
+			this.chil_disable = true;
 			this.zidingyi = false;
 			this.zidingyifs = false;
 			this.value2 = '';
@@ -1222,8 +1219,8 @@ export default {
 					} else {
 						this.valuecfs = 1440;
 					}
-                } 
-                // else {
+				}
+				// else {
 				// 	this.starttime =
 				// 		new Date(new Date().toLocaleDateString()).getTime() /
 				// 		1000;
@@ -1241,8 +1238,8 @@ export default {
 					} else {
 						this.valuec = 1440;
 					}
-                } 
-                // else {
+				}
+				// else {
 				// 	this.starttime =
 				// 		new Date(new Date().toLocaleDateString()).getTime() /
 				// 		1000;
@@ -1685,20 +1682,32 @@ export default {
 				const {
 					export_json_to_excel,
 				} = require('../../excel/Export2Excel.js');
-				const tHeader = ['节点ID', '使用流量', '传输次数', '日期'];
+
 				// 上面设置Excel的表格第一行的标题
 				if (excelname == '节点利用率IP流量') {
+					var tHeader = [
+						'节点ID',
+						'使用IP流量',
+						'IP流量利用率',
+						'日期',
+					];
 					var filterVal = [
 						'ipfsId',
-						'dataFlow',
-						'outputCnt',
-						'timestamp',
+						'totalOutput',
+						'percent',
+						'timeStamp',
 					];
 				} else {
+					var tHeader = [
+						'节点ID',
+						'使用存储空间',
+						'FS存储利用率',
+						'日期',
+					];
 					var filterVal = [
 						'ipfsId',
 						'storeUsage',
-						'storeTimes',
+						'storeUsagePercent',
 						'timeStamp',
 					];
 				}
@@ -1712,12 +1721,15 @@ export default {
 		},
 		formatJson(filterVal, jsonData) {
 			jsonData.forEach((item) => {
-				if (item.timestamp) {
-					item.timestamp = getymdtime(item.timestamp);
+				item.timeStamp = getymdtime(item.timeStamp);
+				if (item.totalOutput) {
+					item.totalOutput = zhuanbkbs(item.totalOutput);
+					item.percent = item.percent * 100 + '%';
 					return item;
 				}
-				if (item.timeStamp) {
-					item.timeStamp = getymdtime(item.timeStamp);
+				if (item.storeUsage) {
+					item.storeUsage = zhuanbkbs(item.storeUsage);
+					item.storeUsagePercent = item.storeUsagePercent * 100 + '%';
 					return item;
 				}
 			});

@@ -118,6 +118,30 @@ export function formatBkb(a, b) {
     }
 
 };
+export function zhuanbkbs(bytes) {
+    if (bytes === 0) return '0 B';
+    if (bytes < 0) {
+        var byt = Math.abs(bytes);
+        var b = 1024,
+            bsize = [
+                'B',
+                'KB',
+                'MB',
+                'GB',
+                'TB',
+                'PB',
+                'EB',
+                'ZB',
+                'YB',
+            ],
+            n = Math.floor(Math.log(byt) / Math.log(b));
+        return '-' + (byt / Math.pow(b, n)).toFixed(2) + ' ' + bsize[n];
+    }
+    var k = 1024,
+        sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
+        i = Math.floor(Math.log(bytes) / Math.log(k));
+    return (bytes / Math.pow(k, i)).toFixed(2) + ' ' + sizes[i];
+};
 export function arrTrans(num, arr) {
     const newArr = [];
     while (arr.length > 0) {

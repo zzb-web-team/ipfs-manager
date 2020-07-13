@@ -515,6 +515,7 @@ import {
 	setbatime,
 	getday,
 	menudisable,
+	zhuanbkbs,
 } from '../../servers/sevdate';
 import {
 	ipfs_dataflow_query_conditions,
@@ -1485,8 +1486,8 @@ export default {
 					} else {
 						this.valuecfs = 1440;
 					}
-                }
-                //  else {
+				}
+				//  else {
 				// 	this.starttime =
 				// 		new Date(new Date().toLocaleDateString()).getTime() /
 				// 		1000;
@@ -1497,8 +1498,8 @@ export default {
 				if (this.value2 != null && this.value2 != '') {
 					this.starttime = setbatime(this.value2[0]);
 					this.endtime = setbatime(this.value2[1]);
-                }
-                //  else {
+				}
+				//  else {
 				// 	this.starttime =
 				// 		new Date(new Date().toLocaleDateString()).getTime() /
 				// 		1000;
@@ -1769,7 +1770,7 @@ export default {
 				const {
 					export_json_to_excel,
 				} = require('../../excel/Export2Excel.js');
-				
+
 				// 上面设置Excel的表格第一行的标题
 				if (excelname == '节点应用统计IP流量') {
 					var filterVal = [
@@ -1799,11 +1800,13 @@ export default {
 		formatJson(filterVal, jsonData) {
 			jsonData.forEach((item) => {
 				if (item.timeReport) {
-					item.timeReport = getymdtime(item.timeReport);
+                    item.timeReport = getymdtime(item.timeReport);
+                    item.dataFlow = zhuanbkbs(item.dataFlow);
 					return item;
 				}
 				if (item.timeStamp) {
-					item.timeStamp = getymdtime(item.timeStamp);
+                    item.timeStamp = getymdtime(item.timeStamp);
+                    item.storeUsage = zhuanbkbs(item.storeUsage);
 					return item;
 				}
 			});

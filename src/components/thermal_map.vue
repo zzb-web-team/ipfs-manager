@@ -6,14 +6,19 @@
 </template>
 
 <script>
+import router from '../router';
 export default {
 	name: 'thermalmap',
 	data() {
 		return {
-			urlyuny: require('../assets/img/zaixianfuwuqi.png'),
-			urlyunn: require('../assets/img/lixianfuwuqi.png'),
-			urlxiy: require('../assets/img/binding_illustration3.png'),
-			urlxin: require('../assets/img/lixianxiyouji.png'),
+			urlyuny: require('../assets/img/map_yun_y.png'),
+			urlyunn: require('../assets/img/map_yun_n.png'),
+			urlxiy: require('../assets/img/map_xiyou_y.png'),
+            urlxin: require('../assets/img/map_xiyou_n.png'),
+            urlyunq: require('../assets/img/map_yun_q.png'),
+			urlyunj: require('../assets/img/map_yun_j.png'),
+			urlxiq: require('../assets/img/map_xiyou_q.png'),
+			urlxij: require('../assets/img/map_xiyou_j.png'),
 			dkmaosj: true,
 			// 热力图的点数据，lng：点的经度 点的lat纬度 count：点的热力程度
 			points: [
@@ -107,7 +112,7 @@ export default {
 				// { lng: 116.41905, lat: 39.929217, count: 12 },
 				// { lng: 116.424579, lat: 39.914987, count: 57 },
 				// { lng: 116.42076, lat: 39.915251, count: 70 },
-				// { lng: 116.425867, lat: 39.918989, count: 8 }
+				// { lng: 116.425867, lat: 39.918989, count: 8 },
 			],
 			city: {
 				// 山东: ["117.000923", "36.675807"],
@@ -226,28 +231,102 @@ export default {
 		// 创建和初始化地图函数
 		initMap() {
 			this.createMap(); // 创建地图
-			this.initHeatMap(); // 添加热力图覆盖物
+			//this.initHeatMap(); // 添加热力图覆盖物
 		},
 		// 方法 - 创建地图
 		createMap() {
+            var _this=this;
 			// 在百度地图容器中创建地图实例
-			let map = new BMap.Map('container');
+			let map = new BMap.Map('container',{enableMapClick:false});
 			// 将map变量存储在全局
 			this.map = map;
 			// 设定地图的中心点和坐标
 			let point = new BMap.Point(this.centerLng, this.centerLat);
 			// 设置中心点坐标和地图级别
 			this.map.centerAndZoom(point, 15);
+
 			// 允许滚轮缩放
 			this.map.enableScrollWheelZoom(point, 15);
 			// 添加左上角缩放比例尺(offset: new BMap.Size(0, 0)为比例尺的坐标位置)
-			var opts = { offset: new BMap.Size(10, 10) };
+			var opts = { offset: new BMap.Size(50, 50) };
 			this.map.addControl(new BMap.NavigationControl(opts));
 			// 设置地图默认缩放比例
-            this.map.setZoom(12);
-            
-
-            
+			this.map.setZoom(12);
+			var pointArray = new Array();
+			for (var i = 0; i < this.points.length; i++) {
+				// console.log(this.points[i]);
+				// var marker = new BMap.Marker(
+				// 	new BMap.Point(this.points[i].lng, this.points[i].lat)
+				// ); // 创建点
+				// this.map.addOverlay(marker); //增加点
+				// pointArray[i] = new BMap.Point(
+				// 	this.points[i].lng,
+				// 	this.points[i].lat
+				// );
+				// marker.addEventListener('click', attribute);
+				var pt = new BMap.Point(this.points[i].lng, this.points[i].lat);
+				var myIcon = new BMap.Icon(
+					this.urlyunq,
+					new BMap.Size(56, 56)
+				);
+				var marker2 = new BMap.Marker(pt, { icon: myIcon }); // 创建标注
+				this.map.addOverlay(marker2);
+				marker2.addEventListener('click', attribute);
+			}
+			//让所有点在视野范围内
+			this.map.setViewport(pointArray);
+			//获取覆盖物位置
+			function attribute(e) {
+                var p = e.target;
+            //     _this.$router.push({
+			// 	path: '/ipfs_location_details', 
+			// 	// query: {
+			// 	// 	node_city: this.citys,
+			// 	// 	node_num: this.rotate,
+			// 	// 	address: '/ipfs_central_location',
+			// 	// },
+			// });
+				console.log(
+					'marker的位置是' +
+						p.getPosition().lng +
+						',' +
+						p.getPosition().lat
+				);
+            };
+            //  this.map.setMapStyle({
+            //         styleJson:[
+            //           {
+            //                     "featureType": "road",
+            //                     "elementType": "all",
+            //                     "stylers": {
+            //                               "color": "#ffffff",
+            //                               "visibility": "off"
+            //                     }
+            //           },
+            //           {
+            //                   "featureType": "building",
+            //                   "elementType": "all",
+            //                   "stylers": {
+            //                             "visibility": "off"
+            //                   }
+            //           },
+            //           {
+            //                   "featureType": "poilabel",
+            //                   "elementType": "all",
+            //                   "stylers": {
+            //                             "visibility": "off"
+            //                   }
+            //           },
+            //           {
+            //             //   建筑物名称
+            //                   "featureType": "manmade",
+            //                   "elementType": "all",
+            //                   "stylers": {
+            //                             "visibility": "off"
+            //                   }
+            //           },
+            //     ]
+            // });
 		},
 		// 方法 - 添加热力图覆盖物
 		initHeatMap() {
@@ -280,6 +359,7 @@ export default {
 		},
 	},
 	mounted() {
+        console.log(this.citys);
 		if (this.citys) {
 			this.centerLng = this.city[this.citys][0]; // 经度
 			this.centerLat = this.city[this.citys][1]; // 纬度
@@ -288,8 +368,8 @@ export default {
 			this.centerLat = '39.921984';
 		}
 		this.points = this.datalist;
-		console.log(this.points);
-		console.log(this.citys);
+		// console.log(this.points);
+		// console.log(this.citys);
 		// 创建和初始化地图函数
 		this.initMap();
 	},
@@ -305,5 +385,8 @@ export default {
 	width: 100%;
 	height: 100%;
 	border: #ccc solid 1px;
+}
+.BMap_cpyCtrl,.anchorBL{
+    display: none;
 }
 </style>

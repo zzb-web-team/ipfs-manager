@@ -45,7 +45,7 @@
 					>上海</span
 				><span
 					:class="[rotate == 5 ? 'bluma' : 'eema']"
-					@click="setmap_show('4')"
+					@click="setmap_show('5')"
 					class="setmap_btn"
 					>浙江</span
 				>
