@@ -286,7 +286,7 @@
 								>
 							</div>
 							<div class="ipfs_item_toptwo_item">
-								<span>剩余带宽：空间</span>
+								<span>剩余带宽：</span>
 								<span
 									>{{
 										(
@@ -702,12 +702,11 @@ export default {
 		} else {
 			this.up_rema = parseInt(upbandwidth_rema) / parseInt(upbandwidth);
 		}
-		if (upbandwidth * 1 == 0) {
+		if (dpwnbandwidth * 1 == 0) {
 			this.down_rema = 0;
 		} else {
-			this.down_rema = parseInt(upbandwidth_occ) / parseInt(upbandwidth);
-		}
-
+			this.down_rema = parseInt(dpwnbandwidth_rema) / parseInt(dpwnbandwidth);
+        }
 		if (this.serdata.totalCap * 1 == 0) {
 			this.cap_rema = 0;
 		} else {

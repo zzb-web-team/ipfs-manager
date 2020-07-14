@@ -228,15 +228,33 @@ export default {
 					if (res.status == 0) {
 						console.log(res.data);
 						if (res.data && res.data.length > 0) {
-							// sessionStorage.setItem(
-							// 	'menus',
-							// 	JSON.stringify(res.data)
-							// );
+							let arrlist = [];
+							res.data.forEach((item) => {	
+								if (item.name == '后台账户') {
+									arrlist[0] = item;
+								} else if (item.name == '服务器监控') {
+									arrlist[1] = item;
+								} else if (item.name == 'IPFS节点控制台') {
+									arrlist[2] = item;
+								} else if (item.name == 'IPFS节点应用') {
+									arrlist[3] = item;
+								} else if (item.name == 'IPFS节点收益') {
+									arrlist[4] = item;
+								} else if (item.name == 'IPFS程序管理') {
+									arrlist[5] = item;
+								} else if (item.name == 'IPFS数据统计') {
+									arrlist[6] = item;
+								} else if (item.name == '操作管理') {
+									arrlist[7] = item;
+								} else {
+									arrlist[8] = item;
+								}
+							});
 							localStorage.setItem(
 								'menus',
-								JSON.stringify(res.data)
+								JSON.stringify(arrlist)
 							);
-							let mtpath = this.menudisable(res.data);
+							let mtpath = this.menudisable(arrlist);
 							this.$cookies.set(
 								'ipfs_path',
 								mtpath,

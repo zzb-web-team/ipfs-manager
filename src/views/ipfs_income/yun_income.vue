@@ -170,6 +170,7 @@
 			</el-table>
 		</div>
 		<fenye
+			v-show="tableData.length > 0"
 			style="text-align: right;margin: 20px 0px 10px;"
 			@fatherMethod="getpage"
 			@fathernum="gettol"
@@ -296,7 +297,7 @@ export default {
 		},
 		//收益
 		get_income_list() {
-            this.tableData=[];
+			this.tableData = [];
 			let params = new Object();
 			let ipsos = /^(\d{1,3}\.{1}){3}((\d{1,3}){1})$/;
 			if (ipsos.test(this.input) == true) {

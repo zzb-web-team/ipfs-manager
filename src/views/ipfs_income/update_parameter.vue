@@ -43,7 +43,7 @@
 					<p>1） 变量值</p>
 					<el-row type="flex">
 						<span style="margin-bottom: 20px;">Vb=</span>
-						<el-form :model="googleform" ref="ruleFormre">
+						<el-form :model="googleform" ref="ruleFormre1">
 							<el-form-item
 								prop="Vb"
 								:rules="[
@@ -66,13 +66,13 @@
 							type="primary"
 							size="mini"
 							style="margin-bottom: 20px;"
-							@click="set_price(1)"
+							@click="set_price(1, 'ruleFormre1')"
 							>修改</el-button
 						>
 					</el-row>
 					<el-row type="flex">
 						<span style="margin-bottom: 20px;">Vs=</span>
-						<el-form :model="googleform" ref="ruleFormre">
+						<el-form :model="googleform" ref="ruleFormre2">
 							<el-form-item
 								prop="Vs"
 								:rules="[
@@ -95,7 +95,7 @@
 							type="primary"
 							size="mini"
 							style="margin-bottom: 20px;"
-							@click="set_price(1)"
+							@click="set_price(1, 'ruleFormre2')"
 							>修改</el-button
 						>
 					</el-row>
@@ -107,7 +107,7 @@
 					<p>1） 变量值</p>
 					<el-row type="flex">
 						<span style="margin-bottom: 20px;">VF=</span>
-						<el-form :model="googleform" ref="ruleFormre">
+						<el-form :model="googleform" ref="ruleFormre3">
 							<el-form-item
 								prop="Vf"
 								:rules="[
@@ -137,7 +137,7 @@
 							type="primary"
 							size="mini"
 							style="margin-bottom: 20px;"
-							@click="set_price(1)"
+							@click="set_price(1, 'ruleFormre3')"
 							>修改</el-button
 						>
 					</el-row>
@@ -344,59 +344,118 @@ export default {
 					console.log(error);
 				});
 		},
-		set_price(num) {
-			let params = new Object();
-			params.H = [];
-			params.Rnm = {};
-			params.price = [];
-			let H = new Array();
-			let Rnm = new Object();
-			let price = new Array();
-			if (num == 1) {
-				for (let i = 0; i < 3; i++) {
-					var temp = Object.assign({}, this.googleform);
-					temp.netOper = i;
-					price.push(temp);
-				}
+		set_price(num, rulenema) {
+			if (rulenema) {
+				this.$refs[rulenema].validate((valid) => {
+					if (valid) {
+						let params = new Object();
+						params.H = [];
+						params.Rnm = {};
+						params.price = [];
+						let H = new Array();
+						let Rnm = new Object();
+						let price = new Array();
+						if (num == 1) {
+							for (let i = 0; i < 3; i++) {
+								var temp = Object.assign({}, this.googleform);
+								temp.netOper = i;
+								price.push(temp);
+							}
 
-				params.H = this.priceobj.H;
-				params.Rnm = this.priceobj.Rnm;
-				params.price = price;
-			} else if (num == 2) {
-				params.H = this.tableData;
-				params.price = this.priceobj.price;
-				params.Rnm = this.priceobj.Rnm;
-			} else if (num == 3) {
-				this.ratingData.forEach((item) => {
-					if (item.interval == 'S') {
-						Rnm.S = item.Rnm;
-					} else if (item.interval == 'A') {
-						Rnm.A = item.Rnm;
-					} else if (item.interval == 'B') {
-						Rnm.B = item.Rnm;
-					} else if (item.interval == 'C') {
-						Rnm.C = item.Rnm;
+							params.H = this.priceobj.H;
+							params.Rnm = this.priceobj.Rnm;
+							params.price = price;
+						} else if (num == 2) {
+							params.H = this.tableData;
+							params.price = this.priceobj.price;
+							params.Rnm = this.priceobj.Rnm;
+						} else if (num == 3) {
+							this.ratingData.forEach((item) => {
+								if (item.interval == 'S') {
+									Rnm.S = item.Rnm;
+								} else if (item.interval == 'A') {
+									Rnm.A = item.Rnm;
+								} else if (item.interval == 'B') {
+									Rnm.B = item.Rnm;
+								} else if (item.interval == 'C') {
+									Rnm.C = item.Rnm;
+								}
+							});
+							params.H = this.priceobj.H;
+							params.price = this.priceobj.price;
+							params.Rnm = Rnm;
+						}
+						console.log(num, params);
+						update_net_info(params)
+							.then((res) => {
+								console.log(res);
+								if (res.err == 0) {
+									this.$message({
+										type: 'success',
+										message: '修改成功',
+									});
+									this.get_data();
+								}
+							})
+							.catch((error) => {
+								console.log(error);
+							});
 					}
 				});
-				params.H = this.priceobj.H;
-				params.price = this.priceobj.price;
-				params.Rnm = Rnm;
+			} else {
+				let params = new Object();
+				params.H = [];
+				params.Rnm = {};
+				params.price = [];
+				let H = new Array();
+				let Rnm = new Object();
+				let price = new Array();
+				if (num == 1) {
+					for (let i = 0; i < 3; i++) {
+						var temp = Object.assign({}, this.googleform);
+						temp.netOper = i;
+						price.push(temp);
+					}
+
+					params.H = this.priceobj.H;
+					params.Rnm = this.priceobj.Rnm;
+					params.price = price;
+				} else if (num == 2) {
+					params.H = this.tableData;
+					params.price = this.priceobj.price;
+					params.Rnm = this.priceobj.Rnm;
+				} else if (num == 3) {
+					this.ratingData.forEach((item) => {
+						if (item.interval == 'S') {
+							Rnm.S = item.Rnm;
+						} else if (item.interval == 'A') {
+							Rnm.A = item.Rnm;
+						} else if (item.interval == 'B') {
+							Rnm.B = item.Rnm;
+						} else if (item.interval == 'C') {
+							Rnm.C = item.Rnm;
+						}
+					});
+					params.H = this.priceobj.H;
+					params.price = this.priceobj.price;
+					params.Rnm = Rnm;
+				}
+				console.log(num, params);
+				update_net_info(params)
+					.then((res) => {
+						console.log(res);
+						if (res.err == 0) {
+							this.$message({
+								type: 'success',
+								message: '修改成功',
+							});
+							this.get_data();
+						}
+					})
+					.catch((error) => {
+						console.log(error);
+					});
 			}
-			console.log(num, params);
-			update_net_info(params)
-				.then((res) => {
-					console.log(res);
-					if (res.err == 0) {
-						this.$message({
-							type: 'success',
-							message: '修改成功',
-						});
-						this.get_data();
-					}
-				})
-				.catch((error) => {
-					console.log(error);
-				});
 		},
 		updateInterval(row, num) {
 			console.log(row);

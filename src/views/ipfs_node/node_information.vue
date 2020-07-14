@@ -840,7 +840,7 @@ export default {
 							this.show_export = true;
 						} else {
 							this.show_export = false;
-							this.total_cnt = res.data.total - 10;
+							this.total_cnt = res.data.total;
 							res.data.result.forEach((item, index) => {
 								//上行带宽-总
 								item.upbandwidth = item.totalBW.substring(

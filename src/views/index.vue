@@ -60,7 +60,7 @@
 										:class="item.icon"
 										style="margin-right: 10px;margin-left: 10px;"
 									></i>
-									<span>{{ item.name }}</span>
+									<span>{{ item.name}}</span>
 								</template>
 
 								<!-- 二级菜单 -->
@@ -76,6 +76,7 @@
 										<template slot="title">
 											<i :class="itemChild.icon"></i>
 											<span>{{ itemChild.name }}</span>
+                                            
 										</template>
 
 										<!-- 三级菜单 -->
@@ -111,7 +112,6 @@
 									</el-menu-item>
 								</template>
 							</el-submenu>
-
 							<el-menu-item
 								v-else
 								:index="item.path"
@@ -119,6 +119,7 @@
 							>
 								<i :class="item.icon"></i>
 								<span slot="title">{{ item.name }}</span>
+                                
 							</el-menu-item>
 						</template>
 					</el-menu>

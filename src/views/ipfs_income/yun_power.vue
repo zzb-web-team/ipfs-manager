@@ -233,7 +233,7 @@ export default {
 			order: 0,
 			pageNo: 1,
 			currentPage: 1,
-			totalCnt: 1,
+			totalCnt: 0,
 			pagesize: 10,
 			starttime: '',
 			endtime: '',

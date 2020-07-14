@@ -200,7 +200,9 @@
 										>
 											<template slot-scope="scope"
 												>{{
-													scope.row.percent * 100
+													(
+														scope.row.percent * 100
+													).toFixed(6)
 												}}%</template
 											>
 										</el-table-column>
@@ -385,7 +387,7 @@
 								<el-col
 									:span="24"
 									style="text-align:left;    font-weight: bold;"
-									>IP流量利用率表</el-col
+									>FS存储利用率表</el-col
 								>
 							</el-row>
 							<el-row type="flex" class="row_active">
@@ -419,22 +421,15 @@
 										>
 											<template slot-scope="scope">
 												<span
-													v-if="
-														scope.row
-															.storeUsagePercent ==
-															Infinity
-													"
-												>
-													{{
-														scope.row
-															.storeUsagePercent
-													}}
+													v-if="scope.row.storeUsagePercent =='NaN'">0%
 												</span>
 												<span v-else>
 													{{
-														scope.row
-															.storeUsagePercent *
+														(
+															scope.row
+																.storeUsagePercent *
 															100
+														).toFixed(6)
 													}}%
 												</span>
 											</template>
@@ -1351,12 +1346,12 @@ export default {
 		//获取页码--fs
 		getpagefs(pages) {
 			this.currentPagefs = pages;
-			this.get_ip_table();
+			this.get_fs_table();
 		},
 		//获取每页数量--ip
 		gettolfs(pagetol) {
 			this.fs_pagesize = pagetol;
-			// this.get_ip_table();
+			// this.get_fs_table();
 		},
 		// 表头样式设置
 		headClass() {
