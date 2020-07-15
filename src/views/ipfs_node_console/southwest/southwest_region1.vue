@@ -87,7 +87,13 @@ export default {
 		// demo2
 	},
 	mounted() {
+        if (sessionStorage.getItem('southwest_region')) {
+			this.setmap_show(
+				JSON.parse(sessionStorage.getItem('southwest_region'))
+			);
+		} else {
 		this.getdalsit('贵州');
+		}
 	},
 	methods: {
 		getdalsit(sctyes) {
@@ -140,10 +146,13 @@ export default {
 			} else {
 				this.citys = '贵州';
 			}
-
+sessionStorage.setItem('southwest_region', JSON.stringify(num));
 			this.getdalsit(this.citys);
 			this.$forceUpdate();
 		},
+    },
+    destroyed: function() {
+		sessionStorage.removeItem('southwest_region');
 	},
 };
 </script>

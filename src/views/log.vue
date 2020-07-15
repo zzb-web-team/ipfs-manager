@@ -229,7 +229,7 @@ export default {
 						console.log(res.data);
 						if (res.data && res.data.length > 0) {
 							let arrlist = [];
-							res.data.forEach((item) => {	
+							res.data.forEach((item) => {
 								if (item.name == '后台账户') {
 									arrlist[0] = item;
 								} else if (item.name == '服务器监控') {
@@ -250,6 +250,13 @@ export default {
 									arrlist[8] = item;
 								}
 							});
+							for (var i = 0; i < arrlist.length; i++) {
+								if (arrlist[i] == null) {
+									arrlist.splice(i, 1);
+									i = i - 1; // i - 1 ,因为空元素在数组下标 2 位置，删除空之后，后面的元素要向前补位，
+									// 这样才能真正去掉空元素,觉得这句可以删掉的连续为空试试，然后思考其中逻辑
+								}
+							}
 							localStorage.setItem(
 								'menus',
 								JSON.stringify(arrlist)

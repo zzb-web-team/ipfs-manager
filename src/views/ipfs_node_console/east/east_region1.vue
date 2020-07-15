@@ -96,7 +96,13 @@ export default {
 		// demo2
 	},
 	mounted() {
+        if (sessionStorage.getItem('east_region')) {
+			this.setmap_show(
+				JSON.parse(sessionStorage.getItem('east_region'))
+			);
+		} else {
 		this.getdalsit('福建');
+		}
 	},
 	methods: {
 		getdalsit(sctyes) {
@@ -150,10 +156,13 @@ export default {
 			} else {
 				this.citys = '福建';
 			}
-
+sessionStorage.setItem('east_region', JSON.stringify(num));
 			this.getdalsit(this.citys);
 			this.$forceUpdate();
 		},
+    },
+    destroyed: function() {
+		sessionStorage.removeItem('east_region');
 	},
 };
 </script>

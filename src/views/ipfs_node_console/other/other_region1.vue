@@ -69,7 +69,13 @@ export default {
 		// demo2
 	},
 	mounted() {
+        if (sessionStorage.getItem('other_region')) {
+			this.setmap_show(
+				JSON.parse(sessionStorage.getItem('other_region'))
+			);
+		} else {
 		this.getdalsit('香港');
+		}
 	},
 	methods: {
 		getdalsit(sctyes) {
@@ -117,10 +123,13 @@ export default {
 			} else {
 				this.citys = '香港';
 			}
-
+sessionStorage.setItem('other_region', JSON.stringify(num));
 			this.getdalsit(this.citys);
 			this.$forceUpdate();
 		},
+    },
+    destroyed: function() {
+		sessionStorage.removeItem('other_region');
 	},
 };
 </script>

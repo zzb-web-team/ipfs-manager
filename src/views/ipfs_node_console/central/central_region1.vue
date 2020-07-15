@@ -78,7 +78,13 @@ export default {
 		// demo2
 	},
 	mounted() {
-		this.getdalsit('河南');
+		if (sessionStorage.getItem('center_region')) {
+			this.setmap_show(
+				JSON.parse(sessionStorage.getItem('center_region'))
+			);
+		} else {
+			this.getdalsit('河南');
+		}
 	},
 	methods: {
 		getdalsit(sctyes) {
@@ -128,10 +134,13 @@ export default {
 			} else {
 				this.citys = '河南';
 			}
-
+			sessionStorage.setItem('center_region', JSON.stringify(num));
 			this.getdalsit(this.citys);
 			this.$forceUpdate();
 		},
+	},
+	destroyed: function() {
+		sessionStorage.removeItem('center_region');
 	},
 };
 </script>

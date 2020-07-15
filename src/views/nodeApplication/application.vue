@@ -99,30 +99,34 @@
 								class="bantlist"
 								style="margin:0 10px;"
 							>
-								<el-button
-									v-if="zidingyi == false"
-									@click="set_today()"
-									>今天</el-button
-								>
-								<el-button
-									v-if="zidingyi == false"
-									@click="set_yesterday()"
-									>昨天</el-button
-								>
-								<el-button
-									v-if="zidingyi == false"
-									@click="set_sevenday()"
-									>7天</el-button
-								>
-								<el-button
-									v-if="zidingyi == false"
-									@click="set_thirtyday()"
-									>30天</el-button
-								>
-								<el-button @click="showpicker"
-									>自定义</el-button
-								>
 							</el-button-group>
+							<el-radio-group
+								v-show="zidingyi == false"
+								v-model="radio"
+								@change="change_time('ip')"
+								style="margin-right:10px;"
+							>
+								<el-radio-button label="0"
+									>今天</el-radio-button
+								>
+								<el-radio-button label="1"
+									>昨天</el-radio-button
+								>
+								<el-radio-button label="2">7天</el-radio-button>
+								<el-radio-button label="3"
+									>30天</el-radio-button
+								>
+								<el-radio-button label="4"
+									>自定义</el-radio-button
+								>
+							</el-radio-group>
+							<el-button
+								style="margin-right:10px;"
+								type="primary"
+								@click="showpicker"
+								v-if="zidingyi == true"
+								>自定义</el-button
+							>
 							<el-date-picker
 								v-if="zidingyi == true"
 								style="margin-right:10px;"
@@ -265,7 +269,7 @@
 							<el-select
 								v-model="firstvaluea_fs"
 								placeholder="请选择一级节点"
-								style="margin-left:10px;"
+								style="margin-left:10px;width: 8%;"
 								@change="handleChangefirst_fs($event)"
 							>
 								<el-option value="*" label="全部"></el-option>
@@ -327,55 +331,33 @@
 									:value="item.name"
 								></el-option>
 							</el-select>
-							<!-- <el-select
-                v-model="valuea"
-                placeholder="请选择运营商"
-                style="margin-left:10px;"
-                @change="onseach"
-              >
-                <el-option value="*" label="全部"></el-option>
-              </el-select> -->
-							<!-- <el-select
-								v-model="valuecfs"
-								placeholder="时间粒度"
-								style="margin-left:10px;"
-								@change="onseach('fs')"
-								><el-option
-									v-for="item in granularity"
-									:key="item.value"
-									:label="item.label"
-									:value="item.value"
-									:disabled="item.disabled"
-								></el-option>
-              </el-select>-->
-							<el-button-group
-								class="bantlist"
-								style="margin:0 10px;"
+							<el-radio-group
+								v-show="zidingyifs == false"
+								v-model="radio"
+								@change="change_time('fs')"
+								style="margin-right:10px;margin-left:10px;"
 							>
-								<el-button
-									v-if="zidingyifs == false"
-									@click="set_today('fs')"
-									>今天</el-button
+								<el-radio-button label="0"
+									>今天</el-radio-button
 								>
-								<el-button
-									v-if="zidingyifs == false"
-									@click="set_yesterday('fs')"
-									>昨天</el-button
+								<el-radio-button label="1"
+									>昨天</el-radio-button
 								>
-								<el-button
-									v-if="zidingyifs == false"
-									@click="set_sevenday('fs')"
-									>7天</el-button
+								<el-radio-button label="2">7天</el-radio-button>
+								<el-radio-button label="3"
+									>30天</el-radio-button
 								>
-								<el-button
-									v-if="zidingyifs == false"
-									@click="set_thirtyday('fs')"
-									>30天</el-button
+								<el-radio-button label="4"
+									>自定义</el-radio-button
 								>
-								<el-button @click="showpickerfs"
-									>自定义</el-button
-								>
-							</el-button-group>
+							</el-radio-group>
+							<el-button
+								@click="showpickerfs"
+								v-if="zidingyifs == true"
+								style="margin-right:10px;margin-left:10px;"
+								type="primary"
+								>自定义</el-button
+							>
 							<el-date-picker
 								v-if="zidingyifs == true"
 								style="margin-right:10px;"
@@ -516,6 +498,8 @@ import {
 	getday,
 	menudisable,
 	zhuanbkbs,
+	msToDate,
+	formatterDate,
 } from '../../servers/sevdate';
 import {
 	ipfs_dataflow_query_conditions,
@@ -543,69 +527,8 @@ export default {
 			city_disable_ip: true,
 			city_disable_fs: true,
 			zidingyifs: false,
+			radio: 0,
 			pickerOptions: {
-				shortcuts: [
-					{
-						text: '今天',
-						onClick(picker) {
-							const end = new Date();
-							const start = new Date(
-								new Date(
-									new Date().toLocaleDateString()
-								).getTime()
-							);
-							picker.$emit('pick', [start, end]);
-						},
-					},
-					{
-						text: '昨天',
-						onClick(picker) {
-							const end = new Date(
-								new Date(
-									new Date().toLocaleDateString()
-								).getTime()
-							);
-							const start = new Date(
-								new Date(
-									new Date().toLocaleDateString()
-								).getTime() -
-									3600 * 24 * 1 * 1000
-							);
-							picker.$emit('pick', [start, end]);
-						},
-					},
-					{
-						text: '最近一周',
-						onClick(picker) {
-							const end = new Date();
-							const start = new Date(
-								new Date(
-									new Date().toLocaleDateString()
-								).getTime()
-							);
-							start.setTime(
-								start.getTime() - 3600 * 1000 * 24 * 6
-							);
-							picker.$emit('pick', [start, end]);
-						},
-					},
-					{
-						text: '最近一个月',
-						onClick(picker) {
-							const end = new Date();
-							const start = new Date(
-								new Date(
-									new Date().toLocaleDateString()
-								).getTime()
-							);
-							start.setTime(
-								start.getTime() - 3600 * 1000 * 24 * 6
-							);
-							picker.$emit('pick', [start, end]);
-						},
-					},
-				],
-
 				disabledDate(time) {
 					return (
 						time.getTime() >
@@ -948,19 +871,97 @@ export default {
 		fenye,
 	},
 	mounted() {
-		this.starttime =
-			new Date(new Date().toLocaleDateString()).getTime() / 1000;
-		this.endtime = Date.parse(new Date()) / 1000;
 		this.getseachinput();
-		this.ip_curve();
 		this.get_search_data();
-		// this.drawLine();
-		// this.drawLine1();
-		// this.configure()
-		let munulist = JSON.parse(localStorage.getItem('menus'));
-		let pathname = this.$route.path;
-		this.menutype = menudisable(munulist, pathname);
-		console.log(this.menutype);
+		if (sessionStorage.getItem('search_condition')) {
+			let search_data = JSON.parse(
+				sessionStorage.getItem('search_condition')
+			);
+			let city_list = JSON.parse(sessionStorage.getItem('citylist'));
+			this.activeName = search_data.activeName;
+			this.radio = search_data.radio;
+			var timearr = [];
+			if (this.radio == 4) {
+				timearr[0] = formatterDate(
+					msToDate(search_data.start_ts * 1000).hasTime
+				);
+				timearr[1] = formatterDate(
+					msToDate(search_data.end_ts * 1000).hasTime
+				);
+				if (this.activeName == 'first') {
+					this.zidingyi = true;
+					this.value2 = timearr;
+					this.onseach('ip');
+				} else {
+					this.zidingyifs = true;
+					this.value2fs = timearr;
+					this.onseach('fs');
+				}
+			} else {
+				if (this.activeName == 'first') {
+					this.input =
+						search_data.ipfsId == '*' ? '' : search_data.ipfsId;
+					if (search_data.region == '*') {
+						this.valuea = '';
+					} else {
+						this.valuea = [search_data.qu, search_data.region];
+						this.city_disable_ip = false;
+						this.valueb = '';
+						this.optionsb = city_list[this.valuea[1]].cities;
+					}
+					this.valueb =
+						search_data.city == '*' ? '' : search_data.city;
+					this.firstvaluea =
+						search_data.first_channel == '*'
+							? ''
+							: search_data.first_channel;
+					this.secondvalue =
+						search_data.second_channel == '*'
+							? ''
+							: search_data.second_channel;
+					this.devtypevalue =
+						search_data.device_type == '*'
+							? ''
+							: search_data.device_type;
+					this.change_time('ip');
+				} else {
+					this.inputfs =
+						search_data.ipfs_id == '*' ? '' : search_data.ipfs_id;
+
+					if (search_data.region == '*') {
+						this.valueafs = '';
+					} else {
+						this.valueafs = [search_data.qu, search_data.region];
+						this.city_disable_fs = false;
+						this.valuebfs = '';
+						this.optionsb = city_list[this.valueafs[1]].cities;
+					}
+                    this.valuebfs =search_data.city == '*' ? '' : search_data.city;
+					this.firstvaluea_fs =
+						search_data.first_channel == '*'
+							? ''
+							: search_data.first_channel;
+					this.secondvalue_fs =
+						search_data.second_channel == '*'
+							? ''
+							: search_data.second_channel;
+					this.devtypevalue_fs =
+						search_data.device_type == '*'
+							? ''
+							: search_data.device_type;
+
+					this.change_time('fs');
+				}
+			}
+		} else {
+			this.starttime =
+				new Date(new Date().toLocaleDateString()).getTime() / 1000;
+			this.endtime = Date.parse(new Date()) / 1000;
+			this.ip_curve();
+		}
+			let munulist = JSON.parse(localStorage.getItem('menus'));
+			let pathname = this.$route.path;
+			this.menutype = menudisable(munulist, pathname);
 	},
 	beforeDestroy() {
 		if (!this.chart) {
@@ -992,9 +993,11 @@ export default {
 		getseachinput() {
 			axios.get('./static/pro_city.json').then((res) => {
 				this.citydata = res.data;
+				sessionStorage.setItem('citylist', JSON.stringify(res.data));
 			});
 		},
 		seach_operce(value) {
+			console.log(value);
 			this.currentPage = 1;
 			if (value == -1) {
 				this.value1 = -1;
@@ -1034,6 +1037,7 @@ export default {
 				if (this.valuea == -1) {
 					params.region = '*';
 				} else {
+					params.qu = this.valuea[0];
 					params.region = this.valuea[1];
 				}
 			} else {
@@ -1075,10 +1079,13 @@ export default {
 			} else {
 				params.time_unit = 1;
 			}
+			params.radio = this.radio;
+			params.activeName = this.activeName;
 			this.totalOutputCnt = 0;
 			this.totalDataFlow = 0;
 			this.dataFlowArray = [];
 			this.timeArray = [];
+			sessionStorage.setItem('search_condition', JSON.stringify(params));
 			query_ipfs_dataflow_curve(params)
 				.then((res) => {
 					if (res.status == 0) {
@@ -1112,6 +1119,7 @@ export default {
 				if (this.valueafs == -1) {
 					params.region = '*';
 				} else {
+					params.qu = this.valueafs[0];
 					params.region = this.valueafs[1];
 				}
 			} else {
@@ -1123,7 +1131,6 @@ export default {
 				} else {
 					params.city = this.valuebfs;
 				}
-				params.city = this.valuebfs;
 			} else {
 				params.city = '*';
 			}
@@ -1159,10 +1166,13 @@ export default {
 			} else {
 				params.time_unit = 1;
 			}
+			params.radio = this.radio;
+			params.activeName = this.activeName;
 			this.totalStoreTimes = 0;
 			this.totalStoreUsage = 0;
 			this.storeUsageArray = [];
 			this.fs_timeArray = [];
+			sessionStorage.setItem('search_condition', JSON.stringify(params));
 			query_ip_store_details_curve(params)
 				.then((res) => {
 					if (res.status == 0) {
@@ -1314,6 +1324,7 @@ export default {
 		},
 		//选项卡
 		handleClick(tab, event) {
+			this.radio = 0;
 			this.fs_currentPage = 1;
 			this.currentPage = 1;
 			this.starttime =
@@ -1432,10 +1443,25 @@ export default {
 		//自定义按钮--ip
 		showpicker() {
 			this.zidingyi = !this.zidingyi;
+			console.log(this.zidingyi);
+			if (this.zidingyi == false) {
+				this.radio = 0;
+			} else {
+				this.radio = 4;
+			}
+			this.change_time('ip');
+			this.value2 = '';
 		},
 		////自定义按钮--fs
 		showpickerfs() {
 			this.zidingyifs = !this.zidingyifs;
+			if (this.zidingyifs == false) {
+				this.radio = 0;
+			} else {
+				this.radio = 4;
+			}
+			this.change_time('fs');
+			this.value2fs = '';
 		},
 		handleChangefirst(val) {
 			if (val == '*' || val == '') {
@@ -1479,6 +1505,7 @@ export default {
 			this.currentPage = 1;
 			if (stat === 'fs') {
 				if (this.value2fs != null && this.value2fs != '') {
+					console.log(this.value2fs);
 					this.starttime = setbatime(this.value2fs[0]);
 					this.endtime = setbatime(this.value2fs[1]);
 					if (this.endtime - this.starttime < 86400) {
@@ -1506,6 +1533,20 @@ export default {
 				// 	this.endtime = Date.parse(new Date()) / 1000;
 				// }
 				this.ip_curve();
+			}
+		},
+		change_time(data) {
+			if (this.radio == 0) {
+				this.set_today(data);
+			} else if (this.radio == 1) {
+				this.set_yesterday(data);
+			} else if (this.radio == 2) {
+				this.set_sevenday(data);
+			} else if (this.radio == 3) {
+				this.set_thirtyday(data);
+			} else if (this.radio == 4) {
+				this.zidingyi = true;
+				this.zidingyifs = true;
 			}
 		},
 		//今天
@@ -1642,41 +1683,6 @@ export default {
 						},
 					},
 				],
-				// axisLabel: {
-				//   //坐标轴刻度标签的相关设置。
-				//   formatter: function(params) {
-				//     var newParamsName = ""; // 最终拼接成的字符串
-				//     var paramsNameNumber = params.length; // 实际标签的个数
-				//     var provideNumber = 6; // 每行能显示的字的个数
-				//     var rowNumber = Math.ceil(paramsNameNumber / provideNumber); // 换行的话，需要显示几行，向上取整
-				//     /**
-				//      * 判断标签的个数是否大于规定的个数， 如果大于，则进行换行处理 如果不大于，即等于或小于，就返回原标签
-				//      */
-				//     // 条件等同于rowNumber>1
-				//     if (paramsNameNumber > provideNumber) {
-				//       /** 循环每一行,p表示行 */
-				//       for (var p = 0; p < rowNumber; p++) {
-				//         var tempStr = ""; // 表示每一次截取的字符串
-				//         var start = p * provideNumber; // 开始截取的位置
-				//         var end = start + provideNumber; // 结束截取的位置
-				//         // 此处特殊处理最后一行的索引值
-				//         if (p == rowNumber - 1) {
-				//           // 最后一次不换行
-				//           tempStr = params.substring(start, paramsNameNumber);
-				//         } else {
-				//           // 每一次拼接字符串并换行
-				//           tempStr = params.substring(start, end) + "\n";
-				//         }
-				//         newParamsName += tempStr; // 最终拼成的字符串
-				//       }
-				//     } else {
-				//       // 将旧标签的值赋给新标签
-				//       newParamsName = params;
-				//     }
-				//     //将最终的字符串返回
-				//     return newParamsName;
-				//   }
-				// }
 			};
 			myChart.setOption(options);
 		},
@@ -1727,41 +1733,6 @@ export default {
 						},
 					},
 				],
-				// axisLabel: {
-				//   //坐标轴刻度标签的相关设置。
-				//   formatter: function(params) {
-				//     var newParamsName = ""; // 最终拼接成的字符串
-				//     var paramsNameNumber = params.length; // 实际标签的个数
-				//     var provideNumber = 6; // 每行能显示的字的个数
-				//     var rowNumber = Math.ceil(paramsNameNumber / provideNumber); // 换行的话，需要显示几行，向上取整
-				//     /**
-				//      * 判断标签的个数是否大于规定的个数， 如果大于，则进行换行处理 如果不大于，即等于或小于，就返回原标签
-				//      */
-				//     // 条件等同于rowNumber>1
-				//     if (paramsNameNumber > provideNumber) {
-				//       /** 循环每一行,p表示行 */
-				//       for (var p = 0; p < rowNumber; p++) {
-				//         var tempStr = ""; // 表示每一次截取的字符串
-				//         var start = p * provideNumber; // 开始截取的位置
-				//         var end = start + provideNumber; // 结束截取的位置
-				//         // 此处特殊处理最后一行的索引值
-				//         if (p == rowNumber - 1) {
-				//           // 最后一次不换行
-				//           tempStr = params.substring(start, paramsNameNumber);
-				//         } else {
-				//           // 每一次拼接字符串并换行
-				//           tempStr = params.substring(start, end) + "\n";
-				//         }
-				//         newParamsName += tempStr; // 最终拼成的字符串
-				//       }
-				//     } else {
-				//       // 将旧标签的值赋给新标签
-				//       newParamsName = params;
-				//     }
-				//     //将最终的字符串返回
-				//     return newParamsName;
-				//   }
-				// }
 			};
 			myChart.setOption(options);
 		},
@@ -1800,13 +1771,13 @@ export default {
 		formatJson(filterVal, jsonData) {
 			jsonData.forEach((item) => {
 				if (item.timeReport) {
-                    item.timeReport = getymdtime(item.timeReport);
-                    item.dataFlow = zhuanbkbs(item.dataFlow);
+					item.timeReport = getymdtime(item.timeReport);
+					item.dataFlow = zhuanbkbs(item.dataFlow);
 					return item;
 				}
 				if (item.timeStamp) {
-                    item.timeStamp = getymdtime(item.timeStamp);
-                    item.storeUsage = zhuanbkbs(item.storeUsage);
+					item.timeStamp = getymdtime(item.timeStamp);
+					item.storeUsage = zhuanbkbs(item.storeUsage);
 					return item;
 				}
 			});
@@ -1816,6 +1787,9 @@ export default {
 				})
 			);
 		},
+	},
+	destroyed: function() {
+		sessionStorage.removeItem('search_condition');
 	},
 };
 </script>

@@ -12,6 +12,10 @@ export function getlocaltimes(timestamp) {
     let s = ((dateObj.getSeconds() > 9) ? dateObj.getSeconds() : '0' + dateObj.getSeconds());
     return h + m + s //时分秒可以根据自己的需求加上
 }
+export function formatterDate(date) {
+    let result = new Date(date);
+    return result;
+}
 export function getymdtime(timestamp) {
     // 如果以秒为单位
     let dateObj = new Date(timestamp * 1000);
@@ -53,6 +57,43 @@ export function setbatime(nowTime) {
     var time = new Date(nowTime).getTime() / 1000;
     return time
 }
+//时间戳转日期
+export function msToDate(msec) {
+    let datetime = new Date(msec);
+    let year = datetime.getFullYear();
+    let month = datetime.getMonth();
+    let date = datetime.getDate();
+    let hour = datetime.getHours();
+    let minute = datetime.getMinutes();
+    let second = datetime.getSeconds();
+
+    let result1 = year +
+        '-' +
+        ((month + 1) >= 10 ? (month + 1) : '0' + (month + 1)) +
+        '-' +
+        ((date + 1) < 10 ? '0' + date : date) +
+        ' ' +
+        ((hour + 1) < 10 ? '0' + hour : hour) +
+        ':' +
+        ((minute + 1) < 10 ? '0' + minute : minute) +
+        ':' +
+        ((second + 1) < 10 ? '0' + second : second);
+
+    let result2 = year +
+        '-' +
+        ((month + 1) >= 10 ? (month + 1) : '0' + (month + 1)) +
+        '-' +
+        ((date + 1) < 10 ? '0' + date : date);
+
+    let result = {
+        hasTime: result1,
+        withoutTime: result2
+    };
+
+    return result;
+}
+
+
 //标准时间转日期
 export function dateFormat(d) {
     let year = d.getFullYear();

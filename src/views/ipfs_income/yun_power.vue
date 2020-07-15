@@ -211,7 +211,8 @@ import {
 	getymdtime,
 	setbatime,
 	dateFormat,
-	menudisable,
+    menudisable,
+    formatterDate
 } from '../../servers/sevdate';
 import {
 	node_pv,
@@ -299,10 +300,43 @@ export default {
 	},
 	mounted() {
 		this.get_search_data();
-		let munulist = JSON.parse(localStorage.getItem('menus'));
-		let pathname = this.$route.path;
-		this.menutype = menudisable(munulist, pathname);
-		this.seachuser();
+		if (sessionStorage.getItem('search_condition')) {
+			let search_data = JSON.parse(
+				sessionStorage.getItem('search_condition')
+            );
+            this.radio=search_data.radio;
+            this.showState=search_data.state;
+            this.input = search_data.IP;
+            if(search_data.nodeId!=""){
+                this.input = search_data.nodeId;
+            }else if(search_data.IP!=''){
+                this.input = search_data.IP;
+            }else{
+                this.input='';
+            }
+			if ((search_data.channel1 = '')) {
+				this.firstchid == '*';
+			} else {
+				this.firstchid = search_data.channel1;
+			}
+			if ((search_data.channel2 = '')) {
+				this.secondchid == '*';
+			} else {
+				this.secondchid = search_data.channel2;
+            }
+            if(search_data.dateStart){
+                let arr = [];
+                arr[0] = formatterDate(search_data.dateStart);
+                arr[1] = formatterDate(search_data.dateEnd);
+                this.time_value = arr;
+            }
+            this.switch_table();
+		}else{
+            this.seachuser();
+        }
+            let munulist = JSON.parse(localStorage.getItem('menus'));
+            let pathname = this.$route.path;
+            this.menutype = menudisable(munulist, pathname);
 	},
 	methods: {
 		getShow() {
@@ -319,7 +353,7 @@ export default {
 		},
 		//切换视图
 		switch_table(val) {
-			this.pageNo = 1;
+			this.currentPage = 1;
 			this.seachuser();
 		},
 		handleChangefirst(val) {
@@ -401,6 +435,9 @@ export default {
 			} else {
 				params.channel2 = this.secondchid;
 			}
+			params.state = this.showState;
+			params.radio = this.radio;
+			sessionStorage.setItem('search_condition', JSON.stringify(params));
 			node_pv(params)
 				.then((res) => {
 					// this.tableData = res.data;
@@ -460,6 +497,9 @@ export default {
 			} else {
 				params.channel2 = this.secondchid;
 			}
+			params.state = this.showState;
+			params.radio = this.radio;
+			sessionStorage.setItem('search_condition', JSON.stringify(params));
 			node_pv_detail(params)
 				.then((res) => {
 					console.log(res);
@@ -554,6 +594,9 @@ export default {
 		rowClass() {
 			return 'text-align: center;';
 		},
+    },
+    destroyed: function() {
+        sessionStorage.removeItem('search_condition');
 	},
 };
 </script>

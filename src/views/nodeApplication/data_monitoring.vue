@@ -201,19 +201,6 @@
 								:value="item.name"
 							></el-option> </el-select
 					></el-col>
-
-					<!-- <el-col :span="5">
-						<el-radio-group
-							v-model="searchdata.radio"
-							@change="set_time"
-						>
-							<el-radio-button label="1">今天</el-radio-button>
-							<el-radio-button label="2">昨天</el-radio-button>
-							<el-radio-button label="3">近7天</el-radio-button>
-							<el-radio-button label="4">近30天</el-radio-button>
-							<el-radio-button label="5">自定义</el-radio-button>
-						</el-radio-group>
-					</el-col> -->
 				</el-row>
 
 				<el-tab-pane label="带宽" name="first">
@@ -352,6 +339,7 @@ import {
 	get_units,
 	formatBkb,
 	menudisable,
+	formatterDate,
 } from '../../servers/sevdate';
 import echarts from 'echarts';
 export default {
@@ -662,6 +650,50 @@ export default {
 		};
 	},
 	mounted() {
+		this.getJson();
+		this.get_search_data();
+		if (sessionStorage.getItem('search_condition')) {
+			let search_data = JSON.parse(
+				sessionStorage.getItem('search_condition')
+			);
+			let city_list = JSON.parse(sessionStorage.getItem('citylist'));
+			this.searchdata.tabname = search_data.tabname;
+			this.searchdata.radio = search_data.radio;
+			if (search_data.echartslist) {
+				this.searchdata.echartslist = search_data.echartslist;
+			}
+			if (this.searchdata.radio == 5) {
+				let arr = [];
+				arr[0] = formatterDate(search_data.start_ts * 1000);
+				arr[1] = formatterDate(search_data.end_ts * 1000);
+				this.searchdata.value1 = arr;
+			}
+			this.searchdata.region4 = [search_data.qu, search_data.region];
+			this.city_disable = false;
+            this.searchdata.region5 = '';
+			this.options_city = city_list[this.searchdata.region4[1]].cities;
+			this.searchdata.region5 = search_data.city;
+			this.searchdata.region1 =
+				search_data.firstChannel == '*' ? '' : search_data.firstChannel;
+			this.searchdata.region2 =
+				search_data.secondChannel == '*'
+					? ''
+					: search_data.secondChannel;
+			this.searchdata.region3 =
+				search_data.deviceType == '*' ? '' : search_data.deviceType;
+			this.searchdata.region6 =
+				search_data.isp == '*' ? '' : search_data.isp;
+			this.searchdata.input =
+				search_data.nodeId == '*' ? '' : search_data.nodeId;
+			this.set_time();
+		} else {
+			this.starttime =
+				new Date(new Date().toLocaleDateString()).getTime() / 1000 -
+				365 * 60 * 60 * 24;
+			this.endtime = Date.parse(new Date()) / 1000;
+			this._width = this.$refs.luckDraw.offsetWidth - 60;
+			this.set_time();
+		}
 		let munulist = JSON.parse(localStorage.getItem('menus'));
 		let pathname = this.$route.path;
 		this.obnj = menudisable(munulist, pathname);
@@ -670,14 +702,6 @@ export default {
 		} else {
 			this.echartsexport = false;
 		}
-		this.getJson();
-		this.starttime =
-			new Date(new Date().toLocaleDateString()).getTime() / 1000 -
-			365 * 60 * 60 * 24;
-		this.endtime = Date.parse(new Date()) / 1000;
-		this._width = this.$refs.luckDraw.offsetWidth - 60;
-		this.get_search_data();
-		this.set_time();
 	},
 	filters: {
 		formatBytes(a, b) {
@@ -693,6 +717,7 @@ export default {
 		getJson() {
 			axios.get('./static/pro_city.json').then((res) => {
 				this.citydata = res.data;
+				sessionStorage.setItem('citylist', JSON.stringify(res.data));
 			});
 		},
 		provinceChange(value) {
@@ -763,6 +788,7 @@ export default {
 			if (this.searchdata.region4 == '*') {
 				params.region = '*';
 			} else {
+				params.qu = this.searchdata.region4[0];
 				params.region = this.searchdata.region4[1];
 			}
 			if (
@@ -780,6 +806,9 @@ export default {
 			} else {
 				params.timeUnit = 60;
 			}
+			params.tabname = this.searchdata.tabname;
+			params.radio = this.searchdata.radio;
+			sessionStorage.setItem('search_condition', JSON.stringify(params));
 			ipfs_monit_bandwidth(params)
 				.then((res) => {
 					this.upbandwidth = 0;
@@ -851,6 +880,7 @@ export default {
 			if (this.searchdata.region4 == '*') {
 				params.region = '*';
 			} else {
+				params.qu = this.searchdata.region4[0];
 				params.region = this.searchdata.region4[1];
 			}
 			if (
@@ -864,6 +894,9 @@ export default {
 			params.end_ts = this.endtime;
 			params.start_ts = this.starttime;
 			params.timeUnit = 5;
+			params.tabname = this.searchdata.tabname;
+			params.radio = this.searchdata.radio;
+			sessionStorage.setItem('search_condition', JSON.stringify(params));
 			ipfs_monit_storage(params)
 				.then((res) => {
 					this.availablecap = 0;
@@ -944,6 +977,7 @@ export default {
 			if (this.searchdata.region4 == '*') {
 				params.region = '*';
 			} else {
+				params.qu = this.searchdata.region4[0];
 				params.region = this.searchdata.region4[1];
 			}
 			if (
@@ -961,6 +995,10 @@ export default {
 			} else {
 				params.timeUnit = 60;
 			}
+			params.tabname = this.searchdata.tabname;
+			params.radio = this.searchdata.radio;
+			params.echartslist = this.searchdata.echartslist;
+			sessionStorage.setItem('search_condition', JSON.stringify(params));
 			ipfs_monit_ping_ms(params)
 				.then((res) => {
 					if (res.status == 0) {
@@ -1034,6 +1072,7 @@ export default {
 			if (this.searchdata.region4 == '*') {
 				params.region = '*';
 			} else {
+				params.qu = this.searchdata.region4[0];
 				params.region = this.searchdata.region4[1];
 			}
 			if (
@@ -1051,6 +1090,10 @@ export default {
 			} else {
 				params.timeUnit = 60;
 			}
+			params.tabname = this.searchdata.tabname;
+			params.radio = this.searchdata.radio;
+			params.echartslist = this.searchdata.echartslist;
+			sessionStorage.setItem('search_condition', JSON.stringify(params));
 			ipfs_monit_tid(params)
 				.then((res) => {
 					if (res.status == 0) {
@@ -1124,6 +1167,7 @@ export default {
 			if (this.searchdata.region4 == '*') {
 				params.region = '*';
 			} else {
+				params.qu = this.searchdata.region4[0];
 				params.region = this.searchdata.region4[1];
 			}
 			if (
@@ -1141,6 +1185,10 @@ export default {
 			} else {
 				params.timeUnit = 60;
 			}
+			params.tabname = this.searchdata.tabname;
+			params.radio = this.searchdata.radio;
+			params.echartslist = this.searchdata.echartslist;
+			sessionStorage.setItem('search_condition', JSON.stringify(params));
 			ipfs_monit_etf(params)
 				.then((res) => {
 					if (res.status == 0) {
@@ -1218,6 +1266,7 @@ export default {
 			if (this.searchdata.region4 == '*') {
 				params.region = '*';
 			} else {
+				params.qu = this.searchdata.region4[0];
 				params.region = this.searchdata.region4[1];
 			}
 			if (
@@ -1235,6 +1284,10 @@ export default {
 			} else {
 				params.timeUnit = 60;
 			}
+			params.tabname = this.searchdata.tabname;
+			params.radio = this.searchdata.radio;
+			params.echartslist = this.searchdata.echartslist;
+			sessionStorage.setItem('search_condition', JSON.stringify(params));
 			ipfs_monit_lt(params)
 				.then((res) => {
 					if (res.status == 0) {
@@ -1315,6 +1368,7 @@ export default {
 			if (this.searchdata.region4 == '*') {
 				params.region = '*';
 			} else {
+				params.qu = this.searchdata.region4[0];
 				params.region = this.searchdata.region4[1];
 			}
 			if (
@@ -1333,6 +1387,10 @@ export default {
 			// } else {
 			// 	params.timeUnit = 60;
 			// }
+			params.tabname = this.searchdata.tabname;
+			params.radio = this.searchdata.radio;
+			params.echartslist = this.searchdata.echartslist;
+			sessionStorage.setItem('search_condition', JSON.stringify(params));
 			ipfs_monit_itf(params)
 				.then((res) => {
 					if (res.status == 0) {
@@ -1410,6 +1468,7 @@ export default {
 			if (this.searchdata.region4 == '*') {
 				params.region = '*';
 			} else {
+				params.qu = this.searchdata.region4[0];
 				params.region = this.searchdata.region4[1];
 			}
 			if (
@@ -1428,6 +1487,10 @@ export default {
 			// } else {
 			// 	params.timeUnit = 60;
 			// }
+			params.tabname = this.searchdata.tabname;
+			params.radio = this.searchdata.radio;
+			params.echartslist = this.searchdata.echartslist;
+			sessionStorage.setItem('search_condition', JSON.stringify(params));
 			ipfs_monit_otf(params)
 				.then((res) => {
 					if (res.status == 0) {
@@ -1505,6 +1568,7 @@ export default {
 			if (this.searchdata.region4 == '*') {
 				params.region = '*';
 			} else {
+				params.qu = this.searchdata.region4[0];
 				params.region = this.searchdata.region4[1];
 			}
 			if (
@@ -1522,6 +1586,10 @@ export default {
 			} else {
 				params.timeUnit = 60;
 			}
+			params.tabname = this.searchdata.tabname;
+			params.radio = this.searchdata.radio;
+			params.echartslist = this.searchdata.echartslist;
+			sessionStorage.setItem('search_condition', JSON.stringify(params));
 			ipfs_monit_rcnt(params)
 				.then((res) => {
 					if (res.status == 0) {
@@ -1602,6 +1670,7 @@ export default {
 			if (this.searchdata.region4 == '*') {
 				params.region = '*';
 			} else {
+				params.qu = this.searchdata.region4[0];
 				params.region = this.searchdata.region4[1];
 			}
 			if (
@@ -1619,6 +1688,10 @@ export default {
 			} else {
 				params.timeUnit = 60;
 			}
+			params.tabname = this.searchdata.tabname;
+			params.radio = this.searchdata.radio;
+			params.echartslist = this.searchdata.echartslist;
+			sessionStorage.setItem('search_condition', JSON.stringify(params));
 			ipfs_monit_cpuusage(params)
 				.then((res) => {
 					if (res.status == 0) {
@@ -1696,6 +1769,7 @@ export default {
 			if (this.searchdata.region4 == '*') {
 				params.region = '*';
 			} else {
+				params.qu = this.searchdata.region4[0];
 				params.region = this.searchdata.region4[1];
 			}
 			if (
@@ -1713,6 +1787,10 @@ export default {
 			} else {
 				params.timeUnit = 60;
 			}
+			params.tabname = this.searchdata.tabname;
+			params.radio = this.searchdata.radio;
+			params.echartslist = this.searchdata.echartslist;
+			sessionStorage.setItem('search_condition', JSON.stringify(params));
 			ipfs_monit_memory(params)
 				.then((res) => {
 					if (res.status == 0) {
@@ -1746,10 +1824,10 @@ export default {
 				});
 		},
 		handleChangefirst(val) {
-            console.log(val);
-			if (val == '*'||val=='') {
-                this.secondchan=[];
-                this.searchdata.region2 = '';
+			console.log(val);
+			if (val == '*' || val == '') {
+				this.secondchan = [];
+				this.searchdata.region2 = '';
 				this.chil_disable = true;
 			} else {
 				this.firstchan.find((item) => {
@@ -1772,7 +1850,8 @@ export default {
 			}
 		},
 		change_tab() {
-			this.activeName = this.searchdata.tabname;
+            this.activeName = this.searchdata.tabname;
+            console.log(this.activeName);
 			if (this.activeName == 'third') {
 				this.seacr_yin_show = true;
 				this.lastchange();
@@ -1799,7 +1878,6 @@ export default {
 			}
 		},
 		set_time() {
-			console.log(this.searchdata.radio);
 			if (this.searchdata.radio == '5') {
 				this.show_time = true;
 				if (
@@ -1808,7 +1886,7 @@ export default {
 				) {
 					this.starttime = setbatime(this.searchdata.value1[0]);
 					this.endtime = setbatime(this.searchdata.value1[1]);
-					this.handleClick();
+					this.change_tab();
 				} else {
 					return false;
 				}
@@ -1819,7 +1897,7 @@ export default {
 					new Date(new Date().toLocaleDateString()).getTime() / 1000;
 				this.starttime = endt - 24 * 60 * 60 * 29;
 				this.endtime = Date.parse(new Date()) / 1000;
-				this.handleClick();
+				this.change_tab();
 			} else if (this.searchdata.radio == '3') {
 				this.show_time = false;
 				this.searchdata.value1 = '';
@@ -1827,7 +1905,7 @@ export default {
 					new Date(new Date().toLocaleDateString()).getTime() / 1000;
 				this.starttime = endt - 24 * 60 * 60 * 6;
 				this.endtime = Date.parse(new Date()) / 1000;
-				this.handleClick();
+				this.change_tab();
 			} else if (this.searchdata.radio == '2') {
 				this.show_time = false;
 				this.searchdata.value1 = '';
@@ -1836,14 +1914,14 @@ export default {
 				this.starttime =
 					new Date(new Date().toLocaleDateString()).getTime() / 1000 -
 					24 * 60 * 60;
-				this.handleClick();
+				this.change_tab();
 			} else if (this.searchdata.radio == '1') {
 				this.show_time = false;
 				this.searchdata.value1 = '';
 				this.starttime =
 					new Date(new Date().toLocaleDateString()).getTime() / 1000;
 				this.endtime = Date.parse(new Date()) / 1000;
-				this.handleClick();
+				this.change_tab();
 			}
 		},
 		lastchange() {

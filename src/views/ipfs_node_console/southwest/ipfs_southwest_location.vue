@@ -423,13 +423,25 @@ export default {
 		fenye,
 	},
 	mounted() {
-		if (this.$route.query.node_city) {
-			this.citys = this.$route.query.node_city;
-			this.rotate = this.$route.query.node_num;
+        this.get_search_data();
+        if (sessionStorage.getItem('search_condition')) {
+			let search_data = JSON.parse(
+				sessionStorage.getItem('search_condition')
+            );
+			this.operatovalue = search_data.isp;
+			this.osvalue = search_data.os;
+			this.hardwarevalue = search_data.arch;
+			this.devicevalue = search_data.devicetype;
+			this.value = search_data.order;
 		}
-		this.gettit();
-		this.getipfsdata();
-		this.get_search_data();
+		if (sessionStorage.getItem('southwest_location')) {
+			this.setmap_show(
+				JSON.parse(sessionStorage.getItem('southwest_location'))
+			);
+		} else {
+			this.gettit();
+			this.getipfsdata();
+		}
 	},
 	methods: {
         searchdata(){
@@ -441,7 +453,8 @@ export default {
 			this.operatovalue = '';
 			this.osvalue = '';
 			this.hardwarevalue = '';
-			this.devicevalue = '';
+            this.devicevalue = '';
+             this.value=0;
 			this.getipfsdata();
 		},
 		get_search_data() {
@@ -521,7 +534,8 @@ export default {
 			parmas.firstchid = '';
 			parmas.secondchid = '';
 			parmas.enableFlag = -1;
-			parmas.order = this.value;
+            parmas.order = this.value;
+            sessionStorage.setItem('search_condition', JSON.stringify(parmas));
 			query_node(parmas)
 				.then((res) => {
 					if (res.status == 0) {
@@ -606,7 +620,8 @@ export default {
 				this.citys = '西藏';
 			} else {
 				this.citys = '贵州';
-			}
+            }
+            sessionStorage.setItem('southwest_location', JSON.stringify(num));
 			this.getipfsdata();
 			this.$forceUpdate();
 			this.gettit();
@@ -632,6 +647,10 @@ export default {
 				},
 			});
 		},
+    },
+    destroyed: function() {
+        sessionStorage.removeItem('southwest_location');
+        sessionStorage.removeItem('search_condition');
 	},
 };
 </script>

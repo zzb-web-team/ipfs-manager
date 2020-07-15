@@ -107,7 +107,7 @@
 									>
 										<i :class="itemChild.icon"></i>
 										<span slot="title">{{
-											itemChild.name
+											itemChild.name=='ip流量'?'IP流量':itemChild.name
 										}}</span>
 									</el-menu-item>
 								</template>

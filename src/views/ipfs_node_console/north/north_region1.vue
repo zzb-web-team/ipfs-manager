@@ -87,7 +87,13 @@ export default {
 		// demo2
 	},
 	mounted() {
+        if (sessionStorage.getItem('north_region')) {
+			this.setmap_show(
+				JSON.parse(sessionStorage.getItem('north_region'))
+			);
+		} else {
 		this.getdalsit('北京');
+		}
 	},
 	methods: {
 		getdalsit(sctyes) {
@@ -139,10 +145,13 @@ export default {
 			} else {
 				this.citys = '北京';
 			}
-
+sessionStorage.setItem('north_region', JSON.stringify(num));
 			this.getdalsit(this.citys);
 			this.$forceUpdate();
 		},
+    },
+    destroyed: function() {
+		sessionStorage.removeItem('north_region');
 	},
 };
 </script>
