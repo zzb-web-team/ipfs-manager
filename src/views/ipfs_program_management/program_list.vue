@@ -77,7 +77,7 @@
 			></fenye>
 		</div>
 
-		<el-dialog title="上传程序包" :visible.sync="dialogFormVisible">
+		<el-dialog title="上传程序包" :visible.sync="dialogFormVisible"  :close-on-click-modal="false">
 			<el-form
 				:model="ruleForm"
 				ref="ruleForm"

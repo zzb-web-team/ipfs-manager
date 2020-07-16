@@ -194,6 +194,7 @@
 			</div>
 			<el-dialog
 				:visible.sync="dialogVisible"
+                :close-on-click-modal="false"
 				width="20%"
 				@close="handleClose"
 				title="新建账户"
@@ -403,7 +404,7 @@
 							:rules="[{ validator: jiophone, trigger: 'blur' }]"
 						>
 							<el-input
-								v-model="ruleForm2.phone"
+								v-model.number="ruleForm2.phone"
 								maxlength="11"
 								placeholder="请输入联系电话"
 							></el-input>
@@ -428,6 +429,7 @@
 			<el-dialog
 				v-if="addDialogVisible"
 				:visible.sync="dialogVisible2"
+                 :close-on-click-modal="false"
 				width="20%"
 				@close="handleClose2"
 				title="修改账户"
@@ -597,7 +599,7 @@
 							:rules="[{ validator: jiophone, trigger: 'blur' }]"
 						>
 							<el-input
-								v-model="ruleForm3.phone"
+								v-model.number="ruleForm3.phone"
 								maxlength="11"
 								placeholder="11位有效手机号"
 							></el-input>
@@ -620,6 +622,7 @@
 
 			<el-dialog
 				:visible.sync="dialogVisible3"
+                 :close-on-click-modal="false"
 				width="20%"
 				@close="handleClose3"
 				title="密码重置"
@@ -696,6 +699,7 @@
 			</el-dialog>
 			<el-dialog
 				:visible.sync="dialogVisible4"
+                 :close-on-click-modal="false"
 				width="20%"
 				title="用户信息"
 			>
@@ -754,7 +758,7 @@
 							<el-form-item label="联系方式:">
 								<el-input
 									disabled
-									v-model="ruleForm7.phone"
+									v-model.number="ruleForm7.phone"
 									placeholder="11位有效手机号"
 								></el-input>
 							</el-form-item>
@@ -861,7 +865,8 @@ export default {
 				department: '',
 				sex: '',
 				position_id: '',
-				grouping: '',
+                grouping: '',
+                phone:'',
 			},
 			ruleForm3: {
 				username: '',
@@ -1416,7 +1421,7 @@ export default {
 						phone: this.ruleForm2.phone,
 						status: parseInt(this.ruleForm2.radio),
 						name: this.ruleForm2.name,
-						uid: this.ipfs_user,
+						uid: this.ipfs_id,
 						uname: this.ipfs_user,
 						department_id: this.ruleForm2.department,
 						sex: this.ruleForm2.sex,
@@ -1454,7 +1459,7 @@ export default {
 					});
 				} else {
 					console.log(valid);
-					return false;
+					// return false;
 				}
 			});
 		},
@@ -1788,7 +1793,6 @@ export default {
 		},
 		//校验电话号
 		jiophone(rule, value, callback) {
-			console.log(value);
 			if (!value) {
 				callback();
 			} else {

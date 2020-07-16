@@ -80,6 +80,7 @@
 			:visible.sync="dialogFormVisible"
 			customClass="customWidths"
 			@close="handleClose2"
+             :close-on-click-modal="false"
 		>
 			<el-form :model="form" ref="ruleForm">
 				<el-form-item
@@ -105,6 +106,7 @@
 			:visible.sync="recodecisbity"
 			customClass="recustomWidth"
 			@close="handleClose"
+             :close-on-click-modal="false"
 		>
 			<el-form :model="reform" ref="ruleFormre">
 				<el-form-item class="reimg">

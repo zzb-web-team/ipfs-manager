@@ -28,6 +28,7 @@
 				width="650px"
 				class="firstorganization_dialog"
 				@close="showfirsterror"
+				:close-on-click-modal="false"
 			>
 				<el-form :model="form" ref="firstruleForm">
 					<el-form-item
@@ -70,6 +71,7 @@
 				width="650px"
 				class="organization_dialog"
 				@close="showerror"
+				:close-on-click-modal="false"
 			>
 				<el-col :span="19" :offset="4">
 					<el-form :model="form" ref="ruleForm">
@@ -509,77 +511,92 @@ export default {
 		},
 		//删除
 		deleteRow(data) {
-			console.log(data);
-			let params = new Object();
-			params.ids = [];
-			if (data) {
-				let obj = new Object();
-				obj.id = data.id;
-				obj.name = data.name;
-				obj.parent = data.parent;
-				params.ids.push(obj);
-			} else {
-				this.multipleSelection.forEach((item) => {
-					let obj = new Object();
-					obj.id = item.id;
-					params.ids.push(obj);
-				});
-			}
-			deldepartment(params)
-				.then((res) => {
-					if (res.status == 0) {
-						this.$message.success('删除成功');
-						this.get_firstme();
-						this.getdatalist();
-						if (data) {
-							if (data.name == '-') {
-								this.fan.fanactionlog(
-									'删除',
-									'删除一级部门',
-									1,
-									data.parent,
-									'-'
-								);
-							} else {
-								this.fan.fanactionlog(
-									'删除',
-									'删除二级部门',
-									1,
-									data.name,
-									'-'
-								);
-							}
-						} else {
-							this.fan.fanactionlog('删除', '批量删除部门', 1);
-						}
+			this.$confirm('确定该部门下没有人员?删除部门', '提示', {
+				confirmButtonText: '确定',
+				cancelButtonText: '取消',
+				type: 'warning',
+			})
+				.then(() => {
+					let params = new Object();
+					params.ids = [];
+					if (data) {
+						let obj = new Object();
+						obj.id = data.id;
+						obj.name = data.name;
+						obj.parent = data.parent;
+						params.ids.push(obj);
 					} else {
-						this.$message.error(res.msg);
-						if (data) {
-							if (data.name == '-') {
-								this.fan.fanactionlog(
-									'删除',
-									'删除一级部门',
-									0,
-									data.parent,
-									'-'
-								);
-							} else {
-								this.fan.fanactionlog(
-									'删除',
-									'删除二级部门',
-									0,
-									data.name,
-									'-'
-								);
-							}
-						} else {
-							this.fan.fanactionlog('删除', '批量删除部门', 0);
-						}
+						this.multipleSelection.forEach((item) => {
+							let obj = new Object();
+							obj.id = item.id;
+							params.ids.push(obj);
+						});
 					}
+					deldepartment(params)
+						.then((res) => {
+							if (res.status == 0) {
+								this.$message.success('删除成功');
+								this.get_firstme();
+								this.getdatalist();
+								if (data) {
+									if (data.name == '-') {
+										this.fan.fanactionlog(
+											'删除',
+											'删除一级部门',
+											1,
+											data.parent,
+											'-'
+										);
+									} else {
+										this.fan.fanactionlog(
+											'删除',
+											'删除二级部门',
+											1,
+											data.name,
+											'-'
+										);
+									}
+								} else {
+									this.fan.fanactionlog(
+										'删除',
+										'批量删除部门',
+										1
+									);
+								}
+							} else {
+								this.$message.error(res.msg);
+								if (data) {
+									if (data.name == '-') {
+										this.fan.fanactionlog(
+											'删除',
+											'删除一级部门',
+											0,
+											data.parent,
+											'-'
+										);
+									} else {
+										this.fan.fanactionlog(
+											'删除',
+											'删除二级部门',
+											0,
+											data.name,
+											'-'
+										);
+									}
+								} else {
+									this.fan.fanactionlog(
+										'删除',
+										'批量删除部门',
+										0
+									);
+								}
+							}
+						})
+						.catch((error) => {
+							console.log(error);
+						});
 				})
-				.catch((error) => {
-					console.log(error);
-				});
+				.catch(() => {});
 		},
 		//获取页码
 		getpage(pages) {

@@ -51,7 +51,7 @@
           </el-button>
         </div>
         <!-- 弹窗 -->
-        <el-dialog title="添加用户" :visible.sync="dialogFormVisible" custom-class="customWidth">
+        <el-dialog title="添加用户"  :close-on-click-modal="false" :visible.sync="dialogFormVisible" custom-class="customWidth">
           <!-- <el-form :model="form" :rules="nw_rules" ref="nw_ruleForm"> -->
           <el-form :model="form" ref="nw_ruleForm">
             <el-form-item label="使用状态" :label-width="formLabelWidth" prop="radio">
@@ -129,7 +129,7 @@
           </el-table-column>
         </el-table>
         <!-- 详情弹窗 -->
-        <el-dialog title="添加用户" :visible.sync="dialog" custom-class="customWidth">
+        <el-dialog title="添加用户"  :close-on-click-modal="false" :visible.sync="dialog" custom-class="customWidth">
           <el-form :model="details">
             <el-form-item label="使用状态" :label-width="formLabelWidth">
               <el-radio v-model="radioes" label="1" :disabled="true">启用</el-radio>
@@ -166,7 +166,7 @@
           </div>
         </el-dialog>
         <!-- 修改弹窗 -->
-        <el-dialog title="添加用户" :visible.sync="dialupdata" custom-class="customWidth">
+        <el-dialog title="添加用户"  :close-on-click-modal="false" :visible.sync="dialupdata" custom-class="customWidth">
           <el-form :model="uetails">
             <el-form-item label="使用状态" :label-width="formLabelWidth">
               <el-radio v-model="sadioes" label="1">启用</el-radio>
@@ -200,7 +200,7 @@
           </div>
         </el-dialog>
         <!-- 密码重置 -->
-        <el-dialog title="密码重置" :visible.sync="dialpwdset" custom-class="customWidth">
+        <el-dialog title="密码重置"  :close-on-click-modal="false" :visible.sync="dialpwdset" custom-class="customWidth">
           <el-form
             :model="ruleForm"
             status-icon

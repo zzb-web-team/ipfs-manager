@@ -37,6 +37,7 @@
 				:visible.sync="dialogFormVisible"
 				width="850px"
 				class="organization_dialog"
+				:close-on-click-modal="false"
 				@close="closediao"
 			>
 				<el-col :span="19" :offset="4">
@@ -164,6 +165,7 @@
 				:visible.sync="quanVisible"
 				width="650px"
 				class="organization_dialog"
+				:close-on-click-modal="false"
 			>
 				<el-tree
 					:data="data"
@@ -799,41 +801,53 @@ export default {
 			}
 		},
 		deleteRow(data) {
-			console.log(data);
-			let params = new Object();
-			let userstr = '';
-			if (data.user) {
-				params.userid = '';
-				data.user.forEach((item) => {
-					userstr += item.id + ',';
-				});
-				params.userid = userstr.slice(0, -1);
-			}
-			params.roleid = data.id;
-			delrole(params)
-				.then((res) => {
-					if (res.status == 0) {
-						this.$message.success('删除成功');
-						this.get_datalist();
-						this.fan.fanactionlog(
-							'删除',
-							'删除权限分组',
-							1,
-							data.name,
-							'-'
-						);
-					} else {
-						this.$message.error(res.msg);
-						this.fan.fanactionlog(
-							'删除',
-							'删除权限分组',
-							0,
-							data.name,
-							'-'
-						);
+			this.$confirm(
+				'删除权限分组之后该分组下的人员将无法正常登录, 是否继续?',
+				'提示',
+				{
+					confirmButtonText: '确定',
+					cancelButtonText: '取消',
+					type: 'warning',
+				}
+			)
+				.then(() => {
+					console.log(data);
+					let params = new Object();
+					let userstr = '';
+					if (data.user) {
+						params.userid = '';
+						data.user.forEach((item) => {
+							userstr += item.id + ',';
+						});
+						params.userid = userstr.slice(0, -1);
 					}
+					params.roleid = data.id;
+					delrole(params)
+						.then((res) => {
+							if (res.status == 0) {
+								this.$message.success('删除成功');
+								this.get_datalist();
+								this.fan.fanactionlog(
+									'删除',
+									'删除权限分组',
+									1,
+									data.name,
+									'-'
+								);
+							} else {
+								this.$message.error(res.msg);
+								this.fan.fanactionlog(
+									'删除',
+									'删除权限分组',
+									0,
+									data.name,
+									'-'
+								);
+							}
+						})
+						.catch((error) => {});
 				})
-				.catch((error) => {});
+				.catch(() => {});
 		},
 		//获取页码
 		getpage(pages) {

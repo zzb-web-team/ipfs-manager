@@ -23,6 +23,7 @@
 				width="650px"
 				class="posi_dialog"
 				@close="showerror"
+				:close-on-click-modal="false"
 			>
 				<el-col :span="19" :offset="4">
 					<el-form :model="form" ref="firstruleForm">
@@ -289,48 +290,60 @@ export default {
 		},
 		//删除
 		deleteRow(data) {
-			let params = new Object();
-			params.ids = [];
-			if (data) {
-				let obj = {};
-				obj.id = data.id;
-				params.ids.push(obj);
-			} else {
-				this.multipleSelection.forEach((item) => {
-					let obj = {};
-					obj.id = item.id;
-					params.ids.push(obj);
-				});
-			}
-			delposition(params)
-				.then((res) => {
-					if (res.status == 0) {
-						this.$message({
-							message: '删除成功',
-							type: 'success',
-						});
-						this.getposition_list();
-						this.fan.fanactionlog(
-							'删除',
-							'删除职位',
-							1,
-							data.name,
-							'-'
-						);
+			this.$confirm(
+				'删除职位后当前职位下的人员的职位会被清空, 是否继续?',
+				'提示',
+				{
+					confirmButtonText: '确定',
+					cancelButtonText: '取消',
+					type: 'warning',
+				}
+			)
+				.then(() => {
+					let params = new Object();
+					params.ids = [];
+					if (data) {
+						let obj = {};
+						obj.id = data.id;
+						params.ids.push(obj);
 					} else {
-						this.$message(res.msg);
-						this.fan.fanactionlog(
-							'删除',
-							'删除职位',
-							0,
-							data.name,
-							'-'
-						);
+						this.multipleSelection.forEach((item) => {
+							let obj = {};
+							obj.id = item.id;
+							params.ids.push(obj);
+						});
 					}
+					delposition(params)
+						.then((res) => {
+							if (res.status == 0) {
+								this.$message({
+									message: '删除成功',
+									type: 'success',
+								});
+								this.getposition_list();
+								this.fan.fanactionlog(
+									'删除',
+									'删除职位',
+									1,
+									data.name,
+									'-'
+								);
+							} else {
+								this.$message(res.msg);
+								this.fan.fanactionlog(
+									'删除',
+									'删除职位',
+									0,
+									data.name,
+									'-'
+								);
+							}
+						})
+						.catch((error) => {
+							console.log(error);
+						});
 				})
-				.catch((error) => {
-					console.log(error);
-				});
+				.catch(() => {});
 		},
 		//获取页码
 		getpage(pages) {

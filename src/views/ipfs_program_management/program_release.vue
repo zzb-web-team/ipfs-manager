@@ -32,7 +32,7 @@
 				>新增发布</el-button
 			>
 			<!--  -->
-			<el-dialog title="新增发布" :visible.sync="dialogFormVisible">
+			<el-dialog title="新增发布" :visible.sync="dialogFormVisible"  :close-on-click-modal="false">
 				<el-form
 					:model="ruleForm"
 					:rules="rules"
