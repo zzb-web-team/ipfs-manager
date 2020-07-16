@@ -641,10 +641,6 @@ export default {
 			});
 		},
     },
-    destroyed: function() {
-        sessionStorage.removeItem('northwest_location');
-        sessionStorage.removeItem('search_condition');
-	},
 };
 </script>
 

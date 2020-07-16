@@ -680,10 +680,6 @@ export default {
 			});
 		},
     },
-    destroyed: function() {
-        sessionStorage.removeItem('north_location');
-        sessionStorage.removeItem('search_condition');
-	},
 };
 </script>
 

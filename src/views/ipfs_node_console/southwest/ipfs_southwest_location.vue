@@ -648,10 +648,6 @@ export default {
 			});
 		},
     },
-    destroyed: function() {
-        sessionStorage.removeItem('southwest_location');
-        sessionStorage.removeItem('search_condition');
-	},
 };
 </script>
 

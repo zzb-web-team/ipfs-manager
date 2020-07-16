@@ -599,10 +599,7 @@ export default {
 			});
 		},
     },
-    destroyed: function() {
-        sessionStorage.removeItem('northeast_location');
-        sessionStorage.removeItem('search_condition');
-	},
+
 };
 </script>
 

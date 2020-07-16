@@ -562,10 +562,6 @@ export default {
 			});
 		}
     },
-    destroyed: function() {
-        sessionStorage.removeItem('other_location');
-        sessionStorage.removeItem('search_condition');
-	},
 };
 </script>
 

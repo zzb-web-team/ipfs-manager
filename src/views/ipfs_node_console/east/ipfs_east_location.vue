@@ -661,9 +661,6 @@ export default {
 			});
 		},
     },
-    destroyed: function() {
-		sessionStorage.removeItem('east_location');
-	},
 };
 </script>
 

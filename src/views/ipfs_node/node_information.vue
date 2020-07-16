@@ -63,7 +63,7 @@
 					</el-select>
 					<span>节点区域：</span>
 					<el-cascader
-                    style="width:150px;"
+						style="width:150px;"
 						placeholder="请选择区域"
 						v-model="value1"
 						:options="citylist"
@@ -115,14 +115,14 @@
 
 					<el-button
 						plain
-                        type="primary"
+						type="primary"
 						@click="resetseach()"
 						class="resetseach_btn"
 						>重置</el-button
 					>
 				</div>
-                <div class="location_select">
-                    					<span>设备类型：</span>
+				<div class="location_select">
+					<span>设备类型：</span>
 					<el-select
 						v-model="dev_type"
 						placeholder="请选择"
@@ -182,7 +182,7 @@
 							:disabled="item.disabled"
 						></el-option>
 					</el-select>
-                </div>
+				</div>
 				<!-- <div class="region_select">
 					<el-button
 						plain
@@ -693,11 +693,51 @@ export default {
 			tableData_export: [],
 			temporary_arr: [],
 			menutype: {},
+			pathname: '',
 		};
 	},
+	beforeRouteEnter(to, from, next) {
+		window.fromname = from.path;
+		window.toname = to.name;
+		next();
+	},
 	mounted() {
+		console.log(window.fromname);
 		this.getJson();
 		this.get_search_data();
+		if (sessionStorage.getItem('search_data')) {
+			if(window.fromname == '/ipfs_location_details'||window.fromname == '/'){
+                let search_data = JSON.parse(sessionStorage.getItem('search_data'));
+                let city_list = JSON.parse(sessionStorage.getItem('citylist'));
+                this.optiondisplay = search_data.optiondisplay;
+                if (search_data.ip != '') {
+                    this.seachinput = search_data.ip;
+                } else if (search_data.nodeId != '') {
+                    this.seachinput = search_data.nodeId;
+                } else {
+                    this.seachinput = '';
+                }
+                if (search_data.province == '') {
+                    this.value1 = '';
+                    this.city_disable = true;
+                    this.city_detil = '';
+                } else {
+                    this.value1 = [search_data.qu, search_data.province];
+                    this.city_disable = false;
+                    this.options_city = city_list[this.value1[1]].cities;
+                    this.city_detil =
+                        search_data.city == '全部' ? '' : search_data.city;
+                }
+                this.value_node = search_data.enableFlag;
+                this.value = search_data.state;
+                this.firstchid = search_data.firstchid;
+                this.secondchid = search_data.secondchid;
+                this.dev_type = search_data.devicetype;
+                this.arch_type = search_data.arch;
+                this.os_type = search_data.os;
+                this.value2 = search_data.isp;
+            }
+		}
 		this.getdatalist();
 		let munulist = JSON.parse(localStorage.getItem('menus'));
 		let pathname = this.$route.path;
@@ -741,6 +781,7 @@ export default {
 		getJson() {
 			axios.get('./static/pro_city.json').then((res) => {
 				this.citydata = res.data;
+				sessionStorage.setItem('citylist', JSON.stringify(res.data));
 			});
 		},
 		provinceChange(value) {
@@ -800,15 +841,12 @@ export default {
 			if (this.value1 == -1) {
 				parmas.province = '';
 			} else if (this.value1[1]) {
+				parmas.qu = this.value1[0];
 				parmas.province = this.value1[1];
 			} else {
 				parmas.province = '';
 			}
-			if (this.value !== 0 && this.value !== 1) {
-				parmas.state = -1;
-			} else {
-				parmas.state = this.value;
-			}
+			parmas.state = this.value;
 			if (this.value2) {
 				if (this.value2 == '全部') {
 					parmas.isp = '';
@@ -831,6 +869,8 @@ export default {
 			}
 			parmas.page = this.currentPage - 1;
 			parmas.order = 0;
+			parmas.optiondisplay = this.optiondisplay;
+			sessionStorage.setItem('search_data', JSON.stringify(parmas));
 			query_node(parmas)
 				.then((res) => {
 					if (res.status == 0) {

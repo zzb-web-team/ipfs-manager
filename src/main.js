@@ -194,15 +194,22 @@ var keymap = {
     'nodeUse': nodeUse,
     "data_monitoring": data_monitoring,
 }
-
-
-
-
-
-
 router.beforeEach((to, from, next) => {
+    if (to.path == '/ipfs_location_details' || from.path == '/ipfs_location_details' || from.path == '/') {} else {
+        sessionStorage.removeItem('central_location');
+        sessionStorage.removeItem('search_condition');
+        sessionStorage.removeItem('search_data');
+        sessionStorage.removeItem('east_location');
+        sessionStorage.removeItem('north_location');
+        sessionStorage.removeItem('northeast_location');
+        sessionStorage.removeItem('northwest_location');
+        sessionStorage.removeItem('other_location');
+        sessionStorage.removeItem('south_location');
+        sessionStorage.removeItem('southwest_location');
+    }
     next()
 })
+
 
 if (localStorage.getItem('menus')) {
     var accroute = JSON.parse(localStorage.getItem('menus'));

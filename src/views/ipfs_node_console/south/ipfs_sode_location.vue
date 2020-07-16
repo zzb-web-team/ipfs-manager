@@ -596,10 +596,7 @@ export default {
 			});
 		},
     },
-    destroyed: function() {
-        sessionStorage.removeItem('south_location');
-        sessionStorage.removeItem('search_condition');
-	},
+
 };
 </script>
 

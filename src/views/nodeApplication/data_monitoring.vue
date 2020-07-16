@@ -668,11 +668,18 @@ export default {
 				arr[1] = formatterDate(search_data.end_ts * 1000);
 				this.searchdata.value1 = arr;
 			}
-			this.searchdata.region4 = [search_data.qu, search_data.region];
-			this.city_disable = false;
-            this.searchdata.region5 = '';
-			this.options_city = city_list[this.searchdata.region4[1]].cities;
-			this.searchdata.region5 = search_data.city;
+			if (search_data.region == '*') {
+				this.searchdata.region4 = '';
+				this.city_disable = true;
+				this.searchdata.region5 = '';
+			} else {
+				this.searchdata.region4 = [search_data.qu, search_data.region];
+                this.city_disable = false;
+				this.options_city =
+                    city_list[this.searchdata.region4[1]].cities;
+                   
+				this.searchdata.region5 = search_data.city=='*'?-1:search_data.city;
+			}
 			this.searchdata.region1 =
 				search_data.firstChannel == '*' ? '' : search_data.firstChannel;
 			this.searchdata.region2 =
@@ -721,7 +728,6 @@ export default {
 			});
 		},
 		provinceChange(value) {
-			console.log(value);
 			if (value[0] == '*') {
 				this.value1 = -1;
 				this.city_disable = true;
@@ -729,7 +735,6 @@ export default {
 				this.set_time();
 			} else {
 				this.options_city = this.citydata[value[1]].cities;
-				console.log(this.options_city);
 				this.city_disable = false;
 				this.searchdata.region5 = '全部';
 				this.set_time();
@@ -752,7 +757,6 @@ export default {
 					}
 				})
 				.catch((error) => {
-					console.log(error);
 				});
 		},
 		//请求带宽数据
@@ -785,7 +789,7 @@ export default {
 			} else {
 				params.nodeId = '*';
 			}
-			if (this.searchdata.region4 == '*') {
+			if (this.searchdata.region4 == '*'||this.searchdata.region4=='') {
 				params.region = '*';
 			} else {
 				params.qu = this.searchdata.region4[0];
@@ -845,7 +849,6 @@ export default {
 					}
 				})
 				.catch((error) => {
-					console.log(error);
 				});
 		},
 		//请求存储空间数据
@@ -877,7 +880,7 @@ export default {
 			} else {
 				params.nodeId = '*';
 			}
-			if (this.searchdata.region4 == '*') {
+			if (this.searchdata.region4 == '*'||this.searchdata.region4=='') {
 				params.region = '*';
 			} else {
 				params.qu = this.searchdata.region4[0];
@@ -929,7 +932,6 @@ export default {
 					}
 				})
 				.catch((error) => {
-					console.log(error);
 				});
 		},
 		//请求节点质量--ms
@@ -974,7 +976,7 @@ export default {
 			} else {
 				params.osType = '*';
 			}
-			if (this.searchdata.region4 == '*') {
+			if (this.searchdata.region4 == '*'||this.searchdata.region4=='') {
 				params.region = '*';
 			} else {
 				params.qu = this.searchdata.region4[0];
@@ -1069,7 +1071,7 @@ export default {
 			} else {
 				params.osType = '*';
 			}
-			if (this.searchdata.region4 == '*') {
+			if (this.searchdata.region4 == '*'||this.searchdata.region4=='') {
 				params.region = '*';
 			} else {
 				params.qu = this.searchdata.region4[0];
@@ -1164,7 +1166,7 @@ export default {
 			} else {
 				params.osType = '*';
 			}
-			if (this.searchdata.region4 == '*') {
+			if (this.searchdata.region4 == '*'||this.searchdata.region4=='') {
 				params.region = '*';
 			} else {
 				params.qu = this.searchdata.region4[0];
@@ -1263,7 +1265,7 @@ export default {
 			} else {
 				params.osType = '*';
 			}
-			if (this.searchdata.region4 == '*') {
+			if (this.searchdata.region4 == '*'||this.searchdata.region4=='') {
 				params.region = '*';
 			} else {
 				params.qu = this.searchdata.region4[0];
@@ -1365,7 +1367,7 @@ export default {
 			} else {
 				params.osType = '*';
 			}
-			if (this.searchdata.region4 == '*') {
+			if (this.searchdata.region4 == '*'||this.searchdata.region4=='') {
 				params.region = '*';
 			} else {
 				params.qu = this.searchdata.region4[0];
@@ -1465,7 +1467,7 @@ export default {
 			} else {
 				params.osType = '*';
 			}
-			if (this.searchdata.region4 == '*') {
+			if (this.searchdata.region4 == '*'||this.searchdata.region4=='') {
 				params.region = '*';
 			} else {
 				params.qu = this.searchdata.region4[0];
@@ -1565,7 +1567,7 @@ export default {
 			} else {
 				params.osType = '*';
 			}
-			if (this.searchdata.region4 == '*') {
+			if (this.searchdata.region4 == '*'||this.searchdata.region4=='') {
 				params.region = '*';
 			} else {
 				params.qu = this.searchdata.region4[0];
@@ -1667,7 +1669,7 @@ export default {
 			} else {
 				params.osType = '*';
 			}
-			if (this.searchdata.region4 == '*') {
+			if (this.searchdata.region4 == '*'||this.searchdata.region4=='') {
 				params.region = '*';
 			} else {
 				params.qu = this.searchdata.region4[0];
@@ -1766,7 +1768,7 @@ export default {
 			} else {
 				params.osType = '*';
 			}
-			if (this.searchdata.region4 == '*') {
+			if (this.searchdata.region4 == '*'||this.searchdata.region4=='') {
 				params.region = '*';
 			} else {
 				params.qu = this.searchdata.region4[0];
@@ -1824,7 +1826,6 @@ export default {
 				});
 		},
 		handleChangefirst(val) {
-			console.log(val);
 			if (val == '*' || val == '') {
 				this.secondchan = [];
 				this.searchdata.region2 = '';
@@ -1850,8 +1851,7 @@ export default {
 			}
 		},
 		change_tab() {
-            this.activeName = this.searchdata.tabname;
-            console.log(this.activeName);
+			this.activeName = this.searchdata.tabname;
 			if (this.activeName == 'third') {
 				this.seacr_yin_show = true;
 				this.lastchange();
@@ -2324,6 +2324,9 @@ export default {
 			};
 			myChart2.setOption(options);
 		},
+	},
+	destroyed: function() {
+		sessionStorage.removeItem('search_condition');
 	},
 };
 </script>
