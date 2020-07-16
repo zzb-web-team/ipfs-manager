@@ -1381,7 +1381,7 @@ export default {
 			}
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime;
-			params.pageNo = this.fs_pageNo - 1;
+			params.pageNo = this.fs_currentPage - 1;
 			params.pageSize = this.fs_pageSize;
 			query_ip_store_details_table(params)
 				.then((res) => {
@@ -1420,7 +1420,7 @@ export default {
 			}
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime;
-			params.pageNo = this.pageNo - 1;
+			params.pageNo = this.currentPage - 1;
 			params.pageSize = this.pageSize;
 			query_ipfs_dataflow_table(params)
 				.then((res) => {

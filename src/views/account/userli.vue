@@ -1632,13 +1632,13 @@ export default {
 									message: msg,
 									type: 'error',
 								});
-								this.fan.fanactionlog('删除', '禁用账号', 0);
+								this.fan.fanactionlog('删除', '删除账号', 0,val.name,'-');
 							} else {
 								this.$message({
 									message: '删除成功',
 									type: 'success',
 								});
-								this.fan.fanactionlog('删除', '禁用账号', 1);
+								this.fan.fanactionlog('删除', '删除账号', 1,val.name,'-');
 								this.queryUserList();
 							}
 						})
