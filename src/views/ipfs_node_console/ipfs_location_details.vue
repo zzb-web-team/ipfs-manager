@@ -286,7 +286,7 @@
 								>
 							</div>
 							<div class="ipfs_item_toptwo_item">
-								<span>剩余带宽：</span>
+								<span>剩余空间：</span>
 								<span
 									>{{
 										(

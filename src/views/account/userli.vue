@@ -632,46 +632,51 @@
 						label-position="left"
 						class="demo-ruleForm"
 					>
-					
-							<el-form-item label="账号:" prop="username">
-								<el-input
-									v-model="ruleForm3.username"
-									:disabled="true"
-								></el-input>
-							</el-form-item>
-					
-							<el-form-item prop="password" label="新密码:" :rules="[
+						<el-form-item label="账号:" prop="username">
+							<el-input
+								v-model="ruleForm3.username"
+								:disabled="true"
+							></el-input>
+						</el-form-item>
+
+						<el-form-item
+							prop="password"
+							label="新密码:"
+							:rules="[
 								{
 									required: true,
 									validator: jiopwd2,
 									trigger: 'blur',
 								},
-							]">
-								<el-input
-									v-model="ruleForm4.password"
-									placeholder="8位数字字母组成"
-									type="password"
-									autocomplete="off"
-									maxlength="8"
-								></el-input>
-							</el-form-item>
-						
-						<el-form-item prop="password2" label="确认密码:" :rules="[
+							]"
+						>
+							<el-input
+								v-model="ruleForm4.password"
+								placeholder="8位数字字母组成"
+								type="password"
+								autocomplete="off"
+								maxlength="8"
+							></el-input>
+						</el-form-item>
+
+						<el-form-item
+							prop="password2"
+							label="确认密码:"
+							:rules="[
 								{
 									required: true,
 									validator: jioqpwd2,
 									trigger: 'blur',
 								},
-							]">
-						
-								<el-input
-									v-model="ruleForm4.password2"
-									placeholder="请再次输入密码"
-									type="password"
-									autocomplete="off"
-									maxlength="8"
-								></el-input>
-							
+							]"
+						>
+							<el-input
+								v-model="ruleForm4.password2"
+								placeholder="请再次输入密码"
+								type="password"
+								autocomplete="off"
+								maxlength="8"
+							></el-input>
 						</el-form-item>
 
 						<el-form-item
@@ -1512,9 +1517,9 @@ export default {
 								type: 'error',
 							});
 							if (param.status == 0) {
-								this.fan.fanactionlog('修改', '启用账号', 0);
+								this.fan.fanactionlog('修改', '启用账号', 0,'启用','禁用');
 							} else {
-								this.fan.fanactionlog('修改', '禁用账号', 0);
+								this.fan.fanactionlog('修改', '禁用账号', 0,'禁用','启用');
 							}
 						} else {
 							if (param.status == 0) {
@@ -1522,24 +1527,19 @@ export default {
 									message: '启用成功',
 									type: 'success',
 								});
-								this.fan.fanactionlog('修改', '启用账号', 1);
+								this.fan.fanactionlog('修改', '启用账号', 1,'禁用','启用');
 							} else {
 								this.$message({
 									message: '禁用成功',
 									type: 'success',
 								});
-								this.fan.fanactionlog('修改', '禁用账号', 1);
+								this.fan.fanactionlog('修改', '禁用账号', 1,'启用','禁用');
 							}
 							this.queryUserList();
 						}
 					});
 				})
 				.catch(() => {
-					if (param.status == 0) {
-						this.fan.fanactionlog('修改', '启用账号', 0);
-					} else {
-						this.fan.fanactionlog('修改', '禁用账号', 0);
-					}
 				});
 		},
 		//修改
@@ -1743,9 +1743,14 @@ export default {
 				callback(new Error('请输入账号(4-20位汉字字母数字组合)'));
 			} else {
 				// /^(?!\d+$)[\da-zA-Z]+$/;
-				var fsdusername = /^(?![0-9]+$)[\u4e00-\u9fa50-9A-Za-z]{4,20}$/;
+				var fsdusername = /^(?![0-9]+$)[\u4e00-\u9fa50-9A-Za-z]{2,20}$/;
 				if (fsdusername.test(value) === false) {
 					callback(new Error('账号格式错误'));
+				} else if (
+					value.replace(/[^\u0000-\u00ff]/g, 'aa').length < 4 ||
+					value.replace(/[^\u0000-\u00ff]/g, 'aa').length > 20
+				) {
+					callback(new Error('账号长度不符合规则'));
 				} else {
 					callback();
 				}
@@ -1756,10 +1761,15 @@ export default {
 			if (value === '') {
 				callback(new Error('请输入昵称(4-20位汉字字母数字组合)'));
 			} else {
-				var fsdusername = /^(?![0-9]+$)[\u4e00-\u9fa50-9A-Za-z]{4,20}$/;
+				var fsdusername = /^(?![0-9]+$)[\u4e00-\u9fa50-9A-Za-z]{2,20}$/;
 				if (fsdusername.test(value) === false) {
 					callback(new Error('昵称格式错误'));
-				} else {
+                }else if (
+					value.replace(/[^\u0000-\u00ff]/g, 'aa').length < 4 ||
+					value.replace(/[^\u0000-\u00ff]/g, 'aa').length > 20
+				) {
+					callback(new Error('昵称长度不符合规则'));
+				}else {
 					callback();
 				}
 				//var fsdname = /^[\u4e00-\u9fa5\dA-Za-z]{2,10}$|^[\dA-Za-z]{4,20}$/;
@@ -1792,9 +1802,9 @@ export default {
 		},
 		//校验密码
 		jiopwd(rule, value, callback) {
-            console.log(value);
+			console.log(value);
 			// let fsdfpwd = /^(?![\d]+$)(?![a-zA-Z]+$)(?![^\da-zA-Z]+$).{8}$/;
-             let fsdfpwd=/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8}$/;
+			let fsdfpwd = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8}$/;
 			if (value === '') {
 				callback(new Error('请输入密码(8位字母数字组合)'));
 			} else if (fsdfpwd.test(value) === false) {
@@ -1815,12 +1825,12 @@ export default {
 			} else {
 				callback();
 			}
-        },
-        //校验密码
+		},
+		//校验密码
 		jiopwd2(rule, value, callback) {
-            console.log(value);
+			console.log(value);
 			// let fsdfpwd = /^(?![\d]+$)(?![a-zA-Z]+$)(?![^\da-zA-Z]+$).{8}$/;
-             let fsdfpwd=/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8}$/;
+			let fsdfpwd = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8}$/;
 			if (value === '') {
 				callback(new Error('请输入密码(8位字母数字组合)'));
 			} else if (fsdfpwd.test(value) === false) {
@@ -1832,7 +1842,7 @@ export default {
 				callback();
 			}
 		},
-        //校验确认密码
+		//校验确认密码
 		jioqpwd2(rule, value, callback) {
 			if (value === '') {
 				callback(new Error('请再次输入密码'));
@@ -1841,8 +1851,7 @@ export default {
 			} else {
 				callback();
 			}
-        },
-        
+		},
 	},
 	components: {
 		pageNation: pageNation,

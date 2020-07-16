@@ -147,6 +147,7 @@ export default {
 				id: 0,
 			},
 			menutype: {},
+			zdata: '',
 		};
 	},
 	mounted() {
@@ -199,8 +200,22 @@ export default {
 									this.$message.success('添加成功');
 									this.form.nuname = '';
 									this.getposition_list();
+									this.fan.fanactionlog(
+										'新建',
+										'新建职位',
+										1,
+										'-',
+										params.name
+									);
 								} else {
 									this.$message(res.msg);
+									this.fan.fanactionlog(
+										'新建',
+										'新建职位',
+										0,
+										'-',
+										params.name
+									);
 								}
 							})
 							.catch((error) => {
@@ -219,8 +234,22 @@ export default {
 									this.form.nuname = '';
 									this.form.id = 0;
 									this.getposition_list();
+									this.fan.fanactionlog(
+										'修改',
+										'修改职位',
+										1,
+										this.zdata.name,
+										parame.name
+									);
 								} else {
 									this.$message(res.msg);
+									this.fan.fanactionlog(
+										'修改',
+										'修改职位',
+										0,
+										this.zdata.name,
+										parame.name
+									);
 								}
 							})
 							.catch((error) => {
@@ -252,6 +281,7 @@ export default {
 			}
 		},
 		handleClick(data) {
+			this.zdata = data;
 			this.form.nuname = data.name;
 			this.form.id = data.id;
 			this.diatitle = '修改职位';
@@ -280,8 +310,22 @@ export default {
 							type: 'success',
 						});
 						this.getposition_list();
+						this.fan.fanactionlog(
+							'删除',
+							'删除职位',
+							1,
+							data.name,
+							'-'
+						);
 					} else {
 						this.$message(res.msg);
+						this.fan.fanactionlog(
+							'删除',
+							'删除职位',
+							0,
+							data.name,
+							'-'
+						);
 					}
 				})
 				.catch((error) => {

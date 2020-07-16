@@ -27,7 +27,7 @@
 				:visible.sync="dialogFormVisible"
 				width="650px"
 				class="firstorganization_dialog"
-                @close='showfirsterror'
+				@close="showfirsterror"
 			>
 				<el-form :model="form" ref="firstruleForm">
 					<el-form-item
@@ -69,7 +69,7 @@
 				:visible.sync="nwFormVisible"
 				width="650px"
 				class="organization_dialog"
-                @close='showerror'
+				@close="showerror"
 			>
 				<el-col :span="19" :offset="4">
 					<el-form :model="form" ref="ruleForm">
@@ -156,7 +156,10 @@
 				</el-table-column>
 				<el-table-column prop="user" label="账户">
 					<template slot-scope="scope">
-						<span v-for="(item, index) in scope.row.user" :key="index">
+						<span
+							v-for="(item, index) in scope.row.user"
+							:key="index"
+						>
 							{{ item.name }},
 						</span>
 					</template>
@@ -231,6 +234,7 @@ export default {
 			firstme: [],
 			deldisable: true,
 			menutype: {},
+			zdata: '',
 		};
 	},
 	mounted() {
@@ -301,10 +305,24 @@ export default {
 								if (res.status == 0) {
 									this.form.nuname = '';
 									this.$message.success('新建成功');
+									this.fan.fanactionlog(
+										'新增',
+										'新建一级部门',
+										1,
+										'-',
+										params.name
+									);
 									this.get_firstme();
 									this.getdatalist();
 								} else {
 									this.$message.error(res.msg);
+									this.fan.fanactionlog(
+										'新增',
+										'新建一级部门',
+										0,
+										'-',
+										params.name
+									);
 								}
 							})
 							.catch((error) => {
@@ -325,8 +343,22 @@ export default {
 									this.$message.success('修改成功');
 									this.getdatalist();
 									this.get_firstme();
+									this.fan.fanactionlog(
+										'修改',
+										'修改一级部门',
+										1,
+										this.zdata.parent,
+										params.name
+									);
 								} else {
 									this.$message.error(res.msg);
+									this.fan.fanactionlog(
+										'修改',
+										'修改一级部门',
+										0,
+										this.zdata.parent,
+										params.name
+									);
 								}
 							})
 							.catch((error) => {
@@ -354,8 +386,22 @@ export default {
 									this.form.nuname = '';
 									this.$message.success('新建成功');
 									this.getdatalist();
+									this.fan.fanactionlog(
+										'新增',
+										'新建二级部门',
+										1,
+										'-',
+										params.name
+									);
 								} else {
 									this.$message.error(res.msg);
+									this.fan.fanactionlog(
+										'新增',
+										'新建二级部门',
+										0,
+										'-',
+										params.name
+									);
 								}
 							})
 							.catch((error) => {
@@ -376,8 +422,42 @@ export default {
 									this.$message.success('修改成功');
 									this.getdatalist();
 									this.get_firstme();
+									if (this.zdata.name == params.name) {
+										this.fan.fanactionlog(
+											'修改',
+											'修改二级部门',
+											1,
+											this.zdata.parent,
+											params.name
+										);
+									} else {
+										this.fan.fanactionlog(
+											'修改',
+											'修改二级部门',
+											1,
+											this.zdata.name,
+											params.name
+										);
+									}
 								} else {
 									this.$message.error(res.msg);
+									if (this.zdata.name == params.name) {
+										this.fan.fanactionlog(
+											'修改',
+											'修改二级部门',
+											0,
+											this.zdata.parent,
+											params.name
+										);
+									} else {
+										this.fan.fanactionlog(
+											'修改',
+											'修改二级部门',
+											0,
+											this.zdata.name,
+											params.name
+										);
+									}
 								}
 							})
 							.catch((error) => {
@@ -388,13 +468,13 @@ export default {
 					return false;
 				}
 			});
-        },
-        showfirsterror(){
-           this.resetForm('firstruleForm'); 
-        },
-        showerror(){
-            this.resetForm('ruleForm');
-        },
+		},
+		showfirsterror() {
+			this.resetForm('firstruleForm');
+		},
+		showerror() {
+			this.resetForm('ruleForm');
+		},
 		//弹窗-取消
 		resetForm(formName) {
 			this.$refs[formName].resetFields();
@@ -412,7 +492,8 @@ export default {
 		},
 		//修改
 		handleClick(data) {
-			console.log(data);
+			this.zdata = data;
+			console.log(this.zdata);
 			if (data.name != '-') {
 				this.titlename = '修改部门';
 				this.nwFormVisible = true;
@@ -428,11 +509,14 @@ export default {
 		},
 		//删除
 		deleteRow(data) {
+			console.log(data);
 			let params = new Object();
 			params.ids = [];
 			if (data) {
 				let obj = new Object();
 				obj.id = data.id;
+				obj.name = data.name;
+				obj.parent = data.parent;
 				params.ids.push(obj);
 			} else {
 				this.multipleSelection.forEach((item) => {
@@ -447,8 +531,50 @@ export default {
 						this.$message.success('删除成功');
 						this.get_firstme();
 						this.getdatalist();
+						if (data) {
+							if (data.name == '-') {
+								this.fan.fanactionlog(
+									'删除',
+									'删除一级部门',
+									1,
+									data.parent,
+									'-'
+								);
+							} else {
+								this.fan.fanactionlog(
+									'删除',
+									'删除二级部门',
+									1,
+									data.name,
+									'-'
+								);
+							}
+						} else {
+							this.fan.fanactionlog('删除', '批量删除部门', 1);
+						}
 					} else {
 						this.$message.error(res.msg);
+						if (data) {
+							if (data.name == '-') {
+								this.fan.fanactionlog(
+									'删除',
+									'删除一级部门',
+									0,
+									data.parent,
+									'-'
+								);
+							} else {
+								this.fan.fanactionlog(
+									'删除',
+									'删除二级部门',
+									0,
+									data.name,
+									'-'
+								);
+							}
+						} else {
+							this.fan.fanactionlog('删除', '批量删除部门', 0);
+						}
 					}
 				})
 				.catch((error) => {

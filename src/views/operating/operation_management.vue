@@ -123,15 +123,19 @@
 						prop="username"
 						label="操作人"
 					></el-table-column>
-					<el-table-column prop="geydata" label="原始值">
-						<template slot-scope="scope">
+					<el-table-column prop="beforevalue" label="原始值">
+						<!-- <template slot-scope="scope">
 							<span v-if="!scope.row.geydata">--</span>
 							<span v-else>{{ scope.row.geydata }}</span>
-						</template>
+						</template> -->
 					</el-table-column>
 					<el-table-column
-						prop="description"
+						prop="aftervalue"
 						label="修改值"
+					></el-table-column>
+                    <el-table-column
+						prop="description"
+						label="操作内容"
 					></el-table-column>
 					<el-table-column
 						prop="time_create"
