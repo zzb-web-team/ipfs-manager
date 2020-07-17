@@ -83,7 +83,6 @@
 								:key="cascaderKey"
 								ref="refSubCat"
 								:show-all-levels="false"
-								clearable
 							></el-cascader>
 						</el-form-item>
 					</el-form>
@@ -455,6 +454,8 @@ export default {
 		},
 		//新建
 		nwisible() {
+			this.form.userlist = [];
+			this.nawoptions = [];
 			this.nawoptions = this.options;
 			this.dialogFormVisible = true;
 			this.updatadis = false;
@@ -486,9 +487,13 @@ export default {
 
 						addrole(params)
 							.then((res) => {
+								this.nawoptions = [];
+                                this.form.userlist = [];
+                                this.options=[];
 								this.form.title = '';
 								this.form.description = '';
-								this.form.userlist = [];
+								this.form.titleuserlist = [];
+								this.form.titleuserid = [];
 								this.dialogFormVisible = false;
 								if (res.status == 0) {
 									this.$message.success('添加成功');
@@ -535,11 +540,18 @@ export default {
 						}
 						updaterole(params)
 							.then((res) => {
+								console.log(this.form);
+								this.$nextTick(() => {
+									this.form.userlist = []; ////重置选项
+								});
+                                this.nawoptions = [];
+                                this.options=[];
 								this.form.title = '';
 								this.form.description = '';
-								this.form.userlist = [];
-								this.nawoptions = [];
+								this.form.titleuserlist = [];
+								this.form.titleuserid = [];
 								this.dialogFormVisible = false;
+								console.log(this.form);
 								if (res.status == 0) {
 									this.$message.success('修改成功');
 									this.get_datalist();
@@ -727,6 +739,8 @@ export default {
 		//修改
 		updatahandleClick(data) {
 			console.log(data);
+            this.nawoptions = [];
+            this.options=[];
 			this.zdata = data;
 			let _this = this;
 			this.form.userlist = [];
@@ -738,10 +752,8 @@ export default {
 			this.form.description = data.description;
 			this.form.id = data.id;
 			// this.form.userlist = data.user;
-
 			if (data.user.length > 0) {
 				this.updatadis = false;
-
 				// var id_list = "";
 				var arr = [];
 				let params = new Object();
@@ -795,6 +807,7 @@ export default {
 				}
 				this.nawoptions = this.options.concat(this.nawoptions);
 				this.form.userlist = arrTrans(3, arr);
+				console.log(this.nawoptions, '-**--');
 				console.log(this.form.userlist);
 			} else {
 				this.nawoptions = this.options;
