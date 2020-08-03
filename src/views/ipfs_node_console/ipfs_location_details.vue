@@ -55,12 +55,12 @@
 									}"
 									>{{ serdata.devstatus }}</span
 								>
-								<span
+								<!-- <span
 									v-bind:style="{
 										color: serdata.bgccolor,
 									}"
 									>{{ serdata.isp }}</span
-								>
+								> -->
 							</div>
 							<div>
 								<span>{{ serdata.devicetype }}</span>
@@ -76,15 +76,19 @@
 						<img src="../../assets/img/liuliang.png" alt="" />
 						<div>
 							<p class="alltitle">累计使用流量</p>
-							<p class="allnum">{{ topdata.total_dataflow }}</p>
+							<!-- <p class="allnum">{{ topdata.total_dataflow }}</p> -->
+							<p class="allnum">0</p>
 						</div>
 					</div>
 					<div class="ipfs_con_tit">
 						<img src="../../assets/img/chuanshu.png" alt="" />
 						<div>
 							<p class="alltitle">累计传输次数</p>
-							<p class="allnum">
+							<!-- <p class="allnum">
 								{{ topdata.total_store_times }}
+							</p> -->
+							<p class="allnum">
+								0
 							</p>
 						</div>
 					</div>
@@ -92,15 +96,19 @@
 						<img src="../../assets/img/cunchu.png" alt="" />
 						<div>
 							<p class="alltitle">累计存储容量</p>
-							<p class="allnum">{{ topdata.total_storeusage }}</p>
+							<!-- <p class="allnum">{{ topdata.total_storeusage }}</p> -->
+							<p class="allnum">0</p>
 						</div>
 					</div>
 					<div class="ipfs_con_tit" style="border:none;">
 						<img src="../../assets/img/cishu.png" alt="" />
 						<div>
 							<p class="alltitle">累计存储次数</p>
-							<p class="allnum">
+							<!-- <p class="allnum">
 								{{ topdata.total_output_times }}
+							</p> -->
+							<p class="allnum">
+								0
 							</p>
 						</div>
 					</div>
@@ -533,7 +541,7 @@
 							<span v-else-if="scope.row.accelstate == 1"
 								>已停用</span
 							> -->
-                            <span v-if="scope.row.accelstate == 1">使用中</span>
+							<span v-if="scope.row.accelstate == 1">使用中</span>
 							<span v-else-if="scope.row.accelstate == 0"
 								>已停用</span
 							>
@@ -705,8 +713,9 @@ export default {
 		if (dpwnbandwidth * 1 == 0) {
 			this.down_rema = 0;
 		} else {
-			this.down_rema = parseInt(dpwnbandwidth_rema) / parseInt(dpwnbandwidth);
-        }
+			this.down_rema =
+				parseInt(dpwnbandwidth_rema) / parseInt(dpwnbandwidth);
+		}
 		if (this.serdata.totalCap * 1 == 0) {
 			this.cap_rema = 0;
 		} else {
@@ -724,9 +733,7 @@ export default {
 		this.getlabel();
 	},
 	methods: {
-        bkb(){
-
-        },
+		bkb() {},
 		goBack() {
 			if (this.$route.query.address) {
 				let address = this.$route.query.address;
@@ -783,12 +790,12 @@ export default {
 				params.business_type = '*';
 				query_ip_usage_table(params)
 					.then((res) => {
-						if (res.status == 0) {
-							this.tableDataip = res.data.list;
-							this.totalCnt = res.data.totalCnt;
-						} else {
-							this.$message.error(res.errMsg);
-						}
+						// if (res.status == 0) {
+						// 	this.tableDataip = res.data.list;
+						// 	this.totalCnt = res.data.totalCnt;
+						// } else {
+						// 	this.$message.error(res.errMsg);
+						// }
 					})
 					.catch((error) => {});
 			} else {
@@ -808,12 +815,12 @@ export default {
 				params.business_scene = '*';
 				query_ip_store_usage_table(params)
 					.then((res) => {
-						if (res.status == 0) {
-							this.tableDatafs = res.data.list;
-							this.totalCnt = res.data.totalCnt;
-						} else {
-							this.$message.error(res.errMsg);
-						}
+						// if (res.status == 0) {
+						// 	this.tableDatafs = res.data.list;
+						// 	this.totalCnt = res.data.totalCnt;
+						// } else {
+						// 	this.$message.error(res.errMsg);
+						// }
 					})
 					.catch((error) => {});
 			}

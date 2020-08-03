@@ -226,9 +226,9 @@ export default {
 			menulistuser(params)
 				.then((res) => {
 					if (res.status == 0) {
-						console.log(res.data);
+						
 						if (res.data && res.data.length > 0) {
-							let arrlist = [];
+                            let arrlist = [];
 							res.data.forEach((item) => {
 								if (item.name == '后台账户') {
 									arrlist[0] = item;
@@ -244,12 +244,20 @@ export default {
 									arrlist[5] = item;
 								} else if (item.name == 'IPFS数据统计') {
 									arrlist[6] = item;
+									item.children.forEach((xitem, index) => {
+                                        
+										if (xitem.name == '全国节点分布') {
+                                            arrlist[2].children.unshift(xitem);
+                                            item.children.splice(index, 1); 
+										}
+									});
 								} else if (item.name == '操作管理') {
 									arrlist[7] = item;
 								} else {
 									arrlist[8] = item;
 								}
-							});
+                            });
+                            console.log(arrlist);
 							for (var i = 0; i < arrlist.length; i++) {
 								if (arrlist[i] == null) {
 									arrlist.splice(i, 1);

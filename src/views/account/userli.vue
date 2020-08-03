@@ -198,6 +198,7 @@
 				width="20%"
 				@close="handleClose"
 				title="新建账户"
+                class="userli_content"
 			>
 				<div class="addaccout">
 					<el-form
@@ -259,10 +260,12 @@
 								},
 							]"
 						>
+                          <el-col :span="24">
 							<el-input
 								v-model="ruleForm2.name"
 								placeholder="请输入昵称"
 							></el-input>
+                          </el-col>
 						</el-form-item>
 
 						<el-form-item
@@ -376,7 +379,7 @@
 								v-model="ruleForm2.password"
 								type="password"
 								placeholder="请输入密码"
-								maxlength="8"
+								maxlength="32"
 							></el-input>
 						</el-form-item>
 						<el-form-item
@@ -626,6 +629,7 @@
 				width="20%"
 				@close="handleClose3"
 				title="密码重置"
+                class="userli_content"
 			>
 				<div class="addaccout">
 					<el-form
@@ -1808,9 +1812,9 @@ export default {
 		jiopwd(rule, value, callback) {
 			console.log(value);
 			// let fsdfpwd = /^(?![\d]+$)(?![a-zA-Z]+$)(?![^\da-zA-Z]+$).{8}$/;
-			let fsdfpwd = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8}$/;
+			let fsdfpwd = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])[0-9A-Za-z~!@#$%^&*_]{8,32}$/;
 			if (value === '') {
-				callback(new Error('请输入密码(8位字母数字组合)'));
+				callback(new Error('请输入密码(8~32位数字、大小写英文字母、特殊字符的组合)'));
 			} else if (fsdfpwd.test(value) === false) {
 				callback(new Error('密码格式错误'));
 			} else {
@@ -1834,9 +1838,9 @@ export default {
 		jiopwd2(rule, value, callback) {
 			console.log(value);
 			// let fsdfpwd = /^(?![\d]+$)(?![a-zA-Z]+$)(?![^\da-zA-Z]+$).{8}$/;
-			let fsdfpwd = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8}$/;
+			let fsdfpwd = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])[0-9A-Za-z~!@#$%^&*_]{8,32}$/;
 			if (value === '') {
-				callback(new Error('请输入密码(8位字母数字组合)'));
+				callback(new Error('请输入密码(8~32位数字、大小写英文字母、特殊字符的组合)'));
 			} else if (fsdfpwd.test(value) === false) {
 				callback(new Error('密码格式错误'));
 			} else {

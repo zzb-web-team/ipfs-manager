@@ -181,7 +181,7 @@
 						:value="item.name"
 					></el-option>
 				</el-select>
-				<span>节点网络运营商：</span>
+				<!-- <span>节点网络运营商：</span>
 				<el-select
 					v-model="operatovalue"
 					placeholder="请选择设备类型"
@@ -194,7 +194,7 @@
 						:label="item.name"
 						:value="item.name"
 					></el-option>
-				</el-select>
+				</el-select> -->
 				<el-button type="primary" @click="uopset">重置</el-button>
 			</div>
 			<div>
@@ -303,12 +303,17 @@
 					</li>
 					<li>
 						<span class="ipfs_text_title">总容量:</span>
-						<span class="ipfs_text_con">{{ item.totalCap }}GB</span>
+						<span class="ipfs_text_con">{{ (
+									item.totalCap /
+									1024 /
+									1024 /
+									1024
+								).toFixed(2) }}GB</span>
 					</li>
 					<li>
 						<span class="ipfs_text_title">剩余容量:</span>
 						<span class="ipfs_text_con"
-							>{{ item.remainingCap }}GB</span
+							>{{ (item.remainingCap/1024/1024/1024).toFixed(2) }}GB</span
 						>
 					</li>
 				</ol>
@@ -450,7 +455,7 @@ export default {
 				JSON.parse(sessionStorage.getItem('east_location'))
 			);
 		} else {
-			this.gettit();
+			// this.gettit();
 			this.getipfsdata();
 		}
         
@@ -592,18 +597,6 @@ export default {
 									item.devstatus = '在线';
 									item.bgccolor = '#5CC77D';
 								}
-								item.totalCap = (
-									item.totalCap /
-									1024 /
-									1024 /
-									1024
-								).toFixed(2);
-								item.remainingCap = (
-									item.remainingCap /
-									1024 /
-									1024 /
-									1024
-								).toFixed(2);
 								this.ipfsdata.push(item);
 							});
 						}
@@ -637,7 +630,7 @@ export default {
             sessionStorage.setItem('east_location', JSON.stringify(num));
 			this.getipfsdata();
 			this.$forceUpdate();
-			this.gettit();
+			// this.gettit();
 		},
 		//获取页码
 		getpage(pages) {

@@ -79,6 +79,12 @@ body {
     }
 }
 
+.userli_content {
+    .el-form-item {
+        margin-bottom: 32px;
+    }
+}
+
 .content-container {
     // padding: 0 !important;
     background: #F6F6F6;
@@ -187,3 +193,7 @@ body {
 .mapdateinput {
     width: 366px !important;
 }
+
+// .ipfs_title_next>.ipfs_con {
+//     display: none !important;
+// }
