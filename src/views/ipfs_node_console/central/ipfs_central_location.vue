@@ -179,7 +179,7 @@
 				class="ipfs_item"
 				v-for="(item, index) in ipfsdata"
 				:key="index"
-				@click="godetail(item,index)"
+				@click="godetail(item, index)"
 				v-show="!showdata"
 			>
 				<div
@@ -264,17 +264,23 @@
 					</li>
 					<li>
 						<span class="ipfs_text_title">总容量:</span>
-						<span class="ipfs_text_con">{{ (
-									item.totalCap /
-									1024 /
-									1024 /
-									1024
-								).toFixed(2) }}GB</span>
+						<span class="ipfs_text_con"
+							>{{
+								(item.totalCap / 1024 / 1024 / 1024).toFixed(2)
+							}}GB</span
+						>
 					</li>
 					<li>
 						<span class="ipfs_text_title">剩余容量:</span>
 						<span class="ipfs_text_con"
-							>{{ (item.remainingCap/1024/1024/1024).toFixed(2) }}GB</span
+							>{{
+								(
+									item.remainingCap /
+									1024 /
+									1024 /
+									1024
+								).toFixed(2)
+							}}GB</span
 						>
 					</li>
 				</ol>
@@ -398,12 +404,15 @@ export default {
 		if (sessionStorage.getItem('search_condition')) {
 			let search_data = JSON.parse(
 				sessionStorage.getItem('search_condition')
-            );
+			);
 			this.operatovalue = search_data.isp;
 			this.osvalue = search_data.os;
 			this.hardwarevalue = search_data.arch;
 			this.devicevalue = search_data.devicetype;
 			this.value = search_data.order;
+		}
+		if (this.$route.query.node_city) {
+			this.setmap_show(this.$route.query.node_num);
 		}
 		if (sessionStorage.getItem('central_location')) {
 			this.setmap_show(
@@ -424,8 +433,8 @@ export default {
 			this.operatovalue = '';
 			this.osvalue = '';
 			this.hardwarevalue = '';
-            this.devicevalue = '';
-            this.value=0;
+			this.devicevalue = '';
+			this.value = 0;
 			this.getipfsdata();
 		},
 		get_search_data() {
@@ -592,10 +601,13 @@ export default {
 			this.pagesize = pagetol;
 			// this.getipfsdata();
 		},
-		godetail(dat,num) {
+		godetail(dat, num) {
 			sessionStorage.setItem('node_city', JSON.stringify(this.citys));
 			sessionStorage.setItem('node_num', JSON.stringify(this.rotate));
-			sessionStorage.setItem('serdata', JSON.stringify(this.ipfsdata[num]));
+			sessionStorage.setItem(
+				'serdata',
+				JSON.stringify(this.ipfsdata[num])
+			);
 			this.$router.push({
 				path: '/ipfs_location_details',
 				query: {
@@ -604,7 +616,7 @@ export default {
 					address: '/ipfs_central_location',
 				},
 			});
-        },
+		},
 	},
 };
 </script>

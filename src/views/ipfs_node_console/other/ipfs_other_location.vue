@@ -399,6 +399,9 @@ export default {
 			this.hardwarevalue = search_data.arch;
 			this.devicevalue = search_data.devicetype;
 			this.value = search_data.order;
+        }
+        if (this.$route.query.node_city) {
+			this.setmap_show(this.$route.query.node_num);
 		}
 		if (sessionStorage.getItem('other_location')) {
 			this.setmap_show(

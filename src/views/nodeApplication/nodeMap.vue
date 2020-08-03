@@ -83,14 +83,14 @@
 		<div style="display: flex;" class="mapdal">
 			<div
 				id="myChartChina"
-				:style="{ width: '100%', height: '500px' }"
+				:style="{ width: '100%', height: '800px' }"
 			></div>
 			<ol>
 				<li>
-					<span>省市</span>
-					<span>新增节点</span>
-					<span>累计节点</span>
-					<span>累计占比</span>
+					<span style="margin-left: 10px;">省市</span>
+					<span>全部节点</span>
+					<span>云链节点</span>
+					<span>rouji节点</span>
 				</li>
 				<li v-for="(item, index) in maplist" :key="index">
 					<span
@@ -98,7 +98,7 @@
 					>
 					<span>{{ item.newCount }}</span>
 					<span>{{ item.value }}</span>
-					<span>{{ (item.totalPercent * 100).toFixed(2) }}%</span>
+					<span>{{ (item.totalPercent * 100).toFixed(0) }}</span>
 				</li>
 			</ol>
 		</div>
@@ -454,14 +454,15 @@ export default {
 							obj.totalPercent = item[1].totalPercent;
 							arr.push(obj);
 						});
-                        this.maplist = arr;
-                        console.log(this.maplist);
+						this.maplist = arr;
+						console.log(this.maplist);
 						this.drawLine();
 					}
 				})
 				.catch((Error) => {});
 		},
 		drawLine() {
+			var _this = this;
 			// 基于准备好的dom，初始化echarts实例
 			var myChartContainer = document.getElementById('myChartChina');
 			var resizeMyChartContainer = function() {
@@ -528,6 +529,99 @@ export default {
 				resizeMyChartContainer();
 				myChartChina.resize();
 			};
+			myChartChina.on('click', function(params) {
+				let north_list = ['北京', '内蒙古', '山西', '河北', '天津'];
+				let south_list = ['广东', '广西', '海南'];
+				let east_list = [
+					'福建',
+					'江苏',
+					'安徽',
+					'山东',
+					'上海',
+					'浙江',
+				];
+				let center_list = ['河南', '湖北', '江西', '湖南'];
+				let northwest_list = ['宁夏', '陕西', '甘肃', '青海', '新疆'];
+				let northeast_list = ['黑龙江', '吉林', '辽宁'];
+				let southwest_list = ['贵州', '云南', '重庆', '四川', '西藏'];
+				let other_list = ['香港', '澳门', '台湾'];
+				console.log(_this.$router);
+				if (north_list.indexOf(params.name) >= 0) {
+					let num = north_list.indexOf(params.name);
+					_this.$router.push({
+						path: '/ipfs_node_location',
+						query: {
+							node_city: params.name,
+							node_num: num,
+						},
+					});
+				} else if (south_list.indexOf(params.name) >= 0) {
+					let num = south_list.indexOf(params.name);
+					_this.$router.push({
+						path: '/ipfs_sode_location',
+						query: {
+							node_city: params.name,
+							node_num: num,
+						},
+					});
+				} else if (east_list.indexOf(params.name) >= 0) {
+					let num = east_list.indexOf(params.name);
+					_this.$router.push({
+						path: '/ipfs_east_location',
+						query: {
+							node_city: params.name,
+							node_num: num,
+						},
+					});
+				} else if (center_list.indexOf(params.name) >= 0) {
+					let num = center_list.indexOf(params.name);
+					_this.$router.push({
+						path: '/ipfs_central_location',
+						query: {
+							node_city: params.name,
+							node_num: num,
+						},
+					});
+				} else if (northwest_list.indexOf(params.name) >= 0) {
+					let num = northwest_list.indexOf(params.name);
+					_this.$router.push({
+						path: '/ipfs_northwest_location',
+						query: {
+							node_city: params.name,
+							node_num: num,
+						},
+					});
+				} else if (northeast_list.indexOf(params.name) >= 0) {
+					let num = northeast_list.indexOf(params.name);
+					_this.$router.push({
+						path: '/ipfs_northeast_location',
+						query: {
+							node_city: params.name,
+							node_num: num,
+						},
+					});
+				} else if (southwest_list.indexOf(params.name) >= 0) {
+					let num = southwest_list.indexOf(params.name);
+					_this.$router.push({
+						path: '/ipfs_southwest_location',
+						query: {
+							node_city: params.name,
+							node_num: num,
+						},
+					});
+				} else if (other_list.indexOf(params.name) >= 0) {
+					let num = other_list.indexOf(params.name);
+					_this.$router.push({
+						path: '/ipfs_other_location',
+						query: {
+							node_city: params.name,
+							node_num: num,
+						},
+					});
+				}
+				return false;
+				window.open(params.data.provinceurl);
+			});
 		},
 	},
 };
@@ -542,6 +636,7 @@ export default {
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	display: none;
 	// span {
 	// 	margin-left: 20px;
 	// }
