@@ -43,6 +43,8 @@ Vue.use(Router)
 Vue.prototype.$echarts = echarts
 Vue.use(ElementUI);
 Vue.config.productionTip = false
+import { message } from './components/onlymessage';
+Vue.prototype.$message = message;
 
 
 //路由目录

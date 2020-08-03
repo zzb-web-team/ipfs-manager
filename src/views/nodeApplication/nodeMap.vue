@@ -366,7 +366,7 @@ export default {
 		this.endtime = parseInt(new Date().getTime() / 1000);
 		this.getdata();
 		//this.drawLine();
-		this.get_search_data();
+		// this.get_search_data();
 	},
 	methods: {
 		provinceChange() {
