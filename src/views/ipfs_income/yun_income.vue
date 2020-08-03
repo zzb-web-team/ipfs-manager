@@ -110,7 +110,7 @@
 				style="width: 100%"
 			>
 				<el-table-column prop="nodeId" label="节点ID"></el-table-column>
-				<el-table-column prop="IP" label="节点IP"></el-table-column>
+				<!-- <el-table-column prop="IP" label="节点IP"></el-table-column> -->
 				<el-table-column
 					prop="firstch"
 					label="节点一级渠道"
@@ -134,7 +134,11 @@
 				<el-table-column
 					prop="P3"
 					label="节点质量评级奖励收益[单位:积分](p3)"
-				></el-table-column>
+				>
+                <template slot-scope="scope">
+                    <span>--</span>
+                </template>
+                </el-table-column>
 				<el-table-column
 					prop="H"
 					label="节点当日算力"
@@ -147,15 +151,15 @@
 					prop="devCount"
 					label="主机设备数量[单位:台][同一终端地址]"
 				></el-table-column>
-				<el-table-column
+				<!-- <el-table-column
 					prop="oper"
 					label="网络运营商"
-				></el-table-column>
-				<el-table-column prop="UDBw" label="上下行带宽">
+				></el-table-column> -->
+				<!-- <el-table-column prop="UDBw" label="上下行带宽">
 					<template slot-scope="scope">
 						{{ !scope.row.UDBw ? '--' : scope.row.UDBw }}
 					</template>
-				</el-table-column>
+				</el-table-column> -->
 				<el-table-column
 					prop="online"
 					label="累计在线时长"

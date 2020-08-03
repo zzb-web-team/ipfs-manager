@@ -179,7 +179,7 @@
 				class="ipfs_item"
 				v-for="(item, index) in ipfsdata"
 				:key="index"
-				@click="godetail(item)"
+				@click="godetail(item,index)"
 				v-show="!showdata"
 			>
 				<div
@@ -592,11 +592,10 @@ export default {
 			this.pagesize = pagetol;
 			// this.getipfsdata();
 		},
-		godetail(dat) {
-			console.log(dat);
+		godetail(dat,num) {
 			sessionStorage.setItem('node_city', JSON.stringify(this.citys));
 			sessionStorage.setItem('node_num', JSON.stringify(this.rotate));
-			sessionStorage.setItem('serdata', JSON.stringify(dat));
+			sessionStorage.setItem('serdata', JSON.stringify(this.ipfsdata[num]));
 			this.$router.push({
 				path: '/ipfs_location_details',
 				query: {
@@ -605,7 +604,7 @@ export default {
 					address: '/ipfs_central_location',
 				},
 			});
-		},
+        },
 	},
 };
 </script>

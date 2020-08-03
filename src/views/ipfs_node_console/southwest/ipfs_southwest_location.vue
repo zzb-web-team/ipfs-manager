@@ -203,7 +203,7 @@
 				class="ipfs_item"
 				v-for="(item, index) in ipfsdata"
 				:key="index"
-				@click="godetail(item)"
+				@click="godetail(item,index)"
 				v-show="!showdata"
 			>
 				<div
@@ -629,8 +629,8 @@ export default {
 			this.pagesize = pagetol;
 			// this.getipfsdata();
 		},
-		godetail(dat) {
-			sessionStorage.setItem('serdata', JSON.stringify(dat));
+		godetail(dat,num) {
+			sessionStorage.setItem('serdata', JSON.stringify(this.ipfsdata[num]));
 			this.$router.push({
 				path: '/ipfs_location_details',
 				query: {

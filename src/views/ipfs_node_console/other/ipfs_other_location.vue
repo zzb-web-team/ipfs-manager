@@ -135,7 +135,11 @@
 			</div>
 			<div>
 				<span>排序：</span>
-				<el-select v-model="value" placeholder="请选择排序方式" @change="searchdata">
+				<el-select
+					v-model="value"
+					placeholder="请选择排序方式"
+					@change="searchdata"
+				>
 					<el-option
 						v-for="item in options"
 						:key="item.value"
@@ -145,7 +149,7 @@
 				</el-select>
 			</div>
 		</div>
-			<div class="ipfs_box">
+		<div class="ipfs_box">
 			<div class="nodata" v-show="showdata">
 				<i class="el-icon-document-delete" style="font-size:80px"></i>
 				<p>暂无数据</p>
@@ -154,8 +158,8 @@
 				class="ipfs_item"
 				v-for="(item, index) in ipfsdata"
 				:key="index"
-				@click="godetail(item)"
-                v-show="!showdata"
+				@click="godetail(item, index)"
+				v-show="!showdata"
 			>
 				<div
 					style="display: flex;justify-content: flex-start;align-items: center;"
@@ -164,40 +168,58 @@
 						class="yuan"
 						v-bind:style="{ background: item.bgccolor }"
 					></div>
-					<span v-bind:style="{ color: item.bgccolor }">{{
-						item.devstatus
-					}}&nbsp;{{item.isp}}</span>
+					<span v-bind:style="{ color: item.bgccolor }"
+						>{{ item.devstatus }}&nbsp;{{ item.isp }}</span
+					>
 				</div>
 				<div class="ipfs_item_img">
 					<img
-						v-if="item.devicetype!='PC服务器' && item.devstatus == '在线'"
+						v-if="
+							item.devicetype != 'PC服务器' &&
+								item.devstatus == '在线'
+						"
 						src="../../../assets/img/binding_illustration3.png"
 						style="width:60%;"
 						alt
 					/>
 					<img
-						v-if="item.devicetype!='PC服务器' && item.devstatus == '离线'"
+						v-if="
+							item.devicetype != 'PC服务器' &&
+								item.devstatus == '离线'
+						"
 						src="../../../assets/img/lixianxiyouji.png"
 						style="width:60%;"
 						alt
 					/>
 					<img
-						v-if="item.devicetype=='PC服务器' && item.devstatus == '在线'"
+						v-if="
+							item.devicetype == 'PC服务器' &&
+								item.devstatus == '在线'
+						"
 						src="../../../assets/img/zaixianfuwuqi.png"
 						style="width:60%;"
 						alt=""
 					/>
 					<img
-						v-if="item.devicetype=='PC服务器' && item.devstatus == '离线'"
+						v-if="
+							item.devicetype == 'PC服务器' &&
+								item.devstatus == '离线'
+						"
 						src="../../../assets/img/lixianfuwuqi.png"
 						style="width:60%;"
 						alt
 					/>
-					<p style="text-align:center">{{ item.devicetype=='PC服务器'?'云链节点':'西柚机节点' }}</p>
 					<p style="text-align:center">
-						<span>{{item.devicetype}}</span>
-						<span>{{item.os}}</span>
-						<span>{{item.arch}}</span>
+						{{
+							item.devicetype == 'PC服务器'
+								? '云链节点'
+								: '西柚机节点'
+						}}
+					</p>
+					<p style="text-align:center">
+						<span>{{ item.devicetype }}</span>
+						<span>{{ item.os }}</span>
+						<span>{{ item.arch }}</span>
 					</p>
 					<p>
 						节点ID：
@@ -221,49 +243,59 @@
 					</li>
 					<li>
 						<span class="ipfs_text_title">总容量:</span>
-						<span class="ipfs_text_con">{{ (
-									item.totalCap /
-									1024 /
-									1024 /
-									1024
-								).toFixed(2) }}GB</span>
+						<span class="ipfs_text_con"
+							>{{
+								(item.totalCap / 1024 / 1024 / 1024).toFixed(2)
+							}}GB</span
+						>
 					</li>
 					<li>
 						<span class="ipfs_text_title">剩余容量:</span>
 						<span class="ipfs_text_con"
-							>{{ (item.remainingCap/1024/1024/1024).toFixed(2) }}GB</span
+							>{{
+								(
+									item.remainingCap /
+									1024 /
+									1024 /
+									1024
+								).toFixed(2)
+							}}GB</span
 						>
 					</li>
 				</ol>
 			</div>
 		</div>
-		 <fenye
-      style="text-align: right;margin: 20px 0px 10px;"
-      @fatherMethod="getpage"
-      @fathernum="gettol"
-      :pagesa="totalCnt"
-      :currentPage="currentPage"
-      v-show="!showdata"
-    ></fenye>
+		<fenye
+			style="text-align: right;margin: 20px 0px 10px;"
+			@fatherMethod="getpage"
+			@fathernum="gettol"
+			:pagesa="totalCnt"
+			:currentPage="currentPage"
+			v-show="!showdata"
+		></fenye>
 	</div>
 </template>
 
 <script>
 import fenye from '@/components/fenye';
-import { query_node, ipfs_region_summary,get_nodetype_enum } from '../../../servers/api';
+import {
+	query_node,
+	ipfs_region_summary,
+	get_nodetype_enum,
+} from '../../../servers/api';
 export default {
 	data() {
 		return {
 			currentPage: 1,
 			pagesize: 10,
-      pageNo: 1,
-      totalCnt: 1,
+			pageNo: 1,
+			totalCnt: 1,
 			location_name: '其它区域',
 			rotate: 0,
-            citys: '香港',
-             showdata:false,
+			citys: '香港',
+			showdata: false,
 			options: [
-                {
+				{
 					value: 0,
 					label: '全部',
 				},
@@ -289,12 +321,13 @@ export default {
 					contit: '总节点',
 					connum: 0,
 					url: require('../../../assets/img/jiedian.png'),
-                },
-                {
+				},
+				{
 					contit: '西柚机节点',
 					connum: 0,
 					url: require('../../../assets/img/xjiedian.png'),
-				},{
+				},
+				{
 					contit: '云链节点',
 					connum: 0,
 					url: require('../../../assets/img/armjiedian.png'),
@@ -328,7 +361,7 @@ export default {
 					contit: '累计存储容量',
 					connum: '0GB',
 					url: require('../../../assets/img/cuncurl.png'),
-                },
+				},
 			],
 			value: 0,
 			ipfsdata: [
@@ -341,26 +374,26 @@ export default {
 				//   total_capacity: 1000,
 				//   remaining: 270
 				// },
-            ],
-            devicevalue:'',
-            hardwarevalue:'',
-            osvalue:'',
-            operatovalue:'',
-            device_type:[],
-             hardware_type:[],
-            oslist:[],
-            operatorlist:[],
+			],
+			devicevalue: '',
+			hardwarevalue: '',
+			osvalue: '',
+			operatovalue: '',
+			device_type: [],
+			hardware_type: [],
+			oslist: [],
+			operatorlist: [],
 		};
 	},
 	components: {
-		fenye
+		fenye,
 	},
 	mounted() {
-        this.get_search_data();
-        if (sessionStorage.getItem('search_condition')) {
+		this.get_search_data();
+		if (sessionStorage.getItem('search_condition')) {
 			let search_data = JSON.parse(
 				sessionStorage.getItem('search_condition')
-            );
+			);
 			this.operatovalue = search_data.isp;
 			this.osvalue = search_data.os;
 			this.hardwarevalue = search_data.arch;
@@ -377,22 +410,22 @@ export default {
 		}
 	},
 	methods: {
-        searchdata(){
-            this.currentPage=1;
-            this.getipfsdata();
-        },
-        uopset() {
-            this.currentPage=1;
+		searchdata() {
+			this.currentPage = 1;
+			this.getipfsdata();
+		},
+		uopset() {
+			this.currentPage = 1;
 			this.operatovalue = '';
 			this.osvalue = '';
 			this.hardwarevalue = '';
-            this.devicevalue = '';
-             this.value=0;
+			this.devicevalue = '';
+			this.value = 0;
 			this.getipfsdata();
 		},
 		get_search_data() {
 			let params = new Object();
-			params.time = "111";
+			params.time = '111';
 			get_nodetype_enum(params)
 				.then((res) => {
 					console.log(res);
@@ -414,10 +447,10 @@ export default {
 			let parmas = new Object();
 			parmas.region = this.citys;
 			ipfs_region_summary(parmas)
-				.then(res => {
-				if (res.status == 0) {
-                        this.titledar[0].connum = res.data.total_cnt;
-                       var arr = [];
+				.then((res) => {
+					if (res.status == 0) {
+						this.titledar[0].connum = res.data.total_cnt;
+						var arr = [];
 						for (var k in res.data.classify_cnt) {
 							console.log(res.data.classify_cnt[k]);
 							arr.push(res.data.classify_cnt[k]);
@@ -449,7 +482,7 @@ export default {
 						this.$message.error(res.err_msg);
 					}
 				})
-				.catch(error => {});
+				.catch((error) => {});
 		},
 		//获取列表数据
 		getipfsdata() {
@@ -460,20 +493,20 @@ export default {
 			parmas.province = this.citys;
 			parmas.city = '';
 			parmas.page = this.currentPage - 1;
-			parmas.isp =  this.operatovalue;
+			parmas.isp = this.operatovalue;
 			parmas.os = this.osvalue;
 			parmas.arch = this.hardwarevalue;
 			parmas.devicetype = this.devicevalue;
-			parmas.firstchid = "";
-			parmas.secondchid = "";
-            parmas.enableFlag =-1;
-             parmas.order=this.value;
-             sessionStorage.setItem('search_condition', JSON.stringify(parmas));
+			parmas.firstchid = '';
+			parmas.secondchid = '';
+			parmas.enableFlag = -1;
+			parmas.order = this.value;
+			sessionStorage.setItem('search_condition', JSON.stringify(parmas));
 			query_node(parmas)
-				.then(res => {
+				.then((res) => {
 					if (res.status == 0) {
 						if (res.data.result.length <= 0) {
-                             this.showdata=true;
+							this.showdata = true;
 							this.$message('暂无数据');
 						} else {
 							this.showdata = false;
@@ -497,8 +530,8 @@ export default {
 								//下行带宽-剩余
 								item.downbandwidth_rema = item.remainingBW.substring(
 									item.remainingBW.indexOf('/') + 1
-                                );
-                                //上行带宽-使用
+								);
+								//上行带宽-使用
 								item.upbandwidth_occ = item.occupyBW.substring(
 									0,
 									item.occupyBW.lastIndexOf('/')
@@ -513,7 +546,7 @@ export default {
 								} else {
 									item.devstatus = '在线';
 									item.bgccolor = '#5CC77D';
-                                }
+								}
 								this.ipfsdata.push(item);
 							});
 						}
@@ -521,7 +554,7 @@ export default {
 						this.$message.error(res.err_msg);
 					}
 				})
-				.catch(error => {});
+				.catch((error) => {});
 		},
 		setmap_show(num) {
 			this.ipfsdata = [];
@@ -541,30 +574,37 @@ export default {
 				this.citys = '天津';
 			} else {
 				this.citys = '香港';
-            }
-            sessionStorage.setItem('other_location', JSON.stringify(num));
+			}
+			sessionStorage.setItem('other_location', JSON.stringify(num));
 			this.getipfsdata();
 			this.$forceUpdate();
 			// this.gettit();
 		},
-		 //获取页码
-    getpage(pages) {
-      this.currentPage = pages;
-      this.getipfsdata();
-    },
-    //获取每页数量
-    gettol(pagetol) {
-      this.pagesize = pagetol;
-      // this.getipfsdata();
-    },
-		godetail(dat) {
-			sessionStorage.setItem('serdata', JSON.stringify(dat));
+		//获取页码
+		getpage(pages) {
+			this.currentPage = pages;
+			this.getipfsdata();
+		},
+		//获取每页数量
+		gettol(pagetol) {
+			this.pagesize = pagetol;
+			// this.getipfsdata();
+		},
+		godetail(dat, num) {
+			sessionStorage.setItem(
+				'serdata',
+				JSON.stringify(this.ipfsdata[num])
+			);
 			this.$router.push({
 				path: '/ipfs_location_details',
-				query: { node_city: this.citys, node_num: this.rotate,address:"/ipfs_other_location" }
+				query: {
+					node_city: this.citys,
+					node_num: this.rotate,
+					address: '/ipfs_southwest_location',
+				},
 			});
-		}
-    },
+		},
+	},
 };
 </script>
 
@@ -585,9 +625,9 @@ export default {
 	}
 	.ipfs_title {
 		text-align: left;
-		color: #1C2E32;
+		color: #1c2e32;
 		font-size: 22px;
-        font-weight:bold;
+		font-weight: bold;
 	}
 	.ipfs_con {
 		height: 50px;
@@ -595,15 +635,15 @@ export default {
 		display: flex;
 		// padding: 0 37px;
 		justify-content: space-between;
-        .ipfs_con_left{
-            color: #999999;
-            font-size: 16px;
-        }
+		.ipfs_con_left {
+			color: #999999;
+			font-size: 16px;
+		}
 		.ipfs_con_right {
 			.setmap_btn {
 				margin-right: 20px;
-                color: #1C2E32;
-                font-size: 18px;
+				color: #1c2e32;
+				font-size: 18px;
 			}
 		}
 	}
@@ -653,8 +693,8 @@ export default {
 	.select_sort {
 		text-align: left;
 		margin: 37px 0 0 0;
-        display: flex;
-        justify-content: space-between;
+		display: flex;
+		justify-content: space-between;
 	}
 	.ipfs_box {
 		width: 100%;
