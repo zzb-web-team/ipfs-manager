@@ -379,7 +379,7 @@
 								v-model="ruleForm2.password"
 								type="password"
 								placeholder="请输入密码"
-								maxlength="32"
+								
 							></el-input>
 						</el-form-item>
 						<el-form-item
@@ -397,7 +397,7 @@
 								v-model="ruleForm2.password2"
 								placeholder="两次密码须一致"
 								type="password"
-								maxlength="8"
+								
 							></el-input>
 						</el-form-item>
 
@@ -662,7 +662,7 @@
 								placeholder="8位数字字母组成"
 								type="password"
 								autocomplete="off"
-								maxlength="8"
+								
 							></el-input>
 						</el-form-item>
 
@@ -682,7 +682,7 @@
 								placeholder="请再次输入密码"
 								type="password"
 								autocomplete="off"
-								maxlength="8"
+								
 							></el-input>
 						</el-form-item>
 
