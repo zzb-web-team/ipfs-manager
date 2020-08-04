@@ -9,7 +9,7 @@ if (href.indexOf('xyj.grapefruitcloud.com') >= 0) {
 } else {
     var serverUrl = 'http://zzb.onezen.net';
 }
-// var serverUrl = 'http://xyj.grapefruitcloud.com'; //PHP服务域名
+// var serverUrl = 'http://service.kclgames.com'; //PHP服务域名
 
 //服务器监控
 /**获取微服务信息 */
@@ -528,6 +528,12 @@ export const menulistuser = params => {
 //获取全国地图分布--实时
 export const node_countinfo = params => {
     return post(`${serverUrl}/node_mgmt/node_countinfo`, params).then(
+        res => res.data
+    );
+};
+//节点区位总览信息--实时
+export const nodesinfo_byarea = params => {
+    return post(`${serverUrl}/node_mgmt/nodesinfo_byarea`, params).then(
         res => res.data
     );
 };

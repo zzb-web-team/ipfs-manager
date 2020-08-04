@@ -1263,6 +1263,7 @@ export default {
 			this.value2fs = '';
 		},
 		handleChangefirst(val) {
+            this.secondvalue='*';
 			this.currentPagefs = 1;
 			this.currentPage = 1;
 			if (val == '*' || val == '') {
@@ -1270,19 +1271,20 @@ export default {
 				this.secondchan = [];
 				this.chil_disable = true;
 			} else {
-				this.firstchan.find((item) => {
+				this.firstchan.forEach((item) => {
 					if (item.value === val) {
 						//筛选出匹配数据
 						this.secondchan = item.secondchan;
 						this.chil_disable = false;
 					} else {
-						this.chil_disable = true;
+						// this.chil_disable = true;
 					}
 				});
 			}
 			this.ip_surve();
 		},
 		handleChangefirst_fs(val) {
+            this.secondvalue_fs="*";
 			this.currentPagefs = 1;
 			this.currentPage = 1;
 			if (val == '*' || val == '') {
@@ -1290,13 +1292,13 @@ export default {
 				this.secondchan = [];
 				this.chil_disable_fs = true;
 			} else {
-				this.firstchan.find((item) => {
+				this.firstchan.forEach((item) => {
 					if (item.value === val) {
 						//筛选出匹配数据
 						this.secondchan = item.secondchan;
 						this.chil_disable_fs = false;
 					} else {
-						this.chil_disable_fs = true;
+						// this.chil_disable_fs = true;
 					}
 				});
 			}

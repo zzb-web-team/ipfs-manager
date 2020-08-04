@@ -677,6 +677,26 @@ export default {
 			],
 			firstchan: [
 				//一级渠道商
+				// {
+				// 	name: 'rouji-kernel4-5',
+				// 	secondchan: [
+				// 		{
+				// 			name: 'rouji-kernel4-5',
+				// 			value: 's_computerk4-5.rouji_hk',
+				// 		},
+				// 	],
+				// 	value: 'f_computerk4-5.rouji_unknown',
+				// },
+				// {
+				// 	name: 'rouji-kernel2-3',
+				// 	secondchan: [
+				// 		{
+				// 			name: 'rouji-kernel2-3',
+				// 			value: 's_computerk2-3.rouji_hk',
+				// 		},
+				// 	],
+				// 	value: 'f_computerk2-3.rouji_unknown',
+				// },
 			],
 			secondchan: [],
 			value1: -1,
@@ -706,37 +726,42 @@ export default {
 		this.getJson();
 		this.get_search_data();
 		if (sessionStorage.getItem('search_data')) {
-			if(window.fromname == '/ipfs_location_details'||window.fromname == '/'){
-                let search_data = JSON.parse(sessionStorage.getItem('search_data'));
-                let city_list = JSON.parse(sessionStorage.getItem('citylist'));
-                this.optiondisplay = search_data.optiondisplay;
-                if (search_data.ip != '') {
-                    this.seachinput = search_data.ip;
-                } else if (search_data.nodeId != '') {
-                    this.seachinput = search_data.nodeId;
-                } else {
-                    this.seachinput = '';
-                }
-                if (search_data.province == '') {
-                    this.value1 = '';
-                    this.city_disable = true;
-                    this.city_detil = '';
-                } else {
-                    this.value1 = [search_data.qu, search_data.province];
-                    this.city_disable = false;
-                    this.options_city = city_list[this.value1[1]].cities;
-                    this.city_detil =
-                        search_data.city == '全部' ? '' : search_data.city;
-                }
-                this.value_node = search_data.enableFlag;
-                this.value = search_data.state;
-                this.firstchid = search_data.firstchid;
-                this.secondchid = search_data.secondchid;
-                this.dev_type = search_data.devicetype;
-                this.arch_type = search_data.arch;
-                this.os_type = search_data.os;
-                this.value2 = search_data.isp;
-            }
+			if (
+				window.fromname == '/ipfs_location_details' ||
+				window.fromname == '/'
+			) {
+				let search_data = JSON.parse(
+					sessionStorage.getItem('search_data')
+				);
+				let city_list = JSON.parse(sessionStorage.getItem('citylist'));
+				this.optiondisplay = search_data.optiondisplay;
+				if (search_data.ip != '') {
+					this.seachinput = search_data.ip;
+				} else if (search_data.nodeId != '') {
+					this.seachinput = search_data.nodeId;
+				} else {
+					this.seachinput = '';
+				}
+				if (search_data.province == '') {
+					this.value1 = '';
+					this.city_disable = true;
+					this.city_detil = '';
+				} else {
+					this.value1 = [search_data.qu, search_data.province];
+					this.city_disable = false;
+					this.options_city = city_list[this.value1[1]].cities;
+					this.city_detil =
+						search_data.city == '全部' ? '' : search_data.city;
+				}
+				this.value_node = search_data.enableFlag;
+				this.value = search_data.state;
+				this.firstchid = search_data.firstchid;
+				this.secondchid = search_data.secondchid;
+				this.dev_type = search_data.devicetype;
+				this.arch_type = search_data.arch;
+				this.os_type = search_data.os;
+				this.value2 = search_data.isp;
+			}
 		}
 		this.getdatalist();
 		let munulist = JSON.parse(localStorage.getItem('menus'));
@@ -804,19 +829,19 @@ export default {
 			this.getdatalist();
 		},
 		handleChangefirst(val) {
+			this.secondchid='';
 			this.currentPage = 1;
 			if (val == '*' || val == '') {
 				this.chil_disable = true;
 				this.secondchan = [];
 				this.secondchid = '';
 			} else {
-				this.firstchan.find((item) => {
-					if (item.value === val) {
-						//筛选出匹配数据
+				this.firstchan.forEach((item) => {
+					if (item.value == val) {
+                        //筛选出匹配数据
 						this.secondchan = item.secondchan;
 						this.chil_disable = false;
 					} else {
-						this.chil_disable = true;
 					}
 				});
 			}

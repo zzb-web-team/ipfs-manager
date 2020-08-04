@@ -1826,18 +1826,19 @@ export default {
 				});
 		},
 		handleChangefirst(val) {
+            this.searchdata.region2='*';
 			if (val == '*' || val == '') {
 				this.secondchan = [];
 				this.searchdata.region2 = '';
 				this.chil_disable = true;
 			} else {
-				this.firstchan.find((item) => {
+				this.firstchan.forEach((item) => {
 					if (item.value === val) {
 						//筛选出匹配数据
 						this.secondchan = item.secondchan;
 						this.chil_disable = false;
 					} else {
-						this.chil_disable = true;
+						// this.chil_disable = true;
 					}
 				});
 			}

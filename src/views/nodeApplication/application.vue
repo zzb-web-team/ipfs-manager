@@ -1464,30 +1464,32 @@ export default {
 			this.value2fs = '';
 		},
 		handleChangefirst(val) {
+            this.secondvalue='*';
 			if (val == '*' || val == '') {
 				this.secondvalue = '';
 				this.chil_disable = true;
 				this.secondchan = [];
 			} else {
-				this.firstchan.find((item) => {
+				this.firstchan.forEach((item) => {
 					if (item.value === val) {
 						//筛选出匹配数据
 						this.secondchan = item.secondchan;
 						this.chil_disable = false;
 					} else {
-						this.chil_disable = true;
+						// this.chil_disable = true;
 					}
 				});
 			}
 			this.ip_curve();
 		},
 		handleChangefirst_fs(val) {
+            this.secondvalue_fs='*';
 			if (val == '*' || val == '') {
 				this.secondvalue_fs = '';
 				this.chil_disable_fs = true;
 				this.secondchan = [];
 			} else {
-				this.firstchan.find((item) => {
+				this.firstchan.forEach((item) => {
 					if (item.value === val) {
 						//筛选出匹配数据
 						this.secondchan = item.secondchan;

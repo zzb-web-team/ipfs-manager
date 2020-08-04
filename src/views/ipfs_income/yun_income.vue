@@ -365,19 +365,20 @@ export default {
 			this.$router.push({ path: '/update_parameter' });
 		},
 		handleChangefirst(val) {
+            this.secondchid="*";
 			this.currentPage = 1;
 			if (val == '*' || val == '') {
 				this.chil_disable = true;
 				this.secondchan = [];
 				this.secondchid = '';
 			} else {
-				this.firstchan.find((item) => {
+				this.firstchan.forEach((item) => {
 					if (item.value === val) {
 						//筛选出匹配数据
 						this.secondchan = item.secondchan;
 						this.chil_disable = false;
 					} else {
-						this.chil_disable = true;
+						// this.chil_disable = true;
 					}
 				});
 			}

@@ -189,9 +189,9 @@
 						class="yuan"
 						v-bind:style="{ background: item.bgccolor }"
 					></div>
-					<span v-bind:style="{ color: item.bgccolor }"
-						>{{ item.devstatus }}</span
-					>
+					<span v-bind:style="{ color: item.bgccolor }">{{
+						item.devstatus
+					}}</span>
 				</div>
 				<div class="ipfs_item_img">
 					<img
@@ -303,6 +303,7 @@ import {
 	query_node,
 	ipfs_region_summary,
 	get_nodetype_enum,
+	nodesinfo_byarea,
 } from '../../../servers/api';
 export default {
 	data() {
@@ -352,8 +353,8 @@ export default {
 					contit: '云链节点',
 					connum: 0,
 					url: require('../../../assets/img/armjiedian.png'),
-                },
-                {
+				},
+				{
 					contit: 'rouji节点',
 					connum: 0,
 					url: require('../../../assets/img/armjiedian.png'),
@@ -424,8 +425,8 @@ export default {
 				JSON.parse(sessionStorage.getItem('central_location'))
 			);
 		} else {
-			// this.gettit();
-			this.getipfsdata();
+            this.getipfsdata();
+			this.gettit();
 		}
 	},
 	methods: {
@@ -464,38 +465,29 @@ export default {
 		//获取头部预览信息
 		gettit() {
 			let parmas = new Object();
-			parmas.region = this.citys;
-			ipfs_region_summary(parmas)
+			parmas.province = this.citys;
+			nodesinfo_byarea(parmas)
 				.then((res) => {
 					if (res.status == 0) {
-						this.titledar[0].connum = res.data.total_cnt;
+						// this.titledar[0].connum = res.data.total_cnt;
 						var arr = [];
-						for (var k in res.data.classify_cnt) {
-							console.log(res.data.classify_cnt[k]);
-							arr.push(res.data.classify_cnt[k]);
-						}
-						if (arr.length <= 0) {
-							this.titledar[1].connum = 0;
-							this.titledar[2].connum = 0;
-						} else {
-							this.titledar[1].connum = arr[0];
-							this.titledar[2].connum = arr[1];
-						}
-						this.titledar[3].connum = res.data.online_cnt;
-						this.titledar[4].connum = this.common.formatBytes(
-							res.data.total_cap
-						);
+						let yun = res.data.nodeType.indexOf('云链');
+						let xiyou = res.data.nodeType.indexOf('西柚机');
+						let rouji = res.data.nodeType.indexOf('rouji');
+                        this.titledar[1].connum = res.data.nodeCount[xiyou];
+                        this.titledar[2].connum = res.data.nodeCount[yun];
+                        this.titledar[3].connum = res.data.nodeCount[rouji];
+                        
+                        this.titledar[4].connum = res.data.onlineCount;
 						this.titledar[5].connum = this.common.formatBytes(
-							res.data.total_usedcap
+							res.data.totalCap
 						);
+						let numcap = res.data.totalCap - res.data.remainingCap;
 						this.titledar[6].connum = this.common.formatBytes(
-							res.data.total_freecap
+							numcap
 						);
 						this.titledar[7].connum = this.common.formatBytes(
-							res.data.total_dataflow
-						);
-						this.titledar[9].connum = this.common.formatBytes(
-							res.data.total_storeusage
+							res.data.remainingCap
 						);
 					} else {
 						this.$message.error(res.err_msg);
@@ -523,13 +515,13 @@ export default {
 			query_node(parmas)
 				.then((res) => {
 					if (res.status == 0) {
+                        this.titledar[0].connum = res.data.total;
 						if (res.data.result.length <= 0) {
 							this.$message('暂无数据');
 							this.showdata = true;
 						} else {
 							this.showdata = false;
-                            this.totalCnt = res.data.total;
-                            this.titledar[0].connum = res.data.total;
+							this.totalCnt = res.data.total;
 							this.ipfsdata = [];
 							res.data.result.forEach((item, index) => {
 								//上行带宽-总
@@ -595,7 +587,7 @@ export default {
 			sessionStorage.setItem('central_location', JSON.stringify(num));
 			this.getipfsdata();
 			this.$forceUpdate();
-			// this.gettit();
+			this.gettit();
 		},
 		//获取页码
 		getpage(pages) {
@@ -704,7 +696,7 @@ export default {
 				.allnum {
 					line-height: 40px;
 					color: #1c1a1d;
-					font-size: 30px;
+					font-size: 26px;
 				}
 			}
 		}
