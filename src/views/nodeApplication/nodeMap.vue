@@ -709,6 +709,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.content{
+    min-width: 1920px;
+}
 .top_search {
 	text-align: left;
 	margin-top: 20px;
@@ -735,8 +738,8 @@ export default {
 		// border-collapse:collapse;
 	}
 	ol > li {
-		width: 700px;
-		border: 1px solid #eeeeee;
+		width: 100%;
+		// border: 1px solid #eeeeee;
 		height: 45px;
 		line-height: 45px;
 		display: flex;
@@ -765,9 +768,10 @@ export default {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-	border: 1px solid #7d7d7d;
+	// border: 1px solid #7d7d7d;
 	background: #eeeeee;
 	// border-collapse:collapse;
+    
 }
 .conname {
 	flex-shrink: 0;
@@ -777,7 +781,8 @@ export default {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-	border: 1px solid #7d7d7d;
+    border-bottom: 1px solid #eeeeee;
+	// border: 1px solid #7d7d7d;
 	// border-collapse:collapse;s
 }
 .conname:first-child {

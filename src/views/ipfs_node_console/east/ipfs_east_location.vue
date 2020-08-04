@@ -460,8 +460,8 @@ export default {
 				JSON.parse(sessionStorage.getItem('east_location'))
 			);
 		} else {
+            this.gettit();
 			this.getipfsdata();
-			this.gettit();
 		}
 	},
 	methods: {
@@ -517,7 +517,7 @@ export default {
 							res.data.totalCap
 						);
 						let numcap = res.data.totalCap - res.data.remainingCap;
-						this.titledar[2].connum = this.common.formatBytes(
+						this.titledar[3].connum = this.common.formatBytes(
 							numcap
 						);
 						this.titledar[4].connum = this.common.formatBytes(
