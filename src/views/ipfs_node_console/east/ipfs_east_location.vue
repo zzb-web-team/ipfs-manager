@@ -199,7 +199,11 @@
 			</div>
 			<div>
 				<span>排序：</span>
-				<el-select v-model="value" placeholder="请选择排序方式" @change="searchdata">
+				<el-select
+					v-model="value"
+					placeholder="请选择排序方式"
+					@change="searchdata"
+				>
 					<el-option
 						v-for="item in options"
 						:key="item.value"
@@ -218,8 +222,8 @@
 				class="ipfs_item"
 				v-for="(item, index) in ipfsdata"
 				:key="index"
-				@click="godetail(item,index)"
-                v-show="!showdata"
+				@click="godetail(item, index)"
+				v-show="!showdata"
 			>
 				<div
 					style="display: flex;justify-content: flex-start;align-items: center;"
@@ -228,9 +232,9 @@
 						class="yuan"
 						v-bind:style="{ background: item.bgccolor }"
 					></div>
-					<span v-bind:style="{ color: item.bgccolor }"
-						>{{ item.devstatus }}</span
-					>
+					<span v-bind:style="{ color: item.bgccolor }">{{
+						item.devstatus
+					}}</span>
 				</div>
 				<div class="ipfs_item_img">
 					<img
@@ -303,17 +307,23 @@
 					</li>
 					<li>
 						<span class="ipfs_text_title">总容量:</span>
-						<span class="ipfs_text_con">{{ (
-									item.totalCap /
-									1024 /
-									1024 /
-									1024
-								).toFixed(2) }}GB</span>
+						<span class="ipfs_text_con"
+							>{{
+								(item.totalCap / 1024 / 1024 / 1024).toFixed(2)
+							}}GB</span
+						>
 					</li>
 					<li>
 						<span class="ipfs_text_title">剩余容量:</span>
 						<span class="ipfs_text_con"
-							>{{ (item.remainingCap/1024/1024/1024).toFixed(2) }}GB</span
+							>{{
+								(
+									item.remainingCap /
+									1024 /
+									1024 /
+									1024
+								).toFixed(2)
+							}}GB</span
 						>
 					</li>
 				</ol>
@@ -325,14 +335,19 @@
 			@fathernum="gettol"
 			:pagesa="totalCnt"
 			:currentPage="currentPage"
-			 v-show="!showdata"
+			v-show="!showdata"
 		></fenye>
 	</div>
 </template>
 
 <script>
 import fenye from '@/components/fenye';
-import { query_node, ipfs_region_summary,get_nodetype_enum } from '../../../servers/api';
+import {
+	query_node,
+	ipfs_region_summary,
+	get_nodetype_enum,
+	nodesinfo_byarea,
+} from '../../../servers/api';
 export default {
 	data() {
 		return {
@@ -345,7 +360,7 @@ export default {
 			citys: '福建',
 			showdata: false,
 			options: [
-                {
+				{
 					value: 0,
 					label: '全部',
 				},
@@ -381,8 +396,8 @@ export default {
 					contit: '云链节点',
 					connum: 0,
 					url: require('../../../assets/img/armjiedian.png'),
-                },
-                {
+				},
+				{
 					contit: 'rouji节点',
 					connum: 0,
 					url: require('../../../assets/img/armjiedian.png'),
@@ -435,7 +450,7 @@ export default {
 			osvalue: '',
 			operatovalue: '',
 			device_type: [],
-			  hardware_type:[],
+			hardware_type: [],
 			oslist: [],
 			operatorlist: [],
 		};
@@ -444,18 +459,18 @@ export default {
 		fenye,
 	},
 	mounted() {
-        this.get_search_data();
-        if (sessionStorage.getItem('search_condition')) {
+		this.get_search_data();
+		if (sessionStorage.getItem('search_condition')) {
 			let search_data = JSON.parse(
 				sessionStorage.getItem('search_condition')
-            );
+			);
 			this.operatovalue = search_data.isp;
 			this.osvalue = search_data.os;
 			this.hardwarevalue = search_data.arch;
 			this.devicevalue = search_data.devicetype;
 			this.value = search_data.order;
-        }
-        if (this.$route.query.node_city) {
+		}
+		if (this.$route.query.node_city) {
 			this.setmap_show(this.$route.query.node_num);
 		}
 		if (sessionStorage.getItem('east_location')) {
@@ -463,27 +478,26 @@ export default {
 				JSON.parse(sessionStorage.getItem('east_location'))
 			);
 		} else {
-            this.getipfsdata();
+			this.getipfsdata();
 			this.gettit();
 		}
-        
 	},
 	methods: {
-        searchdata(){
-            this.currentPage=1;
-            this.getipfsdata();
-        },
-        uopset() {
+		searchdata() {
+			this.currentPage = 1;
+			this.getipfsdata();
+		},
+		uopset() {
 			this.operatovalue = '';
 			this.osvalue = '';
 			this.hardwarevalue = '';
-            this.devicevalue = '';
-             this.value=0;
+			this.devicevalue = '';
+			this.value = 0;
 			this.getipfsdata();
 		},
 		get_search_data() {
 			let params = new Object();
-			params.time = "111";
+			params.time = '111';
 			get_nodetype_enum(params)
 				.then((res) => {
 					console.log(res);
@@ -512,11 +526,11 @@ export default {
 						let yun = res.data.nodeType.indexOf('云链');
 						let xiyou = res.data.nodeType.indexOf('西柚机');
 						let rouji = res.data.nodeType.indexOf('rouji');
-                        this.titledar[1].connum = res.data.nodeCount[xiyou];
-                        this.titledar[2].connum = res.data.nodeCount[yun];
-                        this.titledar[3].connum = res.data.nodeCount[rouji];
-                        
-                        this.titledar[4].connum = res.data.onlineCount;
+						this.titledar[1].connum = res.data.nodeCount[xiyou];
+						this.titledar[2].connum = res.data.nodeCount[yun];
+						this.titledar[3].connum = res.data.nodeCount[rouji];
+
+						this.titledar[4].connum = res.data.onlineCount;
 						this.titledar[5].connum = this.common.formatBytes(
 							res.data.totalCap
 						);
@@ -542,25 +556,25 @@ export default {
 			parmas.province = this.citys;
 			parmas.city = '';
 			parmas.page = this.currentPage - 1;
-			parmas.isp =  this.operatovalue;
+			parmas.isp = this.operatovalue;
 			parmas.os = this.osvalue;
 			parmas.arch = this.hardwarevalue;
 			parmas.devicetype = this.devicevalue;
-			parmas.firstchid = "";
-			parmas.secondchid = "";
-            parmas.enableFlag =-1;
-             parmas.order=this.value;
-             sessionStorage.setItem('search_condition', JSON.stringify(parmas));
+			parmas.firstchid = '';
+			parmas.secondchid = '';
+			parmas.enableFlag = -1;
+			parmas.order = this.value;
+			sessionStorage.setItem('search_condition', JSON.stringify(parmas));
 			query_node(parmas)
 				.then((res) => {
 					if (res.status == 0) {
-                        this.titledar[0].connum = res.data.total;
+						this.titledar[0].connum = res.data.total;
 						if (res.data.result.length <= 0) {
 							this.showdata = true;
 							this.$message('暂无数据');
 						} else {
 							this.showdata = false;
-                            this.totalCnt = res.data.total;
+							this.totalCnt = res.data.total;
 							this.ipfsdata = [];
 							res.data.result.forEach((item, index) => {
 								//上行带宽-总
@@ -580,8 +594,8 @@ export default {
 								//下行带宽-剩余
 								item.downbandwidth_rema = item.remainingBW.substring(
 									item.remainingBW.indexOf('/') + 1
-                                );
-                                //上行带宽-使用
+								);
+								//上行带宽-使用
 								item.upbandwidth_occ = item.occupyBW.substring(
 									0,
 									item.occupyBW.lastIndexOf('/')
@@ -626,8 +640,8 @@ export default {
 				this.citys = '浙江';
 			} else {
 				this.citys = '福建';
-            }
-            sessionStorage.setItem('east_location', JSON.stringify(num));
+			}
+			sessionStorage.setItem('east_location', JSON.stringify(num));
 			this.getipfsdata();
 			this.$forceUpdate();
 			this.gettit();
@@ -642,8 +656,11 @@ export default {
 			this.pagesize = pagetol;
 			// this.getipfsdata();
 		},
-		godetail(dat,num) {
-			sessionStorage.setItem('serdata', JSON.stringify(this.ipfsdata[num]));
+		godetail(dat, num) {
+			sessionStorage.setItem(
+				'serdata',
+				JSON.stringify(this.ipfsdata[num])
+			);
 			this.$router.push({
 				path: '/ipfs_location_details',
 				query: {
@@ -653,7 +670,7 @@ export default {
 				},
 			});
 		},
-    },
+	},
 };
 </script>
 

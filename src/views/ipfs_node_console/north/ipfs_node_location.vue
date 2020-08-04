@@ -177,7 +177,11 @@
 			</div>
 			<div>
 				<span>排序：</span>
-				<el-select v-model="value" placeholder="请选择排序方式" @change="searchdata">
+				<el-select
+					v-model="value"
+					placeholder="请选择排序方式"
+					@change="searchdata"
+				>
 					<el-option
 						v-for="item in options"
 						:key="item.value"
@@ -196,8 +200,8 @@
 				class="ipfs_item"
 				v-for="(item, index) in ipfsdata"
 				:key="index"
-				@click="godetail(item,index)"
-                v-show="!showdata"
+				@click="godetail(item, index)"
+				v-show="!showdata"
 			>
 				<div
 					style="display: flex;justify-content: flex-start;align-items: center;"
@@ -212,34 +216,52 @@
 				</div>
 				<div class="ipfs_item_img">
 					<img
-						v-if="item.devicetype!='PC服务器' && item.devstatus == '在线'"
+						v-if="
+							item.devicetype != 'PC服务器' &&
+								item.devstatus == '在线'
+						"
 						src="../../../assets/img/binding_illustration3.png"
 						style="width:60%;"
 						alt
 					/>
 					<img
-						v-if="item.devicetype!='PC服务器' && item.devstatus == '离线'"
+						v-if="
+							item.devicetype != 'PC服务器' &&
+								item.devstatus == '离线'
+						"
 						src="../../../assets/img/lixianxiyouji.png"
 						style="width:60%;"
 						alt
 					/>
 					<img
-						v-if="item.devicetype=='PC服务器' && item.devstatus == '在线'"
+						v-if="
+							item.devicetype == 'PC服务器' &&
+								item.devstatus == '在线'
+						"
 						src="../../../assets/img/zaixianfuwuqi.png"
 						style="width:60%;"
 						alt=""
 					/>
 					<img
-						v-if="item.devicetype=='PC服务器' && item.devstatus == '离线'"
+						v-if="
+							item.devicetype == 'PC服务器' &&
+								item.devstatus == '离线'
+						"
 						src="../../../assets/img/lixianfuwuqi.png"
 						style="width:60%;"
 						alt
 					/>
-					<p style="text-align:center">{{ item.devicetype=='PC服务器'?'云链节点':'西柚机节点' }}</p>
 					<p style="text-align:center">
-						<span>{{item.devicetype}}</span>
-						<span>{{item.os}}</span>
-						<span>{{item.arch}}</span>
+						{{
+							item.devicetype == 'PC服务器'
+								? '云链节点'
+								: '西柚机节点'
+						}}
+					</p>
+					<p style="text-align:center">
+						<span>{{ item.devicetype }}</span>
+						<span>{{ item.os }}</span>
+						<span>{{ item.arch }}</span>
 					</p>
 					<p>
 						节点ID：
@@ -263,17 +285,23 @@
 					</li>
 					<li>
 						<span class="ipfs_text_title">总容量:</span>
-						<span class="ipfs_text_con">{{ (
-									item.totalCap /
-									1024 /
-									1024 /
-									1024
-								).toFixed(2) }}GB</span>
+						<span class="ipfs_text_con"
+							>{{
+								(item.totalCap / 1024 / 1024 / 1024).toFixed(2)
+							}}GB</span
+						>
 					</li>
 					<li>
 						<span class="ipfs_text_title">剩余容量:</span>
 						<span class="ipfs_text_con"
-							>{{ (item.remainingCap/1024/1024/1024).toFixed(2) }}GB</span
+							>{{
+								(
+									item.remainingCap /
+									1024 /
+									1024 /
+									1024
+								).toFixed(2)
+							}}GB</span
 						>
 					</li>
 				</ol>
@@ -285,14 +313,19 @@
 			@fathernum="gettol"
 			:pagesa="totalCnt"
 			:currentPage="currentPage"
-			 v-show="!showdata"
+			v-show="!showdata"
 		></fenye>
 	</div>
 </template>
 
 <script>
 import fenye from '@/components/fenye';
-import { query_node, ipfs_region_summary,get_nodetype_enum } from '../../../servers/api';
+import {
+	query_node,
+	ipfs_region_summary,
+	get_nodetype_enum,
+	nodesinfo_byarea,
+} from '../../../servers/api';
 export default {
 	data() {
 		return {
@@ -305,7 +338,7 @@ export default {
 			citys: '北京',
 			showdata: false,
 			options: [
-                {
+				{
 					value: 0,
 					label: '全部',
 				},
@@ -341,8 +374,8 @@ export default {
 					contit: '云链节点',
 					connum: 0,
 					url: require('../../../assets/img/armjiedian.png'),
-                },
-                {
+				},
+				{
 					contit: 'rouji节点',
 					connum: 0,
 					url: require('../../../assets/img/armjiedian.png'),
@@ -384,8 +417,8 @@ export default {
 				// 	type: '0',
 				// 	nodeId: '1231561faasfsafssdfsdfsdagfasfqwngfiupaowngwp',
 				// 	devstatus: '在线',
-                //     bgccolor: '#5CC77D',
-                //     isp:'中国移动',
+				//     bgccolor: '#5CC77D',
+				//     isp:'中国移动',
 				// 	devicetype: '西柚机节点',
 				// 	dev_type: '西柚机盒子',
 				// 	system_type: 'linux',
@@ -399,8 +432,8 @@ export default {
 				// 	type: '1',
 				// 	nodeId: '1231561fgadfgdasdfsfsagadhhagogmoejmagaefqw',
 				// 	devstatus: '离线',
-                //     bgccolor: '#6e6e6e',
-                //      isp:'中国移动',
+				//     bgccolor: '#6e6e6e',
+				//      isp:'中国移动',
 				// 	devicetype: '云链节点',
 				// 	dev_type: 'PC',
 				// 	system_type: 'linux',
@@ -415,8 +448,8 @@ export default {
 				// 	nodeId:
 				// 		'1231561fafgfdafgdhdahedadgsgnmakpwngpkelwrangrdfqw',
 				// 	devstatus: '离线',
-                //     bgccolor: '#6e6e6e',
-                //      isp:'中国电信',
+				//     bgccolor: '#6e6e6e',
+				//      isp:'中国电信',
 				// 	devicetype: '西柚机节点',
 				// 	dev_type: '西柚机盒子',
 				// 	system_type: 'linux',
@@ -430,8 +463,8 @@ export default {
 				// 	type: '1',
 				// 	nodeId: '1231561fa1gh54ser1h45gawinrgoi[eargeisgetrg1fqw',
 				// 	devstatus: '在线',
-                //     bgccolor: '#5CC77D',
-                //      isp:'中国联通',
+				//     bgccolor: '#5CC77D',
+				//      isp:'中国联通',
 				// 	devicetype: '云链节点',
 				// 	dev_type: 'PC',
 				// 	system_type: 'linux',
@@ -441,33 +474,33 @@ export default {
 				// 	upbandwidth: '16450Mbps',
 				// 	downbandwidth: '52Mbps',
 				// },
-            ],
-            devicevalue:'',
-            hardwarevalue:'',
-            osvalue:'',
-            operatovalue:'',
-            device_type:[],
-            hardware_type:[],
-            oslist:[],
-            operatorlist:[],
+			],
+			devicevalue: '',
+			hardwarevalue: '',
+			osvalue: '',
+			operatovalue: '',
+			device_type: [],
+			hardware_type: [],
+			oslist: [],
+			operatorlist: [],
 		};
 	},
 	components: {
 		fenye,
 	},
 	mounted() {
-        this.get_search_data();
-        if (sessionStorage.getItem('search_condition')) {
+		this.get_search_data();
+		if (sessionStorage.getItem('search_condition')) {
 			let search_data = JSON.parse(
 				sessionStorage.getItem('search_condition')
-            );
+			);
 			this.operatovalue = search_data.isp;
 			this.osvalue = search_data.os;
 			this.hardwarevalue = search_data.arch;
 			this.devicevalue = search_data.devicetype;
 			this.value = search_data.order;
-        }
-        if (this.$route.query.node_city) {
+		}
+		if (this.$route.query.node_city) {
 			this.setmap_show(this.$route.query.node_num);
 		}
 		if (sessionStorage.getItem('north_location')) {
@@ -475,27 +508,27 @@ export default {
 				JSON.parse(sessionStorage.getItem('north_location'))
 			);
 		} else {
-            this.getipfsdata();
+			this.getipfsdata();
 			this.gettit();
 		}
 	},
 	methods: {
-        searchdata(){
-            this.currentPage=1;
-            this.getipfsdata();
-        },
-        uopset() {
-            this.currentPage=1;
+		searchdata() {
+			this.currentPage = 1;
+			this.getipfsdata();
+		},
+		uopset() {
+			this.currentPage = 1;
 			this.operatovalue = '';
 			this.osvalue = '';
 			this.hardwarevalue = '';
-            this.devicevalue = '';
-             this.value=0;
+			this.devicevalue = '';
+			this.value = 0;
 			this.getipfsdata();
 		},
 		get_search_data() {
 			let params = new Object();
-			params.time = "111";
+			params.time = '111';
 			get_nodetype_enum(params)
 				.then((res) => {
 					console.log(res);
@@ -524,11 +557,11 @@ export default {
 						let yun = res.data.nodeType.indexOf('云链');
 						let xiyou = res.data.nodeType.indexOf('西柚机');
 						let rouji = res.data.nodeType.indexOf('rouji');
-                        this.titledar[1].connum = res.data.nodeCount[xiyou];
-                        this.titledar[2].connum = res.data.nodeCount[yun];
-                        this.titledar[3].connum = res.data.nodeCount[rouji];
-                        
-                        this.titledar[4].connum = res.data.onlineCount;
+						this.titledar[1].connum = res.data.nodeCount[xiyou];
+						this.titledar[2].connum = res.data.nodeCount[yun];
+						this.titledar[3].connum = res.data.nodeCount[rouji];
+
+						this.titledar[4].connum = res.data.onlineCount;
 						this.titledar[5].connum = this.common.formatBytes(
 							res.data.totalCap
 						);
@@ -554,25 +587,25 @@ export default {
 			parmas.province = this.citys;
 			parmas.city = '';
 			parmas.page = this.currentPage - 1;
-			parmas.isp =  this.operatovalue;
+			parmas.isp = this.operatovalue;
 			parmas.os = this.osvalue;
 			parmas.arch = this.hardwarevalue;
 			parmas.devicetype = this.devicevalue;
-			parmas.firstchid = "";
-			parmas.secondchid = "";
-            parmas.enableFlag =-1;
-             parmas.order=this.value;
-             sessionStorage.setItem('search_condition', JSON.stringify(parmas));
+			parmas.firstchid = '';
+			parmas.secondchid = '';
+			parmas.enableFlag = -1;
+			parmas.order = this.value;
+			sessionStorage.setItem('search_condition', JSON.stringify(parmas));
 			query_node(parmas)
 				.then((res) => {
 					if (res.status == 0) {
-                        this.titledar[0].connum = res.data.total;
+						this.titledar[0].connum = res.data.total;
 						if (res.data.result.length <= 0) {
 							this.showdata = true;
 							this.$message('暂无数据');
 						} else {
 							this.showdata = false;
-                            this.totalCnt = res.data.total;
+							this.totalCnt = res.data.total;
 							this.ipfsdata = [];
 							res.data.result.forEach((item, index) => {
 								//上行带宽-总
@@ -592,8 +625,8 @@ export default {
 								//下行带宽-剩余
 								item.downbandwidth_rema = item.remainingBW.substring(
 									item.remainingBW.indexOf('/') + 1
-                                );
-                                  //上行带宽-使用
+								);
+								//上行带宽-使用
 								item.upbandwidth_occ = item.occupyBW.substring(
 									0,
 									item.occupyBW.lastIndexOf('/')
@@ -601,8 +634,8 @@ export default {
 								//下行带宽-使用
 								item.downbandwidth_occ = item.occupyBW.substring(
 									item.occupyBW.indexOf('/') + 1
-                                );
-                                //上行带宽-使用
+								);
+								//上行带宽-使用
 								item.upbandwidth_occ = item.occupyBW.substring(
 									0,
 									item.occupyBW.lastIndexOf('/')
@@ -645,8 +678,8 @@ export default {
 				this.citys = '天津';
 			} else {
 				this.citys = '北京';
-            }
-            sessionStorage.setItem('north_location', JSON.stringify(num));
+			}
+			sessionStorage.setItem('north_location', JSON.stringify(num));
 			this.getipfsdata();
 			this.$forceUpdate();
 			this.gettit();
@@ -661,8 +694,11 @@ export default {
 			this.pagesize = pagetol;
 			// this.getipfsdata();
 		},
-		godetail(dat,num) {
-			sessionStorage.setItem('serdata', JSON.stringify(this.ipfsdata[num]));
+		godetail(dat, num) {
+			sessionStorage.setItem(
+				'serdata',
+				JSON.stringify(this.ipfsdata[num])
+			);
 			this.$router.push({
 				path: '/ipfs_location_details',
 				query: {
@@ -672,7 +708,7 @@ export default {
 				},
 			});
 		},
-    },
+	},
 };
 </script>
 

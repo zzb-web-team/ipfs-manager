@@ -80,7 +80,7 @@
 				></el-cascader>
 			</el-row>
 		</div>
-		<div style="display: flex;" class="mapdal">
+		<div style="display: flex;" class="mapdal" v-show="maplist.length > 0">
 			<div
 				id="myChartChina"
 				:style="{ width: '100%', height: '800px' }"
@@ -90,7 +90,7 @@
 					<span style="margin-left: 10px;">省市</span>
 					<span>全部节点</span>
 					<span>云链节点</span>
-					<span>PC版西柚机节点</span>
+					<span class="xiyouji_title">PC版西柚机节点</span>
 					<span>rouji节点</span>
 				</li>
 				<li v-for="(item, index) in maplist" :key="index">
@@ -485,8 +485,8 @@ export default {
 					if (res.status == 0) {
 						this.sheng_list = this.sheng_list.concat(
 							res.data.result
-                        );
-                        let arr = [];
+						);
+						let arr = [];
 						if (res.data.remaining <= 0) {
 							let yun = res.data.nodeType.indexOf('云链');
 							let xiyou = res.data.nodeType.indexOf('西柚机pc');
@@ -500,12 +500,12 @@ export default {
 								obj.xiyoucount = item.data[xiyou];
 								obj.roujiconut = item.data[rouji];
 								arr.push(obj);
-                            });
+							});
 						} else {
 							pagenum++;
 							this.getdata(pagenum);
-                        }
-                        this.maplist = arr;
+						}
+						this.maplist = arr;
 						// let arr = [];
 						// var entries = Object.entries(res.data);
 						// entries.forEach((item, index) => {
@@ -715,6 +715,7 @@ export default {
 		border: 1px solid #eeeeee;
 	}
 	ol > li {
+		width: 100%;
 		border: 1px solid #eeeeee;
 		height: 60px;
 		line-height: 60px;
@@ -723,22 +724,14 @@ export default {
 		align-items: center;
 		span {
 			width: 130px;
-            font-size: 14px;
+			font-size: 14px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
 		}
 		span:first-child {
-			overflow: hidden;
-			text-overflow: ellipsis;
-			white-space: nowrap;
 			text-align: left;
 			padding-left: 10px;
-		}
-		span:last-child {
-			overflow: hidden;
-			text-overflow: ellipsis;
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
-			white-space: nowrap;
 		}
 	}
 }

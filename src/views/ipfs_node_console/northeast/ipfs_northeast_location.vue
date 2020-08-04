@@ -275,7 +275,8 @@ import fenye from '@/components/fenye';
 import {
 	query_node,
 	ipfs_region_summary,
-	get_nodetype_enum,
+    get_nodetype_enum,
+    nodesinfo_byarea
 } from '../../../servers/api';
 export default {
 	data() {

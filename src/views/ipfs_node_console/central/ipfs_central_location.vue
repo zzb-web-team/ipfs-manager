@@ -425,7 +425,7 @@ export default {
 				JSON.parse(sessionStorage.getItem('central_location'))
 			);
 		} else {
-            this.getipfsdata();
+			this.getipfsdata();
 			this.gettit();
 		}
 	},
@@ -474,11 +474,11 @@ export default {
 						let yun = res.data.nodeType.indexOf('云链');
 						let xiyou = res.data.nodeType.indexOf('西柚机');
 						let rouji = res.data.nodeType.indexOf('rouji');
-                        this.titledar[1].connum = res.data.nodeCount[xiyou];
-                        this.titledar[2].connum = res.data.nodeCount[yun];
-                        this.titledar[3].connum = res.data.nodeCount[rouji];
-                        
-                        this.titledar[4].connum = res.data.onlineCount;
+						this.titledar[1].connum = res.data.nodeCount[xiyou];
+						this.titledar[2].connum = res.data.nodeCount[yun];
+						this.titledar[3].connum = res.data.nodeCount[rouji];
+
+						this.titledar[4].connum = res.data.onlineCount;
 						this.titledar[5].connum = this.common.formatBytes(
 							res.data.totalCap
 						);
@@ -515,7 +515,7 @@ export default {
 			query_node(parmas)
 				.then((res) => {
 					if (res.status == 0) {
-                        this.titledar[0].connum = res.data.total;
+						this.titledar[0].connum = res.data.total;
 						if (res.data.result.length <= 0) {
 							this.$message('暂无数据');
 							this.showdata = true;
