@@ -788,7 +788,7 @@ export default {
 	// border: 1px solid #7d7d7d;
 	// border-collapse:collapse;s
 }
-.conname:first-child {
+.conname:first-child,.conname_tit:first-child {
 	text-align: center;
 	padding-left: 10px;
 }
