@@ -40,6 +40,19 @@
 			<div class="ipfs_con">
 				<div
 					class="ipfs_con_tit"
+					v-for="(item, index) in dar"
+					:key="index"
+				>
+					<div class="alltitle">
+						<img :src="item.url" alt />
+						<span>{{ item.contit }}</span>
+					</div>
+					<div class="allnum">{{ item.connum }}</div>
+				</div>
+			</div>
+			<div class="ipfs_con occ_con">
+				<div
+					class="ipfs_con_tit"
 					v-for="(item, index) in titledar"
 					:key="index"
 				>
@@ -54,6 +67,19 @@
 		<div class="ipfs_title_next" v-if="rotate == 1">
 			<div class="maptitle">内蒙古</div>
 			<div class="ipfs_con">
+				<div
+					class="ipfs_con_tit"
+					v-for="(item, index) in dar"
+					:key="index"
+				>
+					<div class="alltitle">
+						<img :src="item.url" alt />
+						<span>{{ item.contit }}</span>
+					</div>
+					<div class="allnum">{{ item.connum }}</div>
+				</div>
+			</div>
+			<div class="ipfs_con occ_con">
 				<div
 					class="ipfs_con_tit"
 					v-for="(item, index) in titledar"
@@ -72,6 +98,19 @@
 			<div class="ipfs_con">
 				<div
 					class="ipfs_con_tit"
+					v-for="(item, index) in dar"
+					:key="index"
+				>
+					<div class="alltitle">
+						<img :src="item.url" alt />
+						<span>{{ item.contit }}</span>
+					</div>
+					<div class="allnum">{{ item.connum }}</div>
+				</div>
+			</div>
+			<div class="ipfs_con occ_con">
+				<div
+					class="ipfs_con_tit"
 					v-for="(item, index) in titledar"
 					:key="index"
 				>
@@ -88,6 +127,19 @@
 			<div class="ipfs_con">
 				<div
 					class="ipfs_con_tit"
+					v-for="(item, index) in dar"
+					:key="index"
+				>
+					<div class="alltitle">
+						<img :src="item.url" alt />
+						<span>{{ item.contit }}</span>
+					</div>
+					<div class="allnum">{{ item.connum }}</div>
+				</div>
+			</div>
+			<div class="ipfs_con occ_con">
+				<div
+					class="ipfs_con_tit"
 					v-for="(item, index) in titledar"
 					:key="index"
 				>
@@ -102,6 +154,19 @@
 		<div class="ipfs_title_next" v-if="rotate == 4">
 			<div class="maptitle">天津</div>
 			<div class="ipfs_con">
+				<div
+					class="ipfs_con_tit"
+					v-for="(item, index) in dar"
+					:key="index"
+				>
+					<div class="alltitle">
+						<img :src="item.url" alt />
+						<span>{{ item.contit }}</span>
+					</div>
+					<div class="allnum">{{ item.connum }}</div>
+				</div>
+			</div>
+			<div class="ipfs_con occ_con">
 				<div
 					class="ipfs_con_tit"
 					v-for="(item, index) in titledar"
@@ -541,17 +606,17 @@ export default {
 							obj.contit = item;
 							obj.connum = res.data.nodeCount[index];
 							titlist.push(obj);
-						});
-						this.titledar = this.dar.concat(titlist);
-						this.titledar[1].connum = res.data.onlineCount;
-						this.titledar[2].connum = this.common.formatBytes(
+                        });
+						this.titledar = titlist;
+						this.dar[1].connum = res.data.onlineCount;
+						this.dar[2].connum = this.common.formatBytes(
 							res.data.totalCap
 						);
 						let numcap = res.data.totalCap - res.data.remainingCap;
-						this.titledar[3].connum = this.common.formatBytes(
+						this.dar[3].connum = this.common.formatBytes(
 							numcap
 						);
-						this.titledar[4].connum = this.common.formatBytes(
+						this.dar[4].connum = this.common.formatBytes(
 							res.data.remainingCap
 						);
 					} else {
@@ -581,7 +646,7 @@ export default {
 			query_node(parmas)
 				.then((res) => {
 					if (res.status == 0) {
-						this.titledar[0].connum = res.data.total;
+						this.dar[0].connum = res.data.total;
 						if (res.data.result.length <= 0) {
 							this.showdata = true;
 							this.$message('暂无数据');
@@ -735,6 +800,7 @@ export default {
 		}
 	}
 	.ipfs_title_next {
+		height: auto;
 		// text-align: left;
 		.maptitle {
 			text-align: center;
@@ -748,7 +814,7 @@ export default {
 			// height: 123px;
 			display: flex;
 			.ipfs_con_tit {
-				width: 148px;
+				width: 245px;
 				height: 117px;
 				background: rgba(255, 255, 255, 1);
 				border: 1px solid rgba(216, 226, 240, 1);
@@ -757,8 +823,8 @@ export default {
 				text-align: left;
 				padding: 2px 10px;
 				overflow: hidden;
-				margin-right: 20px;
 				margin-top: 20px;
+				margin-right: 20px;
 				.alltitle {
 					display: inline-block;
 					height: 45px;
@@ -768,7 +834,7 @@ export default {
 					color: #929292;
 					font-size: 18px;
 					img {
-						width: 30%;
+						width: 15%;
 					}
 					span {
 						font-size: 12px;
@@ -778,6 +844,19 @@ export default {
 					line-height: 40px;
 					color: #1c1a1d;
 					font-size: 26px;
+				}
+			}
+		}
+		.occ_con {
+			.ipfs_con_tit {
+				width: 165px;
+				border: none;
+				background: none;
+				height: auto;
+				.alltitle {
+					img {
+						width: 30%;
+					}
 				}
 			}
 		}
@@ -816,13 +895,6 @@ export default {
 				margin: 25px 0;
 				border-bottom: 1px solid #eeeeee;
 				color: #404447;
-				p {
-					text-align: left;
-				}
-				p:nth-child(1) {
-					color: #434343;
-					font-weight: 800;
-				}
 			}
 			ol > li {
 				line-height: 25px;
