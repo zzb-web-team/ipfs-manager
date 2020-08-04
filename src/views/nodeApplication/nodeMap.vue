@@ -86,9 +86,9 @@
 				:style="{ width: '100%', height: '800px' }"
 			></div>
 			<div>
-				<div style="text-align: left;margin-bottom: 10px;font-size: 16px;">
+				<!-- <div style="text-align: left;margin-bottom: 10px;font-size: 16px;">
 					节点数量统计
-				</div>
+				</div> -->
 				<ol>
 					<li>
 						<div
@@ -731,7 +731,7 @@ export default {
 .mapdal {
 	ol {
 		width: 700px;
-		height: 500px;
+		height: 700px;
 		overflow-y: auto;
 		border: 1px solid #eeeeee;
 		overflow-x: auto; /*可滑动*/
@@ -763,7 +763,7 @@ export default {
 .conname_tit {
 	flex-shrink: 0;
 	text-align: center;
-	width: 150px;
+	width: 115px;
 	font-size: 14px;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -776,7 +776,7 @@ export default {
 .conname {
 	flex-shrink: 0;
 	text-align: center;
-	width: 150px;
+	width: 115px;
 	font-size: 14px;
 	overflow: hidden;
 	text-overflow: ellipsis;
