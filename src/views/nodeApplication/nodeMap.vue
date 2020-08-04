@@ -90,15 +90,17 @@
 					<span style="margin-left: 10px;">省市</span>
 					<span>全部节点</span>
 					<span>云链节点</span>
+					<span>PC版西柚机节点</span>
 					<span>rouji节点</span>
 				</li>
 				<li v-for="(item, index) in maplist" :key="index">
 					<span
 						>{{ index + 1 }}&nbsp;&nbsp;&nbsp;{{ item.name }}</span
 					>
-					<span>{{ item.newCount }}</span>
 					<span>{{ item.value }}</span>
-					<span>{{ (item.totalPercent * 100).toFixed(0) }}</span>
+					<span>{{ item.yunconut }}</span>
+					<span>{{ item.xiyoucount }}</span>
+					<span>{{ item.roujiconut }}</span>
 				</li>
 			</ol>
 		</div>
@@ -106,7 +108,11 @@
 </template>
 
 <script>
-import { query_ipfs_node_region_dist, get_nodetype_enum } from '@/servers/api';
+import {
+	query_ipfs_node_region_dist,
+	get_nodetype_enum,
+	node_countinfo,
+} from '@/servers/api';
 import {
 	getlocaltimes,
 	settime,
@@ -117,7 +123,29 @@ import {
 export default {
 	data() {
 		return {
-			maplist: [],
+			maplist: [
+				// {
+				// 	name: '湖北',
+				// 	value: 56,
+				// 	yunconut: 33,
+				// 	xiyoucount: 20,
+				// 	roujiconut: 3,
+				// },
+				// {
+				// 	name: '青海',
+				// 	value: 253,
+				// 	yunconut: 129,
+				// 	xiyoucount: 84,
+				// 	roujiconut: 40,
+				// },
+				// {
+				// 	name: '贵州',
+				// 	value: 1253,
+				// 	yunconut: 129,
+				// 	xiyoucount: 84,
+				// 	roujiconut: 40,
+				// },
+			],
 			chil_disable: true,
 			searchdata: {
 				region1: '*',
@@ -358,25 +386,27 @@ export default {
 			],
 			starttime: 0,
 			endtime: 0,
+			sheng_list: [],
 		};
 	},
 	mounted() {
 		this.starttime =
 			new Date(new Date().toLocaleDateString()).getTime() / 1000;
 		this.endtime = parseInt(new Date().getTime() / 1000);
-		this.getdata();
+
+		this.getdata(0);
 		//this.drawLine();
 		// this.get_search_data();
 	},
 	methods: {
 		provinceChange() {
-			this.getdata();
+			this.getdata(0);
 		},
 		seachuser() {
 			if (this.time_value != null && this.time_value != '') {
 				this.starttime = setbatime(this.time_value[0]);
 				this.endtime = setbatime(this.time_value[1]);
-				this.getdata();
+				this.getdata(0);
 			} else {
 			}
 		},
@@ -396,10 +426,10 @@ export default {
 					}
 				});
 			}
-			this.getdata();
+			this.getdata(0);
 		},
 		get_search() {
-			this.getdata();
+			this.getdata(0);
 		},
 		get_search_data() {
 			let params = new Object();
@@ -419,43 +449,76 @@ export default {
 					console.log(error);
 				});
 		},
-		getdata() {
+		leijiasum(arr) {
+			var s = 0;
+			for (var i = arr.length - 1; i >= 0; i--) {
+				s += arr[i];
+			}
+			return s;
+		},
+		getdata(pagenum) {
+			this.maplist = [];
 			let params = new Object();
-			params.deviceType = this.searchdata.region3;
-			params.end_ts = this.endtime;
-			params.firstChannel = this.searchdata.region1;
-			params.isp = '*';
-			params.nodeId = '*';
-			params.secondChannel = this.searchdata.region2;
-			params.start_ts = this.starttime;
-			if (this.searchdata.region4 == '*') {
-				params.region = '*';
-				params.city = '*';
-			} else {
-				params.region = this.searchdata.region4[1];
-				params.city = '*';
-			}
-			if (params.end_ts - params.start_ts > 86400) {
-				params.timeUnit = 1440;
-			} else {
-				params.timeUnit = 60;
-			}
-			query_ipfs_node_region_dist(params)
+			// params.deviceType = this.searchdata.region3;
+			// params.end_ts = this.endtime;
+			// params.firstChannel = this.searchdata.region1;
+			// params.isp = '*';
+			// params.nodeId = '*';
+			// params.secondChannel = this.searchdata.region2;
+			// params.start_ts = this.starttime;
+			// if (this.searchdata.region4 == '*') {
+			// 	params.region = '*';
+			// 	params.city = '*';
+			// } else {
+			// 	params.region = this.searchdata.region4[1];
+			// 	params.city = '*';
+			// }
+			// if (params.end_ts - params.start_ts > 86400) {
+			// 	params.timeUnit = 1440;
+			// } else {
+			// 	params.timeUnit = 60;
+			// }
+			params.page = pagenum;
+			node_countinfo(params)
+				// query_ipfs_node_region_dist(params)
 				.then((res) => {
 					if (res.status == 0) {
-						let arr = [];
-						var entries = Object.entries(res.data);
-						entries.forEach((item, index) => {
-							let obj = {};
-							obj.name = item[0].replace('市', '');
-							obj.name = obj.name.replace('省', '');
-							obj.value = item[1].totalCount;
-							obj.newCount = item[1].newCount;
-							obj.totalPercent = item[1].totalPercent;
-							arr.push(obj);
-						});
-						this.maplist = arr;
-						console.log(this.maplist);
+						this.sheng_list = this.sheng_list.concat(
+							res.data.result
+                        );
+                        let arr = [];
+						if (res.data.remaining <= 0) {
+							let yun = res.data.nodeType.indexOf('云链');
+							let xiyou = res.data.nodeType.indexOf('西柚机pc');
+							let rouji = res.data.nodeType.indexOf('rouji');
+							this.sheng_list.forEach((item) => {
+								let obj = {};
+								obj.name = item.province.replace('市', '');
+								obj.name = obj.name.replace('省', '');
+								obj.value = this.leijiasum(item.data);
+								obj.yunconut = item.data[yun];
+								obj.xiyoucount = item.data[xiyou];
+								obj.roujiconut = item.data[rouji];
+								arr.push(obj);
+                            });
+						} else {
+							pagenum++;
+							this.getdata(pagenum);
+                        }
+                        this.maplist = arr;
+						// let arr = [];
+						// var entries = Object.entries(res.data);
+						// entries.forEach((item, index) => {
+						// 	let obj = {};
+						// 	obj.name = item[0].replace('市', '');
+						// 	obj.name = obj.name.replace('省', '');
+						// 	obj.value = item[1].totalCount;
+						// 	obj.newCount = item[1].newCount;
+						// 	obj.totalPercent = item[1].totalPercent;
+						// 	arr.push(obj);
+						// });
+						// this.maplist = arr;
+						// console.log(this.maplist);
 						this.drawLine();
 					}
 				})
@@ -646,7 +709,7 @@ export default {
 }
 .mapdal {
 	ol {
-		width: 400px;
+		width: 700px;
 		height: 500px;
 		overflow-y: auto;
 		border: 1px solid #eeeeee;
@@ -659,7 +722,8 @@ export default {
 		justify-content: space-between;
 		align-items: center;
 		span {
-			width: 100px;
+			width: 130px;
+            font-size: 14px;
 		}
 		span:first-child {
 			overflow: hidden;

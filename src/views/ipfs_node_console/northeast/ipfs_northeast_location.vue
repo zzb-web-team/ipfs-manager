@@ -169,7 +169,7 @@
 						v-bind:style="{ background: item.bgccolor }"
 					></div>
 					<span v-bind:style="{ color: item.bgccolor }"
-						>{{ item.devstatus }}&nbsp;{{ item.isp }}</span
+						>{{ item.devstatus }}</span
 					>
 				</div>
 				<div class="ipfs_item_img">
@@ -325,6 +325,11 @@ export default {
 					contit: '云链节点',
 					connum: 0,
 					url: require('../../../assets/img/armjiedian.png'),
+                },
+                {
+					contit: 'rouji节点',
+					connum: 0,
+					url: require('../../../assets/img/armjiedian.png'),
 				},
 				{
 					contit: '在线节点',
@@ -332,17 +337,17 @@ export default {
 					url: require('../../../assets/img/zaixjied.png'),
 				},
 				{
-					contit: '总空间',
+					contit: '总容量',
 					connum: '0GB',
 					url: require('../../../assets/img/zongkongj.png'),
 				},
 				{
-					contit: '当前占用空间',
+					contit: '当前使用容量',
 					connum: '0GB',
 					url: require('../../../assets/img/zhanyongkj.png'),
 				},
 				{
-					contit: '可用空间',
+					contit: '剩余容量',
 					connum: '0GB',
 					url: require('../../../assets/img/keykj.png'),
 				},
@@ -507,7 +512,8 @@ export default {
 							this.$message('暂无数据');
 						} else {
 							this.showdata = false;
-							this.totalCnt = res.data.total;
+                            this.totalCnt = res.data.total;
+                            this.titledar[0].connum = res.data.total;
 							this.ipfsdata = [];
 							res.data.result.forEach((item, index) => {
 								//上行带宽-总

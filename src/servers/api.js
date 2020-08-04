@@ -525,3 +525,9 @@ export const menulistuser = params => {
         res => res.data
     );
 };
+//获取全国地图分布--实时
+export const node_countinfo = params => {
+    return post(`${serverUrl}/node_mgmt/node_countinfo`, params).then(
+        res => res.data
+    );
+};

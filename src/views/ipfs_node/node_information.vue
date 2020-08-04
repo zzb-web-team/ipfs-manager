@@ -808,7 +808,7 @@ export default {
 			if (val == '*' || val == '') {
 				this.chil_disable = true;
 				this.secondchan = [];
-				this.secondchid = '*';
+				this.secondchid = '';
 			} else {
 				this.firstchan.find((item) => {
 					if (item.value === val) {

@@ -155,7 +155,7 @@
 							:header-cell-style="headClass"
 							style="width: 450px"
 						>
-							<el-table-column label="节点质量级别" width="140">
+							<el-table-column label="算力值区间" width="140">
 								<template slot-scope="scope">
 									<i v-if="scope.row.v != 100"
 										>{{ scope.row.min }}<=</i
@@ -205,7 +205,7 @@
 						>
 							<el-table-column
 								prop="interval"
-								label="算力值区间"
+								label="节点质量级别"
 								width="130"
 							>
 							</el-table-column>
