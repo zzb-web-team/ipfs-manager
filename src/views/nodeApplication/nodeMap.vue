@@ -87,20 +87,24 @@
 			></div>
 			<ol>
 				<li>
-					<span style="margin-left: 10px;">省市</span>
-					<span>全部节点</span>
-					<span>云链节点</span>
-					<span class="xiyouji_title">PC版西柚机节点</span>
-					<span>rouji节点</span>
+					<div
+						class="conname_tit"
+						v-for="(item, index) in dev_ytpe_list"
+						:key="index + item"
+					>
+						{{ item }}
+					</div>
 				</li>
 				<li v-for="(item, index) in maplist" :key="index">
-					<span
-						>{{ index + 1 }}&nbsp;&nbsp;&nbsp;{{ item.name }}</span
+					<div class="conname">{{ item.name }}</div>
+					<!-- <div class="conname">{{ item.value }}</div> -->
+					<div
+						class="conname"
+						v-for="(xitem, index) in item.data"
+						:key="index + 's' + xitem"
 					>
-					<span>{{ item.value }}</span>
-					<span>{{ item.yunconut }}</span>
-					<span>{{ item.xiyoucount }}</span>
-					<span>{{ item.roujiconut }}</span>
+						{{ xitem }}
+					</div>
 				</li>
 			</ol>
 		</div>
@@ -387,6 +391,7 @@ export default {
 			starttime: 0,
 			endtime: 0,
 			sheng_list: [],
+			dev_ytpe_list: [],
 		};
 	},
 	mounted() {
@@ -487,24 +492,30 @@ export default {
 							res.data.result
 						);
 						let arr = [];
+						let type_list = [];
+						type_list = res.data.nodeType;
+						type_list.unshift('全部节点');
+						type_list.unshift('省市');
+						this.dev_ytpe_list = type_list;
+
+						console.log(this.dev_ytpe_list);
+
 						if (res.data.remaining <= 0) {
-							let yun = res.data.nodeType.indexOf('云链');
-							let xiyou = res.data.nodeType.indexOf('西柚机pc');
-							let rouji = res.data.nodeType.indexOf('rouji');
 							this.sheng_list.forEach((item) => {
 								let obj = {};
 								obj.name = item.province.replace('市', '');
 								obj.name = obj.name.replace('省', '');
+								obj.data = item.data;
 								obj.value = this.leijiasum(item.data);
-								obj.yunconut = item.data[yun];
-								obj.xiyoucount = item.data[xiyou];
-								obj.roujiconut = item.data[rouji];
+								obj.data.unshift(obj.value);
 								arr.push(obj);
 							});
+							console.log(arr);
 						} else {
 							pagenum++;
 							this.getdata(pagenum);
-						}
+                        }
+                        console.log(arr);
 						this.maplist = arr;
 						// let arr = [];
 						// var entries = Object.entries(res.data);
@@ -713,26 +724,54 @@ export default {
 		height: 500px;
 		overflow-y: auto;
 		border: 1px solid #eeeeee;
+		overflow-x: auto; /*可滑动*/
+        // border-collapse:collapse;
 	}
 	ol > li {
-		width: 100%;
+		width: 700px;
 		border: 1px solid #eeeeee;
 		height: 60px;
 		line-height: 60px;
 		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		span {
-			width: 130px;
-			font-size: 14px;
-			overflow: hidden;
-			text-overflow: ellipsis;
-			white-space: nowrap;
-		}
-		span:first-child {
-			text-align: left;
-			padding-left: 10px;
-		}
+		// justify-content: space-between;
+		// align-items: center;
+		white-space: nowrap;
+		// overflow-x: auto; /*可滑动*/
+		// overflow-y: hidden;
+		// border: 1px solid black;
+		text-align: center;
+        margin-top: -2px;
+        // border-collapse:collapse;
 	}
+    li:nth-child(1){
+        margin-top: 0;
+    }
+	
 }
+.conname_tit {
+    flex-shrink:0;
+    text-align: center;
+		width: 150px;
+		font-size: 14px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		border: 1px solid black;
+        // border-collapse:collapse;
+	}
+	.conname {
+        flex-shrink:0;
+		text-align: center;
+		width: 150px;
+		font-size: 14px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		border: 1px solid black;
+        // border-collapse:collapse;s
+	}
+	.conname:first-child {
+		text-align: center;
+		padding-left: 10px;
+	}
 </style>

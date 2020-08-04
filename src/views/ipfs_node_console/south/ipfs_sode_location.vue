@@ -306,26 +306,27 @@ export default {
 					label: '上行带宽升序',
 				},
 			],
-			titledar: [
+            titledar:[],
+             dar:[
+// {
+                //     contit: '云链节点',
+				// 	connum: 0,
+				// 	url: require('../../../assets/img/armjiedian.png'),
+                // },
+                //                     {
+                //                         contit: 'PC西柚机节点',
+                //                         connum: 0,
+                //                         url: require('../../../assets/img/xjiedian.png'),
+                //                     },
+                // {
+				// 	contit: 'rouji节点',
+				// 	connum: 0,
+				// 	url: require('../../../assets/img/armjiedian.png'),
+				// },
 				{
 					contit: '总节点',
 					connum: 0,
 					url: require('../../../assets/img/jiedian.png'),
-				},
-				{
-                    contit: '云链节点',
-					connum: 0,
-					url: require('../../../assets/img/armjiedian.png'),
-                },
-                                    {
-                                        contit: 'PC西柚机节点',
-                                        connum: 0,
-                                        url: require('../../../assets/img/xjiedian.png'),
-                                    },
-                {
-					contit: 'rouji节点',
-					connum: 0,
-					url: require('../../../assets/img/armjiedian.png'),
 				},
 				{
 					contit: '在线节点',
@@ -334,27 +335,27 @@ export default {
 				},
 				{
 					contit: '总容量',
-					connum: '0GB',
+					connum: '0B',
 					url: require('../../../assets/img/zongkongj.png'),
 				},
 				{
 					contit: '当前使用容量',
-					connum: '0GB',
+					connum: '0B',
 					url: require('../../../assets/img/zhanyongkj.png'),
 				},
 				{
 					contit: '剩余容量',
-					connum: '0GB',
+					connum: '0B',
 					url: require('../../../assets/img/keykj.png'),
 				},
 				{
 					contit: '累计使用流量',
-					connum: '0GB',
+					connum: '0B',
 					url: require('../../../assets/img/liuliangs.png'),
 				},
 				{
 					contit: '累计存储容量',
-					connum: '0GB',
+					connum: '0B',
 					url: require('../../../assets/img/cuncurl.png'),
 				},
 			],
@@ -447,24 +448,24 @@ export default {
 			nodesinfo_byarea(parmas)
 				.then((res) => {
 					if (res.status == 0) {
-						// this.titledar[0].connum = res.data.total_cnt;
-						var arr = [];
-						let yun = res.data.nodeType.indexOf('云链');
-						let xiyou = res.data.nodeType.indexOf('西柚机pc');
-						let rouji = res.data.nodeType.indexOf('rouji');
-                        this.titledar[1].connum = res.data.nodeCount[yun];
-                        this.titledar[2].connum = res.data.nodeCount[xiyou];
-                        this.titledar[3].connum = res.data.nodeCount[rouji];
-                        
-                        this.titledar[4].connum = res.data.onlineCount;
-						this.titledar[5].connum = this.common.formatBytes(
+						 let titlist=[];
+                        res.data.nodeType.forEach((item,index)=>{
+                            let obj={};
+                            obj.url= require('../../../assets/img/armjiedian.png');
+                            obj.contit=item;
+                            obj.connum= res.data.nodeCount[index];
+                            titlist.push(obj);
+                        })
+                        this.titledar=this.dar.concat(titlist);
+						this.titledar[1].connum = res.data.onlineCount;
+						this.titledar[2].connum = this.common.formatBytes(
 							res.data.totalCap
 						);
 						let numcap = res.data.totalCap - res.data.remainingCap;
-						this.titledar[6].connum = this.common.formatBytes(
+						this.titledar[2].connum = this.common.formatBytes(
 							numcap
 						);
-						this.titledar[7].connum = this.common.formatBytes(
+						this.titledar[4].connum = this.common.formatBytes(
 							res.data.remainingCap
 						);
 					} else {
@@ -614,11 +615,12 @@ export default {
 		font-weight: bold;
 	}
 	.ipfs_con {
-		height: 50px;
+		// height: 50px;
 		line-height: 50px;
 		display: flex;
 		// padding: 0 37px;
-		justify-content: space-between;
+         flex-wrap: wrap;
+		justify-content: start;
 		.ipfs_con_left {
 			color: #999999;
 			font-size: 16px;
@@ -642,7 +644,7 @@ export default {
 		}
 		.ipfs_con {
 			// width: 100%;
-			height: 123px;
+			// height: 123px;
 			display: flex;
 			.ipfs_con_tit {
 				width: 148px;
@@ -654,6 +656,7 @@ export default {
 				text-align: left;
 				padding: 2px 10px;
 				overflow: hidden;
+                margin-top: 20px;margin-right: 20px;
 				.alltitle {
 					display: inline-block;
 					height: 45px;
