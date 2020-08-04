@@ -520,7 +520,8 @@ export default {
 							pagenum++;
 							this.getdata(pagenum);
 						}
-						console.log(arr);
+                        console.log(arr);
+                        arr.sort(this.sortData);
 						this.maplist = arr;
 						// let arr = [];
 						// var entries = Object.entries(res.data);
@@ -536,11 +537,14 @@ export default {
 						// this.maplist = arr;
 						// console.log(this.maplist);
 						this.drawLine();
-					}else{
-                        this.$message.error(res.err_msg);
-                    }
+					} else {
+						this.$message.error(res.err_msg);
+					}
 				})
 				.catch((Error) => {});
+		},
+		sortData(a, b) {
+			return b.value - a.value;
 		},
 		drawLine() {
 			var _this = this;
@@ -709,8 +713,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.content{
-    min-width: 1920px;
+.content {
+	min-width: 1920px;
 }
 .top_search {
 	text-align: left;
@@ -771,7 +775,6 @@ export default {
 	// border: 1px solid #7d7d7d;
 	background: #eeeeee;
 	// border-collapse:collapse;
-    
 }
 .conname {
 	flex-shrink: 0;
@@ -781,7 +784,7 @@ export default {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-    border-bottom: 1px solid #eeeeee;
+	border-bottom: 1px solid #eeeeee;
 	// border: 1px solid #7d7d7d;
 	// border-collapse:collapse;s
 }
