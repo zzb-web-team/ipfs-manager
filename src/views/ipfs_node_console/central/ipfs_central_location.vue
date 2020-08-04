@@ -644,6 +644,7 @@ export default {
 		}
 	}
 	.ipfs_title_next {
+        height: auto;
 		// text-align: left;
 		.maptitle {
 			text-align: center;

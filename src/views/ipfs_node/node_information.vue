@@ -43,7 +43,7 @@
 					>
 						<el-option
 							v-for="(item, index) in stateopt_node"
-							:key="item.value + index"
+							:key="item.value + index+'rew'"
 							:label="item.label"
 							:value="item.value"
 						></el-option>
@@ -56,7 +56,7 @@
 					>
 						<el-option
 							v-for="(item, index) in stateopt"
-							:key="item.value + index"
+							:key="item.value + index+'srta'"
 							:label="item.label"
 							:value="item.value"
 						></el-option>
@@ -78,7 +78,7 @@
 					>
 						<el-option
 							v-for="(item, index) in options_city"
-							:key="index"
+							:key="index+item+'city'"
 							:label="item.name"
 							:value="item.name"
 						></el-option>
@@ -86,14 +86,14 @@
 					<span>节点渠道商:</span>
 					<el-select
 						v-model="firstchid"
-						value-key
+						
 						placeholder="一级渠道商"
 						@change="handleChangefirst($event)"
 					>
 						<el-option value="" label="全部"></el-option>
 						<el-option
 							v-for="(item, index) in firstchan"
-							:key="index"
+							:key="index+item"
 							:label="item.name"
 							:value="item.value"
 						></el-option>
@@ -107,7 +107,7 @@
 						<el-option value="" label="全部"></el-option>
 						<el-option
 							v-for="(item, index) in secondchan"
-							:key="index"
+							:key="index+item+'ssd'"
 							:label="item.name"
 							:value="item.value"
 						></el-option>

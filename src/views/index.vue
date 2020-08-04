@@ -367,6 +367,7 @@ export default {
 				// background-color: #272731;
 				box-sizing: border-box;
 				// color: #ffffff;
+                margin: auto;
 			}
 		}
 	}

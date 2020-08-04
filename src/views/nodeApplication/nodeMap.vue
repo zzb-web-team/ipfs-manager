@@ -85,28 +85,33 @@
 				id="myChartChina"
 				:style="{ width: '100%', height: '800px' }"
 			></div>
-			<ol>
-				<li>
-					<div
-						class="conname_tit"
-						v-for="(item, index) in dev_ytpe_list"
-						:key="index + item"
-					>
-						{{ item }}
-					</div>
-				</li>
-				<li v-for="(item, index) in maplist" :key="index">
-					<div class="conname">{{ item.name }}</div>
-					<!-- <div class="conname">{{ item.value }}</div> -->
-					<div
-						class="conname"
-						v-for="(xitem, index) in item.data"
-						:key="index + 's' + xitem"
-					>
-						{{ xitem }}
-					</div>
-				</li>
-			</ol>
+			<div>
+				<div style="text-align: left;margin-bottom: 10px;font-size: 16px;">
+					节点数量统计
+				</div>
+				<ol>
+					<li>
+						<div
+							class="conname_tit"
+							v-for="(item, index) in dev_ytpe_list"
+							:key="index + item"
+						>
+							{{ item }}
+						</div>
+					</li>
+					<li v-for="(item, index) in maplist" :key="index">
+						<div class="conname">{{ item.name }}</div>
+						<!-- <div class="conname">{{ item.value }}</div> -->
+						<div
+							class="conname"
+							v-for="(xitem, index) in item.data"
+							:key="index + 's' + xitem"
+						>
+							{{ xitem }}
+						</div>
+					</li>
+				</ol>
+			</div>
 		</div>
 	</div>
 </template>
@@ -514,8 +519,8 @@ export default {
 						} else {
 							pagenum++;
 							this.getdata(pagenum);
-                        }
-                        console.log(arr);
+						}
+						console.log(arr);
 						this.maplist = arr;
 						// let arr = [];
 						// var entries = Object.entries(res.data);
@@ -725,13 +730,13 @@ export default {
 		overflow-y: auto;
 		border: 1px solid #eeeeee;
 		overflow-x: auto; /*可滑动*/
-        // border-collapse:collapse;
+		// border-collapse:collapse;
 	}
 	ol > li {
 		width: 700px;
 		border: 1px solid #eeeeee;
-		height: 60px;
-		line-height: 60px;
+		height: 45px;
+		line-height: 45px;
 		display: flex;
 		// justify-content: space-between;
 		// align-items: center;
@@ -740,38 +745,41 @@ export default {
 		// overflow-y: hidden;
 		// border: 1px solid black;
 		text-align: center;
-        margin-top: -2px;
-        // border-collapse:collapse;
+		margin-top: -2px;
+		// border-collapse:collapse;
 	}
-    li:nth-child(1){
-        margin-top: 0;
-    }
-	
+	li:nth-child(1) {
+		margin-top: 0;
+	}
+	li:hover {
+		background-color: #d6d6d6;
+	}
 }
 .conname_tit {
-    flex-shrink:0;
-    text-align: center;
-		width: 150px;
-		font-size: 14px;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-		border: 1px solid black;
-        // border-collapse:collapse;
-	}
-	.conname {
-        flex-shrink:0;
-		text-align: center;
-		width: 150px;
-		font-size: 14px;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-		border: 1px solid black;
-        // border-collapse:collapse;s
-	}
-	.conname:first-child {
-		text-align: center;
-		padding-left: 10px;
-	}
+	flex-shrink: 0;
+	text-align: center;
+	width: 150px;
+	font-size: 14px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	border: 1px solid #7d7d7d;
+	background: #eeeeee;
+	// border-collapse:collapse;
+}
+.conname {
+	flex-shrink: 0;
+	text-align: center;
+	width: 150px;
+	font-size: 14px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	border: 1px solid #7d7d7d;
+	// border-collapse:collapse;s
+}
+.conname:first-child {
+	text-align: center;
+	padding-left: 10px;
+}
 </style>
