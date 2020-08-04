@@ -208,9 +208,7 @@
 					/>
 					<p style="text-align:center">
 						{{
-							item.devicetype == 'PC服务器'
-								? '云链节点'
-								: '西柚机节点'
+							item.firstch
 						}}
 					</p>
 					<p style="text-align:center">
@@ -315,15 +313,15 @@ export default {
 					url: require('../../../assets/img/jiedian.png'),
 				},
 				{
-					contit: '西柚机节点',
-					connum: 0,
-					url: require('../../../assets/img/xjiedian.png'),
-				},
-				{
-					contit: '云链节点',
+                    contit: '云链节点',
 					connum: 0,
 					url: require('../../../assets/img/armjiedian.png'),
                 },
+                                    {
+                                        contit: 'PC西柚机节点',
+                                        connum: 0,
+                                        url: require('../../../assets/img/xjiedian.png'),
+                                    },
                 {
 					contit: 'rouji节点',
 					connum: 0,
@@ -452,10 +450,10 @@ export default {
 						// this.titledar[0].connum = res.data.total_cnt;
 						var arr = [];
 						let yun = res.data.nodeType.indexOf('云链');
-						let xiyou = res.data.nodeType.indexOf('西柚机');
+						let xiyou = res.data.nodeType.indexOf('西柚机pc');
 						let rouji = res.data.nodeType.indexOf('rouji');
-                        this.titledar[1].connum = res.data.nodeCount[xiyou];
-                        this.titledar[2].connum = res.data.nodeCount[yun];
+                        this.titledar[1].connum = res.data.nodeCount[yun];
+                        this.titledar[2].connum = res.data.nodeCount[xiyou];
                         this.titledar[3].connum = res.data.nodeCount[rouji];
                         
                         this.titledar[4].connum = res.data.onlineCount;
@@ -667,6 +665,9 @@ export default {
 					img {
 						width: 30%;
 					}
+                    span{
+                        font-size: 12px;
+                    }
 				}
 				.allnum {
 					line-height: 40px;
