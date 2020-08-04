@@ -536,7 +536,9 @@ export default {
 						// this.maplist = arr;
 						// console.log(this.maplist);
 						this.drawLine();
-					}
+					}else{
+                        this.$message.error(res.err_msg);
+                    }
 				})
 				.catch((Error) => {});
 		},
