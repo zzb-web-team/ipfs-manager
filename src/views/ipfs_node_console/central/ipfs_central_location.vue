@@ -32,122 +32,147 @@
 		<!-- 主要内容 -->
 		<div class="ipfs_title_next" v-if="rotate == 0">
 			<div class="maptitle">河南</div>
-			<div class="ipfs_con">
-				<div
-					class="ipfs_con_tit"
+			<el-row type="flex" justify="space-between">
+				<el-col
+					:span="3"
 					v-for="(item, index) in dar"
 					:key="index"
+					class="ipfs_con_tit"
 				>
 					<div class="alltitle">
 						<img :src="item.url" alt />
 						<span>{{ item.contit }}</span>
 					</div>
 					<div class="allnum">{{ item.connum }}</div>
-				</div>
-			</div>
-			<div class="ipfs_con occ_con">
-				<div
-					class="ipfs_con_tit"
+				</el-col>
+			</el-row>
+			<el-row type="flex" class="occ_con" justify="start"  style="flex-wrap:wrap">
+				<el-col
+					:span="2"
 					v-for="(item, index) in titledar"
 					:key="index"
+					class="ipfs_con_tit"
 				>
 					<div class="alltitle">
 						<img :src="item.url" alt />
 						<span>{{ item.contit }}</span>
 					</div>
 					<div class="allnum">{{ item.connum }}</div>
-				</div>
-			</div>
+				</el-col>
+			</el-row>
 		</div>
 		<div class="ipfs_title_next" v-if="rotate == 1">
 			<div class="maptitle">湖北</div>
-			<div class="ipfs_con">
-				<div
-					class="ipfs_con_tit"
+			<el-row type="flex" justify="space-between">
+				<el-col
+					:span="3"
 					v-for="(item, index) in dar"
 					:key="index"
+					class="ipfs_con_tit"
 				>
 					<div class="alltitle">
 						<img :src="item.url" alt />
 						<span>{{ item.contit }}</span>
 					</div>
 					<div class="allnum">{{ item.connum }}</div>
-				</div>
-			</div>
-			<div class="ipfs_con occ_con">
-				<div
-					class="ipfs_con_tit"
+				</el-col>
+			</el-row>
+			<el-row type="flex" class="occ_con" justify="start"  style="flex-wrap:wrap">
+				<el-col
+					:span="2"
 					v-for="(item, index) in titledar"
 					:key="index"
+					class="ipfs_con_tit"
 				>
 					<div class="alltitle">
 						<img :src="item.url" alt />
 						<span>{{ item.contit }}</span>
 					</div>
 					<div class="allnum">{{ item.connum }}</div>
-				</div>
-			</div>
+				</el-col>
+			</el-row>
 		</div>
 		<div class="ipfs_title_next" v-if="rotate == 2">
 			<div class="maptitle">江西</div>
-			<div class="ipfs_con">
-				<div
-					class="ipfs_con_tit"
+			<el-row type="flex" justify="space-between">
+				<el-col
+					:span="3"
 					v-for="(item, index) in dar"
 					:key="index"
+					class="ipfs_con_tit"
 				>
 					<div class="alltitle">
 						<img :src="item.url" alt />
 						<span>{{ item.contit }}</span>
 					</div>
 					<div class="allnum">{{ item.connum }}</div>
-				</div>
-			</div>
-			<div class="ipfs_con occ_con">
-				<div
-					class="ipfs_con_tit"
+				</el-col>
+			</el-row>
+			<el-row type="flex" class="occ_con" justify="start"  style="flex-wrap:wrap">
+				<el-col
+					:span="2"
 					v-for="(item, index) in titledar"
 					:key="index"
+					class="ipfs_con_tit"
 				>
 					<div class="alltitle">
 						<img :src="item.url" alt />
 						<span>{{ item.contit }}</span>
 					</div>
 					<div class="allnum">{{ item.connum }}</div>
-				</div>
-			</div>
+				</el-col>
+			</el-row>
 		</div>
 		<div class="ipfs_title_next" v-if="rotate == 3">
 			<div class="maptitle">湖南</div>
-			<div class="ipfs_con">
-				<div
-					class="ipfs_con_tit"
+			<el-row type="flex" justify="space-between">
+				<el-col
+					:span="3"
 					v-for="(item, index) in dar"
 					:key="index"
+					class="ipfs_con_tit"
 				>
 					<div class="alltitle">
 						<img :src="item.url" alt />
 						<span>{{ item.contit }}</span>
 					</div>
 					<div class="allnum">{{ item.connum }}</div>
-				</div>
-			</div>
-			<div class="ipfs_con occ_con">
-				<div
-					class="ipfs_con_tit"
+				</el-col>
+			</el-row>
+			<el-row type="flex" class="occ_con" justify="start"  style="flex-wrap:wrap">
+				<el-col
+					:span="2"
 					v-for="(item, index) in titledar"
 					:key="index"
+					class="ipfs_con_tit"
 				>
 					<div class="alltitle">
 						<img :src="item.url" alt />
 						<span>{{ item.contit }}</span>
 					</div>
 					<div class="allnum">{{ item.connum }}</div>
-				</div>
-			</div>
+				</el-col>
+			</el-row>
 		</div>
 		<div class="select_sort" v-if="ipfsdata.length > 0">
-			<div>
+			<div style="display: flex;flex-wrap: wrap;">
+                <div class="local_search_item">
+                <span>节点一级渠道商：</span>
+				<el-select
+					v-model="firstchan_value"
+					placeholder="请选择节点类型"
+					@change="searchdata"
+				>
+					<el-option label="全部" value=""></el-option>
+					<el-option
+						v-for="(item,index) in firstchan"
+						:key="item.value+index"
+						:label="item.name"
+						:value="item.value"
+					></el-option>
+				</el-select>
+                </div>
+                <div class="local_search_item">
 				<span>设备类型：</span>
 				<el-select
 					v-model="devicevalue"
@@ -162,6 +187,8 @@
 						:value="item.name"
 					></el-option>
 				</el-select>
+                </div>
+                <div class="local_search_item">
 				<span>硬件类型：</span>
 				<el-select
 					v-model="hardwarevalue"
@@ -176,6 +203,8 @@
 						:value="item.name"
 					></el-option>
 				</el-select>
+                </div>
+                <div class="local_search_item">
 				<span>操作系统：</span>
 				<el-select
 					v-model="osvalue"
@@ -190,24 +219,11 @@
 						:value="item.name"
 					></el-option>
 				</el-select>
-				<!-- <span>节点网络运营商：</span>
-				<el-select
-					v-model="operatovalue"
-					placeholder="请选择设备类型"
-					@change="searchdata"
-				>
-					<el-option label="全部" value=""></el-option>
-					<el-option
-						v-for="item in operatorlist"
-						:key="item.name"
-						:label="item.name"
-						:value="item.name"
-					></el-option>
-				</el-select> -->
-				<el-button type="primary" @click="uopset">重置</el-button>
+                </div>
+				<el-button type="primary" @click="uopset" style="margin-left: 10px;margin-top: 20px;">重置</el-button>
 			</div>
-			<div>
-				<span>排序：</span>
+			<div class="sort_list">
+				<span class="sort_title">排序：</span>
 				<el-select
 					v-model="value"
 					placeholder="请选择排序方式"
@@ -227,6 +243,7 @@
 				<i class="el-icon-document-delete" style="font-size:80px"></i>
 				<p>暂无数据</p>
 			</div>
+            
 			<div
 				class="ipfs_item"
 				v-for="(item, index) in ipfsdata"
@@ -293,7 +310,7 @@
 					<p>
 						节点ID：
 					</p>
-					<p style="word-wrap:break-word;word-break:normal;">
+					<p style="word-wrap:break-word;word-break:normal;text-align: left;">
 						{{ item.nodeId }}
 					</p>
 				</div>
@@ -371,11 +388,11 @@ export default {
 				},
 				{
 					value: 1,
-					label: '可用空间降序',
+					label: '可用容量降序',
 				},
 				{
 					value: 2,
-					label: '可用空间升序',
+					label: '可用容量升序',
 				},
 				{
 					value: 3,
@@ -429,11 +446,13 @@ export default {
 			devicevalue: '',
 			hardwarevalue: '',
 			osvalue: '',
-			operatovalue: '',
+            operatovalue: '',
 			device_type: [],
 			hardware_type: [],
 			oslist: [],
-			operatorlist: [],
+            operatorlist: [],
+            firstchan:[],
+             firstchan_value:"",
 		};
 	},
 	components: {
@@ -473,7 +492,8 @@ export default {
 			this.operatovalue = '';
 			this.osvalue = '';
 			this.hardwarevalue = '';
-			this.devicevalue = '';
+            this.devicevalue = '';
+            this.firstchan_value="",
 			this.value = 0;
 			this.getipfsdata();
 		},
@@ -487,7 +507,8 @@ export default {
 						this.hardware_type = res.data.arch;
 						this.device_type = res.data.device_type;
 						this.operatorlist = res.data.isp;
-						this.oslist = res.data.os;
+                        this.oslist = res.data.os;
+                        this.firstchan=res.data.firstchan;
 					} else {
 						this.$message.error(res.err_msg);
 					}
@@ -510,16 +531,14 @@ export default {
 							obj.contit = item;
 							obj.connum = res.data.nodeCount[index];
 							titlist.push(obj);
-                        });
+						});
 						this.titledar = titlist;
 						this.dar[1].connum = res.data.onlineCount;
 						this.dar[2].connum = this.common.formatBytes(
 							res.data.totalCap
 						);
 						let numcap = res.data.totalCap - res.data.remainingCap;
-						this.dar[3].connum = this.common.formatBytes(
-							numcap
-						);
+						this.dar[3].connum = this.common.formatBytes(numcap);
 						this.dar[4].connum = this.common.formatBytes(
 							res.data.remainingCap
 						);
@@ -541,7 +560,7 @@ export default {
 			parmas.os = this.osvalue;
 			parmas.arch = this.hardwarevalue;
 			parmas.devicetype = this.devicevalue;
-			parmas.firstchid = '';
+			parmas.firstchid = this.firstchan_value;
 			parmas.secondchid = '';
 			parmas.enableFlag = -1;
 			parmas.order = this.value;
@@ -655,14 +674,10 @@ export default {
 
 <style lang="scss" scoped>
 .content {
-	width: 1920px;
+	// width: 1920px;
 	height: 100%;
 	background: rgb(255, 255, 255);
 	margin: auto;
-	margin-top: 30px;
-	margin-left: 30px;
-	margin-right: 30px;
-	margin-bottom: 30px;
 	.bread_crumbs {
 		width: 100%;
 		padding-bottom: 37px;
@@ -703,53 +718,48 @@ export default {
 			color: #000000;
 			display: none;
 		}
-		.ipfs_con {
-			// width: 100%;
-			// height: 123px;
-			display: flex;
-			.ipfs_con_tit {
-				width: 245px;
-				height: 117px;
-				background: rgba(255, 255, 255, 1);
-				border: 1px solid rgba(216, 226, 240, 1);
-				box-shadow: 0px 12px 36px 0px rgba(211, 215, 221, 0.4);
-				border-radius: 4px;
-				text-align: left;
-				padding: 2px 10px;
-				overflow: hidden;
-				margin-top: 20px;
-				margin-right: 20px;
-				.alltitle {
-					display: inline-block;
+		.ipfs_con_tit {
+			background: rgba(255, 255, 255, 1);
+			border: 1px solid rgba(216, 226, 240, 1);
+			box-shadow: 0px 12px 36px 0px rgba(211, 215, 221, 0.4);
+			border-radius: 4px;
+			text-align: left;
+			padding: 2px 10px;
+			// margin-top: 20px;
+			overflow: hidden;
+			.alltitle {
+				height: 45px;
+				display: flex;
+				align-items: center;
+				color: #929292;
+				font-size: 18px;
+				img {
+					width: 27px;
+				}
+				span {
+					font-size: 12px;
 					height: 45px;
+					word-wrap: break-word;
 					display: flex;
 					align-items: center;
-					line-height: 45px;
-					color: #929292;
-					font-size: 18px;
-					img {
-						width: 15%;
-					}
-					span {
-						font-size: 12px;
-					}
 				}
-				.allnum {
-					line-height: 40px;
-					color: #1c1a1d;
-					font-size: 26px;
-				}
+			}
+			.allnum {
+				line-height: 40px;
+				color: #1c1a1d;
+				font-size: 24px;
 			}
 		}
 		.occ_con {
 			.ipfs_con_tit {
-				width: 165px;
 				border: none;
 				background: none;
 				height: auto;
+                margin-top: 20px;
+                margin-right: 35px;
 				.alltitle {
 					img {
-						width: 30%;
+						width: 27px;
 					}
 				}
 			}
@@ -768,15 +778,15 @@ export default {
 		display: flex;
 		flex-flow: row wrap;
 		.ipfs_item {
-			width: 270px;
+			width: 14%;
 			// height: 400px;
 			padding: 23px;
 			background: rgba(255, 255, 255, 1);
 			border: 1px solid rgba(216, 226, 240, 1);
 			box-shadow: 0px 0px 18px 0px rgba(211, 215, 221, 0.4);
 			border-radius: 3px;
-			margin-left: 42px;
-			margin-right: 42px;
+			margin-left: 3%;
+			margin-right: 3%;
 			margin-top: 25px;
 			.yuan {
 				width: 10px;
@@ -797,7 +807,8 @@ export default {
 				align-items: center;
 				font-size: 14px;
 				.ipfs_text_title {
-					color: #b2b5b8;
+                    color: #b2b5b8;
+                    font-size: 12px;
 				}
 				.ipfs_text_con {
 					width: 75px;

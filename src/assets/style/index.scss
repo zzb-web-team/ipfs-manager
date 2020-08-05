@@ -91,13 +91,14 @@ body {
 }
 
 .content {
-    // width: 100%;
+    width: 100%;
     // max-width: 1920px;
     height: 100%;
     background: rgb(255, 255, 255);
-    margin: 30px;
+    // margin: 30px;
     // margin: auto;
     padding: 30px;
+    box-sizing: border-box;
 }
 
 //登录框样式
@@ -194,6 +195,22 @@ body {
     width: 366px !important;
 }
 
-// .ipfs_title_next>.ipfs_con {
-//     display: none !important;
-// }
+.sort_list {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.sort_title {
+    white-space: nowrap;
+}
+
+.local_search_item {
+    margin-left: 10px;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    span {
+        white-space: nowrap;
+    }
+}

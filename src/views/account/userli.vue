@@ -1868,7 +1868,7 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style lang="scss" scoped>
 .content {
 	min-width: 1755px;
 }

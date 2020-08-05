@@ -469,28 +469,8 @@ export default {
 		getdata(pagenum) {
 			this.maplist = [];
 			let params = new Object();
-			// params.deviceType = this.searchdata.region3;
-			// params.end_ts = this.endtime;
-			// params.firstChannel = this.searchdata.region1;
-			// params.isp = '*';
-			// params.nodeId = '*';
-			// params.secondChannel = this.searchdata.region2;
-			// params.start_ts = this.starttime;
-			// if (this.searchdata.region4 == '*') {
-			// 	params.region = '*';
-			// 	params.city = '*';
-			// } else {
-			// 	params.region = this.searchdata.region4[1];
-			// 	params.city = '*';
-			// }
-			// if (params.end_ts - params.start_ts > 86400) {
-			// 	params.timeUnit = 1440;
-			// } else {
-			// 	params.timeUnit = 60;
-			// }
 			params.page = pagenum;
 			node_countinfo(params)
-				// query_ipfs_node_region_dist(params)
 				.then((res) => {
 					if (res.status == 0) {
 						this.sheng_list = this.sheng_list.concat(
@@ -502,40 +482,22 @@ export default {
 						type_list.unshift('全部节点');
 						type_list.unshift('省市');
 						this.dev_ytpe_list = type_list;
-
-						console.log(this.dev_ytpe_list);
-
 						if (res.data.remaining <= 0) {
 							this.sheng_list.forEach((item) => {
 								let obj = {};
 								obj.name = item.province.replace('市', '');
 								obj.name = obj.name.replace('省', '');
-								obj.data = item.data;
-								obj.value = this.leijiasum(item.data);
+								obj.data = item.nodeCount;
+								obj.value = this.leijiasum(item.nodeCount);
 								obj.data.unshift(obj.value);
 								arr.push(obj);
 							});
-							console.log(arr);
 						} else {
 							pagenum++;
 							this.getdata(pagenum);
 						}
-                        console.log(arr);
                         arr.sort(this.sortData);
 						this.maplist = arr;
-						// let arr = [];
-						// var entries = Object.entries(res.data);
-						// entries.forEach((item, index) => {
-						// 	let obj = {};
-						// 	obj.name = item[0].replace('市', '');
-						// 	obj.name = obj.name.replace('省', '');
-						// 	obj.value = item[1].totalCount;
-						// 	obj.newCount = item[1].newCount;
-						// 	obj.totalPercent = item[1].totalPercent;
-						// 	arr.push(obj);
-						// });
-						// this.maplist = arr;
-						// console.log(this.maplist);
 						this.drawLine();
 					} else {
 						this.$message.error(res.err_msg);
@@ -713,9 +675,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.content {
-	min-width: 1920px;
-}
+// .content {
+// 	min-width: 1920px;
+// }
 .top_search {
 	text-align: left;
 	margin-top: 20px;
@@ -734,7 +696,9 @@ export default {
 }
 .mapdal {
 	ol {
-		width: 700px;
+        // width: 700px;
+        min-width: 460px;
+        max-width: 700px;
 		height: 700px;
 		overflow-y: auto;
 		border: 1px solid #eeeeee;
@@ -742,7 +706,7 @@ export default {
 		// border-collapse:collapse;
 	}
 	ol > li {
-		width: 100%;
+        width: 100%;
 		// border: 1px solid #eeeeee;
 		height: 45px;
 		line-height: 45px;

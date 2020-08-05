@@ -160,7 +160,7 @@ sessionStorage.setItem('southwest_region', JSON.stringify(num));
 <style lang="scss" scoped>
 .content {
 	background: rgb(255, 255, 255);
-	margin: 30px;
+	// margin: 30px;
 	.bread_crumbs {
 		width: 100%;
 		padding-bottom: 37px;

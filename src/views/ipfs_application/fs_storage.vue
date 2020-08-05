@@ -724,7 +724,7 @@ export default {
 	// max-width: 1920px;
 	height: 100%;
 	background: rgb(255, 255, 255);
-	margin: 30px;
+	// margin: 30px;
 	padding: 37px;
 	// .bread_crumbs {
 	//   width: 100%;

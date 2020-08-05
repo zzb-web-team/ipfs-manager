@@ -225,11 +225,12 @@
 						{{ scope.row.dataflow | formatBytes }}
 					</template>
 				</el-table-column>
-				<el-table-column prop="bondWidth" label="占用带宽">
+				<el-table-column prop="bondwidth" label="占用带宽">
 					<template slot-scope="scope">
 						<span v-if="scope.row.dataflow == 0">0Mbps</span>
+                        <span v-else-if="scope.row.timeuse == 0">0Mbps</span>
 						<span v-else
-							>{{ scope.row.bondWidth
+							>{{ scope.row.bondwidth
 							}}{{
 								(
 									scope.row.dataflow /
