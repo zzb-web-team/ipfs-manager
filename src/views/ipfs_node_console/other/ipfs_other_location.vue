@@ -766,20 +766,19 @@ export default {
 	}
 	.ipfs_box {
 		width: 100%;
-		padding: 37px;
+		// padding: 37px;
 		justify-content: center;
 		display: flex;
 		flex-flow: row wrap;
 		.ipfs_item {
-			width: 14%;
-			// height: 400px;
+			width: 19%;
 			padding: 23px;
 			background: rgba(255, 255, 255, 1);
 			border: 1px solid rgba(216, 226, 240, 1);
 			box-shadow: 0px 0px 18px 0px rgba(211, 215, 221, 0.4);
 			border-radius: 3px;
-			margin-left: 3%;
-			margin-right: 3%;
+			margin-left: 0.5%;
+			margin-right: 0.5%;
 			margin-top: 25px;
 			.yuan {
 				width: 10px;
@@ -808,7 +807,13 @@ export default {
 					overflow: hidden;
 				}
 			}
-		}
+        }
+         .ipfs_item:nth-child(2),.ipfs_item:nth-child(7) {
+            margin-left: 0;
+        }
+        .ipfs_item:last-child,.ipfs_item:nth-child(6) {
+            margin-right: 0;
+        }
 	}
 }
 .eema {

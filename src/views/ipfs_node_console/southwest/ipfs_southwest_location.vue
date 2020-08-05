@@ -54,7 +54,12 @@
 					<div class="allnum">{{ item.connum }}</div>
 				</el-col>
 			</el-row>
-			<el-row type="flex" class="occ_con" justify="start"  style="flex-wrap:wrap">
+			<el-row
+				type="flex"
+				class="occ_con"
+				justify="start"
+				style="flex-wrap:wrap"
+			>
 				<el-col
 					:span="2"
 					v-for="(item, index) in titledar"
@@ -85,7 +90,12 @@
 					<div class="allnum">{{ item.connum }}</div>
 				</el-col>
 			</el-row>
-			<el-row type="flex" class="occ_con" justify="start"  style="flex-wrap:wrap">
+			<el-row
+				type="flex"
+				class="occ_con"
+				justify="start"
+				style="flex-wrap:wrap"
+			>
 				<el-col
 					:span="2"
 					v-for="(item, index) in titledar"
@@ -116,7 +126,12 @@
 					<div class="allnum">{{ item.connum }}</div>
 				</el-col>
 			</el-row>
-			<el-row type="flex" class="occ_con" justify="start"  style="flex-wrap:wrap">
+			<el-row
+				type="flex"
+				class="occ_con"
+				justify="start"
+				style="flex-wrap:wrap"
+			>
 				<el-col
 					:span="2"
 					v-for="(item, index) in titledar"
@@ -147,7 +162,12 @@
 					<div class="allnum">{{ item.connum }}</div>
 				</el-col>
 			</el-row>
-			<el-row type="flex" class="occ_con" justify="start"  style="flex-wrap:wrap">
+			<el-row
+				type="flex"
+				class="occ_con"
+				justify="start"
+				style="flex-wrap:wrap"
+			>
 				<el-col
 					:span="2"
 					v-for="(item, index) in titledar"
@@ -178,7 +198,12 @@
 					<div class="allnum">{{ item.connum }}</div>
 				</el-col>
 			</el-row>
-			<el-row type="flex" class="occ_con" justify="start"  style="flex-wrap:wrap">
+			<el-row
+				type="flex"
+				class="occ_con"
+				justify="start"
+				style="flex-wrap:wrap"
+			>
 				<el-col
 					:span="2"
 					v-for="(item, index) in titledar"
@@ -195,71 +220,76 @@
 		</div>
 		<div class="select_sort" v-if="ipfsdata.length > 0">
 			<div style="display: flex;flex-wrap: wrap;">
-                <div class="local_search_item">
-                <span>节点一级渠道商：</span>
-				<el-select
-					v-model="firstchan_value"
-					placeholder="请选择节点类型"
-					@change="searchdata"
+				<div class="local_search_item">
+					<span>节点一级渠道商：</span>
+					<el-select
+						v-model="firstchan_value"
+						placeholder="请选择节点类型"
+						@change="searchdata"
+					>
+						<el-option label="全部" value=""></el-option>
+						<el-option
+							v-for="(item, index) in firstchan"
+							:key="item.value + index"
+							:label="item.name"
+							:value="item.value"
+						></el-option>
+					</el-select>
+				</div>
+				<div class="local_search_item">
+					<span>设备类型：</span>
+					<el-select
+						v-model="devicevalue"
+						placeholder="请选择设备类型"
+						@change="searchdata"
+					>
+						<el-option label="全部" value=""></el-option>
+						<el-option
+							v-for="item in device_type"
+							:key="item.name"
+							:label="item.name"
+							:value="item.name"
+						></el-option>
+					</el-select>
+				</div>
+				<div class="local_search_item">
+					<span>硬件类型：</span>
+					<el-select
+						v-model="hardwarevalue"
+						placeholder="请选择设备类型"
+						@change="searchdata"
+					>
+						<el-option label="全部" value=""></el-option>
+						<el-option
+							v-for="item in hardware_type"
+							:key="item.name"
+							:label="item.name"
+							:value="item.name"
+						></el-option>
+					</el-select>
+				</div>
+				<div class="local_search_item">
+					<span>操作系统：</span>
+					<el-select
+						v-model="osvalue"
+						placeholder="请选择设备类型"
+						@change="searchdata"
+					>
+						<el-option label="全部" value=""></el-option>
+						<el-option
+							v-for="item in oslist"
+							:key="item.name"
+							:label="item.name"
+							:value="item.name"
+						></el-option>
+					</el-select>
+				</div>
+				<el-button
+					type="primary"
+					@click="uopset"
+					style="margin-left: 10px;margin-top: 20px;"
+					>重置</el-button
 				>
-					<el-option label="全部" value=""></el-option>
-					<el-option
-						v-for="(item,index) in firstchan"
-						:key="item.value+index"
-						:label="item.name"
-						:value="item.value"
-					></el-option>
-				</el-select>
-                </div>
-                <div class="local_search_item">
-				<span>设备类型：</span>
-				<el-select
-					v-model="devicevalue"
-					placeholder="请选择设备类型"
-					@change="searchdata"
-				>
-					<el-option label="全部" value=""></el-option>
-					<el-option
-						v-for="item in device_type"
-						:key="item.name"
-						:label="item.name"
-						:value="item.name"
-					></el-option>
-				</el-select>
-                </div>
-                <div class="local_search_item">
-				<span>硬件类型：</span>
-				<el-select
-					v-model="hardwarevalue"
-					placeholder="请选择设备类型"
-					@change="searchdata"
-				>
-					<el-option label="全部" value=""></el-option>
-					<el-option
-						v-for="item in hardware_type"
-						:key="item.name"
-						:label="item.name"
-						:value="item.name"
-					></el-option>
-				</el-select>
-                </div>
-                <div class="local_search_item">
-				<span>操作系统：</span>
-				<el-select
-					v-model="osvalue"
-					placeholder="请选择设备类型"
-					@change="searchdata"
-				>
-					<el-option label="全部" value=""></el-option>
-					<el-option
-						v-for="item in oslist"
-						:key="item.name"
-						:label="item.name"
-						:value="item.name"
-					></el-option>
-				</el-select>
-                </div>
-				<el-button type="primary" @click="uopset" style="margin-left: 10px;margin-top: 20px;">重置</el-button>
 			</div>
 			<div class="sort_list">
 				<span class="sort_title">排序：</span>
@@ -286,7 +316,7 @@
 				class="ipfs_item"
 				v-for="(item, index) in ipfsdata"
 				:key="index"
-				@click="godetail(item,index)"
+				@click="godetail(item, index)"
 				v-show="!showdata"
 			>
 				<div
@@ -296,9 +326,9 @@
 						class="yuan"
 						v-bind:style="{ background: item.bgccolor }"
 					></div>
-					<span v-bind:style="{ color: item.bgccolor }"
-						>{{ item.devstatus }}</span
-					>
+					<span v-bind:style="{ color: item.bgccolor }">{{
+						item.devstatus
+					}}</span>
 				</div>
 				<div class="ipfs_item_img">
 					<img
@@ -338,9 +368,7 @@
 						alt
 					/>
 					<p style="text-align:center">
-						{{
-							item.firstch
-						}}
+						{{ item.firstch }}
 					</p>
 					<p style="text-align:center">
 						<span>{{ item.devicetype }}</span>
@@ -350,7 +378,9 @@
 					<p>
 						节点ID：
 					</p>
-					<p style="word-wrap:break-word;word-break:normal;text-align: left;">
+					<p
+						style="word-wrap:break-word;word-break:normal;text-align: left;"
+					>
 						{{ item.nodeId }}
 					</p>
 				</div>
@@ -369,17 +399,23 @@
 					</li>
 					<li>
 						<span class="ipfs_text_title">总容量:</span>
-						<span class="ipfs_text_con">{{ (
-									item.totalCap /
-									1024 /
-									1024 /
-									1024
-								).toFixed(2) }}GB</span>
+						<span class="ipfs_text_con"
+							>{{
+								(item.totalCap / 1024 / 1024 / 1024).toFixed(2)
+							}}GB</span
+						>
 					</li>
 					<li>
 						<span class="ipfs_text_title">剩余容量:</span>
 						<span class="ipfs_text_con"
-							>{{ (item.remainingCap/1024/1024/1024).toFixed(2) }}GB</span
+							>{{
+								(
+									item.remainingCap /
+									1024 /
+									1024 /
+									1024
+								).toFixed(2)
+							}}GB</span
 						>
 					</li>
 				</ol>
@@ -401,8 +437,8 @@ import fenye from '@/components/fenye';
 import {
 	query_node,
 	ipfs_region_summary,
-    get_nodetype_enum,
-    nodesinfo_byarea
+	get_nodetype_enum,
+	nodesinfo_byarea,
 } from '../../../servers/api';
 export default {
 	data() {
@@ -437,19 +473,19 @@ export default {
 					label: '上行带宽升序',
 				},
 			],
-            titledar: [],
-           dar:[
-// {
-                //     contit: '云链节点',
+			titledar: [],
+			dar: [
+				// {
+				//     contit: '云链节点',
 				// 	connum: 0,
 				// 	url: require('../../../assets/img/armjiedian.png'),
-                // },
-                //                     {
-                //                         contit: 'PC西柚机节点',
-                //                         connum: 0,
-                //                         url: require('../../../assets/img/xjiedian.png'),
-                //                     },
-                // {
+				// },
+				//                     {
+				//                         contit: 'PC西柚机节点',
+				//                         connum: 0,
+				//                         url: require('../../../assets/img/xjiedian.png'),
+				//                     },
+				// {
 				// 	contit: 'rouji节点',
 				// 	connum: 0,
 				// 	url: require('../../../assets/img/armjiedian.png'),
@@ -509,27 +545,27 @@ export default {
 			device_type: [],
 			hardware_type: [],
 			oslist: [],
-            operatorlist: [],
-             firstchan:[],
-             firstchan_value:"",
+			operatorlist: [],
+			firstchan: [],
+			firstchan_value: '',
 		};
 	},
 	components: {
 		fenye,
 	},
 	mounted() {
-        this.get_search_data();
-        if (sessionStorage.getItem('search_condition')) {
+		this.get_search_data();
+		if (sessionStorage.getItem('search_condition')) {
 			let search_data = JSON.parse(
 				sessionStorage.getItem('search_condition')
-            );
+			);
 			this.operatovalue = search_data.isp;
 			this.osvalue = search_data.os;
 			this.hardwarevalue = search_data.arch;
 			this.devicevalue = search_data.devicetype;
 			this.value = search_data.order;
-        }
-        if (this.$route.query.node_city) {
+		}
+		if (this.$route.query.node_city) {
 			this.setmap_show(this.$route.query.node_num);
 		}
 		if (sessionStorage.getItem('southwest_location')) {
@@ -537,23 +573,22 @@ export default {
 				JSON.parse(sessionStorage.getItem('southwest_location'))
 			);
 		} else {
-            this.gettit();
-            this.getipfsdata();
+			this.gettit();
+			this.getipfsdata();
 		}
 	},
 	methods: {
-        searchdata(){
-            this.currentPage=1;
-            this.getipfsdata();
-        },
+		searchdata() {
+			this.currentPage = 1;
+			this.getipfsdata();
+		},
 		uopset() {
-            this.currentPage=1;
+			this.currentPage = 1;
 			this.operatovalue = '';
 			this.osvalue = '';
 			this.hardwarevalue = '';
-            this.devicevalue = '';
-            this.firstchan_value="",
-             this.value=0;
+			this.devicevalue = '';
+			(this.firstchan_value = ''), (this.value = 0);
 			this.getipfsdata();
 		},
 		get_search_data() {
@@ -566,8 +601,8 @@ export default {
 						this.hardware_type = res.data.arch;
 						this.device_type = res.data.device_type;
 						this.operatorlist = res.data.isp;
-                        this.oslist = res.data.os;
-                        this.firstchan=res.data.firstchan;
+						this.oslist = res.data.os;
+						this.firstchan = res.data.firstchan;
 					} else {
 						this.$message.error(res.err_msg);
 					}
@@ -590,16 +625,14 @@ export default {
 							obj.contit = item;
 							obj.connum = res.data.nodeCount[index];
 							titlist.push(obj);
-                        });
+						});
 						this.titledar = titlist;
 						this.dar[1].connum = res.data.onlineCount;
 						this.dar[2].connum = this.common.formatBytes(
 							res.data.totalCap
 						);
 						let numcap = res.data.totalCap - res.data.remainingCap;
-						this.dar[3].connum = this.common.formatBytes(
-							numcap
-						);
+						this.dar[3].connum = this.common.formatBytes(numcap);
 						this.dar[4].connum = this.common.formatBytes(
 							res.data.remainingCap
 						);
@@ -625,18 +658,18 @@ export default {
 			parmas.firstchid = this.firstchan_value;
 			parmas.secondchid = '';
 			parmas.enableFlag = -1;
-            parmas.order = this.value;
-            sessionStorage.setItem('search_condition', JSON.stringify(parmas));
+			parmas.order = this.value;
+			sessionStorage.setItem('search_condition', JSON.stringify(parmas));
 			query_node(parmas)
 				.then((res) => {
 					if (res.status == 0) {
-                        this.dar[0].connum = res.data.total;
+						this.dar[0].connum = res.data.total;
 						if (res.data.result.length <= 0) {
 							this.showdata = true;
 							this.$message('暂无数据');
 						} else {
 							this.showdata = false;
-                            this.totalCnt = res.data.total;
+							this.totalCnt = res.data.total;
 							this.ipfsdata = [];
 							res.data.result.forEach((item, index) => {
 								//上行带宽-总
@@ -656,8 +689,8 @@ export default {
 								//下行带宽-剩余
 								item.downbandwidth_rema = item.remainingBW.substring(
 									item.remainingBW.indexOf('/') + 1
-                                );
-                                //上行带宽-使用
+								);
+								//上行带宽-使用
 								item.upbandwidth_occ = item.occupyBW.substring(
 									0,
 									item.occupyBW.lastIndexOf('/')
@@ -700,8 +733,8 @@ export default {
 				this.citys = '西藏';
 			} else {
 				this.citys = '贵州';
-            }
-            sessionStorage.setItem('southwest_location', JSON.stringify(num));
+			}
+			sessionStorage.setItem('southwest_location', JSON.stringify(num));
 			this.getipfsdata();
 			this.$forceUpdate();
 			this.gettit();
@@ -716,8 +749,11 @@ export default {
 			this.pagesize = pagetol;
 			// this.getipfsdata();
 		},
-		godetail(dat,num) {
-			sessionStorage.setItem('serdata', JSON.stringify(this.ipfsdata[num]));
+		godetail(dat, num) {
+			sessionStorage.setItem(
+				'serdata',
+				JSON.stringify(this.ipfsdata[num])
+			);
 			this.$router.push({
 				path: '/ipfs_location_details',
 				query: {
@@ -727,7 +763,7 @@ export default {
 				},
 			});
 		},
-    },
+	},
 };
 </script>
 
@@ -814,8 +850,8 @@ export default {
 				border: none;
 				background: none;
 				height: auto;
-                margin-top: 20px;
-                margin-right: 35px;
+				margin-top: 20px;
+				margin-right: 35px;
 				.alltitle {
 					img {
 						width: 27px;
@@ -832,20 +868,19 @@ export default {
 	}
 	.ipfs_box {
 		width: 100%;
-		padding: 37px;
+		// padding: 37px;
 		justify-content: center;
 		display: flex;
 		flex-flow: row wrap;
 		.ipfs_item {
-			width: 14%;
-			// height: 400px;
+			width: 19%;
 			padding: 23px;
 			background: rgba(255, 255, 255, 1);
 			border: 1px solid rgba(216, 226, 240, 1);
 			box-shadow: 0px 0px 18px 0px rgba(211, 215, 221, 0.4);
 			border-radius: 3px;
-			margin-left: 3%;
-			margin-right: 3%;
+			margin-left: 0.5%;
+			margin-right: 0.5%;
 			margin-top: 25px;
 			.yuan {
 				width: 10px;
@@ -874,6 +909,14 @@ export default {
 					overflow: hidden;
 				}
 			}
+		}
+		.ipfs_item:nth-child(2),
+		.ipfs_item:nth-child(7) {
+			margin-left: 0;
+		}
+		.ipfs_item:last-child,
+		.ipfs_item:nth-child(6) {
+			margin-right: 0;
 		}
 	}
 }

@@ -197,12 +197,15 @@ body {
 
 .sort_list {
     display: flex;
-    align-items: center;
+    // align-items: center;
     margin-top: 20px;
+    margin-right: 1%;
 }
 
 .sort_title {
     white-space: nowrap;
+    height: 40px;
+    line-height: 40px;
 }
 
 .local_search_item {
@@ -213,4 +216,8 @@ body {
     span {
         white-space: nowrap;
     }
+}
+
+.ipfs_title_next {
+    margin-right: 1%;
 }
