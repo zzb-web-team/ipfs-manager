@@ -83,7 +83,7 @@
 					<el-option label="全部" value="*"></el-option>
 					<el-option
 						v-for="item in firstchan"
-						:key="item.name"
+						:key="item.value+'dsd'"
 						:label="item.name"
 						:value="item.value"
 					></el-option>
@@ -97,7 +97,7 @@
 					<el-option label="全部" value="*"></el-option>
 					<el-option
 						v-for="item in secondchan"
-						:key="item.name"
+						:key="item.value+'dsf'"
 						:label="item.name"
 						:value="item.value"
 					></el-option>

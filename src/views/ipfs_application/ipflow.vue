@@ -103,7 +103,7 @@
 					<el-option value="*" label="全部"></el-option>
 					<el-option
 						v-for="item in firstchan"
-						:key="item.name"
+						:key="item.value"
 						:label="item.name"
 						:value="item.value"
 					></el-option>
@@ -117,7 +117,7 @@
 					<el-option value="*" label="全部"></el-option>
 					<el-option
 						v-for="item in secondchan"
-						:key="item.name"
+						:key="item.value"
 						:label="item.name"
 						:value="item.value"
 					></el-option>

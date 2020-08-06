@@ -1,4 +1,4 @@
 {
-    "editor.fontSize": 16,
-    "editor.fontLigatures": false
+    "editor.fontLigatures": false,
+    "editor.mouseWheelZoom": true
 }

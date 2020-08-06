@@ -136,11 +136,13 @@
 						prop="secondch"
 						label="节点二级渠道"
 					></el-table-column>
-
 					<el-table-column
-						prop="H"
 						label="节点算力"
-					></el-table-column>
+					>
+                      <template slot-scope="scope">
+                        <span>{{scope.row.H}}</span>
+                    </template>
+                    </el-table-column>
 				</el-table>
 			</div>
 			<div v-if="radio == '2'">
@@ -165,7 +167,7 @@
 						label="节点二级渠道"
 					></el-table-column>
 					<el-table-column prop="onlineDur" label="当日在线时长">
-						<template slot-scope="scopew">
+						<template slot-scope="scope">
 							<span>{{ scope.row.onlineDur | s_h }}</span>
 						</template>
 					</el-table-column>
@@ -184,7 +186,8 @@
 					<el-table-column
 						prop="H"
 						label="当前算力"
-					></el-table-column>
+					>
+                    </el-table-column>
 					<el-table-column prop="startTS" sortable label="时间">
 						<template slot-scope="scope">{{
 							scope.row.date
@@ -211,8 +214,8 @@ import {
 	getymdtime,
 	setbatime,
 	dateFormat,
-    menudisable,
-    formatterDate
+	menudisable,
+	formatterDate,
 } from '../../servers/sevdate';
 import {
 	node_pv,
@@ -303,17 +306,17 @@ export default {
 		if (sessionStorage.getItem('search_condition')) {
 			let search_data = JSON.parse(
 				sessionStorage.getItem('search_condition')
-            );
-            this.radio=search_data.radio;
-            this.showState=search_data.state;
-            this.input = search_data.IP;
-            if(search_data.nodeId!=""){
-                this.input = search_data.nodeId;
-            }else if(search_data.IP!=''){
-                this.input = search_data.IP;
-            }else{
-                this.input='';
-            }
+			);
+			this.radio = search_data.radio;
+			this.showState = search_data.state;
+			this.input = search_data.IP;
+			if (search_data.nodeId != '') {
+				this.input = search_data.nodeId;
+			} else if (search_data.IP != '') {
+				this.input = search_data.IP;
+			} else {
+				this.input = '';
+			}
 			if ((search_data.channel1 = '')) {
 				this.firstchid == '*';
 			} else {
@@ -323,20 +326,20 @@ export default {
 				this.secondchid == '*';
 			} else {
 				this.secondchid = search_data.channel2;
-            }
-            if(search_data.dateStart){
-                let arr = [];
-                arr[0] = formatterDate(search_data.dateStart);
-                arr[1] = formatterDate(search_data.dateEnd);
-                this.time_value = arr;
-            }
-            this.switch_table();
-		}else{
-            this.seachuser();
-        }
-            let munulist = JSON.parse(localStorage.getItem('menus'));
-            let pathname = this.$route.path;
-            this.menutype = menudisable(munulist, pathname);
+			}
+			if (search_data.dateStart) {
+				let arr = [];
+				arr[0] = formatterDate(search_data.dateStart);
+				arr[1] = formatterDate(search_data.dateEnd);
+				this.time_value = arr;
+			}
+			this.switch_table();
+		} else {
+			this.seachuser();
+		}
+		let munulist = JSON.parse(localStorage.getItem('menus'));
+		let pathname = this.$route.path;
+		this.menutype = menudisable(munulist, pathname);
 	},
 	methods: {
 		getShow() {
@@ -349,6 +352,24 @@ export default {
 			this.secondchid = '';
 			this.time_value = '';
 			this.chil_disable = true;
+			let day1 = new Date();
+			let day2 = new Date();
+			day1.setTime(day1.getTime() - 6 * 24 * 60 * 60 * 1000);
+			day2.setTime(day2.getTime() - 24 * 60 * 60 * 1000);
+			let s1 =
+				day1.getFullYear() +
+				'-' +
+				(day1.getMonth() + 1) +
+				'-' +
+				day1.getDate();
+			let s2 =
+				day2.getFullYear() +
+				'-' +
+				(day2.getMonth() + 1) +
+				'-' +
+				day2.getDate();
+			this.starttime = s1;
+			this.endtime = s2;
 			this.seachuser();
 		},
 		//切换视图
@@ -357,7 +378,7 @@ export default {
 			this.seachuser();
 		},
 		handleChangefirst(val) {
-            this.secondchid='*';
+			this.secondchid = '*';
 			this.currentPage = 1;
 			if (val == '*' || val == '') {
 				this.chil_disable = true;
@@ -387,11 +408,24 @@ export default {
 					this.endtime = dateFormat(this.time_value[1]);
 					this.get_node_h_detail();
 				} else {
-					// var day1 = new Date();
-					// day1.setTime(day1.getTime() - 24 * 60 * 60 * 1000);
-					// this.starttime =day1.getFullYear() +'-' +(day1.getMonth() + 1) +'-' +day1.getDate();
-					this.starttime = dateFormat(new Date());
-					this.endtime = dateFormat(new Date());
+					let day1 = new Date();
+					let day2 = new Date();
+					day1.setTime(day1.getTime() - 6 * 24 * 60 * 60 * 1000);
+					day2.setTime(day2.getTime() - 24 * 60 * 60 * 1000);
+					let s1 =
+						day1.getFullYear() +
+						'-' +
+						(day1.getMonth() + 1) +
+						'-' +
+						day1.getDate();
+					let s2 =
+						day2.getFullYear() +
+						'-' +
+						(day2.getMonth() + 1) +
+						'-' +
+						day2.getDate();
+					this.starttime = s1;
+					this.endtime = s2;
 					this.get_node_h_detail();
 				}
 			}
@@ -414,7 +448,7 @@ export default {
 		},
 		//获取数据
 		get_node_h() {
-			this.tableData = [];
+			
 			let params = new Object();
 			let ipsos = /^(\d{1,3}\.{1}){3}((\d{1,3}){1})$/;
 			if (ipsos.test(this.input) == true) {
@@ -441,6 +475,7 @@ export default {
 			sessionStorage.setItem('search_condition', JSON.stringify(params));
 			node_pv(params)
 				.then((res) => {
+                    this.tableData = [];
 					// this.tableData = res.data;
 					res.data.forEach((item) => {
 						this.firstchan.forEach((fitem) => {
@@ -453,20 +488,15 @@ export default {
 										}
 									});
 								}
-							}
+                            }
 						});
 						this.tableData.push(item);
 					});
+					this.totalCnt = res.dataCount;
 
 					if (res.data && this.tableData.length > 0) {
 						this.showdisable1 = false;
 					}
-					console.log(res);
-					// if(res.status==0){
-					//     this.tableData=res.data;
-					// }else{
-					//     this.$message.error(res.errMsg);
-					// }
 				})
 				.catch((error) => {
 					console.log(error);
@@ -580,7 +610,12 @@ export default {
 		//获取页码
 		getpage(pages) {
 			this.currentPage = pages;
-			this.seachuser();
+			if (this.radio == 1) {
+				this.get_node_h();
+			} else {
+				this.get_node_h_detail();
+			}
+			// this.seachuser();
 		},
 		//获取每页数量
 		gettol(pagetol) {
@@ -595,9 +630,9 @@ export default {
 		rowClass() {
 			return 'text-align: center;';
 		},
-    },
-    destroyed: function() {
-        sessionStorage.removeItem('search_condition');
+	},
+	destroyed: function() {
+		sessionStorage.removeItem('search_condition');
 	},
 };
 </script>

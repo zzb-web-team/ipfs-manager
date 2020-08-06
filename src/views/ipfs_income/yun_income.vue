@@ -135,10 +135,10 @@
 					prop="P3"
 					label="节点质量评级奖励收益[单位:积分](p3)"
 				>
-                <template slot-scope="scope">
-                    <span>--</span>
-                </template>
-                </el-table-column>
+					<template slot-scope="scope">
+						<span>--</span>
+					</template>
+				</el-table-column>
 				<el-table-column
 					prop="H"
 					label="节点当日算力"
@@ -160,14 +160,17 @@
 						{{ !scope.row.UDBw ? '--' : scope.row.UDBw }}
 					</template>
 				</el-table-column> -->
-				<el-table-column
-					prop="online"
-					label="累计在线时长"
-				></el-table-column>
-				<el-table-column
-					prop="flow"
-					label="节点当日实际使用流量"
-				></el-table-column>
+				<el-table-column prop="online" label="累计在线时长">
+					<template slot-scope="scope">
+						<span>{{ scope.row.online | h_t }}</span>
+					</template>
+				</el-table-column>
+				<el-table-column prop="flow" label="节点当日实际使用流量">
+					<template slot-scope="scope">
+						<span v-if="scope.row.flow == 0">0 B</span>
+						<span v-else>{{ scope.row.flow }} GB</span>
+					</template>
+				</el-table-column>
 				<el-table-column prop="startTS" sortable label="时间">
 					<template slot-scope="scope">{{ scope.row.date }}</template>
 				</el-table-column>
@@ -258,6 +261,23 @@ export default {
 				return time;
 			}
 		},
+		h_t(time) {
+			if (time == 0) {
+				return 0;
+			} else {
+				if (time > 24) {
+					let day = parseInt(time / 24);
+                    let hour = time - day * 24;
+					if (hour == 0) {
+						return day + '天';
+					} else {
+						return day + '天' + hour + '小时';
+					}
+				} else {
+					return time + '小时';
+				}
+			}
+		},
 	},
 	mounted() {
 		this.get_search_data();
@@ -279,8 +299,24 @@ export default {
 			this.firstchid = '';
 			this.secondchid = '';
 			this.chil_disable = true;
-			this.starttime = dateFormat(new Date());
-			this.endtime = dateFormat(new Date());
+			let day1 = new Date();
+			let day2 = new Date();
+			day1.setTime(day1.getTime() - 6 * 24 * 60 * 60 * 1000);
+			day2.setTime(day2.getTime() - 24 * 60 * 60 * 1000);
+			let s1 =
+				day1.getFullYear() +
+				'-' +
+				(day1.getMonth() + 1) +
+				'-' +
+				day1.getDate();
+			let s2 =
+				day2.getFullYear() +
+				'-' +
+				(day2.getMonth() + 1) +
+				'-' +
+				day2.getDate();
+			this.starttime = s1;
+			this.endtime = s2;
 			this.seachuser();
 		},
 		get_search_data() {
@@ -365,7 +401,7 @@ export default {
 			this.$router.push({ path: '/update_parameter' });
 		},
 		handleChangefirst(val) {
-            this.secondchid="*";
+			this.secondchid = '*';
 			this.currentPage = 1;
 			if (val == '*' || val == '') {
 				this.chil_disable = true;
@@ -391,11 +427,24 @@ export default {
 				this.starttime = dateFormat(this.time_value[0]);
 				this.endtime = dateFormat(this.time_value[1]);
 			} else {
-				// var day1 = new Date();
-				// day1.setTime(day1.getTime() - 24 * 60 * 60 * 1000);
-				// this.starttime =day1.getFullYear() +'-' +(day1.getMonth() + 1) +'-' +day1.getDate();
-				this.starttime = dateFormat(new Date());
-				this.endtime = dateFormat(new Date());
+				let day1 = new Date();
+				let day2 = new Date();
+				day1.setTime(day1.getTime() - 6 * 24 * 60 * 60 * 1000);
+				day2.setTime(day2.getTime() - 24 * 60 * 60 * 1000);
+				let s1 =
+					day1.getFullYear() +
+					'-' +
+					(day1.getMonth() + 1) +
+					'-' +
+					day1.getDate();
+				let s2 =
+					day2.getFullYear() +
+					'-' +
+					(day2.getMonth() + 1) +
+					'-' +
+					day2.getDate();
+				this.starttime = s1;
+				this.endtime = s2;
 			}
 			this.get_income_list();
 		},
