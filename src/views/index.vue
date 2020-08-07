@@ -60,7 +60,7 @@
 										:class="item.icon"
 										style="margin-right: 10px;margin-left: 10px;"
 									></i>
-									<span>{{ item.name}}</span>
+									<span>{{ item.name }}</span>
 								</template>
 
 								<!-- 二级菜单 -->
@@ -76,7 +76,6 @@
 										<template slot="title">
 											<i :class="itemChild.icon"></i>
 											<span>{{ itemChild.name }}</span>
-                                            
 										</template>
 
 										<!-- 三级菜单 -->
@@ -106,9 +105,19 @@
 										"
 									>
 										<i :class="itemChild.icon"></i>
-										<span slot="title">{{
-											itemChild.name=='ip流量'?'IP流量':itemChild.name
-										}}</span>
+										<span
+											slot="title"
+											v-if="itemChild.name == 'ip流量'"
+											>IP流量</span
+										>
+										<span
+											v-else-if="
+												itemChild.name == '云链节点算力'
+											"
+										>
+											节点算力
+										</span>
+										<span v-else>{{ itemChild.name }}</span>
 									</el-menu-item>
 								</template>
 							</el-submenu>
@@ -119,7 +128,6 @@
 							>
 								<i :class="item.icon"></i>
 								<span slot="title">{{ item.name }}</span>
-                                
 							</el-menu-item>
 						</template>
 					</el-menu>
@@ -367,7 +375,7 @@ export default {
 				// background-color: #272731;
 				box-sizing: border-box;
 				// color: #ffffff;
-                margin: auto;
+				margin: auto;
 			}
 		}
 	}
