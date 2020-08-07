@@ -460,11 +460,11 @@ export default {
 				},
 				{
 					value: 1,
-					label: '可用容量降序',
+					label: '剩余容量降序',
 				},
 				{
 					value: 2,
-					label: '可用容量升序',
+					label: '剩余容量升序',
 				},
 				{
 					value: 3,

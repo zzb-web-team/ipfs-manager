@@ -107,6 +107,7 @@
 				border
 				:cell-style="rowClass"
 				:header-cell-style="headClass"
+				@sort-change="tablechange"
 				style="width: 100%"
 			>
 				<el-table-column prop="nodeId" label="节点ID"></el-table-column>
@@ -162,13 +163,12 @@
 				</el-table-column> -->
 				<el-table-column prop="online" label="累计在线时长">
 					<template slot-scope="scope">
-						<span>{{ scope.row.online | h_t }}</span>
+						<span>{{ scope.row.online | s_h }}</span>
 					</template>
 				</el-table-column>
 				<el-table-column prop="flow" label="节点当日实际使用流量">
 					<template slot-scope="scope">
-						<span v-if="scope.row.flow == 0">0 B</span>
-						<span v-else>{{ scope.row.flow }} GB</span>
+						<span>{{ scope.row.flow |bkb }}</span>
 					</template>
 				</el-table-column>
 				<el-table-column prop="startTS" sortable label="时间">
@@ -196,6 +196,7 @@ import {
 	setbatime,
 	dateFormat,
 	menudisable,
+	zhuanbkbs,
 } from '../../servers/sevdate';
 import { node_pf_detail, export_excel, get_nodetype_enum } from '@/servers/api';
 export default {
@@ -206,7 +207,7 @@ export default {
 			firstchid: '',
 			secondchid: '',
 			showdisable: true,
-			order: 0,
+			order: 1,
 			pageNo: 1,
 			currentPage: 1,
 			totalCnt: 1,
@@ -256,26 +257,16 @@ export default {
 		},
 		s_h(time) {
 			if (time !== 0) {
-				return parseInt(time / 60 / 60);
+				return formatDuring(time);
 			} else {
 				return time;
 			}
 		},
-		h_t(time) {
-			if (time == 0) {
-				return 0;
+		bkb(data) {
+			if (data == 0) {
+				return 0 + 'B';
 			} else {
-				if (time > 24) {
-					let day = parseInt(time / 24);
-                    let hour = time - day * 24;
-					if (hour == 0) {
-						return day + '天';
-					} else {
-						return day + '天' + hour + '小时';
-					}
-				} else {
-					return time + '小时';
-				}
+				return zhuanbkbs(data);
 			}
 		},
 	},
@@ -485,6 +476,16 @@ export default {
 				.catch((error) => {
 					console.log(error);
 				});
+		},
+		//排序
+		tablechange(column) {
+			console.log(column);
+			if (column.order == 'descending') {
+				this.order = 1;
+			} else {
+				this.order = 0;
+			}
+			this.get_income_list();
 		},
 		//获取页码
 		getpage(pages) {

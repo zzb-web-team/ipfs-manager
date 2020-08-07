@@ -151,6 +151,7 @@
 					border
 					:cell-style="rowClass"
 					:header-cell-style="headClass"
+                    @sort-change="tablechange"
 					style="width: 100%"
 				>
 					<el-table-column
@@ -215,7 +216,8 @@ import {
 	setbatime,
 	dateFormat,
 	menudisable,
-	formatterDate,
+    formatterDate,
+    formatDuring
 } from '../../servers/sevdate';
 import {
 	node_pv,
@@ -234,7 +236,7 @@ export default {
 			secondchid: '',
 			showdisable1: true,
 			showdisable2: true,
-			order: 0,
+			order: 1,
 			pageNo: 1,
 			currentPage: 1,
 			totalCnt: 0,
@@ -285,19 +287,9 @@ export default {
 		},
 		s_h(time) {
 			if (time !== 0) {
-				if (time % 24 == 0) {
-					return time / 24 + '天';
-				} else {
-					if (parseInt(time / 24) <= 0) {
-						return time + '小时';
-					} else {
-						return (
-							parseInt(time / 24) + '天' + (time % 24) + '小时'
-						);
-					}
-				}
+				return formatDuring(time);
 			} else {
-				return time + '小时';
+				return time;
 			}
 		},
 	},
@@ -606,6 +598,15 @@ export default {
 				.catch((error) => {
 					console.log(error);
 				});
+        },
+        tablechange(column) {
+			console.log(column);
+			if (column.order == 'descending') {
+				this.order = 1;
+			} else {
+				this.order = 0;
+			}
+			this.get_node_h_detail();
 		},
 		//获取页码
 		getpage(pages) {

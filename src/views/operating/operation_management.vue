@@ -139,7 +139,7 @@
 					></el-table-column>
 					<el-table-column
 						prop="time_create"
-						sortable
+						
 						label="操作时间"
 						><template slot-scope="scope">
 							<span>{{ scope.row.time_create | getymd }}</span>
