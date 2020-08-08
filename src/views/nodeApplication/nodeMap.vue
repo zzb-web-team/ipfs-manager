@@ -708,7 +708,7 @@ export default {
 .mapdal {
 	ol {
 		// width: 700px;
-		min-width: 460px;
+		min-width: 345px;
 		max-width: 700px;
 		height: 700px;
 		overflow-y: auto;
