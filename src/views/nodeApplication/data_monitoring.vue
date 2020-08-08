@@ -850,6 +850,7 @@ export default {
 							downarrlist,
 							'max'
                         );
+                        //console.log(this.downbandwidth);
                         this.downbandwidth_unit=bandwidth_unit_conversion(this.downbandwidth)[1];
 						this.upbandwidth = this.getMaximin(uparrlist, 'max');
 						this.averageup = this.pingjun(uparrlist);
@@ -1995,7 +1996,8 @@ export default {
 		},
 		exportant_dataflow() {},
 		firstsharts(echartsdata) {
-			let _this = this;
+            let _this = this;
+            console.log(echartsdata);
 			let chartdom = document.getElementById('firstChart');
 			chartdom.style.width = this._width + 'px';
 			let myChart = echarts.init(chartdom); //这里是为了获得容器所在位置
@@ -2065,7 +2067,8 @@ export default {
 					{
 						type: 'bar',
 						data: echartsdata.map(function(item) {
-							return bandwidth_unit(item.value,_this.downbandwidth_unit);
+                            return bandwidth_unit(item.value,_this.downbandwidth_unit);
+                            //return item.value
 						}),
 						// Set `large` for large data amount
 						large: true,

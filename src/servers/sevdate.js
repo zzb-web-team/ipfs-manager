@@ -240,9 +240,21 @@ export function bandwidth_unit_conversion(data) {
         } else if (data / 1024 / 1024 < 1000) {
             num = (data / 1024 / 1024).toFixed(2)
             return [num, "Gbps"]
-        } else {
+        } else if (data / 1024 / 1024 / 1024 < 1000) {
             num = (data / 1024 / 1024 / 1024).toFixed(2)
             return [num, "Tbps"]
+        } else if (data / 1024 / 1024 / 1024 / 1024 < 1000) {
+            num = (data / 1024 / 1024 / 1024 / 1024).toFixed(2)
+            return [num, "Pbps"]
+        } else if (data / 1024 / 1024 / 1024 / 1024 / 1024 < 1000) {
+            num = (data / 1024 / 1024 / 1024 / 1024 / 1024).toFixed(2)
+            return [num, "Ebps"]
+        } else if (data / 1024 / 1024 / 1024 / 1024 / 1024 / 1024 < 1000) {
+            num = (data / 1024 / 1024 / 1024 / 1024 / 1024 / 1024).toFixed(2)
+            return [num, "Zbps"]
+        } else {
+            num = (data / 1024 / 1024 / 1024 / 1024 / 1024 / 1024).toFixed(2)
+            return [num, "Zbps"]
         }
 
     }
@@ -262,7 +274,19 @@ export function bandwidth_unit(data, data_unit) {
             num = (data / 1024 / 1024).toFixed(2);
             return num
         } else if (data_unit == "Tbps") {
-            num = (data_unit / 1024 / 1024 / 1024).toFixed(2);
+            num = (data / 1024 / 1024 / 1024).toFixed(2);
+            return num
+        } else if (data_unit == "Pbps") {
+            num = (data / 1024 / 1024 / 1024).toFixed(2);
+            return num
+        } else if (data_unit == "Ebps") {
+            num = (data / 1024 / 1024 / 1024 / 1024).toFixed(2);
+            return num
+        } else if (data_unit == "Zbps") {
+            num = (data / 1024 / 1024 / 1024 / 1024 / 1024).toFixed(2);
+            return num
+        } else {
+            num = (data / 1024 / 1024 / 1024 / 1024 / 1024).toFixed(2);
             return num
         }
 
