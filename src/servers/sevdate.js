@@ -277,16 +277,16 @@ export function bandwidth_unit(data, data_unit) {
             num = (data / 1024 / 1024 / 1024).toFixed(2);
             return num
         } else if (data_unit == "Pbps") {
-            num = (data / 1024 / 1024 / 1024).toFixed(2);
-            return num
-        } else if (data_unit == "Ebps") {
             num = (data / 1024 / 1024 / 1024 / 1024).toFixed(2);
             return num
-        } else if (data_unit == "Zbps") {
+        } else if (data_unit == "Ebps") {
             num = (data / 1024 / 1024 / 1024 / 1024 / 1024).toFixed(2);
             return num
+        } else if (data_unit == "Zbps") {
+            num = (data / 1024 / 1024 / 1024 / 1024 / 1024 / 1024).toFixed(2);
+            return num
         } else {
-            num = (data / 1024 / 1024 / 1024 / 1024 / 1024).toFixed(2);
+            num = (data / 1024 / 1024 / 1024 / 1024 / 1024 / 1024).toFixed(2);
             return num
         }
 

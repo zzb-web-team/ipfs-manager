@@ -1997,7 +1997,7 @@ export default {
 		exportant_dataflow() {},
 		firstsharts(echartsdata) {
             let _this = this;
-            console.log(echartsdata);
+            // console.log(echartsdata);
 			let chartdom = document.getElementById('firstChart');
 			chartdom.style.width = this._width + 'px';
 			let myChart = echarts.init(chartdom); //这里是为了获得容器所在位置
