@@ -497,7 +497,9 @@ export default {
 							this.getdata(pagenum);
 						}
                         arr.sort(this.sortData);
-						this.maplist = arr;
+                        //去重 key为省份
+                        this.maplist = this.deWeightThree(arr,"name");
+                          console.log(arr);
 						this.drawLine();
 					} else {
 						this.$message.error(res.err_msg);
@@ -507,6 +509,15 @@ export default {
 		},
 		sortData(a, b) {
 			return b.value - a.value;
+		},
+		deWeightThree(arr, sname) {
+			let map = new Map();
+			for (let item of arr) {
+				if (!map.has(item[sname])) {
+					map.set(item[sname], item);
+				}
+			}
+			return [...map.values()];
 		},
 		drawLine() {
 			var _this = this;
@@ -696,9 +707,9 @@ export default {
 }
 .mapdal {
 	ol {
-        // width: 700px;
-        min-width: 460px;
-        max-width: 700px;
+		// width: 700px;
+		min-width: 460px;
+		max-width: 700px;
 		height: 700px;
 		overflow-y: auto;
 		border: 1px solid #eeeeee;
@@ -706,7 +717,7 @@ export default {
 		// border-collapse:collapse;
 	}
 	ol > li {
-        width: 100%;
+		width: 100%;
 		// border: 1px solid #eeeeee;
 		height: 45px;
 		line-height: 45px;
@@ -752,7 +763,8 @@ export default {
 	// border: 1px solid #7d7d7d;
 	// border-collapse:collapse;s
 }
-.conname:first-child,.conname_tit:first-child {
+.conname:first-child,
+.conname_tit:first-child {
 	text-align: center;
 	padding-left: 10px;
 }

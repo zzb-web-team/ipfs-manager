@@ -205,12 +205,12 @@
 
 				<el-tab-pane label="带宽" name="first">
 					<el-row>
-						<el-col :span="5" class="top_title">
-							<p>{{ upbandwidth }}Mbps/{{ downbandwidth }}Mbps</p>
+						<el-col :span="6" class="top_title">
+							<p>{{ upbandwidth |bandwith_unit}}{{downbandwidth_unit}}/{{ downbandwidth |bandwith_unit}}{{downbandwidth_unit}}</p>
 							<p>节点带宽峰值（上/下行）</p>
 						</el-col>
-						<el-col :span="5" class="top_title">
-							<p>{{ averageup }}Mbps/{{ averagedown }}Mbps</p>
+						<el-col :span="6" class="top_title">
+							<p>{{ averageup |bandwith_unit}}{{downbandwidth_unit}}/{{ averagedown |bandwith_unit}}{{downbandwidth_unit}}</p>
 							<p>节点带宽平均值（上/下行）</p>
 						</el-col>
 					</el-row>
@@ -339,7 +339,9 @@ import {
 	get_units,
 	formatBkb,
 	menudisable,
-	formatterDate,
+    formatterDate,
+    bandwidth_unit_conversion,
+    bandwidth_unit
 } from '../../servers/sevdate';
 import echarts from 'echarts';
 export default {
@@ -347,7 +349,8 @@ export default {
 		return {
 			activeName: 'first',
 			radio1: '1',
-			_width: '',
+            _width: '',
+            downbandwidth_unit:"Kbps",
 			upbandwidth: 0,
 			downbandwidth: 0,
 			averageup: 0,
@@ -718,7 +721,14 @@ export default {
 				e = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
 				f = Math.floor(Math.log(a) / Math.log(c));
 			return parseFloat((a / Math.pow(c, f)).toFixed(d)) + ' ' + e[f];
-		},
+        },
+        bandwith_unit(data){
+            if(data<=0){
+                return 0;
+            }else{
+                return bandwidth_unit_conversion(data)[0];
+            }
+        }
 	},
 	methods: {
 		getJson() {
@@ -839,7 +849,8 @@ export default {
 						this.downbandwidth = this.getMaximin(
 							downarrlist,
 							'max'
-						);
+                        );
+                        this.downbandwidth_unit=bandwidth_unit_conversion(this.downbandwidth)[1];
 						this.upbandwidth = this.getMaximin(uparrlist, 'max');
 						this.averageup = this.pingjun(uparrlist);
 						this.averagedown = this.pingjun(downarrlist);
@@ -2021,7 +2032,7 @@ export default {
 							'<br />' +
 							'带宽：' +
 							params[0].value +
-							'Mbps'
+							_this.downbandwidth_unit
 						);
 					},
 				},
@@ -2048,29 +2059,29 @@ export default {
 					splitArea: {
 						show: false,
 					},
-					name: 'Mbps',
+					name:_this.downbandwidth_unit,
 				},
 				series: [
 					{
 						type: 'bar',
 						data: echartsdata.map(function(item) {
-							return item.value;
+							return bandwidth_unit(item.value,_this.downbandwidth_unit);
 						}),
 						// Set `large` for large data amount
 						large: true,
-						markPoint: {
-							data: [
-								{ type: 'max', name: '最大值' },
-								{ type: 'min', name: '最小值' },
-							],
-							label: {
-								normal: {
-									formatter: '{c}',
-									color: '#ffffff',
-								},
-							},
-							itemStyle: { color: '#409EFF' },
-						},
+						// markPoint: {
+						// 	data: [
+						// 		{ type: 'max', name: '最大值' },
+						// 		{ type: 'min', name: '最小值' },
+						// 	],
+						// 	label: {
+						// 		normal: {
+						// 			formatter: '{c}',
+						// 			color: '#ffffff',
+						// 		},
+						// 	},
+						// 	itemStyle: { color: '#409EFF' },
+						// },
 						itemStyle: {
 							normal: {
 								color: '#409EFF',

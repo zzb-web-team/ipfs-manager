@@ -72,6 +72,8 @@
 										"
 										:index="itemChild.path"
 										:key="itemChild.path"
+                                        class="two_menu_tit"
+                                       
 									>
 										<template slot="title">
 											<i :class="itemChild.icon"></i>
@@ -84,6 +86,7 @@
 											:index="itemChild_Child.path"
 											:key="itemChild_Child.path"
 											v-show="itemChild_Child.hidden != 1"
+                                            class="there_menu"
 										>
 											<i
 												:class="itemChild_Child.icon"
@@ -103,6 +106,7 @@
 												itemChild.name != '节点详情' &&
 												itemChild.name != '调整收益参数'
 										"
+                                        class="two_menu"
 									>
 										<i :class="itemChild.icon"></i>
 										<span

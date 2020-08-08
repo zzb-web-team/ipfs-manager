@@ -612,20 +612,22 @@ export default {
 				});
 		},
 		//获取头部预览信息
-		gettit() {
+	gettit() {
+            let titlist = [];
 			let parmas = new Object();
 			parmas.province = this.citys;
 			nodesinfo_byarea(parmas)
 				.then((res) => {
 					if (res.status == 0) {
-						let titlist = [];
-						res.data.nodeType.forEach((item, index) => {
-							let obj = {};
-							obj.url = require('../../../assets/img/armjiedian.png');
-							obj.contit = item;
-							obj.connum = res.data.nodeCount[index];
-							titlist.push(obj);
-						});
+						if (res.data.nodeType) {
+							res.data.nodeType.forEach((item, index) => {
+								let obj = {};
+								obj.url = require('../../../assets/img/armjiedian.png');
+								obj.contit = item;
+								obj.connum = res.data.nodeCount[index];
+								titlist.push(obj);
+							});
+						}
 						this.titledar = titlist;
 						this.dar[1].connum = res.data.onlineCount;
 						this.dar[2].connum = this.common.formatBytes(
@@ -735,9 +737,9 @@ export default {
 				this.citys = '贵州';
 			}
 			sessionStorage.setItem('southwest_location', JSON.stringify(num));
-			this.getipfsdata();
-			this.$forceUpdate();
 			this.gettit();
+			this.uopset();
+			this.$forceUpdate();
 		},
 		//获取页码
 		getpage(pages) {

@@ -500,6 +500,8 @@ import {
 	zhuanbkbs,
 	msToDate,
 	formatterDate,
+	formatBkb,
+	get_units,
 } from '../../servers/sevdate';
 import {
 	ipfs_dataflow_query_conditions,
@@ -864,7 +866,11 @@ export default {
 			var k = 1024,
 				sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
 				i = Math.floor(Math.log(bytes) / Math.log(k));
-			return (bytes / Math.pow(k, i)).toFixed(2) + ' ' + sizes[i];
+			if (sizes[i] == 'TB' || sizes[i] == 'PB') {
+				return (bytes / Math.pow(k, i)).toFixed(4) + ' ' + sizes[i];
+			} else {
+				return (bytes / Math.pow(k, i)).toFixed(2) + ' ' + sizes[i];
+			}
 		},
 	},
 	components: {
@@ -936,7 +942,8 @@ export default {
 						this.valuebfs = '';
 						this.optionsb = city_list[this.valueafs[1]].cities;
 					}
-                    this.valuebfs =search_data.city == '*' ? '' : search_data.city;
+					this.valuebfs =
+						search_data.city == '*' ? '' : search_data.city;
 					this.firstvaluea_fs =
 						search_data.first_channel == '*'
 							? ''
@@ -959,9 +966,9 @@ export default {
 			this.endtime = Date.parse(new Date()) / 1000;
 			this.ip_curve();
 		}
-			let munulist = JSON.parse(localStorage.getItem('menus'));
-			let pathname = this.$route.path;
-			this.menutype = menudisable(munulist, pathname);
+		let munulist = JSON.parse(localStorage.getItem('menus'));
+		let pathname = this.$route.path;
+		this.menutype = menudisable(munulist, pathname);
 	},
 	beforeDestroy() {
 		if (!this.chart) {
@@ -1023,6 +1030,21 @@ export default {
 				this.city_disable_fs = false;
 				this.valuebfs = '';
 				this.fs_curve();
+			}
+		},
+		getMaximin(arr, maximin) {
+			var max = arr[0];
+			var min = arr[arr.length - 1];
+			if (maximin == 'max') {
+				for (var i = 1; i < arr.length; i++) {
+					if (max < arr[i]) max = arr[i];
+				}
+				return max;
+			} else if (maximin == 'min') {
+				for (var i = 1; i < arr.length; i++) {
+					if (min > arr[i]) min = arr[i];
+				}
+				return min;
 			}
 		},
 		//请求数据--ip节点曲线,
@@ -1091,16 +1113,25 @@ export default {
 					if (res.status == 0) {
 						this.totalOutputCnt = res.data.totalOutputCnt;
 						this.totalDataFlow = res.data.totalDataFlow;
+						let maxnum = this.getMaximin(
+							res.data.dataFlowArray,
+							'max'
+						);
+						let max_unit = get_units(maxnum);
+						console.log(max_unit);
 						res.data.dataFlowArray.forEach((item) => {
 							this.dataFlowArray.push(
-								(item / 1024 / 1024 / 1024).toFixed(2)
+								formatBkb(item, max_unit)
+								// (item / 1024 / 1024 / 1024).toFixed(2)
 							);
 						});
+						console.log(res.data.dataFlowArray);
+						console.log(this.dataFlowArray);
 						// this.dataFlowArray = res.data.dataFlowArray;
 						res.data.timeArray.forEach((item, index) => {
 							this.timeArray.push(getday(item));
 						});
-						this.drawLine();
+						this.drawLine(max_unit);
 						this.get_ip_table();
 					} else {
 						this.$message.error(res.errMsg);
@@ -1179,15 +1210,21 @@ export default {
 						this.totalStoreTimes = res.data.totalStoreTimes;
 						this.totalStoreUsage = res.data.totalStoreUsage;
 						// this.storeUsageArray = res.data.storeUsageArray;
+						let maxnum = this.getMaximin(
+							res.data.storeUsageArray,
+							'max'
+						);
+						let max_unit = get_units(maxnum);
+						console.log(max_unit);
 						res.data.storeUsageArray.forEach((item) => {
 							this.storeUsageArray.push(
-								(item / 1024 / 1024 / 1024).toFixed(2)
+								formatBkb(item, max_unit)
 							);
 						});
 						res.data.timeArray.forEach((item, index) => {
 							this.fs_timeArray.push(getday(item));
 						});
-						this.drawLine1();
+						this.drawLine1(max_unit);
 						this.get_fs_table();
 					} else {
 						this.$message.error(res.errMsg);
@@ -1464,7 +1501,7 @@ export default {
 			this.value2fs = '';
 		},
 		handleChangefirst(val) {
-            this.secondvalue='*';
+			this.secondvalue = '*';
 			if (val == '*' || val == '') {
 				this.secondvalue = '';
 				this.chil_disable = true;
@@ -1483,7 +1520,7 @@ export default {
 			this.ip_curve();
 		},
 		handleChangefirst_fs(val) {
-            this.secondvalue_fs='*';
+			this.secondvalue_fs = '*';
 			if (val == '*' || val == '') {
 				this.secondvalue_fs = '';
 				this.chil_disable_fs = true;
@@ -1639,7 +1676,8 @@ export default {
 		rowClass() {
 			return 'text-align: center;';
 		},
-		drawLine() {
+		drawLine(data_unit) {
+			let _this = this;
 			// 基于准备好的dom，初始化echarts实例
 			let myChart = this.$echarts.init(
 				document.getElementById('myChart')
@@ -1658,6 +1696,15 @@ export default {
 							color: '#999',
 						},
 					},
+					formatter: function(params, ticket, callback) {
+						return (
+							params[0].name +
+							'<br />' +
+							'流量' +
+							params[0].value +
+							data_unit
+						);
+					},
 				},
 				xAxis: {
 					data: this.timeArray,
@@ -1671,7 +1718,7 @@ export default {
 					borderWidth: 10,
 				},
 				yAxis: {
-					name: 'GB',
+					name: data_unit,
 				},
 				series: [
 					{
@@ -1688,7 +1735,8 @@ export default {
 			};
 			myChart.setOption(options);
 		},
-		drawLine1() {
+		drawLine1(data_unit) {
+			let _this = this;
 			// 基于准备好的dom，初始化echarts实例
 			let myChart = this.$echarts.init(
 				document.getElementById('myChart1')
@@ -1707,12 +1755,21 @@ export default {
 							color: '#999',
 						},
 					},
+					formatter: function(params, ticket, callback) {
+						return (
+							params[0].name +
+							'<br />' +
+							'容量' +
+							params[0].value +
+							data_unit
+						);
+					},
 				},
 				xAxis: {
 					data: this.fs_timeArray,
 				},
 				yAxis: {
-					name: 'GB',
+					name: data_unit,
 				},
 				grid: {
 					x: 70,

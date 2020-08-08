@@ -51,7 +51,12 @@
 					<div class="allnum">{{ item.connum }}</div>
 				</el-col>
 			</el-row>
-			<el-row type="flex" class="occ_con" justify="start"  style="flex-wrap:wrap">
+			<el-row
+				type="flex"
+				class="occ_con"
+				justify="start"
+				style="flex-wrap:wrap"
+			>
 				<el-col
 					:span="2"
 					v-for="(item, index) in titledar"
@@ -82,7 +87,12 @@
 					<div class="allnum">{{ item.connum }}</div>
 				</el-col>
 			</el-row>
-			<el-row type="flex" class="occ_con" justify="start"  style="flex-wrap:wrap">
+			<el-row
+				type="flex"
+				class="occ_con"
+				justify="start"
+				style="flex-wrap:wrap"
+			>
 				<el-col
 					:span="2"
 					v-for="(item, index) in titledar"
@@ -113,7 +123,12 @@
 					<div class="allnum">{{ item.connum }}</div>
 				</el-col>
 			</el-row>
-			<el-row type="flex" class="occ_con" justify="start"  style="flex-wrap:wrap">
+			<el-row
+				type="flex"
+				class="occ_con"
+				justify="start"
+				style="flex-wrap:wrap"
+			>
 				<el-col
 					:span="2"
 					v-for="(item, index) in titledar"
@@ -144,7 +159,12 @@
 					<div class="allnum">{{ item.connum }}</div>
 				</el-col>
 			</el-row>
-			<el-row type="flex" class="occ_con" justify="start"  style="flex-wrap:wrap">
+			<el-row
+				type="flex"
+				class="occ_con"
+				justify="start"
+				style="flex-wrap:wrap"
+			>
 				<el-col
 					:span="2"
 					v-for="(item, index) in titledar"
@@ -175,7 +195,12 @@
 					<div class="allnum">{{ item.connum }}</div>
 				</el-col>
 			</el-row>
-			<el-row type="flex" class="occ_con" justify="start"  style="flex-wrap:wrap">
+			<el-row
+				type="flex"
+				class="occ_con"
+				justify="start"
+				style="flex-wrap:wrap"
+			>
 				<el-col
 					:span="2"
 					v-for="(item, index) in titledar"
@@ -192,71 +217,76 @@
 		</div>
 		<div class="select_sort" v-if="ipfsdata.length > 0">
 			<div style="display: flex;flex-wrap: wrap;">
-                <div class="local_search_item">
-                <span>节点一级渠道商：</span>
-				<el-select
-					v-model="firstchan_value"
-					placeholder="请选择节点类型"
-					@change="searchdata"
+				<div class="local_search_item">
+					<span>节点一级渠道商：</span>
+					<el-select
+						v-model="firstchan_value"
+						placeholder="请选择节点类型"
+						@change="searchdata"
+					>
+						<el-option label="全部" value=""></el-option>
+						<el-option
+							v-for="(item, index) in firstchan"
+							:key="item.value + index"
+							:label="item.name"
+							:value="item.value"
+						></el-option>
+					</el-select>
+				</div>
+				<div class="local_search_item">
+					<span>设备类型：</span>
+					<el-select
+						v-model="devicevalue"
+						placeholder="请选择设备类型"
+						@change="searchdata"
+					>
+						<el-option label="全部" value=""></el-option>
+						<el-option
+							v-for="item in device_type"
+							:key="item.name"
+							:label="item.name"
+							:value="item.name"
+						></el-option>
+					</el-select>
+				</div>
+				<div class="local_search_item">
+					<span>硬件类型：</span>
+					<el-select
+						v-model="hardwarevalue"
+						placeholder="请选择设备类型"
+						@change="searchdata"
+					>
+						<el-option label="全部" value=""></el-option>
+						<el-option
+							v-for="item in hardware_type"
+							:key="item.name"
+							:label="item.name"
+							:value="item.name"
+						></el-option>
+					</el-select>
+				</div>
+				<div class="local_search_item">
+					<span>操作系统：</span>
+					<el-select
+						v-model="osvalue"
+						placeholder="请选择设备类型"
+						@change="searchdata"
+					>
+						<el-option label="全部" value=""></el-option>
+						<el-option
+							v-for="item in oslist"
+							:key="item.name"
+							:label="item.name"
+							:value="item.name"
+						></el-option>
+					</el-select>
+				</div>
+				<el-button
+					type="primary"
+					@click="uopset"
+					style="margin-left: 10px;margin-top: 20px;"
+					>重置</el-button
 				>
-					<el-option label="全部" value=""></el-option>
-					<el-option
-						v-for="(item,index) in firstchan"
-						:key="item.value+index"
-						:label="item.name"
-						:value="item.value"
-					></el-option>
-				</el-select>
-                </div>
-                <div class="local_search_item">
-				<span>设备类型：</span>
-				<el-select
-					v-model="devicevalue"
-					placeholder="请选择设备类型"
-					@change="searchdata"
-				>
-					<el-option label="全部" value=""></el-option>
-					<el-option
-						v-for="item in device_type"
-						:key="item.name"
-						:label="item.name"
-						:value="item.name"
-					></el-option>
-				</el-select>
-                </div>
-                <div class="local_search_item">
-				<span>硬件类型：</span>
-				<el-select
-					v-model="hardwarevalue"
-					placeholder="请选择设备类型"
-					@change="searchdata"
-				>
-					<el-option label="全部" value=""></el-option>
-					<el-option
-						v-for="item in hardware_type"
-						:key="item.name"
-						:label="item.name"
-						:value="item.name"
-					></el-option>
-				</el-select>
-                </div>
-                <div class="local_search_item">
-				<span>操作系统：</span>
-				<el-select
-					v-model="osvalue"
-					placeholder="请选择设备类型"
-					@change="searchdata"
-				>
-					<el-option label="全部" value=""></el-option>
-					<el-option
-						v-for="item in oslist"
-						:key="item.name"
-						:label="item.name"
-						:value="item.name"
-					></el-option>
-				</el-select>
-                </div>
-				<el-button type="primary" @click="uopset" style="margin-left: 10px;margin-top: 20px;">重置</el-button>
 			</div>
 			<div class="sort_list">
 				<span class="sort_title">排序：</span>
@@ -345,7 +375,9 @@
 					<p>
 						节点ID：
 					</p>
-					<p style="word-wrap:break-word;word-break:normal;text-align: left;">
+					<p
+						style="word-wrap:break-word;word-break:normal;text-align: left;"
+					>
 						{{ item.nodeId }}
 					</p>
 				</div>
@@ -547,9 +579,9 @@ export default {
 			device_type: [],
 			hardware_type: [],
 			oslist: [],
-            operatorlist: [],
-             firstchan:[],
-             firstchan_value:"",
+			operatorlist: [],
+			firstchan: [],
+			firstchan_value: '',
 		};
 	},
 	components: {
@@ -575,7 +607,7 @@ export default {
 				JSON.parse(sessionStorage.getItem('north_location'))
 			);
 		} else {
-            this.gettit();
+			this.gettit();
 			this.getipfsdata();
 		}
 	},
@@ -589,9 +621,8 @@ export default {
 			this.operatovalue = '';
 			this.osvalue = '';
 			this.hardwarevalue = '';
-            this.devicevalue = '';
-            this.firstchan_value="",
-			this.value = 0;
+			this.devicevalue = '';
+			(this.firstchan_value = ''), (this.value = 0);
 			this.getipfsdata();
 		},
 		get_search_data() {
@@ -604,8 +635,8 @@ export default {
 						this.hardware_type = res.data.arch;
 						this.device_type = res.data.device_type;
 						this.operatorlist = res.data.isp;
-                        this.oslist = res.data.os;
-                        this.firstchan=res.data.firstchan;
+						this.oslist = res.data.os;
+						this.firstchan = res.data.firstchan;
 					} else {
 						this.$message.error(res.err_msg);
 					}
@@ -616,28 +647,28 @@ export default {
 		},
 		//获取头部预览信息
 		gettit() {
+            let titlist = [];
 			let parmas = new Object();
 			parmas.province = this.citys;
 			nodesinfo_byarea(parmas)
 				.then((res) => {
 					if (res.status == 0) {
-						let titlist = [];
-						res.data.nodeType.forEach((item, index) => {
-							let obj = {};
-							obj.url = require('../../../assets/img/armjiedian.png');
-							obj.contit = item;
-							obj.connum = res.data.nodeCount[index];
-							titlist.push(obj);
-                        });
+						if (res.data.nodeType) {
+							res.data.nodeType.forEach((item, index) => {
+								let obj = {};
+								obj.url = require('../../../assets/img/armjiedian.png');
+								obj.contit = item;
+								obj.connum = res.data.nodeCount[index];
+								titlist.push(obj);
+							});
+						}
 						this.titledar = titlist;
 						this.dar[1].connum = res.data.onlineCount;
 						this.dar[2].connum = this.common.formatBytes(
 							res.data.totalCap
 						);
 						let numcap = res.data.totalCap - res.data.remainingCap;
-						this.dar[3].connum = this.common.formatBytes(
-							numcap
-						);
+						this.dar[3].connum = this.common.formatBytes(numcap);
 						this.dar[4].connum = this.common.formatBytes(
 							res.data.remainingCap
 						);
@@ -730,6 +761,7 @@ export default {
 				.catch((error) => {});
 		},
 		setmap_show(num) {
+			console.log(num);
 			this.ipfsdata = [];
 			this.rotate = 100;
 			this.$nextTick(() => {
@@ -749,9 +781,9 @@ export default {
 				this.citys = '北京';
 			}
 			sessionStorage.setItem('north_location', JSON.stringify(num));
-			this.getipfsdata();
-			this.$forceUpdate();
 			this.gettit();
+			this.uopset();
+			this.$forceUpdate();
 		},
 		//获取页码
 		getpage(pages) {
@@ -864,8 +896,8 @@ export default {
 				border: none;
 				background: none;
 				height: auto;
-                margin-top: 20px;
-                margin-right: 35px;
+				margin-top: 20px;
+				margin-right: 35px;
 				.alltitle {
 					img {
 						width: 27px;
@@ -923,13 +955,15 @@ export default {
 					overflow: hidden;
 				}
 			}
-        }
-         .ipfs_item:nth-child(2),.ipfs_item:nth-child(7) {
-            margin-left: 0;
-        }
-        .ipfs_item:last-child,.ipfs_item:nth-child(6) {
-            margin-right: 0;
-        }
+		}
+		.ipfs_item:nth-child(2),
+		.ipfs_item:nth-child(7) {
+			margin-left: 0;
+		}
+		.ipfs_item:last-child,
+		.ipfs_item:nth-child(6) {
+			margin-right: 0;
+		}
 	}
 }
 .eema {

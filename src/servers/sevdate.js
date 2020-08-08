@@ -225,3 +225,46 @@ export function menudisable(arr, name) {
     }
 
 }
+//带宽自动转换
+export function bandwidth_unit_conversion(data) {
+    let num = 0;
+    if (data == 0) {
+        return [0, 'Kbps'];
+    } else {
+        if (data < 1000) {
+            num = data
+            return [num, "Kbps"]
+        } else if (data / 1024 < 1000) {
+            num = (data / 1024).toFixed(2)
+            return [num, "Mbps"]
+        } else if (data / 1024 / 1024 < 1000) {
+            num = (data / 1024 / 1024).toFixed(2)
+            return [num, "Gbps"]
+        } else {
+            num = (data / 1024 / 1024 / 1024).toFixed(2)
+            return [num, "Tbps"]
+        }
+
+    }
+}
+//带宽转指定单位
+export function bandwidth_unit(data, data_unit) {
+    let num = 0;
+    if (data == 0) {
+        return 0;
+    } else {
+        if (data_unit == 'Kbps') {
+            return data
+        } else if (data_unit == "Mbps") {
+            num = (data / 1024).toFixed(2);
+            return num
+        } else if (data_unit == "Gbps") {
+            num = (data / 1024 / 1024).toFixed(2);
+            return num
+        } else if (data_unit == "Tbps") {
+            num = (data_unit / 1024 / 1024 / 1024).toFixed(2);
+            return num
+        }
+
+    }
+}

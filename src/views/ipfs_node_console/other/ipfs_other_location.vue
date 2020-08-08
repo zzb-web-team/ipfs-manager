@@ -509,28 +509,28 @@ export default {
 		},
 		//获取头部预览信息
 		gettit() {
+            let titlist = [];
 			let parmas = new Object();
 			parmas.province = this.citys;
 			nodesinfo_byarea(parmas)
 				.then((res) => {
 					if (res.status == 0) {
-						 let titlist = [];
-						res.data.nodeType.forEach((item, index) => {
-							let obj = {};
-							obj.url = require('../../../assets/img/armjiedian.png');
-							obj.contit = item;
-							obj.connum = res.data.nodeCount[index];
-							titlist.push(obj);
-                        });
+						if (res.data.nodeType) {
+							res.data.nodeType.forEach((item, index) => {
+								let obj = {};
+								obj.url = require('../../../assets/img/armjiedian.png');
+								obj.contit = item;
+								obj.connum = res.data.nodeCount[index];
+								titlist.push(obj);
+							});
+						}
 						this.titledar = titlist;
 						this.dar[1].connum = res.data.onlineCount;
 						this.dar[2].connum = this.common.formatBytes(
 							res.data.totalCap
 						);
 						let numcap = res.data.totalCap - res.data.remainingCap;
-						this.dar[3].connum = this.common.formatBytes(
-							numcap
-						);
+						this.dar[3].connum = this.common.formatBytes(numcap);
 						this.dar[4].connum = this.common.formatBytes(
 							res.data.remainingCap
 						);
@@ -633,9 +633,9 @@ export default {
 				this.citys = '香港';
 			}
 			sessionStorage.setItem('other_location', JSON.stringify(num));
-			this.getipfsdata();
-			this.$forceUpdate();
 			this.gettit();
+			this.uopset();
+			this.$forceUpdate();
 		},
 		//获取页码
 		getpage(pages) {
