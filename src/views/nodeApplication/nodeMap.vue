@@ -768,4 +768,8 @@ export default {
 	text-align: center;
 	padding-left: 10px;
 }
+.conname:last-child,
+.conname_tit:last-child {
+	padding-right: 10px;
+}
 </style>
