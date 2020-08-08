@@ -793,10 +793,10 @@ export default {
 			valuecfs: '',
 			starttime: '',
 			endtime: '',
-			totalDataFlow: '',
-			totalOutputCnt: '',
-			totalStoreTimes: '',
-			totalStoreUsage: '',
+			totalDataFlow: 0,
+			totalOutputCnt: 0,
+			totalStoreTimes:0,
+			totalStoreUsage: 0,
 			dataFlowArray: [],
 			timeArray: [],
 			storeUsageArray: [],
@@ -845,7 +845,7 @@ export default {
 			return getymdtime(time);
 		},
 		zhuanbkb(bytes) {
-			if (bytes === 0) return '0 B';
+			if (bytes == 0) return '0 B';
 			if (bytes < 0) {
 				var byt = Math.abs(bytes);
 				var b = 1024,
@@ -1111,8 +1111,10 @@ export default {
 			query_ipfs_dataflow_curve(params)
 				.then((res) => {
 					if (res.status == 0) {
-						this.totalOutputCnt = res.data.totalOutputCnt;
-						this.totalDataFlow = res.data.totalDataFlow;
+                        if(res.data.totalOutputCnt){
+                            this.totalOutputCnt = res.data.totalOutputCnt;
+                            this.totalDataFlow = res.data.totalDataFlow;
+                        }
 						let maxnum = this.getMaximin(
 							res.data.dataFlowArray,
 							'max'
@@ -1207,8 +1209,10 @@ export default {
 			query_ip_store_details_curve(params)
 				.then((res) => {
 					if (res.status == 0) {
-						this.totalStoreTimes = res.data.totalStoreTimes;
-						this.totalStoreUsage = res.data.totalStoreUsage;
+                        if(res.data.totalStoreTimes){
+                            this.totalStoreTimes = res.data.totalStoreTimes;
+                            this.totalStoreUsage = res.data.totalStoreUsage;
+                        }
 						// this.storeUsageArray = res.data.storeUsageArray;
 						let maxnum = this.getMaximin(
 							res.data.storeUsageArray,
