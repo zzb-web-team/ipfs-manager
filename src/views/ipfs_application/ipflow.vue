@@ -3,14 +3,14 @@
 		<!-- 头部 -->
 		<el-breadcrumb separator="/">
 			<el-breadcrumb-item>
-				<a href="/">ip流量</a>
+				<a href="/">IP流量</a>
 			</el-breadcrumb-item>
 		</el-breadcrumb>
 		<!-- 搜索 -->
 		<div class="seach">
 			<div class="seach_top">
 				<el-input
-					placeholder="节点ip，节点id"
+					placeholder="节点IP,节点ID,渠道ID"
 					v-model="input"
 					class="input-with-select"
 					@keyup.enter.native="seachuser()"
@@ -227,18 +227,12 @@
 				</el-table-column>
 				<el-table-column prop="bondwidth" label="占用带宽">
 					<template slot-scope="scope">
-						<span v-if="scope.row.dataflow == 0">0Mbps</span>
-                        <span v-else-if="scope.row.timeuse == 0">0Mbps</span>
-						<span v-else
+						<span
 							>{{ scope.row.bondwidth
 							}}{{
-								(
-									scope.row.dataflow /
-									scope.row.timeuse /
-									1024 /
-									1024
-								).toFixed(4)
-							}}Mbps</span
+								scope.row.dataflow
+									| formbandwidth(scope.row.timeuse)
+							}}</span
 						>
 					</template>
 				</el-table-column>
@@ -440,6 +434,26 @@ export default {
 			}
 			return parseFloat((a / Math.pow(c, f)).toFixed(d)) + ' ' + e[f];
 		},
+		formbandwidth(data, time) {
+			if (data == 0 || time == 0) {
+				return 0 + 'bps';
+			} else {
+				var d = 2;
+				var c = 1024,
+					e = ['b', 'Kb', 'Mb', 'Gb', 'Tb', 'Pb', 'Eb', 'Zb', 'Yb'],
+					f = Math.floor(Math.log(data) / Math.log(c));
+				let ar_data = parseFloat(
+					(data / Math.pow(c, f) / time).toFixed(4)
+                );
+				if (ar_data*1024 <1000 && f != 0) {
+					ar_data = parseFloat(
+						((data / Math.pow(c, f) / time) * 1024).toFixed(4)
+					);
+					f = Math.floor(Math.log(data) / Math.log(c)) - 1;
+				}
+				return ar_data + ' ' + e[f] + 'ps';
+			}
+		},
 		menutype: {},
 	},
 	components: { fenye },
@@ -457,7 +471,7 @@ export default {
 	},
 	methods: {
 		handleChangefirst(val) {
-            this.secondvalue='*';
+			this.secondvalue = '*';
 			this.currentPage = 1;
 			if (val == '*' || val == '') {
 				this.secondvalue = '*';
@@ -513,12 +527,19 @@ export default {
 				params.ipfs_ip = '*';
 			} else {
 				var iporid = /^(\d{1,3}\.{1}){3}((\d{1,3}){1})$/;
-				if (iporid.test(this.input) == false) {
-					params.ipfs_id = this.input;
-					params.ipfs_ip = '*';
-				} else {
+				var ju_chanid = /^[0-9]*$/;
+				if (iporid.test(this.input) == true) {
 					params.ipfs_ip = this.input;
 					params.ipfs_id = '*';
+					params.child_id = '*';
+				} else if (this.input.substring(0, 2) == 'Ci') {
+					params.ipfs_id = this.input;
+					params.ipfs_ip = '*';
+					params.child_id = '*';
+				} else if (ju_chanid.test(this.input) == true) {
+					params.child_id = this.input * 1;
+					params.ipfs_id = '*';
+					params.ipfs_ip = '*';
 				}
 			}
 			if (!this.value) {

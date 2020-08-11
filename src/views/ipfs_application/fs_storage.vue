@@ -13,7 +13,7 @@
 		<div class="seach">
 			<div class="seach_top">
 				<el-input
-					placeholder="内容id，节点id"
+					placeholder="内容ID,节点ID,渠道ID"
 					v-model="input"
 					class="input-with-select"
 					@keyup.enter.native="seachuser()"
@@ -83,7 +83,7 @@
 					<el-option label="全部" value="*"></el-option>
 					<el-option
 						v-for="item in firstchan"
-						:key="item.value+'dsd'"
+						:key="item.value + 'dsd'"
 						:label="item.name"
 						:value="item.value"
 					></el-option>
@@ -97,7 +97,7 @@
 					<el-option label="全部" value="*"></el-option>
 					<el-option
 						v-for="item in secondchan"
-						:key="item.value+'dsf'"
+						:key="item.value + 'dsf'"
 						:label="item.name"
 						:value="item.value"
 					></el-option>
@@ -439,7 +439,7 @@ export default {
 	},
 	methods: {
 		handleChangefirst(val) {
-            this.secondvalue='*';
+			this.secondvalue = '*';
 			this.currentPage = 1;
 			if (val == '*' || val == '') {
 				this.secondvalue = '*';
@@ -495,13 +495,20 @@ export default {
 				params.ipfs_id = '*';
 				params.content_id = '*';
 			} else {
-				var iporid = /^(mp|flv|hls){1}.*/;
-				if (iporid.test(this.input) == false) {
-					params.ipfs_id = this.input;
-					params.content_id = '*';
-				} else {
+				var contentid = /^(mp|flv|hls){1}.*/;
+				var ju_chanid = /^[0-9]*$/;
+				if (contentid.test(this.input) == true) {
 					params.content_id = this.input;
 					params.ipfs_id = '*';
+					params.child_id = '*';
+				} else if (this.input.substring(0, 2) == 'Ci') {
+					params.ipfs_id = this.input;
+					params.content_id = '*';
+					params.child_id = '*';
+				} else if (ju_chanid.test(this.input) == true) {
+					params.child_id = this.input * 1;
+					params.ipfs_id = '*';
+					params.content_id = '*';
 				}
 			}
 			if (!this.value) {

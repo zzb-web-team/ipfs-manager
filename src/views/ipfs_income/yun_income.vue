@@ -293,7 +293,7 @@ export default {
 			this.chil_disable = true;
 			let day1 = new Date();
 			let day2 = new Date();
-			day1.setTime(day1.getTime() - 6 * 24 * 60 * 60 * 1000);
+			day1.setTime(day1.getTime() -7* 24 * 60 * 60 * 1000);
 			day2.setTime(day2.getTime() - 24 * 60 * 60 * 1000);
 			let s1 =
 				day1.getFullYear() +
@@ -421,7 +421,7 @@ export default {
 			} else {
 				let day1 = new Date();
 				let day2 = new Date();
-				day1.setTime(day1.getTime() - 6 * 24 * 60 * 60 * 1000);
+				day1.setTime(day1.getTime() - 7 * 24 * 60 * 60 * 1000);
 				day2.setTime(day2.getTime() - 24 * 60 * 60 * 1000);
 				let s1 =
 					day1.getFullYear() +

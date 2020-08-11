@@ -740,6 +740,7 @@ export default {
 	}
 }
 .conname_tit {
+   
 	flex-shrink: 0;
 	text-align: center;
 	width: 115px;

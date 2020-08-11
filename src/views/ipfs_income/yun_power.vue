@@ -346,7 +346,7 @@ export default {
 			this.chil_disable = true;
 			let day1 = new Date();
 			let day2 = new Date();
-			day1.setTime(day1.getTime() - 6 * 24 * 60 * 60 * 1000);
+			day1.setTime(day1.getTime() - 7 * 24 * 60 * 60 * 1000);
 			day2.setTime(day2.getTime() - 24 * 60 * 60 * 1000);
 			let s1 =
 				day1.getFullYear() +
@@ -402,7 +402,7 @@ export default {
 				} else {
 					let day1 = new Date();
 					let day2 = new Date();
-					day1.setTime(day1.getTime() - 6 * 24 * 60 * 60 * 1000);
+					day1.setTime(day1.getTime() - 7 * 24 * 60 * 60 * 1000);
 					day2.setTime(day2.getTime() - 24 * 60 * 60 * 1000);
 					let s1 =
 						day1.getFullYear() +
@@ -508,7 +508,7 @@ export default {
 			params.dateStart = this.starttime;
 			params.dateEnd = this.endtime;
 			params.order = this.order;
-			params.curPage = this.pageNo - 1;
+			params.curPage = this.currentPage - 1;
 			params.itemCount = this.pagesize;
 			if (this.firstchid == '*') {
 				params.channel1 = '';

@@ -58,7 +58,7 @@
 							</el-col>
 						</el-form-item>
 						<p class="tishi">
-							4-20字符，英文字母、汉字、数字组合，可为纯英文、汉字、数字
+							4-50字符，英文字母、汉字、数字组合，可为纯英文、汉字、数字
 						</p>
 						<el-form-item label="　 　描述" prop="description">
 							<el-col :span="11">
@@ -66,7 +66,7 @@
 									type="textarea"
 									:autosize="{ minRows: 6, maxRows: 1 }"
 									placeholder="请输入内容"
-									maxlength="30"
+									maxlength="50"
 									v-model="form.description"
 									show-word-limit
 									collapse-tags
@@ -81,7 +81,7 @@
 								:options="nawoptions"
 								:props="props"
 								:key="cascaderKey"
-								ref="refSubCat"
+								ref="cascader"
 								:show-all-levels="false"
 							></el-cascader>
 						</el-form-item>
@@ -469,7 +469,6 @@ export default {
 						let params = new Object();
 						params.name = this.form.title;
 						params.description = this.form.description;
-
 						if (this.form.userlist.length > 0) {
 							(params.userid = ''),
 								this.form.userlist.forEach((item) => {
@@ -484,12 +483,13 @@ export default {
 								params.userid.length - 1
 							);
 						}
-
 						addrole(params)
 							.then((res) => {
-								this.nawoptions = [];
-                                this.form.userlist = [];
-                                this.options=[];
+								this.$nextTick(() => {
+									this.$refs.cascader.panel.clearCheckedNodes();
+									this.nawoptions = [];
+									this.form.userlist = []; ////重置选项
+								});
 								this.form.title = '';
 								this.form.description = '';
 								this.form.titleuserlist = [];
@@ -505,6 +505,7 @@ export default {
 										'-',
 										params.name
 									);
+									this.get_user_list();
 								} else {
 									this.$message.error(res.msg);
 									this.fan.fanactionlog(
@@ -518,7 +519,7 @@ export default {
 							})
 							.catch((error) => {});
 					} else {
-						console.log(this.form.userlist);
+						// console.log(this.form.userlist);
 						let params = new Object();
 						params.roleid = this.form.id;
 						params.name = this.form.title;
@@ -540,18 +541,17 @@ export default {
 						}
 						updaterole(params)
 							.then((res) => {
-								console.log(this.form);
 								this.$nextTick(() => {
+									this.$refs.cascader.panel.clearCheckedNodes();
 									this.form.userlist = []; ////重置选项
 								});
-                                this.nawoptions = [];
-                                this.options=[];
+								this.nawoptions = [];
+								// this.options=[];
 								this.form.title = '';
 								this.form.description = '';
 								this.form.titleuserlist = [];
 								this.form.titleuserid = [];
 								this.dialogFormVisible = false;
-								console.log(this.form);
 								if (res.status == 0) {
 									this.$message.success('修改成功');
 									this.get_datalist();
@@ -581,6 +581,7 @@ export default {
 											1
 										);
 									}
+									this.get_user_list();
 								} else {
 									this.$message.error(res.msg);
 									if (this.zdata.name != params.name) {
@@ -682,7 +683,7 @@ export default {
 		},
 		//权限配置--确定
 		queChecked() {
-			console.log(this.$refs.tree);
+			// console.log(this.$refs.tree);
 			let arrlist = [];
 			let idlist = this.$refs.tree.getCheckedKeys(true);
 			idlist.forEach((item, index) => {
@@ -720,6 +721,7 @@ export default {
 				.then((res) => {
 					if (res.status == 0) {
 						this.$message.success('配置成功');
+
 						this.quanVisible = false;
 						this.get_datalist();
 						this.get_user_list();
@@ -739,10 +741,11 @@ export default {
 		//修改
 		updatahandleClick(data) {
 			console.log(data);
-            this.nawoptions = [];
-            this.options=[];
-			this.zdata = data;
+			console.log(this.options);
 			let _this = this;
+			this.nawoptions = [];
+			// this.options=[];
+			this.zdata = data;
 			this.form.userlist = [];
 			this.form.userid = [];
 			this.title = '权限分组修改';
@@ -751,13 +754,13 @@ export default {
 			this.form.title = data.name;
 			this.form.description = data.description;
 			this.form.id = data.id;
-			// this.form.userlist = data.user;
 			if (data.user.length > 0) {
 				this.updatadis = false;
 				// var id_list = "";
 				var arr = [];
 				let params = new Object();
 				var newuser = {};
+
 				data.user.forEach((item) => {
 					this.form.userid.push(item.label);
 					//   id_list += item.id + ",";
@@ -805,9 +808,8 @@ export default {
 				for (var k in newuser) {
 					this.nawoptions.push(newuser[k]);
 				}
-				this.nawoptions = this.options.concat(this.nawoptions);
+				this.nawoptions = this.nawoptions.concat(this.options);
 				this.form.userlist = arrTrans(3, arr);
-				console.log(this.nawoptions, '-**--');
 				console.log(this.form.userlist);
 			} else {
 				this.nawoptions = this.options;
@@ -824,7 +826,6 @@ export default {
 				}
 			)
 				.then(() => {
-					console.log(data);
 					let params = new Object();
 					let userstr = '';
 					if (data.user) {
@@ -847,6 +848,7 @@ export default {
 									data.name,
 									'-'
 								);
+								this.get_user_list();
 							} else {
 								this.$message.error(res.msg);
 								this.fan.fanactionlog(
@@ -885,11 +887,11 @@ export default {
 			if (value === '') {
 				callback(new Error('分组名称不能为空'));
 			} else {
+                console.log(this.str_length(value));
 				if (
-					value.replace(/[^\u0000-\u00ff]/g, 'aa').length >= 4 &&
-					value.replace(/[^\u0000-\u00ff]/g, 'aa').length <= 20
+					this.str_length(value) >= 4&&this.str_length(value) <= 50
 				) {
-					var fsdtel = /^[\u4e00-\u9fa50-9a-zA-Z]{2,10}$/;
+					var fsdtel = /^[0-9A-Za-z\u4e00-\u9fa5]{2,50}$/;
 					if (fsdtel.test(value) === false) {
 						callback(new Error('分组名称格式错误'));
 					} else {
@@ -900,8 +902,22 @@ export default {
 				}
 			}
 		},
+		str_length(data) {
+			let str = data;
+			let bytesCount = 0;
+			for (let i = 0; i < str.length; i++) {
+				let c = str.charAt(i);
+				if (/^[\u0000-\u00ff]$/.test(c)) {
+					//匹配双字节
+					bytesCount += 1;
+				} else {
+					bytesCount += 2;
+				}
+			}
+			return bytesCount;
+		},
 		jioregion(rule, value, callback) {
-			console.log(value);
+			// console.log(value);
 			if (value === '') {
 				callback(new Error('请选择分组用户'));
 			} else {
