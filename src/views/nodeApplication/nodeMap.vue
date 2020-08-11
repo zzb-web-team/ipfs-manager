@@ -85,12 +85,9 @@
 				id="myChartChina"
 				:style="{ width: '100%', height: '800px' }"
 			></div>
-			<div>
-				<!-- <div style="text-align: left;margin-bottom: 10px;font-size: 16px;">
-					节点数量统计
-				</div> -->
+			<!-- <div>
 				<ol>
-					<li>
+					<li class="tab_title">
 						<div
 							class="conname_tit"
 							v-for="(item, index) in dev_ytpe_list"
@@ -100,8 +97,6 @@
 						</div>
 					</li>
 					<li v-for="(item, index) in maplist" :key="index">
-						<div class="conname">{{ item.name }}</div>
-						<!-- <div class="conname">{{ item.value }}</div> -->
 						<div
 							class="conname"
 							v-for="(xitem, index) in item.data"
@@ -111,6 +106,27 @@
 						</div>
 					</li>
 				</ol>
+			</div> -->
+			<div class="el_tab">
+				<el-table
+					:data="maplist"
+					:cell-style="rowClass"
+					:header-cell-style="headClass"
+					style="width: 100%"
+					height="700"
+					fixed
+				>
+					<el-table-column
+						v-for="(item, key) in dev_ytpe_lists"
+						:key="key"
+						:prop="item.value"
+						:label="item.name"
+						width="150"
+						:fixed="item.name == '省市' ? true : false"
+					>
+						<template slot="header">{{ item.name }}</template>
+					</el-table-column>
+				</el-table>
 			</div>
 		</div>
 	</div>
@@ -397,6 +413,7 @@ export default {
 			endtime: 0,
 			sheng_list: [],
 			dev_ytpe_list: [],
+			dev_ytpe_lists: [],
 		};
 	},
 	mounted() {
@@ -470,6 +487,9 @@ export default {
 			this.maplist = [];
 			let params = new Object();
 			params.page = pagenum;
+			if (pagenum == 0) {
+				this.dev_ytpe_lists = [];
+			}
 			node_countinfo(params)
 				.then((res) => {
 					if (res.status == 0) {
@@ -481,6 +501,21 @@ export default {
 						type_list = res.data.nodeType;
 						type_list.unshift('全部节点');
 						type_list.unshift('省市');
+						if (pagenum == 0) {
+							let zaobj = {};
+							type_list.forEach((col, i) => {
+								let objsd = {};
+								if (zaobj[col]) {
+									objsd.value = col + i;
+									zaobj[col] = col + i;
+								} else {
+									objsd.value = col;
+									zaobj[col] = col;
+								}
+								objsd.name = col;
+								this.dev_ytpe_lists.push(objsd);
+							});
+						}
 						this.dev_ytpe_list = type_list;
 						if (res.data.remaining <= 0) {
 							this.sheng_list.forEach((item) => {
@@ -490,16 +525,20 @@ export default {
 								obj.data = item.nodeCount;
 								obj.value = this.leijiasum(item.nodeCount);
 								obj.data.unshift(obj.value);
+								obj.data.unshift(obj.name);
+								obj.data.forEach((val, index) => {
+									let k = this.dev_ytpe_lists[index].value;
+									obj[k] = val;
+								});
 								arr.push(obj);
 							});
 						} else {
 							pagenum++;
 							this.getdata(pagenum);
 						}
-                        arr.sort(this.sortData);
-                        //去重 key为省份
-                        this.maplist = this.deWeightThree(arr,"name");
-                          console.log(arr);
+						arr.sort(this.sortData);
+						//去重 key为省份
+						this.maplist = this.deWeightThree(arr, 'name');
 						this.drawLine();
 					} else {
 						this.$message.error(res.err_msg);
@@ -518,6 +557,14 @@ export default {
 				}
 			}
 			return [...map.values()];
+		},
+		// 表头样式设置
+		headClass() {
+			return 'text-align: center;background:#F3F6FB;';
+		},
+		// 表格样式设置
+		rowClass() {
+			return 'text-align: center;';
 		},
 		drawLine() {
 			var _this = this;
@@ -713,12 +760,10 @@ export default {
 		height: 700px;
 		overflow-y: auto;
 		border: 1px solid #eeeeee;
-		overflow-x: auto; /*可滑动*/
-		// border-collapse:collapse;
+		overflow-x: scroll;
 	}
 	ol > li {
 		width: 100%;
-		// border: 1px solid #eeeeee;
 		height: 45px;
 		line-height: 45px;
 		display: flex;
@@ -731,46 +776,50 @@ export default {
 		text-align: center;
 		margin-top: -2px;
 		// border-collapse:collapse;
-	}
-	li:nth-child(1) {
-		margin-top: 0;
+		.conname_tit {
+			flex-shrink: 0;
+			text-align: center;
+			width: 115px;
+			font-size: 14px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			// border: 1px solid #7d7d7d;
+			background: #eeeeee;
+			// border-collapse:collapse;
+		}
+		.conname {
+			flex-shrink: 0;
+			text-align: center;
+			width: 115px;
+			font-size: 14px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			border-bottom: 1px solid #eeeeee;
+			// border: 1px solid #7d7d7d;
+			// border-collapse:collapse;s
+		}
+		.conname:first-child,
+		.conname_tit:first-child {
+			text-align: center;
+			padding-left: 10px;
+		}
+		.conname:last-child,
+		.conname_tit:last-child {
+			padding-right: 10px;
+		}
 	}
 	li:hover {
 		background-color: #d6d6d6;
 	}
+	.tab_title {
+		margin-top: 0;
+	}
 }
-.conname_tit {
-   
-	flex-shrink: 0;
-	text-align: center;
-	width: 115px;
-	font-size: 14px;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	// border: 1px solid #7d7d7d;
-	background: #eeeeee;
-	// border-collapse:collapse;
-}
-.conname {
-	flex-shrink: 0;
-	text-align: center;
-	width: 115px;
-	font-size: 14px;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	border-bottom: 1px solid #eeeeee;
-	// border: 1px solid #7d7d7d;
-	// border-collapse:collapse;s
-}
-.conname:first-child,
-.conname_tit:first-child {
-	text-align: center;
-	padding-left: 10px;
-}
-.conname:last-child,
-.conname_tit:last-child {
-	padding-right: 10px;
+.el_tab {
+	width: 100%;
+	min-width: 345px;
+	max-width: 775px;
 }
 </style>
