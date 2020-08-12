@@ -159,7 +159,6 @@ export default {
 		let munulist = JSON.parse(localStorage.getItem('menus'));
 		let pathname = this.$route.path;
 		this.menutype = menudisable(munulist, pathname);
-		console.log(this.menutype);
 	},
 	methods: {
 		//收益
@@ -180,7 +179,6 @@ export default {
 			params.itemCount = this.pagesize;
 			node_pf(params)
 				.then((res) => {
-					console.log(res);
 					this.tableData = res.data;
 					this.totalCnt = res.dataCount;
 					if (res.data && this.tableData.length > 0) {
@@ -193,7 +191,6 @@ export default {
 					}
 				})
 				.catch((error) => {
-					console.log(error);
 				});
 		},
 		//搜索
@@ -226,7 +223,6 @@ export default {
 			params.dateEnd = this.endtime;
 			export_excel(params)
 				.then((res) => {
-					console.log(res);
 					if (res.state == 0) {
 						window.open(res.downloadUrl);
 						this.$message.success('导出成功');
@@ -235,7 +231,6 @@ export default {
 					}
 				})
 				.catch((error) => {
-					console.log(error);
 				});
 		},
 		//获取页码

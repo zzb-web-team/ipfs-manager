@@ -927,7 +927,6 @@ export default {
 					}
 				})
 				.catch((error) => {
-					console.log(error);
 				});
 		},
 		//请求数据----获取搜索条件

@@ -326,7 +326,6 @@ export default {
 	methods: {
 		gettablist() {},
 		deleteRow(index, rows) {
-			console.log(rows);
 		},
 		add_release() {
 			this.dialogFormVisible = true;
@@ -337,7 +336,6 @@ export default {
 					this.dialogFormVisible = false;
 					alert('submit!');
 				} else {
-					console.log('error submit!!');
 					return false;
 				}
 			});

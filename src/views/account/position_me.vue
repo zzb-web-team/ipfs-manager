@@ -177,7 +177,6 @@ export default {
 					}
 				})
 				.catch((error) => {
-					console.log(error);
 				});
 		},
 		//新建下级部门
@@ -220,7 +219,6 @@ export default {
 								}
 							})
 							.catch((error) => {
-								console.log(error);
 							});
 					} else {
 						let parame = new Object();
@@ -254,7 +252,6 @@ export default {
 								}
 							})
 							.catch((error) => {
-								console.log(error);
 							});
 					}
 				} else {
@@ -340,7 +337,6 @@ export default {
 							}
 						})
 						.catch((error) => {
-							console.log(error);
 						});
 				})
 				.catch(() => {});

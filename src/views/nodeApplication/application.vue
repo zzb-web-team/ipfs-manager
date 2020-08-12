@@ -993,7 +993,6 @@ export default {
 					}
 				})
 				.catch((error) => {
-					console.log(error);
 				});
 		},
 		//请求数据----获取搜索条件
@@ -1004,7 +1003,6 @@ export default {
 			});
 		},
 		seach_operce(value) {
-			console.log(value);
 			this.currentPage = 1;
 			if (value == -1) {
 				this.value1 = -1;
@@ -1120,15 +1118,12 @@ export default {
 							'max'
 						);
 						let max_unit = get_units(maxnum);
-						console.log(max_unit);
 						res.data.dataFlowArray.forEach((item) => {
 							this.dataFlowArray.push(
 								formatBkb(item, max_unit)
 								// (item / 1024 / 1024 / 1024).toFixed(2)
 							);
 						});
-						console.log(res.data.dataFlowArray);
-						console.log(this.dataFlowArray);
 						// this.dataFlowArray = res.data.dataFlowArray;
 						res.data.timeArray.forEach((item, index) => {
 							this.timeArray.push(getday(item));
@@ -1219,7 +1214,6 @@ export default {
 							'max'
 						);
 						let max_unit = get_units(maxnum);
-						console.log(max_unit);
 						res.data.storeUsageArray.forEach((item) => {
 							this.storeUsageArray.push(
 								formatBkb(item, max_unit)
@@ -1484,7 +1478,6 @@ export default {
 		//自定义按钮--ip
 		showpicker() {
 			this.zidingyi = !this.zidingyi;
-			console.log(this.zidingyi);
 			if (this.zidingyi == false) {
 				this.radio = 0;
 			} else {
@@ -1548,7 +1541,6 @@ export default {
 			this.currentPage = 1;
 			if (stat === 'fs') {
 				if (this.value2fs != null && this.value2fs != '') {
-					console.log(this.value2fs);
 					this.starttime = setbatime(this.value2fs[0]);
 					this.endtime = setbatime(this.value2fs[1]);
 					if (this.endtime - this.starttime < 86400) {

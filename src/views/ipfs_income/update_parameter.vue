@@ -316,10 +316,8 @@ export default {
 			params.data = {};
 			get_net_info(params)
 				.then((res) => {
-					console.log(res);
 					this.priceobj = res;
 					this.googleform = res.price[0];
-					console.log(this.googleform);
 					this.tableData = res.H;
 					this.ratingData = [];
 					for (let k in res.Rnm) {
@@ -341,7 +339,6 @@ export default {
 					// }
 				})
 				.catch((error) => {
-					console.log(error);
 				});
 		},
 		set_price(num, rulenema) {
@@ -385,10 +382,8 @@ export default {
 							params.price = this.priceobj.price;
 							params.Rnm = Rnm;
 						}
-						console.log(num, params);
 						update_net_info(params)
 							.then((res) => {
-								console.log(res);
 								if (res.err == 0) {
 									this.$message({
 										type: 'success',
@@ -398,7 +393,6 @@ export default {
 								}
 							})
 							.catch((error) => {
-								console.log(error);
 							});
 					}
 				});
@@ -440,10 +434,8 @@ export default {
 					params.price = this.priceobj.price;
 					params.Rnm = Rnm;
 				}
-				console.log(num, params);
 				update_net_info(params)
 					.then((res) => {
-						console.log(res);
 						if (res.err == 0) {
 							this.$message({
 								type: 'success',
@@ -453,12 +445,10 @@ export default {
 						}
 					})
 					.catch((error) => {
-						console.log(error);
 					});
 			}
 		},
 		updateInterval(row, num) {
-			console.log(row);
 			this.$prompt('请输入RH', '提示', {
 				confirmButtonText: '确定',
 				cancelButtonText: '取消',
@@ -513,7 +503,6 @@ export default {
 				});
 		},
 		updateRnm(row, num) {
-			console.log(row);
 			this.$prompt('请输入RNM', '提示', {
 				confirmButtonText: '确定',
 				cancelButtonText: '取消',
@@ -570,7 +559,6 @@ export default {
 		},
 		//校验
 		jioyzm(rule, value, callback) {
-			console.log(value);
 			if (value === '') {
 				callback(new Error('不能为空'));
 			} else {

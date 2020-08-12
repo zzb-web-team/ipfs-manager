@@ -467,7 +467,6 @@ export default {
 		let munulist = JSON.parse(localStorage.getItem('menus'));
 		let pathname = this.$route.path;
 		this.menutype = menudisable(munulist, pathname);
-		console.log(this.menutype);
 	},
 	methods: {
 		handleChangefirst(val) {
@@ -506,11 +505,9 @@ export default {
 					this.gettab();
 				})
 				.catch((error) => {
-					console.log(error);
 				});
 		},
 		changeSort(val) {
-			console.log(val.order); // column: {…} order: "ascending" prop: "date"
 			// 根据当前排序重新获取后台数据,一般后台会需要一个排序的参数
 			if (val.order == 'ascending') {
 				this.order = 1;

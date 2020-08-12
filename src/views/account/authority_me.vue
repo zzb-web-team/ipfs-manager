@@ -420,7 +420,6 @@ export default {
 					}
 				})
 				.catch((error) => {
-					console.log(error);
 				});
 		},
 		//获取分组用户
@@ -519,7 +518,6 @@ export default {
 							})
 							.catch((error) => {});
 					} else {
-						// console.log(this.form.userlist);
 						let params = new Object();
 						params.roleid = this.form.id;
 						params.name = this.form.title;
@@ -683,7 +681,6 @@ export default {
 		},
 		//权限配置--确定
 		queChecked() {
-			// console.log(this.$refs.tree);
 			let arrlist = [];
 			let idlist = this.$refs.tree.getCheckedKeys(true);
 			idlist.forEach((item, index) => {
@@ -740,8 +737,6 @@ export default {
 		},
 		//修改
 		updatahandleClick(data) {
-			console.log(data);
-			console.log(this.options);
 			let _this = this;
 			this.nawoptions = [];
 			// this.options=[];
@@ -810,7 +805,6 @@ export default {
 				}
 				this.nawoptions = this.nawoptions.concat(this.options);
 				this.form.userlist = arrTrans(3, arr);
-				console.log(this.form.userlist);
 			} else {
 				this.nawoptions = this.options;
 			}
@@ -887,7 +881,6 @@ export default {
 			if (value === '') {
 				callback(new Error('分组名称不能为空'));
 			} else {
-                console.log(this.str_length(value));
 				if (
 					this.str_length(value) >= 4&&this.str_length(value) <= 50
 				) {
@@ -917,7 +910,6 @@ export default {
 			return bytesCount;
 		},
 		jioregion(rule, value, callback) {
-			// console.log(value);
 			if (value === '') {
 				callback(new Error('请选择分组用户'));
 			} else {

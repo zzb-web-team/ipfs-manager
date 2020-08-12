@@ -282,7 +282,6 @@ export default {
 		let munulist = JSON.parse(localStorage.getItem('menus'));
 		let pathname = this.$route.path;
 		this.menutype = menudisable(munulist, pathname);
-		console.log(this.menutype);
 		this.seachuser();
 	},
 	methods: {
@@ -322,7 +321,6 @@ export default {
 			params.time = '111';
 			get_nodetype_enum(params)
 				.then((res) => {
-					console.log(res);
 					if (res.status == 0) {
 						this.firstchan = res.data.firstchan;
 					} else {
@@ -330,7 +328,6 @@ export default {
 					}
 				})
 				.catch((error) => {
-					console.log(error);
 				});
 		},
 		//收益
@@ -362,9 +359,6 @@ export default {
 			}
 			node_pf_detail(params)
 				.then((res) => {
-					console.log(res);
-					//this.tableData = res.data;
-
 					res.data.forEach((item) => {
 						this.firstchan.forEach((fitem) => {
 							if (fitem.value == item.channel1) {
@@ -392,7 +386,6 @@ export default {
 					// }
 				})
 				.catch((error) => {
-					console.log(error);
 				});
 		},
 		goupdate_parameter() {
@@ -472,7 +465,6 @@ export default {
 			}
 			export_excel(params)
 				.then((res) => {
-					console.log(res);
 					if (res.state == 0) {
 						window.open(res.downloadUrl);
 						this.$message.success('导出成功');
@@ -481,12 +473,10 @@ export default {
 					}
 				})
 				.catch((error) => {
-					console.log(error);
 				});
 		},
 		//排序
 		tablechange(column) {
-			console.log(column);
 			if (column.order == 'descending') {
 				this.order = 1;
 			} else {

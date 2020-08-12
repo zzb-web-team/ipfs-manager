@@ -850,7 +850,6 @@ export default {
 							downarrlist,
 							'max'
                         );
-                        //console.log(this.downbandwidth);
                         this.downbandwidth_unit=bandwidth_unit_conversion(this.downbandwidth)[1];
 						this.upbandwidth = this.getMaximin(uparrlist, 'max');
 						this.averageup = this.pingjun(uparrlist);
@@ -1038,7 +1037,6 @@ export default {
 					}
 				})
 				.catch((error) => {
-					console.log(error);
 				});
 		},
 		//请求节点质量--响应时差
@@ -1133,7 +1131,6 @@ export default {
 					}
 				})
 				.catch((error) => {
-					console.log(error);
 				});
 		},
 		//请求节点质量--错误率
@@ -1232,7 +1229,6 @@ export default {
 					}
 				})
 				.catch((error) => {
-					console.log(error);
 				});
 		},
 		//请求节点质量--失联计数
@@ -1334,7 +1330,6 @@ export default {
 					}
 				})
 				.catch((error) => {
-					console.log(error);
 				});
 		},
 		//请求节点质量--在线率
@@ -1434,7 +1429,6 @@ export default {
 					}
 				})
 				.catch((error) => {
-					console.log(error);
 				});
 		},
 		//请求节点质量--离线率
@@ -1534,7 +1528,6 @@ export default {
 					}
 				})
 				.catch((error) => {
-					console.log(error);
 				});
 		},
 		//请求节点质量--重连次数
@@ -1636,7 +1629,6 @@ export default {
 					}
 				})
 				.catch((error) => {
-					console.log(error);
 				});
 		},
 		//请求节点质量--CPU占用率
@@ -1735,7 +1727,6 @@ export default {
 					}
 				})
 				.catch((error) => {
-					console.log(error);
 				});
 		},
 		//请求节点质量--CPU占用率
@@ -1834,7 +1825,6 @@ export default {
 					}
 				})
 				.catch((error) => {
-					console.log(error);
 				});
 		},
 		handleChangefirst(val) {
@@ -1997,7 +1987,6 @@ export default {
 		exportant_dataflow() {},
 		firstsharts(echartsdata) {
             let _this = this;
-            // console.log(echartsdata);
 			let chartdom = document.getElementById('firstChart');
 			chartdom.style.width = this._width + 'px';
 			let myChart = echarts.init(chartdom); //这里是为了获得容器所在位置
@@ -2091,10 +2080,8 @@ export default {
 								// color: function(params) {
 								// 	var colorList = ['#409EFF', 'red', 'green'];
 								// 	if (params.data == minnum) {
-								// 		console.log(params.data);
 								// 		return colorList[2];
 								// 	} else if (params.data == maxnum) {
-								// 		console.log(params.data);
 								// 		return colorList[1];
 								// 	} else {
 								// 		return colorList[0];

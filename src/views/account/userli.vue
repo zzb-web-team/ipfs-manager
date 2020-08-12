@@ -1011,7 +1011,6 @@ export default {
 		let munulist = JSON.parse(localStorage.getItem('menus'));
 		let pathname = this.$route.path;
 		this.obnj = menudisable(munulist, pathname);
-		console.log(this.obnj);
 		this.ipfs_id = parseInt(this.$cookies.get('ipfs_id'));
 		this.ipfs_user = this.$cookies.get('ipfs_user');
 		this.queryUserList();
@@ -1026,7 +1025,6 @@ export default {
 			params.page = pagenum;
 			departmentlist(params)
 				.then((res) => {
-					console.log(res);
 					if (res.status == 0) {
 						this.department_list = res.result.tree;
 					} else {
@@ -1034,7 +1032,6 @@ export default {
 					}
 				})
 				.catch((error) => {
-					console.log(error);
 				});
 		},
 		//职位分组
@@ -1058,7 +1055,6 @@ export default {
 					}
 				})
 				.catch((error) => {
-					console.log(error);
 				});
 		},
 		//获取权限分组
@@ -1078,13 +1074,11 @@ export default {
 							pagenum++;
 							this.get_permission_list(pagenum);
 						}
-						console.log(this.permission_list);
 					} else {
 						this.$message.error(res.msg);
 					}
 				})
 				.catch((error) => {
-					console.log(error);
 				});
 		},
 		//排序
@@ -1385,7 +1379,6 @@ export default {
 		searchdepartment(value) {
 			this.department_list.forEach((item, index) => {
 				if (item.id == value) {
-					console.log(item.children);
 					this.pdepartment_list = item.children;
 				}
 			});
@@ -1396,7 +1389,6 @@ export default {
 				this.partmant_disable = false;
 			}
 			this.search_pdepartment = '*';
-			console.log(this.pdepartment_list);
 			this.queryUserList();
 		},
 		getShow() {
@@ -1412,7 +1404,6 @@ export default {
 		},
 		//新增
 		handleSubmit(ev) {
-			console.log(this.ruleForm2);
 			var _this = this;
 			this.$refs.ruleForm2.validate((valid) => {
 				if (valid) {
@@ -1462,7 +1453,6 @@ export default {
 						}
 					});
 				} else {
-					console.log(valid);
 					// return false;
 				}
 			});
@@ -1553,7 +1543,6 @@ export default {
 		},
 		//修改
 		toChange(val) {
-			console.log(val);
 			this.dialogVisible2 = true;
 			this.addDialogVisible = true;
 			this.ruleForm3.username = val.username;
@@ -1663,7 +1652,6 @@ export default {
 					// this.ruleForm3.status = parseInt(this.ruleForm3.radio);
 					loginParams.uid = this.ipfs_id;
 					loginParams.uname = this.ipfs_user;
-					console.log(loginParams);
 					userupdate(loginParams).then((data) => {
 						this.dialogVisible2 = false;
 						this.addDialogVisible = false;
@@ -1717,7 +1705,6 @@ export default {
 					this.ruleForm3.status = parseInt(this.ruleForm3.radio);
 					loginParams.uid = this.ipfs_id;
 					loginParams.uname = this.ipfs_user;
-					console.log(loginParams);
 					userupdate(loginParams).then((data) => {
 						let { msg, status, user } = data;
 						if (status !== 0) {
@@ -1810,7 +1797,6 @@ export default {
 		},
 		//校验密码
 		jiopwd(rule, value, callback) {
-			console.log(value);
 			// let fsdfpwd = /^(?![\d]+$)(?![a-zA-Z]+$)(?![^\da-zA-Z]+$).{8}$/;
 			let fsdfpwd = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])[0-9A-Za-z~!@#$%^&*_]{8,32}$/;
 			if (value === '') {
@@ -1836,7 +1822,6 @@ export default {
 		},
 		//校验密码
 		jiopwd2(rule, value, callback) {
-			console.log(value);
 			// let fsdfpwd = /^(?![\d]+$)(?![a-zA-Z]+$)(?![^\da-zA-Z]+$).{8}$/;
 			let fsdfpwd = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])[0-9A-Za-z~!@#$%^&*_]{8,32}$/;
 			if (value === '') {

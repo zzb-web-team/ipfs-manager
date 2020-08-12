@@ -672,7 +672,6 @@ export default {
 		this.serdata = JSON.parse(sessionStorage.getItem('serdata'));
 		let serdata_id = JSON.parse(sessionStorage.getItem('serdata'));
 		this.node_id = serdata_id.nodeId;
-		console.log(this.serdata);
 		let upbandwidth_rema = this.serdata.upbandwidth_rema.substring(
 			0,
 			this.serdata.upbandwidth_rema.lastIndexOf('Mbps')

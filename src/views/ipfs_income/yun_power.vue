@@ -427,7 +427,6 @@ export default {
 			params.time = '111';
 			get_nodetype_enum(params)
 				.then((res) => {
-					console.log(res);
 					if (res.status == 0) {
 						this.firstchan = res.data.firstchan;
 					} else {
@@ -435,7 +434,6 @@ export default {
 					}
 				})
 				.catch((error) => {
-					console.log(error);
 				});
 		},
 		//获取数据
@@ -491,7 +489,6 @@ export default {
 					}
 				})
 				.catch((error) => {
-					console.log(error);
 				});
 		},
 		get_node_h_detail() {
@@ -525,8 +522,6 @@ export default {
 			sessionStorage.setItem('search_condition', JSON.stringify(params));
 			node_pv_detail(params)
 				.then((res) => {
-					console.log(res);
-					// this.table_detail_data = res.data;
 					res.data.forEach((item) => {
 						this.firstchan.forEach((fitem) => {
 							if (fitem.value == item.channel1) {
@@ -554,7 +549,6 @@ export default {
 					// }
 				})
 				.catch((error) => {
-					console.log(error);
 				});
 		},
 		//导出
@@ -587,7 +581,6 @@ export default {
 			}
 			export_excel(params)
 				.then((res) => {
-					console.log(res);
 					if (res.state == 0) {
 						window.open(res.downloadUrl);
 						this.$message.success('导出成功');
@@ -596,11 +589,9 @@ export default {
 					}
 				})
 				.catch((error) => {
-					console.log(error);
 				});
         },
         tablechange(column) {
-			console.log(column);
 			if (column.order == 'descending') {
 				this.order = 1;
 			} else {

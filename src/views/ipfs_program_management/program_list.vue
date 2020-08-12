@@ -190,7 +190,6 @@ export default {
 					alert('submit!');
 					this.dialogFormVisible = false;
 				} else {
-					console.log('error submit!!');
 					return false;
 				}
 			});
@@ -277,7 +276,6 @@ export default {
 						if (xhr.status == 200) {
 							//var headers =  JSON.parse(xhr.responseText);
 							var headers = JSON.parse(xhr.response);
-							console.log(headers);
 							//分片上传成功
 							if (headers.status == 0) {
 								index = index + 1;

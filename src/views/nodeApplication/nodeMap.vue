@@ -473,7 +473,6 @@ export default {
 					}
 				})
 				.catch((error) => {
-					console.log(error);
 				});
 		},
 		leijiasum(arr) {
@@ -650,7 +649,6 @@ export default {
 				let northeast_list = ['黑龙江', '吉林', '辽宁'];
 				let southwest_list = ['贵州', '云南', '重庆', '四川', '西藏'];
 				let other_list = ['香港', '澳门', '台湾'];
-				console.log(_this.$router);
 				if (north_list.indexOf(params.name) >= 0) {
 					let num = north_list.indexOf(params.name);
 					_this.$router.push({

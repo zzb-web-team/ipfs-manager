@@ -722,7 +722,6 @@ export default {
 		next();
 	},
 	mounted() {
-		console.log(window.fromname);
 		this.getJson();
 		this.get_search_data();
 		if (sessionStorage.getItem('search_data')) {
@@ -777,7 +776,6 @@ export default {
 			params.time = '111';
 			get_nodetype_enum(params)
 				.then((res) => {
-					console.log(res);
 					if (res.status == 0) {
 						this.arch = res.data.arch;
 						this.device_type = res.data.device_type;
@@ -789,7 +787,6 @@ export default {
 					}
 				})
 				.catch((error) => {
-					console.log(error);
 				});
 		},
 		//多选事件
@@ -818,7 +815,6 @@ export default {
 				this.getdatalist();
 			} else {
 				this.options_city = this.citydata[value[1]].cities;
-				console.log(this.options_city);
 				this.city_disable = false;
 				this.city_detil = '';
 				this.getdatalist();
@@ -943,7 +939,6 @@ export default {
 								}
 								this.tableData.push(item);
 							});
-							console.log(this.tableData);
 						}
 					} else {
 						this.$message.error(res.err_msg);
@@ -974,7 +969,6 @@ export default {
 				.then((_) => {
 					filter_node(parmas)
 						.then((res) => {
-							console.log(res);
 							if (res.status == 0) {
 								this.$message({
 									message: '操作成功',
@@ -984,7 +978,6 @@ export default {
 							}
 						})
 						.catch((error) => {
-							console.log(error);
 						});
 				})
 				.catch((_) => {});
@@ -998,12 +991,10 @@ export default {
 		},
 		//启用--单个
 		qiClick(val) {
-			console.log(val);
 			this.qiorjin(1, val);
 		},
 		//禁用--单个
 		jinClick(val) {
-			console.log(val);
 			this.qiorjin(0, val);
 		},
 		//启用--多个

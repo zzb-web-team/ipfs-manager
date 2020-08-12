@@ -245,7 +245,6 @@ export default {
 		let munulist = JSON.parse(localStorage.getItem('menus'));
 		let pathname = this.$route.path;
 		this.menutype = menudisable(munulist, pathname);
-		console.log(this.menutype);
 	},
 	methods: {
 		//获取部门列表
@@ -254,7 +253,6 @@ export default {
 			params.page = this.currentPage - 1;
 			departmentlist(params)
 				.then((res) => {
-					console.log(res);
 					if (res.status == 0) {
 						this.tableData = res.result.cols;
 						if (params.page == 0) {
@@ -269,7 +267,6 @@ export default {
 					}
 				})
 				.catch((error) => {
-					console.log(error);
 				});
 		},
 		//获取一级部门
@@ -328,7 +325,6 @@ export default {
 								}
 							})
 							.catch((error) => {
-								console.log(error);
 							});
 					} else {
 						let params = new Object();
@@ -364,7 +360,6 @@ export default {
 								}
 							})
 							.catch((error) => {
-								console.log(error);
 							});
 					}
 				} else {
@@ -376,7 +371,6 @@ export default {
 		submitForm(formName) {
 			this.$refs[formName].validate((valid) => {
 				if (valid) {
-					console.log(this.titlename);
 					if (this.titlename == '新建下级部门') {
 						let params = new Object();
 						params.pid = this.form.region;
@@ -407,7 +401,6 @@ export default {
 								}
 							})
 							.catch((error) => {
-								console.log(error);
 							});
 					} else {
 						let params = new Object();
@@ -463,7 +456,6 @@ export default {
 								}
 							})
 							.catch((error) => {
-								console.log(error);
 							});
 					}
 				} else {
@@ -495,7 +487,6 @@ export default {
 		//修改
 		handleClick(data) {
 			this.zdata = data;
-			console.log(this.zdata);
 			if (data.name != '-') {
 				this.titlename = '修改部门';
 				this.nwFormVisible = true;
@@ -593,7 +584,6 @@ export default {
 							}
 						})
 						.catch((error) => {
-							console.log(error);
 						});
 				})
 				.catch(() => {});
@@ -637,7 +627,6 @@ export default {
 			}
 		},
 		jioregion(rule, value, callback) {
-			console.log(value);
 			if (value === '') {
 				callback(new Error('请选择一级部门'));
 			} else {

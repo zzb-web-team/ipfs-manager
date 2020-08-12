@@ -502,7 +502,6 @@ export default {
 			params.time = '111';
 			get_nodetype_enum(params)
 				.then((res) => {
-					console.log(res);
 					if (res.status == 0) {
 						this.hardware_type = res.data.arch;
 						this.device_type = res.data.device_type;
@@ -514,7 +513,6 @@ export default {
 					}
 				})
 				.catch((error) => {
-					console.log(error);
 				});
 		},
 		//获取头部预览信息
