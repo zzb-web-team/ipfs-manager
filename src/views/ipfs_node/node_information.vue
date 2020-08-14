@@ -43,7 +43,7 @@
 					>
 						<el-option
 							v-for="(item, index) in stateopt_node"
-							:key="item.value + index+'rew'"
+							:key="item.value + index + 'rew'"
 							:label="item.label"
 							:value="item.value"
 						></el-option>
@@ -56,7 +56,7 @@
 					>
 						<el-option
 							v-for="(item, index) in stateopt"
-							:key="item.value + index+'srta'"
+							:key="item.value + index + 'srta'"
 							:label="item.label"
 							:value="item.value"
 						></el-option>
@@ -78,7 +78,7 @@
 					>
 						<el-option
 							v-for="(item, index) in options_city"
-							:key="index+item+'city'"
+							:key="index + item.name + 'city'"
 							:label="item.name"
 							:value="item.name"
 						></el-option>
@@ -86,14 +86,13 @@
 					<span>节点渠道商:</span>
 					<el-select
 						v-model="firstchid"
-						
 						placeholder="一级渠道商"
 						@change="handleChangefirst($event)"
 					>
 						<el-option value="" label="全部"></el-option>
 						<el-option
 							v-for="(item, index) in firstchan"
-							:key="index+item"
+							:key="index + item.value"
 							:label="item.name"
 							:value="item.value"
 						></el-option>
@@ -107,7 +106,7 @@
 						<el-option value="" label="全部"></el-option>
 						<el-option
 							v-for="(item, index) in secondchan"
-							:key="index+item+'ssd'"
+							:key="index + item.value + 'ssd'"
 							:label="item.name"
 							:value="item.value"
 						></el-option>
@@ -130,8 +129,8 @@
 					>
 						<el-option value="" label="全部"></el-option>
 						<el-option
-							v-for="item in device_type"
-							:key="item.name"
+							v-for="(item, index) in device_type"
+							:key="item.name + index"
 							:label="item.name"
 							:value="item.name"
 							:disabled="item.disabled"
@@ -145,8 +144,8 @@
 					>
 						<el-option value="" label="全部"></el-option>
 						<el-option
-							v-for="item in arch"
-							:key="item.name"
+							v-for="(item, index) in arch"
+							:key="item.name + index"
 							:label="item.name"
 							:value="item.name"
 							:disabled="item.disabled"
@@ -175,8 +174,8 @@
 					>
 						<el-option value="" label="全部"></el-option>
 						<el-option
-							v-for="item in isp"
-							:key="item.value"
+							v-for="(item, index) in isp"
+							:key="item.value + index"
 							:label="item.name"
 							:value="item.name"
 							:disabled="item.disabled"
@@ -762,6 +761,26 @@ export default {
 				this.value2 = search_data.isp;
 			}
 		}
+		// if (this.$route.query.city) {
+		// 	this.optiondisplay = true;
+		// 	if (
+		// 		this.$route.query.firstchans == '省市' ||
+		// 		this.$route.query.firstchans == '全部节点'
+		// 	) {
+		// 		this.firstchid = '';
+		// 		this.value1 = [this.$route.query.quyu, this.$route.query.city];
+		// 	} else if (this.$route.query.quyu == '-1') {
+		// 		this.value1 = -1;
+		// 	} else {
+		// 		this.value1 = [this.$route.query.quyu, this.$route.query.city];
+		// 		console.log(this.firstchan);
+		// 		this.firstchan.forEach((item, index) => {
+		// 			if (item.name == this.$route.query.firstchans) {
+		// 				this.$nextTick((this.firstchid = item.value));
+		// 			}
+		// 		});
+		// 	}
+		// }
 		this.getdatalist();
 		let munulist = JSON.parse(localStorage.getItem('menus'));
 		let pathname = this.$route.path;
@@ -782,12 +801,40 @@ export default {
 						this.isp = res.data.isp;
 						this.os = res.data.os;
 						this.firstchan = res.data.firstchan;
+						if (this.$route.query.city) {
+							this.optiondisplay = true;
+							if (
+								this.$route.query.firstchans == '省市' ||
+								this.$route.query.firstchans == '全部节点'
+							) {
+								this.firstchid = '';
+								this.value1 = [
+									this.$route.query.quyu,
+									this.$route.query.city,
+								];
+							} else if (this.$route.query.quyu == '-1') {
+								this.value1 = -1;
+							} else {
+								this.value1 = [
+									this.$route.query.quyu,
+									this.$route.query.city,
+								];
+								this.firstchan.forEach((item, index) => {
+									if (
+										item.name ==
+										this.$route.query.firstchans
+									) {
+										this.firstchid = item.value;
+									}
+								});
+							}
+						}
 					} else {
 						this.$message.error(res.err_msg);
 					}
+					this.getdatalist();
 				})
-				.catch((error) => {
-				});
+				.catch((error) => {});
 		},
 		//多选事件
 		handleSelectionChange(val) {
@@ -825,7 +872,7 @@ export default {
 			this.getdatalist();
 		},
 		handleChangefirst(val) {
-			this.secondchid='';
+			this.secondchid = '';
 			this.currentPage = 1;
 			if (val == '*' || val == '') {
 				this.chil_disable = true;
@@ -834,7 +881,7 @@ export default {
 			} else {
 				this.firstchan.forEach((item) => {
 					if (item.value == val) {
-                        //筛选出匹配数据
+						//筛选出匹配数据
 						this.secondchan = item.secondchan;
 						this.chil_disable = false;
 					} else {
@@ -977,8 +1024,7 @@ export default {
 								this.getdatalist();
 							}
 						})
-						.catch((error) => {
-						});
+						.catch((error) => {});
 				})
 				.catch((_) => {});
 		},

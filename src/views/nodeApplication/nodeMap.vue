@@ -115,6 +115,7 @@
 					style="width: 100%"
 					height="700"
 					fixed
+					@cell-click="clicktan"
 				>
 					<el-table-column
 						v-for="(item, key) in dev_ytpe_lists"
@@ -426,6 +427,38 @@ export default {
 		// this.get_search_data();
 	},
 	methods: {
+		clicktan(row, column, cell, event) {
+			let north_list = ['北京', '内蒙古', '山西', '河北', '天津'];
+			let south_list = ['广东', '广西', '海南'];
+			let east_list = ['福建', '江苏', '安徽', '山东', '上海', '浙江'];
+			let center_list = ['河南', '湖北', '江西', '湖南'];
+			let northwest_list = ['宁夏', '陕西', '甘肃', '青海', '新疆'];
+			let northeast_list = ['黑龙江', '吉林', '辽宁'];
+			let southwest_list = ['贵州', '云南', '重庆', '四川', '西藏'];
+            let other_list = ['香港', '澳门', '台湾'];
+            let qu="-1";
+			if (north_list.indexOf(row.name) >= 0) {
+				qu = '华北';
+			} else if (south_list.indexOf(row.name) >= 0) {
+				qu = '华南';
+			} else if (east_list.indexOf(row.name) >= 0) {
+				qu = '华东';
+			} else if (center_list.indexOf(row.name) >= 0) {
+				qu = '华中';
+			} else if (northwest_list.indexOf(row.name) >= 0) {
+				qu = '西北';
+			} else if (northeast_list.indexOf(row.name) >= 0) {
+				qu = '东北';
+			} else if (southwest_list.indexOf(row.name) >= 0) {
+				qu = '西南';
+			} else if (other_list.indexOf(row.name) >= 0) {
+				qu = '其他';
+			}
+			this.$router.push({
+				path: '/node_information',
+				query: { city: row.name, firstchans: column.label, quyu: qu },
+			});
+		},
 		provinceChange() {
 			this.getdata(0);
 		},
@@ -472,8 +505,7 @@ export default {
 						this.$message.error(res.err_msg);
 					}
 				})
-				.catch((error) => {
-				});
+				.catch((error) => {});
 		},
 		leijiasum(arr) {
 			var s = 0;
@@ -526,8 +558,13 @@ export default {
 								obj.data.unshift(obj.value);
 								obj.data.unshift(obj.name);
 								obj.data.forEach((val, index) => {
-									let k = this.dev_ytpe_lists[index].value;
-									obj[k] = val;
+									if (this.dev_ytpe_lists[index]) {
+										let k = this.dev_ytpe_lists[index]
+											.value;
+										obj[k] = val;
+									} else {
+										return false;
+									}
 								});
 								arr.push(obj);
 							});

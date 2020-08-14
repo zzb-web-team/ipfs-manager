@@ -245,11 +245,15 @@ export default {
 								} else if (item.name == 'IPFS数据统计') {
 									arrlist[6] = item;
 									item.children.forEach((xitem, index) => {
+                                        console.log(xitem);
                                         
 										if (xitem.name == '全国节点分布') {
                                             arrlist[2].children.unshift(xitem);
                                             item.children.splice(index, 1); 
-										}
+                                        }
+                                        if(xitem.name == 'IPFS节点信息'){
+                                            item.children[index] = xitem.children[0]
+                                        }
 									});
 								} else if (item.name == '操作管理') {
 									arrlist[7] = item;
