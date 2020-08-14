@@ -166,7 +166,7 @@
 							:disabled="item.disabled"
 						></el-option>
 					</el-select>
-					<span>运营商：</span>
+					<span>线路：</span>
 					<el-select
 						v-model="value2"
 						placeholder="请选择"
@@ -248,7 +248,7 @@
 			></el-table-column>
 			<el-table-column prop="arch" label="硬件类型"></el-table-column>
 			<el-table-column prop="os" label="操作系统"></el-table-column>
-			<el-table-column prop="isp" label="节点运营商"></el-table-column>
+			<el-table-column prop="isp" label="节点线路"></el-table-column>
 			<el-table-column prop="occupyCpu" label="CPU占用">
 				<template slot-scope="scope">
 					<span v-if="scope.row.occupyCpu"
@@ -800,34 +800,46 @@ export default {
 						this.device_type = res.data.device_type;
 						this.isp = res.data.isp;
 						this.os = res.data.os;
-						this.firstchan = res.data.firstchan;
+                        this.firstchan = res.data.firstchan;
+
 						if (this.$route.query.city) {
 							this.optiondisplay = true;
+							
+
 							if (
 								this.$route.query.firstchans == '省市' ||
 								this.$route.query.firstchans == '全部节点'
 							) {
 								this.firstchid = '';
-								this.value1 = [
-									this.$route.query.quyu,
-									this.$route.query.city,
-								];
-							} else if (this.$route.query.quyu == '-1') {
-								this.value1 = -1;
-							} else {
-								this.value1 = [
-									this.$route.query.quyu,
-									this.$route.query.city,
-								];
-								this.firstchan.forEach((item, index) => {
+								
+                            } else {
+                                this.firstchan.forEach((item, index) => {
 									if (
 										item.name ==
 										this.$route.query.firstchans
 									) {
 										this.firstchid = item.value;
+										this.chil_disable = false;
+										this.secondchan = item.secondchan;
 									}
 								});
-							}
+                            } 
+
+                            if (this.$route.query.quyu == '-1') {
+								this.value1 = -1;
+								this.city_disable = true;
+								
+							} else {
+								this.value1 = [
+									this.$route.query.quyu,
+									this.$route.query.city,
+								];
+                                this.options_city = this.citydata[
+                                    this.$route.query.city
+                                ].cities;
+                                this.city_disable = false;
+                            }
+                            
 						}
 					} else {
 						this.$message.error(res.err_msg);
