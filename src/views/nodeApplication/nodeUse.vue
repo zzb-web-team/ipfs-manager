@@ -146,6 +146,31 @@
 							>
 						</div>
 						<!--  -->
+						<!-- <el-row style="margin-top:20px;" class="overview">
+							<el-col :span="5">
+								<div class="user-item">
+									<div class="item-count">
+										{{ ipDataFlow }}%
+									</div>
+									<div class="item-text">流量利用率</div>
+								</div>
+							</el-col>
+							<el-col :span="5" style="margin-left:30px;">
+								<div class="user-item">
+									<div class="item-count">
+										{{ fsDataFlow }}%
+									</div>
+									<div class="item-text">存储利用率</div>
+								</div>
+							</el-col>
+							<el-col :span="5" style="margin-left:30px;">
+								<div class="user-item">
+									<div class="item-count">{{pingDataFlow}}%</div>
+									<div class="item-text">平均利用率</div>
+								</div>
+							</el-col>
+						</el-row> -->
+						<!--  -->
 						<div class="device_form" style>
 							<el-button
 								v-show="menutype.roleE == 1"
@@ -193,6 +218,17 @@
 												}}</span>
 											</template>
 										</el-table-column>
+										<!-- <el-table-column
+											prop="totalUsage"
+											label="使用存储空间"
+										>
+											<template slot-scope="scope">
+												<span>{{
+													scope.row.storeUsage
+														| zhuanbkb
+												}}</span>
+											</template>
+										</el-table-column> -->
 										<el-table-column
 											prop="percent"
 											label="IP流量利用率"
@@ -205,6 +241,31 @@
 												}}%</template
 											>
 										</el-table-column>
+										<!-- <el-table-column
+											prop="usagePercent"
+											label="FS存储利用率"
+										>
+											<template slot-scope="scope">
+												<span
+													v-if="
+														scope.row
+															.storeUsagePercent ==
+															'NaN'
+													"
+													>0%
+												</span>
+												<span v-else>
+													{{
+														(
+															scope.row
+																.storeUsagePercent *
+															100
+														).toFixed(6)
+													}}%
+												</span>
+											</template>
+										</el-table-column>
+                                        <el-table-column prop="ping" label="平均利用率"></el-table-column> -->
 										<el-table-column
 											prop="timestamp"
 											label="日期"
@@ -476,9 +537,9 @@ import {
 	setbatime,
 	getday,
 	menudisable,
-    zhuanbkbs,
-    formatterDate,
-    msToDate
+	zhuanbkbs,
+	formatterDate,
+	msToDate,
 } from '../../servers/sevdate';
 import {
 	ipfs_dataflow_query_conditions,
@@ -514,7 +575,10 @@ export default {
 			zidingyi: false,
 			zidingyifs: false,
 			chil_disable: true,
-			chil_disable_fs: true,
+            chil_disable_fs: true,
+            ipDataFlow:18,
+            fsDataFlow:13,
+            pingDataFlow:63,
 			pickerOptions: {
 				disabledDate(time) {
 					return (
@@ -900,9 +964,9 @@ export default {
 			this.endtime = Date.parse(new Date()) / 1000;
 			this.ip_surve();
 		}
-			let munulist = JSON.parse(localStorage.getItem('menus'));
-			let pathname = this.$route.path;
-			this.menutype = menudisable(munulist, pathname);
+		let munulist = JSON.parse(localStorage.getItem('menus'));
+		let pathname = this.$route.path;
+		this.menutype = menudisable(munulist, pathname);
 	},
 	beforeDestroy() {
 		if (!this.chart) {
@@ -926,14 +990,13 @@ export default {
 						this.$message.error(res.err_msg);
 					}
 				})
-				.catch((error) => {
-				});
+				.catch((error) => {});
 		},
 		//请求数据----获取搜索条件
 		getseachinput() {
 			axios.get('./static/pro_city.json').then((res) => {
-                this.citydata = res.data;
-                sessionStorage.setItem('citylist', JSON.stringify(res.data));
+				this.citydata = res.data;
+				sessionStorage.setItem('citylist', JSON.stringify(res.data));
 			});
 		},
 		ip_surve() {
@@ -944,7 +1007,7 @@ export default {
 				params.ipfsId = '*';
 			}
 			if (this.valuea[1]) {
-                params.qu=this.valuea[0];
+				params.qu = this.valuea[0];
 				params.region = this.valuea[1];
 			} else {
 				params.region = '*';
@@ -1015,7 +1078,7 @@ export default {
 				params.ipfs_id = '*';
 			}
 			if (this.valueafs[1]) {
-                params.qu=this.valueafs[0];
+				params.qu = this.valueafs[0];
 				params.region = this.valueafs[1];
 			} else {
 				params.region = '*';
@@ -1131,8 +1194,10 @@ export default {
 				.then((res) => {
 					this.tableData = [];
 					if (res.status == 0) {
-						this.tableData = res.data.list;
-						this.totalCnt = res.data.totalCnt;
+						if (res.errCode != -2) {
+							this.tableData = res.data.list;
+							this.totalCnt = res.data.totalCnt;
+						}
 					} else {
 						this.$message.error(res.err_msg);
 					}
@@ -1193,8 +1258,10 @@ export default {
 				.then((res) => {
 					this.fs_tableData = [];
 					if (res.status == 0) {
-						this.fs_tableData = res.data.list;
-						this.fs_totalCnt = res.data.totalCnt;
+						if (res.errCode != -2) {
+							this.fs_tableData = res.data.list;
+							this.fs_totalCnt = res.data.totalCnt;
+						}
 					} else {
 						this.$message.error(res.err_msg);
 					}
@@ -1203,7 +1270,7 @@ export default {
 		},
 		//选项卡
 		handleClick(tab, event) {
-            this.radio=0;
+			this.radio = 0;
 			this.inputfs = '';
 			this.input = '';
 			this.firstvalue_fs = '';
@@ -1262,7 +1329,7 @@ export default {
 			this.value2fs = '';
 		},
 		handleChangefirst(val) {
-            this.secondvalue='*';
+			this.secondvalue = '*';
 			this.currentPagefs = 1;
 			this.currentPage = 1;
 			if (val == '*' || val == '') {
@@ -1283,7 +1350,7 @@ export default {
 			this.ip_surve();
 		},
 		handleChangefirst_fs(val) {
-            this.secondvalue_fs="*";
+			this.secondvalue_fs = '*';
 			this.currentPagefs = 1;
 			this.currentPage = 1;
 			if (val == '*' || val == '') {
@@ -1576,9 +1643,14 @@ export default {
 				title: {
 					text: 'IP流量利用率',
 				},
+				legend: {
+					bottom: '2%',
+					data: ['流量利用率', '存储利用率', '平均利用率'],
+				},
 				xAxis: {
 					type: 'category',
 					data: this.timeArray,
+					// data: ['周一', '周二', '周三', '周四', '周五'],
 				},
 				tooltip: {
 					trigger: 'axis',
@@ -1589,7 +1661,31 @@ export default {
 						},
 					},
 					formatter: function(params) {
-						return params[0].name + '<br>' + params[0].data + '%';
+						var result = '';
+						params.forEach(function(item, index) {
+							if (index == 0) {
+								result +=
+									item.axisValue +
+									'</br>' +
+									item.marker +
+									' ' +
+									item.seriesName +
+									' : ' +
+									item.value +
+									'%' +
+									'</br>';
+							} else {
+								result +=
+									item.marker +
+									' ' +
+									item.seriesName +
+									' : ' +
+									item.value +
+									'%' +
+									'</br>';
+							}
+						});
+						return result;
 					},
 				},
 				yAxis: [
@@ -1613,20 +1709,50 @@ export default {
 				},
 				series: [
 					{
-						// data: this.avgDataFlowUtily,
+						// data: [20, 16, 65, 36, 12, 48],
 						data: this.avgDataFlowUtily.map(function(item) {
 							return item * 100;
 						}),
-
 						type: 'line',
 						symbol: 'none',
+						name: '流量利用率',
 						smooth: true,
 						itemStyle: {
 							normal: {
-								color: '#09b0f5',
+								color: '#409EFF',
 							},
 						},
 					},
+					// {
+					// 	data: [56, 12, 45, 20, 78, 63],
+					// 	// data: this.avgDataFlowUtily.map(function(item) {
+					// 	// 	return item * 100;
+					// 	// }),
+					// 	type: 'line',
+					// 	symbol: 'none',
+					// 	name: '存储利用率',
+					// 	smooth: true,
+					// 	itemStyle: {
+					// 		normal: {
+					// 			color: '#bbc40f',
+					// 		},
+					// 	},
+					// },
+					// {
+					// 	data: [36, 92, 25, 54, 18, 43],
+					// 	// data: this.avgDataFlowUtily.map(function(item) {
+					// 	// 	return item * 100;
+					// 	// }),
+					// 	type: 'line',
+					// 	symbol: 'none',
+					// 	name: '平均利用率',
+					// 	smooth: true,
+					// 	itemStyle: {
+					// 		normal: {
+					// 			color: '#09b005',
+					// 		},
+					// 	},
+					// },
 				],
 			};
 			myChart.setOption(options);
@@ -1797,6 +1923,17 @@ export default {
 
 <style lang="scss" scoped>
 .myself-container {
+	.overview {
+		.user-item {
+			.item-count {
+                font-size: 24px;
+			}
+			.item-text {
+               height: 18px;
+               line-height: 36px;
+			}
+		}
+	}
 	.device_form {
 		width: 100%;
 		height: auto;

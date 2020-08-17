@@ -91,6 +91,9 @@ import store from './../vuex/store'
 // import application from '@/views/nodeApplication/application'
 // import nodeUse from '@/views/nodeApplication/nodeUse'
 // import data_monitoring from '@/views/nodeApplication/data_monitoring'
+
+// import rouji_list_statistics from '@/views/nodeApplication/rouji_list_statistics'
+
 Vue.use(Router)
 
 
@@ -113,7 +116,6 @@ var router = new Router({
                 component: (resolve) => require(['../views/404.vue'], resolve)
             }, ]
         },
-
 
         // {
         //     path: '/home_two',

@@ -537,3 +537,9 @@ export const nodesinfo_byarea = params => {
         res => res.data
     );
 };
+//获取rouji安装列表
+export const error_log_list = params => {
+    return post(`${serverUrl}/ipfs_node_monit/error_log_list`, params).then(
+        res => res.data
+    );
+};

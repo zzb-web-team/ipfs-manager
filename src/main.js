@@ -134,6 +134,9 @@ import nodeMap from '@/views/nodeApplication/nodeMap'
 import application from '@/views/nodeApplication/application'
 import nodeUse from '@/views/nodeApplication/nodeUse'
 import data_monitoring from '@/views/nodeApplication/data_monitoring'
+
+import rouji_list_statistics from '@/views/nodeApplication/rouji_list_statistics'
+
 import VueRouter from 'vue-router';
 
 var keymap = {
@@ -195,6 +198,7 @@ var keymap = {
     "application": application,
     'nodeUse': nodeUse,
     "data_monitoring": data_monitoring,
+    "rouji_list_statistics": rouji_list_statistics
 }
 router.beforeEach((to, from, next) => {
     if (to.path == '/ipfs_location_details' || from.path == '/ipfs_location_details' || from.path == '/') {} else {
