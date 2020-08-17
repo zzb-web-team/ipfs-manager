@@ -85,7 +85,7 @@ import store from './../vuex/store'
 
 // //操作管理
 // import operation_management from '@/views/operating/operation_management'
-// import demo from '@/views/operating/demo'
+// import menu_management from '@/views/operating/menu_management'
 // //IPFS数据统计
 // import nodeMap from '@/views/nodeApplication/nodeMap'
 // import application from '@/views/nodeApplication/application'
@@ -446,10 +446,10 @@ var router = new Router({
         //         name: '操作日志',
         //         component: operation_management
         //     }, {
-        //         path: '/demo',
-        //         name: 'demo',
+        //         path: '/menu_management',
+        //         name: '菜单管理',
         //         hidden: true,
-        //         component: demo
+        //         component: menu_management
         //     }]
         // },
 

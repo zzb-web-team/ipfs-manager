@@ -226,9 +226,8 @@ export default {
 			menulistuser(params)
 				.then((res) => {
 					if (res.status == 0) {
-						
 						if (res.data && res.data.length > 0) {
-                            let arrlist = [];
+							let arrlist = [];
 							res.data.forEach((item) => {
 								if (item.name == '后台账户') {
 									arrlist[0] = item;
@@ -245,23 +244,43 @@ export default {
 								} else if (item.name == 'IPFS数据统计') {
 									arrlist[6] = item;
 									item.children.forEach((xitem, index) => {
-                                        console.log(xitem);
-                                        
+										console.log(xitem);
+
 										if (xitem.name == '全国节点分布') {
-                                            arrlist[2].children.unshift(xitem);
-                                            item.children.splice(index, 1); 
-                                        }
-                                        if(xitem.name == 'IPFS节点信息'){
-                                            item.children[index] = xitem.children[0]
-                                        }
+											arrlist[2].children.unshift(xitem);
+											item.children.splice(index, 1);
+										}
+										if (xitem.name == 'IPFS节点信息') {
+											item.children[index] =
+												xitem.children[0];
+										}
 									});
 								} else if (item.name == '操作管理') {
 									arrlist[7] = item;
+									// arrlist[7].children.push({
+									// 	children: [],
+									// 	component: 'menu_management',
+									// 	delete_status: 0,
+									// 	export_status: 0,
+									// 	hidden: 0,
+									// 	icon: '',
+									// 	id: 31,
+									// 	import_status: 0,
+									// 	insert_status: 0,
+									// 	name: '菜单管理',
+									// 	path: '/menu_management',
+									// 	pid: 30,
+									// 	read_status: 1,
+									// 	roleR: 1,
+									// 	time_create: 0,
+									// 	time_update: 0,
+									// 	update_status: 0,
+									// });
 								} else {
 									arrlist[8] = item;
 								}
-                            });
-                            console.log(arrlist);
+							});
+							console.log(arrlist);
 							for (var i = 0; i < arrlist.length; i++) {
 								if (arrlist[i] == null) {
 									arrlist.splice(i, 1);

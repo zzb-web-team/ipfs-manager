@@ -128,7 +128,7 @@ import program_release from '@/views/ipfs_program_management/program_release'
 
 //操作管理
 import operation_management from '@/views/operating/operation_management'
-import demo from '@/views/operating/demo'
+import menu_management from '@/views/operating/menu_management'
 //IPFS数据统计
 import nodeMap from '@/views/nodeApplication/nodeMap'
 import application from '@/views/nodeApplication/application'
@@ -193,7 +193,7 @@ var keymap = {
     'program_list': program_list,
     "program_release": program_release,
     "operation_management": operation_management,
-    "demo": demo,
+    "menu_management": menu_management,
     "nodeMap": nodeMap,
     "application": application,
     'nodeUse': nodeUse,
