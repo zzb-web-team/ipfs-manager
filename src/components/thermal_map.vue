@@ -251,7 +251,7 @@ export default {
 			var opts = { offset: new BMap.Size(50, 50) };
 			this.map.addControl(new BMap.NavigationControl(opts));
 			// 设置地图默认缩放比例
-			this.map.setZoom(12);
+			this.map.setZoom(8);
 			var pointArray = new Array();
 			for (var i = 0; i < this.points.length; i++) {
 				// console.log(this.points[i]);

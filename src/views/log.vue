@@ -201,8 +201,8 @@ export default {
 								'ipfs_id',
 								res.data.id,
 								7 * 24 * 60 * 60
-                            );
-                            this.$cookies.set(
+							);
+							this.$cookies.set(
 								'role_id',
 								res.data.role_id,
 								7 * 24 * 60 * 60
@@ -232,27 +232,22 @@ export default {
 				.then((res) => {
 					if (res.status == 0) {
 						if (res.data && res.data.length > 0) {
-							let arrlist = [];
-							res.data.forEach((item) => {
-								if (item.name == '后台账户') {
-									arrlist[0] = item;
-								} else if (item.name == '服务器监控') {
-									arrlist[1] = item;
-								} else if (item.name == 'IPFS节点控制台') {
-									arrlist[2] = item;
-								} else if (item.name == 'IPFS节点应用') {
-									arrlist[3] = item;
-								} else if (item.name == 'IPFS节点收益') {
-									arrlist[4] = item;
-								} else if (item.name == 'IPFS程序管理') {
-									arrlist[5] = item;
-								} else if (item.name == 'IPFS数据统计') {
-									arrlist[6] = item;
-									item.children.forEach((xitem, index) => {
-										console.log(xitem);
+							let arrlist = [1, 2, 3, 4, 5, 6];
 
+							res.data.forEach((item) => {
+								if (item.name == 'IPFS节点控制台') {
+									arrlist[0] = item;
+								} else if (item.name == 'IPFS节点应用') {
+									arrlist[1] = item;
+								} else if (item.name == 'IPFS节点收益') {
+									arrlist[2] = item;
+								} else if (item.name == 'IPFS程序管理') {
+									arrlist[3] = item;
+								} else if (item.name == 'IPFS数据统计') {
+									arrlist[4] = item;
+									item.children.forEach((xitem, index) => {
 										if (xitem.name == '全国节点分布') {
-											arrlist[2].children.unshift(xitem);
+											arrlist[0].children.unshift(xitem);
 											item.children.splice(index, 1);
 										}
 										if (xitem.name == 'IPFS节点信息') {
@@ -261,15 +256,18 @@ export default {
 										}
 									});
 								} else if (item.name == '操作管理') {
-									arrlist[7] = item;
-									// arrlist[7].children.push({
+									console.log(arrlist[5]);
+                                    arrlist[5] = item;
+                                    //这几行代码是修改菜单功能--禁止删除
+
+									// arrlist[5].children.push({
 									// 	children: [],
 									// 	component: 'menu_management',
 									// 	delete_status: 0,
 									// 	export_status: 0,
 									// 	hidden: 0,
 									// 	icon: '',
-									// 	id: 31,
+									// 	id: 100,
 									// 	import_status: 0,
 									// 	insert_status: 0,
 									// 	name: '菜单管理',
@@ -281,8 +279,9 @@ export default {
 									// 	time_update: 0,
 									// 	update_status: 0,
 									// });
-								} else {
-									arrlist[8] = item;
+								}
+								else {
+									arrlist.push(item);
 								}
 							});
 							console.log(arrlist);
@@ -303,6 +302,7 @@ export default {
 								mtpath,
 								7 * 24 * 60 * 60
 							);
+							console.log(arrlist);
 							window.location.href = './';
 						} else {
 							this.$router.push({ path: '/error404' });
@@ -316,8 +316,8 @@ export default {
 						localStorage.removeItem('user_information');
 						this.$cookies.remove('ipfs_user');
 						this.$cookies.remove('ipfs_id');
-                        this.$cookies.remove('ipfs_path');
-                        this.$cookies.remove('role_id');
+						this.$cookies.remove('ipfs_path');
+						this.$cookies.remove('role_id');
 					}
 				})
 				.catch((error) => {});

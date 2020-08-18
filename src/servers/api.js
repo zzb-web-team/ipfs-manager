@@ -549,3 +549,15 @@ export const addmenu = params => {
         res => res.data
     );
 };
+//新增菜单
+export const deletemenu = params => {
+    return post(`${serverUrl}/system/deletemenu`, params).then(
+        res => res.data
+    );
+};
+//修改菜单
+export const updatemenu = params => {
+    return post(`${serverUrl}/system/updatemenu`, params).then(
+        res => res.data
+    );
+};

@@ -52,7 +52,8 @@
 								style="text-align: left;"
 								v-show="
 									item.name != '设备监控' &&
-										item.name != 'IPFS程序管理'
+										item.name != 'IPFS程序管理' &&
+										item.name != '服务器监控'
 								"
 							>
 								<template slot="title">
@@ -72,8 +73,7 @@
 										"
 										:index="itemChild.path"
 										:key="itemChild.path"
-                                        class="two_menu_tit"
-                                       
+										class="two_menu_tit"
 									>
 										<template slot="title">
 											<i :class="itemChild.icon"></i>
@@ -86,7 +86,7 @@
 											:index="itemChild_Child.path"
 											:key="itemChild_Child.path"
 											v-show="itemChild_Child.hidden != 1"
-                                            class="there_menu"
+											class="there_menu"
 										>
 											<i
 												:class="itemChild_Child.icon"
@@ -106,7 +106,7 @@
 												itemChild.name != '节点详情' &&
 												itemChild.name != '调整收益参数'
 										"
-                                        class="two_menu"
+										class="two_menu"
 									>
 										<i :class="itemChild.icon"></i>
 										<span
