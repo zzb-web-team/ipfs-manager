@@ -190,7 +190,7 @@
 						><el-select
 							size="small"
 							v-model="searchdata.region6"
-							placeholder="请选择运营商"
+							placeholder="请选择线路"
 							@change="set_time()"
 						>
 							<el-option label="全部" value="*"></el-option>

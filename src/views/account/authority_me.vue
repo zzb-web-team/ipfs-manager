@@ -236,7 +236,6 @@ export default {
 				],
 				userid: [],
 			},
-			props: { multiple: true },
 			options: [],
 			data: [],
 			defaultProps: {

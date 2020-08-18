@@ -230,3 +230,7 @@ body {
 .there_menu {
     padding-left: 80px !important;
 }
+
+.node_user_title .el-tabs__nav-wrap::after {
+    background: none !important;
+}

@@ -543,3 +543,9 @@ export const error_log_list = params => {
         res => res.data
     );
 };
+//新增菜单
+export const addmenu = params => {
+    return post(`${serverUrl}/system/addmenu`, params).then(
+        res => res.data
+    );
+};

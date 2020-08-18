@@ -1,14 +1,15 @@
 <template>
 	<section class="myself-container content">
 		<div class="user-title" style="display: flex;flex-flow: column;">
-			<el-breadcrumb separator="/">
+			<!-- <el-breadcrumb separator="/">
 				<el-breadcrumb-item>
-					<a>节点平均利用率</a>
+					<a>节点利用率</a>
 				</el-breadcrumb-item>
-			</el-breadcrumb>
+			</el-breadcrumb> -->
 			<div style="margin-top:10px;">
-				<el-tabs v-model="activeName" @tab-click="handleClick">
-					<el-tab-pane label="IP流量" name="first">
+				<el-tabs v-model="activeName" @tab-click="handleClick" class="node_user_title">
+					<!-- <el-tab-pane label="IP流量" name="first"> -->
+                        <el-tab-pane label="节点利用率" name="first">
 						<!--  -->
 
 						<div
@@ -89,7 +90,7 @@
 							</el-select>
 							<el-select
 								v-model="ispvalue"
-								placeholder="请选择运营商"
+								placeholder="请选择线路"
 								style="margin-left:10px;width: 8%;"
 								@change="onseach"
 							>
@@ -146,7 +147,7 @@
 							>
 						</div>
 						<!--  -->
-						<!-- <el-row style="margin-top:20px;" class="overview">
+						<el-row style="margin-top:20px;" class="overview">
 							<el-col :span="5">
 								<div class="user-item">
 									<div class="item-count">
@@ -169,7 +170,7 @@
 									<div class="item-text">平均利用率</div>
 								</div>
 							</el-col>
-						</el-row> -->
+						</el-row>
 						<!--  -->
 						<div class="device_form" style>
 							<el-button
@@ -190,7 +191,7 @@
 								<el-col
 									:span="24"
 									style="text-align:left;    font-weight: bold;"
-									>IP流量利用率表</el-col
+									>节点利用率</el-col
 								>
 							</el-row>
 							<el-row type="flex" class="row_active">
@@ -218,7 +219,7 @@
 												}}</span>
 											</template>
 										</el-table-column>
-										<!-- <el-table-column
+										<el-table-column
 											prop="totalUsage"
 											label="使用存储空间"
 										>
@@ -228,7 +229,7 @@
 														| zhuanbkb
 												}}</span>
 											</template>
-										</el-table-column> -->
+										</el-table-column>
 										<el-table-column
 											prop="percent"
 											label="IP流量利用率"
@@ -241,7 +242,7 @@
 												}}%</template
 											>
 										</el-table-column>
-										<!-- <el-table-column
+										<el-table-column
 											prop="usagePercent"
 											label="FS存储利用率"
 										>
@@ -265,7 +266,7 @@
 												</span>
 											</template>
 										</el-table-column>
-                                        <el-table-column prop="ping" label="平均利用率"></el-table-column> -->
+                                        <el-table-column prop="ping" label="平均利用率"></el-table-column>
 										<el-table-column
 											prop="timestamp"
 											label="日期"
@@ -289,9 +290,7 @@
 							></fenye>
 						</div>
 					</el-tab-pane>
-					<el-tab-pane label="FS存储" name="second">
-						<!--  -->
-
+					<!-- <el-tab-pane label="FS存储" name="second">
 						<div
 							style="display: flex;flex-flow: row;"
 							class="seach_top"
@@ -369,7 +368,7 @@
 							</el-select>
 							<el-select
 								v-model="ispvalue_fs"
-								placeholder="请选择运营商"
+								placeholder="请选择线路"
 								style="margin-left:10px;width: 8%;"
 								@change="onseach('fs')"
 							>
@@ -426,7 +425,6 @@
 							>
 						</div>
 
-						<!--  -->
 						<div class="device_form" style>
 							<el-button
 								v-show="menutype.roleE == 1"
@@ -520,7 +518,7 @@
 								v-show="fs_tableData.length > 0"
 							></fenye>
 						</div>
-					</el-tab-pane>
+					</el-tab-pane> -->
 				</el-tabs>
 			</div>
 		</div>
@@ -576,9 +574,9 @@ export default {
 			zidingyifs: false,
 			chil_disable: true,
             chil_disable_fs: true,
-            ipDataFlow:18,
-            fsDataFlow:13,
-            pingDataFlow:63,
+            ipDataFlow:0,
+            fsDataFlow:0,
+            pingDataFlow:0,
 			pickerOptions: {
 				disabledDate(time) {
 					return (
@@ -1641,7 +1639,7 @@ export default {
 			window.onresize = myChart.resize;
 			let options = {
 				title: {
-					text: 'IP流量利用率',
+					text: '节点利用率',
 				},
 				legend: {
 					bottom: '2%',
@@ -1723,36 +1721,36 @@ export default {
 							},
 						},
 					},
-					// {
-					// 	data: [56, 12, 45, 20, 78, 63],
-					// 	// data: this.avgDataFlowUtily.map(function(item) {
-					// 	// 	return item * 100;
-					// 	// }),
-					// 	type: 'line',
-					// 	symbol: 'none',
-					// 	name: '存储利用率',
-					// 	smooth: true,
-					// 	itemStyle: {
-					// 		normal: {
-					// 			color: '#bbc40f',
-					// 		},
-					// 	},
-					// },
-					// {
-					// 	data: [36, 92, 25, 54, 18, 43],
-					// 	// data: this.avgDataFlowUtily.map(function(item) {
-					// 	// 	return item * 100;
-					// 	// }),
-					// 	type: 'line',
-					// 	symbol: 'none',
-					// 	name: '平均利用率',
-					// 	smooth: true,
-					// 	itemStyle: {
-					// 		normal: {
-					// 			color: '#09b005',
-					// 		},
-					// 	},
-					// },
+					{
+						// data: [56, 12, 45, 20, 78, 63],
+						// data: this.avgDataFlowUtily.map(function(item) {
+						// 	return item * 100;
+						// }),
+						type: 'line',
+						symbol: 'none',
+						name: '存储利用率',
+						smooth: true,
+						itemStyle: {
+							normal: {
+								color: '#bbc40f',
+							},
+						},
+					},
+					{
+						// data: [36, 92, 25, 54, 18, 43],
+						// data: this.avgDataFlowUtily.map(function(item) {
+						// 	return item * 100;
+						// }),
+						type: 'line',
+						symbol: 'none',
+						name: '平均利用率',
+						smooth: true,
+						itemStyle: {
+							normal: {
+								color: '#09b005',
+							},
+						},
+					},
 				],
 			};
 			myChart.setOption(options);

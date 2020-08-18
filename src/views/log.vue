@@ -201,6 +201,11 @@ export default {
 								'ipfs_id',
 								res.data.id,
 								7 * 24 * 60 * 60
+                            );
+                            this.$cookies.set(
+								'role_id',
+								res.data.role_id,
+								7 * 24 * 60 * 60
 							);
 							this.get_datalist(res.data.role_id, res.data.id);
 						} else if (res.status == 1) {
@@ -311,7 +316,8 @@ export default {
 						localStorage.removeItem('user_information');
 						this.$cookies.remove('ipfs_user');
 						this.$cookies.remove('ipfs_id');
-						this.$cookies.remove('ipfs_path');
+                        this.$cookies.remove('ipfs_path');
+                        this.$cookies.remove('role_id');
 					}
 				})
 				.catch((error) => {});
