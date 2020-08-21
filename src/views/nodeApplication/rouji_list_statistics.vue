@@ -36,6 +36,20 @@
 				</div>
 			</div> -->
 			<div class="seach_bottom">
+                <el-col :span="3">
+					<el-input
+						placeholder="请输入IP"
+						v-model="input"
+						class="input-with-select"
+                        @keyup.enter.native="seachuser"
+					>
+						<i
+							slot="prefix"
+							class="el-input__icon el-icon-search"
+							@click="seachuser()"
+						></i>
+					</el-input>
+				</el-col>
 				<span>状态：</span>
 				<el-select
 					v-model="value"
@@ -196,7 +210,8 @@ export default {
 	},
 	methods: {
 		get_table() {
-			let params = new Object();
+            let params = new Object();
+            params.ip=this.input;
 			if (this.value1) {
 				params.time_start = setbatime(this.value1[0]);
 				params.time_end = setbatime(this.value1[1]);
