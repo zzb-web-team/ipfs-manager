@@ -36,12 +36,12 @@
 				</div>
 			</div> -->
 			<div class="seach_bottom">
-                <el-col :span="3">
+				<el-col :span="3">
 					<el-input
 						placeholder="请输入IP"
 						v-model="input"
 						class="input-with-select"
-                        @keyup.enter.native="seachuser"
+						@keyup.enter.native="seachuser"
 					>
 						<i
 							slot="prefix"
@@ -206,12 +206,20 @@ export default {
 		fenye,
 	},
 	mounted() {
+		var today = new Date();
+		var y = today.getFullYear();
+		var m = today.getMonth();
+		m < 10 ? '0' + m : m;
+		var d = today.getDate();
+		d < 10 ? '0' + d : d;
+		var start_time = new Date(y, m, d, 0, 0);
+		this.value1 = [start_time, today];
 		this.get_table();
 	},
 	methods: {
 		get_table() {
-            let params = new Object();
-            params.ip=this.input;
+			let params = new Object();
+			params.ip = this.input;
 			if (this.value1) {
 				params.time_start = setbatime(this.value1[0]);
 				params.time_end = setbatime(this.value1[1]);
@@ -254,7 +262,14 @@ export default {
 		reset() {
 			this.value = '';
 			this.input = '';
-			this.value1 = '';
+			var today = new Date();
+			var y = today.getFullYear();
+			var m = today.getMonth();
+			m < 10 ? '0' + m : m;
+			var d = today.getDate();
+			d < 10 ? '0' + d : d;
+			var start_time = new Date(y, m, d, 0, 0);
+			this.value1 = [start_time, today];
 			this.currentPagefs = 1;
 			this.get_table();
 		},
