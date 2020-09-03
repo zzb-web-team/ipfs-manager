@@ -24,7 +24,9 @@
 					@change="set_time"
 					size="small"
 				>
-					<el-radio-button label="1">今天</el-radio-button>
+					<el-radio-button label="1" v-show="show_time_btn"
+						>今天</el-radio-button
+					>
 					<el-radio-button label="2">昨天</el-radio-button>
 					<el-radio-button label="3">近7天</el-radio-button>
 					<el-radio-button label="4">近30天</el-radio-button>
@@ -206,11 +208,21 @@
 				<el-tab-pane label="带宽" name="first">
 					<el-row>
 						<el-col :span="6" class="top_title">
-							<p>{{ upbandwidth |bandwith_unit}}{{downbandwidth_unit}}/{{ downbandwidth |bandwith_unit}}{{downbandwidth_unit}}</p>
+							<p>
+								{{ upbandwidth | bandwith_unit
+								}}{{ downbandwidth_unit }}/{{
+									downbandwidth | bandwith_unit
+								}}{{ downbandwidth_unit }}
+							</p>
 							<p>节点带宽峰值（上/下行）</p>
 						</el-col>
 						<el-col :span="6" class="top_title">
-							<p>{{ averageup |bandwith_unit}}{{downbandwidth_unit}}/{{ averagedown |bandwith_unit}}{{downbandwidth_unit}}</p>
+							<p>
+								{{ averageup | bandwith_unit
+								}}{{ downbandwidth_unit }}/{{
+									averagedown | bandwith_unit
+								}}{{ downbandwidth_unit }}
+							</p>
 							<p>节点带宽平均值（上/下行）</p>
 						</el-col>
 					</el-row>
@@ -339,9 +351,9 @@ import {
 	get_units,
 	formatBkb,
 	menudisable,
-    formatterDate,
-    bandwidth_unit_conversion,
-    bandwidth_unit
+	formatterDate,
+	bandwidth_unit_conversion,
+	bandwidth_unit,
 } from '../../servers/sevdate';
 import echarts from 'echarts';
 export default {
@@ -349,8 +361,8 @@ export default {
 		return {
 			activeName: 'first',
 			radio1: '1',
-            _width: '',
-            downbandwidth_unit:"Kbps",
+			_width: '',
+			downbandwidth_unit: 'Kbps',
 			upbandwidth: 0,
 			downbandwidth: 0,
 			averageup: 0,
@@ -650,6 +662,7 @@ export default {
 			city_disable: true,
 			echartsexport: true,
 			obnj: {},
+			show_time_btn: true,
 		};
 	},
 	mounted() {
@@ -677,11 +690,12 @@ export default {
 				this.searchdata.region5 = '';
 			} else {
 				this.searchdata.region4 = [search_data.qu, search_data.region];
-                this.city_disable = false;
+				this.city_disable = false;
 				this.options_city =
-                    city_list[this.searchdata.region4[1]].cities;
-                   
-				this.searchdata.region5 = search_data.city=='*'?-1:search_data.city;
+					city_list[this.searchdata.region4[1]].cities;
+
+				this.searchdata.region5 =
+					search_data.city == '*' ? -1 : search_data.city;
 			}
 			this.searchdata.region1 =
 				search_data.firstChannel == '*' ? '' : search_data.firstChannel;
@@ -721,14 +735,14 @@ export default {
 				e = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
 				f = Math.floor(Math.log(a) / Math.log(c));
 			return parseFloat((a / Math.pow(c, f)).toFixed(d)) + ' ' + e[f];
-        },
-        bandwith_unit(data){
-            if(data<=0){
-                return 0;
-            }else{
-                return bandwidth_unit_conversion(data)[0];
-            }
-        }
+		},
+		bandwith_unit(data) {
+			if (data <= 0) {
+				return 0;
+			} else {
+				return bandwidth_unit_conversion(data)[0];
+			}
+		},
 	},
 	methods: {
 		getJson() {
@@ -766,8 +780,7 @@ export default {
 						this.$message.error(res.errMsg);
 					}
 				})
-				.catch((error) => {
-				});
+				.catch((error) => {});
 		},
 		//请求带宽数据
 		get_nodetype(num) {
@@ -799,7 +812,10 @@ export default {
 			} else {
 				params.nodeId = '*';
 			}
-			if (this.searchdata.region4 == '*'||this.searchdata.region4=='') {
+			if (
+				this.searchdata.region4 == '*' ||
+				this.searchdata.region4 == ''
+			) {
 				params.region = '*';
 			} else {
 				params.qu = this.searchdata.region4[0];
@@ -815,10 +831,10 @@ export default {
 			}
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime;
-			if (params.end_ts - params.end_ts > 86400) {
+			if (params.end_ts - params.start_ts > 86400) {
 				params.timeUnit = 1440;
 			} else {
-				params.timeUnit = 60;
+				params.timeUnit = 120;
 			}
 			params.tabname = this.searchdata.tabname;
 			params.radio = this.searchdata.radio;
@@ -834,14 +850,22 @@ export default {
 						let uparrlist = [];
 						for (let k in res.data.downBandwidthMap) {
 							let obj = {};
-							obj.name = getday(k);
+							if (params.timeUnit == 120) {
+								obj.name = getday(k, 'hms');
+							} else {
+								obj.name = getday(k);
+							}
 							obj.value = res.data.downBandwidthMap[k];
 							this.downBandwidthMap.push(obj);
 							downarrlist.push(res.data.downBandwidthMap[k]);
 						}
 						for (let k in res.data.upBandwidthMap) {
 							let obj = {};
-							obj.name = getday(k);
+							if (params.timeUnit == 120) {
+								obj.name = getday(k, 'hms');
+							} else {
+								obj.name = getday(k);
+							}
 							obj.value = res.data.upBandwidthMap[k];
 							this.upBandwidthMap.push(obj);
 							uparrlist.push(res.data.upBandwidthMap[k]);
@@ -849,8 +873,10 @@ export default {
 						this.downbandwidth = this.getMaximin(
 							downarrlist,
 							'max'
-                        );
-                        this.downbandwidth_unit=bandwidth_unit_conversion(this.downbandwidth)[1];
+						);
+						this.downbandwidth_unit = bandwidth_unit_conversion(
+							this.downbandwidth
+						)[1];
 						this.upbandwidth = this.getMaximin(uparrlist, 'max');
 						this.averageup = this.pingjun(uparrlist);
 						this.averagedown = this.pingjun(downarrlist);
@@ -859,8 +885,7 @@ export default {
 						this.$message.error(res.errMsg);
 					}
 				})
-				.catch((error) => {
-				});
+				.catch((error) => {});
 		},
 		//请求存储空间数据
 		get_monit() {
@@ -891,7 +916,10 @@ export default {
 			} else {
 				params.nodeId = '*';
 			}
-			if (this.searchdata.region4 == '*'||this.searchdata.region4=='') {
+			if (
+				this.searchdata.region4 == '*' ||
+				this.searchdata.region4 == ''
+			) {
 				params.region = '*';
 			} else {
 				params.qu = this.searchdata.region4[0];
@@ -907,7 +935,11 @@ export default {
 			}
 			params.end_ts = this.endtime;
 			params.start_ts = this.starttime;
-			params.timeUnit = 5;
+			if (params.end_ts - params.start_ts > 86400) {
+				params.timeUnit = 1440;
+			} else {
+				params.timeUnit = 120;
+			}
 			params.tabname = this.searchdata.tabname;
 			params.radio = this.searchdata.radio;
 			sessionStorage.setItem('search_condition', JSON.stringify(params));
@@ -920,7 +952,11 @@ export default {
 						let tolarrlist = [];
 						for (let k in res.data.dataStoreUsageMap) {
 							let obj = {};
-							obj.name = getday(k);
+							if (params.timeUnit == 120) {
+								obj.name = getday(k, 'hms');
+							} else {
+								obj.name = getday(k);
+							}
 							obj.value = res.data.dataStoreUsageMap[k];
 							this.dataStore.push(obj);
 							avaarrlist.push(res.data.dataStoreUsageMap[k]);
@@ -942,8 +978,7 @@ export default {
 						this.$message.error(res.errMsg);
 					}
 				})
-				.catch((error) => {
-				});
+				.catch((error) => {});
 		},
 		//请求节点质量--ms
 		get_pingms() {
@@ -987,7 +1022,10 @@ export default {
 			} else {
 				params.osType = '*';
 			}
-			if (this.searchdata.region4 == '*'||this.searchdata.region4=='') {
+			if (
+				this.searchdata.region4 == '*' ||
+				this.searchdata.region4 == ''
+			) {
 				params.region = '*';
 			} else {
 				params.qu = this.searchdata.region4[0];
@@ -1003,10 +1041,10 @@ export default {
 			}
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime;
-			if (params.end_ts - params.end_ts > 86400) {
+			if (params.end_ts - params.start_ts > 86400) {
 				params.timeUnit = 1440;
 			} else {
-				params.timeUnit = 60;
+				params.timeUnit = 120;
 			}
 			params.tabname = this.searchdata.tabname;
 			params.radio = this.searchdata.radio;
@@ -1018,7 +1056,11 @@ export default {
 						let arrlist = [];
 						for (let k in res.data) {
 							let obj = {};
-							obj.name = getday(k);
+							if (params.timeUnit == 120) {
+								obj.name = getday(k, 'hms');
+							} else {
+								obj.name = getday(k);
+							}
 							obj.value = res.data[k] / 1000;
 							this.mslist.push(obj);
 							arrlist.push(res.data[k] / 1000);
@@ -1036,8 +1078,7 @@ export default {
 						this.$message.error(res.errMsg);
 					}
 				})
-				.catch((error) => {
-				});
+				.catch((error) => {});
 		},
 		//请求节点质量--响应时差
 		get_tid() {
@@ -1081,7 +1122,10 @@ export default {
 			} else {
 				params.osType = '*';
 			}
-			if (this.searchdata.region4 == '*'||this.searchdata.region4=='') {
+			if (
+				this.searchdata.region4 == '*' ||
+				this.searchdata.region4 == ''
+			) {
 				params.region = '*';
 			} else {
 				params.qu = this.searchdata.region4[0];
@@ -1097,10 +1141,10 @@ export default {
 			}
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime;
-			if (params.end_ts - params.end_ts > 86400) {
+			if (params.end_ts - params.start_ts > 86400) {
 				params.timeUnit = 1440;
 			} else {
-				params.timeUnit = 60;
+				params.timeUnit = 120;
 			}
 			params.tabname = this.searchdata.tabname;
 			params.radio = this.searchdata.radio;
@@ -1112,7 +1156,11 @@ export default {
 						let arrlist = [];
 						for (let k in res.data) {
 							let obj = {};
-							obj.name = getday(k);
+							if (params.timeUnit == 120) {
+								obj.name = getday(k, 'hms');
+							} else {
+								obj.name = getday(k);
+							}
 							obj.value = res.data[k];
 							this.tidlist.push(obj);
 							arrlist.push(res.data[k]);
@@ -1130,8 +1178,7 @@ export default {
 						this.$message.error(res.errMsg);
 					}
 				})
-				.catch((error) => {
-				});
+				.catch((error) => {});
 		},
 		//请求节点质量--错误率
 		get_etf() {
@@ -1175,7 +1222,10 @@ export default {
 			} else {
 				params.osType = '*';
 			}
-			if (this.searchdata.region4 == '*'||this.searchdata.region4=='') {
+			if (
+				this.searchdata.region4 == '*' ||
+				this.searchdata.region4 == ''
+			) {
 				params.region = '*';
 			} else {
 				params.qu = this.searchdata.region4[0];
@@ -1191,10 +1241,10 @@ export default {
 			}
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime;
-			if (params.end_ts - params.end_ts > 86400) {
+			if (params.end_ts - params.start_ts > 86400) {
 				params.timeUnit = 1440;
 			} else {
-				params.timeUnit = 60;
+				params.timeUnit = 120;
 			}
 			params.tabname = this.searchdata.tabname;
 			params.radio = this.searchdata.radio;
@@ -1206,7 +1256,11 @@ export default {
 						let arrlist = [];
 						for (let k in res.data) {
 							let obj = {};
-							obj.name = getday(k);
+							if (params.timeUnit == 120) {
+								obj.name = getday(k, 'hms');
+							} else {
+								obj.name = getday(k);
+							}
 							obj.value = (res.data[k] * 100).toFixed(4);
 							this.etflist.push(obj);
 							arrlist.push(res.data[k] * 100);
@@ -1228,8 +1282,7 @@ export default {
 						this.$message.error(res.errMsg);
 					}
 				})
-				.catch((error) => {
-				});
+				.catch((error) => {});
 		},
 		//请求节点质量--失联计数
 		get_lt() {
@@ -1273,7 +1326,10 @@ export default {
 			} else {
 				params.osType = '*';
 			}
-			if (this.searchdata.region4 == '*'||this.searchdata.region4=='') {
+			if (
+				this.searchdata.region4 == '*' ||
+				this.searchdata.region4 == ''
+			) {
 				params.region = '*';
 			} else {
 				params.qu = this.searchdata.region4[0];
@@ -1289,10 +1345,10 @@ export default {
 			}
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime;
-			if (params.end_ts - params.end_ts > 86400) {
+			if (params.end_ts - params.start_ts > 86400) {
 				params.timeUnit = 1440;
 			} else {
-				params.timeUnit = 60;
+				params.timeUnit = 120;
 			}
 			params.tabname = this.searchdata.tabname;
 			params.radio = this.searchdata.radio;
@@ -1304,7 +1360,11 @@ export default {
 						let arrlist = [];
 						for (let k in res.data) {
 							let obj = {};
-							obj.name = getday(k);
+							if (params.timeUnit == 120) {
+								obj.name = getday(k, 'hms');
+							} else {
+								obj.name = getday(k);
+							}
 							obj.value = res.data[k];
 							this.ltlist.push(obj);
 							arrlist.push(res.data[k]);
@@ -1329,8 +1389,7 @@ export default {
 						this.$message.error(res.errMsg);
 					}
 				})
-				.catch((error) => {
-				});
+				.catch((error) => {});
 		},
 		//请求节点质量--在线率
 		get_itf() {
@@ -1374,7 +1433,10 @@ export default {
 			} else {
 				params.osType = '*';
 			}
-			if (this.searchdata.region4 == '*'||this.searchdata.region4=='') {
+			if (
+				this.searchdata.region4 == '*' ||
+				this.searchdata.region4 == ''
+			) {
 				params.region = '*';
 			} else {
 				params.qu = this.searchdata.region4[0];
@@ -1428,8 +1490,7 @@ export default {
 						this.$message.error(res.errMsg);
 					}
 				})
-				.catch((error) => {
-				});
+				.catch((error) => {});
 		},
 		//请求节点质量--离线率
 		get_otf() {
@@ -1473,7 +1534,10 @@ export default {
 			} else {
 				params.osType = '*';
 			}
-			if (this.searchdata.region4 == '*'||this.searchdata.region4=='') {
+			if (
+				this.searchdata.region4 == '*' ||
+				this.searchdata.region4 == ''
+			) {
 				params.region = '*';
 			} else {
 				params.qu = this.searchdata.region4[0];
@@ -1527,8 +1591,7 @@ export default {
 						this.$message.error(res.errMsg);
 					}
 				})
-				.catch((error) => {
-				});
+				.catch((error) => {});
 		},
 		//请求节点质量--重连次数
 		get_rcnt() {
@@ -1572,7 +1635,10 @@ export default {
 			} else {
 				params.osType = '*';
 			}
-			if (this.searchdata.region4 == '*'||this.searchdata.region4=='') {
+			if (
+				this.searchdata.region4 == '*' ||
+				this.searchdata.region4 == ''
+			) {
 				params.region = '*';
 			} else {
 				params.qu = this.searchdata.region4[0];
@@ -1588,10 +1654,10 @@ export default {
 			}
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime;
-			if (params.end_ts - params.end_ts > 86400) {
+			if (params.end_ts - params.start_ts > 86400) {
 				params.timeUnit = 1440;
 			} else {
-				params.timeUnit = 60;
+				params.timeUnit = 120;
 			}
 			params.tabname = this.searchdata.tabname;
 			params.radio = this.searchdata.radio;
@@ -1603,7 +1669,11 @@ export default {
 						let arrlist = [];
 						for (let k in res.data) {
 							let obj = {};
-							obj.name = getday(k);
+							if (params.timeUnit == 120) {
+								obj.name = getday(k, 'hms');
+							} else {
+								obj.name = getday(k);
+							}
 							obj.value = res.data[k];
 							this.rcntlist.push(obj);
 							arrlist.push(res.data[k]);
@@ -1628,8 +1698,7 @@ export default {
 						this.$message.error(res.errMsg);
 					}
 				})
-				.catch((error) => {
-				});
+				.catch((error) => {});
 		},
 		//请求节点质量--CPU占用率
 		get_cpuusag() {
@@ -1673,7 +1742,10 @@ export default {
 			} else {
 				params.osType = '*';
 			}
-			if (this.searchdata.region4 == '*'||this.searchdata.region4=='') {
+			if (
+				this.searchdata.region4 == '*' ||
+				this.searchdata.region4 == ''
+			) {
 				params.region = '*';
 			} else {
 				params.qu = this.searchdata.region4[0];
@@ -1689,10 +1761,10 @@ export default {
 			}
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime;
-			if (params.end_ts - params.end_ts > 86400) {
+			if (params.end_ts - params.start_ts > 86400) {
 				params.timeUnit = 1440;
 			} else {
-				params.timeUnit = 60;
+				params.timeUnit = 120;
 			}
 			params.tabname = this.searchdata.tabname;
 			params.radio = this.searchdata.radio;
@@ -1704,7 +1776,11 @@ export default {
 						let arrlist = [];
 						for (let k in res.data) {
 							let obj = {};
-							obj.name = getday(k);
+							if (params.timeUnit == 120) {
+								obj.name = getday(k, 'hms');
+							} else {
+								obj.name = getday(k);
+							}
 							obj.value = (res.data[k] * 100).toFixed(2);
 							this.cpuusaglist.push(obj);
 							arrlist.push(res.data[k] * 100);
@@ -1726,8 +1802,7 @@ export default {
 						this.$message.error(res.errMsg);
 					}
 				})
-				.catch((error) => {
-				});
+				.catch((error) => {});
 		},
 		//请求节点质量--CPU占用率
 		get_memory() {
@@ -1771,7 +1846,10 @@ export default {
 			} else {
 				params.osType = '*';
 			}
-			if (this.searchdata.region4 == '*'||this.searchdata.region4=='') {
+			if (
+				this.searchdata.region4 == '*' ||
+				this.searchdata.region4 == ''
+			) {
 				params.region = '*';
 			} else {
 				params.qu = this.searchdata.region4[0];
@@ -1787,10 +1865,10 @@ export default {
 			}
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime;
-			if (params.end_ts - params.end_ts > 86400) {
+			if (params.end_ts - params.start_ts > 86400) {
 				params.timeUnit = 1440;
 			} else {
-				params.timeUnit = 60;
+				params.timeUnit = 120;
 			}
 			params.tabname = this.searchdata.tabname;
 			params.radio = this.searchdata.radio;
@@ -1802,7 +1880,11 @@ export default {
 						let arrlist = [];
 						for (let k in res.data) {
 							let obj = {};
-							obj.name = getday(k);
+							if (params.timeUnit == 120) {
+								obj.name = getday(k, 'hms');
+							} else {
+								obj.name = getday(k);
+							}
 							obj.value = (res.data[k] * 100).toFixed(2);
 							this.memorylist.push(obj);
 							arrlist.push(res.data[k] * 100);
@@ -1824,11 +1906,10 @@ export default {
 						this.$message.error(res.errMsg);
 					}
 				})
-				.catch((error) => {
-				});
+				.catch((error) => {});
 		},
 		handleChangefirst(val) {
-            this.searchdata.region2='*';
+			this.searchdata.region2 = '*';
 			if (val == '*' || val == '') {
 				this.secondchan = [];
 				this.searchdata.region2 = '';
@@ -1868,6 +1949,7 @@ export default {
 			}
 		},
 		handleClick(tab, event) {
+			this.show_time_btn = true;
 			if (this.activeName == 'third') {
 				this.seacr_yin_show = true;
 				this.lastchange();
@@ -1928,6 +2010,7 @@ export default {
 			}
 		},
 		lastchange() {
+			this.show_time_btn = true;
 			if (this.searchdata.echartslist == 1) {
 				this.get_pingms();
 				// this.lastsharts('ping_ms', 'PING_MS');
@@ -1941,9 +2024,18 @@ export default {
 				this.get_lt();
 				// this.tiredsharts('lt', 'LT（失联计数）');
 			} else if (this.searchdata.echartslist == 5) {
+				if (this.searchdata.radio == 1) {
+					this.searchdata.radio = '2';
+				}
+				this.show_time_btn = false;
 				this.get_itf();
 				// this.tiredsharts('itf', 'ITF（在线率）');
 			} else if (this.searchdata.echartslist == 6) {
+				if (this.searchdata.radio == 1) {
+					this.searchdata.radio = '2';
+				}
+				this.show_time_btn = false;
+				console.log(this.searchdata.radio);
 				this.get_otf();
 				// this.tiredsharts('otf', 'OTF（离线率）');
 			} else if (this.searchdata.echartslist == 7) {
@@ -1986,7 +2078,7 @@ export default {
 		},
 		exportant_dataflow() {},
 		firstsharts(echartsdata) {
-            let _this = this;
+			let _this = this;
 			let chartdom = document.getElementById('firstChart');
 			chartdom.style.width = this._width + 'px';
 			let myChart = echarts.init(chartdom); //这里是为了获得容器所在位置
@@ -2035,6 +2127,13 @@ export default {
 				},
 
 				xAxis: {
+					axisLabel: {
+						interval: 0, //横轴信息全部显示
+						rotate: 0, //60度角倾斜显示
+					},
+					axisTick: {
+						alignWithLabel: true,
+					},
 					data: echartsdata.map(function(item) {
 						return item.name;
 					}),
@@ -2050,14 +2149,17 @@ export default {
 					splitArea: {
 						show: false,
 					},
-					name:_this.downbandwidth_unit,
+					name: _this.downbandwidth_unit,
 				},
 				series: [
 					{
 						type: 'bar',
 						data: echartsdata.map(function(item) {
-                            return bandwidth_unit(item.value,_this.downbandwidth_unit);
-                            //return item.value
+							return bandwidth_unit(
+								item.value,
+								_this.downbandwidth_unit
+							);
+							//return item.value
 						}),
 						// Set `large` for large data amount
 						large: true,
@@ -2122,6 +2224,13 @@ export default {
 					left: 10,
 				},
 				xAxis: {
+					axisLabel: {
+						interval: 0, //横轴信息全部显示
+						rotate: 0, //60度角倾斜显示
+					},
+					axisTick: {
+						alignWithLabel: true,
+					},
 					type: 'category',
 					data: dataStore.map(function(item) {
 						return item.name;
@@ -2202,6 +2311,13 @@ export default {
 				},
 				xAxis: {
 					type: 'category',
+					axisLabel: {
+						interval: 0, //横轴信息全部显示
+						rotate: 0, //60度角倾斜显示
+					},
+					axisTick: {
+						alignWithLabel: true,
+					},
 					data: datas.map(function(item) {
 						return item.name;
 					}),
@@ -2272,14 +2388,23 @@ export default {
 				},
 				xAxis: {
 					type: 'category',
+					axisLabel: {
+						interval: 0, //横轴信息全部显示
+						rotate: 0, //60度角倾斜显示
+					},
+					axisTick: {
+						alignWithLabel: true,
+					},
 					data: datas.map(function(item) {
 						return item.name;
 					}),
 				},
-				yAxis: {
-					type: 'value',
-					name: 'ms',
-				},
+				yAxis: [
+					{
+						type: 'value',
+						name: 'ms',
+					},
+				],
 				toolbox: {
 					feature: {
 						mydow: {

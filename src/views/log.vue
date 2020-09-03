@@ -260,25 +260,25 @@ export default {
                                     arrlist[5] = item;
                                     //这几行代码是修改菜单功能--禁止删除
 
-									// arrlist[5].children.push({
-									// 	children: [],
-									// 	component: 'menu_management',
-									// 	delete_status: 0,
-									// 	export_status: 0,
-									// 	hidden: 0,
-									// 	icon: '',
-									// 	id: 100,
-									// 	import_status: 0,
-									// 	insert_status: 0,
-									// 	name: '菜单管理',
-									// 	path: '/menu_management',
-									// 	pid: 30,
-									// 	read_status: 1,
-									// 	roleR: 1,
-									// 	time_create: 0,
-									// 	time_update: 0,
-									// 	update_status: 0,
-									// });
+									arrlist[5].children.push({
+										children: [],
+										component: 'menu_management',
+										delete_status: 0,
+										export_status: 0,
+										hidden: 0,
+										icon: '',
+										id: 100,
+										import_status: 0,
+										insert_status: 0,
+										name: '菜单管理',
+										path: '/menu_management',
+										pid: 30,
+										read_status: 1,
+										roleR: 1,
+										time_create: 0,
+										time_update: 0,
+										update_status: 0,
+									});
 								}
 								else {
 									arrlist.push(item);
@@ -302,7 +302,7 @@ export default {
 								mtpath,
 								7 * 24 * 60 * 60
 							);
-							console.log(arrlist);
+                            console.log(arrlist);
 							window.location.href = './';
 						} else {
 							this.$router.push({ path: '/error404' });

@@ -795,7 +795,7 @@ export default {
 			endtime: '',
 			totalDataFlow: 0,
 			totalOutputCnt: 0,
-			totalStoreTimes:0,
+			totalStoreTimes: 0,
 			totalStoreUsage: 0,
 			dataFlowArray: [],
 			timeArray: [],
@@ -992,8 +992,7 @@ export default {
 						this.$message.error(res.err_msg);
 					}
 				})
-				.catch((error) => {
-				});
+				.catch((error) => {});
 		},
 		//请求数据----获取搜索条件
 		getseachinput() {
@@ -1090,14 +1089,10 @@ export default {
 			params.time_unit = this.time_unit;
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime;
-			if (params.end_ts - params.start_ts > 2505600) {
+			if (params.end_ts - params.start_ts > 86400) {
 				params.time_unit = 1440;
-			} else if (params.end_ts - params.start_ts > 86400) {
-				params.time_unit = 60;
-			} else if (params.end_ts - params.start_ts > 21600) {
-				params.time_unit = 5;
-			} else {
-				params.time_unit = 1;
+			}else {
+				params.time_unit = 120;
 			}
 			params.radio = this.radio;
 			params.activeName = this.activeName;
@@ -1109,10 +1104,10 @@ export default {
 			query_ipfs_dataflow_curve(params)
 				.then((res) => {
 					if (res.status == 0) {
-                        if(res.data.totalOutputCnt){
-                            this.totalOutputCnt = res.data.totalOutputCnt;
-                            this.totalDataFlow = res.data.totalDataFlow;
-                        }
+						if (res.data.totalOutputCnt) {
+							this.totalOutputCnt = res.data.totalOutputCnt;
+							this.totalDataFlow = res.data.totalDataFlow;
+						}
 						let maxnum = this.getMaximin(
 							res.data.dataFlowArray,
 							'max'
@@ -1185,14 +1180,10 @@ export default {
 			}
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime;
-			if (params.end_ts - params.start_ts > 2505600) {
+            if (params.end_ts - params.start_ts > 86400) {
 				params.time_unit = 1440;
-			} else if (params.end_ts - params.start_ts > 86400) {
-				params.time_unit = 60;
-			} else if (params.end_ts - params.start_ts > 21600) {
-				params.time_unit = 5;
-			} else {
-				params.time_unit = 1;
+			}else {
+				params.time_unit = 120;
 			}
 			params.radio = this.radio;
 			params.activeName = this.activeName;
@@ -1204,10 +1195,10 @@ export default {
 			query_ip_store_details_curve(params)
 				.then((res) => {
 					if (res.status == 0) {
-                        if(res.data.totalStoreTimes){
-                            this.totalStoreTimes = res.data.totalStoreTimes;
-                            this.totalStoreUsage = res.data.totalStoreUsage;
-                        }
+						if (res.data.totalStoreTimes) {
+							this.totalStoreTimes = res.data.totalStoreTimes;
+							this.totalStoreUsage = res.data.totalStoreUsage;
+						}
 						// this.storeUsageArray = res.data.storeUsageArray;
 						let maxnum = this.getMaximin(
 							res.data.storeUsageArray,
@@ -1270,14 +1261,10 @@ export default {
 			params.end_ts = this.endtime;
 			params.pageNo = this.currentPage - 1;
 			params.pageSize = this.pageSize;
-			if (params.end_ts - params.start_ts > 2505600) {
+			if (params.end_ts - params.start_ts > 86400) {
 				params.time_unit = 1440;
-			} else if (params.end_ts - params.start_ts > 86400) {
-				params.time_unit = 60;
-			} else if (params.end_ts - params.start_ts > 21600) {
-				params.time_unit = 5;
-			} else {
-				params.time_unit = 1;
+			}else {
+				params.time_unit = 120;
 			}
 			query_ipfs_dataflow_table(params)
 				.then((res) => {
@@ -1336,14 +1323,10 @@ export default {
 			params.end_ts = this.endtime;
 			params.pageNo = this.fs_currentPage - 1;
 			params.pageSize = this.fs_pageSize;
-			if (params.end_ts - params.start_ts > 2505600) {
+			if (params.end_ts - params.start_ts > 86400) {
 				params.time_unit = 1440;
-			} else if (params.end_ts - params.start_ts > 86400) {
-				params.time_unit = 60;
-			} else if (params.end_ts - params.start_ts > 21600) {
-				params.time_unit = 5;
-			} else {
-				params.time_unit = 1;
+			}else {
+				params.time_unit = 120;
 			}
 			query_ip_store_details_table(params)
 				.then((res) => {
@@ -1704,6 +1687,7 @@ export default {
 				},
 				xAxis: {
 					data: this.timeArray,
+				
 				},
 				//设置canvas内部表格的内距
 				grid: {
@@ -1723,8 +1707,20 @@ export default {
 						smooth: true,
 						barWidth: 30, //柱图宽度
 						data: this.dataFlowArray,
+						
+						color: '#409EFF',
 						itemStyle: {
-							color: '#409EFF',
+							normal: {
+								label: {
+									show: true, //开启显示
+									position: 'top', //在上方显示
+									textStyle: {
+										//数值样式
+										color: 'black',
+										fontSize: 16,
+									},
+								},
+							},
 						},
 					},
 				],
@@ -1762,7 +1758,7 @@ export default {
 					},
 				},
 				xAxis: {
-					data: this.fs_timeArray,
+                    data: this.fs_timeArray,
 				},
 				yAxis: {
 					name: data_unit,
@@ -1779,7 +1775,7 @@ export default {
 						name: '容量',
 						type: 'line',
 						barWidth: 30, //柱图宽度
-						data: this.storeUsageArray,
+                        data: this.storeUsageArray,
 						smooth: true,
 						itemStyle: {
 							normal: {

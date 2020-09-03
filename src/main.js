@@ -218,8 +218,8 @@ router.beforeEach((to, from, next) => {
 
 
 if (localStorage.getItem('menus')) {
-    var accroute = JSON.parse(localStorage.getItem('menus'));
-    var routers = common.trans(accroute, keymap);
+    console.log(keymap);
+    var routers = common.trans(JSON.parse(localStorage.getItem('menus')), keymap);
     router.addRoutes(routers);
 }
 new Vue({

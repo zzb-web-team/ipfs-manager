@@ -7,9 +7,13 @@
 				</el-breadcrumb-item>
 			</el-breadcrumb> -->
 			<div style="margin-top:10px;">
-				<el-tabs v-model="activeName" @tab-click="handleClick" class="node_user_title">
+				<el-tabs
+					v-model="activeName"
+					@tab-click="handleClick"
+					class="node_user_title"
+				>
 					<!-- <el-tab-pane label="IP流量" name="first"> -->
-                        <el-tab-pane label="节点利用率" name="first">
+					<el-tab-pane label="节点利用率" name="first">
 						<!--  -->
 
 						<div
@@ -166,7 +170,9 @@
 							</el-col>
 							<el-col :span="5" style="margin-left:30px;">
 								<div class="user-item">
-									<div class="item-count">{{pingDataFlow}}%</div>
+									<div class="item-count">
+										{{ pingDataFlow }}%
+									</div>
 									<div class="item-text">平均利用率</div>
 								</div>
 							</el-col>
@@ -266,7 +272,10 @@
 												</span>
 											</template>
 										</el-table-column>
-                                        <el-table-column prop="ping" label="平均利用率"></el-table-column>
+										<el-table-column
+											prop="ping"
+											label="平均利用率"
+										></el-table-column>
 										<el-table-column
 											prop="timestamp"
 											label="日期"
@@ -573,10 +582,10 @@ export default {
 			zidingyi: false,
 			zidingyifs: false,
 			chil_disable: true,
-            chil_disable_fs: true,
-            ipDataFlow:0,
-            fsDataFlow:0,
-            pingDataFlow:0,
+			chil_disable_fs: true,
+			ipDataFlow: 0,
+			fsDataFlow: 0,
+			pingDataFlow: 0,
 			pickerOptions: {
 				disabledDate(time) {
 					return (
@@ -1039,14 +1048,10 @@ export default {
 
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime;
-			if (params.end_ts - params.start_ts > 2505600) {
+			if (params.end_ts - params.start_ts > 86400) {
 				params.time_unit = 1440;
-			} else if (params.end_ts - params.start_ts > 86400) {
-				params.time_unit = 60;
-			} else if (params.end_ts - params.start_ts > 21600) {
-				params.time_unit = 5;
 			} else {
-				params.time_unit = 1;
+				params.time_unit = 120;
 			}
 			params.radio = this.radio;
 			params.activeName = this.activeName;
@@ -1179,14 +1184,10 @@ export default {
 			params.end_ts = this.endtime;
 			params.pageNo = this.currentPage - 1;
 			params.pageSize = this.fs_pageSize;
-			if (params.end_ts - params.start_ts > 2505600) {
+            if (params.end_ts - params.start_ts > 86400) {
 				params.time_unit = 1440;
-			} else if (params.end_ts - params.start_ts > 86400) {
-				params.time_unit = 60;
-			} else if (params.end_ts - params.start_ts > 21600) {
-				params.time_unit = 5;
 			} else {
-				params.time_unit = 1;
+				params.time_unit = 120;
 			}
 			query_ipfs_dataflow_avg_usage_table(params)
 				.then((res) => {
@@ -1707,10 +1708,10 @@ export default {
 				},
 				series: [
 					{
-						// data: [20, 16, 65, 36, 12, 48],
 						data: this.avgDataFlowUtily.map(function(item) {
 							return item * 100;
 						}),
+						// data: [20, 16, 65, 36, 12, 48],
 						type: 'line',
 						symbol: 'none',
 						name: '流量利用率',
@@ -1924,11 +1925,11 @@ export default {
 	.overview {
 		.user-item {
 			.item-count {
-                font-size: 24px;
+				font-size: 24px;
 			}
 			.item-text {
-               height: 18px;
-               line-height: 36px;
+				height: 18px;
+				line-height: 36px;
 			}
 		}
 	}
