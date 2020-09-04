@@ -53,7 +53,8 @@
 								v-show="
 									item.name != '设备监控' &&
 										item.name != 'IPFS程序管理' &&
-										item.name != '服务器监控'
+										item.name != '服务器监控'&&
+                                        item.name != 'IPFS节点应用'
 								"
 							>
 								<template slot="title">
