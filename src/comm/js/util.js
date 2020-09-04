@@ -427,12 +427,13 @@ export default {
     //修改动态路由中的component
     trans: function trans(tree, keymap) {
         for (var i = 0; i < tree.length; i++) {
-            console.log(keymap[tree[i].component].__file);
-            let com = "@" + keymap[tree[i].component].__file;
-            tree[i].component = (resolve) => require([com], resolve)
-                // tree[i].component = keymap[tree[i].component].__file;
-                // console.log(tree[i].component)
-                //console.log(keymap[tree[i].component])
+
+            // let com = "@" + keymap[tree[i].component].__file;
+            // tree[i].component = (resolve) => require([com], resolve)
+            // console.log(tree[i].component);
+            tree[i].component = keymap[tree[i].component];
+            // console.log(tree[i].component)
+            //console.log(keymap[tree[i].component])
             if (tree[i].children) {
                 tree[i].children = this.trans(tree[i].children, keymap)
             }
