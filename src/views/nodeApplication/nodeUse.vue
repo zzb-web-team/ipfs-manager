@@ -215,69 +215,75 @@
 										>
 										</el-table-column>
 										<el-table-column
-											prop="totalOutput"
+											prop="dataFlowUse"
 											label="使用IP流量"
 										>
 											<template slot-scope="scope">
 												<span>{{
-													scope.row.totalOutput
+													scope.row.dataFlowUse
 														| zhuanbkb
 												}}</span>
 											</template>
 										</el-table-column>
 										<el-table-column
-											prop="totalUsage"
+											prop="storeUse"
 											label="使用存储空间"
 										>
 											<template slot-scope="scope">
 												<span>{{
-													scope.row.storeUsage
+													scope.row.storeUse
 														| zhuanbkb
 												}}</span>
 											</template>
 										</el-table-column>
 										<el-table-column
-											prop="percent"
+											prop="dataFlowUseRate"
 											label="IP流量利用率"
 										>
 											<template slot-scope="scope"
 												>{{
 													(
-														scope.row.percent * 100
-													).toFixed(6)
+														scope.row
+															.dataFlowUseRate *
+														100
+													).toFixed(2)
 												}}%</template
 											>
 										</el-table-column>
 										<el-table-column
-											prop="usagePercent"
+											prop="storeUseRate"
 											label="FS存储利用率"
 										>
 											<template slot-scope="scope">
-												<span
-													v-if="
-														scope.row
-															.storeUsagePercent ==
-															'NaN'
-													"
-													>0%
-												</span>
-												<span v-else>
+												<span>
 													{{
 														(
 															scope.row
-																.storeUsagePercent *
+																.storeUseRate *
 															100
-														).toFixed(6)
+														).toFixed(2)
 													}}%
 												</span>
 											</template>
 										</el-table-column>
 										<el-table-column
-											prop="ping"
+											prop="nodeAverageUseRate"
 											label="平均利用率"
-										></el-table-column>
+										>
+											<template slot-scope="scope">
+												<span>
+													{{
+														(
+															scope.row
+																.nodeAverageUseRate *
+															100
+														).toFixed(2)
+													}}%
+												</span>
+											</template>
+										</el-table-column>
 										<el-table-column
-											prop="timestamp"
+											prop="timeStamp"
 											label="日期"
 										>
 											<template slot-scope="scope">
@@ -1061,10 +1067,14 @@ export default {
 					this.avgDataFlowUtily = [];
 					this.timeArray = [];
 					if (res.status == 0) {
-						this.avgDataFlowUtily = res.data.avgDataFlowUtily;
-						res.data.timeArray.forEach((item, index) => {
-							this.timeArray.push(getday(item));
-						});
+						this.avgDataFlowUtily = res.data;
+						this.ipDataFlow = (res.data.avgFlowUse * 100).toFixed(
+							2
+						);
+						this.fsDataFlow = (res.data.avgStoreUse * 100).toFixed(
+							2
+						);
+						this.pingDataFlow = (res.data.average * 100).toFixed(2);
 						this.configure();
 						this.get_ip_table();
 					} else {
@@ -1184,7 +1194,7 @@ export default {
 			params.end_ts = this.endtime;
 			params.pageNo = this.currentPage - 1;
 			params.pageSize = this.fs_pageSize;
-            if (params.end_ts - params.start_ts > 86400) {
+			if (params.end_ts - params.start_ts > 86400) {
 				params.time_unit = 1440;
 			} else {
 				params.time_unit = 120;
@@ -1648,8 +1658,9 @@ export default {
 				},
 				xAxis: {
 					type: 'category',
-					data: this.timeArray,
-					// data: ['周一', '周二', '周三', '周四', '周五'],
+					data: this.avgDataFlowUtily.timeArray.map(function(item) {
+						return getday(item);
+					}),
 				},
 				tooltip: {
 					trigger: 'axis',
@@ -1708,10 +1719,11 @@ export default {
 				},
 				series: [
 					{
-						data: this.avgDataFlowUtily.map(function(item) {
-							return item * 100;
+						data: this.avgDataFlowUtily.avgFlowArray.map(function(
+							item
+						) {
+							return (item * 100).toFixed(2);
 						}),
-						// data: [20, 16, 65, 36, 12, 48],
 						type: 'line',
 						symbol: 'none',
 						name: '流量利用率',
@@ -1723,10 +1735,11 @@ export default {
 						},
 					},
 					{
-						// data: [56, 12, 45, 20, 78, 63],
-						// data: this.avgDataFlowUtily.map(function(item) {
-						// 	return item * 100;
-						// }),
+						data: this.avgDataFlowUtily.avgStoreArray.map(function(
+							item
+						) {
+							return (item * 100).toFixed(2);
+						}),
 						type: 'line',
 						symbol: 'none',
 						name: '存储利用率',
@@ -1738,10 +1751,11 @@ export default {
 						},
 					},
 					{
-						// data: [36, 92, 25, 54, 18, 43],
-						// data: this.avgDataFlowUtily.map(function(item) {
-						// 	return item * 100;
-						// }),
+						data: this.avgDataFlowUtily.avgArray.map(function(
+							item
+						) {
+							return (item * 100).toFixed(2);
+						}),
 						type: 'line',
 						symbol: 'none',
 						name: '平均利用率',
@@ -1884,7 +1898,12 @@ export default {
 	filters: {
 		//时间戳转时间
 		getymd(time) {
-			return getymdtime(time);
+			let str = time + '';
+			let y = str.slice(0, 4);
+			let m = str.slice(4, 6);
+			let d = str.slice(6, 9);
+			return y + '-' + m + '-' + d;
+			// return getymdtime(time);
 		},
 		zhuanbkb(bytes) {
 			if (bytes === 0) return '0 B';

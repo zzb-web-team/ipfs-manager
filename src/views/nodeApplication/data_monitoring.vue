@@ -846,40 +846,31 @@ export default {
 					this.averagedown = 0;
 					this.downbandwidth = 0;
 					if (res.status == 0) {
-						let downarrlist = [];
-						let uparrlist = [];
-						for (let k in res.data.downBandwidthMap) {
+						res.data.timeArray.forEach((item, index) => {
+							console.log(item);
 							let obj = {};
+							let obe = {};
 							if (params.timeUnit == 120) {
-								obj.name = getday(k, 'hms');
+								obj.name = getday(item, 'hms');
+								obe.name = getday(item, 'hms');
 							} else {
-								obj.name = getday(k);
+								obj.name = getday(item);
+								obe.name = getday(item);
 							}
-							obj.value = res.data.downBandwidthMap[k];
-							this.downBandwidthMap.push(obj);
-							downarrlist.push(res.data.downBandwidthMap[k]);
-						}
-						for (let k in res.data.upBandwidthMap) {
-							let obj = {};
-							if (params.timeUnit == 120) {
-								obj.name = getday(k, 'hms');
-							} else {
-								obj.name = getday(k);
-							}
-							obj.value = res.data.upBandwidthMap[k];
+							obj.value = res.data.upWidthArray[index];
+							obe.value = res.data.downWidthArray[index];
 							this.upBandwidthMap.push(obj);
-							uparrlist.push(res.data.upBandwidthMap[k]);
-						}
-						this.downbandwidth = this.getMaximin(
-							downarrlist,
-							'max'
-						);
+							this.downBandwidthMap.push(obe);
+						});
 						this.downbandwidth_unit = bandwidth_unit_conversion(
-							this.downbandwidth
+							res.data.upWidthMax
 						)[1];
-						this.upbandwidth = this.getMaximin(uparrlist, 'max');
-						this.averageup = this.pingjun(uparrlist);
-						this.averagedown = this.pingjun(downarrlist);
+
+						this.upbandwidth = res.data.upWidthMax;
+						this.downbandwidth = res.data.downWidthMax;
+						this.averageup = res.data.avgUp;
+						this.averagedown = res.data.avgDown;
+
 						this.$nextTick(this.firstsharts(this.upBandwidthMap));
 					} else {
 						this.$message.error(res.errMsg);
@@ -948,29 +939,19 @@ export default {
 					this.availablecap = 0;
 					this.totalcap = 0;
 					if (res.status == 0) {
-						let avaarrlist = [];
-						let tolarrlist = [];
-						for (let k in res.data.dataStoreUsageMap) {
+						res.data.timeArray.forEach((item, index) => {
 							let obj = {};
 							if (params.timeUnit == 120) {
-								obj.name = getday(k, 'hms');
+								obj.name = getday(item, 'hms');
 							} else {
-								obj.name = getday(k);
+								obj.name = getday(item);
 							}
-							obj.value = res.data.dataStoreUsageMap[k];
+							obj.value = res.data.diskRomArray[index];
 							this.dataStore.push(obj);
-							avaarrlist.push(res.data.dataStoreUsageMap[k]);
-						}
-						for (let k in res.data.dataStoreMap) {
-							// let obj = {};
-							// obj.name = getday(k);
-							// obj.value = res.data.dataStoreMap[k];
-							// this.dataStore.push(obj);
-							tolarrlist.push(res.data.dataStoreMap[k]);
-						}
-						this.availablecap = this.getMaximin(avaarrlist, 'max');
-						this.totalcap = this.getMaximin(tolarrlist, 'max');
-						let kunits = get_units(this.availablecap);
+						});
+						this.availablecap = res.data.sumDiskRom;
+						this.totalcap = res.data.totalDiskRom;
+						let kunits = get_units(res.data.sumDiskRom);
 						this.$nextTick(
 							this.secondsharts(this.dataStore, kunits)
 						);
@@ -1053,27 +1034,22 @@ export default {
 			ipfs_monit_ping_ms(params)
 				.then((res) => {
 					if (res.status == 0) {
-						let arrlist = [];
-						for (let k in res.data) {
+						res.data.timeArray.forEach((item, index) => {
 							let obj = {};
 							if (params.timeUnit == 120) {
-								obj.name = getday(k, 'hms');
+								obj.name = getday(index, 'hms');
 							} else {
-								obj.name = getday(k);
+								obj.name = getday(index);
 							}
-							obj.value = res.data[k] / 1000;
+							obj.value = res.data.pingMsArray[index];
 							this.mslist.push(obj);
-							arrlist.push(res.data[k] / 1000);
-						}
+						});
 						this.$nextTick(
 							this.lastsharts('ping_ms', 'PING_MS', this.mslist)
 						);
-						this.max_value =
-							this.getMaximin(arrlist, 'max').toFixed(2) + 'ms';
-						this.min_value =
-							this.getMaximin(arrlist, 'min').toFixed(2) + 'ms';
-						this.average_value =
-							this.pingjun(arrlist).toFixed(2) + 'ms';
+						this.max_value = res.data.pingMsMax + 'ms';
+						this.min_value = res.data.pingMsMin + 'ms';
+						this.average_value = res.data.avgPingMs + 'ms';
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -1153,27 +1129,22 @@ export default {
 			ipfs_monit_tid(params)
 				.then((res) => {
 					if (res.status == 0) {
-						let arrlist = [];
-						for (let k in res.data) {
+                        res.data.timeArray.forEach((item, index) => {
 							let obj = {};
 							if (params.timeUnit == 120) {
-								obj.name = getday(k, 'hms');
+								obj.name = getday(index, 'hms');
 							} else {
-								obj.name = getday(k);
+								obj.name = getday(index);
 							}
-							obj.value = res.data[k];
+							obj.value = res.data.tidArray[index];
 							this.tidlist.push(obj);
-							arrlist.push(res.data[k]);
-						}
+						});
 						this.$nextTick(
 							this.lastsharts('tid', 'TID', this.tidlist)
 						);
-						this.max_value =
-							this.getMaximin(arrlist, 'max').toFixed(0) + 'ms';
-						this.min_value =
-							this.getMaximin(arrlist, 'min').toFixed(0) + 'ms';
-						this.average_value =
-							this.pingjun(arrlist).toFixed(0) + 'ms';
+					    this.max_value =res.data.pingMsMax+"ms";							
+						this.min_value =res.data.pingMsMin+"ms";				
+						this.average_value =res.data.avgTid+"ms";
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -1253,18 +1224,16 @@ export default {
 			ipfs_monit_etf(params)
 				.then((res) => {
 					if (res.status == 0) {
-						let arrlist = [];
-						for (let k in res.data) {
+                        res.data.timeArray.forEach((item, index) => {
 							let obj = {};
 							if (params.timeUnit == 120) {
-								obj.name = getday(k, 'hms');
+								obj.name = getday(index, 'hms');
 							} else {
-								obj.name = getday(k);
+								obj.name = getday(index);
 							}
-							obj.value = (res.data[k] * 100).toFixed(4);
+							obj.value = (res.data.etfArray[index]*100).toFixed(4);
 							this.etflist.push(obj);
-							arrlist.push(res.data[k] * 100);
-						}
+						});
 						this.$nextTick(
 							this.tiredsharts(
 								'etf',
@@ -1272,12 +1241,9 @@ export default {
 								this.etflist
 							)
 						);
-						this.max_value =
-							this.getMaximin(arrlist, 'max').toFixed(4) + '%';
-						this.min_value =
-							this.getMaximin(arrlist, 'min').toFixed(4) + '%';
-						this.average_value =
-							this.pingjun(arrlist).toFixed(4) + '%';
+						this.max_value =(res.data.etfMax).toFixed(4)+"%";			
+						this.min_value =(res.data.etfMin).toFixed(4)+"%";		
+						this.average_value =(res.data.avgEtf).toFixed(4)+"%";
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -1358,17 +1324,16 @@ export default {
 				.then((res) => {
 					if (res.status == 0) {
 						let arrlist = [];
-						for (let k in res.data) {
+                         res.data.timeArray.forEach((item, index) => {
 							let obj = {};
 							if (params.timeUnit == 120) {
-								obj.name = getday(k, 'hms');
+								obj.name = getday(index, 'hms');
 							} else {
-								obj.name = getday(k);
+								obj.name = getday(index);
 							}
-							obj.value = res.data[k];
+							obj.value = res.data.ltArray[index];
 							this.ltlist.push(obj);
-							arrlist.push(res.data[k]);
-						}
+						});
 						this.$nextTick(
 							this.tiredsharts(
 								'lt',
@@ -1376,15 +1341,9 @@ export default {
 								this.ltlist
 							)
 						);
-						this.max_value = this.getMaximin(
-							arrlist,
-							'max'
-						).toFixed(0);
-						this.min_value = this.getMaximin(
-							arrlist,
-							'min'
-						).toFixed(0);
-						this.average_value = this.pingjun(arrlist).toFixed(0);
+						this.max_value =res.data.ltMax;
+						this.min_value = res.data.ltMin;
+						this.average_value = tres.data.avgLt;
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -1465,14 +1424,16 @@ export default {
 			ipfs_monit_itf(params)
 				.then((res) => {
 					if (res.status == 0) {
-						let arrlist = [];
-						for (let k in res.data) {
+                         res.data.timeArray.forEach((item, index) => {
 							let obj = {};
-							obj.name = getday(k);
-							obj.value = (res.data[k] * 100).toFixed(2);
+							if (params.timeUnit == 120) {
+								obj.name = getday(index, 'hms');
+							} else {
+								obj.name = getday(index);
+							}
+							obj.value = (res.data.itfArray[index]).toFixed(4);
 							this.itflist.push(obj);
-							arrlist.push(res.data[k] * 100);
-						}
+						});
 						this.$nextTick(
 							this.tiredsharts(
 								'itf',
@@ -1480,12 +1441,9 @@ export default {
 								this.itflist
 							)
 						);
-						this.max_value =
-							this.getMaximin(arrlist, 'max').toFixed(2) + '%';
-						this.min_value =
-							this.getMaximin(arrlist, 'min').toFixed(2) + '%';
-						this.average_value =
-							this.pingjun(arrlist).toFixed(2) + '%';
+						this.max_value =(res.data.itfMax).toFixed(2)+"%";
+						this.min_value =(res.data.itfMin).toFixed(2)+"%";
+						this.average_value =(res.data.avgItf).toFixed(2)+"%";
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -1566,14 +1524,16 @@ export default {
 			ipfs_monit_otf(params)
 				.then((res) => {
 					if (res.status == 0) {
-						let arrlist = [];
-						for (let k in res.data) {
+                         res.data.timeArray.forEach((item, index) => {
 							let obj = {};
-							obj.name = getday(k);
-							obj.value = (res.data[k] * 100).toFixed(2);
+							if (params.timeUnit == 120) {
+								obj.name = getday(index, 'hms');
+							} else {
+								obj.name = getday(index);
+							}
+							obj.value = (res.data.otfArray[index]).toFixed(4);
 							this.otflist.push(obj);
-							arrlist.push(res.data[k] * 100);
-						}
+						});
 						this.$nextTick(
 							this.tiredsharts(
 								'otf',
@@ -1581,12 +1541,9 @@ export default {
 								this.otflist
 							)
 						);
-						this.max_value =
-							this.getMaximin(arrlist, 'max').toFixed(2) + '%';
-						this.min_value =
-							this.getMaximin(arrlist, 'min').toFixed(2) + '%';
-						this.average_value =
-							this.pingjun(arrlist).toFixed(2) + '%';
+						this.max_value =(res.data.otfMax).toFixed(2)+"%";
+						this.min_value =(res.data.otfMin).toFixed(2)+"%";
+						this.average_value =(res.data.avgOtf).toFixed(2)+"%";
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -1666,18 +1623,17 @@ export default {
 			ipfs_monit_rcnt(params)
 				.then((res) => {
 					if (res.status == 0) {
-						let arrlist = [];
-						for (let k in res.data) {
+                         res.data.timeArray.forEach((item, index) => {
 							let obj = {};
 							if (params.timeUnit == 120) {
-								obj.name = getday(k, 'hms');
+								obj.name = getday(index, 'hms');
 							} else {
-								obj.name = getday(k);
+								obj.name = getday(index);
 							}
-							obj.value = res.data[k];
+							obj.value = res.data.rcntArray[index];
 							this.rcntlist.push(obj);
-							arrlist.push(res.data[k]);
-						}
+						});
+                        
 						this.$nextTick(
 							this.tiredsharts(
 								'rcnt',
@@ -1685,15 +1641,9 @@ export default {
 								this.rcntlist
 							)
 						);
-						this.max_value = this.getMaximin(
-							arrlist,
-							'max'
-						).toFixed(0);
-						this.min_value = this.getMaximin(
-							arrlist,
-							'min'
-						).toFixed(0);
-						this.average_value = this.pingjun(arrlist).toFixed(0);
+						this.max_value =res.data.rcntMax;
+						this.min_value = res.data.rcntMin;
+						this.average_value = res.data.avgRcnt;
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -1773,18 +1723,16 @@ export default {
 			ipfs_monit_cpuusage(params)
 				.then((res) => {
 					if (res.status == 0) {
-						let arrlist = [];
-						for (let k in res.data) {
+                         res.data.timeArray.forEach((item, index) => {
 							let obj = {};
 							if (params.timeUnit == 120) {
-								obj.name = getday(k, 'hms');
+								obj.name = getday(index, 'hms');
 							} else {
-								obj.name = getday(k);
+								obj.name = getday(index);
 							}
-							obj.value = (res.data[k] * 100).toFixed(2);
+							obj.value = (res.data.cpuArray[index]*100).toFixed(4);
 							this.cpuusaglist.push(obj);
-							arrlist.push(res.data[k] * 100);
-						}
+						});
 						this.$nextTick(
 							this.tiredsharts(
 								'cpu',
@@ -1792,12 +1740,9 @@ export default {
 								this.cpuusaglist
 							)
 						);
-						this.max_value =
-							this.getMaximin(arrlist, 'max').toFixed(2) + '%';
-						this.min_value =
-							this.getMaximin(arrlist, 'min').toFixed(2) + '%';
-						this.average_value =
-							this.pingjun(arrlist).toFixed(2) + '%';
+						this.max_value =(res.data.cpuMax).toFixed(2)+"%";
+						this.min_value =(res.data.cpuMin).toFixed(2)+"%";
+						this.average_value =(res.data.avgCpu).toFixed(2)+"%";
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -1877,18 +1822,16 @@ export default {
 			ipfs_monit_memory(params)
 				.then((res) => {
 					if (res.status == 0) {
-						let arrlist = [];
-						for (let k in res.data) {
+                          res.data.timeArray.forEach((item, index) => {
 							let obj = {};
 							if (params.timeUnit == 120) {
-								obj.name = getday(k, 'hms');
+								obj.name = getday(index, 'hms');
 							} else {
-								obj.name = getday(k);
+								obj.name = getday(index);
 							}
-							obj.value = (res.data[k] * 100).toFixed(2);
+							obj.value = (res.data.memoryArray[index]*100).toFixed(4);
 							this.memorylist.push(obj);
-							arrlist.push(res.data[k] * 100);
-						}
+						});
 						this.$nextTick(
 							this.tiredsharts(
 								'ram',
@@ -1896,12 +1839,9 @@ export default {
 								this.memorylist
 							)
 						);
-						this.max_value =
-							this.getMaximin(arrlist, 'max').toFixed(2) + '%';
-						this.min_value =
-							this.getMaximin(arrlist, 'min').toFixed(2) + '%';
-						this.average_value =
-							this.pingjun(arrlist).toFixed(2) + '%';
+						this.max_value =(res.data.ramMax).toFixed(2)+"%";
+						this.min_value =(res.data.ramMin).toFixed(2)+"%";
+						this.average_value =(res.data.avgMemory).toFixed(2)+"%";
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -2149,6 +2089,7 @@ export default {
 					splitArea: {
 						show: false,
 					},
+
 					name: _this.downbandwidth_unit,
 				},
 				series: [
@@ -2161,6 +2102,7 @@ export default {
 							);
 							//return item.value
 						}),
+						barMaxWidth: 30,
 						// Set `large` for large data amount
 						large: true,
 						// markPoint: {
@@ -2213,6 +2155,7 @@ export default {
 		},
 
 		secondsharts(dataStore, dataunits) {
+			console.log(dataStore, dataunits);
 			let _this = this;
 			let chartdom2 = document.getElementById('secondChart');
 			chartdom2.style.width = this._width + 'px';
@@ -2282,6 +2225,7 @@ export default {
 						data: dataStore.map(function(item) {
 							return formatBkb(item.value, dataunits);
 						}),
+						barMaxWidth: 30,
 						type: 'line',
 						smooth: true,
 						itemStyle: { color: '#409EFF' },
@@ -2442,7 +2386,8 @@ export default {
 					{
 						data: datas.map(function(item) {
 							return item.value;
-						}),
+                        }),
+                        barMaxWidth: 30,
 						type: 'bar',
 						smooth: true,
 						itemStyle: { color: '#409EFF' },

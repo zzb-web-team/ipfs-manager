@@ -1120,7 +1120,7 @@ export default {
 							);
 						});
 						// this.dataFlowArray = res.data.dataFlowArray;
-						res.data.timeArray.forEach((item, index) => {
+						res.data.chansTimesArray.forEach((item, index) => {
 							this.timeArray.push(getday(item));
 						});
 						this.drawLine(max_unit);
@@ -1195,17 +1195,17 @@ export default {
 			query_ip_store_details_curve(params)
 				.then((res) => {
 					if (res.status == 0) {
-						if (res.data.totalStoreTimes) {
-							this.totalStoreTimes = res.data.totalStoreTimes;
-							this.totalStoreUsage = res.data.totalStoreUsage;
+						if (res.data.storeTimesSum) {
+							this.totalStoreTimes = res.data.storeTimesSum;
+							this.totalStoreUsage = res.data.storeCapSum;
 						}
 						// this.storeUsageArray = res.data.storeUsageArray;
 						let maxnum = this.getMaximin(
-							res.data.storeUsageArray,
+							res.data.storeCapArray,
 							'max'
 						);
 						let max_unit = get_units(maxnum);
-						res.data.storeUsageArray.forEach((item) => {
+						res.data.storeCapArray.forEach((item) => {
 							this.storeUsageArray.push(
 								formatBkb(item, max_unit)
 							);
