@@ -201,7 +201,7 @@
 										height="480"
 									>
 										<el-table-column
-											prop="ipfsHashId"
+											prop="nodeid"
 											label="节点id"
 										></el-table-column>
 										<el-table-column
@@ -224,7 +224,7 @@
 											</template>
 										</el-table-column>
 										<el-table-column
-											prop="outputCount"
+											prop="chansTimes"
 											label="传输次数"
 										></el-table-column>
 										<el-table-column
@@ -234,7 +234,7 @@
 											<template slot-scope="scope">
 												<span>
 													{{
-														scope.row.timeReport
+														scope.row.fDate
 															| getymd
 													}}
 												</span>
@@ -249,7 +249,6 @@
 								@fathernum="gettol"
 								:pagesa="totalCnt"
 								:currentPage="currentPage"
-								v-show="tableData.length > 0"
 							></fenye>
 						</div>
 					</el-tab-pane>
@@ -427,41 +426,41 @@
 										height="480"
 									>
 										<el-table-column
-											prop="ipfsId"
+											prop="nodeid"
 											label="节点id"
 										></el-table-column>
 										<el-table-column
-											prop="storeUsage"
+											prop="storeCapSum"
 											label="存储容量"
 										>
 											<template slot-scope="scope">
 												<span
 													v-if="
-														scope.row.storeUsage ==
+														scope.row.storeCapSum ==
 															0
 													"
 													>0</span
 												>
 												<span v-else>
 													{{
-														scope.row.storeUsage
+														scope.row.storeCapSum
 															| zhuanbkb
 													}}
 												</span>
 											</template>
 										</el-table-column>
 										<el-table-column
-											prop="storeTimes"
+											prop="storeTimesSum"
 											label="存储次数"
 										></el-table-column>
 										<el-table-column
-											prop="timestamp"
+											prop="fDate"
 											label="日期"
 										>
 											<template slot-scope="scope">
 												<span>
 													{{
-														scope.row.timeStamp
+														scope.row.fDate
 															| getymd
 													}}
 												</span>
@@ -476,7 +475,6 @@
 								@fathernum="gettolfs"
 								:pagesa="fs_totalCnt"
 								:currentPage="fs_currentPage"
-								v-show="fs_tableData.length > 0"
 							></fenye>
 						</div>
 					</el-tab-pane>
@@ -842,7 +840,12 @@ export default {
 	filters: {
 		//时间戳转时间
 		getymd(time) {
-			return getymdtime(time);
+            let str = time + '';
+			let y = str.slice(0, 4);
+			let m = str.slice(4, 6);
+			let d = str.slice(6, 9);
+			return y + '-' + m + '-' + d;
+			// return getymdtime(time);
 		},
 		zhuanbkb(bytes) {
 			if (bytes == 0) return '0 B';
@@ -1103,6 +1106,7 @@ export default {
 			sessionStorage.setItem('search_condition', JSON.stringify(params));
 			query_ipfs_dataflow_curve(params)
 				.then((res) => {
+                    this.get_ip_table();
 					if (res.status == 0) {
 						if (res.data.totalOutputCnt) {
 							this.totalOutputCnt = res.data.totalOutputCnt;
@@ -1124,7 +1128,7 @@ export default {
 							this.timeArray.push(getday(item));
 						});
 						this.drawLine(max_unit);
-						this.get_ip_table();
+						
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -1194,6 +1198,7 @@ export default {
 			sessionStorage.setItem('search_condition', JSON.stringify(params));
 			query_ip_store_details_curve(params)
 				.then((res) => {
+                    this.get_fs_table();
 					if (res.status == 0) {
 						if (res.data.storeTimesSum) {
 							this.totalStoreTimes = res.data.storeTimesSum;
@@ -1214,7 +1219,7 @@ export default {
 							this.fs_timeArray.push(getday(item));
 						});
 						this.drawLine1(max_unit);
-						this.get_fs_table();
+						
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -1270,7 +1275,7 @@ export default {
 				.then((res) => {
 					this.tableData = [];
 					if (res.status == 0) {
-						this.tableData = res.data.list;
+						this.tableData = res.data.tableList;
 						this.totalCnt = res.data.totalCnt;
 					} else {
 						this.$message.error(res.errMsg);
@@ -1332,7 +1337,7 @@ export default {
 				.then((res) => {
 					this.fs_tableData = [];
 					if (res.status == 0) {
-						this.fs_tableData = res.data.list;
+						this.fs_tableData = res.data.tableList;
 						this.fs_totalCnt = res.data.totalCnt;
 					} else {
 						this.$message.error(res.errMsg);
