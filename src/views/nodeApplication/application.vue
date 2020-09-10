@@ -1091,8 +1091,8 @@ export default {
 			}
 			params.time_unit = this.time_unit;
 			params.start_ts = this.starttime;
-			params.end_ts = this.endtime;
-			if (params.end_ts - params.start_ts > 86400) {
+			params.end_ts = this.endtime-1;
+			if (params.end_ts - params.start_ts > 86399) {
 				params.time_unit = 1440;
 			}else {
 				params.time_unit = 120;
@@ -1183,8 +1183,8 @@ export default {
 				params.device_type = this.devtypevalue_fs;
 			}
 			params.start_ts = this.starttime;
-			params.end_ts = this.endtime;
-            if (params.end_ts - params.start_ts > 86400) {
+			params.end_ts = this.endtime-1;
+            if (params.end_ts - params.start_ts > 86399) {
 				params.time_unit = 1440;
 			}else {
 				params.time_unit = 120;
@@ -1263,10 +1263,10 @@ export default {
 				params.device_type = this.devtypevalue;
 			}
 			params.start_ts = this.starttime;
-			params.end_ts = this.endtime;
+			params.end_ts = this.endtime-1;
 			params.pageNo = this.currentPage - 1;
 			params.pageSize = this.pageSize;
-			if (params.end_ts - params.start_ts > 86400) {
+			if (params.end_ts - params.start_ts > 86399) {
 				params.time_unit = 1440;
 			}else {
 				params.time_unit = 120;
@@ -1325,10 +1325,10 @@ export default {
 				params.device_type = this.devtypevalue_fs;
 			}
 			params.start_ts = this.starttime;
-			params.end_ts = this.endtime;
+			params.end_ts = this.endtime-1;
 			params.pageNo = this.fs_currentPage - 1;
 			params.pageSize = this.fs_pageSize;
-			if (params.end_ts - params.start_ts > 86400) {
+			if (params.end_ts - params.start_ts > 86399) {
 				params.time_unit = 1440;
 			}else {
 				params.time_unit = 120;
@@ -1403,7 +1403,7 @@ export default {
 				params.time_unit = 120;
 			}
 			params.start_ts = this.starttime;
-			params.end_ts = this.endtime;
+			params.end_ts = this.endtime-1;
 			params.pageNo = this.fs_currentPage - 1;
 			params.pageSize = this.fs_pageSize;
 			query_ip_store_details_table(params)
@@ -1442,7 +1442,7 @@ export default {
 				params.city = '*';
 			}
 			params.start_ts = this.starttime;
-			params.end_ts = this.endtime;
+			params.end_ts = this.endtime-1;
 			params.pageNo = this.currentPage - 1;
 			params.pageSize = this.pageSize;
 			query_ipfs_dataflow_table(params)

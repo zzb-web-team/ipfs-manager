@@ -1053,8 +1053,8 @@ export default {
 			}
 
 			params.start_ts = this.starttime;
-			params.end_ts = this.endtime;
-			if (params.end_ts - params.start_ts > 86400) {
+			params.end_ts = this.endtime-1;
+			if (params.end_ts - params.start_ts > 86399) {
 				params.time_unit = 1440;
 			} else {
 				params.time_unit = 120;
@@ -1123,12 +1123,12 @@ export default {
 			}
 
 			params.start_ts = this.starttime;
-			params.end_ts = this.endtime;
-			if (params.end_ts - params.start_ts > 2505600) {
+			params.end_ts = this.endtime-1;
+			if (params.end_ts - params.start_ts > 2505599) {
 				params.time_unit = 1440;
-			} else if (params.end_ts - params.start_ts > 86400) {
+			} else if (params.end_ts - params.start_ts > 86399) {
 				params.time_unit = 60;
-			} else if (params.end_ts - params.start_ts > 21600) {
+			} else if (params.end_ts - params.start_ts > 21599) {
 				params.time_unit = 5;
 			} else {
 				params.time_unit = 1;
@@ -1191,10 +1191,10 @@ export default {
 				params.isp = this.ispvalue;
 			}
 			params.start_ts = this.starttime;
-			params.end_ts = this.endtime;
+			params.end_ts = this.endtime-1;
 			params.pageNo = this.currentPage - 1;
 			params.pageSize = this.fs_pageSize;
-			if (params.end_ts - params.start_ts > 86400) {
+			if (params.end_ts - params.start_ts > 86399) {
 				params.time_unit = 1440;
 			} else {
 				params.time_unit = 120;
@@ -1251,14 +1251,14 @@ export default {
 				params.isp = this.ispvalue_fs;
 			}
 			params.start_ts = this.starttime;
-			params.end_ts = this.endtime;
+			params.end_ts = this.endtime-1;
 			params.pageNo = this.currentPagefs - 1;
 			params.pageSize = this.fs_pageSize;
-			if (params.end_ts - params.start_ts > 2505600) {
+			if (params.end_ts - params.start_ts > 2505599) {
 				params.time_unit = 1440;
-			} else if (params.end_ts - params.start_ts > 86400) {
+			} else if (params.end_ts - params.start_ts > 86399) {
 				params.time_unit = 60;
-			} else if (params.end_ts - params.start_ts > 21600) {
+			} else if (params.end_ts - params.start_ts > 21599) {
 				params.time_unit = 5;
 			} else {
 				params.time_unit = 1;
@@ -1578,7 +1578,7 @@ export default {
 				params.time_unit = 5;
 			}
 			params.start_ts = this.starttime;
-			params.end_ts = this.endtime;
+			params.end_ts = this.endtime-1;
 			params.pageNo = this.currentPagefs - 1;
 			params.pageSize = this.fs_pageSize;
 			query_ip_store_avg_usage_table(params)
@@ -1624,7 +1624,7 @@ export default {
 			}
 
 			params.start_ts = this.starttime;
-			params.end_ts = this.endtime;
+			params.end_ts = this.endtime-1;
 			params.pageNo = this.currentPage - 1;
 			params.pageSize = this.fs_pageSize;
 			query_ipfs_dataflow_avg_usage_table(params)

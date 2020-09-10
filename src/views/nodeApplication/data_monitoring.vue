@@ -830,8 +830,8 @@ export default {
 				params.city = this.searchdata.region5;
 			}
 			params.start_ts = this.starttime;
-			params.end_ts = this.endtime;
-			if (params.end_ts - params.start_ts > 86400) {
+			params.end_ts = this.endtime-1;
+			if (params.end_ts - params.start_ts > 86399) {
 				params.timeUnit = 1440;
 			} else {
 				params.timeUnit = 120;
@@ -924,9 +924,9 @@ export default {
 			} else {
 				params.city = this.searchdata.region5;
 			}
-			params.end_ts = this.endtime;
+			params.end_ts = this.endtime-1;
 			params.start_ts = this.starttime;
-			if (params.end_ts - params.start_ts > 86400) {
+			if (params.end_ts - params.start_ts > 86399) {
 				params.timeUnit = 1440;
 			} else {
 				params.timeUnit = 120;
@@ -1021,8 +1021,8 @@ export default {
 				params.city = this.searchdata.region5;
 			}
 			params.start_ts = this.starttime;
-			params.end_ts = this.endtime;
-			if (params.end_ts - params.start_ts > 86400) {
+			params.end_ts = this.endtime-1;
+			if (params.end_ts - params.start_ts > 86399) {
 				params.timeUnit = 1440;
 			} else {
 				params.timeUnit = 120;
@@ -1116,8 +1116,8 @@ export default {
 				params.city = this.searchdata.region5;
 			}
 			params.start_ts = this.starttime;
-			params.end_ts = this.endtime;
-			if (params.end_ts - params.start_ts > 86400) {
+			params.end_ts = this.endtime-1;
+			if (params.end_ts - params.start_ts > 86399) {
 				params.timeUnit = 1440;
 			} else {
 				params.timeUnit = 120;
@@ -1211,8 +1211,8 @@ export default {
 				params.city = this.searchdata.region5;
 			}
 			params.start_ts = this.starttime;
-			params.end_ts = this.endtime;
-			if (params.end_ts - params.start_ts > 86400) {
+			params.end_ts = this.endtime-1;
+			if (params.end_ts - params.start_ts > 86399) {
 				params.timeUnit = 1440;
 			} else {
 				params.timeUnit = 120;
@@ -1310,8 +1310,8 @@ export default {
 				params.city = this.searchdata.region5;
 			}
 			params.start_ts = this.starttime;
-			params.end_ts = this.endtime;
-			if (params.end_ts - params.start_ts > 86400) {
+			params.end_ts = this.endtime-1;
+			if (params.end_ts - params.start_ts > 86399) {
 				params.timeUnit = 1440;
 			} else {
 				params.timeUnit = 120;
@@ -1610,8 +1610,8 @@ export default {
 				params.city = this.searchdata.region5;
 			}
 			params.start_ts = this.starttime;
-			params.end_ts = this.endtime;
-			if (params.end_ts - params.start_ts > 86400) {
+			params.end_ts = this.endtime-1;
+			if (params.end_ts - params.start_ts > 86399) {
 				params.timeUnit = 1440;
 			} else {
 				params.timeUnit = 120;
@@ -1710,8 +1710,8 @@ export default {
 				params.city = this.searchdata.region5;
 			}
 			params.start_ts = this.starttime;
-			params.end_ts = this.endtime;
-			if (params.end_ts - params.start_ts > 86400) {
+			params.end_ts = this.endtime-1;
+			if (params.end_ts - params.start_ts > 86399) {
 				params.timeUnit = 1440;
 			} else {
 				params.timeUnit = 120;
@@ -1809,8 +1809,8 @@ export default {
 				params.city = this.searchdata.region5;
 			}
 			params.start_ts = this.starttime;
-			params.end_ts = this.endtime;
-			if (params.end_ts - params.start_ts > 86400) {
+			params.end_ts = this.endtime-1;
+			if (params.end_ts - params.start_ts > 86399) {
 				params.timeUnit = 1440;
 			} else {
 				params.timeUnit = 120;
