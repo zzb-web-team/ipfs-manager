@@ -830,7 +830,7 @@ export default {
 				params.city = this.searchdata.region5;
 			}
 			params.start_ts = this.starttime;
-			params.end_ts = this.endtime-1;
+			params.end_ts = this.endtime - 1;
 			if (params.end_ts - params.start_ts > 86399) {
 				params.timeUnit = 1440;
 			} else {
@@ -870,11 +870,10 @@ export default {
 						this.downbandwidth = res.data.downWidthMax;
 						this.averageup = res.data.avgUp;
 						this.averagedown = res.data.avgDown;
-
-						this.$nextTick(this.firstsharts(this.upBandwidthMap));
 					} else {
 						this.$message.error(res.errMsg);
 					}
+					this.$nextTick(this.firstsharts(this.upBandwidthMap));
 				})
 				.catch((error) => {});
 		},
@@ -924,7 +923,7 @@ export default {
 			} else {
 				params.city = this.searchdata.region5;
 			}
-			params.end_ts = this.endtime-1;
+			params.end_ts = this.endtime - 1;
 			params.start_ts = this.starttime;
 			if (params.end_ts - params.start_ts > 86399) {
 				params.timeUnit = 1440;
@@ -938,6 +937,7 @@ export default {
 				.then((res) => {
 					this.availablecap = 0;
 					this.totalcap = 0;
+					let kunits = 'b';
 					if (res.status == 0) {
 						res.data.timeArray.forEach((item, index) => {
 							let obj = {};
@@ -951,13 +951,11 @@ export default {
 						});
 						this.availablecap = res.data.sumDiskRom;
 						this.totalcap = res.data.totalDiskRom;
-						let kunits = get_units(res.data.sumDiskRom);
-						this.$nextTick(
-							this.secondsharts(this.dataStore, kunits)
-						);
+						kunits = get_units(res.data.sumDiskRom);
 					} else {
 						this.$message.error(res.errMsg);
 					}
+					this.$nextTick(this.secondsharts(this.dataStore, kunits));
 				})
 				.catch((error) => {});
 		},
@@ -1021,7 +1019,7 @@ export default {
 				params.city = this.searchdata.region5;
 			}
 			params.start_ts = this.starttime;
-			params.end_ts = this.endtime-1;
+			params.end_ts = this.endtime - 1;
 			if (params.end_ts - params.start_ts > 86399) {
 				params.timeUnit = 1440;
 			} else {
@@ -1044,15 +1042,15 @@ export default {
 							obj.value = res.data.pingMsArray[index];
 							this.mslist.push(obj);
 						});
-						this.$nextTick(
-							this.lastsharts('ping_ms', 'PING_MS', this.mslist)
-						);
 						this.max_value = res.data.pingMsMax + 'ms';
 						this.min_value = res.data.pingMsMin + 'ms';
 						this.average_value = res.data.avgPingMs + 'ms';
 					} else {
 						this.$message.error(res.errMsg);
 					}
+					this.$nextTick(
+						this.lastsharts('ping_ms', 'PING_MS', this.mslist)
+					);
 				})
 				.catch((error) => {});
 		},
@@ -1116,7 +1114,7 @@ export default {
 				params.city = this.searchdata.region5;
 			}
 			params.start_ts = this.starttime;
-			params.end_ts = this.endtime-1;
+			params.end_ts = this.endtime - 1;
 			if (params.end_ts - params.start_ts > 86399) {
 				params.timeUnit = 1440;
 			} else {
@@ -1129,7 +1127,7 @@ export default {
 			ipfs_monit_tid(params)
 				.then((res) => {
 					if (res.status == 0) {
-                        res.data.timeArray.forEach((item, index) => {
+						res.data.timeArray.forEach((item, index) => {
 							let obj = {};
 							if (params.timeUnit == 120) {
 								obj.name = getday(index, 'hms');
@@ -1139,15 +1137,13 @@ export default {
 							obj.value = res.data.tidArray[index];
 							this.tidlist.push(obj);
 						});
-						this.$nextTick(
-							this.lastsharts('tid', 'TID', this.tidlist)
-						);
-					    this.max_value =res.data.pingMsMax+"ms";							
-						this.min_value =res.data.pingMsMin+"ms";				
-						this.average_value =res.data.avgTid+"ms";
+						this.max_value = res.data.pingMsMax + 'ms';
+						this.min_value = res.data.pingMsMin + 'ms';
+						this.average_value = res.data.avgTid + 'ms';
 					} else {
 						this.$message.error(res.errMsg);
 					}
+					this.$nextTick(this.lastsharts('tid', 'TID', this.tidlist));
 				})
 				.catch((error) => {});
 		},
@@ -1211,7 +1207,7 @@ export default {
 				params.city = this.searchdata.region5;
 			}
 			params.start_ts = this.starttime;
-			params.end_ts = this.endtime-1;
+			params.end_ts = this.endtime - 1;
 			if (params.end_ts - params.start_ts > 86399) {
 				params.timeUnit = 1440;
 			} else {
@@ -1224,29 +1220,27 @@ export default {
 			ipfs_monit_etf(params)
 				.then((res) => {
 					if (res.status == 0) {
-                        res.data.timeArray.forEach((item, index) => {
+						res.data.timeArray.forEach((item, index) => {
 							let obj = {};
 							if (params.timeUnit == 120) {
 								obj.name = getday(index, 'hms');
 							} else {
 								obj.name = getday(index);
 							}
-							obj.value = (res.data.etfArray[index]*100).toFixed(4);
+							obj.value = (
+								res.data.etfArray[index] * 100
+							).toFixed(4);
 							this.etflist.push(obj);
 						});
-						this.$nextTick(
-							this.tiredsharts(
-								'etf',
-								'ETF（错误率）',
-								this.etflist
-							)
-						);
-						this.max_value =(res.data.etfMax).toFixed(4)+"%";			
-						this.min_value =(res.data.etfMin).toFixed(4)+"%";		
-						this.average_value =(res.data.avgEtf).toFixed(4)+"%";
+						this.max_value = res.data.etfMax.toFixed(4) + '%';
+						this.min_value = res.data.etfMin.toFixed(4) + '%';
+						this.average_value = res.data.avgEtf.toFixed(4) + '%';
 					} else {
 						this.$message.error(res.errMsg);
 					}
+					this.$nextTick(
+						this.tiredsharts('etf', 'ETF（错误率）', this.etflist)
+					);
 				})
 				.catch((error) => {});
 		},
@@ -1310,7 +1304,7 @@ export default {
 				params.city = this.searchdata.region5;
 			}
 			params.start_ts = this.starttime;
-			params.end_ts = this.endtime-1;
+			params.end_ts = this.endtime - 1;
 			if (params.end_ts - params.start_ts > 86399) {
 				params.timeUnit = 1440;
 			} else {
@@ -1324,7 +1318,7 @@ export default {
 				.then((res) => {
 					if (res.status == 0) {
 						let arrlist = [];
-                         res.data.timeArray.forEach((item, index) => {
+						res.data.timeArray.forEach((item, index) => {
 							let obj = {};
 							if (params.timeUnit == 120) {
 								obj.name = getday(index, 'hms');
@@ -1334,19 +1328,15 @@ export default {
 							obj.value = res.data.ltArray[index];
 							this.ltlist.push(obj);
 						});
-						this.$nextTick(
-							this.tiredsharts(
-								'lt',
-								'LT（失联计数）',
-								this.ltlist
-							)
-						);
-						this.max_value =res.data.ltMax;
+						this.max_value = res.data.ltMax;
 						this.min_value = res.data.ltMin;
 						this.average_value = tres.data.avgLt;
 					} else {
 						this.$message.error(res.errMsg);
 					}
+					this.$nextTick(
+						this.tiredsharts('lt', 'LT（失联计数）', this.ltlist)
+					);
 				})
 				.catch((error) => {});
 		},
@@ -1424,29 +1414,25 @@ export default {
 			ipfs_monit_itf(params)
 				.then((res) => {
 					if (res.status == 0) {
-                         res.data.timeArray.forEach((item, index) => {
+						res.data.timeArray.forEach((item, index) => {
 							let obj = {};
 							if (params.timeUnit == 120) {
 								obj.name = getday(index, 'hms');
 							} else {
 								obj.name = getday(index);
 							}
-							obj.value = (res.data.itfArray[index]).toFixed(4);
+							obj.value = res.data.itfArray[index].toFixed(4);
 							this.itflist.push(obj);
 						});
-						this.$nextTick(
-							this.tiredsharts(
-								'itf',
-								'ITF（在线率）',
-								this.itflist
-							)
-						);
-						this.max_value =(res.data.itfMax).toFixed(2)+"%";
-						this.min_value =(res.data.itfMin).toFixed(2)+"%";
-						this.average_value =(res.data.avgItf).toFixed(2)+"%";
+						this.max_value = res.data.itfMax.toFixed(2) + '%';
+						this.min_value = res.data.itfMin.toFixed(2) + '%';
+						this.average_value = res.data.avgItf.toFixed(2) + '%';
 					} else {
 						this.$message.error(res.errMsg);
 					}
+					this.$nextTick(
+						this.tiredsharts('itf', 'ITF（在线率）', this.itflist)
+					);
 				})
 				.catch((error) => {});
 		},
@@ -1524,29 +1510,25 @@ export default {
 			ipfs_monit_otf(params)
 				.then((res) => {
 					if (res.status == 0) {
-                         res.data.timeArray.forEach((item, index) => {
+						res.data.timeArray.forEach((item, index) => {
 							let obj = {};
 							if (params.timeUnit == 120) {
 								obj.name = getday(index, 'hms');
 							} else {
 								obj.name = getday(index);
 							}
-							obj.value = (res.data.otfArray[index]).toFixed(4);
+							obj.value = res.data.otfArray[index].toFixed(4);
 							this.otflist.push(obj);
 						});
-						this.$nextTick(
-							this.tiredsharts(
-								'otf',
-								'OTF（离线率）',
-								this.otflist
-							)
-						);
-						this.max_value =(res.data.otfMax).toFixed(2)+"%";
-						this.min_value =(res.data.otfMin).toFixed(2)+"%";
-						this.average_value =(res.data.avgOtf).toFixed(2)+"%";
+						this.max_value = res.data.otfMax.toFixed(2) + '%';
+						this.min_value = res.data.otfMin.toFixed(2) + '%';
+						this.average_value = res.data.avgOtf.toFixed(2) + '%';
 					} else {
 						this.$message.error(res.errMsg);
 					}
+					this.$nextTick(
+						this.tiredsharts('otf', 'OTF（离线率）', this.otflist)
+					);
 				})
 				.catch((error) => {});
 		},
@@ -1610,7 +1592,7 @@ export default {
 				params.city = this.searchdata.region5;
 			}
 			params.start_ts = this.starttime;
-			params.end_ts = this.endtime-1;
+			params.end_ts = this.endtime - 1;
 			if (params.end_ts - params.start_ts > 86399) {
 				params.timeUnit = 1440;
 			} else {
@@ -1623,7 +1605,7 @@ export default {
 			ipfs_monit_rcnt(params)
 				.then((res) => {
 					if (res.status == 0) {
-                         res.data.timeArray.forEach((item, index) => {
+						res.data.timeArray.forEach((item, index) => {
 							let obj = {};
 							if (params.timeUnit == 120) {
 								obj.name = getday(index, 'hms');
@@ -1633,20 +1615,20 @@ export default {
 							obj.value = res.data.rcntArray[index];
 							this.rcntlist.push(obj);
 						});
-                        
-						this.$nextTick(
-							this.tiredsharts(
-								'rcnt',
-								'RCNT（重连计数）',
-								this.rcntlist
-							)
-						);
-						this.max_value =res.data.rcntMax;
+
+						this.max_value = res.data.rcntMax;
 						this.min_value = res.data.rcntMin;
 						this.average_value = res.data.avgRcnt;
 					} else {
 						this.$message.error(res.errMsg);
 					}
+					this.$nextTick(
+						this.tiredsharts(
+							'rcnt',
+							'RCNT（重连计数）',
+							this.rcntlist
+						)
+					);
 				})
 				.catch((error) => {});
 		},
@@ -1710,7 +1692,7 @@ export default {
 				params.city = this.searchdata.region5;
 			}
 			params.start_ts = this.starttime;
-			params.end_ts = this.endtime-1;
+			params.end_ts = this.endtime - 1;
 			if (params.end_ts - params.start_ts > 86399) {
 				params.timeUnit = 1440;
 			} else {
@@ -1723,29 +1705,27 @@ export default {
 			ipfs_monit_cpuusage(params)
 				.then((res) => {
 					if (res.status == 0) {
-                         res.data.timeArray.forEach((item, index) => {
+						res.data.timeArray.forEach((item, index) => {
 							let obj = {};
 							if (params.timeUnit == 120) {
 								obj.name = getday(index, 'hms');
 							} else {
 								obj.name = getday(index);
 							}
-							obj.value = (res.data.cpuArray[index]*100).toFixed(4);
+							obj.value = (
+								res.data.cpuArray[index] * 100
+							).toFixed(4);
 							this.cpuusaglist.push(obj);
 						});
-						this.$nextTick(
-							this.tiredsharts(
-								'cpu',
-								'CPU占用率',
-								this.cpuusaglist
-							)
-						);
-						this.max_value =(res.data.cpuMax).toFixed(2)+"%";
-						this.min_value =(res.data.cpuMin).toFixed(2)+"%";
-						this.average_value =(res.data.avgCpu).toFixed(2)+"%";
+						this.max_value = res.data.cpuMax.toFixed(2) + '%';
+						this.min_value = res.data.cpuMin.toFixed(2) + '%';
+						this.average_value = res.data.avgCpu.toFixed(2) + '%';
 					} else {
 						this.$message.error(res.errMsg);
 					}
+					this.$nextTick(
+						this.tiredsharts('cpu', 'CPU占用率', this.cpuusaglist)
+					);
 				})
 				.catch((error) => {});
 		},
@@ -1809,7 +1789,7 @@ export default {
 				params.city = this.searchdata.region5;
 			}
 			params.start_ts = this.starttime;
-			params.end_ts = this.endtime-1;
+			params.end_ts = this.endtime - 1;
 			if (params.end_ts - params.start_ts > 86399) {
 				params.timeUnit = 1440;
 			} else {
@@ -1822,29 +1802,28 @@ export default {
 			ipfs_monit_memory(params)
 				.then((res) => {
 					if (res.status == 0) {
-                          res.data.timeArray.forEach((item, index) => {
+						res.data.timeArray.forEach((item, index) => {
 							let obj = {};
 							if (params.timeUnit == 120) {
 								obj.name = getday(index, 'hms');
 							} else {
 								obj.name = getday(index);
 							}
-							obj.value = (res.data.memoryArray[index]*100).toFixed(4);
+							obj.value = (
+								res.data.memoryArray[index] * 100
+							).toFixed(4);
 							this.memorylist.push(obj);
 						});
-						this.$nextTick(
-							this.tiredsharts(
-								'ram',
-								'内存占用率',
-								this.memorylist
-							)
-						);
-						this.max_value =(res.data.ramMax).toFixed(2)+"%";
-						this.min_value =(res.data.ramMin).toFixed(2)+"%";
-						this.average_value =(res.data.avgMemory).toFixed(2)+"%";
+						this.max_value = res.data.ramMax.toFixed(2) + '%';
+						this.min_value = res.data.ramMin.toFixed(2) + '%';
+						this.average_value =
+							res.data.avgMemory.toFixed(2) + '%';
 					} else {
 						this.$message.error(res.errMsg);
 					}
+					this.$nextTick(
+						this.tiredsharts('ram', '内存占用率', this.memorylist)
+					);
 				})
 				.catch((error) => {});
 		},
@@ -2151,6 +2130,7 @@ export default {
 					return min;
 				}
 			}
+			myChart.clear();
 			myChart.setOption(options);
 		},
 
@@ -2232,6 +2212,7 @@ export default {
 					},
 				],
 			};
+			myChart2.clear();
 			myChart2.setOption(options);
 		},
 		tiredsharts(id, titlename, datas) {
@@ -2317,6 +2298,7 @@ export default {
 					},
 				],
 			};
+			myChart2.clear();
 			myChart2.setOption(options);
 		},
 		lastsharts(id, titlename, datas) {
@@ -2386,14 +2368,15 @@ export default {
 					{
 						data: datas.map(function(item) {
 							return item.value;
-                        }),
-                        barMaxWidth: 30,
+						}),
+						barMaxWidth: 30,
 						type: 'bar',
 						smooth: true,
 						itemStyle: { color: '#409EFF' },
 					},
 				],
 			};
+			myChart2.clear();
 			myChart2.setOption(options);
 		},
 	},

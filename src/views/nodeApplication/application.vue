@@ -234,8 +234,7 @@
 											<template slot-scope="scope">
 												<span>
 													{{
-														scope.row.fDate
-															| getymd
+														scope.row.fDate | getymd
 													}}
 												</span>
 											</template>
@@ -460,8 +459,7 @@
 											<template slot-scope="scope">
 												<span>
 													{{
-														scope.row.fDate
-															| getymd
+														scope.row.fDate | getymd
 													}}
 												</span>
 											</template>
@@ -840,7 +838,7 @@ export default {
 	filters: {
 		//时间戳转时间
 		getymd(time) {
-            let str = time + '';
+			let str = time + '';
 			let y = str.slice(0, 4);
 			let m = str.slice(4, 6);
 			let d = str.slice(6, 9);
@@ -1091,10 +1089,10 @@ export default {
 			}
 			params.time_unit = this.time_unit;
 			params.start_ts = this.starttime;
-			params.end_ts = this.endtime-1;
+			params.end_ts = this.endtime - 1;
 			if (params.end_ts - params.start_ts > 86399) {
 				params.time_unit = 1440;
-			}else {
+			} else {
 				params.time_unit = 120;
 			}
 			params.radio = this.radio;
@@ -1106,29 +1104,31 @@ export default {
 			sessionStorage.setItem('search_condition', JSON.stringify(params));
 			query_ipfs_dataflow_curve(params)
 				.then((res) => {
-                    this.get_ip_table();
+					this.get_ip_table();
 					if (res.status == 0) {
 						if (res.data.totalOutputCnt) {
 							this.totalOutputCnt = res.data.totalOutputCnt;
 							this.totalDataFlow = res.data.totalDataFlow;
 						}
-						let maxnum = this.getMaximin(
-							res.data.dataFlowArray,
-							'max'
-						);
-						let max_unit = get_units(maxnum);
-						res.data.dataFlowArray.forEach((item) => {
-							this.dataFlowArray.push(
-								formatBkb(item, max_unit)
-								// (item / 1024 / 1024 / 1024).toFixed(2)
+						let max_unit = 'b';
+						if (res.data.dataFlowArray) {
+							let maxnum = this.getMaximin(
+								res.data.dataFlowArray,
+								'max'
 							);
-						});
-						// this.dataFlowArray = res.data.dataFlowArray;
-						res.data.chansTimesArray.forEach((item, index) => {
-							this.timeArray.push(getday(item));
-						});
+							max_unit = get_units(maxnum);
+							res.data.dataFlowArray.forEach((item) => {
+								this.dataFlowArray.push(
+									formatBkb(item, max_unit)
+									// (item / 1024 / 1024 / 1024).toFixed(2)
+								);
+							});
+							// this.dataFlowArray = res.data.dataFlowArray;
+							res.data.chansTimesArray.forEach((item, index) => {
+								this.timeArray.push(getday(item));
+							});
+						}
 						this.drawLine(max_unit);
-						
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -1183,43 +1183,45 @@ export default {
 				params.device_type = this.devtypevalue_fs;
 			}
 			params.start_ts = this.starttime;
-			params.end_ts = this.endtime-1;
-            if (params.end_ts - params.start_ts > 86399) {
+			params.end_ts = this.endtime - 1;
+			if (params.end_ts - params.start_ts > 86399) {
 				params.time_unit = 1440;
-			}else {
+			} else {
 				params.time_unit = 120;
 			}
 			params.radio = this.radio;
 			params.activeName = this.activeName;
 			this.totalStoreTimes = 0;
 			this.totalStoreUsage = 0;
-			this.storeUsageArray = [];
-			this.fs_timeArray = [];
+
 			sessionStorage.setItem('search_condition', JSON.stringify(params));
 			query_ip_store_details_curve(params)
 				.then((res) => {
-                    this.get_fs_table();
+					this.get_fs_table();
+					this.storeUsageArray = [];
+					this.fs_timeArray = [];
 					if (res.status == 0) {
-						if (res.data.storeTimesSum) {
+						if (res.data.storeCapSum) {
 							this.totalStoreTimes = res.data.storeTimesSum;
 							this.totalStoreUsage = res.data.storeCapSum;
 						}
-						// this.storeUsageArray = res.data.storeUsageArray;
-						let maxnum = this.getMaximin(
-							res.data.storeCapArray,
-							'max'
-						);
-						let max_unit = get_units(maxnum);
-						res.data.storeCapArray.forEach((item) => {
-							this.storeUsageArray.push(
-								formatBkb(item, max_unit)
+						let max_unit = 'b';
+						if (res.data.storeCapArray) {
+							let maxnum = this.getMaximin(
+								res.data.storeCapArray,
+								'max'
 							);
-						});
-						res.data.timeArray.forEach((item, index) => {
-							this.fs_timeArray.push(getday(item));
-						});
+							max_unit = get_units(maxnum);
+							res.data.storeCapArray.forEach((item) => {
+								this.storeUsageArray.push(
+									formatBkb(item, max_unit)
+								);
+							});
+							res.data.timeArray.forEach((item, index) => {
+								this.fs_timeArray.push(getday(item));
+							});
+						}
 						this.drawLine1(max_unit);
-						
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -1263,12 +1265,12 @@ export default {
 				params.device_type = this.devtypevalue;
 			}
 			params.start_ts = this.starttime;
-			params.end_ts = this.endtime-1;
+			params.end_ts = this.endtime - 1;
 			params.pageNo = this.currentPage - 1;
 			params.pageSize = this.pageSize;
 			if (params.end_ts - params.start_ts > 86399) {
 				params.time_unit = 1440;
-			}else {
+			} else {
 				params.time_unit = 120;
 			}
 			query_ipfs_dataflow_table(params)
@@ -1325,12 +1327,12 @@ export default {
 				params.device_type = this.devtypevalue_fs;
 			}
 			params.start_ts = this.starttime;
-			params.end_ts = this.endtime-1;
+			params.end_ts = this.endtime - 1;
 			params.pageNo = this.fs_currentPage - 1;
 			params.pageSize = this.fs_pageSize;
 			if (params.end_ts - params.start_ts > 86399) {
 				params.time_unit = 1440;
-			}else {
+			} else {
 				params.time_unit = 120;
 			}
 			query_ip_store_details_table(params)
@@ -1403,7 +1405,7 @@ export default {
 				params.time_unit = 120;
 			}
 			params.start_ts = this.starttime;
-			params.end_ts = this.endtime-1;
+			params.end_ts = this.endtime - 1;
 			params.pageNo = this.fs_currentPage - 1;
 			params.pageSize = this.fs_pageSize;
 			query_ip_store_details_table(params)
@@ -1442,7 +1444,7 @@ export default {
 				params.city = '*';
 			}
 			params.start_ts = this.starttime;
-			params.end_ts = this.endtime-1;
+			params.end_ts = this.endtime - 1;
 			params.pageNo = this.currentPage - 1;
 			params.pageSize = this.pageSize;
 			query_ipfs_dataflow_table(params)
@@ -1692,7 +1694,6 @@ export default {
 				},
 				xAxis: {
 					data: this.timeArray,
-				
 				},
 				//设置canvas内部表格的内距
 				grid: {
@@ -1712,7 +1713,7 @@ export default {
 						smooth: true,
 						barWidth: 30, //柱图宽度
 						data: this.dataFlowArray,
-						
+
 						color: '#409EFF',
 						itemStyle: {
 							normal: {
@@ -1730,6 +1731,7 @@ export default {
 					},
 				],
 			};
+			myChart.clear();
 			myChart.setOption(options);
 		},
 		drawLine1(data_unit) {
@@ -1763,7 +1765,7 @@ export default {
 					},
 				},
 				xAxis: {
-                    data: this.fs_timeArray,
+					data: this.fs_timeArray,
 				},
 				yAxis: {
 					name: data_unit,
@@ -1780,7 +1782,7 @@ export default {
 						name: '容量',
 						type: 'line',
 						barWidth: 30, //柱图宽度
-                        data: this.storeUsageArray,
+						data: this.storeUsageArray,
 						smooth: true,
 						itemStyle: {
 							normal: {
@@ -1790,6 +1792,7 @@ export default {
 					},
 				],
 			};
+			myChart.clear();
 			myChart.setOption(options);
 		},
 		exportExcel(dataupload, excelname) {

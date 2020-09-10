@@ -1075,11 +1075,11 @@ export default {
 							2
 						);
 						this.pingDataFlow = (res.data.average * 100).toFixed(2);
-						this.configure();
 						this.get_ip_table();
 					} else {
-						this.$message.error(res.errMsg);
+                        this.$message.error(res.errMsg);
 					}
+						this.configure();
 				})
 				.catch((error) => {});
 		},
@@ -1145,11 +1145,11 @@ export default {
 						res.data.timeArray.forEach((item, index) => {
 							this.fs_timeArray.push(getday(item));
 						});
-						this.configure1();
 						this.get_fs_table();
 					} else {
-						this.$message.error(res.errMsg);
+                        this.$message.error(res.errMsg);
 					}
+						this.configure1();
 				})
 				.catch((Error) => {});
 		},
@@ -1767,7 +1767,8 @@ export default {
 						},
 					},
 				],
-			};
+            };
+            myChart.clear();
 			myChart.setOption(options);
 		},
 		configure1() {
@@ -1829,7 +1830,8 @@ export default {
 						},
 					},
 				],
-			};
+            };
+            myChart.clear();
 			myChart.setOption(options);
 		},
 		exportExcel(dataupload, excelname) {
