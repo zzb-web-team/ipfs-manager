@@ -246,7 +246,7 @@
 					<div id="firstChart" style=" height:500px;width:100%"></div>
 				</el-tab-pane>
 				<el-tab-pane label="存储空间" name="second">
-					<el-row>
+					<el-row v-show="titleOverview">
 						<el-col :span="5" class="top_title">
 							<p>
 								{{ availablecap | formatBytes }}
@@ -359,6 +359,7 @@ import echarts from 'echarts';
 export default {
 	data() {
 		return {
+			titleOverview: true,
 			activeName: 'first',
 			radio1: '1',
 			_width: '',
@@ -927,8 +928,10 @@ export default {
 			params.start_ts = this.starttime;
 			if (params.end_ts - params.start_ts > 86399) {
 				params.timeUnit = 1440;
+				this.titleOverview = false;
 			} else {
 				params.timeUnit = 120;
+				this.titleOverview = true;
 			}
 			params.tabname = this.searchdata.tabname;
 			params.radio = this.searchdata.radio;
