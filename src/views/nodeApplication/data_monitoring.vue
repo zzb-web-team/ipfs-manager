@@ -848,7 +848,6 @@ export default {
 					this.downbandwidth = 0;
 					if (res.status == 0) {
 						res.data.timeArray.forEach((item, index) => {
-							console.log(item);
 							let obj = {};
 							let obe = {};
 							if (params.timeUnit == 120) {
@@ -1957,7 +1956,6 @@ export default {
 					this.searchdata.radio = '2';
 				}
 				this.show_time_btn = false;
-				console.log(this.searchdata.radio);
 				this.get_otf();
 				// this.tiredsharts('otf', 'OTF（离线率）');
 			} else if (this.searchdata.echartslist == 7) {
@@ -2138,7 +2136,6 @@ export default {
 		},
 
 		secondsharts(dataStore, dataunits) {
-			console.log(dataStore, dataunits);
 			let _this = this;
 			let chartdom2 = document.getElementById('secondChart');
 			chartdom2.style.width = this._width + 'px';
