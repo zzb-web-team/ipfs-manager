@@ -975,8 +975,8 @@ export default {
 							obj.value = res.data.diskRomArray[index];
 							this.dataStore.push(obj);
 						});
-						this.availablecap = res.data.sumDiskRom;
-						this.totalcap = res.data.totalDiskRom;
+						this.availablecap = res.data.totalDiskRom;
+						this.totalcap = res.data.sumDiskRom;
 						kunits = get_units(res.data.sumDiskRom);
 					} else {
 						this.$message.error(res.errMsg);
