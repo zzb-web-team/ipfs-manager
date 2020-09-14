@@ -853,7 +853,7 @@ export default {
 			if (params.end_ts - params.start_ts > 86399) {
 				params.timeUnit = 1440;
 			} else {
-				params.timeUnit = 120;
+				params.timeUnit = 60;
 			}
 			params.time_unit = params.timeUnit;
 			params.tabname = this.searchdata.tabname;
@@ -869,7 +869,7 @@ export default {
 						res.data.timeArray.forEach((item, index) => {
 							let obj = {};
 							let obe = {};
-							if (params.timeUnit == 120) {
+							if (params.timeUnit == 60) {
 								obj.name = getday(item, 'hms');
 								obe.name = getday(item, 'hms');
 							} else {
@@ -952,7 +952,7 @@ export default {
 				params.timeUnit = 1440;
 				this.titleOverview = false;
 			} else {
-				params.timeUnit = 120;
+				params.timeUnit = 60;
 				this.titleOverview = true;
 			}
 			params.time_unit = params.timeUnit;
@@ -967,7 +967,7 @@ export default {
 					if (res.status == 0) {
 						res.data.timeArray.forEach((item, index) => {
 							let obj = {};
-							if (params.timeUnit == 120) {
+							if (params.timeUnit == 60) {
 								obj.name = getday(item, 'hms');
 							} else {
 								obj.name = getday(item);
@@ -1054,7 +1054,7 @@ export default {
 			if (params.end_ts - params.start_ts > 86399) {
 				params.timeUnit = 1440;
 			} else {
-				params.timeUnit = 120;
+				params.timeUnit = 60;
 			}
 			params.time_unit = params.timeUnit;
 			params.tabname = this.searchdata.tabname;
@@ -1066,7 +1066,7 @@ export default {
 					if (res.status == 0) {
 						res.data.timeArray.forEach((item, index) => {
 							let obj = {};
-							if (params.timeUnit == 120) {
+							if (params.timeUnit == 60) {
 								obj.name = getday(item, 'hms');
 							} else {
 								obj.name = getday(item);
@@ -1154,7 +1154,7 @@ export default {
 			if (params.end_ts - params.start_ts > 86399) {
 				params.timeUnit = 1440;
 			} else {
-				params.timeUnit = 120;
+				params.timeUnit = 60;
 			}
 			params.time_unit = params.timeUnit;
 			params.tabname = this.searchdata.tabname;
@@ -1166,7 +1166,7 @@ export default {
 					if (res.status == 0) {
 						res.data.timeArray.forEach((item, index) => {
 							let obj = {};
-							if (params.timeUnit == 120) {
+							if (params.timeUnit == 60) {
 								obj.name = getday(item, 'hms');
 							} else {
 								obj.name = getday(item);
@@ -1252,7 +1252,7 @@ export default {
 			if (params.end_ts - params.start_ts > 86399) {
 				params.timeUnit = 1440;
 			} else {
-				params.timeUnit = 120;
+				params.timeUnit = 60;
 			}
 			params.time_unit = params.timeUnit;
 			params.tabname = this.searchdata.tabname;
@@ -1264,7 +1264,7 @@ export default {
 					if (res.status == 0) {
 						res.data.timeArray.forEach((item, index) => {
 							let obj = {};
-							if (params.timeUnit == 120) {
+							if (params.timeUnit == 60) {
 								obj.name = getday(item, 'hms');
 							} else {
 								obj.name = getday(item);
@@ -1354,7 +1354,7 @@ export default {
 			if (params.end_ts - params.start_ts > 86399) {
 				params.timeUnit = 1440;
 			} else {
-				params.timeUnit = 120;
+				params.timeUnit = 60;
 			}
 			params.time_unit = params.timeUnit;
 			params.tabname = this.searchdata.tabname;
@@ -1366,7 +1366,7 @@ export default {
 					if (res.status == 0) {
 						res.data.timeArray.forEach((item, index) => {
 							let obj = {};
-							if (params.timeUnit == 120) {
+							if (params.timeUnit == 60) {
 								obj.name = getday(item, 'hms');
 							} else {
 								obj.name = getday(item);
@@ -1468,7 +1468,7 @@ export default {
 					if (res.status == 0) {
 						res.data.timeArray.forEach((item, index) => {
 							let obj = {};
-							if (params.timeUnit == 120) {
+							if (params.timeUnit == 60) {
 								obj.name = getday(item, 'hms');
 							} else {
 								obj.name = getday(item);
@@ -1569,7 +1569,7 @@ export default {
 					if (res.status == 0) {
 						res.data.timeArray.forEach((item, index) => {
 							let obj = {};
-							if (params.timeUnit == 120) {
+							if (params.timeUnit == 60) {
 								obj.name = getday(item, 'hms');
 							} else {
 								obj.name = getday(item);
@@ -1658,7 +1658,7 @@ export default {
 			if (params.end_ts - params.start_ts > 86399) {
 				params.timeUnit = 1440;
 			} else {
-				params.timeUnit = 120;
+				params.timeUnit = 60;
 			}
 			params.time_unit = params.timeUnit;
 			params.tabname = this.searchdata.tabname;
@@ -1670,7 +1670,7 @@ export default {
 					if (res.status == 0) {
 						res.data.timeArray.forEach((item, index) => {
 							let obj = {};
-							if (params.timeUnit == 120) {
+							if (params.timeUnit == 60) {
 								obj.name = getday(item, 'hms');
 							} else {
 								obj.name = getday(item);
@@ -1763,7 +1763,7 @@ export default {
 			if (params.end_ts - params.start_ts > 86399) {
 				params.timeUnit = 1440;
 			} else {
-				params.timeUnit = 120;
+				params.timeUnit = 60;
 			}
 			params.time_unit = params.timeUnit;
 			params.tabname = this.searchdata.tabname;
@@ -1775,7 +1775,7 @@ export default {
 					if (res.status == 0) {
 						res.data.timeArray.forEach((item, index) => {
 							let obj = {};
-							if (params.timeUnit == 120) {
+							if (params.timeUnit == 60) {
 								obj.name = getday(item, 'hms');
 							} else {
 								obj.name = getday(item);
@@ -1865,7 +1865,7 @@ export default {
 			if (params.end_ts - params.start_ts > 86399) {
 				params.timeUnit = 1440;
 			} else {
-				params.timeUnit = 120;
+				params.timeUnit = 60;
 			}
 			params.time_unit = params.timeUnit;
 			params.tabname = this.searchdata.tabname;
@@ -1877,7 +1877,7 @@ export default {
 					if (res.status == 0) {
 						res.data.timeArray.forEach((item, index) => {
 							let obj = {};
-							if (params.timeUnit == 120) {
+							if (params.timeUnit == 60) {
 								obj.name = getday(item, 'hms');
 							} else {
 								obj.name = getday(item);
