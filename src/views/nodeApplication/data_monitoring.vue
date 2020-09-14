@@ -1076,7 +1076,7 @@ export default {
 						});
 						this.max_value = res.data.pingMsMax + 'ms';
 						this.min_value = res.data.pingMsMin + 'ms';
-                        this.average_value = res.data.avgPingMs + 'ms';
+						this.average_value = res.data.avgPingMs + 'ms';
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -1678,7 +1678,7 @@ export default {
 							obj.value = res.data.rcntArray[index];
 							this.rcntlist.push(obj);
 						});
-						
+
 						this.max_value = res.data.rcntMax;
 						this.min_value = res.data.rcntMin;
 						this.average_value = res.data.rcntAvg;
@@ -1889,8 +1889,7 @@ export default {
 						});
 						this.max_value = res.data.ramMax.toFixed(2) + '%';
 						this.min_value = res.data.ramMin.toFixed(2) + '%';
-						this.average_value =
-							res.data.ramAvg.toFixed(2) + '%';
+						this.average_value = res.data.ramAvg.toFixed(2) + '%';
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -2017,14 +2016,28 @@ export default {
 				// this.tiredsharts('lt', 'LT（失联计数）');
 			} else if (this.searchdata.echartslist == 5) {
 				if (this.searchdata.radio == 1) {
-					this.searchdata.radio = '2';
+					this.searchdata.radio = '3';
+					this.show_time = false;
+					this.searchdata.value1 = '';
+					let endt =
+						new Date(new Date().toLocaleDateString()).getTime() /
+						1000;
+					this.starttime = endt - 24 * 60 * 60 * 6;
+					this.endtime = Date.parse(new Date()) / 1000;
 				}
 				this.show_time_btn = false;
 				this.get_itf();
 				// this.tiredsharts('itf', 'ITF（在线率）');
 			} else if (this.searchdata.echartslist == 6) {
 				if (this.searchdata.radio == 1) {
-					this.searchdata.radio = '2';
+					this.searchdata.radio = '3';
+					this.show_time = false;
+					this.searchdata.value1 = '';
+					let endt =
+						new Date(new Date().toLocaleDateString()).getTime() /
+						1000;
+					this.starttime = endt - 24 * 60 * 60 * 6;
+					this.endtime = Date.parse(new Date()) / 1000;
 				}
 				this.show_time_btn = false;
 				this.get_otf();
@@ -2388,8 +2401,8 @@ export default {
 						}),
 						barMaxWidth: 30,
 						// Set `large` for large data amount
-                        large: true,
-                        smooth: true,
+						large: true,
+						smooth: true,
 						// markPoint: {
 						// 	data: [
 						// 		{ type: 'max', name: '最大值' },
