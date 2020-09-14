@@ -1276,7 +1276,7 @@ export default {
 						});
 						this.max_value = res.data.etfMax.toFixed(4) + '%';
 						this.min_value = res.data.etfMin.toFixed(4) + '%';
-						this.average_value = res.data.avgEtf.toFixed(4) + '%';
+						this.average_value = res.data.etfAvg.toFixed(4) + '%';
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -1376,7 +1376,7 @@ export default {
 						});
 						this.max_value = res.data.ltMax;
 						this.min_value = res.data.ltMin;
-						this.average_value = res.data.avgLt;
+						this.average_value = res.data.ltAvg;
 						console.log(this.ltlist);
 					} else {
 						this.$message.error(res.errMsg);
@@ -1478,7 +1478,7 @@ export default {
 						});
 						this.max_value = res.data.itfMax.toFixed(2) + '%';
 						this.min_value = res.data.itfMin.toFixed(2) + '%';
-						this.average_value = res.data.avgItf.toFixed(2) + '%';
+						this.average_value = res.data.itfAvg.toFixed(2) + '%';
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -1579,7 +1579,7 @@ export default {
 						});
 						this.max_value = res.data.otfMax.toFixed(2) + '%';
 						this.min_value = res.data.otfMin.toFixed(2) + '%';
-						this.average_value = res.data.avgOtf.toFixed(2) + '%';
+						this.average_value = res.data.otfAvg.toFixed(2) + '%';
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -1681,7 +1681,7 @@ export default {
 						
 						this.max_value = res.data.rcntMax;
 						this.min_value = res.data.rcntMin;
-						this.average_value = res.data.avgRcnt;
+						this.average_value = res.data.rcntAvg;
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -1787,7 +1787,7 @@ export default {
 						});
 						this.max_value = res.data.cpuMax.toFixed(2) + '%';
 						this.min_value = res.data.cpuMin.toFixed(2) + '%';
-						this.average_value = res.data.avgCpu.toFixed(2) + '%';
+						this.average_value = res.data.cpuAvg.toFixed(2) + '%';
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -1890,7 +1890,7 @@ export default {
 						this.max_value = res.data.ramMax.toFixed(2) + '%';
 						this.min_value = res.data.ramMin.toFixed(2) + '%';
 						this.average_value =
-							res.data.avgMemory.toFixed(2) + '%';
+							res.data.ramAvg.toFixed(2) + '%';
 					} else {
 						this.$message.error(res.errMsg);
 					}
