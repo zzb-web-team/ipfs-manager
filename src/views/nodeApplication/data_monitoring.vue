@@ -218,9 +218,9 @@
 						</el-col>
 						<el-col :span="6" class="top_title">
 							<p>
-								{{ averageup | bandwith_unit
+								{{ averageup | unit_with(downbandwidth_unit)
 								}}{{ downbandwidth_unit }}/{{
-									averagedown | bandwith_unit
+									averagedown | unit_with(downbandwidth_unit)
 								}}{{ downbandwidth_unit }}
 							</p>
 							<p>节点带宽平均值（上/下行）</p>
@@ -741,8 +741,12 @@ export default {
 			if (data <= 0) {
 				return 0;
 			} else {
+				console.log(data);
 				return bandwidth_unit_conversion(data)[0];
 			}
+		},
+		unit_with(data, unit) {
+			return bandwidth_unit(data, unit);
 		},
 	},
 	methods: {
