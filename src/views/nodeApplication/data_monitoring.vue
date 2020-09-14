@@ -955,6 +955,7 @@ export default {
 				params.timeUnit = 120;
 				this.titleOverview = true;
 			}
+			params.time_unit = params.timeUnit;
 			params.tabname = this.searchdata.tabname;
 			params.radio = this.searchdata.radio;
 			sessionStorage.setItem('search_condition', JSON.stringify(params));
@@ -1055,6 +1056,7 @@ export default {
 			} else {
 				params.timeUnit = 120;
 			}
+			params.time_unit = params.timeUnit;
 			params.tabname = this.searchdata.tabname;
 			params.radio = this.searchdata.radio;
 			params.echartslist = this.searchdata.echartslist;
@@ -1065,16 +1067,16 @@ export default {
 						res.data.timeArray.forEach((item, index) => {
 							let obj = {};
 							if (params.timeUnit == 120) {
-								obj.name = getday(index, 'hms');
+								obj.name = getday(item, 'hms');
 							} else {
-								obj.name = getday(index);
+								obj.name = getday(item);
 							}
 							obj.value = res.data.pingMsArray[index];
 							this.mslist.push(obj);
 						});
 						this.max_value = res.data.pingMsMax + 'ms';
 						this.min_value = res.data.pingMsMin + 'ms';
-						this.average_value = res.data.avgPingMs + 'ms';
+                        this.average_value = res.data.avgPingMs + 'ms';
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -1154,6 +1156,7 @@ export default {
 			} else {
 				params.timeUnit = 120;
 			}
+			params.time_unit = params.timeUnit;
 			params.tabname = this.searchdata.tabname;
 			params.radio = this.searchdata.radio;
 			params.echartslist = this.searchdata.echartslist;
@@ -1164,9 +1167,9 @@ export default {
 						res.data.timeArray.forEach((item, index) => {
 							let obj = {};
 							if (params.timeUnit == 120) {
-								obj.name = getday(index, 'hms');
+								obj.name = getday(item, 'hms');
 							} else {
-								obj.name = getday(index);
+								obj.name = getday(item);
 							}
 							obj.value = res.data.tidArray[index];
 							this.tidlist.push(obj);
@@ -1251,6 +1254,7 @@ export default {
 			} else {
 				params.timeUnit = 120;
 			}
+			params.time_unit = params.timeUnit;
 			params.tabname = this.searchdata.tabname;
 			params.radio = this.searchdata.radio;
 			params.echartslist = this.searchdata.echartslist;
@@ -1261,9 +1265,9 @@ export default {
 						res.data.timeArray.forEach((item, index) => {
 							let obj = {};
 							if (params.timeUnit == 120) {
-								obj.name = getday(index, 'hms');
+								obj.name = getday(item, 'hms');
 							} else {
-								obj.name = getday(index);
+								obj.name = getday(item);
 							}
 							obj.value = (
 								res.data.etfArray[index] * 100
@@ -1352,6 +1356,7 @@ export default {
 			} else {
 				params.timeUnit = 120;
 			}
+			params.time_unit = params.timeUnit;
 			params.tabname = this.searchdata.tabname;
 			params.radio = this.searchdata.radio;
 			params.echartslist = this.searchdata.echartslist;
@@ -1362,17 +1367,17 @@ export default {
 						res.data.timeArray.forEach((item, index) => {
 							let obj = {};
 							if (params.timeUnit == 120) {
-								obj.name = getday(index, 'hms');
+								obj.name = getday(item, 'hms');
 							} else {
-								obj.name = getday(index);
+								obj.name = getday(item);
 							}
 							obj.value = res.data.ltArray[index];
 							this.ltlist.push(obj);
 						});
 						this.max_value = res.data.ltMax;
 						this.min_value = res.data.ltMin;
-                        this.average_value = res.data.avgLt;
-                        console.log(this.ltlist);
+						this.average_value = res.data.avgLt;
+						console.log(this.ltlist);
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -1453,6 +1458,7 @@ export default {
 			// } else {
 			// 	params.timeUnit = 60;
 			// }
+			params.time_unit = params.timeUnit;
 			params.tabname = this.searchdata.tabname;
 			params.radio = this.searchdata.radio;
 			params.echartslist = this.searchdata.echartslist;
@@ -1463,9 +1469,9 @@ export default {
 						res.data.timeArray.forEach((item, index) => {
 							let obj = {};
 							if (params.timeUnit == 120) {
-								obj.name = getday(index, 'hms');
+								obj.name = getday(item, 'hms');
 							} else {
-								obj.name = getday(index);
+								obj.name = getday(item);
 							}
 							obj.value = res.data.itfArray[index].toFixed(4);
 							this.itflist.push(obj);
@@ -1553,6 +1559,7 @@ export default {
 			// } else {
 			// 	params.timeUnit = 60;
 			// }
+			params.time_unit = params.timeUnit;
 			params.tabname = this.searchdata.tabname;
 			params.radio = this.searchdata.radio;
 			params.echartslist = this.searchdata.echartslist;
@@ -1563,9 +1570,9 @@ export default {
 						res.data.timeArray.forEach((item, index) => {
 							let obj = {};
 							if (params.timeUnit == 120) {
-								obj.name = getday(index, 'hms');
+								obj.name = getday(item, 'hms');
 							} else {
-								obj.name = getday(index);
+								obj.name = getday(item);
 							}
 							obj.value = res.data.otfArray[index].toFixed(4);
 							this.otflist.push(obj);
@@ -1653,6 +1660,7 @@ export default {
 			} else {
 				params.timeUnit = 120;
 			}
+			params.time_unit = params.timeUnit;
 			params.tabname = this.searchdata.tabname;
 			params.radio = this.searchdata.radio;
 			params.echartslist = this.searchdata.echartslist;
@@ -1663,14 +1671,14 @@ export default {
 						res.data.timeArray.forEach((item, index) => {
 							let obj = {};
 							if (params.timeUnit == 120) {
-								obj.name = getday(index, 'hms');
+								obj.name = getday(item, 'hms');
 							} else {
-								obj.name = getday(index);
+								obj.name = getday(item);
 							}
 							obj.value = res.data.rcntArray[index];
 							this.rcntlist.push(obj);
 						});
-
+						
 						this.max_value = res.data.rcntMax;
 						this.min_value = res.data.rcntMin;
 						this.average_value = res.data.avgRcnt;
@@ -1757,6 +1765,7 @@ export default {
 			} else {
 				params.timeUnit = 120;
 			}
+			params.time_unit = params.timeUnit;
 			params.tabname = this.searchdata.tabname;
 			params.radio = this.searchdata.radio;
 			params.echartslist = this.searchdata.echartslist;
@@ -1767,9 +1776,9 @@ export default {
 						res.data.timeArray.forEach((item, index) => {
 							let obj = {};
 							if (params.timeUnit == 120) {
-								obj.name = getday(index, 'hms');
+								obj.name = getday(item, 'hms');
 							} else {
-								obj.name = getday(index);
+								obj.name = getday(item);
 							}
 							obj.value = (
 								res.data.cpuArray[index] * 100
@@ -1858,6 +1867,7 @@ export default {
 			} else {
 				params.timeUnit = 120;
 			}
+			params.time_unit = params.timeUnit;
 			params.tabname = this.searchdata.tabname;
 			params.radio = this.searchdata.radio;
 			params.echartslist = this.searchdata.echartslist;
@@ -1868,9 +1878,9 @@ export default {
 						res.data.timeArray.forEach((item, index) => {
 							let obj = {};
 							if (params.timeUnit == 120) {
-								obj.name = getday(index, 'hms');
+								obj.name = getday(item, 'hms');
 							} else {
-								obj.name = getday(index);
+								obj.name = getday(item);
 							}
 							obj.value = (
 								res.data.memoryArray[index] * 100
@@ -2123,6 +2133,7 @@ export default {
 			} else {
 				params.timeUnit = 120;
 			}
+			params.time_unit = params.timeUnit;
 			params.tabname = this.searchdata.tabname;
 			params.radio = this.searchdata.radio;
 			params.echartslist = this.searchdata.echartslist;
@@ -2509,7 +2520,7 @@ export default {
 			myChart2.setOption(options);
 		},
 		tiredsharts(id, titlename, datas) {
-            console.log(datas);
+			console.log(datas);
 			let _this = this;
 			let sa = true;
 			let dadaunits = '%';
