@@ -505,7 +505,9 @@ import {
 	query_ipfs_dataflow_table,
 	query_ip_store_details_curve,
 	query_ip_store_details_table,
-	get_nodetype_enum,
+    get_nodetype_enum,
+    export_ipfs_dataflow_table_file,
+    export_ip_store_details_table_file
 } from '../../servers/api';
 export default {
 	data() {
@@ -1138,10 +1140,12 @@ export default {
 		fs_curve() {
 			let params = new Object();
 			if (this.inputfs !== '') {
-				params.ipfs_id = this.inputfs;
+                params.ipfs_id = this.inputfs;
+               
 			} else {
 				params.ipfs_id = '*';
-			}
+            }
+             params.ipfsId =params.ipfs_id;
 			if (this.valueafs !== '') {
 				if (this.valueafs == -1) {
 					params.region = '*';
@@ -1291,7 +1295,8 @@ export default {
 				params.ipfs_id = this.inputfs;
 			} else {
 				params.ipfs_id = '*';
-			}
+            }
+            params.ipfsId =params.ipfs_id;
 			if (this.valueafs !== '') {
 				if (this.valueafs == -1) {
 					params.region = '*';
@@ -1384,39 +1389,59 @@ export default {
 		//导出
 		fs_upload() {
 			let params = new Object();
-			if (this.inputfs !== '') {
-				params.ipfs_id = this.inputfs;
+			if (this.input !== '') {
+				params.ipfsId = this.input;
 			} else {
-				params.ipfs_id = '*';
+				params.ipfsId = '*';
 			}
-			if (this.valueafs !== '') {
-				params.region = this.valueafs[1];
+			if (this.valuea !== '') {
+				if (this.valuea == -1) {
+					params.region = '*';
+				} else {
+					params.region = this.valuea[1];
+				}
 			} else {
 				params.region = '*';
 			}
-			if (this.valuebfs !== '') {
-				params.city = this.valuebfs;
+			if (this.valueb !== '') {
+				params.city = this.valueb;
 			} else {
 				params.city = '*';
 			}
-			if (this.valuecfs !== '') {
-				params.time_unit = parseInt(this.valuecfs);
+			if (this.firstvaluea == '') {
+				params.first_channel = '*';
 			} else {
-				params.time_unit = 120;
+				params.first_channel = this.firstvaluea;
+			}
+			if (this.secondvalue == '') {
+				params.second_channel = '*';
+			} else {
+				params.second_channel = this.secondvalue;
+			}
+			if (this.devtypevalue == '') {
+				params.device_type = '*';
+			} else {
+				params.device_type = this.devtypevalue;
 			}
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime - 1;
-			params.pageNo = this.fs_currentPage - 1;
-			params.pageSize = this.fs_pageSize;
-			query_ip_store_details_table(params)
+			params.pageNo = this.currentPage - 1;
+			params.pageSize = this.pageSize;
+			if (params.end_ts - params.start_ts > 86399) {
+				params.time_unit = 1440;
+			} else {
+				params.time_unit = 120;
+			}
+			export_ip_store_details_table_file(params)
 				.then((res) => {
 					this.fs_tableData_upload = [];
 					if (res.status == 0) {
-						this.fs_tableData_upload = res.data.list;
-						this.exportExcel(
-							this.fs_tableData_upload,
-							'节点应用统计FS存储'
-						);
+						// this.fs_tableData_upload = res.data.list;
+						// this.exportExcel(
+						// 	this.fs_tableData_upload,
+						// 	'节点应用统计FS存储'
+                        // );
+                        window.open(res.msg,"_blank");
 						this.fan.fanactionlog('导出', '节点应用统计FS存储', 1);
 					} else {
 						this.fan.fanactionlog('导出', '节点应用统计FS存储', 0);
@@ -1434,7 +1459,11 @@ export default {
 				params.ipfsId = '*';
 			}
 			if (this.valuea !== '') {
-				params.region = this.valuea[1];
+				if (this.valuea == -1) {
+					params.region = '*';
+				} else {
+					params.region = this.valuea[1];
+				}
 			} else {
 				params.region = '*';
 			}
@@ -1443,19 +1472,40 @@ export default {
 			} else {
 				params.city = '*';
 			}
+			if (this.firstvaluea == '') {
+				params.first_channel = '*';
+			} else {
+				params.first_channel = this.firstvaluea;
+			}
+			if (this.secondvalue == '') {
+				params.second_channel = '*';
+			} else {
+				params.second_channel = this.secondvalue;
+			}
+			if (this.devtypevalue == '') {
+				params.device_type = '*';
+			} else {
+				params.device_type = this.devtypevalue;
+			}
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime - 1;
 			params.pageNo = this.currentPage - 1;
 			params.pageSize = this.pageSize;
-			query_ipfs_dataflow_table(params)
+			if (params.end_ts - params.start_ts > 86399) {
+				params.time_unit = 1440;
+			} else {
+				params.time_unit = 120;
+			}
+			export_ipfs_dataflow_table_file(params)
 				.then((res) => {
 					this.ip_tableData_upload = [];
 					if (res.status == 0) {
-						this.ip_tableData_upload = res.data.list;
-						this.exportExcel(
-							this.ip_tableData_upload,
-							'节点应用统计IP流量'
-						);
+						// this.ip_tableData_upload = res.data.list;
+						// this.exportExcel(
+						// 	this.ip_tableData_upload,
+						// 	'节点应用统计IP流量'
+                        // );
+                        window.open(res.msg,"_blank");
 						this.fan.fanactionlog('导出', '节点应用统计IP流量', 1);
 					} else {
 						this.fan.fanactionlog('导出', '节点应用统计IP流量', 0);

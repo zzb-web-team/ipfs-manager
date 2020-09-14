@@ -561,3 +561,89 @@ export const updatemenu = params => {
         res => res.data
     );
 };
+
+
+// 节点数据监控/带宽--导出
+export const export_ipfs_monit_bandwidth_table_file = params => {
+    return post(`${serverUrl}/file_download/export_ipfs_monit_bandwidth_table_file`, params).then(
+        res => res.data
+    );
+};
+// 节点数据监控/存储空间--导出
+export const export_ipfs_monit_storage_table_file = params => {
+    return post(`${serverUrl}/file_download/export_ipfs_monit_storage_table_file`, params).then(
+        res => res.data
+    );
+};
+// 节点数据监控/节点质量--导出
+export const export_ipfs_monit_ping_ms_table_file = params => {
+    return post(`${serverUrl}/file_download/export_ipfs_monit_ping_ms_table_file`, params).then(
+        res => res.data
+    );
+};
+// 节点数据监控/TID响应时差--导出
+export const export_ipfs_monit_tid_table_file = params => {
+    return post(`${serverUrl}/file_download/export_ipfs_monit_tid_table_file`, params).then(
+        res => res.data
+    );
+};
+// 节点数据监控/ETF错误率--导出
+export const export_ipfs_monit_etf_table_file = params => {
+    return post(`${serverUrl}/file_download/export_ipfs_monit_etf_table_file`, params).then(
+        res => res.data
+    );
+};
+// 节点数据监控/LT失联计数--导出
+export const export_ipfs_monit_lt_table_file = params => {
+    return post(`${serverUrl}/file_download/export_ipfs_monit_lt_table_file`, params).then(
+        res => res.data
+    );
+};
+// 节点数据监控/ITF在线率--导出
+export const export_ipfs_monit_itf_table_file = params => {
+    return post(`${serverUrl}/file_download/export_ipfs_monit_itf_table_file`, params).then(
+        res => res.data
+    );
+};
+// 节点数据监控/OTF离线率--导出
+export const export_ipfs_monit_otf_table_file = params => {
+    return post(`${serverUrl}/file_download/export_ipfs_monit_otf_table_file`, params).then(
+        res => res.data
+    );
+};
+// 节点数据监控/RCNT 重连计数--导出
+export const export_ipfs_monit_rcnt_table_file = params => {
+    return post(`${serverUrl}/file_download/export_ipfs_monit_rcnt_table_file`, params).then(
+        res => res.data
+    );
+};
+// 节点数据监控/CPU占用率--导出
+export const export_ipfs_monit_cpu_table_file = params => {
+    return post(`${serverUrl}/file_download/export_ipfs_monit_cpu_table_file`, params).then(
+        res => res.data
+    );
+};
+// 节点数据监控/内存占用率--导出
+export const export_ipfs_monit_memory_table_file = params => {
+    return post(`${serverUrl}/file_download/export_ipfs_monit_memory_table_file`, params).then(
+        res => res.data
+    );
+};
+// 12.节点应用统计-IP流量--导出
+export const export_ipfs_dataflow_table_file = params => {
+    return post(`${serverUrl}/file_download/export_ipfs_dataflow_table_file`, params).then(
+        res => res.data
+    );
+};
+// 13.FS存储--导出
+export const export_ip_store_details_table_file = params => {
+    return post(`${serverUrl}/file_download/export_ip_store_details_table_file`, params).then(
+        res => res.data
+    );
+};
+// 14.节点利用率--导出
+export const export_ipfs_avg_usage_table_file = params => {
+    return post(`${serverUrl}/file_download/export_ipfs_avg_usage_table_file`, params).then(
+        res => res.data
+    );
+};

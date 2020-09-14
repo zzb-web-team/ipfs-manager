@@ -344,6 +344,17 @@ import {
 	ipfs_monit_rcnt,
 	ipfs_monit_storage,
 	ipfs_monit_tid,
+	export_ipfs_monit_bandwidth_table_file,
+	export_ipfs_monit_storage_table_file,
+	export_ipfs_monit_ping_ms_table_file,
+	export_ipfs_monit_tid_table_file,
+	export_ipfs_monit_etf_table_file,
+	export_ipfs_monit_lt_table_file,
+	export_ipfs_monit_itf_table_file,
+	export_ipfs_monit_otf_table_file,
+	export_ipfs_monit_rcnt_table_file,
+	export_ipfs_monit_cpu_table_file,
+	export_ipfs_monit_memory_table_file,
 } from '@/servers/api';
 import {
 	getday,
@@ -741,7 +752,6 @@ export default {
 			if (data <= 0) {
 				return 0;
 			} else {
-				console.log(data);
 				return bandwidth_unit_conversion(data)[0];
 			}
 		},
@@ -797,16 +807,19 @@ export default {
 			} else {
 				params.firstChannel = '*';
 			}
+			params.first_channel = params.firstChannel;
 			if (this.searchdata.region2) {
 				params.secondChannel = this.searchdata.region2;
 			} else {
 				params.secondChannel = '*';
 			}
+			params.second_channel = params.secondChannel;
 			if (this.searchdata.region3) {
 				params.deviceType = this.searchdata.region3;
 			} else {
 				params.deviceType = '*';
 			}
+			params.device_type = params.deviceType;
 			if (this.searchdata.region6) {
 				params.isp = this.searchdata.region6;
 			} else {
@@ -817,6 +830,7 @@ export default {
 			} else {
 				params.nodeId = '*';
 			}
+			params.ipfsId = params.nodeId;
 			if (
 				this.searchdata.region4 == '*' ||
 				this.searchdata.region4 == ''
@@ -841,6 +855,7 @@ export default {
 			} else {
 				params.timeUnit = 120;
 			}
+			params.time_unit = params.timeUnit;
 			params.tabname = this.searchdata.tabname;
 			params.radio = this.searchdata.radio;
 			sessionStorage.setItem('search_condition', JSON.stringify(params));
@@ -890,16 +905,19 @@ export default {
 			} else {
 				params.firstChannel = '*';
 			}
+			params.first_channel = params.firstChannel;
 			if (this.searchdata.region2) {
 				params.secondChannel = this.searchdata.region2;
 			} else {
 				params.secondChannel = '*';
 			}
+			params.second_channel = params.secondChannel;
 			if (this.searchdata.region3) {
 				params.deviceType = this.searchdata.region3;
 			} else {
 				params.deviceType = '*';
 			}
+			params.device_type = params.deviceType;
 			if (this.searchdata.region6) {
 				params.isp = this.searchdata.region6;
 			} else {
@@ -910,6 +928,7 @@ export default {
 			} else {
 				params.nodeId = '*';
 			}
+			params.ipfsId = params.nodeId;
 			if (
 				this.searchdata.region4 == '*' ||
 				this.searchdata.region4 == ''
@@ -977,16 +996,19 @@ export default {
 			} else {
 				params.firstChannel = '*';
 			}
+			params.first_channel = params.firstChannel;
 			if (this.searchdata.region2) {
 				params.secondChannel = this.searchdata.region2;
 			} else {
 				params.secondChannel = '*';
 			}
+			params.second_channel = params.secondChannel;
 			if (this.searchdata.region3) {
 				params.deviceType = this.searchdata.region3;
 			} else {
 				params.deviceType = '*';
 			}
+			params.device_type = params.deviceType;
 			if (this.searchdata.region6) {
 				params.isp = this.searchdata.region6;
 			} else {
@@ -997,11 +1019,13 @@ export default {
 			} else {
 				params.cpuType = '*';
 			}
+
 			if (this.searchdata.input) {
 				params.nodeId = this.searchdata.input;
 			} else {
 				params.nodeId = '*';
 			}
+			params.ipfsId = params.nodeId;
 			if (this.searchdata.region8) {
 				params.osType = this.searchdata.region8;
 			} else {
@@ -1072,16 +1096,19 @@ export default {
 			} else {
 				params.firstChannel = '*';
 			}
+			params.first_channel = params.firstChannel;
 			if (this.searchdata.region2) {
 				params.secondChannel = this.searchdata.region2;
 			} else {
 				params.secondChannel = '*';
 			}
+			params.second_channel = params.secondChannel;
 			if (this.searchdata.region3) {
 				params.deviceType = this.searchdata.region3;
 			} else {
 				params.deviceType = '*';
 			}
+			params.device_type = params.deviceType;
 			if (this.searchdata.region6) {
 				params.isp = this.searchdata.region6;
 			} else {
@@ -1097,6 +1124,7 @@ export default {
 			} else {
 				params.nodeId = '*';
 			}
+			params.ipfsId = params.nodeId;
 			if (this.searchdata.region8) {
 				params.osType = this.searchdata.region8;
 			} else {
@@ -1165,16 +1193,19 @@ export default {
 			} else {
 				params.firstChannel = '*';
 			}
+			params.first_channel = params.firstChannel;
 			if (this.searchdata.region2) {
 				params.secondChannel = this.searchdata.region2;
 			} else {
 				params.secondChannel = '*';
 			}
+			params.second_channel = params.secondChannel;
 			if (this.searchdata.region3) {
 				params.deviceType = this.searchdata.region3;
 			} else {
 				params.deviceType = '*';
 			}
+			params.device_type = params.deviceType;
 			if (this.searchdata.region6) {
 				params.isp = this.searchdata.region6;
 			} else {
@@ -1190,6 +1221,7 @@ export default {
 			} else {
 				params.nodeId = '*';
 			}
+			params.ipfsId = params.nodeId;
 			if (this.searchdata.region8) {
 				params.osType = this.searchdata.region8;
 			} else {
@@ -1262,16 +1294,19 @@ export default {
 			} else {
 				params.firstChannel = '*';
 			}
+			params.first_channel = params.firstChannel;
 			if (this.searchdata.region2) {
 				params.secondChannel = this.searchdata.region2;
 			} else {
 				params.secondChannel = '*';
 			}
+			params.second_channel = params.secondChannel;
 			if (this.searchdata.region3) {
 				params.deviceType = this.searchdata.region3;
 			} else {
 				params.deviceType = '*';
 			}
+			params.device_type = params.deviceType;
 			if (this.searchdata.region6) {
 				params.isp = this.searchdata.region6;
 			} else {
@@ -1287,6 +1322,7 @@ export default {
 			} else {
 				params.nodeId = '*';
 			}
+			params.ipfsId = params.nodeId;
 			if (this.searchdata.region8) {
 				params.osType = this.searchdata.region8;
 			} else {
@@ -1323,7 +1359,6 @@ export default {
 			ipfs_monit_lt(params)
 				.then((res) => {
 					if (res.status == 0) {
-						let arrlist = [];
 						res.data.timeArray.forEach((item, index) => {
 							let obj = {};
 							if (params.timeUnit == 120) {
@@ -1336,7 +1371,8 @@ export default {
 						});
 						this.max_value = res.data.ltMax;
 						this.min_value = res.data.ltMin;
-						this.average_value = tres.data.avgLt;
+                        this.average_value = res.data.avgLt;
+                        console.log(this.ltlist);
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -1358,16 +1394,19 @@ export default {
 			} else {
 				params.firstChannel = '*';
 			}
+			params.first_channel = params.firstChannel;
 			if (this.searchdata.region2) {
 				params.secondChannel = this.searchdata.region2;
 			} else {
 				params.secondChannel = '*';
 			}
+			params.second_channel = params.secondChannel;
 			if (this.searchdata.region3) {
 				params.deviceType = this.searchdata.region3;
 			} else {
 				params.deviceType = '*';
 			}
+			params.device_type = params.deviceType;
 			if (this.searchdata.region6) {
 				params.isp = this.searchdata.region6;
 			} else {
@@ -1383,6 +1422,7 @@ export default {
 			} else {
 				params.nodeId = '*';
 			}
+			params.ipfsId = params.nodeId;
 			if (this.searchdata.region8) {
 				params.osType = this.searchdata.region8;
 			} else {
@@ -1454,16 +1494,19 @@ export default {
 			} else {
 				params.firstChannel = '*';
 			}
+			params.first_channel = params.firstChannel;
 			if (this.searchdata.region2) {
 				params.secondChannel = this.searchdata.region2;
 			} else {
 				params.secondChannel = '*';
 			}
+			params.second_channel = params.secondChannel;
 			if (this.searchdata.region3) {
 				params.deviceType = this.searchdata.region3;
 			} else {
 				params.deviceType = '*';
 			}
+			params.device_type = params.deviceType;
 			if (this.searchdata.region6) {
 				params.isp = this.searchdata.region6;
 			} else {
@@ -1479,6 +1522,7 @@ export default {
 			} else {
 				params.nodeId = '*';
 			}
+			params.ipfsId = params.nodeId;
 			if (this.searchdata.region8) {
 				params.osType = this.searchdata.region8;
 			} else {
@@ -1550,16 +1594,20 @@ export default {
 			} else {
 				params.firstChannel = '*';
 			}
+			params.first_channel = params.firstChannel;
 			if (this.searchdata.region2) {
 				params.secondChannel = this.searchdata.region2;
 			} else {
 				params.secondChannel = '*';
 			}
+			params.second_channel = params.secondChannel;
 			if (this.searchdata.region3) {
 				params.deviceType = this.searchdata.region3;
 			} else {
 				params.deviceType = '*';
 			}
+			params.device_type = params.deviceType;
+
 			if (this.searchdata.region6) {
 				params.isp = this.searchdata.region6;
 			} else {
@@ -1575,6 +1623,7 @@ export default {
 			} else {
 				params.nodeId = '*';
 			}
+			params.ipfsId = params.nodeId;
 			if (this.searchdata.region8) {
 				params.osType = this.searchdata.region8;
 			} else {
@@ -1650,16 +1699,19 @@ export default {
 			} else {
 				params.firstChannel = '*';
 			}
+			params.first_channel = params.firstChannel;
 			if (this.searchdata.region2) {
 				params.secondChannel = this.searchdata.region2;
 			} else {
 				params.secondChannel = '*';
 			}
+			params.second_channel = params.secondChannel;
 			if (this.searchdata.region3) {
 				params.deviceType = this.searchdata.region3;
 			} else {
 				params.deviceType = '*';
 			}
+			params.device_type = params.deviceType;
 			if (this.searchdata.region6) {
 				params.isp = this.searchdata.region6;
 			} else {
@@ -1675,6 +1727,7 @@ export default {
 			} else {
 				params.nodeId = '*';
 			}
+			params.ipfsId = params.nodeId;
 			if (this.searchdata.region8) {
 				params.osType = this.searchdata.region8;
 			} else {
@@ -1747,16 +1800,19 @@ export default {
 			} else {
 				params.firstChannel = '*';
 			}
+			params.first_channel = params.firstChannel;
 			if (this.searchdata.region2) {
 				params.secondChannel = this.searchdata.region2;
 			} else {
 				params.secondChannel = '*';
 			}
+			params.second_channel = params.secondChannel;
 			if (this.searchdata.region3) {
 				params.deviceType = this.searchdata.region3;
 			} else {
 				params.deviceType = '*';
 			}
+			params.device_type = params.deviceType;
 			if (this.searchdata.region6) {
 				params.isp = this.searchdata.region6;
 			} else {
@@ -1772,6 +1828,7 @@ export default {
 			} else {
 				params.nodeId = '*';
 			}
+			params.ipfsId = params.nodeId;
 			if (this.searchdata.region8) {
 				params.osType = this.searchdata.region8;
 			} else {
@@ -2000,7 +2057,239 @@ export default {
 				return mean;
 			}
 		},
-		exportant_dataflow() {},
+		exportant_dataflow(name) {
+			console.log(name);
+			let params = new Object();
+			if (this.searchdata.region1) {
+				params.firstChannel = this.searchdata.region1;
+			} else {
+				params.firstChannel = '*';
+			}
+			params.first_channel = params.firstChannel;
+			if (this.searchdata.region2) {
+				params.secondChannel = this.searchdata.region2;
+			} else {
+				params.secondChannel = '*';
+			}
+			params.second_channel = params.secondChannel;
+			if (this.searchdata.region3) {
+				params.deviceType = this.searchdata.region3;
+			} else {
+				params.deviceType = '*';
+			}
+			params.device_type = params.deviceType;
+			if (this.searchdata.region6) {
+				params.isp = this.searchdata.region6;
+			} else {
+				params.isp = '*';
+			}
+			if (this.searchdata.region7) {
+				params.cpuType = this.searchdata.region7;
+			} else {
+				params.cpuType = '*';
+			}
+			if (this.searchdata.input) {
+				params.nodeId = this.searchdata.input;
+			} else {
+				params.nodeId = '*';
+			}
+			params.ipfsId = params.nodeId;
+			if (this.searchdata.region8) {
+				params.osType = this.searchdata.region8;
+			} else {
+				params.osType = '*';
+			}
+			if (
+				this.searchdata.region4 == '*' ||
+				this.searchdata.region4 == ''
+			) {
+				params.region = '*';
+			} else {
+				params.qu = this.searchdata.region4[0];
+				params.region = this.searchdata.region4[1];
+			}
+			if (
+				this.searchdata.region5 == '全部' ||
+				this.searchdata.region5 == ''
+			) {
+				params.city = '*';
+			} else {
+				params.city = this.searchdata.region5;
+			}
+			params.start_ts = this.starttime;
+			params.end_ts = this.endtime - 1;
+			if (params.end_ts - params.start_ts > 86399) {
+				params.timeUnit = 1440;
+			} else {
+				params.timeUnit = 120;
+			}
+			params.tabname = this.searchdata.tabname;
+			params.radio = this.searchdata.radio;
+			params.echartslist = this.searchdata.echartslist;
+			if (name == '带宽') {
+				export_ipfs_monit_bandwidth_table_file(params)
+					.then((res) => {
+						if (res.status == 0) {
+							window.open(res.msg, '_blank');
+							this.fan.fanactionlog('导出', '带宽', 1);
+						} else {
+							this.$message('导出失败');
+							this.fan.fanactionlog('导出', '带宽', 0);
+						}
+					})
+					.catch((error) => {
+						this.fan.fanactionlog('导出', '带宽', 0);
+					});
+			} else if (name == '存储空间') {
+				export_ipfs_monit_storage_table_file(params)
+					.then((res) => {
+						if (res.status == 0) {
+							window.open(res.msg, '_blank');
+							this.fan.fanactionlog('导出', '存储空间', 1);
+						} else {
+							this.$message('导出失败');
+							this.fan.fanactionlog('导出', '存储空间', 0);
+						}
+					})
+					.catch((error) => {
+						this.fan.fanactionlog('导出', '存储空间', 0);
+					});
+			} else if (name == 'PING_MS') {
+				export_ipfs_monit_ping_ms_table_file(params)
+					.then((res) => {
+						if (res.status == 0) {
+							window.open(res.msg, '_blank');
+							this.fan.fanactionlog('导出', 'PING_MS', 1);
+						} else {
+							this.$message('导出失败');
+							this.fan.fanactionlog('导出', 'PING_MS', 0);
+						}
+					})
+					.catch((error) => {
+						this.fan.fanactionlog('导出', 'PING_MS', 0);
+					});
+			} else if (name == 'TID') {
+				export_ipfs_monit_tid_table_file(params)
+					.then((res) => {
+						if (res.status == 0) {
+							window.open(res.msg, '_blank');
+							this.fan.fanactionlog('导出', 'TID', 1);
+						} else {
+							this.$message('导出失败');
+							this.fan.fanactionlog('导出', 'TID', 0);
+						}
+					})
+					.catch((error) => {
+						this.fan.fanactionlog('导出', 'TID', 0);
+					});
+			} else if (name == 'ETF（错误率）') {
+				export_ipfs_monit_etf_table_file(params)
+					.then((res) => {
+						if (res.status == 0) {
+							window.open(res.msg, '_blank');
+							this.fan.fanactionlog('导出', 'ETF（错误率）', 1);
+						} else {
+							this.$message('导出失败');
+							this.fan.fanactionlog('导出', 'ETF（错误率）', 0);
+						}
+					})
+					.catch((error) => {
+						this.fan.fanactionlog('导出', 'ETF（错误率）', 0);
+					});
+			} else if (name == 'LT（失联计数）') {
+				export_ipfs_monit_lt_table_file(params)
+					.then((res) => {
+						if (res.status == 0) {
+							window.open(res.msg, '_blank');
+							this.fan.fanactionlog('导出', 'LT（失联计数）', 1);
+						} else {
+							this.$message('导出失败');
+							this.fan.fanactionlog('导出', 'LT（失联计数）', 0);
+						}
+					})
+					.catch((error) => {
+						this.fan.fanactionlog('导出', 'LT（失联计数）', 0);
+					});
+			} else if (name == 'ITF（在线率）') {
+				export_ipfs_monit_itf_table_file(params)
+					.then((res) => {
+						if (res.status == 0) {
+							window.open(res.msg, '_blank');
+							this.fan.fanactionlog('导出', 'ITF（在线率）', 1);
+						} else {
+							this.$message('导出失败');
+							this.fan.fanactionlog('导出', 'ITF（在线率）', 0);
+						}
+					})
+					.catch((error) => {
+						this.fan.fanactionlog('导出', 'ITF（在线率）', 0);
+					});
+			} else if (name == 'OTF（离线率）') {
+				export_ipfs_monit_otf_table_file(params)
+					.then((res) => {
+						if (res.status == 0) {
+							window.open(res.msg, '_blank');
+							this.fan.fanactionlog('导出', 'OTF（离线率）', 1);
+						} else {
+							this.$message('导出失败');
+							this.fan.fanactionlog('导出', 'OTF（离线率）', 0);
+						}
+					})
+					.catch((error) => {
+						this.fan.fanactionlog('导出', 'OTF（离线率）', 0);
+					});
+			} else if (name == 'RCNT（重连计数）') {
+				export_ipfs_monit_rcnt_table_file(params)
+					.then((res) => {
+						if (res.status == 0) {
+							window.open(res.msg, '_blank');
+							this.fan.fanactionlog(
+								'导出',
+								'RCNT（重连计数）',
+								1
+							);
+						} else {
+							this.$message('导出失败');
+							this.fan.fanactionlog(
+								'导出',
+								'RCNT（重连计数）',
+								0
+							);
+						}
+					})
+					.catch((error) => {
+						this.fan.fanactionlog('导出', 'RCNT（重连计数）', 0);
+					});
+			} else if (name == 'CPU占用率') {
+				export_ipfs_monit_cpu_table_file(params)
+					.then((res) => {
+						if (res.status == 0) {
+							window.open(res.msg, '_blank');
+							this.fan.fanactionlog('导出', 'CPU占用率', 1);
+						} else {
+							this.$message('导出失败');
+							this.fan.fanactionlog('导出', 'CPU占用率', 0);
+						}
+					})
+					.catch((error) => {
+						this.fan.fanactionlog('导出', 'CPU占用率', 0);
+					});
+			} else {
+				export_ipfs_monit_memory_table_file(params)
+					.then((res) => {
+						if (res.status == 0) {
+							window.open(res.msg, '_blank');
+							this.fan.fanactionlog('导出', '内存占用率', 1);
+						} else {
+							this.$message('导出失败');
+							this.fan.fanactionlog('导出', '内存占用率', 0);
+						}
+					})
+					.catch((error) => {
+						this.fan.fanactionlog('导出', '内存占用率', 0);
+					});
+			}
+		},
 		firstsharts(echartsdata) {
 			let _this = this;
 			let chartdom = document.getElementById('firstChart');
@@ -2020,7 +2309,7 @@ export default {
 							icon:
 								'path://M552 586.178l60.268-78.53c13.45-17.526 38.56-20.83 56.085-7.38s20.829 38.56 7.38 56.085l-132 172c-16.012 20.863-47.454 20.863-63.465 0l-132-172c-13.45-17.526-10.146-42.636 7.38-56.085 17.525-13.45 42.635-10.146 56.084 7.38L472 586.177V152c0-22.091 17.909-40 40-40s40 17.909 40 40v434.178zM832 512c0-22.091 17.909-40 40-40s40 17.909 40 40v288c0 61.856-50.144 112-112 112H224c-61.856 0-112-50.144-112-112V512c0-22.091 17.909-40 40-40s40 17.909 40 40v288c0 17.673 14.327 32 32 32h576c17.673 0 32-14.327 32-32V512z',
 							onclick: function() {
-								_this.exportant_dataflow();
+								_this.exportant_dataflow('带宽');
 							},
 						},
 					},
@@ -2181,7 +2470,7 @@ export default {
 							icon:
 								'path://M552 586.178l60.268-78.53c13.45-17.526 38.56-20.83 56.085-7.38s20.829 38.56 7.38 56.085l-132 172c-16.012 20.863-47.454 20.863-63.465 0l-132-172c-13.45-17.526-10.146-42.636 7.38-56.085 17.525-13.45 42.635-10.146 56.084 7.38L472 586.177V152c0-22.091 17.909-40 40-40s40 17.909 40 40v434.178zM832 512c0-22.091 17.909-40 40-40s40 17.909 40 40v288c0 61.856-50.144 112-112 112H224c-61.856 0-112-50.144-112-112V512c0-22.091 17.909-40 40-40s40 17.909 40 40v288c0 17.673 14.327 32 32 32h576c17.673 0 32-14.327 32-32V512z',
 							onclick: function() {
-								_this.exportant_dataflow();
+								_this.exportant_dataflow('存储空间');
 							},
 						},
 					},
@@ -2220,6 +2509,7 @@ export default {
 			myChart2.setOption(options);
 		},
 		tiredsharts(id, titlename, datas) {
+            console.log(datas);
 			let _this = this;
 			let sa = true;
 			let dadaunits = '%';
@@ -2269,7 +2559,7 @@ export default {
 							icon:
 								'path://M552 586.178l60.268-78.53c13.45-17.526 38.56-20.83 56.085-7.38s20.829 38.56 7.38 56.085l-132 172c-16.012 20.863-47.454 20.863-63.465 0l-132-172c-13.45-17.526-10.146-42.636 7.38-56.085 17.525-13.45 42.635-10.146 56.084 7.38L472 586.177V152c0-22.091 17.909-40 40-40s40 17.909 40 40v434.178zM832 512c0-22.091 17.909-40 40-40s40 17.909 40 40v288c0 61.856-50.144 112-112 112H224c-61.856 0-112-50.144-112-112V512c0-22.091 17.909-40 40-40s40 17.909 40 40v288c0 17.673 14.327 32 32 32h576c17.673 0 32-14.327 32-32V512z',
 							onclick: function() {
-								_this.exportant_dataflow();
+								_this.exportant_dataflow(titlename);
 							},
 						},
 					},
@@ -2343,7 +2633,7 @@ export default {
 							icon:
 								'path://M552 586.178l60.268-78.53c13.45-17.526 38.56-20.83 56.085-7.38s20.829 38.56 7.38 56.085l-132 172c-16.012 20.863-47.454 20.863-63.465 0l-132-172c-13.45-17.526-10.146-42.636 7.38-56.085 17.525-13.45 42.635-10.146 56.084 7.38L472 586.177V152c0-22.091 17.909-40 40-40s40 17.909 40 40v434.178zM832 512c0-22.091 17.909-40 40-40s40 17.909 40 40v288c0 61.856-50.144 112-112 112H224c-61.856 0-112-50.144-112-112V512c0-22.091 17.909-40 40-40s40 17.909 40 40v288c0 17.673 14.327 32 32 32h576c17.673 0 32-14.327 32-32V512z',
 							onclick: function() {
-								_this.exportant_dataflow();
+								_this.exportant_dataflow(titlename);
 							},
 						},
 					},
