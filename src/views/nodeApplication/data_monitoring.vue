@@ -871,11 +871,14 @@ export default {
 							let obe = {};
 							if (params.timeUnit == 60) {
 								obj.name = getday(item, 'hms');
-								obe.name = getday(item, 'hms');
+                                obe.name = getday(item, 'hms');
+                                
 							} else {
 								obj.name = getday(item);
 								obe.name = getday(item);
-							}
+                            }
+                            obj.avg_item=res.data.upWidthTopArray[index];
+                            obe.avg_item=res.data.downWidthTopArra[index];
 							obj.value = res.data.upWidthArray[index];
 							obe.value = res.data.downWidthArray[index];
 							this.upBandwidthMap.push(obj);
@@ -1377,7 +1380,6 @@ export default {
 						this.max_value = res.data.ltMax;
 						this.min_value = res.data.ltMin;
 						this.average_value = res.data.ltAvg;
-						console.log(this.ltlist);
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -2081,7 +2083,6 @@ export default {
 			}
 		},
 		exportant_dataflow(name) {
-			console.log(name);
 			let params = new Object();
 			if (this.searchdata.region1) {
 				params.firstChannel = this.searchdata.region1;
@@ -2324,6 +2325,10 @@ export default {
 				title: {
 					text: '带宽',
 					left: 10,
+                },
+                 legend: {
+					bottom: '2%',
+					data: ['带宽', '平均带宽'],
 				},
 				toolbox: {
 					feature: {
@@ -2340,22 +2345,20 @@ export default {
 				},
 				tooltip: {
 					trigger: 'axis',
-					// axisPointer: {
-					// 	type: 'cross',
-					// 	label: {
-					// 		backgroundColor: '#409EFF',
-					// 	},
-					// },
 					formatter: function(params, ticket, callback) {
-						return (
-							params[0].name +
-							'<br />' +
-							'带宽：' +
-							params[0].value +
-							_this.downbandwidth_unit
-						);
+                    let result = '';
+                    params.forEach(function (item,index) {
+                        if(index==0){
+                            result += item.name+ '<br />';
+                        }
+                        result += item.marker + item.value +_this.downbandwidth_unit+"</br>";
+
+                    });
+
+                    return result;
 					},
-				},
+                },
+               
 				grid: {
 					bottom: 90,
 					left: 50,
@@ -2397,41 +2400,32 @@ export default {
 								item.value,
 								_this.downbandwidth_unit
 							);
-							//return item.value
 						}),
-						barMaxWidth: 30,
-						// Set `large` for large data amount
 						large: true,
-						smooth: true,
-						// markPoint: {
-						// 	data: [
-						// 		{ type: 'max', name: '最大值' },
-						// 		{ type: 'min', name: '最小值' },
-						// 	],
-						// 	label: {
-						// 		normal: {
-						// 			formatter: '{c}',
-						// 			color: '#ffffff',
-						// 		},
-						// 	},
-						// 	itemStyle: { color: '#409EFF' },
-						// },
+                        smooth: true,
+                        name:'带宽',
 						itemStyle: {
 							normal: {
 								color: '#409EFF',
-								// color: function(params) {
-								// 	var colorList = ['#409EFF', 'red', 'green'];
-								// 	if (params.data == minnum) {
-								// 		return colorList[2];
-								// 	} else if (params.data == maxnum) {
-								// 		return colorList[1];
-								// 	} else {
-								// 		return colorList[0];
-								// 	}
-								// },
 							},
 						},
-					},
+					},{
+                        type: 'line',
+						data: echartsdata.map(function(item) {
+							return bandwidth_unit(
+								item.avg_item,
+								_this.downbandwidth_unit
+							);
+						}),
+						large: true,
+                        smooth: true,
+                        name:'平均带宽',
+						itemStyle: {
+							normal: {
+								color: '#09b005',
+							},
+						},
+                    }
 				],
 			};
 			function getMaximin(arr, maximin) {
@@ -2534,7 +2528,6 @@ export default {
 			myChart2.setOption(options);
 		},
 		tiredsharts(id, titlename, datas) {
-			console.log(datas);
 			let _this = this;
 			let sa = true;
 			let dadaunits = '%';
