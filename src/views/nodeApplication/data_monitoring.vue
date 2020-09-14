@@ -2378,7 +2378,7 @@ export default {
 				},
 				series: [
 					{
-						type: 'bar',
+						type: 'line',
 						data: echartsdata.map(function(item) {
 							return bandwidth_unit(
 								item.value,
@@ -2388,7 +2388,8 @@ export default {
 						}),
 						barMaxWidth: 30,
 						// Set `large` for large data amount
-						large: true,
+                        large: true,
+                        smooth: true,
 						// markPoint: {
 						// 	data: [
 						// 		{ type: 'max', name: '最大值' },
@@ -2675,7 +2676,7 @@ export default {
 							return item.value;
 						}),
 						barMaxWidth: 30,
-						type: 'bar',
+						type: 'line',
 						smooth: true,
 						itemStyle: { color: '#409EFF' },
 					},
