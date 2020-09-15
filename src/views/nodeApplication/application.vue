@@ -505,9 +505,9 @@ import {
 	query_ipfs_dataflow_table,
 	query_ip_store_details_curve,
 	query_ip_store_details_table,
-    get_nodetype_enum,
-    export_ipfs_dataflow_table_file,
-    export_ip_store_details_table_file
+	get_nodetype_enum,
+	export_ipfs_dataflow_table_file,
+	export_ip_store_details_table_file,
 } from '../../servers/api';
 export default {
 	data() {
@@ -1140,12 +1140,11 @@ export default {
 		fs_curve() {
 			let params = new Object();
 			if (this.inputfs !== '') {
-                params.ipfs_id = this.inputfs;
-               
+				params.ipfs_id = this.inputfs;
 			} else {
 				params.ipfs_id = '*';
-            }
-             params.ipfsId =params.ipfs_id;
+			}
+			params.ipfsId = params.ipfs_id;
 			if (this.valueafs !== '') {
 				if (this.valueafs == -1) {
 					params.region = '*';
@@ -1295,8 +1294,8 @@ export default {
 				params.ipfs_id = this.inputfs;
 			} else {
 				params.ipfs_id = '*';
-            }
-            params.ipfsId =params.ipfs_id;
+			}
+			params.ipfsId = params.ipfs_id;
 			if (this.valueafs !== '') {
 				if (this.valueafs == -1) {
 					params.region = '*';
@@ -1440,8 +1439,8 @@ export default {
 						// this.exportExcel(
 						// 	this.fs_tableData_upload,
 						// 	'节点应用统计FS存储'
-                        // );
-                        window.open(res.msg,"_blank");
+						// );
+						window.open(res.msg, '_blank');
 						this.fan.fanactionlog('导出', '节点应用统计FS存储', 1);
 					} else {
 						this.fan.fanactionlog('导出', '节点应用统计FS存储', 0);
@@ -1504,8 +1503,8 @@ export default {
 						// this.exportExcel(
 						// 	this.ip_tableData_upload,
 						// 	'节点应用统计IP流量'
-                        // );
-                        window.open(res.msg,"_blank");
+						// );
+						window.open(res.msg, '_blank');
 						this.fan.fanactionlog('导出', '节点应用统计IP流量', 1);
 					} else {
 						this.fan.fanactionlog('导出', '节点应用统计IP流量', 0);
@@ -1714,6 +1713,16 @@ export default {
 		},
 		drawLine(data_unit) {
 			let _this = this;
+			let maxnum = 100;
+			let num_max = Math.max.apply(
+				Math,
+				this.dataFlowArray.map((item) => {
+					return item;
+				})
+            );
+			if (num_max > maxnum) {
+				maxnum = num_max;
+			}
 			// 基于准备好的dom，初始化echarts实例
 			let myChart = this.$echarts.init(
 				document.getElementById('myChart')
@@ -1741,6 +1750,10 @@ export default {
 							data_unit
 						);
 					},
+                },
+                legend: {
+					bottom: '2%',
+					data: ["流量"],
 				},
 				xAxis: {
 					data: this.timeArray,
@@ -1755,12 +1768,15 @@ export default {
 				},
 				yAxis: {
 					name: data_unit,
+					min: 0,
+					max: maxnum,
 				},
 				series: [
 					{
 						name: '流量',
 						type: 'bar',
-						smooth: true,
+                        smooth: true,
+                        name:"流量",
 						barWidth: 30, //柱图宽度
 						data: this.dataFlowArray,
 
@@ -1786,6 +1802,16 @@ export default {
 		},
 		drawLine1(data_unit) {
 			let _this = this;
+			let maxnum = 100;
+			let num_max = Math.max.apply(
+				Math,
+				this.storeUsageArray.map((item) => {
+					return item;
+				})
+            );
+			if (num_max > maxnum) {
+				maxnum = num_max;
+			}
 			// 基于准备好的dom，初始化echarts实例
 			let myChart = this.$echarts.init(
 				document.getElementById('myChart1')
@@ -1813,12 +1839,18 @@ export default {
 							data_unit
 						);
 					},
+                },
+                legend: {
+					bottom: '2%',
+					data: ["容量"],
 				},
 				xAxis: {
 					data: this.fs_timeArray,
 				},
 				yAxis: {
 					name: data_unit,
+					min: 0,
+					max: maxnum,
 				},
 				grid: {
 					x: 70,

@@ -421,8 +421,8 @@ export default {
 					value: '9',
 					label: '内存占用率',
 				},
-            ],
-            searchdata_radio:1,
+			],
+			searchdata_radio: 1,
 			searchdata: {
 				tabname: 'first',
 				echartslist: '1',
@@ -1073,12 +1073,13 @@ export default {
 							} else {
 								obj.name = getday(item);
 							}
-							obj.value = res.data.pingMsArray[index];
+							obj.value = res.data.pingMsArray[index].toFixed(2);
 							this.mslist.push(obj);
 						});
-						this.max_value = res.data.pingMsMax + 'ms';
-						this.min_value = res.data.pingMsMin + 'ms';
-						this.average_value = res.data.avgPingMs + 'ms';
+						this.max_value = res.data.pingMsMax.toFixed(2) + 'ms';
+						this.min_value = res.data.pingMsMin.toFixed(2) + 'ms';
+						this.average_value =
+							res.data.avgPingMs.toFixed(2) + 'ms';
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -1937,7 +1938,7 @@ export default {
 			}
 		},
 		change_tab() {
-            this.activeName = this.searchdata.tabname;
+			this.activeName = this.searchdata.tabname;
 
 			this.searchdata_radio = 1;
 			this.searchdata.input = '';
@@ -2552,6 +2553,10 @@ export default {
 					text: '存储空间',
 					left: 10,
 				},
+				legend: {
+					bottom: '2%',
+					data: ['存储空间'],
+				},
 				xAxis: {
 					axisLabel: {
 						interval: 0, //横轴信息全部显示
@@ -2614,6 +2619,7 @@ export default {
 						barMaxWidth: 30,
 						type: 'line',
 						smooth: true,
+						name: '存储空间',
 						itemStyle: { color: '#409EFF' },
 					},
 				],
@@ -2623,6 +2629,16 @@ export default {
 		},
 		tiredsharts(id, titlename, datas) {
 			let _this = this;
+			let maxnum = 100;
+			let num_max = Math.max.apply(
+				Math,
+				datas.map((item) => {
+					return item.value;
+				})
+			);
+			if (num_max > maxnum) {
+				maxnum = num_max;
+			}
 			let sa = true;
 			let dadaunits = '%';
 			if (id == 'itf' || id == 'otf') {
@@ -2639,6 +2655,10 @@ export default {
 				title: {
 					text: titlename,
 					left: 10,
+				},
+				legend: {
+					bottom: '2%',
+					data: [titlename],
 				},
 				xAxis: {
 					type: 'category',
@@ -2662,6 +2682,8 @@ export default {
 				yAxis: {
 					type: 'value',
 					name: dadaunits,
+					min: 0,
+					max: maxnum,
 				},
 				toolbox: {
 					feature: {
@@ -2688,6 +2710,7 @@ export default {
 						return (
 							params[0].name +
 							'<br />' +
+							params[0].marker +
 							params[0].value +
 							dadaunits
 						);
@@ -2700,6 +2723,7 @@ export default {
 						}),
 						type: 'line',
 						smooth: sa,
+						name: titlename,
 						itemStyle: { color: '#409EFF' },
 					},
 				],
@@ -2709,6 +2733,17 @@ export default {
 		},
 		lastsharts(id, titlename, datas) {
 			let _this = this;
+			let maxnum = 100;
+			console.log(titlename);
+			let num_max = Math.max.apply(
+				Math,
+				datas.map((item) => {
+					return item.value;
+				})
+			);
+			if (num_max > maxnum) {
+				maxnum = num_max;
+			}
 			let chartdom2 = document.getElementById(id);
 			chartdom2.style.width = this._width + 'px';
 			let myChart2 = echarts.init(chartdom2);
@@ -2717,6 +2752,10 @@ export default {
 				title: {
 					text: titlename,
 					left: 10,
+				},
+				legend: {
+					bottom: '2%',
+					data: [titlename],
 				},
 				xAxis: {
 					type: 'category',
@@ -2735,6 +2774,8 @@ export default {
 					{
 						type: 'value',
 						name: 'ms',
+						min: 0,
+						max: maxnum,
 					},
 				],
 				toolbox: {
@@ -2766,7 +2807,11 @@ export default {
 					// },
 					formatter: function(params, ticket, callback) {
 						return (
-							params[0].name + '<br />' + params[0].value + 'ms'
+							params[0].name +
+							'<br />' +
+							params[0].marker +
+							params[0].value +
+							'ms'
 						);
 					},
 				},
@@ -2778,6 +2823,7 @@ export default {
 						barMaxWidth: 30,
 						type: 'line',
 						smooth: true,
+						name: titlename,
 						itemStyle: { color: '#409EFF' },
 					},
 				],
