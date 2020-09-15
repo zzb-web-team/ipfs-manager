@@ -2419,7 +2419,7 @@ export default {
 				},
 				legend: {
 					bottom: '2%',
-					data: ['带宽', '平均带宽'],
+					data: ['节点带宽峰值', '节点带宽平均值'],
 				},
 				toolbox: {
 					feature: {
@@ -2497,7 +2497,7 @@ export default {
 						}),
 						large: true,
 						smooth: true,
-						name: '带宽',
+						name: '节点带宽峰值',
 						itemStyle: {
 							normal: {
 								color: '#409EFF',
@@ -2514,7 +2514,7 @@ export default {
 						}),
 						large: true,
 						smooth: true,
-						name: '平均带宽',
+						name: '节点带宽平均值',
 						itemStyle: {
 							normal: {
 								color: '#09b005',
@@ -2555,7 +2555,7 @@ export default {
 				},
 				legend: {
 					bottom: '2%',
-					data: ['存储空间'],
+					data: ['节点可用存储空间'],
 				},
 				xAxis: {
 					axisLabel: {
@@ -2605,7 +2605,7 @@ export default {
 						return (
 							params[0].name +
 							'<br />' +
-							'可用空间' +
+							'节点可用存储空间' +
 							params[0].value +
 							dataunits
 						);
@@ -2619,7 +2619,7 @@ export default {
 						barMaxWidth: 30,
 						type: 'line',
 						smooth: true,
-						name: '存储空间',
+						name: '节点可用存储空间',
 						itemStyle: { color: '#409EFF' },
 					},
 				],
@@ -2628,6 +2628,7 @@ export default {
 			myChart2.setOption(options);
 		},
 		tiredsharts(id, titlename, datas) {
+            let legdata="节点"+titlename+"平均值"
 			let _this = this;
 			let maxnum = 100;
 			let num_max = Math.max.apply(
@@ -2658,7 +2659,7 @@ export default {
 				},
 				legend: {
 					bottom: '2%',
-					data: [titlename],
+					data: [legdata],
 				},
 				xAxis: {
 					type: 'category',
@@ -2723,7 +2724,7 @@ export default {
 						}),
 						type: 'line',
 						smooth: sa,
-						name: titlename,
+						name: legdata,
 						itemStyle: { color: '#409EFF' },
 					},
 				],
@@ -2732,6 +2733,7 @@ export default {
 			myChart2.setOption(options);
 		},
 		lastsharts(id, titlename, datas) {
+              let legdata="节点"+titlename+"平均值"
 			let _this = this;
 			let maxnum = 100;
 			console.log(titlename);
@@ -2755,7 +2757,7 @@ export default {
 				},
 				legend: {
 					bottom: '2%',
-					data: [titlename],
+					data: [legdata],
 				},
 				xAxis: {
 					type: 'category',
@@ -2823,7 +2825,7 @@ export default {
 						barMaxWidth: 30,
 						type: 'line',
 						smooth: true,
-						name: titlename,
+						name: legdata,
 						itemStyle: { color: '#409EFF' },
 					},
 				],
