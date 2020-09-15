@@ -20,7 +20,7 @@
 			</el-radio-group>
 			<div>
 				<el-radio-group
-					v-model="searchdata.radio"
+					v-model="searchdata_radio"
 					@change="set_time"
 					size="small"
 				>
@@ -56,7 +56,7 @@
 					<el-col :span="2">
 						<el-select
 							size="small"
-							@change="lastchange()"
+							@change="set_defaults()"
 							v-model="searchdata.echartslist"
 							placeholder="请选择"
 						>
@@ -421,7 +421,8 @@ export default {
 					value: '9',
 					label: '内存占用率',
 				},
-			],
+            ],
+            searchdata_radio:1,
 			searchdata: {
 				tabname: 'first',
 				echartslist: '1',
@@ -434,7 +435,6 @@ export default {
 				region6: '', //运营商
 				region7: '', //硬件类型
 				region8: '', //操作系统
-				radio: '1',
 				value1: '',
 			},
 			arch: [
@@ -686,11 +686,11 @@ export default {
 			);
 			let city_list = JSON.parse(sessionStorage.getItem('citylist'));
 			this.searchdata.tabname = search_data.tabname;
-			this.searchdata.radio = search_data.radio;
+			this.searchdata_radio = search_data.radio;
 			if (search_data.echartslist) {
 				this.searchdata.echartslist = search_data.echartslist;
 			}
-			if (this.searchdata.radio == 5) {
+			if (this.searchdata_radio == 5) {
 				let arr = [];
 				arr[0] = formatterDate(search_data.start_ts * 1000);
 				arr[1] = formatterDate(search_data.end_ts * 1000);
@@ -857,7 +857,7 @@ export default {
 			}
 			params.time_unit = params.timeUnit;
 			params.tabname = this.searchdata.tabname;
-			params.radio = this.searchdata.radio;
+			params.radio = this.searchdata_radio;
 			sessionStorage.setItem('search_condition', JSON.stringify(params));
 			ipfs_monit_bandwidth(params)
 				.then((res) => {
@@ -871,14 +871,13 @@ export default {
 							let obe = {};
 							if (params.timeUnit == 60) {
 								obj.name = getday(item, 'hms');
-                                obe.name = getday(item, 'hms');
-                                
+								obe.name = getday(item, 'hms');
 							} else {
 								obj.name = getday(item);
 								obe.name = getday(item);
-                            }
-                            obj.avg_item=res.data.upWidthTopArray[index];
-                            obe.avg_item=res.data.downWidthTopArray[index];
+							}
+							obj.avg_item = res.data.upWidthTopArray[index];
+							obe.avg_item = res.data.downWidthTopArray[index];
 							obj.value = res.data.upWidthArray[index];
 							obe.value = res.data.downWidthArray[index];
 							this.upBandwidthMap.push(obj);
@@ -960,7 +959,7 @@ export default {
 			}
 			params.time_unit = params.timeUnit;
 			params.tabname = this.searchdata.tabname;
-			params.radio = this.searchdata.radio;
+			params.radio = this.searchdata_radio;
 			sessionStorage.setItem('search_condition', JSON.stringify(params));
 			ipfs_monit_storage(params)
 				.then((res) => {
@@ -1061,7 +1060,7 @@ export default {
 			}
 			params.time_unit = params.timeUnit;
 			params.tabname = this.searchdata.tabname;
-			params.radio = this.searchdata.radio;
+			params.radio = this.searchdata_radio;
 			params.echartslist = this.searchdata.echartslist;
 			sessionStorage.setItem('search_condition', JSON.stringify(params));
 			ipfs_monit_ping_ms(params)
@@ -1161,7 +1160,7 @@ export default {
 			}
 			params.time_unit = params.timeUnit;
 			params.tabname = this.searchdata.tabname;
-			params.radio = this.searchdata.radio;
+			params.radio = this.searchdata_radio;
 			params.echartslist = this.searchdata.echartslist;
 			sessionStorage.setItem('search_condition', JSON.stringify(params));
 			ipfs_monit_tid(params)
@@ -1177,9 +1176,9 @@ export default {
 							obj.value = res.data.tidArray[index];
 							this.tidlist.push(obj);
 						});
-						this.max_value = res.data.pingMsMax + 'ms';
-						this.min_value = res.data.pingMsMin + 'ms';
-						this.average_value = res.data.avgTid + 'ms';
+						this.max_value = res.data.tidMax + 'ms';
+						this.min_value = res.data.tidMin + 'ms';
+						this.average_value = res.data.tidAvg + 'ms';
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -1259,7 +1258,7 @@ export default {
 			}
 			params.time_unit = params.timeUnit;
 			params.tabname = this.searchdata.tabname;
-			params.radio = this.searchdata.radio;
+			params.radio = this.searchdata_radio;
 			params.echartslist = this.searchdata.echartslist;
 			sessionStorage.setItem('search_condition', JSON.stringify(params));
 			ipfs_monit_etf(params)
@@ -1361,7 +1360,7 @@ export default {
 			}
 			params.time_unit = params.timeUnit;
 			params.tabname = this.searchdata.tabname;
-			params.radio = this.searchdata.radio;
+			params.radio = this.searchdata_radio;
 			params.echartslist = this.searchdata.echartslist;
 			sessionStorage.setItem('search_condition', JSON.stringify(params));
 			ipfs_monit_lt(params)
@@ -1462,7 +1461,7 @@ export default {
 			// }
 			params.time_unit = params.timeUnit;
 			params.tabname = this.searchdata.tabname;
-			params.radio = this.searchdata.radio;
+			params.radio = this.searchdata_radio;
 			params.echartslist = this.searchdata.echartslist;
 			sessionStorage.setItem('search_condition', JSON.stringify(params));
 			ipfs_monit_itf(params)
@@ -1475,12 +1474,17 @@ export default {
 							} else {
 								obj.name = getday(item);
 							}
-							obj.value = (res.data.itfArray[index]*100).toFixed(4);
+							obj.value = (
+								res.data.itfArray[index] * 100
+							).toFixed(4);
 							this.itflist.push(obj);
 						});
-						this.max_value = (res.data.itfMax*100).toFixed(2) + '%';
-						this.min_value = (res.data.itfMin*100).toFixed(2) + '%';
-						this.average_value = (res.data.itfAvg*100).toFixed(2) + '%';
+						this.max_value =
+							(res.data.itfMax * 100).toFixed(2) + '%';
+						this.min_value =
+							(res.data.itfMin * 100).toFixed(2) + '%';
+						this.average_value =
+							(res.data.itfAvg * 100).toFixed(2) + '%';
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -1563,7 +1567,7 @@ export default {
 			// }
 			params.time_unit = params.timeUnit;
 			params.tabname = this.searchdata.tabname;
-			params.radio = this.searchdata.radio;
+			params.radio = this.searchdata_radio;
 			params.echartslist = this.searchdata.echartslist;
 			sessionStorage.setItem('search_condition', JSON.stringify(params));
 			ipfs_monit_otf(params)
@@ -1576,12 +1580,17 @@ export default {
 							} else {
 								obj.name = getday(item);
 							}
-							obj.value = (res.data.otfArray[index]*100).toFixed(4);
+							obj.value = (
+								res.data.otfArray[index] * 100
+							).toFixed(4);
 							this.otflist.push(obj);
 						});
-						this.max_value = (res.data.otfMax*100).toFixed(2) + '%';
-						this.min_value = (res.data.otfMin*100).toFixed(2) + '%';
-						this.average_value = (res.data.otfAvg*100).toFixed(2) + '%';
+						this.max_value =
+							(res.data.otfMax * 100).toFixed(2) + '%';
+						this.min_value =
+							(res.data.otfMin * 100).toFixed(2) + '%';
+						this.average_value =
+							(res.data.otfAvg * 100).toFixed(2) + '%';
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -1664,7 +1673,7 @@ export default {
 			}
 			params.time_unit = params.timeUnit;
 			params.tabname = this.searchdata.tabname;
-			params.radio = this.searchdata.radio;
+			params.radio = this.searchdata_radio;
 			params.echartslist = this.searchdata.echartslist;
 			sessionStorage.setItem('search_condition', JSON.stringify(params));
 			ipfs_monit_rcnt(params)
@@ -1769,7 +1778,7 @@ export default {
 			}
 			params.time_unit = params.timeUnit;
 			params.tabname = this.searchdata.tabname;
-			params.radio = this.searchdata.radio;
+			params.radio = this.searchdata_radio;
 			params.echartslist = this.searchdata.echartslist;
 			sessionStorage.setItem('search_condition', JSON.stringify(params));
 			ipfs_monit_cpuusage(params)
@@ -1871,7 +1880,7 @@ export default {
 			}
 			params.time_unit = params.timeUnit;
 			params.tabname = this.searchdata.tabname;
-			params.radio = this.searchdata.radio;
+			params.radio = this.searchdata_radio;
 			params.echartslist = this.searchdata.echartslist;
 			sessionStorage.setItem('search_condition', JSON.stringify(params));
 			ipfs_monit_memory(params)
@@ -1928,7 +1937,19 @@ export default {
 			}
 		},
 		change_tab() {
-			this.activeName = this.searchdata.tabname;
+            this.activeName = this.searchdata.tabname;
+
+			this.searchdata_radio = 1;
+			this.searchdata.input = '';
+			this.searchdata.region1 = ''; //一级渠道商
+			this.searchdata.region2 = ''; //二级渠道商
+			this.searchdata.region3 = ''; //设备类型
+			this.searchdata.region4 = ''; //区域
+			this.searchdata.region5 = ''; //城市
+			this.searchdata.region6 = ''; //运营商
+			this.searchdata.region7 = ''; //硬件类型
+			this.searchdata.region8 = ''; //操作系统
+			this.searchdata.value1 = '';
 			if (this.activeName == 'third') {
 				this.seacr_yin_show = true;
 				this.lastchange();
@@ -1956,7 +1977,7 @@ export default {
 			}
 		},
 		set_time() {
-			if (this.searchdata.radio == '5') {
+			if (this.searchdata_radio == 5) {
 				this.show_time = true;
 				if (
 					this.searchdata.value1 != null &&
@@ -1964,27 +1985,60 @@ export default {
 				) {
 					this.starttime = setbatime(this.searchdata.value1[0]);
 					this.endtime = setbatime(this.searchdata.value1[1]);
-					this.change_tab();
+					this.activeName = this.searchdata.tabname;
+					if (this.activeName == 'third') {
+						this.seacr_yin_show = true;
+						this.lastchange();
+					} else {
+						this.seacr_yin_show = false;
+						if (this.activeName == 'first') {
+							this.get_nodetype(1);
+						} else if (this.activeName == 'second') {
+							this.get_monit();
+						}
+					}
 				} else {
 					return false;
 				}
-			} else if (this.searchdata.radio == '4') {
+			} else if (this.searchdata_radio == 4) {
 				this.show_time = false;
 				this.searchdata.value1 = '';
 				let endt =
 					new Date(new Date().toLocaleDateString()).getTime() / 1000;
 				this.starttime = endt - 24 * 60 * 60 * 29;
 				this.endtime = Date.parse(new Date()) / 1000;
-				this.change_tab();
-			} else if (this.searchdata.radio == '3') {
+				this.activeName = this.searchdata.tabname;
+				if (this.activeName == 'third') {
+					this.seacr_yin_show = true;
+					this.lastchange();
+				} else {
+					this.seacr_yin_show = false;
+					if (this.activeName == 'first') {
+						this.get_nodetype(1);
+					} else if (this.activeName == 'second') {
+						this.get_monit();
+					}
+				}
+			} else if (this.searchdata_radio == 3) {
 				this.show_time = false;
 				this.searchdata.value1 = '';
 				let endt =
 					new Date(new Date().toLocaleDateString()).getTime() / 1000;
 				this.starttime = endt - 24 * 60 * 60 * 6;
 				this.endtime = Date.parse(new Date()) / 1000;
-				this.change_tab();
-			} else if (this.searchdata.radio == '2') {
+				this.activeName = this.searchdata.tabname;
+				if (this.activeName == 'third') {
+					this.seacr_yin_show = true;
+					this.lastchange();
+				} else {
+					this.seacr_yin_show = false;
+					if (this.activeName == 'first') {
+						this.get_nodetype(1);
+					} else if (this.activeName == 'second') {
+						this.get_monit();
+					}
+				}
+			} else if (this.searchdata_radio == 2) {
 				this.show_time = false;
 				this.searchdata.value1 = '';
 				this.endtime =
@@ -1992,15 +2046,51 @@ export default {
 				this.starttime =
 					new Date(new Date().toLocaleDateString()).getTime() / 1000 -
 					24 * 60 * 60;
-				this.change_tab();
-			} else if (this.searchdata.radio == '1') {
+				this.activeName = this.searchdata.tabname;
+				if (this.activeName == 'third') {
+					this.seacr_yin_show = true;
+					this.lastchange();
+				} else {
+					this.seacr_yin_show = false;
+					if (this.activeName == 'first') {
+						this.get_nodetype(1);
+					} else if (this.activeName == 'second') {
+						this.get_monit();
+					}
+				}
+			} else if (this.searchdata_radio == 1) {
 				this.show_time = false;
 				this.searchdata.value1 = '';
 				this.starttime =
 					new Date(new Date().toLocaleDateString()).getTime() / 1000;
 				this.endtime = Date.parse(new Date()) / 1000;
-				this.change_tab();
+				this.activeName = this.searchdata.tabname;
+				if (this.activeName == 'third') {
+					this.seacr_yin_show = true;
+					this.lastchange();
+				} else {
+					this.seacr_yin_show = false;
+					if (this.activeName == 'first') {
+						this.get_nodetype(1);
+					} else if (this.activeName == 'second') {
+						this.get_monit();
+					}
+				}
 			}
+		},
+		set_defaults() {
+			this.searchdata_radio = 1;
+			this.searchdata.input = '';
+			this.searchdata.region1 = ''; //一级渠道商
+			this.searchdata.region2 = ''; //二级渠道商
+			this.searchdata.region3 = ''; //设备类型
+			this.searchdata.region4 = ''; //区域
+			this.searchdata.region5 = ''; //城市
+			this.searchdata.region6 = ''; //运营商
+			this.searchdata.region7 = ''; //硬件类型
+			this.searchdata.region8 = ''; //操作系统
+			this.searchdata.value1 = '';
+			this.lastchange();
 		},
 		lastchange() {
 			this.show_time_btn = true;
@@ -2017,8 +2107,8 @@ export default {
 				this.get_lt();
 				// this.tiredsharts('lt', 'LT（失联计数）');
 			} else if (this.searchdata.echartslist == 5) {
-				if (this.searchdata.radio == 1) {
-					this.searchdata.radio = '3';
+				if (this.searchdata_radio == 1) {
+					this.searchdata_radio = 3;
 					this.show_time = false;
 					this.searchdata.value1 = '';
 					let endt =
@@ -2031,8 +2121,8 @@ export default {
 				this.get_itf();
 				// this.tiredsharts('itf', 'ITF（在线率）');
 			} else if (this.searchdata.echartslist == 6) {
-				if (this.searchdata.radio == 1) {
-					this.searchdata.radio = '3';
+				if (this.searchdata_radio == 1) {
+					this.searchdata_radio = 3;
 					this.show_time = false;
 					this.searchdata.value1 = '';
 					let endt =
@@ -2149,7 +2239,7 @@ export default {
 			}
 			params.time_unit = params.timeUnit;
 			params.tabname = this.searchdata.tabname;
-			params.radio = this.searchdata.radio;
+			params.radio = this.searchdata_radio;
 			params.echartslist = this.searchdata.echartslist;
 			if (name == '带宽') {
 				export_ipfs_monit_bandwidth_table_file(params)
@@ -2325,8 +2415,8 @@ export default {
 				title: {
 					text: '带宽',
 					left: 10,
-                },
-                 legend: {
+				},
+				legend: {
 					bottom: '2%',
 					data: ['带宽', '平均带宽'],
 				},
@@ -2346,19 +2436,22 @@ export default {
 				tooltip: {
 					trigger: 'axis',
 					formatter: function(params, ticket, callback) {
-                    let result = '';
-                    params.forEach(function (item,index) {
-                        if(index==0){
-                            result += item.name+ '<br />';
-                        }
-                        result += item.marker + item.value +_this.downbandwidth_unit+"</br>";
+						let result = '';
+						params.forEach(function(item, index) {
+							if (index == 0) {
+								result += item.name + '<br />';
+							}
+							result +=
+								item.marker +
+								item.value +
+								_this.downbandwidth_unit +
+								'</br>';
+						});
 
-                    });
-
-                    return result;
+						return result;
 					},
-                },
-               
+				},
+
 				grid: {
 					bottom: 90,
 					left: 50,
@@ -2402,15 +2495,16 @@ export default {
 							);
 						}),
 						large: true,
-                        smooth: true,
-                        name:'带宽',
+						smooth: true,
+						name: '带宽',
 						itemStyle: {
 							normal: {
 								color: '#409EFF',
 							},
 						},
-					},{
-                        type: 'line',
+					},
+					{
+						type: 'line',
 						data: echartsdata.map(function(item) {
 							return bandwidth_unit(
 								item.avg_item,
@@ -2418,14 +2512,14 @@ export default {
 							);
 						}),
 						large: true,
-                        smooth: true,
-                        name:'平均带宽',
+						smooth: true,
+						name: '平均带宽',
 						itemStyle: {
 							normal: {
 								color: '#09b005',
 							},
 						},
-                    }
+					},
 				],
 			};
 			function getMaximin(arr, maximin) {
