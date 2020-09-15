@@ -22,13 +22,13 @@
 						>
 							<el-input
 								v-model="input"
-								placeholder="节点ID"
+								placeholder="请输入节点ID"
 								style="width: 15%;"
 								@keyup.enter.native="onseach"
 							></el-input>
 							<el-select
 								v-model="firstvalue"
-								placeholder="请选择一级渠道"
+								placeholder="一级渠道"
 								style="margin-left:10px;width: 8%;"
 								@change="handleChangefirst($event)"
 							>
@@ -42,7 +42,7 @@
 							</el-select>
 							<el-select
 								v-model="secondvalue"
-								placeholder="请选择二级渠道"
+								placeholder="二级渠道"
 								style="margin-left:10px;width: 8%;"
 								:disabled="chil_disable"
 								@change="onseach"
@@ -57,13 +57,13 @@
 							</el-select>
 							<el-select
 								v-model="devtypevalue"
-								placeholder="请选择硬件设备"
+								placeholder="硬件类型"
 								style="margin-left:10px;width: 8%;"
 								@change="onseach"
 							>
 								<el-option value="*" label="全部"></el-option>
 								<el-option
-									v-for="(item, index) in arch"
+									v-for="(item, index) in device_type"
 									:key="item.name + index"
 									:label="item.name"
 									:value="item.name"
@@ -94,7 +94,7 @@
 							</el-select>
 							<el-select
 								v-model="ispvalue"
-								placeholder="请选择线路"
+								placeholder="网络线路"
 								style="margin-left:10px;width: 8%;"
 								@change="onseach"
 							>
@@ -211,12 +211,12 @@
 									>
 										<el-table-column
 											prop="ipfsId"
-											label="节点id"
+											label="节点ID"
 										>
 										</el-table-column>
 										<el-table-column
 											prop="dataFlowUse"
-											label="使用IP流量"
+											label="使用流量"
 										>
 											<template slot-scope="scope">
 												<span>{{
@@ -227,7 +227,7 @@
 										</el-table-column>
 										<el-table-column
 											prop="storeUse"
-											label="使用存储空间"
+											label="使用存储"
 										>
 											<template slot-scope="scope">
 												<span>{{
@@ -238,7 +238,7 @@
 										</el-table-column>
 										<el-table-column
 											prop="dataFlowUseRate"
-											label="IP流量利用率"
+											label="流量利用率"
 										>
 											<template slot-scope="scope"
 												>{{
@@ -252,7 +252,7 @@
 										</el-table-column>
 										<el-table-column
 											prop="storeUseRate"
-											label="FS存储利用率"
+											label="存储利用率"
 										>
 											<template slot-scope="scope">
 												<span>
@@ -268,7 +268,7 @@
 										</el-table-column>
 										<el-table-column
 											prop="nodeAverageUseRate"
-											label="平均利用率"
+											label="节点平均利用率"
 										>
 											<template slot-scope="scope">
 												<span>

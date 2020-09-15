@@ -878,7 +878,7 @@ export default {
 								obe.name = getday(item);
                             }
                             obj.avg_item=res.data.upWidthTopArray[index];
-                            obe.avg_item=res.data.downWidthTopArra[index];
+                            obe.avg_item=res.data.downWidthTopArray[index];
 							obj.value = res.data.upWidthArray[index];
 							obe.value = res.data.downWidthArray[index];
 							this.upBandwidthMap.push(obj);
@@ -1475,12 +1475,12 @@ export default {
 							} else {
 								obj.name = getday(item);
 							}
-							obj.value = res.data.itfArray[index].toFixed(4);
+							obj.value = (res.data.itfArray[index]*100).toFixed(4);
 							this.itflist.push(obj);
 						});
-						this.max_value = res.data.itfMax.toFixed(2) + '%';
-						this.min_value = res.data.itfMin.toFixed(2) + '%';
-						this.average_value = res.data.itfAvg.toFixed(2) + '%';
+						this.max_value = (res.data.itfMax*100).toFixed(2) + '%';
+						this.min_value = (res.data.itfMin*100).toFixed(2) + '%';
+						this.average_value = (res.data.itfAvg*100).toFixed(2) + '%';
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -1576,12 +1576,12 @@ export default {
 							} else {
 								obj.name = getday(item);
 							}
-							obj.value = res.data.otfArray[index].toFixed(4);
+							obj.value = (res.data.otfArray[index]*100).toFixed(4);
 							this.otflist.push(obj);
 						});
-						this.max_value = res.data.otfMax.toFixed(2) + '%';
-						this.min_value = res.data.otfMin.toFixed(2) + '%';
-						this.average_value = res.data.otfAvg.toFixed(2) + '%';
+						this.max_value = (res.data.otfMax*100).toFixed(2) + '%';
+						this.min_value = (res.data.otfMin*100).toFixed(2) + '%';
+						this.average_value = (res.data.otfAvg*100).toFixed(2) + '%';
 					} else {
 						this.$message.error(res.errMsg);
 					}
