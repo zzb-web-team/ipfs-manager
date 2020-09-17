@@ -1938,6 +1938,7 @@ export default {
 			}
 		},
 		change_tab() {
+			this.show_time_btn = true;
 			this.activeName = this.searchdata.tabname;
 
 			this.searchdata_radio = 1;
@@ -1953,13 +1954,13 @@ export default {
 			this.searchdata.value1 = '';
 			if (this.activeName == 'third') {
 				this.seacr_yin_show = true;
-				this.lastchange();
+				this.set_time();
 			} else {
 				this.seacr_yin_show = false;
 				if (this.activeName == 'first') {
-					this.get_nodetype(1);
+					this.set_time(1);
 				} else if (this.activeName == 'second') {
-					this.get_monit();
+					this.set_time();
 				}
 			}
 		},
@@ -1967,13 +1968,13 @@ export default {
 			this.show_time_btn = true;
 			if (this.activeName == 'third') {
 				this.seacr_yin_show = true;
-				this.lastchange();
+				this.set_time();
 			} else {
 				this.seacr_yin_show = false;
 				if (this.activeName == 'first') {
-					this.get_nodetype(1);
+					this.set_time(1);
 				} else if (this.activeName == 'second') {
-					this.get_monit();
+					this.set_time();
 				}
 			}
 		},
@@ -2628,7 +2629,7 @@ export default {
 			myChart2.setOption(options);
 		},
 		tiredsharts(id, titlename, datas) {
-            let legdata="节点"+titlename+"平均值"
+			let legdata = '节点' + titlename + '平均值';
 			let _this = this;
 			let maxnum = 100;
 			let num_max = Math.max.apply(
@@ -2733,7 +2734,7 @@ export default {
 			myChart2.setOption(options);
 		},
 		lastsharts(id, titlename, datas) {
-              let legdata="节点"+titlename+"平均值"
+			let legdata = '节点' + titlename + '平均值';
 			let _this = this;
 			let maxnum = 100;
 			console.log(titlename);

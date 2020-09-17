@@ -287,7 +287,7 @@
 							>
 								<el-option value="*" label="全部"></el-option>
 								<el-option
-									v-for="(item, index) in firstchan"
+									v-for="(item, index) in secondchan"
 									:key="item.name + index"
 									:label="item.name"
 									:value="item.value"
@@ -1096,7 +1096,8 @@ export default {
 				params.time_unit = 1440;
 			} else {
 				params.time_unit = 120;
-			}
+            }
+            params.isp="*";
 			params.radio = this.radio;
 			params.activeName = this.activeName;
 			this.totalOutputCnt = 0;
@@ -1184,7 +1185,8 @@ export default {
 				params.device_type = '*';
 			} else {
 				params.device_type = this.devtypevalue_fs;
-			}
+            }
+            params.isp="*";
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime - 1;
 			if (params.end_ts - params.start_ts > 86399) {
@@ -1266,7 +1268,8 @@ export default {
 				params.device_type = '*';
 			} else {
 				params.device_type = this.devtypevalue;
-			}
+            }
+            params.isp="*";
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime - 1;
 			params.pageNo = this.currentPage - 1;
@@ -1329,7 +1332,8 @@ export default {
 				params.device_type = '*';
 			} else {
 				params.device_type = this.devtypevalue_fs;
-			}
+            }
+            params.isp="*";
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime - 1;
 			params.pageNo = this.fs_currentPage - 1;
@@ -1421,7 +1425,8 @@ export default {
 				params.device_type = '*';
 			} else {
 				params.device_type = this.devtypevalue;
-			}
+            }
+            params.isp="*";
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime - 1;
 			params.pageNo = this.currentPage - 1;
@@ -1485,7 +1490,8 @@ export default {
 				params.device_type = '*';
 			} else {
 				params.device_type = this.devtypevalue;
-			}
+            }
+            params.isp="*";
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime - 1;
 			params.pageNo = this.currentPage - 1;
@@ -1568,7 +1574,7 @@ export default {
 						this.secondchan = item.secondchan;
 						this.chil_disable_fs = false;
 					} else {
-						this.chil_disable_fs = true;
+						// this.chil_disable_fs = true;
 					}
 				});
 			}
