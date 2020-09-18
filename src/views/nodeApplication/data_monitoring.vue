@@ -2092,7 +2092,7 @@ export default {
 			this.searchdata.region7 = ''; //硬件类型
 			this.searchdata.region8 = ''; //操作系统
 			this.searchdata.value1 = '';
-			this.lastchange();
+			this.set_time();
 		},
 		lastchange() {
 			this.show_time_btn = true;
