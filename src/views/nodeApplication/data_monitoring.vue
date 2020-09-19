@@ -209,19 +209,17 @@
 					<el-row>
 						<el-col :span="6" class="top_title">
 							<p>
-								{{ upbandwidth | bandwith_unit
-								}}{{ downbandwidth_unit }}/{{
+								{{ upbandwidth | bandwith_unit }}/{{
 									downbandwidth | bandwith_unit
-								}}{{ downbandwidth_unit }}
+								}}
 							</p>
 							<p>节点带宽峰值（上/下行）</p>
 						</el-col>
 						<el-col :span="6" class="top_title">
 							<p>
-								{{ averageup | unit_with(downbandwidth_unit)
-								}}{{ downbandwidth_unit }}/{{
-									averagedown | unit_with(downbandwidth_unit)
-								}}{{ downbandwidth_unit }}
+								{{ averageup | bandwith_unit }}/{{
+									averagedown | bandwith_unit
+								}}
 							</p>
 							<p>节点带宽平均值（上/下行）</p>
 						</el-col>
@@ -744,15 +742,18 @@ export default {
 			if (0 == a) return '0 B';
 			var c = 1024,
 				d = b || 2,
-				e = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
+				e = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
 				f = Math.floor(Math.log(a) / Math.log(c));
 			return parseFloat((a / Math.pow(c, f)).toFixed(d)) + ' ' + e[f];
 		},
 		bandwith_unit(data) {
 			if (data <= 0) {
-				return 0;
+				return 0 + 'kBps';
 			} else {
-				return bandwidth_unit_conversion(data)[0];
+				return (
+					bandwidth_unit_conversion(data)[0] +
+					bandwidth_unit_conversion(data)[1]
+				);
 			}
 		},
 		unit_with(data, unit) {
@@ -883,10 +884,14 @@ export default {
 							this.upBandwidthMap.push(obj);
 							this.downBandwidthMap.push(obe);
 						});
-						this.downbandwidth_unit = bandwidth_unit_conversion(
-							res.data.upWidthMax
-						)[1];
+						let max_data = this.getMaximin(
+							res.data.upWidthArray,
+							'max'
+						);
 
+						this.downbandwidth_unit = bandwidth_unit_conversion(
+							max_data
+						)[1];
 						this.upbandwidth = res.data.upWidthMax;
 						this.downbandwidth = res.data.downWidthMax;
 						this.averageup = res.data.avgUp;
