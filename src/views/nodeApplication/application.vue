@@ -1046,7 +1046,7 @@ export default {
 			} else {
 				this.city_disable_ip = false;
 				this.valueb = '';
-				this.optionsb = this.citydata[value[1]].cities;
+                this.optionsb = this.citydata[value[1]].cities;
 				this.ip_curve();
 			}
 		},
@@ -1165,7 +1165,7 @@ export default {
 								this.dataFlowArray.push(obj);
 							});
 							// this.dataFlowArray = res.data.dataFlowArray;
-							res.data.chansTimesArray.forEach((item, index) => {
+							res.data.timeArray.forEach((item, index) => {
 								this.timeArray.push(getday(item));
 							});
 							this.chansTimesArray = res.data.chansTimesArray;
