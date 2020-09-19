@@ -89,7 +89,7 @@
 						><el-select
 							size="small"
 							v-model="searchdata.region1"
-							placeholder="请选择一级渠道"
+							placeholder="节点一级渠道"
 							@change="handleChangefirst($event)"
 						>
 							<el-option label="全部" value="*"></el-option>
@@ -104,7 +104,7 @@
 						><el-select
 							size="small"
 							v-model="searchdata.region2"
-							placeholder="请选择二级渠道"
+							placeholder="节点二级渠道"
 							:disabled="chil_disable"
 							@change="set_time()"
 						>
@@ -121,7 +121,7 @@
 						><el-select
 							size="small"
 							v-model="searchdata.region3"
-							placeholder="请选择设备类型"
+							placeholder="设备类型"
 							@change="set_time()"
 						>
 							<el-option label="全部" value="*"></el-option>
@@ -136,7 +136,7 @@
 						><el-select
 							size="small"
 							v-model="searchdata.region7"
-							placeholder="请选择硬件类型"
+							placeholder="硬件类型"
 							@change="set_time()"
 						>
 							<el-option label="全部" value="*"></el-option>
@@ -151,7 +151,7 @@
 						><el-select
 							size="small"
 							v-model="searchdata.region8"
-							placeholder="请选择操作系统"
+							placeholder="操作系统"
 							@change="set_time()"
 						>
 							<el-option label="全部" value="*"></el-option>
@@ -192,7 +192,7 @@
 						><el-select
 							size="small"
 							v-model="searchdata.region6"
-							placeholder="请选择线路"
+							placeholder="网络线路"
 							@change="set_time()"
 						>
 							<el-option label="全部" value="*"></el-option>
@@ -2446,6 +2446,9 @@ export default {
 				},
 				tooltip: {
 					trigger: 'axis',
+					textStyle: {
+						align: 'left',
+					},
 					formatter: function(params, ticket, callback) {
 						let result = '';
 						params.forEach(function(item, index) {
@@ -2605,12 +2608,9 @@ export default {
 				},
 				tooltip: {
 					trigger: 'axis',
-					// axisPointer: {
-					// 	type: 'cross',
-					// 	label: {
-					// 		backgroundColor: '#6a7985',
-					// 	},
-					// },
+					textStyle: {
+						align: 'left',
+					},
 					formatter: function(params, ticket, callback) {
 						return (
 							params[0].name +
@@ -2719,6 +2719,9 @@ export default {
 					// 		backgroundColor: '#6a7985',
 					// 	},
 					// },
+					textStyle: {
+						align: 'left',
+					},
 					formatter: function(params, ticket, callback) {
 						return (
 							params[0].name +
@@ -2818,6 +2821,9 @@ export default {
 					// 		backgroundColor: '#6a7985',
 					// 	},
 					// },
+					textStyle: {
+						align: 'left',
+					},
 					formatter: function(params, ticket, callback) {
 						return (
 							params[0].name +

@@ -28,7 +28,7 @@
 							></el-input>
 							<el-select
 								v-model="firstvalue"
-								placeholder="一级渠道"
+								placeholder="节点一级渠道"
 								style="margin-left:10px;width: 8%;"
 								@change="handleChangefirst($event)"
 							>
@@ -42,7 +42,7 @@
 							</el-select>
 							<el-select
 								v-model="secondvalue"
-								placeholder="二级渠道"
+								placeholder="节点二级渠道"
 								style="margin-left:10px;width: 8%;"
 								:disabled="chil_disable"
 								@change="onseach"
@@ -118,7 +118,9 @@
 								<el-radio-button label="1"
 									>昨天</el-radio-button
 								>
-								<el-radio-button label="2">近7天</el-radio-button>
+								<el-radio-button label="2"
+									>近7天</el-radio-button
+								>
 								<el-radio-button label="3"
 									>近30天</el-radio-button
 								>
@@ -563,8 +565,8 @@ import {
 	query_ip_store_details_table,
 	query_ip_store_usage_table,
 	query_ip_store_avg_usage_table,
-    get_nodetype_enum,
-    export_ipfs_avg_usage_table_file
+	get_nodetype_enum,
+	export_ipfs_avg_usage_table_file,
 } from '../../servers/api';
 import axios from 'axios';
 export default {
@@ -1054,7 +1056,7 @@ export default {
 			}
 
 			params.start_ts = this.starttime;
-			params.end_ts = this.endtime-1;
+			params.end_ts = this.endtime - 1;
 			if (params.end_ts - params.start_ts > 86399) {
 				params.time_unit = 1440;
 			} else {
@@ -1078,9 +1080,9 @@ export default {
 						this.pingDataFlow = (res.data.average * 100).toFixed(2);
 						this.get_ip_table();
 					} else {
-                        this.$message.error(res.errMsg);
+						this.$message.error(res.errMsg);
 					}
-						this.configure();
+					this.configure();
 				})
 				.catch((error) => {});
 		},
@@ -1124,7 +1126,7 @@ export default {
 			}
 
 			params.start_ts = this.starttime;
-			params.end_ts = this.endtime-1;
+			params.end_ts = this.endtime - 1;
 			if (params.end_ts - params.start_ts > 2505599) {
 				params.time_unit = 1440;
 			} else if (params.end_ts - params.start_ts > 86399) {
@@ -1148,9 +1150,9 @@ export default {
 						});
 						this.get_fs_table();
 					} else {
-                        this.$message.error(res.errMsg);
+						this.$message.error(res.errMsg);
 					}
-						this.configure1();
+					this.configure1();
 				})
 				.catch((Error) => {});
 		},
@@ -1192,7 +1194,7 @@ export default {
 				params.isp = this.ispvalue;
 			}
 			params.start_ts = this.starttime;
-			params.end_ts = this.endtime-1;
+			params.end_ts = this.endtime - 1;
 			params.pageNo = this.currentPage - 1;
 			params.pageSize = this.fs_pageSize;
 			if (params.end_ts - params.start_ts > 86399) {
@@ -1252,7 +1254,7 @@ export default {
 				params.isp = this.ispvalue_fs;
 			}
 			params.start_ts = this.starttime;
-			params.end_ts = this.endtime-1;
+			params.end_ts = this.endtime - 1;
 			params.pageNo = this.currentPagefs - 1;
 			params.pageSize = this.fs_pageSize;
 			if (params.end_ts - params.start_ts > 2505599) {
@@ -1579,7 +1581,7 @@ export default {
 				params.time_unit = 5;
 			}
 			params.start_ts = this.starttime;
-			params.end_ts = this.endtime-1;
+			params.end_ts = this.endtime - 1;
 			params.pageNo = this.currentPagefs - 1;
 			params.pageSize = this.fs_pageSize;
 			query_ip_store_avg_usage_table(params)
@@ -1627,8 +1629,8 @@ export default {
 			// params.start_ts = this.starttime;
 			// params.end_ts = this.endtime-1;
 			// params.pageNo = this.currentPage - 1;
-            // params.pageSize = this.fs_pageSize;
-            let params = new Object();
+			// params.pageSize = this.fs_pageSize;
+			let params = new Object();
 			if (this.input !== '') {
 				params.ipfsId = this.input;
 			} else {
@@ -1668,7 +1670,7 @@ export default {
 			}
 
 			params.start_ts = this.starttime;
-			params.end_ts = this.endtime-1;
+			params.end_ts = this.endtime - 1;
 			if (params.end_ts - params.start_ts > 86399) {
 				params.time_unit = 1440;
 			} else {
@@ -1684,8 +1686,8 @@ export default {
 						// this.exportExcel(
 						// 	this.ip_tableData_upload,
 						// 	'节点利用率IP流量'
-                        // );
-                        window.open(res.msg,"_blank");
+						// );
+						window.open(res.msg, '_blank');
 						this.fan.fanactionlog('导出', '节点利用率IP流量', 1);
 					} else {
 						this.fan.fanactionlog('导出', '节点利用率IP流量', 0);
@@ -1714,6 +1716,9 @@ export default {
 				},
 				tooltip: {
 					trigger: 'axis',
+					textStyle: {
+						align: 'left',
+					},
 					axisPointer: {
 						type: 'cross',
 						crossStyle: {
@@ -1817,8 +1822,8 @@ export default {
 						},
 					},
 				],
-            };
-            myChart.clear();
+			};
+			myChart.clear();
 			myChart.setOption(options);
 		},
 		configure1() {
@@ -1880,8 +1885,8 @@ export default {
 						},
 					},
 				],
-            };
-            myChart.clear();
+			};
+			myChart.clear();
 			myChart.setOption(options);
 		},
 		exportExcel(dataupload, excelname) {

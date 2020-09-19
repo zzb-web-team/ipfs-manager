@@ -18,13 +18,13 @@
 						>
 							<el-input
 								v-model="input"
-								placeholder="节点ID"
+								placeholder="请输入节点ID"
 								style="width: 15%;"
 								@keyup.enter.native="onseach"
 							></el-input>
 							<el-select
 								v-model="firstvaluea"
-								placeholder="请选择一级节点"
+								placeholder="节点一级渠道"
 								style="margin-left:10px;width: 8%;"
 								@change="handleChangefirst($event)"
 							>
@@ -38,7 +38,7 @@
 							</el-select>
 							<el-select
 								v-model="secondvalue"
-								placeholder="请选择二级节点"
+								placeholder="节点二级渠道"
 								style="margin-left:10px;width: 8%;"
 								:disabled="chil_disable"
 								@change="onseach"
@@ -53,7 +53,7 @@
 							</el-select>
 							<el-select
 								v-model="devtypevalue"
-								placeholder="请选择硬件设备"
+								placeholder="设备类型"
 								style="margin-left:10px;width: 8%;"
 								@change="onseach"
 							>
@@ -87,14 +87,20 @@
 									:value="item.name"
 								></el-option>
 							</el-select>
-							<!-- <el-select
-                v-model="valuea"
-                placeholder="请选择运营商"
-                style="margin-left:10px;"
-                @change="onseach"
-              >
-                <el-option value="*" label="全部"></el-option>
-              </el-select> -->
+							<el-select
+								v-model="ispvalue"
+								placeholder="网络线路"
+								style="margin-left:10px;width: 8%;"
+								@change="onseach"
+							>
+								<el-option value="*" label="全部"></el-option>
+								<el-option
+									v-for="(item, index) in isp"
+									:key="item.name + index"
+									:label="item.name"
+									:value="item.name"
+								></el-option>
+							</el-select>
 							<el-button-group
 								class="bantlist"
 								style="margin:0 10px;"
@@ -112,7 +118,9 @@
 								<el-radio-button label="1"
 									>昨天</el-radio-button
 								>
-								<el-radio-button label="2">近7天</el-radio-button>
+								<el-radio-button label="2"
+									>近7天</el-radio-button
+								>
 								<el-radio-button label="3"
 									>近30天</el-radio-button
 								>
@@ -260,13 +268,13 @@
 						>
 							<el-input
 								v-model="inputfs"
-								placeholder="节点ID"
+								placeholder="请输入节点ID"
 								style="width: 10%;width: 15%;"
 								@keyup.enter.native="onseach('fs')"
 							></el-input>
 							<el-select
 								v-model="firstvaluea_fs"
-								placeholder="请选择一级节点"
+								placeholder="节点一级渠道"
 								style="margin-left:10px;width: 8%;"
 								@change="handleChangefirst_fs($event)"
 							>
@@ -280,7 +288,7 @@
 							</el-select>
 							<el-select
 								v-model="secondvalue_fs"
-								placeholder="请选择二级节点"
+								placeholder="节点二级渠道"
 								style="margin-left:10px;width: 8%;"
 								:disabled="chil_disable_fs"
 								@change="onseach('fs')"
@@ -296,7 +304,7 @@
 							</el-select>
 							<el-select
 								v-model="devtypevalue_fs"
-								placeholder="请选择硬件设备"
+								placeholder="设备类型"
 								style="margin-left:10px;width: 8%;"
 								@change="onseach('fs')"
 							>
@@ -329,6 +337,20 @@
 									:value="item.name"
 								></el-option>
 							</el-select>
+							<el-select
+								v-model="ispvalue_fs"
+								placeholder="网络线路"
+								style="margin-left:10px;width: 8%;"
+								@change="onseach('fs')"
+							>
+								<el-option value="*" label="全部"></el-option>
+								<el-option
+									v-for="(item, index) in isp"
+									:key="item.name + index"
+									:label="item.name"
+									:value="item.name"
+								></el-option>
+							</el-select>
 							<el-radio-group
 								v-show="zidingyifs == false"
 								v-model="radio"
@@ -341,7 +363,9 @@
 								<el-radio-button label="1"
 									>昨天</el-radio-button
 								>
-								<el-radio-button label="2">近7天</el-radio-button>
+								<el-radio-button label="2"
+									>近7天</el-radio-button
+								>
 								<el-radio-button label="3"
 									>近30天</el-radio-button
 								>
@@ -586,6 +610,8 @@ export default {
 			optionsb: [],
 			valuea: '',
 			valueb: '',
+			ispvalue: '',
+			ispvalue_fs: '',
 			optionsafs: [
 				{
 					value: -1,
@@ -797,6 +823,7 @@ export default {
 			totalStoreUsage: 0,
 			dataFlowArray: [],
 			timeArray: [],
+			chansTimesArray: [],
 			storeUsageArray: [],
 			fs_timeArray: [],
 			fs_tableData: [],
@@ -932,6 +959,8 @@ export default {
 						search_data.device_type == '*'
 							? ''
 							: search_data.device_type;
+					this.ispvalue =
+						search_data.ispvalue == '*' ? '' : search_data.ispvalue;
 					this.change_time('ip');
 				} else {
 					this.inputfs =
@@ -959,7 +988,10 @@ export default {
 						search_data.device_type == '*'
 							? ''
 							: search_data.device_type;
-
+					this.ispvalue_fs =
+						search_data.ispvalue_fs == '*'
+							? ''
+							: search_data.ispvalue_fs;
 					this.change_time('fs');
 				}
 			}
@@ -1089,6 +1121,11 @@ export default {
 			} else {
 				params.device_type = this.devtypevalue;
 			}
+			if (this.ispvalue == '') {
+				params.isp = '*';
+			} else {
+				params.isp = this.ispvalue;
+			}
 			params.time_unit = this.time_unit;
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime - 1;
@@ -1096,14 +1133,15 @@ export default {
 				params.time_unit = 1440;
 			} else {
 				params.time_unit = 120;
-            }
-            params.isp="*";
+			}
+
 			params.radio = this.radio;
 			params.activeName = this.activeName;
 			this.totalOutputCnt = 0;
 			this.totalDataFlow = 0;
 			this.dataFlowArray = [];
 			this.timeArray = [];
+			this.chansTimesArray = [];
 			sessionStorage.setItem('search_condition', JSON.stringify(params));
 			query_ipfs_dataflow_curve(params)
 				.then((res) => {
@@ -1120,16 +1158,17 @@ export default {
 								'max'
 							);
 							max_unit = get_units(maxnum);
-							res.data.dataFlowArray.forEach((item) => {
-								this.dataFlowArray.push(
-									formatBkb(item, max_unit)
-									// (item / 1024 / 1024 / 1024).toFixed(2)
-								);
+							res.data.dataFlowArray.forEach((item, index) => {
+								let obj = {};
+								obj.value = formatBkb(item, max_unit);
+								obj.num = res.data.chansTimesArray[index];
+								this.dataFlowArray.push(obj);
 							});
 							// this.dataFlowArray = res.data.dataFlowArray;
 							res.data.chansTimesArray.forEach((item, index) => {
 								this.timeArray.push(getday(item));
 							});
+							this.chansTimesArray = res.data.chansTimesArray;
 						}
 						this.drawLine(max_unit);
 					} else {
@@ -1185,8 +1224,12 @@ export default {
 				params.device_type = '*';
 			} else {
 				params.device_type = this.devtypevalue_fs;
-            }
-            params.isp="*";
+			}
+			if (this.ispvalue_fs == '') {
+				params.isp = '*';
+			} else {
+				params.isp = this.ispvalue_fs;
+			}
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime - 1;
 			if (params.end_ts - params.start_ts > 86399) {
@@ -1268,8 +1311,12 @@ export default {
 				params.device_type = '*';
 			} else {
 				params.device_type = this.devtypevalue;
-            }
-            params.isp="*";
+			}
+			if (this.ispvalue == '') {
+				params.isp = '*';
+			} else {
+				params.isp = this.ispvalue;
+			}
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime - 1;
 			params.pageNo = this.currentPage - 1;
@@ -1332,8 +1379,12 @@ export default {
 				params.device_type = '*';
 			} else {
 				params.device_type = this.devtypevalue_fs;
-            }
-            params.isp="*";
+			}
+			if (this.ispvalue_fs == '') {
+				params.isp = '*';
+			} else {
+				params.isp = this.ispvalue_fs;
+			}
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime - 1;
 			params.pageNo = this.fs_currentPage - 1;
@@ -1382,7 +1433,9 @@ export default {
 			this.inputfs = '';
 			this.input = '';
 			this.devtypevalue_fs = '';
+			this.ispvalue_fs = '';
 			this.devtypevalue = '';
+			this.ispvalue = '';
 			if (tab.index == '1') {
 				this.fs_curve();
 			} else {
@@ -1425,8 +1478,12 @@ export default {
 				params.device_type = '*';
 			} else {
 				params.device_type = this.devtypevalue;
-            }
-            params.isp="*";
+			}
+			if (this.ispvalue_fs == '') {
+				params.isp = '*';
+			} else {
+				params.isp = this.ispvalue_fs;
+			}
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime - 1;
 			params.pageNo = this.currentPage - 1;
@@ -1490,8 +1547,12 @@ export default {
 				params.device_type = '*';
 			} else {
 				params.device_type = this.devtypevalue;
-            }
-            params.isp="*";
+			}
+			if (this.ispvalue == '') {
+				params.isp = '*';
+			} else {
+				params.isp = this.ispvalue;
+			}
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime - 1;
 			params.pageNo = this.currentPage - 1;
@@ -1725,7 +1786,7 @@ export default {
 				this.dataFlowArray.map((item) => {
 					return item;
 				})
-            );
+			);
 			if (num_max > maxnum) {
 				maxnum = num_max;
 			}
@@ -1741,6 +1802,9 @@ export default {
 				},
 				tooltip: {
 					trigger: 'axis',
+					textStyle: {
+						align: 'left',
+					},
 					axisPointer: {
 						type: 'cross',
 						crossStyle: {
@@ -1756,10 +1820,10 @@ export default {
 							data_unit
 						);
 					},
-                },
-                legend: {
+				},
+				legend: {
 					bottom: '2%',
-					data: ["流量"],
+					data: ['流量'],
 				},
 				xAxis: {
 					data: this.timeArray,
@@ -1779,12 +1843,13 @@ export default {
 				},
 				series: [
 					{
-						name: '流量',
 						type: 'bar',
-                        smooth: true,
-                        name:"流量",
+						smooth: true,
+						name: '流量',
 						barWidth: 30, //柱图宽度
-						data: this.dataFlowArray,
+						data: this.dataFlowArray.map((item) => {
+							return item.value;
+						}),
 
 						color: '#409EFF',
 						itemStyle: {
@@ -1794,8 +1859,17 @@ export default {
 									position: 'top', //在上方显示
 									textStyle: {
 										//数值样式
-										color: 'black',
-										fontSize: 16,
+										color: '#999999',
+										fontSize: 14,
+									},
+									// formatter: '{a}{b}{c}{d}{e}',
+									formatter: function(params) {
+										let str = '';
+										str =
+											_this.dataFlowArray[
+												params.dataIndex
+											].num + '次';
+										return str;
 									},
 								},
 							},
@@ -1814,7 +1888,7 @@ export default {
 				this.storeUsageArray.map((item) => {
 					return item;
 				})
-            );
+			);
 			if (num_max > maxnum) {
 				maxnum = num_max;
 			}
@@ -1829,7 +1903,10 @@ export default {
 					text: '存储',
 				},
 				tooltip: {
-					trigger: 'axis',
+                    trigger: 'axis',
+                    textStyle: {
+						align: 'left',
+					},
 					axisPointer: {
 						type: 'cross',
 						crossStyle: {
@@ -1845,10 +1922,10 @@ export default {
 							data_unit
 						);
 					},
-                },
-                legend: {
+				},
+				legend: {
 					bottom: '2%',
-					data: ["容量"],
+					data: ['容量'],
 				},
 				xAxis: {
 					data: this.fs_timeArray,
