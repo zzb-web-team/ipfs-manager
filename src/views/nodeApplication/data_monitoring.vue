@@ -979,7 +979,11 @@ export default {
 						});
 						this.availablecap = res.data.totalDiskRom;
 						this.totalcap = res.data.sumDiskRom;
-						kunits = get_units(res.data.sumDiskRom);
+						let max_data = this.getMaximin(
+							res.data.diskRomArray,
+							'max'
+						);
+						kunits = get_units(max_data);
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -2632,13 +2636,13 @@ export default {
 			let legdata = '节点' + titlename + '平均值';
 			let _this = this;
 			let maxnum = 100;
-			let num_max = Math.max.apply(
-				Math,
-				datas.map((item) => {
-					return item.value;
-				})
-			);
-			if (num_max > maxnum) {
+			if (datas.length > 0) {
+				let num_max = Math.max.apply(
+					Math,
+					datas.map((item) => {
+						return item.value;
+					})
+				);
 				maxnum = num_max;
 			}
 			let sa = true;
@@ -2648,6 +2652,8 @@ export default {
 			}
 			if (id == 'lt' || id == 'rcnt') {
 				dadaunits = '次';
+			} else {
+				maxnum = 100;
 			}
 			let chartdom2 = document.getElementById(id);
 			chartdom2.style.width = this._width + 'px';
@@ -2737,14 +2743,13 @@ export default {
 			let legdata = '节点' + titlename + '平均值';
 			let _this = this;
 			let maxnum = 100;
-			console.log(titlename);
-			let num_max = Math.max.apply(
-				Math,
-				datas.map((item) => {
-					return item.value;
-				})
-			);
-			if (num_max > maxnum) {
+			if (datas.length > 0) {
+				let num_max = Math.max.apply(
+					Math,
+					datas.map((item) => {
+						return item.value;
+					})
+				);
 				maxnum = num_max;
 			}
 			let chartdom2 = document.getElementById(id);

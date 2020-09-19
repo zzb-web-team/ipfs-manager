@@ -112,9 +112,9 @@
 								<el-radio-button label="1"
 									>昨天</el-radio-button
 								>
-								<el-radio-button label="2">7天</el-radio-button>
+								<el-radio-button label="2">近7天</el-radio-button>
 								<el-radio-button label="3"
-									>30天</el-radio-button
+									>近30天</el-radio-button
 								>
 								<el-radio-button label="4"
 									>自定义</el-radio-button
@@ -341,9 +341,9 @@
 								<el-radio-button label="1"
 									>昨天</el-radio-button
 								>
-								<el-radio-button label="2">7天</el-radio-button>
+								<el-radio-button label="2">近7天</el-radio-button>
 								<el-radio-button label="3"
-									>30天</el-radio-button
+									>近30天</el-radio-button
 								>
 								<el-radio-button label="4"
 									>自定义</el-radio-button
