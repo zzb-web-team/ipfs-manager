@@ -218,7 +218,7 @@
 										</el-table-column>
 										<el-table-column
 											prop="dataFlowUse"
-											label="使用流量"
+											:label="tabtitle_flow"
 										>
 											<template slot-scope="scope">
 												<span>{{
@@ -229,7 +229,7 @@
 										</el-table-column>
 										<el-table-column
 											prop="storeUse"
-											label="使用存储"
+											:label="tabtitle_storage"
 										>
 											<template slot-scope="scope">
 												<span>{{
@@ -888,6 +888,8 @@ export default {
 			secondchan: [],
 			menutype: {},
 			radio: 0,
+			tabtitle_flow: '使用流量',
+			tabtitle_storage: '占用存储',
 		};
 	},
 	mounted() {
@@ -1199,8 +1201,12 @@ export default {
 			params.pageSize = this.fs_pageSize;
 			if (params.end_ts - params.start_ts > 86399) {
 				params.time_unit = 1440;
+				this.tabtitle_flow = '累计使用流量';
+				this.tabtitle_storage = '平均占用存储';
 			} else {
 				params.time_unit = 120;
+				this.tabtitle_flow = '使用流量';
+				this.tabtitle_storage = '占用存储';
 			}
 			query_ipfs_dataflow_avg_usage_table(params)
 				.then((res) => {
