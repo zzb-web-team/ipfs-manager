@@ -530,6 +530,7 @@ import {
 	formatterDate,
 	formatBkb,
 	get_units,
+	bandwidth_unit_conversion,
 } from '../../servers/sevdate';
 import {
 	ipfs_dataflow_query_conditions,
@@ -870,6 +871,8 @@ export default {
 			chil_disable: true,
 			chil_disable_fs: true,
 			menutype: {},
+			ip_tooltip_list: [],
+			fs_tooltip_list: [],
 		};
 	},
 	filters: {
@@ -1172,7 +1175,7 @@ export default {
 								obj.num = res.data.chansTimesArray[index];
 								this.dataFlowArray.push(obj);
 							});
-							// this.dataFlowArray = res.data.dataFlowArray;
+							this.ip_tooltip_list = res.data.dataFlowArray;
 							res.data.timeArray.forEach((item, index) => {
 								this.timeArray.push(getday(item));
 							});
@@ -1276,6 +1279,7 @@ export default {
 							res.data.timeArray.forEach((item, index) => {
 								this.fs_timeArray.push(getday(item));
 							});
+							this.fs_tooltip_list = res.data.storeCapArray;
 						}
 						this.drawLine1(max_unit);
 					} else {
@@ -1789,13 +1793,19 @@ export default {
 		drawLine(data_unit) {
 			let _this = this;
 			let maxnum = 100;
-			let num_max = Math.max.apply(
-				Math,
-				this.dataFlowArray.map((item) => {
-					return item;
-				})
-			);
-			if (num_max > maxnum) {
+			if (_this.dataFlowArray.length > 0) {
+				let num_max = Math.max.apply(
+					Math,
+					this.dataFlowArray.map((item) => {
+						return item;
+					})
+				);
+				num_max = Math.max.apply(
+					Math,
+					_this.dataFlowArray.map((item) => {
+						return item.value;
+					})
+				);
 				maxnum = num_max;
 			}
 			// 基于准备好的dom，初始化echarts实例
@@ -1824,8 +1834,9 @@ export default {
 							params[0].name +
 							'<br />' +
 							'流量' +
-							params[0].value +
-							data_unit
+							zhuanbkbs(
+								_this.ip_tooltip_list[params[0].dataIndex]
+							)
 						);
 					},
 				},
@@ -1891,13 +1902,19 @@ export default {
 		drawLine1(data_unit) {
 			let _this = this;
 			let maxnum = 100;
-			let num_max = Math.max.apply(
-				Math,
-				this.storeUsageArray.map((item) => {
-					return item;
-				})
-			);
-			if (num_max > maxnum) {
+			if (_this.storeUsageArray.length > 0) {
+				let num_max = Math.max.apply(
+					Math,
+					this.storeUsageArray.map((item) => {
+						return item;
+					})
+				);
+				num_max = Math.max.apply(
+					Math,
+					_this.storeUsageArray.map((item) => {
+						return item.value;
+					})
+				);
 				maxnum = num_max;
 			}
 			// 基于准备好的dom，初始化echarts实例
@@ -1926,8 +1943,9 @@ export default {
 							params[0].name +
 							'<br />' +
 							'容量' +
-							params[0].value +
-							data_unit
+							zhuanbkbs(
+								_this.fs_tooltip_list[params[0].dataIndex]
+							)
 						);
 					},
 				},
