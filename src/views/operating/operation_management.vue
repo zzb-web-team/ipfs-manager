@@ -27,7 +27,7 @@
 							:class="[
 								rotate
 									? 'fa fa-arrow-down go'
-									: 'fa fa-arrow-down aa'
+									: 'fa fa-arrow-down aa',
 							]"
 						></i>
 					</div>
@@ -69,11 +69,9 @@
 						start-placeholder="开始日期"
 						end-placeholder="结束日期"
 						@change="seachuser"
-                        :picker-options="endPickerOptions"
+						:picker-options="endPickerOptions"
 					></el-date-picker>
-                    <el-button plain  @click="reset()"
-							>重置</el-button
-						>
+					<el-button plain @click="reset()">重置</el-button>
 					<div class="seach_bottom_btn">
 						<!-- <el-button
 							type="primary"
@@ -82,7 +80,6 @@
 							@click="seachuser()"
 							>确定</el-button
 						> -->
-						
 					</div>
 				</div>
 			</div>
@@ -133,14 +130,11 @@
 						prop="aftervalue"
 						label="修改值"
 					></el-table-column>
-                    <el-table-column
+					<el-table-column
 						prop="description"
 						label="操作内容"
 					></el-table-column>
-					<el-table-column
-						prop="time_create"
-						
-						label="操作时间"
+					<el-table-column prop="time_create" label="操作时间"
 						><template slot-scope="scope">
 							<span>{{ scope.row.time_create | getymd }}</span>
 						</template></el-table-column
@@ -195,33 +189,37 @@ export default {
 			options: [
 				{
 					value: 0,
-					label: '失败'
+					label: '失败',
 				},
 				{
 					value: 1,
-					label: '成功'
-				}
+					label: '成功',
+				},
 			],
 			value: '',
 			options2: [
 				{
 					value: 0,
-					label: '新增'
+					label: '新增',
 				},
 				{
 					value: 1,
-					label: '修改'
+					label: '修改',
 				},
 				{
 					value: 2,
-					label: '删除'
+					label: '删除',
 				},
 				{
 					value: 3,
-					label: '导出'
-				}
-            ],
-            endPickerOptions: {
+					label: '导出',
+				},
+				{
+					value: 4,
+					label: '登录',
+				},
+			],
+			endPickerOptions: {
 				disabledDate(time) {
 					return (
 						time.getTime() >
@@ -233,21 +231,21 @@ export default {
 								1
 						)
 					);
-				}
+				},
 			},
 			value2: '',
 			tableData: [],
-			tableData2: []
+			tableData2: [],
 		};
 	},
 	filters: {
 		//时间戳转时间
 		getymd(time) {
 			return getymdtime(time);
-		}
+		},
 	},
 	components: {
-		fenye
+		fenye,
 	},
 	mounted() {
 		this.geydata();
@@ -275,7 +273,7 @@ export default {
 				parmas.status = this.value;
 			}
 			actionlog(parmas)
-				.then(res => {
+				.then((res) => {
 					if (res.status == 0) {
 						if (res.result.page == 0) {
 							if (res.result.les_count == 0) {
@@ -295,7 +293,7 @@ export default {
 						this.$message.error(res.msg);
 					}
 				})
-				.catch(err => {});
+				.catch((err) => {});
 		},
 		geydata2() {
 			// this.tableData = [];
@@ -308,7 +306,7 @@ export default {
 			parmas.status = null;
 			parmas.utype = 'ipfs';
 			actionlog(parmas)
-				.then(res => {
+				.then((res) => {
 					if (res.status == 0) {
 						this.tableData2 = this.tableData2.concat(
 							res.result.cols
@@ -328,7 +326,7 @@ export default {
 						this.$message.error(res.msg);
 					}
 				})
-				.catch(err => {
+				.catch((err) => {
 					this.fan.fanactionlog('导出', '操作日志', 0);
 				});
 		},
@@ -371,7 +369,7 @@ export default {
 		exportExcel() {
 			require.ensure([], () => {
 				const {
-					export_json_to_excel
+					export_json_to_excel,
 				} = require('../../excel/Export2Excel.js');
 				const tHeader = [
 					'状态',
@@ -379,7 +377,7 @@ export default {
 					'操作人',
 					'原始值',
 					'修改值',
-					'修改时间'
+					'修改时间',
 				];
 				// 上面设置Excel的表格第一行的标题
 				const filterVal = [
@@ -388,7 +386,7 @@ export default {
 					'username',
 					'geydata',
 					'description',
-					'time_create'
+					'time_create',
 				];
 				// 上面的index、nickName、name是tableData里对象的属性
 				const list = this.tableData2; //把data里的tableData存到list
@@ -398,9 +396,9 @@ export default {
 			});
 		},
 		formatJson(filterVal, jsonData) {
-			return jsonData.map(v => filterVal.map(j => v[j]));
-		}
-	}
+			return jsonData.map((v) => filterVal.map((j) => v[j]));
+		},
+	},
 };
 </script>
 
