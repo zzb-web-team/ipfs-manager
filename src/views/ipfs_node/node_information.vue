@@ -252,7 +252,7 @@
 			<el-table-column prop="occupyCpu" label="CPU占用">
 				<template slot-scope="scope">
 					<span v-if="scope.row.occupyCpu"
-						>{{ scope.row.occupyCpu.toFixed(2) }}%</span
+						>{{ (scope.row.occupyCpu*100).toFixed(2) }}%</span
 					>
 					<span v-else>--</span>
 				</template>

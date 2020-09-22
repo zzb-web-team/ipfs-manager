@@ -1286,9 +1286,12 @@ export default {
 							).toFixed(4);
 							this.etflist.push(obj);
 						});
-						this.max_value = res.data.etfMax.toFixed(4) + '%';
-						this.min_value = res.data.etfMin.toFixed(4) + '%';
-						this.average_value = res.data.etfAvg.toFixed(4) + '%';
+						this.max_value =
+							(res.data.etfMax * 100).toFixed(4) + '%';
+						this.min_value =
+							(res.data.etfMin * 100).toFixed(4) + '%';
+						this.average_value =
+							(res.data.etfAvg * 100).toFixed(4) + '%';
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -1806,9 +1809,12 @@ export default {
 							).toFixed(4);
 							this.cpuusaglist.push(obj);
 						});
-						this.max_value = res.data.cpuMax.toFixed(2) + '%';
-						this.min_value = res.data.cpuMin.toFixed(2) + '%';
-						this.average_value = res.data.cpuAvg.toFixed(2) + '%';
+						this.max_value =
+							(res.data.cpuMax * 100).toFixed(2) + '%';
+						this.min_value =
+							(res.data.cpuMin * 100).toFixed(2) + '%';
+						this.average_value =
+							(res.data.cpuAvg * 100).toFixed(2) + '%';
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -1908,9 +1914,12 @@ export default {
 							).toFixed(4);
 							this.memorylist.push(obj);
 						});
-						this.max_value = res.data.ramMax.toFixed(2) + '%';
-						this.min_value = res.data.ramMin.toFixed(2) + '%';
-						this.average_value = res.data.ramAvg.toFixed(2) + '%';
+						this.max_value =
+							(res.data.ramMax * 100).toFixed(2) + '%';
+						this.min_value =
+							(res.data.ramMin * 100).toFixed(2) + '%';
+						this.average_value =
+							(res.data.ramAvg * 100).toFixed(2) + '%';
 					} else {
 						this.$message.error(res.errMsg);
 					}
