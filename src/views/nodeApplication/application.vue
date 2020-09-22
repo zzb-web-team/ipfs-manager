@@ -242,7 +242,11 @@
 											<template slot-scope="scope">
 												<span>
 													{{
-														scope.row.fDate | getymd
+														scope.row.fDateStart
+															| getymd
+													}}--{{
+														scope.row.fDateEnd
+															| getymd
 													}}
 												</span>
 											</template>
@@ -483,7 +487,11 @@
 											<template slot-scope="scope">
 												<span>
 													{{
-														scope.row.fDate | getymd
+														scope.row.fDateStart
+															| getymd
+													}}--{{
+														scope.row.fDateEnd
+															| getymd
 													}}
 												</span>
 											</template>
@@ -1046,7 +1054,7 @@ export default {
 			} else {
 				this.city_disable_ip = false;
 				this.valueb = '';
-                this.optionsb = this.citydata[value[1]].cities;
+				this.optionsb = this.citydata[value[1]].cities;
 				this.ip_curve();
 			}
 		},
@@ -1903,8 +1911,8 @@ export default {
 					text: '存储',
 				},
 				tooltip: {
-                    trigger: 'axis',
-                    textStyle: {
+					trigger: 'axis',
+					textStyle: {
 						align: 'left',
 					},
 					axisPointer: {

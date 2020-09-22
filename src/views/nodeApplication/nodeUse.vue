@@ -289,9 +289,16 @@
 											label="日期"
 										>
 											<template slot-scope="scope">
-												<span>{{
-													scope.row.timeStamp | getymd
-												}}</span>
+												<span
+													>{{
+														scope.row
+															.timeStampStart
+															| getymd
+													}}--{{
+														scope.row.timeStampEnd
+															| getymd
+													}}
+												</span>
 											</template>
 										</el-table-column>
 									</el-table>
