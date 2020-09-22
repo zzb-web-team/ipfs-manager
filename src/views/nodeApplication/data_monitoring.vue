@@ -2438,7 +2438,7 @@ export default {
 				},
 				legend: {
 					bottom: '2%',
-					data: ['节点带宽峰值', '节点带宽平均值'],
+					data: ['节点带宽平均值', '节点带宽峰值'],
 				},
 				toolbox: {
 					feature: {
@@ -2519,7 +2519,7 @@ export default {
 						}),
 						large: true,
 						smooth: true,
-						name: '节点带宽峰值',
+						name: '节点带宽平均值',
 						itemStyle: {
 							normal: {
 								color: '#409EFF',
@@ -2536,7 +2536,7 @@ export default {
 						}),
 						large: true,
 						smooth: true,
-						name: '节点带宽平均值',
+						name: '节点带宽峰值',
 						itemStyle: {
 							normal: {
 								color: '#09b005',
