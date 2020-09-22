@@ -235,7 +235,7 @@ export default {
 							let arrlist = [1, 2, 3, 4, 5, 6];
 
 							res.data.forEach((item) => {
-                                if (item.name == '节点信息') {
+                                if (item.name == 'IPFS节点信息') {
 									arrlist[0] = item;
 								}else if (item.name == 'IPFS节点控制台') {
 									arrlist[1] = item;
