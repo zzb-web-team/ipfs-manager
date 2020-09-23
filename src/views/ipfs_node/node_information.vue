@@ -856,22 +856,22 @@ export default {
 				.catch((error) => {});
 		},
 		//获取节点利用率
-		get_node_dataflow(list) {
+		get_node_dataflow(data_list) {
 			let params = new Object();
 			let nodeid_list = [];
-			list.forEach((item) => {
+			data_list.forEach((item) => {
 				nodeid_list.push(item.nodeId);
 			});
 			params.nodeidList = nodeid_list;
-			query_nodeuseRate()
+			query_nodeuseRate(params)
 				.then((res) => {
 					if (res.status == 0) {
 						let obj = {};
-						res.data.forEach((item, idnex) => {
+						res.data.forEach((item) => {
 							obj.id = item.node;
 							obj.num = item.num;
 						});
-						list.forEach((item, idnex) => {
+						data_list.forEach((item) => {
 							let k = item.nodeId;
 							if (obj[k]) {
 								item.useRate = obj.num;
