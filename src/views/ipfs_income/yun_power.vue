@@ -15,7 +15,7 @@
 			<el-row type="flex">
 				<el-input
 					style="width:15%;"
-					placeholder="请输入节点id,节点ip"
+					placeholder="请输入节点ip,节点id"
 					v-model="input"
 					class="input-with-select"
 					@keyup.enter.native="seachuser()"
@@ -115,7 +115,7 @@
 					>导出</el-button
 				>
 			</div>
-			<div v-if="radio == '1'">
+			<div v-show="radio == '1'">
 				<el-table
 					:data="tableData"
 					border
@@ -123,10 +123,10 @@
 					:header-cell-style="headClass"
 					style="width: 100%"
 				>
-					<el-table-column
+					<!-- <el-table-column
 						prop="nodeId"
 						label="节点ID"
-					></el-table-column>
+					></el-table-column> -->
 					<el-table-column prop="IP" label="节点IP"></el-table-column>
 					<el-table-column
 						prop="firstch"
@@ -143,9 +143,20 @@
                         <span>{{scope.row.H}}</span>
                     </template>
                     </el-table-column>
+                    	</el-table-column>
+			        <el-table-column label="节点ID">
+				        <template slot-scope="scope">
+					        <el-button
+                                @click="show_nodeid(scope.row)"
+                                type="text"
+                                size="small"
+                                >查看</el-button
+					>
+				</template>
+			</el-table-column>
 				</el-table>
 			</div>
-			<div v-if="radio == '2'">
+			<div v-show="radio == '2'">
 				<el-table
 					:data="table_detail_data"
 					border
@@ -154,10 +165,10 @@
                     @sort-change="tablechange"
 					style="width: 100%"
 				>
-					<el-table-column
+					<!-- <el-table-column
 						prop="nodeId"
 						label="节点ID"
-					></el-table-column>
+					></el-table-column> -->
 					<el-table-column prop="IP" label="节点IP"></el-table-column>
 					<el-table-column
 						prop="firstch"
@@ -194,6 +205,17 @@
 							scope.row.date
 						}}</template>
 					</el-table-column>
+                    	</el-table-column>
+			        <el-table-column label="节点ID">
+                        <template slot-scope="scope">
+                            <el-button
+                                @click="show_nodeid(scope.row)"
+                                type="text"
+                                size="small"
+                                >查看</el-button
+                            >
+                        </template>
+			        </el-table-column>
 				</el-table>
 			</div>
 		</div>
@@ -591,6 +613,14 @@ export default {
 				.catch((error) => {
 				});
         },
+        //查看节点id
+		show_nodeid(val) {
+			this.$alert(val.nodeId, '节点ID', {
+                showCancelButton: false,
+                showConfirmButton:false,
+				callback: (action) => {},
+			});
+		},
         tablechange(column) {
 			if (column.order == 'descending') {
 				this.order = 1;

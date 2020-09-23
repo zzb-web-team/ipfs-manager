@@ -1,5 +1,5 @@
 <template>
-	<div class="content">
+	<div class="content node_information_con">
 		<!-- 面包屑  -->
 		<el-breadcrumb separator="/">
 			<el-breadcrumb-item>
@@ -10,7 +10,7 @@
 		<div class="seach_title">
 			<div class="seach_title_input">
 				<el-input
-					placeholder="节点ID，节点IP"
+					placeholder="请输入节点IP，节点ID"
 					v-model="seachinput"
 					@keyup.enter.native="seachipfs()"
 				>
@@ -222,7 +222,7 @@
 				width="55"
 				:reserve-selection="true"
 			></el-table-column>
-			<el-table-column prop="nodeId" label="节点ID"></el-table-column>
+			<el-table-column prop="ip" label="节点IP"></el-table-column>
 			<el-table-column prop="state" label="节点运行状态">
 				<template slot-scope="scope">
 					<div v-if="scope.row.state == 0" style="color:red;">
@@ -231,7 +231,6 @@
 					<div v-else style="color:#409eff;">在线</div>
 				</template>
 			</el-table-column>
-			<el-table-column prop="ip" label="节点IP"></el-table-column>
 			<el-table-column prop="city" label="节点城市"></el-table-column>
 			<el-table-column prop="area" label="节点区域"></el-table-column>
 			<el-table-column
@@ -252,7 +251,7 @@
 			<el-table-column prop="occupyCpu" label="CPU占用">
 				<template slot-scope="scope">
 					<span v-if="scope.row.occupyCpu"
-						>{{ (scope.row.occupyCpu*100).toFixed(2) }}%</span
+						>{{ (scope.row.occupyCpu * 100).toFixed(2) }}%</span
 					>
 					<span v-else>--</span>
 				</template>
@@ -330,7 +329,17 @@
 					</span>
 				</template>
 			</el-table-column>
-			<el-table-column prop label="操作">
+			<el-table-column prop="nodeId" label="节点ID">
+				<template slot-scope="scope">
+					<el-button
+						@click="show_nodeid(scope.row)"
+						type="text"
+						size="small"
+						>查看</el-button
+					>
+				</template>
+			</el-table-column>
+			<el-table-column prop label="操作" width="140">
 				<template slot-scope="scope">
 					<div>
 						<el-button
@@ -800,20 +809,18 @@ export default {
 						this.device_type = res.data.device_type;
 						this.isp = res.data.isp;
 						this.os = res.data.os;
-                        this.firstchan = res.data.firstchan;
+						this.firstchan = res.data.firstchan;
 
 						if (this.$route.query.city) {
 							this.optiondisplay = true;
-							
 
 							if (
 								this.$route.query.firstchans == '省市' ||
 								this.$route.query.firstchans == '全部节点'
 							) {
 								this.firstchid = '';
-								
-                            } else {
-                                this.firstchan.forEach((item, index) => {
+							} else {
+								this.firstchan.forEach((item, index) => {
 									if (
 										item.name ==
 										this.$route.query.firstchans
@@ -823,23 +830,21 @@ export default {
 										this.secondchan = item.secondchan;
 									}
 								});
-                            } 
+							}
 
-                            if (this.$route.query.quyu == '-1') {
+							if (this.$route.query.quyu == '-1') {
 								this.value1 = -1;
 								this.city_disable = true;
-								
 							} else {
 								this.value1 = [
 									this.$route.query.quyu,
 									this.$route.query.city,
 								];
-                                this.options_city = this.citydata[
-                                    this.$route.query.city
-                                ].cities;
-                                this.city_disable = false;
-                            }
-                            
+								this.options_city = this.citydata[
+									this.$route.query.city
+								].cities;
+								this.city_disable = false;
+							}
 						}
 					} else {
 						this.$message.error(res.err_msg);
@@ -1039,6 +1044,14 @@ export default {
 						.catch((error) => {});
 				})
 				.catch((_) => {});
+		},
+		//查看节点id
+		show_nodeid(val) {
+			this.$alert(val.nodeId, '节点ID', {
+                showCancelButton: false,
+                showConfirmButton:false,
+				callback: (action) => {},
+			});
 		},
 		//详情
 		handleClick(val) {
