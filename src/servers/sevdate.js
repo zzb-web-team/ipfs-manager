@@ -233,29 +233,29 @@ export function menudisable(arr, name) {
 export function bandwidth_unit_conversion(data) {
     let num = 0;
     if (data == 0) {
-        return [0, 'Kbps'];
+        return [0, 'bps'];
     } else {
         if (data < 1000) {
             num = data
-            return [num, "Kbps"]
+            return [num, "bps"]
         } else if (data / 1024 < 1000) {
             num = (data / 1024).toFixed(2)
-            return [num, "Mbps"]
+            return [num, "Kbps"]
         } else if (data / 1024 / 1024 < 1000) {
             num = (data / 1024 / 1024).toFixed(2)
-            return [num, "Gbps"]
+            return [num, "Mbps"]
         } else if (data / 1024 / 1024 / 1024 < 1000) {
             num = (data / 1024 / 1024 / 1024).toFixed(2)
-            return [num, "Tbps"]
+            return [num, "Gbps"]
         } else if (data / 1024 / 1024 / 1024 / 1024 < 1000) {
             num = (data / 1024 / 1024 / 1024 / 1024).toFixed(2)
-            return [num, "Pbps"]
+            return [num, "Tbps"]
         } else if (data / 1024 / 1024 / 1024 / 1024 / 1024 < 1000) {
             num = (data / 1024 / 1024 / 1024 / 1024 / 1024).toFixed(2)
-            return [num, "Ebps"]
+            return [num, "Pbps"]
         } else if (data / 1024 / 1024 / 1024 / 1024 / 1024 / 1024 < 1000) {
             num = (data / 1024 / 1024 / 1024 / 1024 / 1024 / 1024).toFixed(2)
-            return [num, "Zbps"]
+            return [num, "Ebps"]
         } else {
             num = (data / 1024 / 1024 / 1024 / 1024 / 1024 / 1024).toFixed(2)
             return [num, "Zbps"]
@@ -269,28 +269,31 @@ export function bandwidth_unit(data, data_unit) {
     if (data == 0) {
         return 0;
     } else {
-        if (data_unit == 'Kbps') {
+        if (data_unit == 'bps') {
             return data
-        } else if (data_unit == "Mbps") {
+        } else if (data_unit == 'Kbps') {
             num = (data / 1024).toFixed(2);
             return num
-        } else if (data_unit == "Gbps") {
+        } else if (data_unit == "Mbps") {
             num = (data / 1024 / 1024).toFixed(2);
             return num
-        } else if (data_unit == "Tbps") {
+        } else if (data_unit == "Gbps") {
             num = (data / 1024 / 1024 / 1024).toFixed(2);
             return num
-        } else if (data_unit == "Pbps") {
+        } else if (data_unit == "Tbps") {
             num = (data / 1024 / 1024 / 1024 / 1024).toFixed(2);
             return num
-        } else if (data_unit == "Ebps") {
+        } else if (data_unit == "Pbps") {
             num = (data / 1024 / 1024 / 1024 / 1024 / 1024).toFixed(2);
             return num
-        } else if (data_unit == "Zbps") {
+        } else if (data_unit == "Ebps") {
             num = (data / 1024 / 1024 / 1024 / 1024 / 1024 / 1024).toFixed(2);
             return num
+        } else if (data_unit == "Zbps") {
+            num = (data / 1024 / 1024 / 1024 / 1024 / 1024 / 1024 / 1024).toFixed(2);
+            return num
         } else {
-            num = (data / 1024 / 1024 / 1024 / 1024 / 1024 / 1024).toFixed(2);
+            num = (data / 1024 / 1024 / 1024 / 1024 / 1024 / 1024 / 1024).toFixed(2);
             return num
         }
 

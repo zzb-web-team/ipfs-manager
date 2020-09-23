@@ -882,7 +882,7 @@ export default {
 							obj.value = res.data.upWidthArray[index];
 							obe.value = res.data.downWidthArray[index];
 							this.upBandwidthMap.push(obj);
-							this.downBandwidthMap.push(obe);
+                            this.downBandwidthMap.push(obe);
 						});
 						let max_data = this.getMaximin(
 							res.data.upWidthArray,
@@ -891,7 +891,7 @@ export default {
 
 						this.downbandwidth_unit = bandwidth_unit_conversion(
 							max_data
-						)[1];
+                        )[1];
 						this.upbandwidth = res.data.upWidthMax;
 						this.downbandwidth = res.data.downWidthMax;
 						this.averageup = res.data.avgUp;
