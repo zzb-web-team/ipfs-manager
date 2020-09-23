@@ -543,6 +543,16 @@ export const error_log_list = params => {
         res => res.data
     );
 };
+//获取节点利用率
+export const query_nodeuseRate = params => {
+    return post(`${serverUrl}/node_mgmt/query_nodeuseRate`, params).then(
+        res => res.data
+    );
+};
+
+
+
+
 //新增菜单
 export const addmenu = params => {
     return post(`${serverUrl}/system/addmenu`, params).then(

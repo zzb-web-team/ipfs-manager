@@ -405,6 +405,7 @@ import {
 	filter_node,
 	get_nodetype_enum,
 	nodeinfo_export,
+	query_nodeuseRate,
 } from '../../servers/api';
 import { menudisable } from '../../servers/sevdate';
 import axios from 'axios';
@@ -722,6 +723,7 @@ export default {
 			temporary_arr: [],
 			menutype: {},
 			pathname: '',
+			z_tablist: [],
 		};
 	},
 	beforeRouteEnter(to, from, next) {
@@ -853,6 +855,35 @@ export default {
 				})
 				.catch((error) => {});
 		},
+		//获取节点利用率
+		get_node_dataflow(list) {
+			let params = new Object();
+			let nodeid_list = [];
+			list.forEach((item) => {
+				nodeid_list.push(item.nodeId);
+			});
+			params.nodeidList = nodeid_list;
+			query_nodeuseRate()
+				.then((res) => {
+					if (res.status == 0) {
+						let obj = {};
+						res.data.forEach((item, idnex) => {
+							obj.id = item.node;
+							obj.num = item.num;
+						});
+						list.forEach((item, idnex) => {
+							let k = item.nodeId;
+							if (obj[k]) {
+								item.useRate = obj.num;
+							}
+						});
+						this.tableData = list;
+					} else {
+						this.$message.error(res.err_msg);
+					}
+				})
+				.catch((error) => {});
+		},
 		//多选事件
 		handleSelectionChange(val) {
 			if (val.length <= 0) {
@@ -959,7 +990,8 @@ export default {
 			query_node(parmas)
 				.then((res) => {
 					if (res.status == 0) {
-						this.tableData = [];
+						// this.tableData = [];
+						this.z_tablist = [];
 						if (res.data.result.length <= 0) {
 							this.$message.sussess('暂无数据');
 							this.show_export = true;
@@ -1001,7 +1033,12 @@ export default {
 									item.devstatus = '在线';
 									item.bgccolor = '#5CC77D';
 								}
-								this.tableData.push(item);
+								// this.tableData.push(item);
+								this.z_tablist.push(item);
+							});
+							console.log(this.z_tablist);
+							this.$nextTick(() => {
+								this.get_node_dataflow(this.z_tablist);
 							});
 						}
 					} else {
@@ -1048,8 +1085,8 @@ export default {
 		//查看节点id
 		show_nodeid(val) {
 			this.$alert(val.nodeId, '节点ID', {
-                showCancelButton: false,
-                showConfirmButton:false,
+				showCancelButton: false,
+				showConfirmButton: false,
 				callback: (action) => {},
 			});
 		},
