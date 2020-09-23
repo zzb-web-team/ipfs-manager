@@ -405,7 +405,16 @@ export default {
 								}
 							});
 						}
-						this.data = res.menulist;
+						let malist = [];
+						res.menulist.forEach((item) => {
+							if (
+								item.label != '服务器监控' &&
+								item.label != '设备监控'
+							) {
+								malist.push(item);
+							}
+						});
+						this.data = malist;
 
 						if (params.page == 0) {
 							if (res.result.les_count == 0) {
@@ -418,8 +427,7 @@ export default {
 						this.$message.error(res.msg);
 					}
 				})
-				.catch((error) => {
-				});
+				.catch((error) => {});
 		},
 		//获取分组用户
 		get_user_list() {
@@ -881,7 +889,8 @@ export default {
 				callback(new Error('分组名称不能为空'));
 			} else {
 				if (
-					this.str_length(value) >= 4&&this.str_length(value) <= 50
+					this.str_length(value) >= 4 &&
+					this.str_length(value) <= 50
 				) {
 					var fsdtel = /^[0-9A-Za-z\u4e00-\u9fa5]{2,50}$/;
 					if (fsdtel.test(value) === false) {

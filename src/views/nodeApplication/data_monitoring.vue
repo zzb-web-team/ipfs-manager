@@ -748,7 +748,7 @@ export default {
 		},
 		bandwith_unit(data) {
 			if (data <= 0) {
-				return 0 + 'kBps';
+				return 0 + 'bps';
 			} else {
 				return (
 					bandwidth_unit_conversion(data)[0] +
@@ -882,16 +882,16 @@ export default {
 							obj.value = res.data.upWidthArray[index];
 							obe.value = res.data.downWidthArray[index];
 							this.upBandwidthMap.push(obj);
-                            this.downBandwidthMap.push(obe);
+							this.downBandwidthMap.push(obe);
 						});
 						let max_data = this.getMaximin(
-							res.data.upWidthArray,
+							res.data.upWidthTopArray,
 							'max'
 						);
 
 						this.downbandwidth_unit = bandwidth_unit_conversion(
 							max_data
-                        )[1];
+						)[1];
 						this.upbandwidth = res.data.upWidthMax;
 						this.downbandwidth = res.data.downWidthMax;
 						this.averageup = res.data.avgUp;
@@ -1186,9 +1186,9 @@ export default {
 							obj.value = res.data.tidArray[index].toFixed(4);
 							this.tidlist.push(obj);
 						});
-						this.max_value = (res.data.tidMax.toFixed(4)) + 'ms';
-						this.min_value = (res.data.tidMin).toFixed(4) + 'ms';
-						this.average_value = (res.data.tidAvg).toFixed(4) + 'ms';
+						this.max_value = res.data.tidMax.toFixed(4) + 'ms';
+						this.min_value = res.data.tidMin.toFixed(4) + 'ms';
+						this.average_value = res.data.tidAvg.toFixed(4) + 'ms';
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -1386,12 +1386,12 @@ export default {
 							} else {
 								obj.name = getday(item);
 							}
-							obj.value = res.data.ltArray[index];
+							obj.value = res.data.ltArray[index].toFixed(2);
 							this.ltlist.push(obj);
 						});
-						this.max_value = res.data.ltMax;
-						this.min_value = res.data.ltMin;
-						this.average_value = res.data.ltAvg;
+						this.max_value = res.data.ltMax.toFixed(2);
+						this.min_value = res.data.ltMin.toFixed(2);
+						this.average_value = res.data.ltAvg.toFixed(2);
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -1699,13 +1699,13 @@ export default {
 							} else {
 								obj.name = getday(item);
 							}
-							obj.value = res.data.rcntArray[index];
+							obj.value = res.data.rcntArray[index].toFixed(2);
 							this.rcntlist.push(obj);
 						});
 
-						this.max_value = res.data.rcntMax;
-						this.min_value = res.data.rcntMin;
-						this.average_value = res.data.rcntAvg;
+						this.max_value = res.data.rcntMax.toFixed(2);
+						this.min_value = res.data.rcntMin.toFixed(2);
+						this.average_value = res.data.rcntAvg.toFixed(2);
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -1806,15 +1806,15 @@ export default {
 							}
 							obj.value = (
 								res.data.cpuArray[index] * 100
-							).toFixed(4);
+							).toFixed(2);
 							this.cpuusaglist.push(obj);
 						});
 						this.max_value =
-							(res.data.cpuMax * 100).toFixed(4) + '%';
+							(res.data.cpuMax * 100).toFixed(2) + '%';
 						this.min_value =
-							(res.data.cpuMin * 100).toFixed(4) + '%';
+							(res.data.cpuMin * 100).toFixed(2) + '%';
 						this.average_value =
-							(res.data.cpuAvg * 100).toFixed(4) + '%';
+							(res.data.cpuAvg * 100).toFixed(2) + '%';
 					} else {
 						this.$message.error(res.errMsg);
 					}
@@ -1911,15 +1911,15 @@ export default {
 							}
 							obj.value = (
 								res.data.memoryArray[index] * 100
-							).toFixed(4);
+							).toFixed(2);
 							this.memorylist.push(obj);
 						});
 						this.max_value =
-							(res.data.ramMax * 100).toFixed(4) + '%';
+							(res.data.ramMax * 100).toFixed(2) + '%';
 						this.min_value =
-							(res.data.ramMin * 100).toFixed(4) + '%';
+							(res.data.ramMin * 100).toFixed(2) + '%';
 						this.average_value =
-							(res.data.ramAvg * 100).toFixed(4) + '%';
+							(res.data.ramAvg * 100).toFixed(2) + '%';
 					} else {
 						this.$message.error(res.errMsg);
 					}
