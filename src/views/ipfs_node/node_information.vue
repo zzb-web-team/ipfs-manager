@@ -1,5 +1,5 @@
 <template>
-	<div class="content node_information_con">
+	<div class="content node_information_con" :style="con_h">
 		<!-- 面包屑  -->
 		<el-breadcrumb separator="/">
 			<el-breadcrumb-item>
@@ -208,193 +208,215 @@
 				>导出</el-button
 			>
 		</div>
-		<el-table
-			:data="tableData"
-			border
-			:cell-style="rowClass"
-			:header-cell-style="headClass"
-			:row-key="getRowKey"
-			@selection-change="handleSelectionChange"
-			style="width: 100%;"
-		>
-			<el-table-column
-				type="selection"
-				width="55"
-				:reserve-selection="true"
-			></el-table-column>
-			<el-table-column prop="ip" label="节点IP"></el-table-column>
-			<el-table-column prop="state" label="节点运行状态">
-				<template slot-scope="scope">
-					<div v-if="scope.row.state == 0" style="color:red;">
-						离线
-					</div>
-					<div v-else style="color:#409eff;">在线</div>
-				</template>
-			</el-table-column>
-			<el-table-column prop="city" label="节点城市"></el-table-column>
-			<el-table-column prop="area" label="节点区域"></el-table-column>
-			<el-table-column
-				prop="firstch"
-				label="节点一级渠道"
-			></el-table-column>
-			<el-table-column
-				prop="secondch"
-				label="节点二级渠道"
-			></el-table-column>
-			<el-table-column
-				prop="devicetype"
-				label="设备类型"
-			></el-table-column>
-			<el-table-column prop="arch" label="硬件类型"></el-table-column>
-			<el-table-column prop="os" label="操作系统"></el-table-column>
-			<el-table-column prop="isp" label="节点线路"></el-table-column>
-			<el-table-column prop="occupyCpu" label="CPU占用">
-				<template slot-scope="scope">
-					<span v-if="scope.row.occupyCpu"
-						>{{ (scope.row.occupyCpu * 100).toFixed(2) }}%</span
-					>
-					<span v-else>--</span>
-				</template>
-			</el-table-column>
-			<el-table-column prop="totalMem" label="总内存">
-				<template slot-scope="scope">
-					{{ (scope.row.totalMem / 1024 / 1024 / 1024).toFixed(2) }}GB
-				</template>
-			</el-table-column>
-			<el-table-column prop="availMem" label="当前内存">
-				<template slot-scope="scope">
-					{{ (scope.row.availMem / 1024 / 1024 / 1024).toFixed(2) }}GB
-				</template>
-			</el-table-column>
-			<el-table-column prop="totalBW" label="总带宽"></el-table-column>
-			<el-table-column prop="occupyBW" label="占用带宽"></el-table-column>
-			<el-table-column
-				prop="remainingBW"
-				label="剩余带宽"
-			></el-table-column>
-			<el-table-column prop="totalCap" label="总空间">
-				<template slot-scope="scope">
-					<span v-if="scope.row.totalCap == 0">0GB</span>
-					<span v-else>
+		<div style="overflow: hidden;" :style="autoWidth">
+			<el-table
+				:data="tableData"
+				border
+				:cell-style="rowClass"
+				:header-cell-style="headClass"
+				:row-key="getRowKey"
+				@selection-change="handleSelectionChange"
+			>
+				<el-table-column
+					type="selection"
+					width="55"
+					:reserve-selection="true"
+				></el-table-column>
+				<el-table-column prop="ip" label="节点IP"></el-table-column>
+				<el-table-column prop="state" label="节点运行状态">
+					<template slot-scope="scope">
+						<div v-if="scope.row.state == 0" style="color:red;">
+							离线
+						</div>
+						<div v-else style="color:#409eff;">在线</div>
+					</template>
+				</el-table-column>
+				<el-table-column prop="city" label="节点城市"></el-table-column>
+				<el-table-column prop="area" label="节点区域"></el-table-column>
+				<el-table-column
+					prop="firstch"
+					label="节点一级渠道"
+				></el-table-column>
+				<el-table-column
+					prop="secondch"
+					label="节点二级渠道"
+				></el-table-column>
+				<el-table-column
+					prop="devicetype"
+					label="设备类型"
+				></el-table-column>
+				<el-table-column prop="arch" label="硬件类型"></el-table-column>
+				<el-table-column prop="os" label="操作系统"></el-table-column>
+				<el-table-column prop="isp" label="节点线路"></el-table-column>
+				<el-table-column prop="occupyCpu" label="CPU占用">
+					<template slot-scope="scope">
+						<span v-if="scope.row.occupyCpu"
+							>{{ (scope.row.occupyCpu * 100).toFixed(2) }}%</span
+						>
+						<span v-else>--</span>
+					</template>
+				</el-table-column>
+				<el-table-column prop="totalMem" label="总内存">
+					<template slot-scope="scope">
 						{{
-							(scope.row.totalCap / 1024 / 1024 / 1024).toFixed(
+							(scope.row.totalMem / 1024 / 1024 / 1024).toFixed(
 								2
 							)
 						}}GB
-					</span>
-				</template>
-			</el-table-column>
-			<el-table-column prop="occupyCap" label="占用空间">
-				<template slot-scope="scope">
-					<span v-if="scope.row.occupyCap == 0">0GB</span>
-					<span v-else>
+					</template>
+				</el-table-column>
+				<el-table-column prop="availMem" label="当前内存">
+					<template slot-scope="scope">
 						{{
-							(scope.row.occupyCap / 1024 / 1024 / 1024).toFixed(
+							(scope.row.availMem / 1024 / 1024 / 1024).toFixed(
 								2
 							)
 						}}GB
-					</span>
-				</template>
-			</el-table-column>
-			<el-table-column prop="remainingCap" label="剩余空间">
-				<template slot-scope="scope">
-					<span v-if="scope.row.remainingCap == 0">0GB</span>
-					<span v-else>
-						{{
-							(
-								scope.row.remainingCap /
-								1024 /
-								1024 /
-								1024
-							).toFixed(2)
-						}}GB
-					</span>
-				</template>
-			</el-table-column>
-			<el-table-column
-				prop="useRate"
-				label="节点平均利用率"
-			></el-table-column>
-			<el-table-column prop="nodestatus" label="节点任务状态">
-				<template slot-scope="scope">
-					<span v-if="scope.row.enableFlag == 1">
-						<i
-							class="el-icon-circle-check"
-							style="color:#46e846f2"
-						></i>
-						启用
-					</span>
-					<span v-else-if="scope.row.enableFlag == 0">
-						<i class="el-icon-error"></i> 禁用
-					</span>
-				</template>
-			</el-table-column>
-			<el-table-column prop="nodeId" label="节点ID">
-				<template slot-scope="scope">
-					<el-button
-						@click="show_nodeid(scope.row)"
-						type="text"
-						size="small"
-						>查看</el-button
-					>
-				</template>
-			</el-table-column>
-			<el-table-column prop label="操作" width="140">
-				<template slot-scope="scope">
-					<div>
+					</template>
+				</el-table-column>
+				<el-table-column
+					prop="totalBW"
+					label="总带宽"
+				></el-table-column>
+				<el-table-column
+					prop="occupyBW"
+					label="占用带宽"
+				></el-table-column>
+				<el-table-column
+					prop="remainingBW"
+					label="剩余带宽"
+				></el-table-column>
+				<el-table-column prop="totalCap" label="总空间">
+					<template slot-scope="scope">
+						<span v-if="scope.row.totalCap == 0">0GB</span>
+						<span v-else>
+							{{
+								(
+									scope.row.totalCap /
+									1024 /
+									1024 /
+									1024
+								).toFixed(2)
+							}}GB
+						</span>
+					</template>
+				</el-table-column>
+				<el-table-column prop="occupyCap" label="占用空间">
+					<template slot-scope="scope">
+						<span v-if="scope.row.occupyCap == 0">0GB</span>
+						<span v-else>
+							{{
+								(
+									scope.row.occupyCap /
+									1024 /
+									1024 /
+									1024
+								).toFixed(2)
+							}}GB
+						</span>
+					</template>
+				</el-table-column>
+				<el-table-column prop="remainingCap" label="剩余空间">
+					<template slot-scope="scope">
+						<span v-if="scope.row.remainingCap == 0">0GB</span>
+						<span v-else>
+							{{
+								(
+									scope.row.remainingCap /
+									1024 /
+									1024 /
+									1024
+								).toFixed(2)
+							}}GB
+						</span>
+					</template>
+				</el-table-column>
+				<el-table-column
+					prop="useRate"
+					label="节点平均利用率"
+				></el-table-column>
+				<el-table-column prop="nodestatus" label="节点任务状态">
+					<template slot-scope="scope">
+						<span v-if="scope.row.enableFlag == 1">
+							<i
+								class="el-icon-circle-check"
+								style="color:#46e846f2"
+							></i>
+							启用
+						</span>
+						<span v-else-if="scope.row.enableFlag == 0">
+							<i class="el-icon-error"></i> 禁用
+						</span>
+					</template>
+				</el-table-column>
+				<el-table-column prop="nodeId" label="节点ID">
+					<template slot-scope="scope">
 						<el-button
-							@click="handleClick(scope.row)"
+							@click="show_nodeid(scope.row)"
 							type="text"
 							size="small"
-							>详情</el-button
+							>查看</el-button
 						>
-						<el-button
-							v-show="menutype.roleU == 1"
-							@click="qiClick(scope.row)"
-							type="text"
-							size="small"
-							style="color:#e380f5"
-							v-if="scope.row.enableFlag == 0"
-							>启用</el-button
-						>
-						<el-button
-							v-show="menutype.roleU == 1"
-							@click="jinClick(scope.row)"
-							type="text"
-							size="small"
-							style="color:red"
-							v-if="scope.row.enableFlag == 1"
-							>禁用</el-button
-						>
-					</div>
-				</template>
-			</el-table-column>
-		</el-table>
-		<div class="bottom_btn" v-if="tableData.length > 0">
-			<el-button
-				@click="all_qiClick()"
-				type="text"
-				size="small"
-				v-show="menutype.roleU == 1"
-				>启用</el-button
-			>
-			<el-button
-				@click="all_jinClick()"
-				type="text"
-				size="small"
-				v-show="menutype.roleU == 1"
-				>禁用</el-button
-			>
+					</template>
+				</el-table-column>
+				<el-table-column prop label="操作" width="140">
+					<template slot-scope="scope">
+						<div>
+							<el-button
+								@click="handleClick(scope.row)"
+								type="text"
+								size="small"
+								>详情</el-button
+							>
+							<el-button
+								v-show="menutype.roleU == 1"
+								@click="qiClick(scope.row)"
+								type="text"
+								size="small"
+								style="color:#e380f5"
+								v-if="scope.row.enableFlag == 0"
+								>启用</el-button
+							>
+							<el-button
+								v-show="menutype.roleU == 1"
+								@click="jinClick(scope.row)"
+								type="text"
+								size="small"
+								style="color:red"
+								v-if="scope.row.enableFlag == 1"
+								>禁用</el-button
+							>
+						</div>
+					</template>
+				</el-table-column>
+			</el-table>
 		</div>
-		<fenye
-			style="text-align: right;margin:20px 0 0 0;"
-			@fatherMethod="getpage"
-			@fathernum="gettol"
-			:pagesa="total_cnt"
-			:currentPage="currentPage"
-			ref="paginations"
-			v-if="tableData.length > 0"
-		></fenye>
+		<div class="bottom_com">
+			<div class="bottom_btn" v-if="tableData.length > 0">
+				<el-button
+					@click="all_qiClick()"
+					type="text"
+					size="small"
+					v-show="menutype.roleU == 1"
+					>启用</el-button
+				>
+				<el-button
+					@click="all_jinClick()"
+					type="text"
+					size="small"
+					v-show="menutype.roleU == 1"
+					>禁用</el-button
+				>
+			</div>
+			<fenye
+				@fatherMethod="getpage"
+				@fathernum="gettol"
+				:pagesa="total_cnt"
+				:currentPage="currentPage"
+				ref="paginations"
+				v-if="tableData.length > 0"
+			></fenye>
+		</div>
 	</div>
 </template>
 
@@ -724,6 +746,12 @@ export default {
 			menutype: {},
 			pathname: '',
 			z_tablist: [],
+			autoWidth: {
+				width: '',
+			},
+			con_h: {
+				height: '',
+			},
 		};
 	},
 	beforeRouteEnter(to, from, next) {
@@ -731,7 +759,14 @@ export default {
 		window.toname = to.name;
 		next();
 	},
+	computed: {},
 	mounted() {
+		// let con_h =
+		// 	document.getElementsByClassName('content-container')[0]
+		// 		.offsetHeight -
+		// 	40 +
+		// 	'px';
+		// this.con_h.height = con_h;
 		this.getJson();
 		this.get_search_data();
 		if (sessionStorage.getItem('search_data')) {
@@ -868,7 +903,8 @@ export default {
 						let obj = {};
 						res.data.forEach((item) => {
 							let id = item.nodeid;
-							let num = (item.nodeAvgUseRate * 100).toFixed(2) + '%';
+							let num =
+								(item.nodeAvgUseRate * 100).toFixed(2) + '%';
 							obj[id] = num;
 						});
 						data_list.forEach((item) => {
@@ -878,6 +914,9 @@ export default {
 							}
 						});
 						this.tableData = data_list;
+						this.autoWidth.width =
+							document.getElementsByClassName('el-table__body')[0]
+								.offsetWidth + 'px';
 					} else {
 						this.$message.error(res.err_msg);
 					}
@@ -1323,11 +1362,13 @@ export default {
 		margin: 10px 10px;
 	}
 }
-.bottom_btn {
-	width: 100px;
-	position: relative;
-	top: 50px;
-	left: 0;
+.bottom_com {
+	display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+	.bottom_btn {
+		width: 100px;
+	}
 }
 //旋转
 .aa {

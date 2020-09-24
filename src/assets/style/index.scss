@@ -99,6 +99,7 @@ body {
     // margin: auto;
     padding: 30px;
     box-sizing: border-box;
+    overflow-x: scroll;
 }
 
 //登录框样式
@@ -237,4 +238,16 @@ body {
 
 .el-message-box {
     width: 460px !important;
+}
+
+.el-table--scrollable-x .el-table__body-wrapper {
+    overflow-x: hidden;
+}
+
+.user_li .el-form-item__label {
+    width: 85px !important;
+}
+
+.authority_me .el-form-item__label {
+    width: 85px !important;
 }

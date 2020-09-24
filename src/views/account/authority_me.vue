@@ -1,5 +1,5 @@
 <template>
-	<div class="content">
+	<div class="content authority_me">
 		<el-breadcrumb separator="/">
 			<el-breadcrumb-item>
 				<a href="/">权限管理</a>
@@ -947,7 +947,7 @@ export default {
 			margin-bottom: 5px;
 			color: #6e6e6e;
 			box-sizing: border-box;
-			padding-left: 70px;
+			padding-left: 85px;
 		}
 	}
 }

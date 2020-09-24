@@ -1,5 +1,5 @@
 <template>
-	<div class="content">
+	<div class="content user_li">
 		<el-breadcrumb separator="/">
 			<el-breadcrumb-item>
 				<a href="/">账户管理</a>
@@ -1899,6 +1899,7 @@ export default {
 		box-sizing: border-box;
 
 		.el-form-item__label {
+            width: 85px !important;
 			white-space: nowrap;
 		}
 

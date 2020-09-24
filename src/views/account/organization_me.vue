@@ -647,8 +647,10 @@ export default {
 		margin-top: 20px;
 		margin-bottom: 20px;
 		.btn_area {
+            display: flex;
 			margin-top: 20px;
-			margin-bottom: 20px;
+            margin-bottom: 20px;
+            justify-content: space-between;
 		}
 	}
 }

@@ -53,8 +53,8 @@
 								v-show="
 									item.name != '设备监控' &&
 										item.name != 'IPFS程序管理' &&
-										item.name != '服务器监控'&&
-                                        item.name != 'IPFS节点应用'
+										item.name != '服务器监控' &&
+										item.name != 'IPFS节点应用'
 								"
 							>
 								<template slot="title">
@@ -155,7 +155,7 @@
             </el-col>-->
 						<el-col :span="24" class="content-wrapper">
 							<transition name="fade" mode="out-in">
-								<router-view></router-view>
+								<router-view :style="con_h"></router-view>
 							</transition>
 						</el-col>
 					</div>
@@ -184,6 +184,9 @@ export default {
 				desc: '',
 			},
 			menlist: [],
+			con_h: {
+				height: '',
+			},
 		};
 	},
 	methods: {
@@ -229,6 +232,14 @@ export default {
 	// 	console.log(this.menlist);
 	// },
 	mounted() {
+		let con_h =
+			document.getElementsByClassName('content-container')[0]
+				.offsetHeight -
+			40 +
+			'px' +
+			' ' +
+			'!important';
+		this.con_h.height = con_h;
 		this.$nextTick(function() {
 			this.menlist = JSON.parse(localStorage.getItem('menus'));
 		});
