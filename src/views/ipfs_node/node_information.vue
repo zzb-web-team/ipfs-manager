@@ -784,7 +784,6 @@ export default {
 		// 		this.value1 = -1;
 		// 	} else {
 		// 		this.value1 = [this.$route.query.quyu, this.$route.query.city];
-		// 		console.log(this.firstchan);
 		// 		this.firstchan.forEach((item, index) => {
 		// 			if (item.name == this.$route.query.firstchans) {
 		// 				this.$nextTick((this.firstchid = item.value));
@@ -792,7 +791,7 @@ export default {
 		// 		});
 		// 	}
 		// }
-		this.getdatalist();
+		// this.getdatalist();
 		let munulist = JSON.parse(localStorage.getItem('menus'));
 		let pathname = this.$route.path;
 		this.menutype = menudisable(munulist, pathname);
@@ -868,16 +867,17 @@ export default {
 					if (res.status == 0) {
 						let obj = {};
 						res.data.forEach((item) => {
-							obj.id = item.node;
-							obj.num = item.num;
+							let id = item.nodeid;
+							let num = (item.nodeAvgUseRate * 100).toFixed(2) + '%';
+							obj[id] = num;
 						});
 						data_list.forEach((item) => {
 							let k = item.nodeId;
 							if (obj[k]) {
-								item.useRate = obj.num;
+								item.useRate = obj[k];
 							}
 						});
-						this.tableData = list;
+						this.tableData = data_list;
 					} else {
 						this.$message.error(res.err_msg);
 					}
@@ -1036,7 +1036,6 @@ export default {
 								// this.tableData.push(item);
 								this.z_tablist.push(item);
 							});
-							console.log(this.z_tablist);
 							this.$nextTick(() => {
 								this.get_node_dataflow(this.z_tablist);
 							});
