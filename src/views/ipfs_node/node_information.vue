@@ -391,7 +391,7 @@
 				</el-table-column>
 			</el-table>
 		</div>
-		<div class="bottom_com">
+		<div class="bottom_com" :style="autoWidth">
 			<div class="bottom_btn" v-if="tableData.length > 0">
 				<el-button
 					@click="all_qiClick()"
@@ -1363,9 +1363,10 @@ export default {
 	}
 }
 .bottom_com {
+	width: 100%;
 	display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
+	justify-content: space-between;
+	margin-top: 20px;
 	.bottom_btn {
 		width: 100px;
 	}
