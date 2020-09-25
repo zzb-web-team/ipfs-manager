@@ -76,40 +76,40 @@
 						<img src="../../assets/img/liuliang.png" alt="" />
 						<div>
 							<p class="alltitle">累计使用流量</p>
-							<!-- <p class="allnum">{{ topdata.total_dataflow }}</p> -->
-							<p class="allnum">0</p>
+							<p class="allnum">{{ topdata.total_dataflow }}</p>
+							<!-- <p class="allnum">0</p> -->
 						</div>
 					</div>
 					<div class="ipfs_con_tit">
 						<img src="../../assets/img/chuanshu.png" alt="" />
 						<div>
 							<p class="alltitle">累计传输次数</p>
-							<!-- <p class="allnum">
-								{{ topdata.total_store_times }}
-							</p> -->
 							<p class="allnum">
-								0
+								{{ topdata.total_store_times }}
 							</p>
+							<!-- <p class="allnum">
+								0
+							</p> -->
 						</div>
 					</div>
 					<div class="ipfs_con_tit">
 						<img src="../../assets/img/cunchu.png" alt="" />
 						<div>
 							<p class="alltitle">累计存储容量</p>
-							<!-- <p class="allnum">{{ topdata.total_storeusage }}</p> -->
-							<p class="allnum">0</p>
+							<p class="allnum">{{ topdata.total_storeusage }}</p>
+							<!-- <p class="allnum">0</p> -->
 						</div>
 					</div>
 					<div class="ipfs_con_tit" style="border:none;">
 						<img src="../../assets/img/cishu.png" alt="" />
 						<div>
 							<p class="alltitle">累计存储次数</p>
-							<!-- <p class="allnum">
-								{{ topdata.total_output_times }}
-							</p> -->
 							<p class="allnum">
-								0
+								{{ topdata.total_output_times }}
 							</p>
+							<!-- <p class="allnum">
+								0
+							</p> -->
 						</div>
 					</div>
 				</div>
@@ -755,15 +755,15 @@ export default {
 				.then((res) => {
 					if (res.status == 0) {
 						this.topdata.total_dataflow = this.common.formatByteActive(
-							res.data.total_dataflow
+							res.data.dataflow_sum
 						);
 						this.topdata.total_storeusage = this.common.formatByteActive(
-							res.data.total_storeusage
+							res.data.store_cap_sum
 						);
 						this.topdata.total_store_times =
-							res.data.total_store_times;
+							res.data.chans_times_sum;
 						this.topdata.total_output_times =
-							res.data.total_output_times;
+							res.data.store_times_sum;
 					} else {
 						this.$message.error(res.err_msg);
 					}

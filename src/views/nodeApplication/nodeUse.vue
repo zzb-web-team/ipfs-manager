@@ -248,7 +248,7 @@
 														scope.row
 															.dataFlowUseRate *
 														100
-													).toFixed(2)
+													).toFixed(4)
 												}}%</template
 											>
 										</el-table-column>
@@ -263,7 +263,7 @@
 															scope.row
 																.storeUseRate *
 															100
-														).toFixed(2)
+														).toFixed(4)
 													}}%
 												</span>
 											</template>
@@ -279,7 +279,7 @@
 															scope.row
 																.nodeAverageUseRate *
 															100
-														).toFixed(2)
+														).toFixed(4)
 													}}%
 												</span>
 											</template>

@@ -90,6 +90,7 @@ import ipfs_sode_location from '@/views/ipfs_node_console/south/ipfs_sode_locati
 /**华中central */
 import central_region1 from '@/views/ipfs_node_console/central/central_region1'
 import ipfs_central_location from '@/views/ipfs_node_console/central/ipfs_central_location'
+import center_demo from '@/views/ipfs_node_console/central/center_demo'
 /**华东east */
 import east_region1 from '@/views/ipfs_node_console/east/east_region1'
 import ipfs_east_location from '@/views/ipfs_node_console/east/ipfs_east_location'
@@ -198,7 +199,8 @@ var keymap = {
     "application": application,
     'nodeUse': nodeUse,
     "data_monitoring": data_monitoring,
-    "rouji_list_statistics": rouji_list_statistics
+    "rouji_list_statistics": rouji_list_statistics,
+    "center_demo": center_demo
 }
 router.beforeEach((to, from, next) => {
     if (to.path == '/ipfs_location_details' || from.path == '/ipfs_location_details' || from.path == '/') {} else {
@@ -218,7 +220,6 @@ router.beforeEach((to, from, next) => {
 
 
 if (localStorage.getItem('menus')) {
-    console.log(keymap);
     var routers = common.trans(JSON.parse(localStorage.getItem('menus')), keymap);
     router.addRoutes(routers);
 }
