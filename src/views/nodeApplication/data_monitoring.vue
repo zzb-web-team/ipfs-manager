@@ -363,6 +363,7 @@ import {
 	formatterDate,
 	bandwidth_unit_conversion,
 	bandwidth_unit,
+	zhuanbkbs,
 } from '../../servers/sevdate';
 import echarts from 'echarts';
 export default {
@@ -2463,17 +2464,29 @@ export default {
 					},
 					formatter: function(params, ticket, callback) {
 						let result = '';
-						params.forEach(function(item, index) {
-							if (index == 0) {
-								result += item.name + '<br />';
-							}
-							result +=
-								item.marker +
-								item.value +
-								_this.downbandwidth_unit +
-								'</br>';
-						});
-
+						let num = params[0].dataIndex;
+						let item_val =
+							bandwidth_unit_conversion(
+								echartsdata[num].avg_item
+							)[0] +
+							bandwidth_unit_conversion(
+								echartsdata[num].avg_item
+							)[1];
+						let avg_val =
+							bandwidth_unit_conversion(
+								echartsdata[num].value
+							)[0] +
+							bandwidth_unit_conversion(
+								echartsdata[num].value
+							)[1];
+						result +=
+							echartsdata[num].name +
+							'<br />' +
+							params[0].marker +
+							item_val +
+							'<br />' +
+							params[1].marker +
+							avg_val;
 						return result;
 					},
 				},
