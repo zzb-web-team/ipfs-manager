@@ -35,23 +35,32 @@ export default {
 				myChartTwo.style.width = con_h;
 			};
 			resizeMyChartContainer();
-			var geoCoordMap = {
-				南宁医院: [114.298572, 30.584355],
-			};
-
-			var convertData = function(data) {
-				var res = [];
-				for (var i = 0; i < data.length; i++) {
-					var geoCoord = geoCoordMap[data[i].name];
-					if (geoCoord) {
-						res.push(
-							geoCoord.concat(data[i].value).concat(data[i].name)
-						);
-					}
-				}
-				console.log(res);
-				return res;
-			};
+			var data = [
+				{
+					name: '武汉市',
+					value: [114.298572, 30.584355, 15],
+				},
+				{
+					name: '十堰市',
+					value: [110.785239, 32.647017, 106],
+				},
+				{
+					name: '吉安市',
+					value: [114.97598, 27.10669, 3],
+				},
+				{
+					name: '南阳市',
+					value: [112.540918, 32.999082, 115],
+				},
+				{
+					name: '怀化市',
+					value: [109.97824, 27.550082, 96],
+				},
+				{
+					name: '郴州市',
+					value: [113.032067, 25.793589, 33],
+				},
+			];
 			let option = {
 				title: {
 					text: '华南地图',
@@ -60,23 +69,25 @@ export default {
 				tooltip: {
 					trigger: 'item',
 					formatter: function(a) {
-						let item_data = 0;
-						if (isNaN(a.value) == true) {
-							item_data = 0;
-						} else {
-							item_data = a.value;
-						}
+						// console.log(a);
+						let item_data = a.value[2];
+						// if (isNaN(a.value) == true) {
+						// 	item_data = 0;
+						// } else {
+						// 	item_data = a.value[2];
+						// }
 						return a.name + '<br/>' + item_data;
 					},
 				},
 				geo: {
 					map: '河南',
+					roam: true,
 					label: {
 						normal: {
 							show: true,
-							areaColor: '#ffefd5',
+							areaColor: '#ffffff',
 							borderColor: '#111',
-							textStyle: { color: '#c71585' },
+							textStyle: { color: '#8e8e8e' }, //字体颜色
 						},
 						emphasis: {
 							show: false,
@@ -86,12 +97,13 @@ export default {
 					itemStyle: {
 						normal: {
 							show: false,
-							areaColor: '#ffefd5',
-							borderColor: '#009fe8',
+							areaColor: '#ffffff',
+							borderWidth: 1, //省份的边框宽度
+							borderColor: '#111111', //边框颜色
 						},
 						emphasis: {
 							show: false,
-							areaColor: '#f47920',
+							areaColor: '#ffc21e', //鼠标悬浮颜色
 						},
 					},
 				},
@@ -149,10 +161,10 @@ export default {
 					// 	data: convertData([{ name: '南宁医院', value: 9 }]),
 					// },
 					{
-						name: '医院',
+						name: '分布',
 						type: 'scatter',
 						coordinateSystem: 'geo',
-						data: convertData([{ name: '南宁医院', value: 9 }]),
+						data: data,
 						encode: {
 							value: 2,
 						},
@@ -181,6 +193,37 @@ export default {
 								areaColor: '#f47920',
 							},
 						},
+					},
+					{
+						name: 'Top 5',
+						type: 'effectScatter',
+						coordinateSystem: 'geo',
+						data: data.sort(function(a, b) {
+							return b.value[2] - a.value[2];
+						}),
+						symbolSize: function(val) {
+							return val[2] / 5;
+						},
+						showEffectOn: 'render',
+						rippleEffect: {
+							brushType: 'stroke',
+						},
+						hoverAnimation: true,
+						label: {
+							normal: {
+								formatter: '{b}',
+								position: 'right',
+								show: true,
+							},
+						},
+						itemStyle: {
+							normal: {
+								color: '#1572e8',
+								shadowBlur: 3,
+								shadowColor: '#05C3F9',
+							},
+						},
+						zlevel: 1,
 					},
 				],
 			};

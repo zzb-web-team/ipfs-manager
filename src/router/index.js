@@ -96,7 +96,6 @@ import store from './../vuex/store'
 
 Vue.use(Router)
 
-
 var router = new Router({
     routes: [{
             path: '/',
@@ -115,8 +114,7 @@ var router = new Router({
                 name: 'error404',
                 component: (resolve) => require(['../views/404.vue'], resolve)
             }, ]
-        },
-
+        }
         // {
         //     path: '/home_two',
         //     name: '后台账户',

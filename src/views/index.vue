@@ -5,9 +5,25 @@
 				<el-col
 					:span="10"
 					class="logo"
-					:class="collapsed ? 'logo-collapse-width' : 'logo-width'"
+					:class="isCollapse ? 'logo-collapse-width' : 'logo-width'"
 				>
-					<div style="fontSize:20px;color:#000">IPFS节点后台管理</div>
+					<div @click="show_menu">
+						<span
+							v-show="!isCollapse"
+							style="fontSize:20px;color:#ffffff"
+							>IPFS节点后台管理</span
+						>
+						<i
+							class="el-icon-s-unfold"
+							v-show="!isCollapse"
+							style="font-size:18px;"
+						></i>
+						<i
+							class="el-icon-s-fold"
+							v-show="isCollapse"
+							style="font-size:18px;"
+						></i>
+					</div>
 				</el-col>
 				<el-col :span="4" class="userinfo">
 					<el-dropdown trigger="hover">
@@ -30,7 +46,7 @@
 				</el-col>
 			</el-col>
 			<el-col :span="24" class="main">
-				<aside :class="collapsed ? 'menu-collapsed' : 'menu-expanded'">
+				<aside :class="isCollapse ? 'menu-collapsed' : 'menu-expanded'">
 					<el-menu
 						:default-active="$route.path"
 						class="el-menu-vertical-demo"
@@ -39,6 +55,7 @@
 						@select="handleselect"
 						unique-opened
 						router
+						:collapse="isCollapse"
 					>
 						<!-- 一级菜单 -->
 
@@ -58,10 +75,7 @@
 								"
 							>
 								<template slot="title">
-									<i
-										:class="item.icon"
-										style="margin-right: 10px;margin-left: 10px;"
-									></i>
+									<i :class="item.icon"></i>
 									<span>{{ item.name }}</span>
 								</template>
 
@@ -173,6 +187,7 @@ export default {
 			collapsed: false,
 			sysUserName: '',
 			sysUserAvatar: '',
+			isCollapse: true,
 			form: {
 				name: '',
 				region: '',
@@ -185,7 +200,7 @@ export default {
 			},
 			menlist: [],
 			con_h: {
-				height: '',
+				minHeight: '',
 			},
 		};
 	},
@@ -194,6 +209,9 @@ export default {
 		handleopen() {},
 		handleclose() {},
 		handleselect: function(a, b) {},
+		show_menu() {
+			this.isCollapse = !this.isCollapse;
+		},
 		//退出登录
 		logout: function() {
 			var _this = this;
@@ -239,7 +257,7 @@ export default {
 			'px' +
 			' ' +
 			'!important';
-		this.con_h.height = con_h;
+		this.con_h.minHeight = con_h;
 		this.$nextTick(function() {
 			this.menlist = JSON.parse(localStorage.getItem('menus'));
 		});
@@ -272,7 +290,7 @@ export default {
 		line-height: 60px;
 		//	background: $color-primary;
 		color: #000;
-		background: #64a7fc;
+		background: #1572E8;
 		.userinfo {
 			text-align: right;
 			padding-right: 35px;
@@ -298,7 +316,9 @@ export default {
 			border-color: #eef1924d;
 			border-right-width: 1px;
 			border-right-style: solid;
-			background: #ffffff;
+            // background: #ffffff;
+            background: #1572E8;
+            color: #ffffff;
 			img {
 				width: auto;
 				float: left;
@@ -306,13 +326,13 @@ export default {
 			}
 			.txt {
 				color: #fff;
-			}
+            }
 		}
 		.logo-width {
 			width: 230px;
 		}
 		.logo-collapse-width {
-			width: 60px;
+			width: 63px;
 		}
 		.tools {
 			padding: 0px 23px;
@@ -371,7 +391,8 @@ export default {
 			// top: 0px;
 			// bottom: 0px;
 			// left: 230px;
-			overflow-y: scroll;
+            overflow-y: scroll;
+            overflow-x: scroll;
 			padding: 20px;
 			.breadcrumb-container {
 				//margin-bottom: 15px;

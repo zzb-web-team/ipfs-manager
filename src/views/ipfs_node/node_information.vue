@@ -1,5 +1,5 @@
 <template>
-	<div class="content node_information_con" :style="con_h">
+	<div class="content node_information_con" :style="autoWidth">
 		<!-- 面包屑  -->
 		<el-breadcrumb separator="/">
 			<el-breadcrumb-item>
@@ -35,12 +35,13 @@
 		<div class="seach_bottom" v-if="optiondisplay">
 			<div class="seach_bottom_tw">
 				<div class="location_select">
-					<span>任务状态：</span>
+					<!-- <span>任务状态：</span>
 					<el-select
 						placeholder="请选择状态"
 						v-model="value_node"
 						@change="handleChange_node()"
 					>
+						<el-option label="全部" value="-1"></el-option>
 						<el-option
 							v-for="(item, index) in stateopt_node"
 							:key="item.value + index + 'rew'"
@@ -54,13 +55,14 @@
 						v-model="value"
 						@change="handleChange()"
 					>
+						<el-option label="全部" value="-1"></el-option>
 						<el-option
 							v-for="(item, index) in stateopt"
 							:key="item.value + index + 'srta'"
 							:label="item.label"
 							:value="item.value"
 						></el-option>
-					</el-select>
+					</el-select> -->
 					<span>节点区域：</span>
 					<el-cascader
 						style="width:150px;"
@@ -120,7 +122,7 @@
 						>重置</el-button
 					>
 				</div>
-				<div class="location_select">
+				<!-- <div class="location_select">
 					<span>设备类型：</span>
 					<el-select
 						v-model="dev_type"
@@ -129,7 +131,7 @@
 					>
 						<el-option value="" label="全部"></el-option>
 						<el-option
-							v-for="(item, index) in device_type"
+							v-for="(item, index) in devicetype"
 							:key="item.name + index"
 							:label="item.name"
 							:value="item.name"
@@ -181,7 +183,7 @@
 							:disabled="item.disabled"
 						></el-option>
 					</el-select>
-				</div>
+				</div> -->
 				<!-- <div class="region_select">
 					<el-button
 						plain
@@ -208,189 +210,265 @@
 				>导出</el-button
 			>
 		</div>
-		<div style="overflow: hidden;" :style="autoWidth">
-			<el-table
-				:data="tableData"
-				border
-				:cell-style="rowClass"
-				:header-cell-style="headClass"
-				:row-key="getRowKey"
-				@selection-change="handleSelectionChange"
+		<el-table
+			:data="tableData"
+			border
+			:cell-style="rowClass"
+			:header-cell-style="headClass"
+			:row-key="getRowKey"
+			@selection-change="handleSelectionChange"
+			@filter-change="filterChange"
+		>
+			<el-table-column
+				type="selection"
+				width="55"
+				:reserve-selection="true"
+			></el-table-column>
+			<el-table-column prop="ip" label="节点IP"></el-table-column>
+			<el-table-column
+				prop="state"
+				label="节点运行状态"
+				:filter-multiple="false"
+				:column-key="'state'"
+				:filters="stateopt"
+				width="130"
 			>
-				<el-table-column
-					type="selection"
-					width="55"
-					:reserve-selection="true"
-				></el-table-column>
-				<el-table-column prop="ip" label="节点IP"></el-table-column>
-				<el-table-column prop="state" label="节点运行状态">
-					<template slot-scope="scope">
-						<div v-if="scope.row.state == 0" style="color:red;">
-							离线
-						</div>
-						<div v-else style="color:#409eff;">在线</div>
-					</template>
-				</el-table-column>
-				<el-table-column prop="city" label="节点城市"></el-table-column>
-				<el-table-column prop="area" label="节点区域"></el-table-column>
-				<el-table-column
-					prop="firstch"
-					label="节点一级渠道"
-				></el-table-column>
-				<el-table-column
-					prop="secondch"
-					label="节点二级渠道"
-				></el-table-column>
-				<el-table-column
-					prop="devicetype"
-					label="设备类型"
-				></el-table-column>
-				<el-table-column prop="arch" label="硬件类型"></el-table-column>
-				<el-table-column prop="os" label="操作系统"></el-table-column>
-				<el-table-column prop="isp" label="节点线路"></el-table-column>
-				<el-table-column prop="occupyCpu" label="CPU占用">
-					<template slot-scope="scope">
-						<span v-if="scope.row.occupyCpu"
-							>{{ (scope.row.occupyCpu * 100).toFixed(2) }}%</span
-						>
-						<span v-else>--</span>
-					</template>
-				</el-table-column>
-				<el-table-column prop="totalMem" label="总内存">
-					<template slot-scope="scope">
+				<!-- <template slot="header" slot-scope="scope">
+						<span>节点运行状态</span>
+						<i class="el-icon-sort"></i>
+					</template> -->
+
+				<template slot-scope="scope">
+					<div v-if="scope.row.state == 0" style="color:red;">
+						离线
+					</div>
+					<div v-else style="color:#409eff;">在线</div>
+				</template>
+			</el-table-column>
+			<el-table-column prop="city" label="节点城市"></el-table-column>
+			<el-table-column prop="area" label="节点区域"></el-table-column>
+			<el-table-column
+				prop="firstch"
+				label="节点一级渠道"
+			></el-table-column>
+			<el-table-column
+				prop="secondch"
+				label="节点二级渠道"
+			></el-table-column>
+			<el-table-column
+				prop="devicetype"
+				label="设备类型"
+				:filter-multiple="false"
+				:column-key="'devicetype'"
+				:filters="devicetype"
+				width="130"
+			></el-table-column>
+			<el-table-column
+				prop="arch"
+				label="硬件类型"
+				:filter-multiple="false"
+				:column-key="'arch'"
+				:filters="arch"
+				width="130"
+			></el-table-column>
+			<el-table-column
+				prop="os"
+				label="操作系统"
+				:filter-multiple="false"
+				:column-key="'os'"
+				:filters="os"
+				width="130"
+			></el-table-column>
+			<el-table-column
+				prop="isp"
+				label="节点线路"
+				:filter-multiple="false"
+				:column-key="'isp'"
+				:filters="isp"
+				width="130"
+			></el-table-column>
+			<el-table-column prop="occupyCpu" label="CPU占用" width="200">
+				<template slot-scope="scope">
+					<!-- <span v-if="scope.row.occupyCpu"
+						>{{ (scope.row.occupyCpu * 100).toFixed(2) }}%</span
+					> -->
+					<el-progress
+						:text-inside="true"
+						:stroke-width="16"
+						:percentage="(scope.row.occupyCpu * 100).toFixed(0) * 1"
+						status="success"
+					></el-progress>
+				</template>
+			</el-table-column>
+			<el-table-column prop="totalMem" label="总内存">
+				<template slot-scope="scope">
+					{{ (scope.row.totalMem / 1024 / 1024 / 1024).toFixed(2) }}GB
+				</template>
+			</el-table-column>
+			<el-table-column prop="availMem" label="当前内存">
+				<template slot-scope="scope">
+					{{ (scope.row.availMem / 1024 / 1024 / 1024).toFixed(2) }}GB
+				</template>
+			</el-table-column>
+			<el-table-column prop="totalBW" label="总带宽" width="120">
+				<template slot-scope="scope">
+					<p style="display: flex;align-items: center;">
+						<img
+							src="../../assets/img/shang.png"
+							alt=""
+							style="width: 13%;"
+						/>{{ scope.row.upbandwidth }}
+					</p>
+					<p style="display: flex;align-items: center;">
+						<img
+							src="../../assets/img/xia.png"
+							alt=""
+							style="width: 13%;"
+						/>{{ scope.row.downbandwidth }}
+					</p>
+				</template>
+			</el-table-column>
+			<el-table-column prop="occupyBW" label="占用带宽" width="120">
+				<template slot-scope="scope">
+					<p style="display: flex;align-items: center;">
+						<img
+							src="../../assets/img/shang.png"
+							alt=""
+							style="width: 13%;"
+						/>{{ scope.row.upbandwidth_occ }}
+					</p>
+					<p style="display: flex;align-items: center;">
+						<img
+							src="../../assets/img/xia.png"
+							alt=""
+							style="width: 13%;"
+						/>{{ scope.row.downbandwidth_occ }}
+					</p>
+				</template>
+			</el-table-column>
+			<el-table-column prop="remainingBW" label="剩余带宽" width="120">
+				<template slot-scope="scope">
+					<p style="display: flex;align-items: center;">
+						<img
+							src="../../assets/img/shang.png"
+							alt=""
+							style="width: 13%;"
+						/>{{ scope.row.upbandwidth_rema }}
+					</p>
+					<p style="display: flex;align-items: center;">
+						<img
+							src="../../assets/img/xia.png"
+							alt=""
+							style="width: 13%;"
+						/>{{ scope.row.downbandwidth_rema }}
+					</p>
+				</template>
+			</el-table-column>
+			<el-table-column prop="totalCap" label="总空间">
+				<template slot-scope="scope">
+					<span v-if="scope.row.totalCap == 0">0GB</span>
+					<span v-else>
 						{{
-							(scope.row.totalMem / 1024 / 1024 / 1024).toFixed(
+							(scope.row.totalCap / 1024 / 1024 / 1024).toFixed(
 								2
 							)
 						}}GB
-					</template>
-				</el-table-column>
-				<el-table-column prop="availMem" label="当前内存">
-					<template slot-scope="scope">
+					</span>
+				</template>
+			</el-table-column>
+			<el-table-column prop="occupyCap" label="占用空间">
+				<template slot-scope="scope">
+					<span v-if="scope.row.occupyCap == 0">0GB</span>
+					<span v-else>
 						{{
-							(scope.row.availMem / 1024 / 1024 / 1024).toFixed(
+							(scope.row.occupyCap / 1024 / 1024 / 1024).toFixed(
 								2
 							)
 						}}GB
-					</template>
-				</el-table-column>
-				<el-table-column
-					prop="totalBW"
-					label="总带宽"
-				></el-table-column>
-				<el-table-column
-					prop="occupyBW"
-					label="占用带宽"
-				></el-table-column>
-				<el-table-column
-					prop="remainingBW"
-					label="剩余带宽"
-				></el-table-column>
-				<el-table-column prop="totalCap" label="总空间">
-					<template slot-scope="scope">
-						<span v-if="scope.row.totalCap == 0">0GB</span>
-						<span v-else>
-							{{
-								(
-									scope.row.totalCap /
-									1024 /
-									1024 /
-									1024
-								).toFixed(2)
-							}}GB
-						</span>
-					</template>
-				</el-table-column>
-				<el-table-column prop="occupyCap" label="占用空间">
-					<template slot-scope="scope">
-						<span v-if="scope.row.occupyCap == 0">0GB</span>
-						<span v-else>
-							{{
-								(
-									scope.row.occupyCap /
-									1024 /
-									1024 /
-									1024
-								).toFixed(2)
-							}}GB
-						</span>
-					</template>
-				</el-table-column>
-				<el-table-column prop="remainingCap" label="剩余空间">
-					<template slot-scope="scope">
-						<span v-if="scope.row.remainingCap == 0">0GB</span>
-						<span v-else>
-							{{
-								(
-									scope.row.remainingCap /
-									1024 /
-									1024 /
-									1024
-								).toFixed(2)
-							}}GB
-						</span>
-					</template>
-				</el-table-column>
-				<el-table-column
-					prop="useRate"
-					label="节点平均利用率"
-				></el-table-column>
-				<el-table-column prop="nodestatus" label="节点任务状态">
-					<template slot-scope="scope">
-						<span v-if="scope.row.enableFlag == 1">
-							<i
-								class="el-icon-circle-check"
-								style="color:#46e846f2"
-							></i>
-							启用
-						</span>
-						<span v-else-if="scope.row.enableFlag == 0">
-							<i class="el-icon-error"></i> 禁用
-						</span>
-					</template>
-				</el-table-column>
-				<el-table-column prop="nodeId" label="节点ID">
-					<template slot-scope="scope">
+					</span>
+				</template>
+			</el-table-column>
+			<el-table-column prop="remainingCap" label="剩余空间">
+				<template slot-scope="scope">
+					<span v-if="scope.row.remainingCap == 0">0GB</span>
+					<span v-else>
+						{{
+							(
+								scope.row.remainingCap /
+								1024 /
+								1024 /
+								1024
+							).toFixed(2)
+						}}GB
+					</span>
+				</template>
+			</el-table-column>
+			<el-table-column
+				prop="useRate"
+				label="节点平均利用率"
+			></el-table-column>
+			<el-table-column
+				prop="nodestatus"
+				label="节点任务状态"
+				:filter-multiple="false"
+				:column-key="'nodestatus'"
+				:filters="stateopt_node"
+				width="130"
+			>
+				<template slot-scope="scope">
+					<span v-if="scope.row.enableFlag == 1">
+						<i
+							class="el-icon-circle-check"
+							style="color:#46e846f2"
+						></i>
+						启用
+					</span>
+					<span v-else-if="scope.row.enableFlag == 0">
+						<i class="el-icon-error"></i> 禁用
+					</span>
+				</template>
+			</el-table-column>
+			<el-table-column prop="nodeId" label="节点ID">
+				<template slot-scope="scope">
+					<el-button
+						@click="show_nodeid(scope.row)"
+						type="text"
+						size="small"
+						>查看</el-button
+					>
+				</template>
+			</el-table-column>
+			<el-table-column prop label="操作" width="140">
+				<template slot-scope="scope">
+					<div>
 						<el-button
-							@click="show_nodeid(scope.row)"
+							@click="handleClick(scope.row)"
 							type="text"
 							size="small"
-							>查看</el-button
+							>详情</el-button
 						>
-					</template>
-				</el-table-column>
-				<el-table-column prop label="操作" width="140">
-					<template slot-scope="scope">
-						<div>
-							<el-button
-								@click="handleClick(scope.row)"
-								type="text"
-								size="small"
-								>详情</el-button
-							>
-							<el-button
-								v-show="menutype.roleU == 1"
-								@click="qiClick(scope.row)"
-								type="text"
-								size="small"
-								style="color:#e380f5"
-								v-if="scope.row.enableFlag == 0"
-								>启用</el-button
-							>
-							<el-button
-								v-show="menutype.roleU == 1"
-								@click="jinClick(scope.row)"
-								type="text"
-								size="small"
-								style="color:red"
-								v-if="scope.row.enableFlag == 1"
-								>禁用</el-button
-							>
-						</div>
-					</template>
-				</el-table-column>
-			</el-table>
-		</div>
+						<el-button
+							v-show="menutype.roleU == 1"
+							@click="qiClick(scope.row)"
+							type="text"
+							size="small"
+							style="color:#e380f5"
+							v-if="scope.row.enableFlag == 0"
+							>启用</el-button
+						>
+						<el-button
+							v-show="menutype.roleU == 1"
+							@click="jinClick(scope.row)"
+							type="text"
+							size="small"
+							style="color:red"
+							v-if="scope.row.enableFlag == 1"
+							>禁用</el-button
+						>
+					</div>
+				</template>
+			</el-table-column>
+		</el-table>
 		<div class="bottom_com" :style="autoWidth">
 			<div class="bottom_btn" v-if="tableData.length > 0">
 				<el-button
@@ -449,31 +527,36 @@ export default {
 			show_export: true,
 			options_city: [],
 			stateopt: [
-				{
-					value: -1,
-					label: '全部',
-				},
+				// {
+				// 	value: -1,
+				// 	label: '全部',
+				// },
 				{
 					value: 0,
 					label: '离线',
+					text: '离线',
 				},
 				{
 					value: 1,
 					label: '在线',
+					text: '在线',
 				},
 			],
 			stateopt_node: [
-				{
-					value: -1,
-					label: '全部',
-				},
+				// {
+				// 	value: -1,
+				// 	label: '全部',
+				// 	text: '全部',
+				// },
 				{
 					value: 0,
 					label: '禁用',
+					text: '禁用',
 				},
 				{
 					value: 1,
 					label: '启用',
+					text: '启用',
 				},
 			],
 			citylist: [
@@ -697,7 +780,7 @@ export default {
 			arch: [
 				//硬件类型
 			],
-			device_type: [
+			devicetype: [
 				//设备类型
 			],
 			os: [
@@ -832,6 +915,58 @@ export default {
 		this.menutype = menudisable(munulist, pathname);
 	},
 	methods: {
+		filterChange(filters) {
+			console.log(filters);
+			//节点任务状态
+			if (filters.nodestatus) {
+				if (filters.nodestatus[0] != undefined) {
+					this.value_node = filters.nodestatus[0];
+				} else {
+					this.value_node = -1;
+				}
+			}
+			//节点运行状态
+			if (filters.state) {
+				if (filters.state[0] != undefined) {
+					this.value = filters.state[0];
+				} else {
+					this.value = -1;
+				}
+			}
+			//设备类型
+			if (filters.devicetype) {
+				if (filters.devicetype[0] != undefined) {
+					this.dev_type = filters.devicetype[0];
+				} else {
+					this.dev_type = '';
+				}
+			}
+			//硬件类型
+			if (filters.arch) {
+				if (filters.arch[0] != undefined) {
+					this.arch_type = filters.arch[0];
+				} else {
+					this.arch_type = '';
+				}
+			}
+			//操作系统
+			if (filters.os) {
+				if (filters.os[0] != undefined) {
+					this.os_type = filters.os[0];
+				} else {
+					this.os_type = '';
+				}
+			}
+			//节点线路
+			if (filters.isp) {
+				if (filters.isp[0] != undefined) {
+					this.value2 = filters.isp[0];
+				} else {
+					this.value2 = '';
+				}
+			}
+			this.getdatalist(); // 通过接口获取数据的方法
+		},
 		getRowKey(row) {
 			return row.nodeId;
 		},
@@ -841,12 +976,28 @@ export default {
 			get_nodetype_enum(params)
 				.then((res) => {
 					if (res.status == 0) {
+						res.data.arch.forEach((item) => {
+							item.value = item.name;
+							item.text = item.value;
+						});
+						res.data.device_type.forEach((item) => {
+							item.value = item.name;
+							item.text = item.value;
+						});
+						res.data.isp.forEach((item) => {
+							item.value = item.name;
+							item.text = item.value;
+						});
+						res.data.os.forEach((item) => {
+							item.value = item.name;
+							item.text = item.value;
+						});
 						this.arch = res.data.arch;
-						this.device_type = res.data.device_type;
+						this.devicetype = res.data.device_type;
 						this.isp = res.data.isp;
 						this.os = res.data.os;
 						this.firstchan = res.data.firstchan;
-
+						console.log(this.devicetype);
 						if (this.$route.query.city) {
 							this.optiondisplay = true;
 
@@ -1001,7 +1152,6 @@ export default {
 			} else {
 				parmas.province = '';
 			}
-			parmas.state = this.value;
 			if (this.value2) {
 				if (this.value2 == '全部') {
 					parmas.isp = '';
@@ -1011,12 +1161,13 @@ export default {
 			} else {
 				parmas.isp = '';
 			}
+			parmas.state = this.value * 1;
 			parmas.os = this.os_type;
 			parmas.arch = this.arch_type;
 			parmas.devicetype = this.dev_type;
 			parmas.firstchid = this.firstchid;
 			parmas.secondchid = this.secondchid;
-			parmas.enableFlag = this.value_node;
+			parmas.enableFlag = this.value_node * 1;
 			if (this.city_detil == '全部') {
 				parmas.city = '';
 			} else {
@@ -1029,11 +1180,12 @@ export default {
 			query_node(parmas)
 				.then((res) => {
 					if (res.status == 0) {
-						// this.tableData = [];
+						this.tableData = [];
 						this.z_tablist = [];
 						if (res.data.result.length <= 0) {
 							this.$message.sussess('暂无数据');
 							this.show_export = true;
+							return false;
 						} else {
 							this.show_export = false;
 							this.total_cnt = res.data.total;
@@ -1316,6 +1468,7 @@ export default {
 <style lang="scss" scoped>
 .content {
 	height: auto;
+	overflow-x: hidden;
 	.el-select {
 		margin-bottom: 10px;
 	}

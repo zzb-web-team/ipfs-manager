@@ -11,7 +11,7 @@
 					<el-date-picker
 						class="mapdateinput"
 						v-model="time_value"
-						type="datetimerange"
+						type="daterange"
 						range-separator="至"
 						start-placeholder="开始日期"
 						end-placeholder="结束日期"
