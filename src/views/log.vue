@@ -235,35 +235,34 @@ export default {
 							let arrlist = [1, 2, 3, 4, 5, 6];
 
 							res.data.forEach((item) => {
-                                if (item.name == 'IPFS节点信息') {
+								if (item.name == 'IPFS节点信息') {
 									arrlist[0] = item;
-								}else if (item.name == 'IPFS节点控制台') {
-                                    arrlist[1] = item;
-                                    alert(arrlist[1].children[1].children);
-                                    arrlist[1].children[1].children.push({
-                                        children: [],
-										component: 'center_demo',
-										delete_status: 0,
-										export_status: 0,
-										hidden: 0,
-										icon: '',
-										id: 100,
-										import_status: 0,
-										insert_status: 0,
-										name: '新区位分布',
-										path: '/center_demo',
-										pid: 10,
-										read_status: 1,
-										roleR: 1,
-										time_create: 0,
-										time_update: 0,
-										update_status: 0,
-                                    })
+								} else if (item.name == 'IPFS节点控制台') {
+									arrlist[1] = item;
+									// arrlist[1].children[0].children.push({
+									//     children: [],
+									// 	component: 'center_demo',
+									// 	delete_status: 0,
+									// 	export_status: 0,
+									// 	hidden: 0,
+									// 	icon: '',
+									// 	id: 100,
+									// 	import_status: 0,
+									// 	insert_status: 0,
+									// 	name: '新区位分布',
+									// 	path: '/center_demo',
+									// 	pid: 10,
+									// 	read_status: 1,
+									// 	roleR: 1,
+									// 	time_create: 0,
+									// 	time_update: 0,
+									// 	update_status: 0,
+									// })
 								} else if (item.name == 'IPFS节点应用') {
 									arrlist[2] = item;
 								} else if (item.name == 'IPFS节点收益') {
 									arrlist[3] = item;
-								}else if (item.name == 'IPFS数据统计') {
+								} else if (item.name == 'IPFS数据统计') {
 									arrlist[4] = item;
 									item.children.forEach((xitem, index) => {
 										if (xitem.name == '全国节点分布') {
@@ -272,36 +271,52 @@ export default {
 										}
 									});
 								} else if (item.name == '操作管理') {
-                                    arrlist[5] = item;
-                                    //这几行代码是修改菜单功能--禁止删除
+									arrlist[5] = item;
+									//这几行代码是修改菜单功能--禁止删除
 
-									arrlist[5].children.push({
-										children: [],
-										component: 'menu_management',
-										delete_status: 0,
-										export_status: 0,
-										hidden: 0,
-										icon: '',
-										id: 100,
-										import_status: 0,
-										insert_status: 0,
-										name: '菜单管理',
-										path: '/menu_management',
-										pid: 30,
-										read_status: 1,
-										roleR: 1,
-										time_create: 0,
-										time_update: 0,
-										update_status: 0,
-									});
-								}
-								else {
-									arrlist.push(item);
+									// arrlist[5].children.push({
+									// 	children: [],
+									// 	component: 'menu_management',
+									// 	delete_status: 0,
+									// 	export_status: 0,
+									// 	hidden: 0,
+									// 	icon: '',
+									// 	id: 100,
+									// 	import_status: 0,
+									// 	insert_status: 0,
+									// 	name: '菜单管理',
+									// 	path: '/menu_management',
+									// 	pid: 30,
+									// 	read_status: 1,
+									// 	roleR: 1,
+									// 	time_create: 0,
+									// 	time_update: 0,
+									// 	update_status: 0,
+									// });
+								} else {
+									// arrlist[6] = {
+									// 	children: [],
+									// 	component: 'preview',
+									// 	delete_status: 0,
+									// 	export_status: 0,
+									// 	hidden: 1,
+									// 	icon: 'iconfont icon-tongji',
+									// 	id: 70,
+									// 	import_status: 0,
+									// 	insert_status: 0,
+									// 	name: '概览',
+									// 	path: '/preview',
+									// 	pid: 0,
+									// 	read_status: 0,
+									// 	time_create: 0,
+									// 	time_update: 0,
+									// 	update_status: 0,
+                                    // };
+                                    arrlist.push(item);
 								}
 							});
-							console.log(arrlist);
 							for (var i = 0; i < arrlist.length; i++) {
-								if (arrlist[i] == null) {
+								if (arrlist[i] == null || arrlist[i] < 10) {
 									arrlist.splice(i, 1);
 									i = i - 1; // i - 1 ,因为空元素在数组下标 2 位置，删除空之后，后面的元素要向前补位，
 									// 这样才能真正去掉空元素,觉得这句可以删掉的连续为空试试，然后思考其中逻辑
@@ -317,7 +332,6 @@ export default {
 								mtpath,
 								7 * 24 * 60 * 60
 							);
-                            console.log(arrlist);
 							window.location.href = './';
 						} else {
 							this.$router.push({ path: '/error404' });

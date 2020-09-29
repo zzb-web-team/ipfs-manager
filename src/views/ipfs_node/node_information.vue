@@ -7,9 +7,9 @@
 			</el-breadcrumb-item>
 		</el-breadcrumb>
 		<!-- 搜索框 -->
-		<div class="seach_title">
-			<div class="seach_title_input">
-				<el-input
+		<el-row type="flex" class="row-bg" justify="start">
+			<el-col :span="3"
+				><el-input
 					placeholder="请输入节点IP，节点ID"
 					v-model="seachinput"
 					@keyup.enter.native="seachipfs()"
@@ -18,193 +18,77 @@
 						slot="suffix"
 						class="el-input__icon el-icon-search"
 						@click="seachipfs"
-					></i>
-				</el-input>
-			</div>
-			<div class="seach_top_right" @click="option_display()">
-				筛选
-				<i
-					class="el-icon-caret-bottom"
-					:class="[
-						rotate ? 'fa fa-arrow-down go' : 'fa fa-arrow-down aa',
-					]"
-				></i>
-			</div>
-		</div>
-		<!--  -->
-		<div class="seach_bottom" v-if="optiondisplay">
-			<div class="seach_bottom_tw">
-				<div class="location_select">
-					<!-- <span>任务状态：</span>
-					<el-select
-						placeholder="请选择状态"
-						v-model="value_node"
-						@change="handleChange_node()"
-					>
-						<el-option label="全部" value="-1"></el-option>
-						<el-option
-							v-for="(item, index) in stateopt_node"
-							:key="item.value + index + 'rew'"
-							:label="item.label"
-							:value="item.value"
-						></el-option>
-					</el-select>
-					<span>运行状态：</span>
-					<el-select
-						placeholder="请选择状态"
-						v-model="value"
-						@change="handleChange()"
-					>
-						<el-option label="全部" value="-1"></el-option>
-						<el-option
-							v-for="(item, index) in stateopt"
-							:key="item.value + index + 'srta'"
-							:label="item.label"
-							:value="item.value"
-						></el-option>
-					</el-select> -->
-					<span>节点区域：</span>
-					<el-cascader
-						style="width:150px;"
-						placeholder="请选择区域"
-						v-model="value1"
-						:options="citylist"
-						@change="provinceChange"
-					></el-cascader>
-					<span>节点城市:</span>
-					<el-select
-						v-model="city_detil"
-						placeholder="请选择城市"
-						@change="handleChange()"
-						:disabled="city_disable"
-					>
-						<el-option
-							v-for="(item, index) in options_city"
-							:key="index + item.name + 'city'"
-							:label="item.name"
-							:value="item.name"
-						></el-option>
-					</el-select>
-					<span>节点渠道商:</span>
-					<el-select
-						v-model="firstchid"
-						placeholder="一级渠道商"
-						@change="handleChangefirst($event)"
-					>
-						<el-option value="" label="全部"></el-option>
-						<el-option
-							v-for="(item, index) in firstchan"
-							:key="index + item.value"
-							:label="item.name"
-							:value="item.value"
-						></el-option>
-					</el-select>
-					<el-select
-						v-model="secondchid"
-						placeholder="二级渠道商"
-						@change="handleChange()"
-						:disabled="chil_disable"
-					>
-						<el-option value="" label="全部"></el-option>
-						<el-option
-							v-for="(item, index) in secondchan"
-							:key="index + item.value + 'ssd'"
-							:label="item.name"
-							:value="item.value"
-						></el-option>
-					</el-select>
-
-					<el-button
-						plain
-						type="primary"
-						@click="resetseach()"
-						class="resetseach_btn"
-						>重置</el-button
-					>
-				</div>
-				<!-- <div class="location_select">
-					<span>设备类型：</span>
-					<el-select
-						v-model="dev_type"
-						placeholder="请选择"
-						@change="seachipfs"
-					>
-						<el-option value="" label="全部"></el-option>
-						<el-option
-							v-for="(item, index) in devicetype"
-							:key="item.name + index"
-							:label="item.name"
-							:value="item.name"
-							:disabled="item.disabled"
-						></el-option>
-					</el-select>
-					<span>硬件类型：</span>
-					<el-select
-						v-model="arch_type"
-						placeholder="请选择"
-						@change="seachipfs"
-					>
-						<el-option value="" label="全部"></el-option>
-						<el-option
-							v-for="(item, index) in arch"
-							:key="item.name + index"
-							:label="item.name"
-							:value="item.name"
-							:disabled="item.disabled"
-						></el-option>
-					</el-select>
-					<span>操作系统：</span>
-					<el-select
-						v-model="os_type"
-						placeholder="请选择"
-						@change="seachipfs"
-					>
-						<el-option value="" label="全部"></el-option>
-						<el-option
-							v-for="item in os"
-							:key="item.name"
-							:label="item.name"
-							:value="item.name"
-							:disabled="item.disabled"
-						></el-option>
-					</el-select>
-					<span>线路：</span>
-					<el-select
-						v-model="value2"
-						placeholder="请选择"
-						@change="seachipfs"
-					>
-						<el-option value="" label="全部"></el-option>
-						<el-option
-							v-for="(item, index) in isp"
-							:key="item.value + index"
-							:label="item.name"
-							:value="item.name"
-							:disabled="item.disabled"
-						></el-option>
-					</el-select>
-				</div> -->
-				<!-- <div class="region_select">
-					<el-button
-						plain
-						@click="resetseach()"
-						class="resetseach_btn"
-						>重置</el-button
-					>
-				</div> -->
-			</div>
-
-			<div style="margin-top: 5px;">
-				<!-- <el-button type="primary" plain size="mini" @click="seach"
-					>确定</el-button
-        >-->
-			</div>
-		</div>
+					></i> </el-input
+			></el-col>
+			<el-col :span="3"
+				><span>节点区域：</span>
+				<el-cascader
+					style="width:150px;"
+					placeholder="请选择区域"
+					v-model="value1"
+					:options="citylist"
+					@change="provinceChange"
+				></el-cascader
+			></el-col>
+			<el-col :span="4"
+				><span>节点城市:</span>
+				<el-select
+					v-model="city_detil"
+					placeholder="请选择城市"
+					@change="handleChange()"
+					:disabled="city_disable"
+				>
+					<el-option
+						v-for="(item, index) in options_city"
+						:key="index + item.name + 'city'"
+						:label="item.name"
+						:value="item.name"
+					></el-option> </el-select
+			></el-col>
+			<el-col :span="7"
+				><span>节点渠道商:</span>
+				<el-select
+					v-model="firstchid"
+					placeholder="一级渠道商"
+					@change="handleChangefirst($event)"
+				>
+					<el-option value="" label="全部"></el-option>
+					<el-option
+						v-for="(item, index) in firstchan"
+						:key="index + item.value"
+						:label="item.name"
+						:value="item.value"
+					></el-option>
+				</el-select>
+				<el-select
+					v-model="secondchid"
+					placeholder="二级渠道商"
+					@change="handleChange()"
+					:disabled="chil_disable"
+				>
+					<el-option value="" label="全部"></el-option>
+					<el-option
+						v-for="(item, index) in secondchan"
+						:key="index + item.value + 'ssd'"
+						:label="item.name"
+						:value="item.value"
+					></el-option> </el-select
+			></el-col>
+			<el-col :span="2"
+				><el-button
+					type="primary"
+					@click="resetseach()"
+					class="resetseach_btn"
+					>重置</el-button
+				></el-col
+			>
+		</el-row>
 		<!-- 主体表格 -->
 		<div style="text-align:right;padding:0 10px 10px 10px;">
 			<el-button
 				v-show="menutype.roleE == 1"
 				type="primary"
+				size="mini"
 				@click="export_Excel()"
 				:disabled="show_export"
 				>导出</el-button
@@ -233,11 +117,6 @@
 				:filters="stateopt"
 				width="130"
 			>
-				<!-- <template slot="header" slot-scope="scope">
-						<span>节点运行状态</span>
-						<i class="el-icon-sort"></i>
-					</template> -->
-
 				<template slot-scope="scope">
 					<div v-if="scope.row.state == 0" style="color:red;">
 						离线
@@ -245,8 +124,11 @@
 					<div v-else style="color:#409eff;">在线</div>
 				</template>
 			</el-table-column>
-			<el-table-column prop="city" label="节点城市"></el-table-column>
-			<el-table-column prop="area" label="节点区域"></el-table-column>
+			<el-table-column prop="city" label="节点地域">
+				<template slot-scope="scope">
+					{{ scope.row.city }}-{{ scope.row.area }}
+				</template>
+			</el-table-column>
 			<el-table-column
 				prop="firstch"
 				label="节点一级渠道"
@@ -287,45 +169,39 @@
 				:filters="isp"
 				width="130"
 			></el-table-column>
-			<el-table-column prop="occupyCpu" label="CPU占用" width="200">
+			<el-table-column prop="proportion_cpu" label="CPU占用" width="100">
 				<template slot-scope="scope">
-					<!-- <span v-if="scope.row.occupyCpu"
-						>{{ (scope.row.occupyCpu * 100).toFixed(2) }}%</span
-					> -->
 					<el-progress
 						:text-inside="true"
 						:stroke-width="16"
-						:percentage="(scope.row.occupyCpu * 100).toFixed(0) * 1"
-						status="success"
+						:percentage="scope.row.proportion_cpu"
+						:color="scope.row.color_cpu"
 					></el-progress>
 				</template>
 			</el-table-column>
-			<el-table-column prop="totalMem" label="总内存">
+			<el-table-column prop="proportion_ram" label="内存占用" width="100">
 				<template slot-scope="scope">
-					{{ (scope.row.totalMem / 1024 / 1024 / 1024).toFixed(2) }}GB
+					<el-progress
+						:text-inside="true"
+						:stroke-width="16"
+						:percentage="scope.row.proportion_ram"
+						:color="scope.row.color_ram"
+					></el-progress>
 				</template>
 			</el-table-column>
-			<el-table-column prop="availMem" label="当前内存">
+			<el-table-column prop="remainingCap" label="存储占用" width="100">
 				<template slot-scope="scope">
-					{{ (scope.row.availMem / 1024 / 1024 / 1024).toFixed(2) }}GB
-				</template>
-			</el-table-column>
-			<el-table-column prop="totalBW" label="总带宽" width="120">
-				<template slot-scope="scope">
-					<p style="display: flex;align-items: center;">
-						<img
-							src="../../assets/img/shang.png"
-							alt=""
-							style="width: 13%;"
-						/>{{ scope.row.upbandwidth }}
-					</p>
-					<p style="display: flex;align-items: center;">
-						<img
-							src="../../assets/img/xia.png"
-							alt=""
-							style="width: 13%;"
-						/>{{ scope.row.downbandwidth }}
-					</p>
+					<el-progress
+						:text-inside="true"
+						:stroke-width="16"
+						:percentage="
+							(
+								(scope.row.occupyCap / scope.row.totalCap) *
+								100
+							).toFixed(2) * 1
+						"
+						:color="scope.row.color_disk"
+					></el-progress>
 				</template>
 			</el-table-column>
 			<el-table-column prop="occupyBW" label="占用带宽" width="120">
@@ -364,7 +240,7 @@
 					</p>
 				</template>
 			</el-table-column>
-			<el-table-column prop="totalCap" label="总空间">
+			<!-- <el-table-column prop="totalCap" label="总空间">
 				<template slot-scope="scope">
 					<span v-if="scope.row.totalCap == 0">0GB</span>
 					<span v-else>
@@ -402,7 +278,7 @@
 						}}GB
 					</span>
 				</template>
-			</el-table-column>
+			</el-table-column> -->
 			<el-table-column
 				prop="useRate"
 				label="节点平均利用率"
@@ -416,14 +292,17 @@
 				width="130"
 			>
 				<template slot-scope="scope">
-					<span v-if="scope.row.enableFlag == 1">
-						<i
-							class="el-icon-circle-check"
-							style="color:#46e846f2"
-						></i>
+					<span
+						v-if="scope.row.enableFlag == 1"
+						style="color:#1fd278"
+					>
+						<i class="el-icon-circle-check"></i>
 						启用
 					</span>
-					<span v-else-if="scope.row.enableFlag == 0">
+					<span
+						v-else-if="scope.row.enableFlag == 0"
+						style="color:#ce0c0c"
+					>
 						<i class="el-icon-error"></i> 禁用
 					</span>
 				</template>
@@ -452,7 +331,7 @@
 							@click="qiClick(scope.row)"
 							type="text"
 							size="small"
-							style="color:#e380f5"
+							style="color:#1fd278"
 							v-if="scope.row.enableFlag == 0"
 							>启用</el-button
 						>
@@ -461,7 +340,7 @@
 							@click="jinClick(scope.row)"
 							type="text"
 							size="small"
-							style="color:red"
+							style="color:#ce0c0c"
 							v-if="scope.row.enableFlag == 1"
 							>禁用</el-button
 						>
@@ -473,15 +352,15 @@
 			<div class="bottom_btn" v-if="tableData.length > 0">
 				<el-button
 					@click="all_qiClick()"
-					type="text"
-					size="small"
+					type="primary"
+					size="mini"
 					v-show="menutype.roleU == 1"
 					>启用</el-button
 				>
 				<el-button
 					@click="all_jinClick()"
-					type="text"
-					size="small"
+					type="warning"
+					size="mini"
 					v-show="menutype.roleU == 1"
 					>禁用</el-button
 				>
@@ -916,7 +795,6 @@ export default {
 	},
 	methods: {
 		filterChange(filters) {
-			console.log(filters);
 			//节点任务状态
 			if (filters.nodestatus) {
 				if (filters.nodestatus[0] != undefined) {
@@ -997,7 +875,6 @@ export default {
 						this.isp = res.data.isp;
 						this.os = res.data.os;
 						this.firstchan = res.data.firstchan;
-						console.log(this.devicetype);
 						if (this.$route.query.city) {
 							this.optiondisplay = true;
 
@@ -1067,7 +944,9 @@ export default {
 						this.tableData = data_list;
 						this.autoWidth.width =
 							document.getElementsByClassName('el-table__body')[0]
-								.offsetWidth + 'px';
+								.offsetWidth +
+							60 +
+							'px';
 					} else {
 						this.$message.error(res.err_msg);
 					}
@@ -1217,6 +1096,64 @@ export default {
 								item.downbandwidth_occ = item.occupyBW.substring(
 									item.occupyBW.indexOf('/') + 1
 								);
+								item.proportion_cpu =
+									(item.occupyCpu * 100).toFixed(2) * 1;
+								item.proportion_ram =
+									(
+										(item.availMem / item.totalMem) *
+										100
+									).toFixed(2) * 1;
+								item.proportion_disk =
+									(
+										(item.occupyCap / item.totalCap) *
+										100
+									).toFixed(2) * 1;
+								if (item.proportion_cpu < 30) {
+									item.color_cpu = '#c1ead6';
+								} else if (
+									item.proportion_cpu >= 30 &&
+									item.proportion_cpu < 50
+								) {
+									item.color_cpu = '#66ccff';
+								} else if (
+									item.proportion_cpu >= 50 &&
+									item.proportion_cpu < 80
+								) {
+									item.color_cpu = '#ffcc33';
+								} else {
+									item.color_cpu = '#ff0000';
+								}
+
+								if (item.proportion_ram < 30) {
+									item.color_ram = '#c1ead6';
+								} else if (
+									item.proportion_ram >= 30 &&
+									item.proportion_ram < 50
+								) {
+									item.color_ram = '#66ccff';
+								} else if (
+									item.proportion_ram >= 50 &&
+									item.proportion_ram < 80
+								) {
+									item.color_ram = '#ffcc33';
+								} else {
+									item.color_ram = '#ff0000';
+								}
+								if (item.proportion_disk < 30) {
+									item.color_disk = '#c1ead6';
+								} else if (
+									item.proportion_disk >= 30 &&
+									item.proportion_disk < 50
+								) {
+									item.color_disk = '#66ccff';
+								} else if (
+									item.proportion_disk >= 50 &&
+									item.proportion_disk < 80
+								) {
+									item.color_disk = '#ffcc33';
+								} else {
+									item.color_disk = '#ff0000';
+								}
 								if (item.state == 0) {
 									item.devstatus = '离线';
 									item.bgccolor = '#929292';
@@ -1490,7 +1427,10 @@ export default {
 			line-height: 40px;
 			margin-left: 10px;
 		}
-	}
+    }
+    .row-bg{
+        margin-top: 20px;
+    }
 }
 .seach_bottom {
 	text-align: left;
@@ -1521,7 +1461,8 @@ export default {
 	justify-content: space-between;
 	margin-top: 20px;
 	.bottom_btn {
-		width: 100px;
+		width: auto;
+		display: flex;
 	}
 }
 //旋转

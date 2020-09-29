@@ -11,7 +11,7 @@
 						<span
 							v-show="!isCollapse"
 							style="fontSize:20px;color:#ffffff"
-							>IPFS节点后台管理</span
+							>IPFS节点后台</span
 						>
 						<i
 							class="el-icon-s-unfold"
@@ -46,7 +46,7 @@
 				</el-col>
 			</el-col>
 			<el-col :span="24" class="main">
-				<aside :class="isCollapse ? 'menu-collapsed' : 'menu-expanded'">
+				<el-aside :class="isCollapse ? 'menu-collapsed' : 'menu-expanded'">
 					<el-menu
 						:default-active="$route.path"
 						class="el-menu-vertical-demo"
@@ -58,8 +58,13 @@
 						:collapse="isCollapse"
 					>
 						<!-- 一级菜单 -->
-
 						<template v-for="item in menlist">
+							<!-- 分组名称 -->
+							<!-- <el-menu-item-group>
+								<span slot="title"
+									>分组名称</span
+								></el-menu-item-group
+							> -->
 							<el-submenu
 								v-if="
 									item.children && item.children.length != 0
@@ -67,12 +72,6 @@
 								:index="item.path"
 								:key="item.path"
 								style="text-align: left;"
-								v-show="
-									item.name != '设备监控' &&
-										item.name != 'IPFS程序管理' &&
-										item.name != '服务器监控' &&
-										item.name != 'IPFS节点应用'
-								"
 							>
 								<template slot="title">
 									<i :class="item.icon"></i>
@@ -94,7 +93,6 @@
 											<i :class="itemChild.icon"></i>
 											<span>{{ itemChild.name }}</span>
 										</template>
-
 										<!-- 三级菜单 -->
 										<el-menu-item
 											v-for="itemChild_Child in itemChild.children"
@@ -111,7 +109,6 @@
 											}}</span>
 										</el-menu-item>
 									</el-submenu>
-
 									<el-menu-item
 										v-else
 										:index="itemChild.path"
@@ -124,19 +121,7 @@
 										class="two_menu"
 									>
 										<i :class="itemChild.icon"></i>
-										<span
-											slot="title"
-											v-if="itemChild.name == 'ip流量'"
-											>IP流量</span
-										>
-										<span
-											v-else-if="
-												itemChild.name == '云链节点算力'
-											"
-										>
-											节点算力
-										</span>
-										<span v-else>{{ itemChild.name }}</span>
+										<span>{{ itemChild.name }}</span>
 									</el-menu-item>
 								</template>
 							</el-submenu>
@@ -144,32 +129,21 @@
 								v-else
 								:index="item.path"
 								:key="item.path"
+								style="text-align: left;"
 							>
 								<i :class="item.icon"></i>
 								<span slot="title">{{ item.name }}</span>
 							</el-menu-item>
 						</template>
 					</el-menu>
-					<!--导航菜单-->
-					<!-- <el-menu :default-active="$route.path" class="el-menu-vertical-demo" @open="handleopen" @close="handleclose" @select="handleselect"
-					 unique-opened router v-show="!collapsed" >
-					<template v-for="(item,index) in $router.options.routes" v-if="!item.hidden">
-						<el-submenu :index="index+''" v-if="!item.leaf" v-bind:key="index">
-							<template slot="title"><i :class="item.iconCls"></i>{{item.name}}</template>
-							<el-menu-item v-for="child in item.children" :index="child.path" :key="child.path" v-if="!child.hidden">{{child.name}}</el-menu-item>
-						</el-submenu>
-						<el-menu-item v-if="item.leaf&&item.children.length>0" :index="item.children[0].path" v-bind:key="index"><i :class="item.iconCls"></i>{{item.children[0].name}}</el-menu-item>
-					</template>
-          </el-menu>-->
-				</aside>
+				</el-aside>
 				<section class="content-container">
 					<div class="grid-content bg-purple-light">
-						<!-- <el-col :span="24" class="breadcrumb-container">
-              <strong class="title">{{$route.name}}</strong>
-            </el-col>-->
 						<el-col :span="24" class="content-wrapper">
 							<transition name="fade" mode="out-in">
-								<router-view :style="con_h"></router-view>
+								<router-view
+									:style="con_h"
+								></router-view>
 							</transition>
 						</el-col>
 					</div>
@@ -290,7 +264,7 @@ export default {
 		line-height: 60px;
 		//	background: $color-primary;
 		color: #000;
-		background: #1572E8;
+		background: #1572e8;
 		.userinfo {
 			text-align: right;
 			padding-right: 35px;
@@ -316,9 +290,9 @@ export default {
 			border-color: #eef1924d;
 			border-right-width: 1px;
 			border-right-style: solid;
-            // background: #ffffff;
-            background: #1572E8;
-            color: #ffffff;
+			// background: #ffffff;
+			background: #1572e8;
+			color: #ffffff;
 			img {
 				width: auto;
 				float: left;
@@ -326,7 +300,7 @@ export default {
 			}
 			.txt {
 				color: #fff;
-            }
+			}
 		}
 		.logo-width {
 			width: 230px;
@@ -391,8 +365,8 @@ export default {
 			// top: 0px;
 			// bottom: 0px;
 			// left: 230px;
-            overflow-y: scroll;
-            overflow-x: scroll;
+			overflow-y: scroll;
+			overflow-x: scroll;
 			padding: 20px;
 			.breadcrumb-container {
 				//margin-bottom: 15px;

@@ -12,16 +12,68 @@
 <script>
 import echarts from 'echarts';
 import '../../../../static/huazhong.js';
+import { query_node, node_distribute } from '../../../servers/api';
 export default {
 	data() {
-		return {};
+		return {
+			datalist: [],
+			page: 0,
+			citylist: ['河南', '湖北', '湖南'],
+		};
 	},
 	mounted() {
-		this.set_echarts_two();
+		this.citylist.forEach((item) => {
+			this.getdalsit(item, this.page);
+		});
 	},
 	methods: {
-		set_echarts_two() {
+		getdalsit(sctyes, page) {
+			let parmas = new Object();
+			parmas.province = sctyes;
+			parmas.page = page;
+			node_distribute(parmas)
+				.then((res) => {
+					if (res.status == 0) {
+						if (res.data.total > 0) {
+							if (parmas.page == 0) {
+								this.datalist = [];
+							}
+							this.datalist = this.datalist.concat(
+								res.data.result
+							);
+
+							if (res.data.remaining == 0) {
+								this.$nextTick(() => {
+									this.set_echarts_two(this.datalist);
+								});
+							} else {
+								page++;
+								this.getdalsit(sctyes, page);
+							}
+						}
+					} else {
+						this.$message.error(res.err_msg);
+					}
+				})
+				.catch((err) => {});
+		},
+		set_echarts_two(data_list) {
 			let _this = this;
+			let data = [];
+			data_list.forEach((item) => {
+				toFirst(item, 1);
+				let obj = {};
+				obj.value = item;
+				data.push(obj);
+			});
+			function toFirst(fieldData, index) {
+				if (index != 0) {
+					// fieldData[index] = fieldData.splice(0, 1, fieldData[index])[0]; 这种方法是与另一个元素交换了位子，
+
+					fieldData.unshift(fieldData.splice(index, 1)[0]);
+				}
+			}
+			console.log(data);
 			//设置样式
 			let myChartTwo = document.getElementById('new_echarts_two');
 			let con_h =
@@ -35,32 +87,6 @@ export default {
 				myChartTwo.style.width = con_h;
 			};
 			resizeMyChartContainer();
-			var data = [
-				{
-					name: '武汉市',
-					value: [114.298572, 30.584355, 15],
-				},
-				{
-					name: '十堰市',
-					value: [110.785239, 32.647017, 106],
-				},
-				{
-					name: '吉安市',
-					value: [114.97598, 27.10669, 3],
-				},
-				{
-					name: '南阳市',
-					value: [112.540918, 32.999082, 115],
-				},
-				{
-					name: '怀化市',
-					value: [109.97824, 27.550082, 96],
-				},
-				{
-					name: '郴州市',
-					value: [113.032067, 25.793589, 33],
-				},
-			];
 			let option = {
 				title: {
 					text: '华南地图',
@@ -69,13 +95,7 @@ export default {
 				tooltip: {
 					trigger: 'item',
 					formatter: function(a) {
-						// console.log(a);
 						let item_data = a.value[2];
-						// if (isNaN(a.value) == true) {
-						// 	item_data = 0;
-						// } else {
-						// 	item_data = a.value[2];
-						// }
 						return a.name + '<br/>' + item_data;
 					},
 				},
@@ -108,92 +128,6 @@ export default {
 					},
 				},
 				series: [
-					// {
-					// 	name: '数据名称',
-					// 	type: 'map',
-					// 	mapType: '河南', //改成对应省份名
-					// 	selectedMode: 'single',
-					// 	center: [114.298572, 30.584355],
-					// 	zoom: 1.3,
-					// 	roam: true, //是否开启平游或缩放
-					// 	scaleLimit: {
-					// 		//滚轮缩放的极限控制
-					// 		min: 0.5,
-					// 		max: 12,
-					// 	},
-					// 	itemStyle: {
-					// 		normal: {
-					// 			label: { show: true },
-					// 			// borderWidth: 2, //省份的边框宽度
-					// 			// borderColor: '#c9c9c9', //省份的边框颜色
-					// 			// color: '#ffffff', //地图的背景颜色
-					// 			// areaStyle: { color: '#ffffff' }, //设置地图颜色
-					// 			areaColor: '#ffffff', //默认背景色
-					// 		},
-					// 		emphasis: {
-					// 			label: { show: true },
-					// 			areaColor: '#ffc21e',
-					// 		}, //鼠标悬浮颜色
-					// 		label: {
-					// 			normal: {
-					// 				show: true,
-					// 			},
-					// 			emphasis: {
-					// 				show: true,
-					// 			},
-					// 		},
-					// 	},
-					// 	label: {
-					// 		normal: {
-					// 			textStyle: {
-					// 				fontSize: 10,
-					// 				fontWeight: 'none',
-					// 				color: '#c2c2c2', //字体颜色
-					// 			},
-					// 		},
-					// 	},
-					// 	// data: [
-					// 	// 	{
-					// 	// 		name: '武汉市',
-					// 	// 		value: [114.298572, 30.584355, 15],
-					// 	// 	},
-					// 	// ],
-					// 	data: convertData([{ name: '南宁医院', value: 9 }]),
-					// },
-					{
-						name: '分布',
-						type: 'scatter',
-						coordinateSystem: 'geo',
-						data: data,
-						encode: {
-							value: 2,
-						},
-						symbolSize: 12,
-						label: {
-							normal: {
-								show: false, //显示市区标签
-								textStyle: { color: '#c71585' }, //省份标签字体颜色
-							},
-							emphasis: {
-								//对应的鼠标悬浮效果
-								show: true, //关闭文字 （这东西有问题得关）
-								textStyle: { color: '#800080' },
-							},
-						},
-						itemStyle: {
-							normal: {
-								borderWidth: 0.5, //区域边框宽度
-								borderColor: '#009fe8', //区域边框颜色
-								areaColor: '#ffefd5', //区域颜色
-							},
-							emphasis: {
-								show: true,
-								borderWidth: 0.5,
-								borderColor: '#4b0082',
-								areaColor: '#f47920',
-							},
-						},
-					},
 					{
 						name: 'Top 5',
 						type: 'effectScatter',
@@ -202,7 +136,7 @@ export default {
 							return b.value[2] - a.value[2];
 						}),
 						symbolSize: function(val) {
-							return val[2] / 5;
+							return val[2] / 0.5;
 						},
 						showEffectOn: 'render',
 						rippleEffect: {
@@ -211,7 +145,7 @@ export default {
 						hoverAnimation: true,
 						label: {
 							normal: {
-								formatter: '{b}',
+								formatter: '{a}',
 								position: 'right',
 								show: true,
 							},
@@ -233,6 +167,9 @@ export default {
 			myChart.on('click', function(params) {
 				console.log(params);
 			});
+			// myChart.on('mouseover', function(params) {
+			// 	console.log(params);
+			// });
 		},
 	},
 };

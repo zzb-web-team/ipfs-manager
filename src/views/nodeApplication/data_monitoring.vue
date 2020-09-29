@@ -79,12 +79,13 @@
 							prefix-icon="el-icon-search"
 							@keyup.enter.native="set_time()"
 						>
-							<i
+							<!-- <i
 								slot="suffix"
 								class="el-input__icon el-icon-search"
 								@click="set_time"
-							></i></el-input
-					></el-col>
+							></i> -->
+						</el-input></el-col
+					>
 					<el-col :span="2"
 						><el-select
 							size="small"
@@ -1396,9 +1397,24 @@ export default {
 					} else {
 						this.$message.error(res.errMsg);
 					}
-					this.$nextTick(
-						this.tiredsharts('lt', 'LT（失联计数）', this.ltlist)
-					);
+					if (params.ipfsId == '*') {
+						this.$nextTick(
+							this.tiredsharts(
+								'lt',
+								'LT（失联计数）',
+								this.ltlist
+							)
+						);
+					} else {
+						this.$nextTick(
+							this.tiredsharts(
+								'lt',
+								'LT（失联计数）',
+								this.ltlist,
+								'id'
+							)
+						);
+					}
 				})
 				.catch((error) => {});
 		},
@@ -1502,9 +1518,24 @@ export default {
 					} else {
 						this.$message.error(res.errMsg);
 					}
-					this.$nextTick(
-						this.tiredsharts('itf', 'ITF（在线率）', this.itflist)
-					);
+					if (params.ipfsId == '*') {
+						this.$nextTick(
+							this.tiredsharts(
+								'itf',
+								'ITF（在线率）',
+								this.itflist
+							)
+						);
+					} else {
+						this.$nextTick(
+							this.tiredsharts(
+								'itf',
+								'ITF（在线率）',
+								this.itflist,
+								'id'
+							)
+						);
+					}
 				})
 				.catch((error) => {});
 		},
@@ -1608,9 +1639,24 @@ export default {
 					} else {
 						this.$message.error(res.errMsg);
 					}
-					this.$nextTick(
-						this.tiredsharts('otf', 'OTF（离线率）', this.otflist)
-					);
+					if (params.ipfsId == '*') {
+						this.$nextTick(
+							this.tiredsharts(
+								'otf',
+								'OTF（离线率）',
+								this.otflist
+							)
+						);
+					} else {
+						this.$nextTick(
+							this.tiredsharts(
+								'otf',
+								'OTF（离线率）',
+								this.otflist,
+								'id'
+							)
+						);
+					}
 				})
 				.catch((error) => {});
 		},
@@ -1710,13 +1756,24 @@ export default {
 					} else {
 						this.$message.error(res.errMsg);
 					}
-					this.$nextTick(
-						this.tiredsharts(
-							'rcnt',
-							'RCNT（重连计数）',
-							this.rcntlist
-						)
-					);
+					if (params.ipfsId == '*') {
+						this.$nextTick(
+							this.tiredsharts(
+								'rcnt',
+								'RCNT（重连计数）',
+								this.rcntlist
+							)
+						);
+					} else {
+						this.$nextTick(
+							this.tiredsharts(
+								'rcnt',
+								'RCNT（重连计数）',
+								this.rcntlist,
+								'id'
+							)
+						);
+					}
 				})
 				.catch((error) => {});
 		},
@@ -2664,8 +2721,14 @@ export default {
 			myChart2.clear();
 			myChart2.setOption(options);
 		},
-		tiredsharts(id, titlename, datas) {
-			let legdata = '节点' + titlename + '平均值';
+		tiredsharts(id, titlename, datas, ds) {
+			//ds 判断节点id
+			let legdata = '';
+			if (ds == 'id') {
+				legdata = '节点' + titlename;
+			} else {
+				legdata = '节点' + titlename + '平均值';
+			}
 			let _this = this;
 			let maxnum = 100;
 			if (datas.length > 0) {

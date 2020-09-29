@@ -1975,8 +1975,14 @@ export default {
 						barWidth: 30, //柱图宽度
 						data: this.storeUsageArray,
 						smooth: true,
+						// itemStyle: {
+						// 	normal: {
+						// 		color: '#09b0f5',
+						// 	},
+						// },
 						itemStyle: {
 							normal: {
+								label: { show: true },
 								color: '#09b0f5',
 							},
 						},
