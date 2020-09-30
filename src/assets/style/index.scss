@@ -224,15 +224,13 @@ body {
     margin-right: 1%;
 }
 
-.two_menu,
-.two_menu_tit .el-submenu__title {
-    padding-left: 60px !important;
-}
-
-.there_menu {
-    padding-left: 80px !important;
-}
-
+// .two_menu,
+// .two_menu_tit .el-submenu__title {
+//     padding-left: 60px !important;
+// }
+// .there_menu {
+//     padding-left: 80px !important;
+// }
 .node_user_title .el-tabs__nav-wrap::after {
     background: none !important;
 }
@@ -260,4 +258,12 @@ body {
 .el-button--warning {
     background-color: #FFCC33;
     border-color: #FFCC33;
+}
+
+.el-submenu .el-menu-item {
+    height: auto;
+}
+
+.el-tooltip {
+    padding-left: 10px !important;
 }

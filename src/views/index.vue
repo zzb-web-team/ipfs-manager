@@ -46,7 +46,9 @@
 				</el-col>
 			</el-col>
 			<el-col :span="24" class="main">
-				<el-aside :class="isCollapse ? 'menu-collapsed' : 'menu-expanded'">
+				<el-aside
+					:class="isCollapse ? 'menu-collapsed' : 'menu-expanded'"
+				>
 					<el-menu
 						:default-active="$route.path"
 						class="el-menu-vertical-demo"
@@ -56,6 +58,9 @@
 						unique-opened
 						router
 						:collapse="isCollapse"
+						:show-timeout="50"
+						:hide-timeout="50"
+						:collapse-transition="false"
 					>
 						<!-- 一级菜单 -->
 						<template v-for="item in menlist">
@@ -70,12 +75,15 @@
 									item.children && item.children.length != 0
 								"
 								:index="item.path"
-								:key="item.path"
+								:key="item.id"
 								style="text-align: left;"
+								v-show="item.hidden != 1"
 							>
 								<template slot="title">
 									<i :class="item.icon"></i>
-									<span>{{ item.name }}</span>
+									<span style="margin-left:10px;">{{
+										item.name
+									}}</span>
 								</template>
 
 								<!-- 二级菜单 -->
@@ -132,7 +140,9 @@
 								style="text-align: left;"
 							>
 								<i :class="item.icon"></i>
-								<span slot="title">{{ item.name }}</span>
+								<span slot="title" style="margin-left:10px;">{{
+									item.name
+								}}</span>
 							</el-menu-item>
 						</template>
 					</el-menu>
@@ -141,9 +151,7 @@
 					<div class="grid-content bg-purple-light">
 						<el-col :span="24" class="content-wrapper">
 							<transition name="fade" mode="out-in">
-								<router-view
-									:style="con_h"
-								></router-view>
+								<router-view :style="con_h"></router-view>
 							</transition>
 						</el-col>
 					</div>
@@ -260,9 +268,9 @@ export default {
 	width: 100%;
 	margin: 0 auto;
 	.header {
+		box-shadow: 0 2px 8px 0 #000000;
 		height: 60px;
 		line-height: 60px;
-		//	background: $color-primary;
 		color: #000;
 		background: #1572e8;
 		.userinfo {
@@ -365,9 +373,11 @@ export default {
 			// top: 0px;
 			// bottom: 0px;
 			// left: 230px;
+			margin-top: 10px;
+			margin-left: 10px;
 			overflow-y: scroll;
 			overflow-x: scroll;
-			padding: 20px;
+			padding: 10px 20px 20px 10px;
 			.breadcrumb-container {
 				//margin-bottom: 15px;
 				float: none !important;
@@ -394,5 +404,28 @@ export default {
 
 /deep/el-submenu {
 	text-align: center;
+}
+.el-menu-item.is-active {
+	box-shadow: 0px 6px 10px 6px transparentize(#1572e8, 0.7);
+	color: #ffffff;
+	background-color: #1572e8;
+	border-radius: 12px;
+	margin: 0 10px;
+	margin-bottom: 10px;
+}
+
+.el-submenu__title:hover {
+	border-radius: 12px;
+	margin: 0 10px;
+}
+.el-icon-arrow-down:before {
+	content: '\25B2';
+}
+.el-submenu__title {
+	box-sizing: border-box;
+	padding: 0 12px;
+}
+.el-aside {
+	box-shadow: 2px 0 6px 0 #00000024;
 }
 </style>

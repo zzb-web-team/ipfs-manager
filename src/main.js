@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 import ElementUI from 'element-ui';
 import "./assets/icon_font/iconfont.css";
+import "./assets/icon_font2/iconfont.css";
 import axios from "axios";
 import store from './vuex/store';
 
