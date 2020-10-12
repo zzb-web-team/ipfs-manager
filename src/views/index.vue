@@ -169,7 +169,7 @@ export default {
 			collapsed: false,
 			sysUserName: '',
 			sysUserAvatar: '',
-			isCollapse: true,
+			isCollapse: false,
 			form: {
 				name: '',
 				region: '',
@@ -268,7 +268,7 @@ export default {
 	width: 100%;
 	margin: 0 auto;
 	.header {
-		box-shadow: 0 2px 8px 0 #000000;
+		box-shadow: 0 2px 8px 0 #0000008c;
 		height: 60px;
 		line-height: 60px;
 		color: #000;

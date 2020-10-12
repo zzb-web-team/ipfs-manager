@@ -235,29 +235,33 @@ export default {
 							let arrlist = [1, 2, 3, 4, 5, 6];
 
 							res.data.forEach((item) => {
-								if (item.name == 'IPFS节点信息') {
+								if (
+									item.name == 'IPFS节点信息' ||
+									item.name == '节点信息'
+								) {
+									item.name = 'IPFS节点信息';
 									arrlist[0] = item;
 								} else if (item.name == 'IPFS节点控制台') {
 									arrlist[1] = item;
-									// arrlist[1].children[0].children.push({
-									//     children: [],
-									// 	component: 'center_demo',
-									// 	delete_status: 0,
-									// 	export_status: 0,
-									// 	hidden: 0,
-									// 	icon: '',
-									// 	id: 100,
-									// 	import_status: 0,
-									// 	insert_status: 0,
-									// 	name: '新区位分布',
-									// 	path: '/center_demo',
-									// 	pid: 10,
-									// 	read_status: 1,
-									// 	roleR: 1,
-									// 	time_create: 0,
-									// 	time_update: 0,
-									// 	update_status: 0,
-									// })
+									arrlist[1].children[0].children.push({
+									    children: [],
+										component: 'center_demo',
+										delete_status: 0,
+										export_status: 0,
+										hidden: 0,
+										icon: '',
+										id: 100,
+										import_status: 0,
+										insert_status: 0,
+										name: '区位分布',
+										path: '/center_demo',
+										pid: 10,
+										read_status: 1,
+										roleR: 1,
+										time_create: 0,
+										time_update: 0,
+										update_status: 0,
+									})
 								} else if (item.name == 'IPFS节点应用') {
 									arrlist[2] = item;
 								} else if (item.name == 'IPFS节点收益') {
@@ -274,25 +278,25 @@ export default {
 									arrlist[5] = item;
 									//这几行代码是修改菜单功能--禁止删除
 
-									arrlist[5].children.push({
-										children: [],
-										component: 'menu_management',
-										delete_status: 0,
-										export_status: 0,
-										hidden: 0,
-										icon: '',
-										id: 100,
-										import_status: 0,
-										insert_status: 0,
-										name: '菜单管理',
-										path: '/menu_management',
-										pid: 30,
-										read_status: 1,
-										roleR: 1,
-										time_create: 0,
-										time_update: 0,
-										update_status: 0,
-									});
+									// arrlist[5].children.push({
+									// 	children: [],
+									// 	component: 'menu_management',
+									// 	delete_status: 0,
+									// 	export_status: 0,
+									// 	hidden: 0,
+									// 	icon: '',
+									// 	id: 100,
+									// 	import_status: 0,
+									// 	insert_status: 0,
+									// 	name: '菜单管理',
+									// 	path: '/menu_management',
+									// 	pid: 30,
+									// 	read_status: 1,
+									// 	roleR: 1,
+									// 	time_create: 0,
+									// 	time_update: 0,
+									// 	update_status: 0,
+									// });
 								} else {
 									// arrlist[6] = {
 									// 	children: [],
@@ -311,8 +315,8 @@ export default {
 									// 	time_create: 0,
 									// 	time_update: 0,
 									// 	update_status: 0,
-                                    // };
-                                    arrlist.push(item);
+									// };
+									arrlist.push(item);
 								}
 							});
 							for (var i = 0; i < arrlist.length; i++) {

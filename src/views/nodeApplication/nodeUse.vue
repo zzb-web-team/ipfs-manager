@@ -1081,12 +1081,12 @@ export default {
 					if (res.status == 0) {
 						this.avgDataFlowUtily = res.data;
 						this.ipDataFlow = (res.data.avgFlowUse * 100).toFixed(
-							2
+							4
 						);
 						this.fsDataFlow = (res.data.avgStoreUse * 100).toFixed(
-							2
+							4
 						);
-						this.pingDataFlow = (res.data.average * 100).toFixed(2);
+						this.pingDataFlow = (res.data.average * 100).toFixed(4);
 						this.get_ip_table();
 					} else {
 						this.$message.error(res.errMsg);
@@ -1790,7 +1790,7 @@ export default {
 						data: this.avgDataFlowUtily.avgFlowArray.map(function(
 							item
 						) {
-							return (item * 100).toFixed(2);
+							return (item * 100).toFixed(4);
 						}),
 						type: 'line',
 						symbol: 'none',
@@ -1806,7 +1806,7 @@ export default {
 						data: this.avgDataFlowUtily.avgStoreArray.map(function(
 							item
 						) {
-							return (item * 100).toFixed(2);
+							return (item * 100).toFixed(4);
 						}),
 						type: 'line',
 						symbol: 'none',
@@ -1822,7 +1822,7 @@ export default {
 						data: this.avgDataFlowUtily.avgArray.map(function(
 							item
 						) {
-							return (item * 100).toFixed(2);
+							return (item * 100).toFixed(4);
 						}),
 						type: 'line',
 						symbol: 'none',

@@ -7,12 +7,13 @@
 			</el-breadcrumb-item>
 		</el-breadcrumb>
 		<!-- 搜索框 -->
-		<el-row type="flex" class="row-bg" justify="start">
+		<el-row type="flex" class="row-bg" justify="start" style="white-space:nowrap;">
 			<el-col :span="3"
 				><el-input
 					placeholder="请输入节点IP，节点ID"
 					v-model="seachinput"
 					@keyup.enter.native="seachipfs()"
+                    style="width:100%;"
 				>
 					<i
 						slot="suffix"
@@ -20,23 +21,22 @@
 						@click="seachipfs"
 					></i> </el-input
 			></el-col>
-			<el-col :span="3"
+			<el-col :span="8"
 				><span>节点区域：</span>
 				<el-cascader
-					style="width:150px;"
+					style="width:100%;max-width: 200px;"
 					placeholder="请选择区域"
 					v-model="value1"
 					:options="citylist"
 					@change="provinceChange"
 				></el-cascader
-			></el-col>
-			<el-col :span="4"
-				><span>节点城市:</span>
-				<el-select
+			>
+            <el-select
 					v-model="city_detil"
 					placeholder="请选择城市"
 					@change="handleChange()"
 					:disabled="city_disable"
+                    style="width:100%;max-width: 200px;"
 				>
 					<el-option
 						v-for="(item, index) in options_city"
@@ -44,13 +44,15 @@
 						:label="item.name"
 						:value="item.name"
 					></el-option> </el-select
-			></el-col>
+			>
+            </el-col>
 			<el-col :span="7"
 				><span>节点渠道商:</span>
 				<el-select
 					v-model="firstchid"
 					placeholder="一级渠道商"
 					@change="handleChangefirst($event)"
+                    style="width:100%;max-width: 200px;"
 				>
 					<el-option value="" label="全部"></el-option>
 					<el-option
@@ -65,6 +67,7 @@
 					placeholder="二级渠道商"
 					@change="handleChange()"
 					:disabled="chil_disable"
+                    style="width:100%;max-width: 200px;"
 				>
 					<el-option value="" label="全部"></el-option>
 					<el-option
