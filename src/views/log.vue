@@ -297,7 +297,7 @@ export default {
 									// 	time_update: 0,
 									// 	update_status: 0,
 									// };
-									arrlist.push(item);
+									// arrlist.push(item);
 								}
 							});
 							for (var i = 0; i < arrlist.length; i++) {
