@@ -9,7 +9,7 @@ if (href.indexOf('xyj.grapefruitcloud.com') >= 0) {
 } else {
     var serverUrl = 'http://zzb.onezen.net';
 }
-var serverUrl = 'http://service.kclgames.com'; //PHP服务域名
+// var serverUrl = 'http://service.kclgames.com'; //PHP服务域名
 
 //服务器监控
 /**获取微服务信息 */

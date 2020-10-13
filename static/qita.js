@@ -886,7 +886,7 @@
                 }
             }, {
                 type: "Feature",
-                properties: { name: "中国属钓鱼岛" },
+                properties: { name: "钓鱼岛" },
                 geometry: {
                     type: "MultiPolygon",
                     coordinates: [

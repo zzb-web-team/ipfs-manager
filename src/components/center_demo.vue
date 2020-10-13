@@ -7,7 +7,7 @@
 		</el-breadcrumb> -->
 		<div id="new_echarts_two"></div>
 		<div id="alertmosewindowtital">
-			<center>节点分布</center>
+			<center>节点分布数量</center>
 			<span>{{ city_name }}{{ node_num }}</span>
 		</div>
 	</div>
@@ -36,6 +36,17 @@ export default {
 			city_name: '',
 			node_num: 0,
 			subtitle: '',
+			color_list: [],
+			c_arr: [
+				'#FFFFCC55',
+				'#CCFFFF55',
+				'#CC66FF55',
+				'#66FFCC55',
+				'#00FFFF55',
+				'#FFCC6655',
+				'#33FF6655',
+			],
+			city_arr: [],
 		};
 	},
 	props: {
@@ -73,12 +84,40 @@ export default {
 		},
 	},
 	mounted() {
+		this.getseachinput();
 		this.city_num = this.citylist.length;
-		this.citylist.forEach((item, index) => {
-			this.getdalsit(item, this.page, index + 1);
-		});
 	},
 	methods: {
+		//请求数据----获取搜索条件
+		getseachinput() {
+			axios.get('../../static/city.json').then((res) => {
+				this.city_arr = res.data.provinces;
+				this.citylist.forEach((item, index) => {
+					this.set_echarts_item_color(item, index);
+					this.getdalsit(item, this.page, index + 1);
+				});
+			});
+		},
+		set_echarts_item_color(data, num) {
+			let that = this;
+			that.city_arr.forEach((item) => {
+				if (item.provinceName == data) {
+					item.citys.forEach((dls) => {
+						let obj = {};
+						obj.name = dls.citysName;
+						obj.itemStyle = {
+							normal: {
+								opacity: 0.8, // 透明度
+								borderColor: '#8e8e8e', // 省份界线颜色
+								borderWidth: 0.5, // 省份界线的宽度
+								areaColor: that.c_arr[num], // 整个省份的颜色
+							},
+						};
+						that.color_list.push(obj);
+					});
+				}
+			});
+		},
 		getdalsit(sctyes, page, req_num) {
 			let parmas = new Object();
 			parmas.province = sctyes;
@@ -91,10 +130,14 @@ export default {
 						}
 						this.datalist = this.datalist.concat(res.data.result);
 						if (res.data.remaining == 0) {
+							let city_node_num = 0;
+							this.datalist.forEach((item, index) => {
+								city_node_num += item[2];
+							});
 							this.subtitle +=
 								parmas.province +
 								':' +
-								res.data.total +
+								city_node_num +
 								'\n' +
 								'\n';
 							if (req_num == this.city_num) {
@@ -160,14 +203,14 @@ export default {
 				geo: [
 					{
 						map: _this.first_city,
-						roam: false,
-						zoom: 1.2,
+						roam: true,
+						zoom: 1,
 						label: {
 							normal: {
 								show: true,
 								areaColor: '#ffffff',
 								borderColor: '#111',
-								textStyle: { color: '#6e6e6e' }, //字体颜色
+								textStyle: { color: '#6e6e6e', fontSize: 12 }, //字体颜色
 							},
 							emphasis: {
 								show: false,
@@ -178,7 +221,7 @@ export default {
 							normal: {
 								show: false,
 								areaColor: '#ffffff',
-								borderWidth: 4, //省份的边框宽度
+								borderWidth: 1, //省份的边框宽度
 								borderColor: '#8e8e8e', //边框颜色
 							},
 							emphasis: {
@@ -189,13 +232,14 @@ export default {
 					},
 					{
 						map: _this.first_city,
-						roam: false,
-						zoom: 1.2,
+						roam: true,
+						zoom: 1,
+						regions: _this.color_list,
 						itemStyle: {
 							normal: {
 								show: false,
 								areaColor: '#ffffff',
-								borderWidth: 0.5, //省份的边框宽度
+								borderWidth: 0.3, //省份的边框宽度
 								borderColor: '#C0C0C0', //边框颜色
 							},
 							emphasis: {
@@ -216,8 +260,13 @@ export default {
 						data: data.sort(function(a, b) {
 							return b.value[2] - a.value[2];
 						}),
+						//控制散点的直径
 						symbolSize: function(val) {
-							return val[2] / 0.5;
+							if (val[2] <= 10) {
+								return val[2] / 0.8;
+							} else {
+								return 23;
+							}
 						},
 						showEffectOn: 'render',
 						rippleEffect: {
@@ -251,15 +300,14 @@ export default {
 			// });
 			myChart.on('mouseover', function(params) {
 				// _this.city_name = params.name;
-				// console.log(myChart.getOption());
 				let flag = params.value;
+				// console.log(myChart.getOption());
 				if (flag) {
 					_this.node_num = flag[2];
 					let event = params.event;
 					let offsetx = event.offsetX;
 					let offsety = event.offsetY;
 					let imii = document.getElementById('alertmosewindowtital');
-					console.log(imii);
 					imii.style.left = offsetx + 260 + 'px';
 					imii.style.top = offsety - 10 + 'px';
 					imii.style.display = 'inline';

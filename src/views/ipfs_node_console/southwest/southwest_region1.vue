@@ -1,225 +1,49 @@
 <template>
 	<div class="content">
-		<!-- 面包屑  -->
-		<!-- <div class="bread_crumbs">
-			<el-breadcrumb separator="/">
-				<el-breadcrumb-item>
-					<a>西南地区</a>
-				</el-breadcrumb-item>
-				<el-breadcrumb-item>
-					<a>IPFS节点网络分布</a>
-				</el-breadcrumb-item>
-			</el-breadcrumb>
-		</div> -->
-
-		<!-- 标题 -->
-		<div class="ipfs_title">{{ location_name }}</div>
-		<div class="ipfs_con">
-			<div class="ipfs_con_left">区域节点分布</div>
-			<div class="ipfs_con_right">
-				<span
-					:class="[rotate == 0 ? 'bluma' : 'eema']"
-					@click="setmap_show('0')"
-					class="setmap_btn"
-					>贵州</span
-				>
-				<span
-					:class="[rotate == 1 ? 'bluma' : 'eema']"
-					@click="setmap_show('1')"
-					class="setmap_btn"
-					>云南</span
-				><span
-					:class="[rotate == 2 ? 'bluma' : 'eema']"
-					@click="setmap_show('2')"
-					class="setmap_btn"
-					>重庆</span
-				><span
-					:class="[rotate == 3 ? 'bluma' : 'eema']"
-					@click="setmap_show('3')"
-					class="setmap_btn"
-					>四川</span
-				><span
-					:class="[rotate == 4 ? 'bluma' : 'eema']"
-					@click="setmap_show('4')"
-					class="setmap_btn"
-					>西藏</span
-				>
-			</div>
-		</div>
-		<div class="ipfs_title_next" v-if="rotate == 0">
-			<div class="maptitle">节点区域分布（贵州）</div>
-			<remap :datalist="datalist" :citys="citys"></remap>
-		</div>
-		<div class="ipfs_title_next" v-if="rotate == 1">
-			<div class="maptitle">节点区域分布（云南）</div>
-			<remap :datalist="datalist" :citys="citys"></remap>
-		</div>
-		<div class="ipfs_title_next" v-if="rotate == 2">
-			<div class="maptitle">节点区域分布（重庆）</div>
-			<remap :datalist="datalist" :citys="citys"></remap>
-		</div>
-		<div class="ipfs_title_next" v-if="rotate == 3">
-			<div class="maptitle">节点区域分布（四川）</div>
-			<remap :datalist="datalist" :citys="citys"></remap>
-		</div>
-		<div class="ipfs_title_next" v-if="rotate == 4">
-			<div class="maptitle">节点区域分布（西藏）</div>
-			<remap :datalist="datalist" :citys="citys"></remap>
-		</div>
+		<remap
+			:citylist="citylist"
+			:area="area"
+			:first_city="first_city"
+		></remap>
 	</div>
 </template>
 
 <script>
-import remap from '../../../components/thermal_map';
-// import demo2 from "../../../components/demo2";
-import { query_node, node_distribute } from '../../../servers/api';
+import remap from '../../../components/center_demo';
 export default {
 	data() {
 		return {
-			location_name: '西南区域',
-			rotate: 0,
-			datalist: [],
-			citys: '贵州',
+			// citylist: ['北京', '内蒙古', '山西', '河北', '天津'],
+			// first_city: '北京',
+			// area: '华北区域',
+			// citylist: ['广东', '广西', '海南'],
+			// first_city: '广东',
+			// area: '华南区域',
+			// citylist: ['福建', '江苏', '安徽', '山东', '上海', '浙江'],
+			// first_city: '福建',
+			// area: '华东区域',
+			// citylist: ['河南', '湖北', '江西', '湖南'],
+			// first_city: '河南',
+			// area: '华中区域',
+			// citylist: ['宁夏', '陕西', '甘肃', '青海', '新疆'],
+			// first_city: '宁夏',
+			// area: '西北区域',
+			// citylist: ['黑龙江', '吉林', '辽宁'],
+			// first_city: '黑龙江',
+			// area: '东北区域',
+			citylist: ['贵州', '云南', '重庆', '四川', '西藏'],
+			first_city: '贵州',
+			area: '西南区域',
+			// citylist: ['香港', '澳门', '台湾'],
+			// first_city: '香港',
+			// area: '其他区域',
+			city_num: 0,
+			city_name: '',
+			node_num: 0,
 		};
 	},
 	components: {
 		remap,
-		// demo2
-	},
-	mounted() {
-        if (sessionStorage.getItem('southwest_region')) {
-			this.setmap_show(
-				JSON.parse(sessionStorage.getItem('southwest_region'))
-			);
-		} else {
-		this.getdalsit('贵州');
-		}
-	},
-	methods: {
-		getdalsit(sctyes) {
-			let parmas = new Object();
-			parmas.province = sctyes;
-			parmas.page = 0;
-			node_distribute(parmas)
-				.then((res) => {
-					if (res.status == 0) {
-						if (res.data.result.length > 0) {
-							if (parmas.page == 0) {
-								this.datalist = [];
-							}
-							res.data.result.forEach((item, index) => {
-								let obj = {};
-								obj.lng = item[1];
-								obj.lat = item[0];
-								if (item[3]) {
-									obj.count = item[3];
-								} else {
-									obj.count = 1;
-								}
-								this.datalist.push(obj);
-							});
-							this.$forceUpdate();
-						} else {
-							this.$message('暂无数据');
-						}
-					} else {
-						this.$message.error(res.err_msg);
-					}
-				})
-				.catch((err) => {});
-		},
-		setmap_show(num) {
-			this.rotate = 100;
-			this.$nextTick(() => {
-				this.rotate = parseInt(num);
-			});
-			if (num == 0) {
-				this.citys = '贵州';
-			} else if (num == 1) {
-				this.citys = '云南';
-			} else if (num == 2) {
-				this.citys = '重庆';
-			} else if (num == 3) {
-				this.citys = '四川';
-			} else if (num == 4) {
-				this.citys = '西藏';
-			} else {
-				this.citys = '贵州';
-			}
-sessionStorage.setItem('southwest_region', JSON.stringify(num));
-			this.getdalsit(this.citys);
-			this.$forceUpdate();
-		},
-    },
-    destroyed: function() {
-		sessionStorage.removeItem('southwest_region');
 	},
 };
 </script>
-
-<style lang="scss" scoped>
-.content {
-	background: rgb(255, 255, 255);
-	// margin: 30px;
-	.bread_crumbs {
-		width: 100%;
-		padding-bottom: 37px;
-		font-size: 26px;
-	}
-	.ipfs_title {
-		padding-left: 37px;
-		text-align: left;
-		color: #1c2e32;
-		font-size: 24px;
-		font-weight: bold;
-		margin-bottom: 45px;
-	}
-	.ipfs_con {
-		height: 50px;
-		line-height: 50px;
-		display: flex;
-		padding: 0 37px;
-		.ipfs_con_left {
-			color: #1c2e32;
-			font-size: 22px;
-			margin-right: 80px;
-		}
-		.ipfs_con_right {
-			.setmap_btn {
-				margin-right: 20px;
-				font-size: 16px;
-				color: #999999;
-			}
-		}
-	}
-	.ipfs_title_next {
-		// width: 100%;
-
-		padding-left: 126px;
-		padding-right: 126px;
-		padding-bottom: 126px;
-		text-align: left;
-		.maptitle {
-			text-align: center;
-			margin-bottom: 30px;
-			font-size: 22px;
-			color: #000000;
-		}
-	}
-}
-.eema {
-	width: 55px;
-	color: #919191;
-	line-height: 20px;
-	display: inline-block;
-	line-height: 30px;
-}
-.bluma {
-	width: 55px;
-	color: #919191;
-	line-height: 20px;
-	display: inline-block;
-	line-height: 30px;
-	border-bottom: #64a7fc 3px solid;
-}
-</style>
