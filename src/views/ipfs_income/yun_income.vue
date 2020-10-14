@@ -1,40 +1,24 @@
 <template>
-	<div class="content">
-		<!-- 头部搜索栏 -->
-		<el-breadcrumb separator="/">
-			<el-breadcrumb-item>
-				<a>节点收益明细</a>
-			</el-breadcrumb-item>
-		</el-breadcrumb>
-		<div class="search">
-			<el-row type="flex">
+	<div class="content yun_income">
+		<div class="search rowbg">
+			<div class="item_title">节点收益明细</div>
+			<el-row type="flex" style="align-items: center;">
 				<el-input
 					style="width:15%;"
 					placeholder="请输入节点id,节点ip"
 					v-model="input"
+					size="small"
 					class="input-with-select"
 					@keyup.enter.native="seachuser()"
 				>
 					<i
-						slot="suffix"
+						slot="prefix"
 						class="el-input__icon el-icon-search"
 						@click="seachuser()"
 					></i>
 				</el-input>
-				<div @click="getShow()" class="div_show" style="color:#606266">
-					筛选
-					<i
-						class="el-icon-caret-bottom"
-						:class="[
-							rotate
-								? 'fa fa-arrow-down go'
-								: 'fa fa-arrow-down aa',
-						]"
-					></i>
-				</div>
-			</el-row>
-			<div class="search_bottom" v-show="showState">
-				<span>时间：</span>
+
+				<span style="margin-left:10px;">时间：</span>
 				<el-date-picker
 					v-model="time_value"
 					type="daterange"
@@ -42,12 +26,14 @@
 					start-placeholder="开始日期"
 					end-placeholder="结束日期"
 					@change="seachuser()"
+					size="small"
 					:picker-options="endPickerOptions"
 				></el-date-picker>
-				<span>节点渠道商:</span>
+				<span style="margin-left:10px;">节点渠道商:</span>
 				<el-select
 					v-model="firstchid"
 					value-key
+					size="small"
 					placeholder="一级渠道商"
 					@change="handleChangefirst($event)"
 				>
@@ -61,9 +47,11 @@
 				</el-select>
 				<el-select
 					v-model="secondchid"
+					size="small"
 					placeholder="二级渠道商"
 					@change="seachuser()"
 					:disabled="chil_disable"
+                    style="margin-left:10px;"
 				>
 					<el-option value="*" label="全部"></el-option>
 					<el-option
@@ -76,31 +64,37 @@
 
 				<el-button
 					type="primary"
-					plain
+					round
+					size="small"
 					@click="reset()"
-					style="margin-left: 20px;"
+					class="resetseach_btn"
+					style="margin-left: 10px;"
 					>重置</el-button
 				>
-			</div>
+			</el-row>
 		</div>
 		<!-- 主体表格 -->
-		<div>
+		<div
+			style="box-sizing: border-box;margin: 30px;padding: 30px;background: #ffffff;border-radius: 8px;"
+		>
 			<div
 				style="text-align:right;padding: 10px 0;display: flex;justify-content: space-between;"
 			>
 				<el-button
 					type="primary"
 					size="small"
+					plain
 					@click="goupdate_parameter()"
 					>调整收益参数</el-button
 				>
 				<el-button
 					v-show="menutype.roleE == 1"
-					type="primary"
+					type="text"
+					size="mini"
 					@click="exportexc()"
 					:disabled="showdisable"
-					>导出</el-button
-				>
+					>导出<i class="el-icon-folder-add el-icon--right"></i
+				></el-button>
 			</div>
 			<el-table
 				:data="tableData"
@@ -110,7 +104,7 @@
 				@sort-change="tablechange"
 				style="width: 100%"
 			>
-				<el-table-column prop="nodeId" label="节点ID"></el-table-column>
+				<!-- <el-table-column prop="nodeId" label="节点ID"></el-table-column> -->
 				<el-table-column prop="IP" label="节点IP"></el-table-column>
 				<el-table-column
 					prop="firstch"
@@ -144,16 +138,13 @@
 					prop="H"
 					label="节点当日算力"
 				></el-table-column>
-				<el-table-column
-					prop="S"
-					label="当日节点质量评级"
-				>
-                <template slot-scope="scope">
-                    <span>
-                        --
-                    </span>
-                </template>
-                </el-table-column>
+				<el-table-column prop="S" label="当日节点质量评级">
+					<template slot-scope="scope">
+						<span>
+							--
+						</span>
+					</template>
+				</el-table-column>
 				<el-table-column
 					prop="devCount"
 					label="主机设备数量[单位:台][同一终端地址]"
@@ -174,22 +165,32 @@
 				</el-table-column>
 				<el-table-column prop="flow" label="节点当日实际使用流量">
 					<template slot-scope="scope">
-						<span>{{ scope.row.flow |bkb }}</span>
+						<span>{{ scope.row.flow | bkb }}</span>
 					</template>
 				</el-table-column>
+                	<el-table-column prop="nodeId" label="节点ID">
+						<template slot-scope="scope">
+							<el-button
+								@click="show_nodeid(scope.row)"
+								type="text"
+								size="small"
+								>查看</el-button
+							>
+						</template>
+					</el-table-column>
 				<el-table-column prop="startTS" sortable label="时间">
 					<template slot-scope="scope">{{ scope.row.date }}</template>
 				</el-table-column>
 			</el-table>
+			<fenye
+				v-show="tableData.length > 0"
+				style="text-align: right;margin: 20px 0px 10px;"
+				@fatherMethod="getpage"
+				@fathernum="gettol"
+				:pagesa="totalCnt"
+				:currentPage="currentPage"
+			></fenye>
 		</div>
-		<fenye
-			v-show="tableData.length > 0"
-			style="text-align: right;margin: 20px 0px 10px;"
-			@fatherMethod="getpage"
-			@fathernum="gettol"
-			:pagesa="totalCnt"
-			:currentPage="currentPage"
-		></fenye>
 	</div>
 </template>
 
@@ -202,8 +203,8 @@ import {
 	setbatime,
 	dateFormat,
 	menudisable,
-    zhuanbkbs,
-    formatDuring
+	zhuanbkbs,
+	formatDuring,
 } from '../../servers/sevdate';
 import { node_pf_detail, export_excel, get_nodetype_enum } from '@/servers/api';
 export default {
@@ -298,7 +299,7 @@ export default {
 			this.chil_disable = true;
 			let day1 = new Date();
 			let day2 = new Date();
-			day1.setTime(day1.getTime() -7* 24 * 60 * 60 * 1000);
+			day1.setTime(day1.getTime() - 7 * 24 * 60 * 60 * 1000);
 			day2.setTime(day2.getTime() - 24 * 60 * 60 * 1000);
 			let s1 =
 				day1.getFullYear() +
@@ -327,8 +328,7 @@ export default {
 						this.$message.error(res.err_msg);
 					}
 				})
-				.catch((error) => {
-				});
+				.catch((error) => {});
 		},
 		//收益
 		get_income_list() {
@@ -385,8 +385,15 @@ export default {
 					//     this.$message.error(res.errMsg);
 					// }
 				})
-				.catch((error) => {
-				});
+				.catch((error) => {});
+        },
+        //查看节点id
+		show_nodeid(val) {
+			this.$alert(val.nodeId, '节点ID', {
+				showCancelButton: false,
+				showConfirmButton: false,
+				callback: (action) => {},
+			});
 		},
 		goupdate_parameter() {
 			this.$router.push({ path: '/update_parameter' });
@@ -472,8 +479,7 @@ export default {
 						this.$message.error(res.err_msg);
 					}
 				})
-				.catch((error) => {
-				});
+				.catch((error) => {});
 		},
 		//排序
 		tablechange(column) {
@@ -496,7 +502,7 @@ export default {
 		},
 		// 表头样式设置
 		headClass() {
-			return 'text-align: center;background:#eef1f6;';
+			return 'text-align: center;background:#eeeeee;';
 		},
 		// 表格样式设置
 		rowClass() {
@@ -509,9 +515,9 @@ export default {
 <style lang="scss" scoped>
 .content {
 	text-align: left;
+	background: #f6f6f6;
 	.search {
 		width: 100%;
-		margin-top: 20px;
 		// display: flex;
 		// align-items: center;
 		.div_show {

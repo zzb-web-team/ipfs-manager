@@ -1,12 +1,12 @@
 <template>
-	<section class="myself-container content">
+	<section class="myself-container content nodeuser">
 		<div class="user-title" style="display: flex;flex-flow: column;">
 			<!-- <el-breadcrumb separator="/">
 				<el-breadcrumb-item>
 					<a>节点利用率</a>
 				</el-breadcrumb-item>
 			</el-breadcrumb> -->
-			<div style="margin-top:10px;">
+			<div>
 				<el-tabs
 					v-model="activeName"
 					@tab-click="handleClick"
@@ -17,18 +17,25 @@
 						<!--  -->
 
 						<div
-							style="display: flex;flex-flow: row;"
-							class="seach_top"
+							class="rowbg"
 						>
+                        <div class="item_title">节点收益明细</div>
 							<el-input
 								v-model="input"
 								placeholder="请输入节点ID"
 								style="width: 15%;"
+								size="small"
 								@keyup.enter.native="onseach"
-							></el-input>
+							>
+                            <i
+						slot="prefix"
+						class="el-input__icon el-icon-search"
+						@click="onseach()"
+					></i></el-input>
 							<el-select
 								v-model="firstvalue"
 								placeholder="节点一级渠道"
+								size="small"
 								style="margin-left:10px;width: 8%;"
 								@change="handleChangefirst($event)"
 							>
@@ -43,6 +50,7 @@
 							<el-select
 								v-model="secondvalue"
 								placeholder="节点二级渠道"
+								size="small"
 								style="margin-left:10px;width: 8%;"
 								:disabled="chil_disable"
 								@change="onseach"
@@ -58,6 +66,7 @@
 							<el-select
 								v-model="devtypevalue"
 								placeholder="硬件类型"
+								size="small"
 								style="margin-left:10px;width: 8%;"
 								@change="onseach"
 							>
@@ -73,6 +82,7 @@
 								style="margin-left:10px;width: 8%;"
 								placeholder="请选择区域"
 								v-model="valuea"
+								size="small"
 								:options="optionsafs"
 								@change="seach_operce_ip"
 							></el-cascader>
@@ -80,6 +90,7 @@
 								:disabled="city_disable_ip"
 								v-model="valueb"
 								placeholder="请选择城市"
+								size="small"
 								style="margin-left:10px;width: 8%;"
 								@change="onseach()"
 							>
@@ -95,6 +106,7 @@
 							<el-select
 								v-model="ispvalue"
 								placeholder="网络线路"
+								size="small"
 								style="margin-left:10px;width: 8%;"
 								@change="onseach"
 							>
@@ -109,6 +121,7 @@
 							<el-radio-group
 								v-show="zidingyi == false"
 								v-model="radio"
+								size="small"
 								@change="change_time('ip')"
 								style="margin-right:10px;margin-left:10px;"
 							>
@@ -131,6 +144,7 @@
 							<el-button
 								@click="showpicker"
 								v-if="zidingyi == true"
+								size="small"
 								style="margin-right:10px;margin-left:10px;"
 								type="primary"
 								>自定义</el-button
@@ -142,38 +156,45 @@
 								type="daterange"
 								:picker-options="pickerOptions"
 								range-separator="至"
+								size="small"
 								start-placeholder="开始日期"
 								end-placeholder="结束日期"
 								align="left"
 								@change="onseach"
 							>
 							</el-date-picker>
-							<el-button type="primary" @click="onseach"
+							<!-- <el-button
+								type="primary"
+								@click="onseach"
+								size="small"
 								>查询</el-button
-							>
+							> -->
 						</div>
 						<!--  -->
 						<el-row style="margin-top:20px;" class="overview">
-							<el-col :span="5">
+							<el-col :span="8">
 								<div class="user-item">
 									<div class="item-count">
-										{{ ipDataFlow }}%
+										<!-- {{ ipDataFlow }}% -->
+                                        <el-progress type="circle" :width=110 :percentage="ipDataFlow"></el-progress>
 									</div>
 									<div class="item-text">流量利用率</div>
 								</div>
 							</el-col>
-							<el-col :span="5" style="margin-left:30px;">
+							<el-col :span="8">
 								<div class="user-item">
 									<div class="item-count">
-										{{ fsDataFlow }}%
+										<!-- {{ fsDataFlow }}% -->
+                                        <el-progress type="circle" :width=110 :percentage="fsDataFlow"></el-progress>
 									</div>
 									<div class="item-text">存储利用率</div>
 								</div>
 							</el-col>
-							<el-col :span="5" style="margin-left:30px;">
+							<el-col :span="8">
 								<div class="user-item">
 									<div class="item-count">
-										{{ pingDataFlow }}%
+										<!-- {{ pingDataFlow }}% -->
+                                         <el-progress type="circle" :width=110 :percentage="pingDataFlow"></el-progress>
 									</div>
 									<div class="item-text">平均利用率</div>
 								</div>
@@ -2011,8 +2032,10 @@ export default {
 
 <style lang="scss" scoped>
 .myself-container {
+    overflow: hidden;
 	.overview {
 		.user-item {
+            background-color: #fff;
 			.item-count {
 				font-size: 24px;
 			}

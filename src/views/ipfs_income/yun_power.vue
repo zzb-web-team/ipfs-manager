@@ -1,10 +1,12 @@
 <template>
-	<div class="content">
-		<el-breadcrumb separator="/">
+	<div class="content yun_power">
+		<!-- <el-breadcrumb separator="/">
 			<el-breadcrumb-item>
 				<a>云链节点算力</a>
 			</el-breadcrumb-item>
-		</el-breadcrumb>
+		</el-breadcrumb> -->
+        <div class="rowbg">
+            <!-- <div class="item_title">节点收益明细</div> -->
 		<div class="top_table">
 			<el-radio-group v-model="radio" size="small" @change="switch_table">
 				<el-radio-button label="1">算力值</el-radio-button>
@@ -12,43 +14,26 @@
 			</el-radio-group>
 		</div>
 		<div class="search">
-			<el-row type="flex">
+			<el-row type="flex" style="align-items: center;">
 				<el-input
 					style="width:15%;"
 					placeholder="请输入节点ip,节点id"
 					v-model="input"
 					class="input-with-select"
+                    size="small"
 					@keyup.enter.native="seachuser()"
 				>
 					<i
-						slot="suffix"
+						slot="prefix"
 						class="el-input__icon el-icon-search"
 						@click="seachuser()"
 					></i>
 				</el-input>
-				<div @click="getShow()" class="div_show" style="color:#606266">
-					筛选
-					<i
-						class="el-icon-caret-bottom"
-						:class="[
-							rotate
-								? 'fa fa-arrow-down go'
-								: 'fa fa-arrow-down aa',
-						]"
-					></i>
-				</div>
-			</el-row>
-			<el-row
-				style="margin-top: 20px;"
-				type="flex"
-				v-show="showState"
-				class="showsearch"
-			>
-				<div class="search_bottom">
-					<span>节点渠道商:</span>
+                					<span style="margin-left:10px;">节点渠道商:</span>
 					<el-select
 						v-model="firstchid"
 						value-key
+                        size="small"
 						placeholder="一级渠道商"
 						@change="handleChangefirst($event)"
 					>
@@ -64,6 +49,8 @@
 						v-model="secondchid"
 						placeholder="二级渠道商"
 						@change="seachuser()"
+                        size="small"
+                        style="margin-left:10px;"
 						:disabled="chil_disable"
 					>
 						<el-option value="*" label="全部"></el-option>
@@ -74,36 +61,40 @@
 							:value="item.value"
 						></el-option>
 					</el-select>
-					<span v-if="radio == '2'">时间：</span>
+					<span v-if="radio == '2'" style="margin-left:10px;">时间：</span>
 					<el-date-picker
 						v-if="radio == '2'"
 						v-model="time_value"
 						type="daterange"
 						range-separator="至"
+                        size="small"
 						start-placeholder="开始日期"
 						end-placeholder="结束日期"
 						@change="seachuser()"
 						:picker-options="endPickerOptions"
 					></el-date-picker>
-				</div>
 				<el-button
 					type="primary"
-					plain
+					round
+					size="small"
 					@click="reset()"
-					style="margin-left: 20px;"
+					style="margin-left: 10px;"
+                    class="resetseach_btn"
 					>重置</el-button
 				>
 			</el-row>
 		</div>
-
-		<div>
+        </div>
+		<div style="box-sizing: border-box;margin: 30px;padding: 30px;background: #ffffff;border-radius: 8px;">
 			<div style="text-align:right;padding: 10px;" v-if="radio == '1'">
 				<el-button
 					v-show="menutype.roleE == 1"
-					type="primary"
+					type="text"
+					size="mini"
 					@click="exportexc()"
 					:disabled="showdisable1"
-					>导出</el-button
+					>导出<i class="el-icon-folder-add el-icon--right"></i
+				></el-button
 				>
 			</div>
 			<div style="text-align:right;padding: 10px;" v-if="radio == '2'">
@@ -188,24 +179,18 @@
 						label="当日离线次数"
 					></el-table-column>
 					<el-table-column
-						prop="HChange"
-						label="算力变化值"
-					></el-table-column>
-					<el-table-column
 						prop="behavior"
 						label="行为"
+					></el-table-column>
+					<el-table-column
+						prop="HChange"
+						label="算力变化值"
 					></el-table-column>
 					<el-table-column
 						prop="H"
 						label="当前算力"
 					>
                     </el-table-column>
-					<el-table-column prop="startTS" sortable label="时间">
-						<template slot-scope="scope">{{
-							scope.row.date
-						}}</template>
-					</el-table-column>
-                    	</el-table-column>
 			        <el-table-column label="节点ID">
                         <template slot-scope="scope">
                             <el-button
@@ -216,9 +201,14 @@
                             >
                         </template>
 			        </el-table-column>
+					<el-table-column prop="startTS" sortable label="时间">
+						<template slot-scope="scope">{{
+							scope.row.date
+						}}</template>
+					</el-table-column>
+
 				</el-table>
 			</div>
-		</div>
 		<fenye
 			style="text-align: right;margin: 20px 0px 10px;"
 			@fatherMethod="getpage"
@@ -226,6 +216,7 @@
 			:pagesa="totalCnt"
 			:currentPage="currentPage"
 		></fenye>
+		</div>
 	</div>
 </template>
 
@@ -646,7 +637,7 @@ export default {
 		},
 		// 表头样式设置
 		headClass() {
-			return 'text-align: center;background:#eef1f6;height:59px;';
+			return 'text-align: center;background:#eeeeee;height:59px;';
 		},
 		// 表格样式设置
 		rowClass() {

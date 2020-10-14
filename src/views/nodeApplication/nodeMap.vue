@@ -1,10 +1,5 @@
 <template>
 	<div class="content">
-		<el-breadcrumb separator="/">
-			<el-breadcrumb-item>
-				<a>全国节点分布</a>
-			</el-breadcrumb-item>
-		</el-breadcrumb>
 		<div class="top_search">
 			<el-row>
 				<el-col :span="5">
@@ -80,10 +75,10 @@
 				></el-cascader>
 			</el-row>
 		</div>
-		<div style="display: flex;" class="mapdal" v-show="maplist.length > 0">
+		<div class="nodemap_echarts">
 			<div
 				id="myChartChina"
-				:style="{ width: '100%', height: '800px' }"
+				:style="{ width: '100%', height: '700px' }"
 			></div>
 			<!-- <div>
 				<ol>
@@ -107,28 +102,27 @@
 					</li>
 				</ol>
 			</div> -->
-			<div class="el_tab">
-				<el-table
-					:data="maplist"
-					:cell-style="rowClass"
-					:header-cell-style="headClass"
-					style="width: 100%"
-					height="700"
-					fixed
-					@cell-click="clicktan"
+		</div>
+		<div class="el_tab">
+			<el-table
+				:data="maplist"
+				:cell-style="rowClass"
+				:header-cell-style="headClass"
+				style="width: 100%"
+				fixed
+				@cell-click="clicktan"
+			>
+				<el-table-column
+					v-for="(item, key) in dev_ytpe_lists"
+					:key="key"
+					:prop="item.value"
+					:label="item.name"
+					width="150"
+					:fixed="item.name == '省市' ? true : false"
 				>
-					<el-table-column
-						v-for="(item, key) in dev_ytpe_lists"
-						:key="key"
-						:prop="item.value"
-						:label="item.name"
-						width="150"
-						:fixed="item.name == '省市' ? true : false"
-					>
-						<template slot="header">{{ item.name }}</template>
-					</el-table-column>
-				</el-table>
-			</div>
+					<template slot="header">{{ item.name }}</template>
+				</el-table-column>
+			</el-table>
 		</div>
 	</div>
 </template>
@@ -435,8 +429,8 @@ export default {
 			let northwest_list = ['宁夏', '陕西', '甘肃', '青海', '新疆'];
 			let northeast_list = ['黑龙江', '吉林', '辽宁'];
 			let southwest_list = ['贵州', '云南', '重庆', '四川', '西藏'];
-            let other_list = ['香港', '澳门', '台湾'];
-            let qu="-1";
+			let other_list = ['香港', '澳门', '台湾'];
+			let qu = '-1';
 			if (north_list.indexOf(row.name) >= 0) {
 				qu = '华北';
 			} else if (south_list.indexOf(row.name) >= 0) {
@@ -608,7 +602,7 @@ export default {
 			var myChartContainer = document.getElementById('myChartChina');
 			var resizeMyChartContainer = function() {
 				myChartContainer.style.width =
-					document.body.offsetWidth / 2 + 'px'; //页面一半的大小
+					document.body.offsetWidth - 420 + 'px'; //页面一半的大小
 			};
 			resizeMyChartContainer();
 			var myChartChina = this.$echarts.init(myChartContainer);
@@ -618,6 +612,11 @@ export default {
 			}
 			// 绘制图表
 			var optionMap = {
+				title: {
+					text: '全国节点分布',
+                    x: 'center',
+                    padding: 50
+				},
 				tooltip: {},
 				legend: {
 					orient: 'vertical',
@@ -768,9 +767,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// .content {
-// 	min-width: 1920px;
-// }
+.content {
+	height: auto;
+	background-color: #f6f6f6;
+	box-sizing: border-box;
+	padding: 30px;
+}
 .top_search {
 	text-align: left;
 	margin-top: 20px;
@@ -787,74 +789,16 @@ export default {
 	// 	margin-left: 0;
 	// }
 }
-.mapdal {
-	ol {
-		// width: 700px;
-		min-width: 345px;
-		max-width: 700px;
-		height: 700px;
-		overflow-y: auto;
-		border: 1px solid #eeeeee;
-		overflow-x: scroll;
-	}
-	ol > li {
-		width: 100%;
-		height: 45px;
-		line-height: 45px;
-		display: flex;
-		// justify-content: space-between;
-		// align-items: center;
-		white-space: nowrap;
-		// overflow-x: auto; /*可滑动*/
-		// overflow-y: hidden;
-		// border: 1px solid black;
-		text-align: center;
-		margin-top: -2px;
-		// border-collapse:collapse;
-		.conname_tit {
-			flex-shrink: 0;
-			text-align: center;
-			width: 115px;
-			font-size: 14px;
-			overflow: hidden;
-			text-overflow: ellipsis;
-			white-space: nowrap;
-			// border: 1px solid #7d7d7d;
-			background: #eeeeee;
-			// border-collapse:collapse;
-		}
-		.conname {
-			flex-shrink: 0;
-			text-align: center;
-			width: 115px;
-			font-size: 14px;
-			overflow: hidden;
-			text-overflow: ellipsis;
-			white-space: nowrap;
-			border-bottom: 1px solid #eeeeee;
-			// border: 1px solid #7d7d7d;
-			// border-collapse:collapse;s
-		}
-		.conname:first-child,
-		.conname_tit:first-child {
-			text-align: center;
-			padding-left: 10px;
-		}
-		.conname:last-child,
-		.conname_tit:last-child {
-			padding-right: 10px;
-		}
-	}
-	li:hover {
-		background-color: #d6d6d6;
-	}
-	.tab_title {
-		margin-top: 0;
-	}
+.nodemap_echarts {
+	background-color: #ffffff;
+	border-radius: 8px;
 }
 .el_tab {
-	width: 100%;
-	min-width: 345px;
-	max-width: 775px;
+    width: 100%;
+    margin-top: 24px;
+	background-color: #ffffff;
+    border-radius: 8px;
+    box-sizing: border-box;
+    padding: 30px;
 }
 </style>

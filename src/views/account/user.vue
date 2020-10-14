@@ -605,7 +605,7 @@ export default {
     }, 
     // 表头样式设置
     headClass() {
-      return "text-align: center;background:#eef1f6;";
+      return "text-align: center;background:#eeeeee;";
     },
     // 表格样式设置
     rowClass() {

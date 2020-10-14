@@ -7,10 +7,13 @@
 					class="logo"
 					:class="isCollapse ? 'logo-collapse-width' : 'logo-width'"
 				>
-					<div @click="show_menu">
+					<div
+						@click="show_menu"
+						style="display: flex;justify-content: space-between;align-items: center;"
+					>
 						<span
 							v-show="!isCollapse"
-							style="fontSize:20px;color:#ffffff"
+							style="fontSize:16px;color:#ffffff;font-weight: 400;"
 							>IPFS节点后台</span
 						>
 						<i
@@ -21,7 +24,7 @@
 						<i
 							class="el-icon-s-fold"
 							v-show="isCollapse"
-							style="font-size:18px;"
+							style="font-size:18px;line-height: 60px;"
 						></i>
 					</div>
 				</el-col>
@@ -268,7 +271,7 @@ export default {
 	width: 100%;
 	margin: 0 auto;
 	.header {
-		box-shadow: 0 2px 8px 0 #0000008c;
+		box-shadow: 0px 4px 10px 0px #3333331a;
 		height: 60px;
 		line-height: 60px;
 		color: #000;
@@ -292,7 +295,7 @@ export default {
 		.logo {
 			//width:230px;
 			height: 60px;
-			font-size: 22px;
+			font-size: 18px;
 			padding-left: 20px;
 			padding-right: 20px;
 			border-color: #eef1924d;
@@ -373,11 +376,11 @@ export default {
 			// top: 0px;
 			// bottom: 0px;
 			// left: 230px;
-			margin-top: 10px;
-			margin-left: 10px;
+			// margin-top: 10px;
+			margin-left: 0px;
 			overflow-y: scroll;
 			overflow-x: scroll;
-			padding: 10px 20px 20px 10px;
+			padding: 0px;
 			.breadcrumb-container {
 				//margin-bottom: 15px;
 				float: none !important;
@@ -394,7 +397,7 @@ export default {
 			}
 			.content-wrapper {
 				// background-color: #272731;
-				box-sizing: border-box;
+				// box-sizing: border-box;
 				// color: #ffffff;
 				margin: auto;
 			}

@@ -730,7 +730,7 @@ export default {
 		},
 		// 表头样式设置
 		headClass() {
-			return 'text-align: left;background:#eef1f6;';
+			return 'text-align: left;background:#eeeeee;';
 		},
 		// 表格样式设置
 		rowClass() {

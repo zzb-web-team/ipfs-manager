@@ -203,7 +203,7 @@ export default {
 				geo: [
 					{
 						map: _this.first_city,
-						roam: true,
+						roam: false,
 						zoom: 1,
 						label: {
 							normal: {
@@ -232,7 +232,7 @@ export default {
 					},
 					{
 						map: _this.first_city,
-						roam: true,
+						roam: false,
 						zoom: 1,
 						regions: _this.color_list,
 						itemStyle: {

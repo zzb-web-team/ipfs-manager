@@ -1,30 +1,37 @@
 <template>
-	<section class="myself-container content">
+	<section class="myself-container content application" ref="con_right">
 		<div class="user-title" style="display: flex;flex-flow: column;">
-			<el-breadcrumb separator="/">
-				<el-breadcrumb-item>
-					<a>节点应用统计</a>
-				</el-breadcrumb-item>
-			</el-breadcrumb>
-
-			<div style="margin-top:10px;">
-				<el-tabs v-model="activeName" @tab-click="handleClick">
-					<el-tab-pane label="IP流量" name="first">
-						<!--  -->
-
-						<div
-							style="display: flex;flex-flow: row;"
-							class="seach_top"
-						>
+			<div class="rowbg">
+				<div class="top_table">
+					<el-radio-group
+						v-model="tab_radio"
+						size="small"
+						@change="switch_table"
+					>
+						<el-radio-button label="1">算力值</el-radio-button>
+						<el-radio-button label="2">算力明细</el-radio-button>
+					</el-radio-group>
+					<div
+						v-if="tab_radio == '1'"
+						style="width: 100%;margin-top: 20px;"
+					>
+						<el-row type="flex" style="align-items: center;">
 							<el-input
 								v-model="input"
 								placeholder="请输入节点ID"
 								style="width: 15%;"
+								size="small"
 								@keyup.enter.native="onseach"
+								><i
+									slot="prefix"
+									class="el-input__icon el-icon-search"
+									@click="onseach()"
+								></i
 							></el-input>
 							<el-select
 								v-model="firstvaluea"
 								placeholder="节点一级渠道"
+								size="small"
 								style="margin-left:10px;width: 8%;"
 								@change="handleChangefirst($event)"
 							>
@@ -39,6 +46,7 @@
 							<el-select
 								v-model="secondvalue"
 								placeholder="节点二级渠道"
+								size="small"
 								style="margin-left:10px;width: 8%;"
 								:disabled="chil_disable"
 								@change="onseach"
@@ -54,6 +62,7 @@
 							<el-select
 								v-model="devtypevalue"
 								placeholder="设备类型"
+								size="small"
 								style="margin-left:10px;width: 8%;"
 								@change="onseach"
 							>
@@ -69,11 +78,13 @@
 								style="margin-left:10px;width: 9%;"
 								placeholder="请选择区域"
 								v-model="valuea"
+								size="small"
 								:options="optionsafs"
 								@change="seach_operce"
 							></el-cascader>
 							<el-select
 								v-model="valueb"
+								size="small"
 								placeholder="请选择城市"
 								style="margin-left:10px;width: 8%;"
 								@change="onseach"
@@ -90,6 +101,7 @@
 							<el-select
 								v-model="ispvalue"
 								placeholder="网络线路"
+								size="small"
 								style="margin-left:10px;width: 8%;"
 								@change="onseach"
 							>
@@ -101,16 +113,12 @@
 									:value="item.name"
 								></el-option>
 							</el-select>
-							<el-button-group
-								class="bantlist"
-								style="margin:0 10px;"
-							>
-							</el-button-group>
 							<el-radio-group
 								v-show="zidingyi == false"
 								v-model="radio"
+								size="small"
 								@change="change_time('ip')"
-								style="margin-right:10px;"
+								style="margin-left:10px;"
 							>
 								<el-radio-button label="0"
 									>今天</el-radio-button
@@ -129,9 +137,10 @@
 								>
 							</el-radio-group>
 							<el-button
-								style="margin-right:10px;"
+								style="margin-right:10px;margin-left:10px;"
 								type="primary"
 								@click="showpicker"
+								size="small"
 								v-if="zidingyi == true"
 								>自定义</el-button
 							>
@@ -139,6 +148,7 @@
 								v-if="zidingyi == true"
 								style="margin-right:10px;"
 								v-model="value2"
+								size="small"
 								type="daterange"
 								:picker-options="pickerOptions"
 								range-separator="至"
@@ -147,60 +157,191 @@
 								align="left"
 								@change="onseach"
 							></el-date-picker>
-							<el-button type="primary" @click="onseach"
-								>查询</el-button
-							>
-						</div>
-						<!--  -->
-						<el-row style="margin-top:20px;">
-							<el-col :span="5">
-								<div class="user-item">
-									<div class="item-text">累计使用流量</div>
-									<div class="item-count">
-										{{ totalDataFlow | zhuanbkb }}
-									</div>
-								</div>
-							</el-col>
-							<el-col :span="5" style="margin-left:30px;">
-								<div class="user-item">
-									<div class="item-text">累计传输次数</div>
-									<div class="item-count">
-										{{ totalOutputCnt }}次
-									</div>
-								</div>
-							</el-col>
-							<!-- <el-col :span="5" style="margin-left:30px;">
-                <div class="user-item">
-                  <div class="item-count">21.66MB/s</div>
-                  <div class="item-text">带宽峰值</div>
-                </div>
-              </el-col>-->
 						</el-row>
-						<div class="device_form">
-							<el-button
-								class="ip_upload_btn"
-								@click="ip_upload"
-								type="text"
-								size="medium"
-								v-show="menutype.roleE == 1"
+					</div>
+					<div
+						v-if="tab_radio == '2'"
+						style="width: 100%;margin-top: 20px;"
+					>
+						<el-row type="flex" style="align-items: center;">
+							<el-input
+								v-model="inputfs"
+								placeholder="请输入节点ID"
+								size="small"
+								style="width: 10%;width: 15%;"
+								@keyup.enter.native="onseach('fs')"
+								><i
+									slot="prefix"
+									class="el-input__icon el-icon-search"
+									@click="onseach('fs')"
+								></i
+							></el-input>
+							<el-select
+								v-model="firstvaluea_fs"
+								placeholder="节点一级渠道"
+								size="small"
+								style="margin-left:10px;width: 8%;"
+								@change="handleChangefirst_fs($event)"
 							>
-								<i class="el-icon-download"></i>
-							</el-button>
-							<div
-								id="myChart"
-								:style="{ height: '300px' }"
-							></div>
-						</div>
-						<div class="devide_table">
-							<el-row type="flex" class="row_active">
-								<el-col
-									:span="24"
-									style="text-align:left;    font-weight: bold;"
-									>IP流量表</el-col
+								<el-option value="*" label="全部"></el-option>
+								<el-option
+									v-for="(item, index) in firstchan"
+									:key="item.name + index"
+									:label="item.name"
+									:value="item.value"
+								></el-option>
+							</el-select>
+							<el-select
+								v-model="secondvalue_fs"
+								placeholder="节点二级渠道"
+								size="small"
+								style="margin-left:10px;width: 8%;"
+								:disabled="chil_disable_fs"
+								@change="onseach('fs')"
+							>
+								<el-option value="*" label="全部"></el-option>
+								<el-option
+									v-for="(item, index) in secondchan"
+									:key="item.name + index"
+									:label="item.name"
+									:value="item.value"
 								>
-							</el-row>
-							<el-row type="flex" class="row_active">
-								<el-col :span="24">
+								</el-option>
+							</el-select>
+							<el-select
+								v-model="devtypevalue_fs"
+								placeholder="设备类型"
+								size="small"
+								style="margin-left:10px;width: 8%;"
+								@change="onseach('fs')"
+							>
+								<el-option value="*" label="全部"></el-option>
+								<el-option
+									v-for="(item, index) in device_type"
+									:key="item.name + index"
+									:label="item.name"
+									:value="item.name"
+								></el-option>
+							</el-select>
+							<el-cascader
+								style="margin-left:10px;width: 9%;"
+								placeholder="请选择区域"
+								size="small"
+								v-model="valueafs"
+								:options="optionsafs"
+								@change="seach_operce_fs"
+							></el-cascader>
+							<el-select
+								v-model="valuebfs"
+								placeholder="请选择城市"
+								size="small"
+								style="margin-left:10px;width: 8%;"
+								@change="onseach('fs')"
+								:disabled="city_disable_fs"
+							>
+								<el-option
+									v-for="(item, index) in optionsbfs"
+									:key="index"
+									:label="item.name"
+									:value="item.name"
+								></el-option>
+							</el-select>
+							<el-select
+								v-model="ispvalue_fs"
+								placeholder="网络线路"
+								size="small"
+								style="margin-left:10px;width: 8%;"
+								@change="onseach('fs')"
+							>
+								<el-option value="*" label="全部"></el-option>
+								<el-option
+									v-for="(item, index) in isp"
+									:key="item.name + index"
+									:label="item.name"
+									:value="item.name"
+								></el-option>
+							</el-select>
+							<el-radio-group
+								v-show="zidingyifs == false"
+								v-model="radio"
+								size="small"
+								@change="change_time('fs')"
+								style="margin-left:10px;"
+							>
+								<el-radio-button label="0"
+									>今天</el-radio-button
+								>
+								<el-radio-button label="1"
+									>昨天</el-radio-button
+								>
+								<el-radio-button label="2"
+									>近7天</el-radio-button
+								>
+								<el-radio-button label="3"
+									>近30天</el-radio-button
+								>
+								<el-radio-button label="4"
+									>自定义</el-radio-button
+								>
+							</el-radio-group>
+							<el-button
+								@click="showpickerfs"
+								v-if="zidingyifs == true"
+								style="margin-right:10px;margin-left:10px;"
+								type="primary"
+								size="small"
+								>自定义</el-button
+							>
+							<el-date-picker
+								v-if="zidingyifs == true"
+								style="margin-right:10px;"
+								v-model="value2fs"
+								type="daterange"
+								:picker-options="pickerOptions"
+								range-separator="至"
+								start-placeholder="开始日期"
+								end-placeholder="结束日期"
+								align="left"
+								size="small"
+								@change="onseach('fs')"
+							></el-date-picker>
+						</el-row>
+					</div>
+				</div>
+			</div>
+			<div>
+				<el-tabs v-model="activeName" @tab-click="handleClick">
+					<el-tab-pane label="IP流量" name="first">
+						<el-row style="margin:0 30px;">
+							<el-col :span="9">
+								<el-row
+									type="flex"
+									style="margin-top:24px;margin-bottom:24px;"
+								>
+									<el-col>
+										<div class="user-item">
+											<div class="item-text">
+												累计使用流量
+											</div>
+											<div class="item-count">
+												{{ totalDataFlow | zhuanbkb }}
+											</div>
+										</div>
+									</el-col>
+									<el-col style="margin-left:30px;">
+										<div class="user-item">
+											<div class="item-text">
+												累计传输次数
+											</div>
+											<div class="item-count">
+												{{ totalOutputCnt }}次
+											</div>
+										</div>
+									</el-col>
+								</el-row>
+								<div
+									style="box-sizing: border-box;padding: 24px;background: #ffffff;border-radius: 8px;overflow: hidden;"
+								>
 									<el-table
 										:data="tableData"
 										:cell-style="rowClass"
@@ -252,199 +393,73 @@
 											</template>
 										</el-table-column>
 									</el-table>
-								</el-col>
-							</el-row>
-							<fenye
-								style="float:right;margin:10px 0 20px 0;"
-								@fatherMethod="getpage"
-								@fathernum="gettol"
-								:pagesa="totalCnt"
-								:currentPage="currentPage"
-							></fenye>
-						</div>
-					</el-tab-pane>
-					<el-tab-pane label="FS存储" name="second">
-						<!--  -->
-
-						<div
-							style="display: flex;flex-flow: row;"
-							class="seach_top"
-						>
-							<el-input
-								v-model="inputfs"
-								placeholder="请输入节点ID"
-								style="width: 10%;width: 15%;"
-								@keyup.enter.native="onseach('fs')"
-							></el-input>
-							<el-select
-								v-model="firstvaluea_fs"
-								placeholder="节点一级渠道"
-								style="margin-left:10px;width: 8%;"
-								@change="handleChangefirst_fs($event)"
-							>
-								<el-option value="*" label="全部"></el-option>
-								<el-option
-									v-for="(item, index) in firstchan"
-									:key="item.name + index"
-									:label="item.name"
-									:value="item.value"
-								></el-option>
-							</el-select>
-							<el-select
-								v-model="secondvalue_fs"
-								placeholder="节点二级渠道"
-								style="margin-left:10px;width: 8%;"
-								:disabled="chil_disable_fs"
-								@change="onseach('fs')"
-							>
-								<el-option value="*" label="全部"></el-option>
-								<el-option
-									v-for="(item, index) in secondchan"
-									:key="item.name + index"
-									:label="item.name"
-									:value="item.value"
-								>
-								</el-option>
-							</el-select>
-							<el-select
-								v-model="devtypevalue_fs"
-								placeholder="设备类型"
-								style="margin-left:10px;width: 8%;"
-								@change="onseach('fs')"
-							>
-								<el-option value="*" label="全部"></el-option>
-								<el-option
-									v-for="(item, index) in device_type"
-									:key="item.name + index"
-									:label="item.name"
-									:value="item.name"
-								></el-option>
-							</el-select>
-							<el-cascader
-								style="margin-left:10px;width: 9%;"
-								placeholder="请选择区域"
-								v-model="valueafs"
-								:options="optionsafs"
-								@change="seach_operce_fs"
-							></el-cascader>
-							<el-select
-								v-model="valuebfs"
-								placeholder="请选择城市"
-								style="margin-left:10px;width: 8%;"
-								@change="onseach('fs')"
-								:disabled="city_disable_fs"
-							>
-								<el-option
-									v-for="(item, index) in optionsbfs"
-									:key="index"
-									:label="item.name"
-									:value="item.name"
-								></el-option>
-							</el-select>
-							<el-select
-								v-model="ispvalue_fs"
-								placeholder="网络线路"
-								style="margin-left:10px;width: 8%;"
-								@change="onseach('fs')"
-							>
-								<el-option value="*" label="全部"></el-option>
-								<el-option
-									v-for="(item, index) in isp"
-									:key="item.name + index"
-									:label="item.name"
-									:value="item.name"
-								></el-option>
-							</el-select>
-							<el-radio-group
-								v-show="zidingyifs == false"
-								v-model="radio"
-								@change="change_time('fs')"
-								style="margin-right:10px;margin-left:10px;"
-							>
-								<el-radio-button label="0"
-									>今天</el-radio-button
-								>
-								<el-radio-button label="1"
-									>昨天</el-radio-button
-								>
-								<el-radio-button label="2"
-									>近7天</el-radio-button
-								>
-								<el-radio-button label="3"
-									>近30天</el-radio-button
-								>
-								<el-radio-button label="4"
-									>自定义</el-radio-button
-								>
-							</el-radio-group>
-							<el-button
-								@click="showpickerfs"
-								v-if="zidingyifs == true"
-								style="margin-right:10px;margin-left:10px;"
-								type="primary"
-								>自定义</el-button
-							>
-							<el-date-picker
-								v-if="zidingyifs == true"
-								style="margin-right:10px;"
-								v-model="value2fs"
-								type="daterange"
-								:picker-options="pickerOptions"
-								range-separator="至"
-								start-placeholder="开始日期"
-								end-placeholder="结束日期"
-								align="left"
-								@change="onseach('fs')"
-							></el-date-picker>
-							<el-button type="primary" @click="onseach('fs')"
-								>查询</el-button
-							>
-						</div>
-
-						<!--  -->
-						<el-row style="margin-top:20px;">
-							<el-col :span="5">
-								<div class="user-item">
-									<div class="item-text">累计存储容量</div>
-									<div class="item-count">
-										{{ totalStoreUsage | zhuanbkb }}
-									</div>
+									<fenye
+										style="margin:10px 0 20px 0;"
+										@fatherMethod="getpage"
+										@fathernum="gettol"
+										:pagesa="totalCnt"
+										:currentPage="currentPage"
+									></fenye>
 								</div>
 							</el-col>
-							<el-col :span="5" style="margin-left:30px;">
-								<div class="user-item">
-									<div class="item-text">累计存储次数</div>
-									<div class="item-count">
-										{{ totalStoreTimes }}次
-									</div>
+							<el-col :span="15">
+								<div class="device_form">
+									<el-button
+										class="ip_upload_btn"
+										@click="ip_upload"
+										type="text"
+										size="medium"
+										v-show="menutype.roleE == 1"
+									>
+										<i class="el-icon-download"></i>
+									</el-button>
+									<div
+										id="myChart"
+										:style="{ height: scrollerHeight }"
+									></div>
 								</div>
 							</el-col>
 						</el-row>
-						<div class="device_form">
-							<el-button
-								class="ip_upload_btn"
-								@click="fs_upload"
-								type="text"
-								size="medium"
-								v-show="menutype.roleE == 1"
-							>
-								<i class="el-icon-download"></i>
-							</el-button>
-							<div
-								id="myChart1"
-								:style="{ height: '300px' }"
-							></div>
-						</div>
-						<div class="devide_table">
+
+						<!-- <div class="devide_table">
 							<el-row type="flex" class="row_active">
 								<el-col
 									:span="24"
-									style="text-align:left;font-weight: bold;"
-									>FS存储表</el-col
+									style="text-align:left;    font-weight: bold;"
+									>IP流量表</el-col
 								>
 							</el-row>
 							<el-row type="flex" class="row_active">
-								<el-col :span="24">
+								<el-col :span="24"> </el-col>
+							</el-row>
+						</div> -->
+					</el-tab-pane>
+					<el-tab-pane label="FS存储" name="second">
+						<el-row style="margin:0 30px;">
+							<el-col :span="9">
+								<el-row type="flex" style="margin-top:24px;margin-bottom:24px;">
+									<el-col>
+										<div class="user-item">
+											<div class="item-text">
+												累计存储容量
+											</div>
+											<div class="item-count">
+												{{ totalStoreUsage | zhuanbkb }}
+											</div>
+										</div>
+									</el-col>
+									<el-col style="margin-left:30px;">
+										<div class="user-item">
+											<div class="item-text">
+												累计存储次数
+											</div>
+											<div class="item-count">
+												{{ totalStoreTimes }}次
+											</div>
+										</div>
+									</el-col>
+								</el-row>
+								<div style="box-sizing: border-box;padding: 24px;background: #ffffff;border-radius: 8px;overflow: hidden;">
 									<el-table
 										:data="fs_tableData"
 										:cell-style="rowClass"
@@ -497,16 +512,47 @@
 											</template>
 										</el-table-column>
 									</el-table>
-								</el-col>
-							</el-row>
-							<fenye
-								style="float:right;margin:10px 0 20px 0;"
-								@fatherMethod="getpagefs"
-								@fathernum="gettolfs"
-								:pagesa="fs_totalCnt"
-								:currentPage="fs_currentPage"
-							></fenye>
+									<fenye
+										style="margin:10px 0 20px 0;"
+										@fatherMethod="getpagefs"
+										@fathernum="gettolfs"
+										:pagesa="fs_totalCnt"
+										:currentPage="fs_currentPage"
+									></fenye>
+								</div>
+							</el-col>
+							<el-col :span="15">
+                                <div class="device_form">
+							<el-button
+								class="ip_upload_btn"
+								@click="fs_upload"
+								type="text"
+								size="medium"
+								v-show="menutype.roleE == 1"
+							>
+								<i class="el-icon-download"></i>
+							</el-button>
+							<div
+								id="myChart1"
+								:style="{ height: scrollerHeight }"
+							></div>
 						</div>
+                            </el-col>
+						</el-row>
+
+						
+						<!-- <div class="devide_table">
+							<el-row type="flex" class="row_active">
+								<el-col
+									:span="24"
+									style="text-align:left;font-weight: bold;"
+									>FS存储表</el-col
+								>
+							</el-row>
+							<el-row type="flex" class="row_active">
+								<el-col :span="24"> </el-col>
+							</el-row>
+						</div> -->
 					</el-tab-pane>
 				</el-tabs>
 			</div>
@@ -545,6 +591,7 @@ import {
 export default {
 	data() {
 		return {
+			tab_radio: '1',
 			currentPage: 1,
 			fs_currentPage: 1,
 			activeName: 'first',
@@ -872,7 +919,8 @@ export default {
 			chil_disable_fs: true,
 			menutype: {},
 			ip_tooltip_list: [],
-			fs_tooltip_list: [],
+            fs_tooltip_list: [],
+            scrollerHeight:0
 		};
 	},
 	filters: {
@@ -918,6 +966,10 @@ export default {
 		fenye,
 	},
 	mounted() {
+        this.$nextTick(() => {
+            this.scrollerHeight = this.$refs.con_right.offsetHeight-224+"px";
+            
+		});
 		this.getseachinput();
 		this.get_search_data();
 		if (sessionStorage.getItem('search_condition')) {
@@ -1419,6 +1471,14 @@ export default {
 				.catch((error) => {});
 		},
 		//选项卡
+		switch_table() {
+			if (this.tab_radio == '1') {
+				this.activeName = 'first';
+			} else {
+				this.activeName = 'second';
+			}
+			this.handleClick();
+		},
 		handleClick(tab, event) {
 			this.radio = 0;
 			this.fs_currentPage = 1;
@@ -1448,7 +1508,7 @@ export default {
 			this.ispvalue_fs = '';
 			this.devtypevalue = '';
 			this.ispvalue = '';
-			if (tab.index == '1') {
+			if (this.activeName == 'first') {
 				this.fs_curve();
 			} else {
 				this.ip_curve();
@@ -1809,9 +1869,8 @@ export default {
 				maxnum = num_max;
 			}
 			// 基于准备好的dom，初始化echarts实例
-			let myChart = this.$echarts.init(
-				document.getElementById('myChart')
-			);
+			let domee = document.getElementById('myChart');
+			let myChart = this.$echarts.init(domee);
 			window.onresize = myChart.resize;
 			// 绘制图表
 			let options = {
@@ -1918,9 +1977,8 @@ export default {
 				maxnum = num_max;
 			}
 			// 基于准备好的dom，初始化echarts实例
-			let myChart = this.$echarts.init(
-				document.getElementById('myChart1')
-			);
+			let domee = document.getElementById('myChart1');
+			let myChart = this.$echarts.init(domee);
 			window.onresize = myChart.resize;
 			// 绘制图表
 			let options = {
@@ -2054,15 +2112,19 @@ export default {
 .myself-container {
 	// width: 100%;
 	// min-width: 1600px;
+	overflow: hidden;
 	.device_form {
 		width: auto;
 		height: auto;
 		// overflow: hidden;
-		margin-top: 20px;
+		margin-top: 24px;
 		background: #ffffff;
-		padding: 15px 30px;
+		padding: 24px;
 		box-sizing: border-box;
 		position: relative;
+		box-sizing: border-box;
+		margin-left: 24px;
+		border-radius: 8px;
 		.bottom {
 			margin-top: 20px;
 		}
@@ -2143,8 +2205,8 @@ export default {
 }
 
 .user-title .user-item {
-	background: #409eff;
-	color: #ffffff;
+	background: #ffffff;
+	color: #333333;
 	padding: 0 25px;
 	border-radius: 5px;
 	display: flex;
