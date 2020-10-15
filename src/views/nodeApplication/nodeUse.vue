@@ -16,10 +16,8 @@
 					<el-tab-pane label="节点利用率" name="first">
 						<!--  -->
 
-						<div
-							class="rowbg"
-						>
-                        <div class="item_title">节点收益明细</div>
+						<div class="rowbg">
+							<div class="item_title">节点收益明细</div>
 							<el-input
 								v-model="input"
 								placeholder="请输入节点ID"
@@ -27,11 +25,12 @@
 								size="small"
 								@keyup.enter.native="onseach"
 							>
-                            <i
-						slot="prefix"
-						class="el-input__icon el-icon-search"
-						@click="onseach()"
-					></i></el-input>
+								<i
+									slot="prefix"
+									class="el-input__icon el-icon-search"
+									@click="onseach()"
+								></i
+							></el-input>
 							<el-select
 								v-model="firstvalue"
 								placeholder="节点一级渠道"
@@ -171,37 +170,56 @@
 							> -->
 						</div>
 						<!--  -->
-						<el-row style="margin-top:20px;" class="overview">
-							<el-col :span="8">
-								<div class="user-item">
-									<div class="item-count">
-										<!-- {{ ipDataFlow }}% -->
-                                        <el-progress type="circle" :width=110 :percentage="ipDataFlow"></el-progress>
+						<div
+							style="margin:24px 30px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
+						>
+							<el-row class="overview">
+								<el-col :span="8">
+									<div class="user-item">
+										<div class="item-count">
+											<!-- {{ ipDataFlow }}% -->
+											<el-progress
+												type="circle"
+												:width="90"
+												:percentage="ipDataFlow"
+												color="#177DFF"
+											></el-progress>
+										</div>
+										<div class="item-text">流量利用率</div>
 									</div>
-									<div class="item-text">流量利用率</div>
-								</div>
-							</el-col>
-							<el-col :span="8">
-								<div class="user-item">
-									<div class="item-count">
-										<!-- {{ fsDataFlow }}% -->
-                                        <el-progress type="circle" :width=110 :percentage="fsDataFlow"></el-progress>
+								</el-col>
+								<el-col :span="8">
+									<div class="user-item">
+										<div class="item-count">
+											<!-- {{ fsDataFlow }}% -->
+											<el-progress
+												type="circle"
+												:width="90"
+												:percentage="fsDataFlow"
+												color="#FDAF4B"
+											></el-progress>
+										</div>
+										<div class="item-text">存储利用率</div>
 									</div>
-									<div class="item-text">存储利用率</div>
-								</div>
-							</el-col>
-							<el-col :span="8">
-								<div class="user-item">
-									<div class="item-count">
-										<!-- {{ pingDataFlow }}% -->
-                                         <el-progress type="circle" :width=110 :percentage="pingDataFlow"></el-progress>
+								</el-col>
+								<el-col :span="8">
+									<div class="user-item">
+										<div class="item-count">
+											<!-- {{ pingDataFlow }}% -->
+											<el-progress
+												type="circle"
+												:width="90"
+												:percentage="pingDataFlow"
+												color="#F3545D"
+											></el-progress>
+										</div>
+										<div class="item-text">平均利用率</div>
 									</div>
-									<div class="item-text">平均利用率</div>
-								</div>
-							</el-col>
-						</el-row>
+								</el-col>
+							</el-row>
+						</div>
 						<!--  -->
-						<div class="device_form" style>
+						<div class="device_form">
 							<el-button
 								v-show="menutype.roleE == 1"
 								class="ip_upload_btn"
@@ -212,15 +230,16 @@
 							></el-button>
 							<div
 								id="myChart3"
-								:style="{ height: '300px' }"
+								:style="{ height: '600px', width: '100%' }"
 							></div>
 						</div>
 						<div class="devide_table">
 							<el-row type="flex" class="row_active">
 								<el-col
 									:span="24"
-									style="text-align:left;    font-weight: bold;"
-									>节点利用率</el-col
+									style="text-align:left;"
+									v-show="tabtitle_flow == '使用流量'"
+									>节点利用率表</el-col
 								>
 							</el-row>
 							<el-row type="flex" class="row_active">
@@ -1101,13 +1120,15 @@ export default {
 					this.timeArray = [];
 					if (res.status == 0) {
 						this.avgDataFlowUtily = res.data;
-						this.ipDataFlow = (res.data.avgFlowUse * 100).toFixed(
-							4
+						this.ipDataFlow = Number(
+							(res.data.avgFlowUse * 100).toFixed(4)
 						);
-						this.fsDataFlow = (res.data.avgStoreUse * 100).toFixed(
-							4
+						this.fsDataFlow = Number(
+							(res.data.avgStoreUse * 100).toFixed(4)
 						);
-						this.pingDataFlow = (res.data.average * 100).toFixed(4);
+						this.pingDataFlow = Number(
+							(res.data.average * 100).toFixed(4)
+						);
 						this.get_ip_table();
 					} else {
 						this.$message.error(res.errMsg);
@@ -1735,15 +1756,18 @@ export default {
 			let myChart = echarts.init(document.getElementById('myChart3')); //这里是为了获得容器所在位置
 			window.onresize = myChart.resize;
 			let options = {
-				title: {
-					text: '节点利用率',
-				},
+				// title: {
+				// 	text: '节点利用率',
+				// },
 				legend: {
 					bottom: '2%',
 					data: ['流量利用率', '存储利用率', '平均利用率'],
 				},
 				xAxis: {
 					type: 'category',
+					splitLine: {
+						show: false,
+					},
 					data: this.avgDataFlowUtily.timeArray.map(function(item) {
 						return getday(item);
 					}),
@@ -1791,6 +1815,9 @@ export default {
 					// type: 'value'
 					{
 						type: 'value',
+						splitLine: {
+							show: false, //去掉网格线
+						},
 						axisLabel: {
 							show: true,
 							interval: 'auto',
@@ -1819,7 +1846,21 @@ export default {
 						smooth: true,
 						itemStyle: {
 							normal: {
-								color: '#409EFF',
+								color: '#177DFF',
+							},
+						},
+						areaStyle: {
+							normal: {
+								color: new echarts.graphic.LinearGradient(
+									0,
+									0,
+									0,
+									1,
+									[
+										{ offset: 0, color: '#177DFF55' },
+										{ offset: 1, color: '#ffffff' },
+									]
+								),
 							},
 						},
 					},
@@ -1835,7 +1876,21 @@ export default {
 						smooth: true,
 						itemStyle: {
 							normal: {
-								color: '#bbc40f',
+								color: '#FDAF4B',
+							},
+						},
+						areaStyle: {
+							normal: {
+								color: new echarts.graphic.LinearGradient(
+									0,
+									0,
+									0,
+									1,
+									[
+										{ offset: 0, color: '#FDAF4B55' },
+										{ offset: 1, color: '#ffffff' },
+									]
+								),
 							},
 						},
 					},
@@ -1851,7 +1906,21 @@ export default {
 						smooth: true,
 						itemStyle: {
 							normal: {
-								color: '#09b005',
+								color: '#F3545D',
+							},
+						},
+						areaStyle: {
+							normal: {
+								color: new echarts.graphic.LinearGradient(
+									0,
+									0,
+									0,
+									1,
+									[
+										{ offset: 0, color: '#F3545D55' },
+										{ offset: 1, color: '#ffffff' },
+									]
+								),
 							},
 						},
 					},
@@ -2032,28 +2101,30 @@ export default {
 
 <style lang="scss" scoped>
 .myself-container {
-    overflow: hidden;
+	overflow: hidden;
 	.overview {
 		.user-item {
-            background-color: #fff;
+			background-color: #fff;
 			.item-count {
 				font-size: 24px;
 			}
 			.item-text {
 				height: 18px;
 				line-height: 36px;
+				font-size: 14px;
 			}
 		}
 	}
 	.device_form {
-		width: 100%;
 		height: auto;
 		overflow: hidden;
-		margin-top: 20px;
-		background: #f2f2f2;
-		padding: 15px 30px;
+		margin: 0 30px;
+		background: #ffffff;
+		// padding: 15px 30px;
 		box-sizing: border-box;
 		position: relative;
+        border-radius: 8px;
+        box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);
 		.bottom {
 			margin-top: 20px;
 		}
@@ -2086,11 +2157,14 @@ export default {
 	}
 
 	.devide_table {
-		width: 100%;
+		background: #ffffff;
 		height: auto;
 		overflow: hidden;
-		margin-top: 20px;
-
+		margin: 24px 30px;
+		border-radius: 8px;
+		box-sizing: border-box;
+		padding: 24px;
+		box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);
 		.el-table td,
 		.el-table th {
 			padding: 6px 0px;

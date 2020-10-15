@@ -85,7 +85,7 @@
 			</el-row>
 		</div>
         </div>
-		<div style="box-sizing: border-box;margin: 30px;padding: 30px;background: #ffffff;border-radius: 8px;">
+		<div style="box-sizing: border-box;margin: 30px;padding: 30px;background: #ffffff;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);">
 			<div style="text-align:right;padding: 10px;" v-if="radio == '1'">
 				<el-button
 					v-show="menutype.roleE == 1"

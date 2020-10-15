@@ -80,7 +80,7 @@
 			:visible.sync="dialogFormVisible"
 			customClass="customWidths"
 			@close="handleClose2"
-             :close-on-click-modal="false"
+			:close-on-click-modal="false"
 		>
 			<el-form :model="form" ref="ruleForm">
 				<el-form-item
@@ -106,7 +106,7 @@
 			:visible.sync="recodecisbity"
 			customClass="recustomWidth"
 			@close="handleClose"
-             :close-on-click-modal="false"
+			:close-on-click-modal="false"
 		>
 			<el-form :model="reform" ref="ruleFormre">
 				<el-form-item class="reimg">
@@ -168,9 +168,9 @@ export default {
 		this.userinf = JSON.parse(localStorage.getItem('user_information'));
 		this.ipfs_id = parseInt(this.$cookies.get('ipfs_id'));
 		this.ipfs_user = this.$cookies.get('ipfs_user');
-		if (this.userinf.google == 1 && this.userinf.phone != "") {
+		if (this.userinf.google == 1 && this.userinf.phone != '') {
 			this.grade = '高';
-		} else if (this.userinf.google == 1 && this.userinf.phone == "") {
+		} else if (this.userinf.google == 1 && this.userinf.phone == '') {
 			this.grade = '中';
 		} else {
 			this.grade = '低';
@@ -203,13 +203,13 @@ export default {
 		},
 		//设置二级密码
 		setpwd(num) {
-            this.recodecisbity = true;
+			this.recodecisbity = true;
 			let parmas = new Object();
 			parmas.id = this.ipfs_id + '';
 			if (num != 1) {
 				parmas.code = this.reform.name + '';
 			}
-			
+
 			bind_login(parmas)
 				.then((res) => {
 					if (res.status == 0) {
@@ -217,7 +217,7 @@ export default {
 							this.reform.url = res.msg.url;
 							this.reform.secret_num = res.msg.secret;
 						} else {
-							 this.recodecisbity = false;
+							this.recodecisbity = false;
 							this.$message({
 								message: '操作成功',
 								type: 'success',
@@ -230,8 +230,7 @@ export default {
 						}
 					}
 				})
-				.catch((error) => {
-				});
+				.catch((error) => {});
 		},
 		//修改用户信息
 		setuser() {
@@ -398,7 +397,14 @@ export default {
 
 <style lang="scss" scoped>
 .content {
+	overflow: hidden;
 	text-align: left;
+	background-color: #fff;
+	margin: 24px 30px;
+	box-sizing: border-box;
+	padding: 24px;
+	border-radius: 8px;
+	box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);
 	.content_title {
 		width: 100%;
 		font-size: 18px;

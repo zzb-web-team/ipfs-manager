@@ -1,59 +1,21 @@
 <template>
-	<div class="content" ref="luckDraw">
-		<el-breadcrumb separator="/">
-			<el-breadcrumb-item>
-				<a>节点数据监控</a>
-			</el-breadcrumb-item>
-		</el-breadcrumb>
-		<!--  -->
-		<div
-			style="margin-top: 20px;margin-bottom: 20px;display: flex;justify-content: space-between;"
-		>
-			<el-radio-group
-				v-model="searchdata.tabname"
-				@change="change_tab"
-				size="small"
-			>
-				<el-radio-button label="first">带宽</el-radio-button>
-				<el-radio-button label="second">存储空间</el-radio-button>
-				<el-radio-button label="third">节点质量</el-radio-button>
-			</el-radio-group>
-			<div>
+	<div class="content data_monitoring" ref="luckDraw">
+		<div class="rowbg two_rowbg">
+			<el-row type="flex" style="height:52px;">
 				<el-radio-group
-					v-model="searchdata_radio"
-					@change="set_time"
+					v-model="searchdata.tabname"
+					@change="change_tab"
 					size="small"
 				>
-					<el-radio-button label="1" v-show="show_time_btn"
-						>今天</el-radio-button
-					>
-					<el-radio-button label="2">昨天</el-radio-button>
-					<el-radio-button label="3">近7天</el-radio-button>
-					<el-radio-button label="4">近30天</el-radio-button>
-					<el-radio-button label="5">自定义</el-radio-button>
+					<el-radio-button label="first">带宽</el-radio-button>
+					<el-radio-button label="second">存储空间</el-radio-button>
+					<el-radio-button label="third">节点质量</el-radio-button>
 				</el-radio-group>
-				<el-date-picker
-					size="small"
-					style="margin-left: 10px;"
-					v-show="show_time"
-					v-model="searchdata.value1"
-					type="daterange"
-					range-separator="至"
-					start-placeholder="开始日期"
-					end-placeholder="结束日期"
-					@change="set_time"
+				<el-row
+					v-show="activeName == 'third'"
+					style="margin-left:20px;height:52px;"
 				>
-				</el-date-picker>
-			</div>
-		</div>
-		<div style="margin-top:10px;">
-			<el-tabs
-				class="data_monit"
-				v-model="activeName"
-				@tab-click="handleClick"
-			>
-				<el-row style="margin-top:10px;" v-show="activeName == 'third'">
-					<el-col :span="2">
+					<el-col :span="18">
 						<el-select
 							size="small"
 							@change="set_defaults()"
@@ -70,257 +32,411 @@
 						</el-select>
 					</el-col>
 				</el-row>
-				<el-row :gutter="20">
-					<el-col :span="4"
-						><el-input
-							size="small"
-							v-model="searchdata.input"
-							placeholder="请输入节点ID"
-							prefix-icon="el-icon-search"
-							@keyup.enter.native="set_time()"
-						>
-							<!-- <i
+			</el-row>
+			<el-row
+				type="flex"
+				:gutter="20"
+				v-show="activeName == 'third'"
+				style="height:52px;"
+			>
+				<el-col :span="4"
+					><el-input
+						size="small"
+						v-model="searchdata.input"
+						placeholder="请输入节点ID"
+						prefix-icon="el-icon-search"
+						@keyup.enter.native="set_time()"
+					>
+						<!-- <i
 								slot="suffix"
 								class="el-input__icon el-icon-search"
 								@click="set_time"
 							></i> -->
-						</el-input></el-col
+					</el-input></el-col
+				>
+				<el-col :span="2"
+					><el-select
+						size="small"
+						v-model="searchdata.region1"
+						placeholder="节点一级渠道"
+						@change="handleChangefirst($event)"
 					>
-					<el-col :span="2"
-						><el-select
-							size="small"
-							v-model="searchdata.region1"
-							placeholder="节点一级渠道"
-							@change="handleChangefirst($event)"
-						>
-							<el-option label="全部" value="*"></el-option>
-							<el-option
-								v-for="(item, index) in firstchan"
-								:key="item.name + index"
-								:label="item.name"
-								:value="item.value"
-							></el-option> </el-select
-					></el-col>
-					<el-col :span="2"
-						><el-select
-							size="small"
-							v-model="searchdata.region2"
-							placeholder="节点二级渠道"
-							:disabled="chil_disable"
-							@change="set_time()"
-						>
-							<el-option label="全部" value="*"></el-option>
-							<el-option
-								v-for="(item, index) in secondchan"
-								:key="item.value + index"
-								:label="item.name"
-								:value="item.value"
-							></el-option></el-select
-					></el-col>
+						<el-option label="全部" value="*"></el-option>
+						<el-option
+							v-for="(item, index) in firstchan"
+							:key="item.name + index"
+							:label="item.name"
+							:value="item.value"
+						></el-option> </el-select
+				></el-col>
+				<el-col :span="2"
+					><el-select
+						size="small"
+						v-model="searchdata.region2"
+						placeholder="节点二级渠道"
+						:disabled="chil_disable"
+						@change="set_time()"
+					>
+						<el-option label="全部" value="*"></el-option>
+						<el-option
+							v-for="(item, index) in secondchan"
+							:key="item.value + index"
+							:label="item.name"
+							:value="item.value"
+						></el-option></el-select
+				></el-col>
+			</el-row>
 
-					<el-col :span="2"
-						><el-select
-							size="small"
-							v-model="searchdata.region3"
-							placeholder="设备类型"
-							@change="set_time()"
-						>
-							<el-option label="全部" value="*"></el-option>
-							<el-option
-								v-for="(item, index) in device_type"
-								:key="item.name + index"
-								:label="item.name"
-								:value="item.name"
-							></el-option></el-select
-					></el-col>
-					<el-col :span="2" v-show="seacr_yin_show"
-						><el-select
-							size="small"
-							v-model="searchdata.region7"
-							placeholder="硬件类型"
-							@change="set_time()"
-						>
-							<el-option label="全部" value="*"></el-option>
-							<el-option
-								v-for="(item, index) in arch"
-								:key="item.name + index"
-								:label="item.name"
-								:value="item.name"
-							></el-option></el-select
-					></el-col>
-					<el-col :span="2" v-show="seacr_yin_show"
-						><el-select
-							size="small"
-							v-model="searchdata.region8"
-							placeholder="操作系统"
-							@change="set_time()"
-						>
-							<el-option label="全部" value="*"></el-option>
-							<el-option
-								v-for="(item, index) in oslist"
-								:key="item.name + index"
-								:label="item.name"
-								:value="item.name"
-							></el-option></el-select
-					></el-col>
-					<el-col :span="2">
-						<el-cascader
-							size="small"
-							placeholder="请选择区域"
-							v-model="searchdata.region4"
-							:options="citylist"
-							@change="provinceChange"
-						></el-cascader>
-					</el-col>
-					<el-col :span="2">
-						<el-select
-							size="small"
-							v-model="searchdata.region5"
-							placeholder="请选择城市"
-							@change="set_time()"
-							:disabled="city_disable"
-						>
-							<el-option
-								v-for="(item, index) in options_city"
-								:key="index"
-								:label="item.name"
-								:value="item.name"
-							></el-option>
-						</el-select>
-					</el-col>
+			<el-row type="flex" :gutter="20" style="height:52px;">
+				<el-col :span="4" v-show="activeName != 'third'"
+					><el-input
+						size="small"
+						v-model="searchdata.input"
+						placeholder="请输入节点ID"
+						prefix-icon="el-icon-search"
+						@keyup.enter.native="set_time()"
+					>
+						<!-- <i
+								slot="suffix"
+								class="el-input__icon el-icon-search"
+								@click="set_time"
+							></i> -->
+					</el-input></el-col
+				>
+				<el-col :span="2" v-show="activeName != 'third'"
+					><el-select
+						size="small"
+						v-model="searchdata.region1"
+						placeholder="节点一级渠道"
+						@change="handleChangefirst($event)"
+					>
+						<el-option label="全部" value="*"></el-option>
+						<el-option
+							v-for="(item, index) in firstchan"
+							:key="item.name + index"
+							:label="item.name"
+							:value="item.value"
+						></el-option> </el-select
+				></el-col>
+				<el-col :span="2" v-show="activeName != 'third'"
+					><el-select
+						size="small"
+						v-model="searchdata.region2"
+						placeholder="节点二级渠道"
+						:disabled="chil_disable"
+						@change="set_time()"
+					>
+						<el-option label="全部" value="*"></el-option>
+						<el-option
+							v-for="(item, index) in secondchan"
+							:key="item.value + index"
+							:label="item.name"
+							:value="item.value"
+						></el-option></el-select
+				></el-col>
 
-					<el-col :span="2"
-						><el-select
-							size="small"
-							v-model="searchdata.region6"
-							placeholder="网络线路"
-							@change="set_time()"
-						>
-							<el-option label="全部" value="*"></el-option>
-							<el-option
-								v-for="(item, index) in isp"
-								:key="index"
-								:label="item.name"
-								:value="item.name"
-							></el-option> </el-select
-					></el-col>
-				</el-row>
+				<el-col :span="2"
+					><el-select
+						size="small"
+						v-model="searchdata.region3"
+						placeholder="设备类型"
+						@change="set_time()"
+					>
+						<el-option label="全部" value="*"></el-option>
+						<el-option
+							v-for="(item, index) in device_type"
+							:key="item.name + index"
+							:label="item.name"
+							:value="item.name"
+						></el-option></el-select
+				></el-col>
+				<el-col :span="2" v-show="seacr_yin_show"
+					><el-select
+						size="small"
+						v-model="searchdata.region7"
+						placeholder="硬件类型"
+						@change="set_time()"
+					>
+						<el-option label="全部" value="*"></el-option>
+						<el-option
+							v-for="(item, index) in arch"
+							:key="item.name + index"
+							:label="item.name"
+							:value="item.name"
+						></el-option></el-select
+				></el-col>
+				<el-col :span="2" v-show="seacr_yin_show"
+					><el-select
+						size="small"
+						v-model="searchdata.region8"
+						placeholder="操作系统"
+						@change="set_time()"
+					>
+						<el-option label="全部" value="*"></el-option>
+						<el-option
+							v-for="(item, index) in oslist"
+							:key="item.name + index"
+							:label="item.name"
+							:value="item.name"
+						></el-option></el-select
+				></el-col>
+				<el-col :span="2">
+					<el-cascader
+						size="small"
+						placeholder="请选择区域"
+						v-model="searchdata.region4"
+						:options="citylist"
+						@change="provinceChange"
+					></el-cascader>
+				</el-col>
+				<el-col :span="2">
+					<el-select
+						size="small"
+						v-model="searchdata.region5"
+						placeholder="请选择城市"
+						@change="set_time()"
+						:disabled="city_disable"
+					>
+						<el-option
+							v-for="(item, index) in options_city"
+							:key="index"
+							:label="item.name"
+							:value="item.name"
+						></el-option>
+					</el-select>
+				</el-col>
 
+				<el-col :span="2"
+					><el-select
+						size="small"
+						v-model="searchdata.region6"
+						placeholder="网络线路"
+						@change="set_time()"
+					>
+						<el-option label="全部" value="*"></el-option>
+						<el-option
+							v-for="(item, index) in isp"
+							:key="index"
+							:label="item.name"
+							:value="item.name"
+						></el-option> </el-select
+				></el-col>
+				<el-radio-group
+					v-model="searchdata_radio"
+					@change="set_time"
+					size="small"
+				>
+					<el-radio-button label="1" v-show="show_time_btn"
+						>今天</el-radio-button
+					>
+					<el-radio-button label="2">昨天</el-radio-button>
+					<el-radio-button label="3">近7天</el-radio-button>
+					<el-radio-button label="4">近30天</el-radio-button>
+					<el-radio-button label="5">自定义</el-radio-button>
+				</el-radio-group>
+				<div class="dateRange">
+					<el-date-picker
+						size="small"
+						style="margin-left: 10px;"
+						v-show="show_time"
+						v-model="searchdata.value1"
+						type="daterange"
+						range-separator="至"
+						start-placeholder="开始日期"
+						end-placeholder="结束日期"
+						@change="set_time"
+					>
+					</el-date-picker>
+				</div>
+			</el-row>
+		</div>
+		<div>
+			<el-tabs
+				class="data_monit"
+				v-model="activeName"
+				@tab-click="handleClick"
+			>
 				<el-tab-pane label="带宽" name="first">
-					<el-row>
-						<el-col :span="6" class="top_title">
-							<p>
-								{{ upbandwidth | bandwith_unit }}/{{
-									downbandwidth | bandwith_unit
-								}}
-							</p>
+					<el-row
+						type="flex"
+						style="border-radius: 8px;margin:24px 30px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
+					>
+						<el-col class="top_title bandwidth_top">
 							<p>节点带宽峰值（上/下行）</p>
-						</el-col>
-						<el-col :span="6" class="top_title">
 							<p>
-								{{ averageup | bandwith_unit }}/{{
-									averagedown | bandwith_unit
-								}}
+								<img
+									src="../../assets/img/shang.png"
+									alt=""
+									style="width:2%;"
+								/>
+								{{ upbandwidth | bandwith_unit }}
 							</p>
+							<p>
+								<img
+									src="../../assets/img/xia.png"
+									alt=""
+									style="width:2%;"
+								/>
+								{{ downbandwidth | bandwith_unit }}
+							</p>
+						</el-col>
+						<el-col class="top_title">
 							<p>节点带宽平均值（上/下行）</p>
+							<p>
+								<img
+									src="../../assets/img/shang.png"
+									alt=""
+									style="width:2%;"
+								/>
+								{{ averageup | bandwith_unit }}
+							</p>
+							<p>
+								<img
+									src="../../assets/img/xia.png"
+									alt=""
+									style="width:2%;"
+								/>
+								{{ averagedown | bandwith_unit }}
+							</p>
 						</el-col>
 					</el-row>
 					<div
-						style="text-align:left;width: 80%;margin-bottom: 40px;"
+						style="box-sizing: border-box;margin: 0 30px;background: #ffffff;padding: 24px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 					>
-						<el-radio-group
-							v-model="radio1"
-							size="mini"
-							@change="changeup_down"
+						<div
+							style="text-align:left;width: 80%;margin-bottom: 40px;"
+							class="data_mon_radio"
 						>
-							<el-radio-button label="1"
-								>上行带宽</el-radio-button
+							<el-radio-group
+								v-model="radio1"
+								size="mini"
+								@change="changeup_down"
 							>
-							<el-radio-button label="2"
-								>下行带宽</el-radio-button
-							>
-						</el-radio-group>
-					</div>
+								<el-radio-button label="1"
+									>上行带宽</el-radio-button
+								>
+								<el-radio-button label="2"
+									>下行带宽</el-radio-button
+								>
+							</el-radio-group>
+						</div>
 
-					<div id="firstChart" style=" height:500px;width:100%"></div>
+						<div
+							id="firstChart"
+							style=" height:700px;width:100%"
+						></div>
+					</div>
 				</el-tab-pane>
 				<el-tab-pane label="存储空间" name="second">
-					<el-row v-show="titleOverview">
-						<el-col :span="5" class="top_title">
-							<p>
-								{{ availablecap | formatBytes }}
-							</p>
-							<p>节点可用存储空间</p>
+					<el-row
+						v-show="titleOverview"
+						type="flex"
+						style="border-radius: 8px;margin:24px 30px 0px 30px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
+					>
+						<el-col class="top_title second_top second_top_border">
+							<div>
+								<img src="../../assets/img/bing.png" alt="" />
+							</div>
+							<div style="margin-left:20px;">
+								<p>节点可用存储空间</p>
+								<p>
+									{{ availablecap | formatBytes }}
+								</p>
+							</div>
 						</el-col>
-						<el-col :span="5" class="top_title">
-							<p>
-								{{ totalcap | formatBytes }}
-							</p>
-							<p>节点总存储空间</p>
+						<el-col class="top_title second_top">
+							<div>
+								<img src="../../assets/img/chucun.png" alt="" />
+							</div>
+							<div style="margin-left:20px;">
+								<p>节点总存储空间</p>
+								<p>
+									{{ totalcap | formatBytes }}
+								</p>
+							</div>
 						</el-col>
 					</el-row>
-					<div id="secondChart" style="height:500px;width:100%"></div>
+					<div
+						style="box-sizing: border-box;margin: 24px 30px;background: #ffffff;padding: 24px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
+					>
+						<div
+							id="secondChart"
+							style="height:700px;width:100%"
+						></div>
+					</div>
 				</el-tab-pane>
 				<el-tab-pane label="节点质量" name="third">
-					<el-row>
-						<el-col :span="5" class="top_title"
-							><p>{{ average_value }}</p>
+					<el-row
+						type="flex"
+						style="border-radius: 8px;margin:24px 30px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
+					>
+						<el-col class="top_title third_top">
 							<p>平均值</p>
+							<p>{{ average_value }}</p>
 						</el-col>
-						<el-col :span="5" class="top_title"
-							><p>{{ max_value }}</p>
-							<p>最大值</p></el-col
-						>
-						<el-col :span="5" class="top_title"
-							><p>{{ min_value }}</p>
-							<p>最小值</p></el-col
-						>
+						<el-col class="top_title third_top">
+							<p>最大值</p>
+							<p>{{ max_value }}</p>
+						</el-col>
+						<el-col class="top_title">
+							<p>最小值</p>
+							<p>{{ min_value }}</p>
+						</el-col>
 					</el-row>
 					<div
-						id="ping_ms"
-						style="height:500px;width:100%"
+						style="box-sizing: border-box;margin: 24px 30px;background: #ffffff;padding: 24px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 						v-show="searchdata.echartslist == 1"
-					></div>
+					>
+						<div id="ping_ms" style="height:500px;width:100%"></div>
+					</div>
 					<div
-						id="tid"
-						style="height:500px;width:100%"
+						style="box-sizing: border-box;margin: 24px 30px;background: #ffffff;padding: 24px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 						v-show="searchdata.echartslist == 2"
-					></div>
+					>
+						<div id="tid" style="height:500px;width:100%"></div>
+					</div>
 					<div
-						id="etf"
-						style="height:500px;width:100%"
+						style="box-sizing: border-box;margin: 24px 30px;background: #ffffff;padding: 24px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 						v-show="searchdata.echartslist == 3"
-					></div>
+					>
+						<div id="etf" style="height:500px;width:100%"></div>
+					</div>
 					<div
-						id="lt"
-						style="height:500px;width:100%"
+						style="box-sizing: border-box;margin: 24px 30px;background: #ffffff;padding: 24px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 						v-show="searchdata.echartslist == 4"
-					></div>
+					>
+						<div id="lt" style="height:500px;width:100%"></div>
+					</div>
 					<div
-						id="itf"
-						style="height:500px;width:100%"
+						style="box-sizing: border-box;margin: 24px 30px;background: #ffffff;padding: 24px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 						v-show="searchdata.echartslist == 5"
-					></div>
+					>
+						<div id="itf" style="height:500px;width:100%"></div>
+					</div>
 					<div
-						id="otf"
-						style="height:500px;width:100%"
+						style="box-sizing: border-box;margin: 24px 30px;background: #ffffff;padding: 24px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 						v-show="searchdata.echartslist == 6"
-					></div>
+					>
+						<div id="otf" style="height:500px;width:100%"></div>
+					</div>
 					<div
-						id="rcnt"
-						style="height:500px;width:100%"
+						style="box-sizing: border-box;margin: 24px 30px;background: #ffffff;padding: 24px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 						v-show="searchdata.echartslist == 7"
-					></div>
+					>
+						<div id="rcnt" style="height:500px;width:100%"></div>
+					</div>
 					<div
-						id="cpu"
-						style="height:500px;width:100%"
+						style="box-sizing: border-box;margin: 24px 30px;background: #ffffff;padding: 24px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 						v-show="searchdata.echartslist == 8"
-					></div>
+					>
+						<div id="cpu" style="height:500px;width:100%"></div>
+					</div>
 					<div
-						id="ram"
-						style="height:500px;width:100%"
+						style="box-sizing: border-box;margin: 24px 30px;background: #ffffff;padding: 24px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 						v-show="searchdata.echartslist == 9"
-					></div>
+					>
+						<div id="ram" style="height:500px;width:100%"></div>
+					</div>
 				</el-tab-pane>
 			</el-tabs>
 		</div>
@@ -2496,7 +2612,7 @@ export default {
 				},
 				legend: {
 					bottom: '2%',
-					data: ['节点带宽平均值', '节点带宽峰值'],
+					data: ['节点带宽峰值', '节点带宽平均值'],
 				},
 				toolbox: {
 					right: '10%',
@@ -2578,27 +2694,12 @@ export default {
 					splitArea: {
 						show: false,
 					},
-
+					splitLine: {
+						show: false, //去掉网格线
+					},
 					name: _this.downbandwidth_unit,
 				},
 				series: [
-					{
-						type: 'line',
-						data: echartsdata.map(function(item) {
-							return bandwidth_unit(
-								item.value,
-								_this.downbandwidth_unit
-							);
-						}),
-						large: true,
-						smooth: true,
-						name: '节点带宽平均值',
-						itemStyle: {
-							normal: {
-								color: '#409EFF',
-							},
-						},
-					},
 					{
 						type: 'line',
 						data: echartsdata.map(function(item) {
@@ -2612,7 +2713,52 @@ export default {
 						name: '节点带宽峰值',
 						itemStyle: {
 							normal: {
-								color: '#09b005',
+								color: '#177DFF',
+							},
+						},
+						areaStyle: {
+							normal: {
+								color: new echarts.graphic.LinearGradient(
+									0,
+									0,
+									0,
+									1,
+									[
+										{ offset: 0, color: '#177DFF55' },
+										{ offset: 1, color: '#ffffff' },
+									]
+								),
+							},
+						},
+					},
+					{
+						type: 'line',
+						data: echartsdata.map(function(item) {
+							return bandwidth_unit(
+								item.value,
+								_this.downbandwidth_unit
+							);
+						}),
+						large: true,
+						smooth: true,
+						name: '节点带宽平均值',
+						itemStyle: {
+							normal: {
+								color: '#FDAF4B',
+							},
+						},
+						areaStyle: {
+							normal: {
+								color: new echarts.graphic.LinearGradient(
+									0,
+									0,
+									0,
+									1,
+									[
+										{ offset: 0, color: '#FDAF4B55' },
+										{ offset: 1, color: '#ffffff' },
+									]
+								),
 							},
 						},
 					},
@@ -2667,6 +2813,9 @@ export default {
 				},
 				yAxis: {
 					type: 'value',
+					splitLine: {
+						show: false, //去掉网格线
+					},
 					name: dataunits,
 				},
 				grid: {
@@ -2715,6 +2864,20 @@ export default {
 						smooth: true,
 						name: '节点可用存储空间',
 						itemStyle: { color: '#409EFF' },
+						areaStyle: {
+							normal: {
+								color: new echarts.graphic.LinearGradient(
+									0,
+									0,
+									0,
+									1,
+									[
+										{ offset: 0, color: '#409EFF' },
+										{ offset: 1, color: '#ffffff' },
+									]
+								),
+							},
+						},
 					},
 				],
 			};
@@ -2787,6 +2950,9 @@ export default {
 					name: dadaunits,
 					min: 0,
 					max: maxnum,
+					splitLine: {
+						show: false, //去掉网格线
+					},
 				},
 				toolbox: {
 					right: '10%',
@@ -2833,6 +2999,20 @@ export default {
 						smooth: sa,
 						name: legdata,
 						itemStyle: { color: '#409EFF' },
+						areaStyle: {
+							normal: {
+								color: new echarts.graphic.LinearGradient(
+									0,
+									0,
+									0,
+									1,
+									[
+										{ offset: 0, color: '#409EFF55' },
+										{ offset: 1, color: '#ffffff' },
+									]
+								),
+							},
+						},
 					},
 				],
 			};
@@ -2884,6 +3064,9 @@ export default {
 						name: 'ms',
 						min: 0,
 						max: maxnum,
+						splitLine: {
+							show: false, //去掉网格线
+						},
 					},
 				],
 				toolbox: {
@@ -2938,6 +3121,20 @@ export default {
 						smooth: true,
 						name: legdata,
 						itemStyle: { color: '#409EFF' },
+						areaStyle: {
+							normal: {
+								color: new echarts.graphic.LinearGradient(
+									0,
+									0,
+									0,
+									1,
+									[
+										{ offset: 0, color: '#409EFF55' },
+										{ offset: 1, color: '#ffffff' },
+									]
+								),
+							},
+						},
 					},
 				],
 			};
@@ -2954,37 +3151,65 @@ export default {
 <style lang="scss" scoped>
 .content {
 	text-align: left;
-	.el-col {
-		margin-bottom: 20px;
-	}
+	overflow: hidden;
+	// .el-col {
+	// 	margin-bottom: 20px;
+	// }
 	.top_title {
-		height: 120px;
-		margin-top: 20px;
-		margin-bottom: 30px;
-		margin-right: 20px;
-		padding: 20px;
-		text-align: left;
+		height: 160px;
+		// margin-right: 20px;
+		padding: 24px;
+		text-align: center;
 		box-sizing: border-box;
 		// display: flex;
 		// justify-content: space-around;
-		color: #ffffff;
-		background: linear-gradient(
-			90deg,
-			rgba(100, 167, 252, 1) 0%,
-			rgba(100, 167, 252, 1) 100%
-		);
-		border-radius: 8px;
+		color: #333333;
+		background: #ffffff;
+		font-size: 24px;
+		p {
+			text-align: center;
+		}
 		p:nth-child(1) {
-			margin-top: 6px;
-			font-size: 30px;
+			font-size: 14px;
 			overflow: hidden;
 			text-overflow: ellipsis;
 			white-space: nowrap;
+			color: #666666;
+			margin-bottom: 30px;
 		}
 		p:nth-child(2) {
-			font-size: 14px;
-			line-height: 30px;
+			font-size: 24px;
+			line-height: 20px;
+			margin-bottom: 10px;
 		}
+		p:nth-child(3) {
+			font-size: 24px;
+			line-height: 20px;
+		}
+	}
+	.bandwidth_top,
+	.third_top {
+		position: relative;
+	}
+	.second_top {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		position: relative;
+		p {
+			text-align: left;
+		}
+	}
+	.bandwidth_top::after,
+	.second_top_border::after,
+	.third_top::after {
+		position: absolute;
+		top: 24px;
+		right: 24px;
+		width: 1px;
+		height: 110px;
+		content: '';
+		background-color: #cecece;
 	}
 }
 </style>

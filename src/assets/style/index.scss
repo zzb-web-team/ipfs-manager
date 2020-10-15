@@ -87,7 +87,7 @@
         
         .content-container {
             // padding: 0 !important;
-            background: #F6F6F6;
+            background: #F9FBFD;
         }
         
         .content {
@@ -220,10 +220,9 @@
             }
         }
         
-        .ipfs_title_next {
-            margin-right: 1%;
-        }
-        
+        // .ipfs_title_next {
+        //     margin-right: 1%;
+        // }
         // .two_menu,
         // .two_menu_tit .el-submenu__title {
         //     padding-left: 60px !important;
@@ -268,7 +267,9 @@
         //     padding-left: 10px !important;
         // }
         .rowbg {
-            height: 152px;
+            height: auto;
+            min-height: 152px;
+            max-height: 218px;
             box-sizing: border-box;
             padding: 30px;
             color: #ffffff;
@@ -279,6 +280,10 @@
                 font-size: 16px;
                 margin-bottom: 24px;
                 font-weight: 400;
+            }
+            .el-row {
+                display: flex;
+                align-items: center;
             }
         }
         
@@ -292,6 +297,34 @@
             display: none;
         }
         
+        .el-input__inner,
+        .el-date-editor .el-range-input {
+            &::placeholder {
+                color: #ffffff;
+            }
+            &::-webkit-input-placeholder {
+                /* WebKit browsers 适配谷歌 */
+                color: #ffffff;
+            }
+            &:-moz-placeholder {
+                /* Mozilla Firefox 4 to 18 适配火狐 */
+                color: #ffffff;
+            }
+            &::-moz-placeholder {
+                /* Mozilla Firefox 19+ 适配火狐 */
+                color: #ffffff;
+            }
+            &:-ms-input-placeholder {
+                /* Internet Explorer 10+  适配ie*/
+                color: #ffffff;
+            }
+        }
+        
+        .el-radio-button__inner:hover {
+            color: #ffffff !important;
+            background: #02B2D611 !important;
+        }
+        
         //搜索框样式
         .node_information_con .el-input--small .el-input__inner,
         .node_information_con .el-select .el-input.is-disabled .el-input__inner,
@@ -302,17 +335,42 @@
         .application .el-input--small .el-input__inner,
         .application .el-select .el-input.is-disabled .el-input__inner,
         .nodeuser .el-input--small .el-input__inner,
-        .nodeuser .el-select .el-input.is-disabled .el-input__inner {
+        .nodeuser .el-select .el-input.is-disabled .el-input__inner,
+        .data_monitoring .el-input--small .el-input__inner,
+        .data_monitoring .el-select .el-input.is-disabled .el-input__inner,
+        .rouji_list_statistics .el-input--small .el-input__inner,
+        .rouji_list_statistics .el-select .el-input.is-disabled .el-input__inner,
+        .operation_management .el-input--small .el-input__inner,
+        .operation_management .el-select .el-input.is-disabled .el-input__inner,
+        .user_li .el-input--small .el-input__inner,
+        .user_li .el-select .el-input.is-disabled .el-input__inner,
+        .authority_me .el-input--small .el-input__inner,
+        .authority_me .el-select .el-input.is-disabled .el-input__inner,
+        .ipflow .el-input--small .el-input__inner,
+        .ipflow .el-select .el-input.is-disabled .el-input__inner,
+        .fs_storage .el-input--small .el-input__inner,
+        .fs_storage .el-select .el-input.is-disabled .el-input__inner {
             background: #0F5ABC;
             border: none;
             color: #ffffff;
         }
         
+        //搜索栏--重置按钮单独设置颜色
+        .node_information_con .resetseach_btn,
+        .yun_income .resetseach_btn,
+        .yun_power .resetseach_btn,
+        .rouji_list_statistics .resetseach_btn,
+        .operation_management .resetseach_btn,
+        .user_li .resetseach_btn,
+        .ipflow .resetseach_btn,
+        .fs_storage .resetseach_btn {
+            margin-left: 15px;
+            background: #02b2d6;
+            padding: 9px 25px;
+        }
+        
         //时间选择器样式
-        .yun_income .el-range-editor--small.el-input__inner,
-        .yun_power .el-range-editor--small.el-input__inner,
-        .application .el-range-editor--small.el-input__inner,
-        .nodeuser .el-range-editor--small.el-input__inner {
+        .el-range-editor--small.el-input__inner {
             background: #0F5ABC;
             border: none;
             color: #ffffff;
@@ -340,18 +398,29 @@
             border-color: #1572E8;
         }
         
+        .el-button--warning {
+            color: #FFF;
+            background-color: #FF9E28;
+            border-color: #FF9E28;
+        }
+        
         .el-button--danger {
             color: #FFF;
             background-color: #F85555;
             border-color: #F85555;
         }
         
-        .node_information_con .resetseach_btn,
-        .yun_income .resetseach_btn,
-        .yun_power .resetseach_btn {
-            margin-left: 15px;
-            background: #02b2d6;
-            padding: 9px 25px;
+        .data_mon_radio .el-radio-button__orig-radio:checked+.el-radio-button__inner {
+            color: #1572E8;
+            background-color: #ffffff;
+            border-color: #1572E8;
+            border-left: 1px solid #1572E8;
+        }
+        
+        .data_mon_radio .el-radio-button__inner {
+            background-color: #F2F2F2;
+            border-color: #F2F2F2;
+            color: #999999;
         }
         
         .rowtab .el-table th,
@@ -380,4 +449,17 @@
             border-color: #02B2D6;
             -webkit-box-shadow: -1px 0 0 0 #02B2D6;
             box-shadow: -1px 0 0 0 #02B2D6;
+        }
+        
+        .nodeuser .el-progress .el-progress__text {
+            font-size: 16px !important;
+        }
+        
+        .newstyle {
+            margin: 24px 30px;
+            background: #ffffff;
+            box-sizing: border-box;
+            padding: 24px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);
         }

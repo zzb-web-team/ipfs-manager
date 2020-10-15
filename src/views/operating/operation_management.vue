@@ -1,90 +1,85 @@
 <template>
-	<div class="content">
-		<el-breadcrumb separator="/">
+	<div class="content operation_management">
+		<!-- <el-breadcrumb separator="/">
 			<el-breadcrumb-item>
 				<a>操作日志</a>
 			</el-breadcrumb-item>
-		</el-breadcrumb>
+		</el-breadcrumb> -->
 		<div>
 			<!-- 搜索 -->
-			<div class="seach">
-				<div class="seach_top">
-					<el-input
-						placeholder="操作人"
-						v-model="input"
-						class="input-with-select"
-					>
-						<i
-							slot="prefix"
-							class="el-input__icon el-icon-search"
-							@click="seachuser()"
-						></i>
-					</el-input>
-					<div class="seach_top_right" @click="option_display()">
-						筛选
-						<i
-							class="el-icon-caret-bottom"
-							:class="[
-								rotate
-									? 'fa fa-arrow-down go'
-									: 'fa fa-arrow-down aa',
-							]"
-						></i>
-					</div>
-				</div>
-				<div v-if="optiondisplay" class="seach_bottom">
-					<span>状态：</span>
-					<el-select
-						v-model="value"
-						placeholder="请选择"
-						@change="seachuser"
-					>
-						<el-option label="全部" value=""></el-option>
-						<el-option
-							v-for="(item, index) in options"
-							:key="index"
-							:label="item.label"
-							:value="item.value"
-						></el-option>
-					</el-select>
-					<span>操作类型：</span>
-					<el-select
-						v-model="value2"
-						placeholder="请选择"
-						@change="seachuser"
-					>
-						<el-option label="全部" value=""></el-option>
-						<el-option
-							v-for="(item, index) in options2"
-							:key="index"
-							:label="item.label"
-							:value="item.label"
-						></el-option>
-					</el-select>
-					<span>操作时间：</span>
-					<el-date-picker
-						v-model="value1"
-						type="daterange"
-						range-separator="至"
-						start-placeholder="开始日期"
-						end-placeholder="结束日期"
-						@change="seachuser"
-						:picker-options="endPickerOptions"
-					></el-date-picker>
-					<el-button plain @click="reset()">重置</el-button>
-					<div class="seach_bottom_btn">
-						<!-- <el-button
+			<div class="seach rowbg">
+				<div class="item_title">操作日志</div>
+				<el-row type="flex">
+					<div class="seach_top">
+						<el-input
+							placeholder="操作人"
+							v-model="input"
+							size="small"
+							class="input-with-select"
+						>
+							<i
+								slot="prefix"
+								class="el-input__icon el-icon-search"
+								@click="seachuser()"
+							></i>
+						</el-input>
+						<span>状态：</span>
+						<el-select
+							v-model="value"
+							size="small"
+							placeholder="请选择"
+							@change="seachuser"
+							class="input-with-select"
+						>
+							<el-option label="全部" value=""></el-option>
+							<el-option
+								v-for="(item, index) in options"
+								:key="index"
+								:label="item.label"
+								:value="item.value"
+							></el-option>
+						</el-select>
+						<span>操作类型：</span>
+						<el-select
+							v-model="value2"
+							size="small"
+							placeholder="请选择"
+							@change="seachuser"
+							class="input-with-select"
+						>
+							<el-option label="全部" value=""></el-option>
+							<el-option
+								v-for="(item, index) in options2"
+								:key="index"
+								:label="item.label"
+								:value="item.label"
+							></el-option>
+						</el-select>
+						<span>操作时间：</span>
+						<el-date-picker
+							v-model="value1"
+							size="small"
+							type="daterange"
+							range-separator="至"
+							start-placeholder="开始日期"
+							end-placeholder="结束日期"
+							@change="seachuser"
+							:picker-options="endPickerOptions"
+						></el-date-picker>
+						<el-button
 							type="primary"
-							plain
-							size="mini"
-							@click="seachuser()"
-							>确定</el-button
-						> -->
+							round
+							size="small"
+							class="resetseach_btn"
+							style="margin-left: 10px;"
+							@click="reset()"
+							>重置</el-button
+						>
 					</div>
-				</div>
+				</el-row>
 			</div>
 			<!-- 表格 -->
-			<div class="con_lable" style="margin-top:20px;">
+			<div class="con_lable">
 				<!-- <div style="text-align:right;margin:10px 0;">
           <el-button type="primary" @click="geydata2()" :disabled="showdisabled"
             >导出</el-button
@@ -411,13 +406,11 @@ export default {
 	text-align: left;
 	.seach {
 		width: 100%;
-		margin-top: 20px;
 		.seach_top {
 			width: 100%;
 			height: 60px;
 			.input-with-select {
-				width: 15%;
-				float: left;
+				width: 10%;
 			}
 			.seach_top_right {
 				float: left;
@@ -429,7 +422,6 @@ export default {
 		.seach_bottom {
 			text-align: left;
 			// height: 100px;
-			background: #f0f5f5;
 			border-radius: 10px;
 			padding: 10px 15px;
 			.el-select {
@@ -441,7 +433,12 @@ export default {
 		}
 	}
 	.con_lable {
-		width: 100%;
+		margin: 24px 30px;
+		background: #ffffff;
+		box-sizing: border-box;
+		padding: 24px;
+		border-radius: 8px;
+		box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);
 	}
 }
 //旋转

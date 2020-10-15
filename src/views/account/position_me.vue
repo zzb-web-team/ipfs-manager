@@ -1,16 +1,17 @@
 <template>
 	<div class="content">
-		<el-breadcrumb separator="/">
+		<!-- <el-breadcrumb separator="/">
 			<el-breadcrumb-item>
 				<a href="/">职位管理</a>
 			</el-breadcrumb-item>
-		</el-breadcrumb>
+		</el-breadcrumb> -->
 		<!--  -->
 		<div class="org_con">
 			<div class="btn_area">
 				<el-button
 					type="primary"
 					@click="nwisible"
+                    size="small"
 					v-show="menutype.roleC == 1"
 					>新建职位</el-button
 				>
@@ -89,6 +90,7 @@
 							@click.native.prevent="deleteRow(scope.row)"
 							type="text"
 							size="small"
+                            style="color:#F85555"
 							>删除</el-button
 						>
 					</template>
@@ -97,8 +99,9 @@
 			<div class="btn_area">
 				<el-button
 					v-show="menutype.roleD == 1"
-					type="primary"
+					type="danger"
 					@click="deleteRow()"
+                    size="small"
 					:disabled="deldisable"
 					>删除</el-button
 				>
@@ -176,8 +179,7 @@ export default {
 						this.$message(res.msg);
 					}
 				})
-				.catch((error) => {
-				});
+				.catch((error) => {});
 		},
 		//新建下级部门
 		nwisible() {
@@ -218,8 +220,7 @@ export default {
 									);
 								}
 							})
-							.catch((error) => {
-							});
+							.catch((error) => {});
 					} else {
 						let parame = new Object();
 						parame.id = this.form.id;
@@ -251,8 +252,7 @@ export default {
 									);
 								}
 							})
-							.catch((error) => {
-							});
+							.catch((error) => {});
 					}
 				} else {
 					return false;
@@ -336,8 +336,7 @@ export default {
 								);
 							}
 						})
-						.catch((error) => {
-						});
+						.catch((error) => {});
 				})
 				.catch(() => {});
 		},
@@ -390,8 +389,12 @@ export default {
 .content {
 	text-align: left;
 	.org_con {
-		margin-top: 20px;
-		margin-bottom: 20px;
+		background-color: #fff;
+		margin: 24px 30px;
+		box-sizing: border-box;
+		padding: 24px;
+		border-radius: 8px;
+		box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);
 		.btn_area {
 			margin-top: 20px;
 			margin-bottom: 20px;

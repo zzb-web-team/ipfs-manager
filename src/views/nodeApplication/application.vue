@@ -340,7 +340,7 @@
 									</el-col>
 								</el-row>
 								<div
-									style="box-sizing: border-box;padding: 24px;background: #ffffff;border-radius: 8px;overflow: hidden;"
+									style="box-sizing: border-box;padding: 24px;background: #ffffff;border-radius: 8px;overflow: hidden;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 								>
 									<el-table
 										:data="tableData"
@@ -437,7 +437,10 @@
 					<el-tab-pane label="FS存储" name="second">
 						<el-row style="margin:0 30px;">
 							<el-col :span="9">
-								<el-row type="flex" style="margin-top:24px;margin-bottom:24px;">
+								<el-row
+									type="flex"
+									style="margin-top:24px;margin-bottom:24px;"
+								>
 									<el-col>
 										<div class="user-item">
 											<div class="item-text">
@@ -459,7 +462,9 @@
 										</div>
 									</el-col>
 								</el-row>
-								<div style="box-sizing: border-box;padding: 24px;background: #ffffff;border-radius: 8px;overflow: hidden;">
+								<div
+									style="box-sizing: border-box;padding: 24px;background: #ffffff;border-radius: 8px;overflow: hidden;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
+								>
 									<el-table
 										:data="fs_tableData"
 										:cell-style="rowClass"
@@ -522,25 +527,24 @@
 								</div>
 							</el-col>
 							<el-col :span="15">
-                                <div class="device_form">
-							<el-button
-								class="ip_upload_btn"
-								@click="fs_upload"
-								type="text"
-								size="medium"
-								v-show="menutype.roleE == 1"
-							>
-								<i class="el-icon-download"></i>
-							</el-button>
-							<div
-								id="myChart1"
-								:style="{ height: scrollerHeight }"
-							></div>
-						</div>
-                            </el-col>
+								<div class="device_form">
+									<el-button
+										class="ip_upload_btn"
+										@click="fs_upload"
+										type="text"
+										size="medium"
+										v-show="menutype.roleE == 1"
+									>
+										<i class="el-icon-download"></i>
+									</el-button>
+									<div
+										id="myChart1"
+										:style="{ height: scrollerHeight }"
+									></div>
+								</div>
+							</el-col>
 						</el-row>
 
-						
 						<!-- <div class="devide_table">
 							<el-row type="flex" class="row_active">
 								<el-col
@@ -919,8 +923,8 @@ export default {
 			chil_disable_fs: true,
 			menutype: {},
 			ip_tooltip_list: [],
-            fs_tooltip_list: [],
-            scrollerHeight:0
+			fs_tooltip_list: [],
+			scrollerHeight: 0,
 		};
 	},
 	filters: {
@@ -966,9 +970,9 @@ export default {
 		fenye,
 	},
 	mounted() {
-        this.$nextTick(() => {
-            this.scrollerHeight = this.$refs.con_right.offsetHeight-224+"px";
-            
+		this.$nextTick(() => {
+			this.scrollerHeight =
+				this.$refs.con_right.offsetHeight - 224 + 'px';
 		});
 		this.getseachinput();
 		this.get_search_data();
@@ -2125,6 +2129,7 @@ export default {
 		box-sizing: border-box;
 		margin-left: 24px;
 		border-radius: 8px;
+		box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);
 		.bottom {
 			margin-top: 20px;
 		}
@@ -2213,6 +2218,8 @@ export default {
 	text-align: left;
 	justify-content: center;
 	flex-direction: column;
+
+	box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);
 	.seach_top {
 		.bantlist {
 			margin: 0 10px;

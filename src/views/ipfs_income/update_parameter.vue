@@ -38,7 +38,7 @@
 					justify="space-between"
 				>
 					<el-col
-						style="background: #ffffff;border-radius: 8px;box-sizing: border-box;padding: 24px;margin-right:24px;"
+						style="background: #ffffff;border-radius: 8px;box-sizing: border-box;padding: 24px;margin-right:24px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 					>
 						<div
 							class="grid-content bg-purple-dark"
@@ -117,7 +117,7 @@
 						</div>
 					</el-col>
 					<el-col
-						style="background: #ffffff;border-radius: 8px;box-sizing: border-box;padding: 24px;"
+						style="background: #ffffff;border-radius: 8px;box-sizing: border-box;padding: 24px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 					>
 						<div
 							class="grid-content bg-purple-dark"
@@ -171,7 +171,10 @@
 				</el-row>
 			</el-col>
 			<el-col :span="8" style="background: #f6f6f6;">
-				<div class="grid-content bg-purple-dark right_top">
+				<div
+					class="grid-content bg-purple-dark right_top"
+					ref="con_right_top"
+				>
 					<b>算力参数</b>
 					<p>1） 算力区间收益百分比</p>
 					<div class="con_table">
@@ -217,7 +220,10 @@
 						</el-table>
 					</div>
 				</div>
-				<div class="grid-content bg-purple-dark right_bot">
+				<div
+					class="grid-content bg-purple-dark right_bot"
+					:style="{ height: right_scrollerHeight }"
+				>
 					<b>P3参数</b>
 					<p>1） 节点质量评级奖励收益百分比</p>
 					<div class="con_table">
@@ -326,14 +332,16 @@ export default {
 			priceobj: {},
 			menutype: {},
 			scrollerHeight: 0,
+			right_scrollerHeight: 0,
 		};
 	},
 	mounted() {
 		this.$nextTick(() => {
 			let zheght = this.$refs.con_right.offsetHeight;
 			let theght = this.$refs.con_top.offsetHeight;
-			this.scrollerHeight = zheght - theght - 84 + 'px';
-			console.log(zheght - theght);
+			let right_top = this.$refs.con_right_top.offsetHeight;
+			this.scrollerHeight = zheght - theght + 30 + 'px';
+			this.right_scrollerHeight = zheght - right_top + 60 + 'px';
 		});
 
 		this.get_data();
@@ -623,7 +631,8 @@ i {
 	background: #f6f6f6;
 	padding: 24px;
 	height: 100%;
-	border-radius: 8px;
+    border-radius: 8px;
+    overflow: hidden;
 	// p {
 	// 	margin-top: 8px;
 	// }
@@ -634,6 +643,7 @@ i {
 		font-size: 18px;
 		margin-bottom: 24px;
 		background: #ffffff;
+		box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);
 		.text_title {
 			margin-top: 15px;
 			margin-bottom: 15px;
@@ -663,12 +673,14 @@ i {
 		box-sizing: border-box;
 		padding: 24px;
 		border-radius: 8px;
+		box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);
 	}
 	.right_bot {
 		background-color: #ffffff;
 		box-sizing: border-box;
 		padding: 24px;
 		border-radius: 8px;
+		box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);
 	}
 }
 </style>

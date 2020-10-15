@@ -1,47 +1,33 @@
 <template>
-	<div class="content">
-		<!-- 头部 -->
-		<div class="bread_crumbs">
-			<el-breadcrumb separator="/">
-				<el-breadcrumb-item>
-					<a href="/">FS存储</a>
-				</el-breadcrumb-item>
-			</el-breadcrumb>
-		</div>
-
+	<div class="content fs_storage">
 		<!-- 搜索 -->
-		<div class="seach">
-			<div class="seach_top">
+		<div class="seach rowbg">
+			<div class="item_title">FS存储</div>
+			<el-row
+				type="flex"
+				style="align-items: center;flex-wrap: wrap;align-content: flex-start"
+			>
 				<el-input
 					placeholder="内容ID,节点ID,渠道ID"
 					v-model="input"
 					class="input-with-select"
 					@keyup.enter.native="seachuser()"
+					style="width:11%;margin-bottom: 20px;"
+					size="small"
 				>
 					<i
-						slot="suffix"
+						slot="prefix"
 						class="el-input__icon el-icon-search"
 						@click="seachuser()"
 					></i>
 				</el-input>
-				<div class="seach_top_right" @click="option_display()">
-					筛选
-					<i
-						class="el-icon-caret-bottom"
-						:class="[
-							rotate
-								? 'fa fa-arrow-down go'
-								: 'fa fa-arrow-down aa',
-						]"
-					></i>
-				</div>
-			</div>
-			<div v-if="optiondisplay" class="seach_bottom">
-				<span>业务类型：</span>
+				<span style="margin-bottom: 20px;">业务类型：</span>
 				<el-select
 					v-model="busvalue"
 					placeholder="请选择业务类型"
 					@change="seachuser()"
+					style="width:8%;margin-bottom: 20px;"
+					size="small"
 				>
 					<el-option label="全部" value="*"></el-option>
 					<el-option label="点播加速" value="0"></el-option>
@@ -51,12 +37,14 @@
 						:disabled="true"
 					></el-option>
 				</el-select>
-				<span>业务场景及用途：</span>
+				<span style="margin-bottom: 20px;">业务场景及用途：</span>
 				<el-select
 					v-model="scenevalue"
 					:disabled="scenedis"
 					placeholder="请选择业务场景及用途"
 					@change="seachuser()"
+					style="width:8%;margin-bottom: 20px;"
+					size="small"
 				>
 					<el-option label="全部" value="*"></el-option>
 					<el-option
@@ -74,11 +62,13 @@
 						value="3"
 					></el-option>
 				</el-select>
-				<span>节点渠道商：</span>
+				<span style="margin-bottom: 20px;">节点渠道商：</span>
 				<el-select
 					v-model="firatvalue"
 					placeholder="请选择一级渠道商"
 					@change="handleChangefirst($event)"
+					style="width:8%;margin-bottom: 20px;"
+					size="small"
 				>
 					<el-option label="全部" value="*"></el-option>
 					<el-option
@@ -93,6 +83,8 @@
 					placeholder="请选择二级渠道商"
 					@change="seachuser()"
 					:disabled="chil_disable"
+					style="width:8%;margin-bottom: 20px;"
+					size="small"
 				>
 					<el-option label="全部" value="*"></el-option>
 					<el-option
@@ -102,11 +94,13 @@
 						:value="item.value"
 					></el-option>
 				</el-select>
-				<span>设备类型：</span>
+				<span style="margin-bottom: 20px;">设备类型：</span>
 				<el-select
 					v-model="devtypevalue"
 					placeholder="请选择设备类型"
 					@change="seachuser()"
+					style="width:8%;margin-bottom: 20px;"
+					size="small"
 				>
 					<el-option label="全部" value="*"></el-option>
 					<el-option
@@ -116,17 +110,7 @@
 						:value="item.name"
 					></el-option>
 				</el-select>
-				<!-- <span>应用渠道：</span>
-        <el-select v-model="value" placeholder="请选择" @change="seachuser()">
-          <el-option label="任意用途" value="0"></el-option>
-          <el-option
-            v-for="(item, index) in options"
-            :key="index"
-            :label="item.label"
-            :value="item.value"
-          ></el-option>
-        </el-select> -->
-				<span>启用时间：</span>
+				<span style="margin-bottom: 20px;">启用时间：</span>
 				<el-date-picker
 					v-model="value1"
 					type="daterange"
@@ -135,30 +119,35 @@
 					end-placeholder="结束日期"
 					@change="seachuser()"
 					:picker-options="endPickerOptions"
+					style="margin-bottom: 20px;"
+					size="small"
 				></el-date-picker>
-				<el-button plain type="primary" @click="reset()"
+				<el-button
+					type="primary"
+					round
+					size="small"
+					class="resetseach_btn"
+					style="margin-left: 10px;margin-bottom: 20px;"
+					@click="reset()"
 					>重置</el-button
 				>
-				<!-- <div class="seach_bottom_btn">
-          <el-button type="primary" plain size="mini" @click="seachuser()"
-            >确定</el-button
-          >
-          
-        </div>-->
-			</div>
+			</el-row>
 		</div>
 
 		<!-- 表格 -->
-		<div style="text-align:right;padding: 10px;">
-			<el-button
-				v-show="menutype.roleE == 1"
-				type="primary"
-				@click="exportexe()"
-				:disabled="showdisable"
-				>导出</el-button
-			>
-		</div>
-		<div>
+		<div
+			style="margin: 24px 30px;background: #ffffff;box-sizing: border-box;padding: 24px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
+		>
+			<div style="text-align:right;padding: 10px;">
+				<el-button
+					v-show="menutype.roleE == 1"
+					type="primary"
+					size="small"
+					@click="exportexe()"
+					:disabled="showdisable"
+					>导出</el-button
+				>
+			</div>
 			<el-table
 				:data="tableData"
 				border
@@ -288,16 +277,16 @@
 					label="视频播放IP"
 				></el-table-column>
 			</el-table>
+			<fenye
+				style="text-align: right;margin: 20px 0px 10px;"
+				@fatherMethod="getpage"
+				@fathernum="gettol"
+				:pagesa="totalCnt"
+				:currentPage="currentPage"
+				ref="paginations"
+				v-show="tableData.length > 0"
+			></fenye>
 		</div>
-		<fenye
-			style="text-align: right;margin: 20px 0px 10px;"
-			@fatherMethod="getpage"
-			@fathernum="gettol"
-			:pagesa="totalCnt"
-			:currentPage="currentPage"
-			ref="paginations"
-			v-show="tableData.length > 0"
-		></fenye>
 	</div>
 </template>
 
@@ -483,8 +472,7 @@ export default {
 					}
 					this.gettab();
 				})
-				.catch((error) => {
-				});
+				.catch((error) => {});
 		},
 		gettab() {
 			let params = new Object();
@@ -727,17 +715,8 @@ export default {
 .content {
 	// max-width: 1920px;
 	height: 100%;
-	background: rgb(255, 255, 255);
-	// margin: 30px;
-	padding: 37px;
-	// .bread_crumbs {
-	//   width: 100%;
-	//   padding: 37px;
-	//   font-size: 26px;
-	// }
 	.seach {
 		width: 100%;
-		margin-top: 20px;
 		.seach_top {
 			width: 100%;
 			height: 60px;

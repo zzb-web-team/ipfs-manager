@@ -51,7 +51,7 @@
 					placeholder="二级渠道商"
 					@change="seachuser()"
 					:disabled="chil_disable"
-                    style="margin-left:10px;"
+					style="margin-left:10px;"
 				>
 					<el-option value="*" label="全部"></el-option>
 					<el-option
@@ -75,7 +75,7 @@
 		</div>
 		<!-- 主体表格 -->
 		<div
-			style="box-sizing: border-box;margin: 30px;padding: 30px;background: #ffffff;border-radius: 8px;"
+			style="box-sizing: border-box;margin: 30px;padding: 30px;background: #ffffff;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 		>
 			<div
 				style="text-align:right;padding: 10px 0;display: flex;justify-content: space-between;"
@@ -168,16 +168,16 @@
 						<span>{{ scope.row.flow | bkb }}</span>
 					</template>
 				</el-table-column>
-                	<el-table-column prop="nodeId" label="节点ID">
-						<template slot-scope="scope">
-							<el-button
-								@click="show_nodeid(scope.row)"
-								type="text"
-								size="small"
-								>查看</el-button
-							>
-						</template>
-					</el-table-column>
+				<el-table-column prop="nodeId" label="节点ID">
+					<template slot-scope="scope">
+						<el-button
+							@click="show_nodeid(scope.row)"
+							type="text"
+							size="small"
+							>查看</el-button
+						>
+					</template>
+				</el-table-column>
 				<el-table-column prop="startTS" sortable label="时间">
 					<template slot-scope="scope">{{ scope.row.date }}</template>
 				</el-table-column>
@@ -386,8 +386,8 @@ export default {
 					// }
 				})
 				.catch((error) => {});
-        },
-        //查看节点id
+		},
+		//查看节点id
 		show_nodeid(val) {
 			this.$alert(val.nodeId, '节点ID', {
 				showCancelButton: false,

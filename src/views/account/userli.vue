@@ -1,25 +1,18 @@
 <template>
 	<div class="content user_li">
-		<el-breadcrumb separator="/">
+		<!-- <el-breadcrumb separator="/">
 			<el-breadcrumb-item>
 				<a href="/">账户管理</a>
 			</el-breadcrumb-item>
-		</el-breadcrumb>
+		</el-breadcrumb> -->
 		<section class="myself-container">
-			<div class="device_form">
+			<div class="rowbg">
+				<div class="item_title">账户管理</div>
 				<el-form ref="form" :model="form">
 					<el-row type="flex">
-						<!-- <div class="search-con">
-              <el-input
-                placeholder="请输入帐户"
-                suffix-icon="el-icon-search"
-                @keyup.enter.native="searchInfo"
-                v-model="searchText"
-              >
-              </el-input>
-            </div>-->
 						<el-input
 							style="width:15%;"
+							size="small"
 							placeholder="请输入帐户名、昵称"
 							@keyup.enter.native="searchInfo"
 							v-model="searchText"
@@ -30,94 +23,89 @@
 								@click="searchInfo"
 							></i>
 						</el-input>
-						<div
-							@click="getShow()"
-							class="div_show"
-							style="color:#606266"
+						<span style="margin-right: 10px;margin-left: 20px;"
+							>状态</span
 						>
-							筛选
-							<i
-								class="el-icon-caret-bottom"
-								:class="[
-									rotate
-										? 'fa fa-arrow-down go'
-										: 'fa fa-arrow-down aa',
-								]"
-							></i>
-						</div>
-					</el-row>
-					<el-row type="flex" class="row_activess" v-show="showState">
-						<el-form-item label="状态" style="display: flex;">
-							<el-select
-								v-model="value"
-								placeholder="请选择"
-								@change="searchInfo"
+						<el-select
+							v-model="value"
+							placeholder="请选择"
+							@change="searchInfo"
+							size="small"
+						>
+							<el-option label="全部" value></el-option>
+							<el-option
+								v-for="item in options2"
+								:key="item.value"
+								:label="item.label"
+								:value="item.value"
+							></el-option>
+						</el-select>
+						<span style="margin-right: 10px;margin-left: 20px;"
+							>部门</span
+						>
+						<el-select
+							placeholder="一级部门"
+							@change="searchdepartment"
+							v-model="search_department"
+							size="small"
+							value-key="item"
+						>
+							<el-option label="全部" value="*"></el-option>
+							<el-option
+								v-for="(item, index) in department_list"
+								:key="index"
+								:label="item.name"
+								:value="item.id"
+							></el-option>
+						</el-select>
+						<el-select
+							placeholder="二级部门"
+							@change="searchInfo"
+							v-model="search_pdepartment"
+							:disabled="partmant_disable"
+							style="margin-left:10px;"
+							size="small"
+						>
+							<el-option label="全部" value="*"></el-option>
+							<el-option
+								v-for="item in pdepartment_list"
+								:key="item.ids"
+								:label="item.name"
+								:value="item.id"
+							></el-option>
+						</el-select>
+						<span style="margin-right: 10px;margin-left: 20px;"
+							>职位</span
+						>
+						<el-select
+							v-model="searchposition"
+							placeholder="请选择职位"
+							@change="searchInfo"
+							size="small"
+						>
+							<el-option label="全部" value="*"></el-option>
+							<el-option
+								v-for="item in position_list"
+								:key="item.id"
+								:label="item.name"
+								:value="item.id"
 							>
-								<el-option label="全部" value></el-option>
-								<el-option
-									v-for="item in options2"
-									:key="item.value"
-									:label="item.label"
-									:value="item.value"
-								></el-option>
-							</el-select>
-						</el-form-item>
-						<el-form-item label="部门:" style="display: flex;">
-							<el-select
-								placeholder="一级部门"
-								@change="searchdepartment"
-								v-model="search_department"
-								value-key="item"
-							>
-								<el-option label="全部" value="*"></el-option>
-								<el-option
-									v-for="(item, index) in department_list"
-									:key="index"
-									:label="item.name"
-									:value="item.id"
-								></el-option>
-							</el-select>
-							<el-select
-								placeholder="二级部门"
-								@change="searchInfo"
-								v-model="search_pdepartment"
-								:disabled="partmant_disable"
-							>
-								<el-option label="全部" value="*"></el-option>
-								<el-option
-									v-for="item in pdepartment_list"
-									:key="item.ids"
-									:label="item.name"
-									:value="item.id"
-								></el-option>
-							</el-select>
-						</el-form-item>
-						<el-form-item label="职位:" style="display: flex;">
-							<el-select
-								v-model="searchposition"
-								placeholder="请选择职位"
-								@change="searchInfo"
-							>
-								<el-option label="全部" value="*"></el-option>
-								<el-option
-									v-for="item in position_list"
-									:key="item.id"
-									:label="item.name"
-									:value="item.id"
-								>
-								</el-option>
-							</el-select>
-						</el-form-item>
-						<el-form-item>
-							<el-button type="primary" plain @click="reset()"
-								>重置</el-button
-							>
-						</el-form-item>
+							</el-option>
+						</el-select>
+						<el-button
+							type="primary"
+							round
+							size="small"
+							class="resetseach_btn"
+							style="margin-left: 10px;"
+							@click="reset()"
+							>重置</el-button
+						>
 					</el-row>
 				</el-form>
 			</div>
 			<div class="user_devide_table">
-				<el-row type="flex" class="row_active">
+				<el-row type="flex" class="row_active" justify="space-between">
 					<el-col :span="6">
 						<el-button
 							type="primary"
@@ -126,6 +114,17 @@
 						>
 							新建
 							<span class="el-icon-plus"></span>
+						</el-button>
+					</el-col>
+					<el-col :span="6" style="text-align:right;">
+						<el-button
+							type="text"
+							size="mini"
+							v-show="obnj.roleE == 1"
+						>
+							导出<i
+								class="el-icon-folder-add el-icon--right"
+							></i>
 						</el-button>
 					</el-col>
 				</el-row>
@@ -151,54 +150,56 @@
 						></tableBarActive1>
 					</el-col>
 				</el-row>
-			</div>
-			<div
-				class="devide_pageNation"
-				style="display: flex;justify-content: space-between;"
-			>
-				<el-row type="flex">
-					<el-col
-						:span="6"
-						style="display: flex;justify-content: justify-content: flex-start;"
-					>
-						<el-button
-							size="small"
-							@click="allOn"
-							v-show="obnj.roleU == 1"
-							>启用</el-button
+				<div
+					class="devide_pageNation"
+					style="display: flex;justify-content: space-between;"
+				>
+					<el-row type="flex">
+						<el-col
+							:span="6"
+							style="display: flex;justify-content: justify-content: flex-start;"
 						>
-						<el-button
-							size="small"
-							@click="allOff"
-							v-show="obnj.roleU == 1"
-							>禁用</el-button
-						>
-						<el-button
-							type="danger"
-							size="small"
-							@click="allDelete"
-							v-show="obnj.roleD == 1"
-							>删除</el-button
-						>
-					</el-col>
-				</el-row>
-				<el-row type="flex">
-					<el-col :span="6">
-						<pageNation
-							:pager="pager"
-							@handleSizeChange="handleSizeChange"
-							@handleCurrentChange="handleCurrentChange"
-						></pageNation>
-					</el-col>
-				</el-row>
+							<el-button
+								size="small"
+								@click="allOn"
+								type="primary"
+								v-show="obnj.roleU == 1"
+								>启用</el-button
+							>
+							<el-button
+								type="warning"
+								size="small"
+								@click="allOff"
+								v-show="obnj.roleU == 1"
+								>禁用</el-button
+							>
+							<el-button
+								type="danger"
+								size="small"
+								@click="allDelete"
+								v-show="obnj.roleD == 1"
+								>删除</el-button
+							>
+						</el-col>
+					</el-row>
+					<el-row type="flex">
+						<el-col :span="6">
+							<pageNation
+								:pager="pager"
+								@handleSizeChange="handleSizeChange"
+								@handleCurrentChange="handleCurrentChange"
+							></pageNation>
+						</el-col>
+					</el-row>
+				</div>
 			</div>
 			<el-dialog
 				:visible.sync="dialogVisible"
-                :close-on-click-modal="false"
+				:close-on-click-modal="false"
 				width="20%"
 				@close="handleClose"
 				title="新建账户"
-                class="userli_content"
+				class="userli_content"
 			>
 				<div class="addaccout">
 					<el-form
@@ -260,12 +261,12 @@
 								},
 							]"
 						>
-                          <el-col :span="24">
-							<el-input
-								v-model="ruleForm2.name"
-								placeholder="请输入昵称"
-							></el-input>
-                          </el-col>
+							<el-col :span="24">
+								<el-input
+									v-model="ruleForm2.name"
+									placeholder="请输入昵称"
+								></el-input>
+							</el-col>
 						</el-form-item>
 
 						<el-form-item
@@ -379,7 +380,6 @@
 								v-model="ruleForm2.password"
 								type="password"
 								placeholder="请输入密码"
-								
 							></el-input>
 						</el-form-item>
 						<el-form-item
@@ -397,7 +397,6 @@
 								v-model="ruleForm2.password2"
 								placeholder="两次密码须一致"
 								type="password"
-								
 							></el-input>
 						</el-form-item>
 
@@ -432,7 +431,7 @@
 			<el-dialog
 				v-if="addDialogVisible"
 				:visible.sync="dialogVisible2"
-                 :close-on-click-modal="false"
+				:close-on-click-modal="false"
 				width="20%"
 				@close="handleClose2"
 				title="修改账户"
@@ -625,11 +624,11 @@
 
 			<el-dialog
 				:visible.sync="dialogVisible3"
-                 :close-on-click-modal="false"
+				:close-on-click-modal="false"
 				width="20%"
 				@close="handleClose3"
 				title="密码重置"
-                class="userli_content"
+				class="userli_content"
 			>
 				<div class="addaccout">
 					<el-form
@@ -662,7 +661,6 @@
 								placeholder="8位数字字母组成"
 								type="password"
 								autocomplete="off"
-								
 							></el-input>
 						</el-form-item>
 
@@ -682,7 +680,6 @@
 								placeholder="请再次输入密码"
 								type="password"
 								autocomplete="off"
-								
 							></el-input>
 						</el-form-item>
 
@@ -703,7 +700,7 @@
 			</el-dialog>
 			<el-dialog
 				:visible.sync="dialogVisible4"
-                 :close-on-click-modal="false"
+				:close-on-click-modal="false"
 				width="20%"
 				title="用户信息"
 			>
@@ -869,8 +866,8 @@ export default {
 				department: '',
 				sex: '',
 				position_id: '',
-                grouping: '',
-                phone:'',
+				grouping: '',
+				phone: '',
 			},
 			ruleForm3: {
 				username: '',
@@ -901,11 +898,11 @@ export default {
 					width: '70px',
 				},
 
-				{
-					prop: 'name',
-					label: '昵称',
-					width: '150px',
-				},
+				// {
+				// 	prop: 'name',
+				// 	label: '昵称',
+				// 	width: '150px',
+				// },
 				{
 					prop: 'username',
 					label: '账户名',
@@ -1031,8 +1028,7 @@ export default {
 						this.$message(res.msg);
 					}
 				})
-				.catch((error) => {
-				});
+				.catch((error) => {});
 		},
 		//职位分组
 		get_position_list(pagenum) {
@@ -1054,8 +1050,7 @@ export default {
 						this.$message(res.msg);
 					}
 				})
-				.catch((error) => {
-				});
+				.catch((error) => {});
 		},
 		//获取权限分组
 		get_permission_list(pagenum) {
@@ -1078,8 +1073,7 @@ export default {
 						this.$message.error(res.msg);
 					}
 				})
-				.catch((error) => {
-				});
+				.catch((error) => {});
 		},
 		//排序
 		tableSortChange(column) {
@@ -1365,6 +1359,9 @@ export default {
 							} else {
 								nowArr[i].status = '禁用';
 							}
+							if (nowArr[i].phone == '') {
+								nowArr[i].phone = '-';
+							}
 						}
 						this.tableData = nowArr;
 					}
@@ -1516,9 +1513,21 @@ export default {
 								type: 'error',
 							});
 							if (param.status == 0) {
-								this.fan.fanactionlog('修改', '启用账号', 0,'启用','禁用');
+								this.fan.fanactionlog(
+									'修改',
+									'启用账号',
+									0,
+									'启用',
+									'禁用'
+								);
 							} else {
-								this.fan.fanactionlog('修改', '禁用账号', 0,'禁用','启用');
+								this.fan.fanactionlog(
+									'修改',
+									'禁用账号',
+									0,
+									'禁用',
+									'启用'
+								);
 							}
 						} else {
 							if (param.status == 0) {
@@ -1526,20 +1535,31 @@ export default {
 									message: '启用成功',
 									type: 'success',
 								});
-								this.fan.fanactionlog('修改', '启用账号', 1,'禁用','启用');
+								this.fan.fanactionlog(
+									'修改',
+									'启用账号',
+									1,
+									'禁用',
+									'启用'
+								);
 							} else {
 								this.$message({
 									message: '禁用成功',
 									type: 'success',
 								});
-								this.fan.fanactionlog('修改', '禁用账号', 1,'启用','禁用');
+								this.fan.fanactionlog(
+									'修改',
+									'禁用账号',
+									1,
+									'启用',
+									'禁用'
+								);
 							}
 							this.queryUserList();
 						}
 					});
 				})
-				.catch(() => {
-				});
+				.catch(() => {});
 		},
 		//修改
 		toChange(val) {
@@ -1625,13 +1645,25 @@ export default {
 									message: msg,
 									type: 'error',
 								});
-								this.fan.fanactionlog('删除', '删除账号', 0,val.name,'-');
+								this.fan.fanactionlog(
+									'删除',
+									'删除账号',
+									0,
+									val.name,
+									'-'
+								);
 							} else {
 								this.$message({
 									message: '删除成功',
 									type: 'success',
 								});
-								this.fan.fanactionlog('删除', '删除账号', 1,val.name,'-');
+								this.fan.fanactionlog(
+									'删除',
+									'删除账号',
+									1,
+									val.name,
+									'-'
+								);
 								this.queryUserList();
 							}
 						})
@@ -1760,12 +1792,12 @@ export default {
 				var fsdusername = /^(?![0-9]+$)[\u4e00-\u9fa50-9A-Za-z]{2,20}$/;
 				if (fsdusername.test(value) === false) {
 					callback(new Error('昵称格式错误'));
-                }else if (
+				} else if (
 					value.replace(/[^\u0000-\u00ff]/g, 'aa').length < 4 ||
 					value.replace(/[^\u0000-\u00ff]/g, 'aa').length > 20
 				) {
 					callback(new Error('昵称长度不符合规则'));
-				}else {
+				} else {
 					callback();
 				}
 				//var fsdname = /^[\u4e00-\u9fa5\dA-Za-z]{2,10}$|^[\dA-Za-z]{4,20}$/;
@@ -1800,7 +1832,11 @@ export default {
 			// let fsdfpwd = /^(?![\d]+$)(?![a-zA-Z]+$)(?![^\da-zA-Z]+$).{8}$/;
 			let fsdfpwd = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])[0-9A-Za-z~!@#$%^&*_]{8,32}$/;
 			if (value === '') {
-				callback(new Error('请输入密码(8~32位数字、大小写英文字母、特殊字符的组合)'));
+				callback(
+					new Error(
+						'请输入密码(8~32位数字、大小写英文字母、特殊字符的组合)'
+					)
+				);
 			} else if (fsdfpwd.test(value) === false) {
 				callback(new Error('密码格式错误'));
 			} else {
@@ -1825,7 +1861,11 @@ export default {
 			// let fsdfpwd = /^(?![\d]+$)(?![a-zA-Z]+$)(?![^\da-zA-Z]+$).{8}$/;
 			let fsdfpwd = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])[0-9A-Za-z~!@#$%^&*_]{8,32}$/;
 			if (value === '') {
-				callback(new Error('请输入密码(8~32位数字、大小写英文字母、特殊字符的组合)'));
+				callback(
+					new Error(
+						'请输入密码(8~32位数字、大小写英文字母、特殊字符的组合)'
+					)
+				);
 			} else if (fsdfpwd.test(value) === false) {
 				callback(new Error('密码格式错误'));
 			} else {
@@ -1899,7 +1939,7 @@ export default {
 		box-sizing: border-box;
 
 		.el-form-item__label {
-            width: 85px !important;
+			width: 85px !important;
 			white-space: nowrap;
 		}
 
@@ -1930,9 +1970,13 @@ export default {
 	}
 
 	.user_devide_table {
-		width: 100%;
 		height: auto;
 		overflow: hidden;
+		margin: 24px 30px;
+		background-color: #fff;
+		box-sizing: border-box;
+		padding: 24px;
+		box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);
 		.el-table td,
 		.el-table th {
 			padding: 6px 0px;

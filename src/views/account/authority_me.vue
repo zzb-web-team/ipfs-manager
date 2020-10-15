@@ -1,36 +1,33 @@
 <template>
 	<div class="content authority_me">
-		<el-breadcrumb separator="/">
+		<!-- <el-breadcrumb separator="/">
 			<el-breadcrumb-item>
 				<a href="/">权限管理</a>
 			</el-breadcrumb-item>
-		</el-breadcrumb>
+		</el-breadcrumb> -->
 		<!--  -->
 		<div class="org_con">
-			<el-row :gutter="24">
-				<el-col :span="4">
-					<el-input
-						v-show="menutype.roleC == 1"
-						v-model="input"
-						placeholder="请输入分组名称"
-						@keyup.enter.native="search"
-					>
-						<i
-							slot="prefix"
-							class="el-input__icon el-icon-search"
-							@click="search"
-						></i>
-					</el-input>
-				</el-col>
-			</el-row>
-			<div class="btn_area">
-				<el-button
-					type="primary"
-					@click="nwisible"
-					v-show="menutype.roleC == 1"
-					>新建权限分组</el-button
-				>
+			<div class="rowbg">
+				<div class="item_title">权限管理</div>
+				<el-row :gutter="24">
+					<el-col :span="4">
+						<el-input
+							v-show="menutype.roleC == 1"
+							v-model="input"
+							size="small"
+							placeholder="请输入分组名称"
+							@keyup.enter.native="search"
+						>
+							<i
+								slot="prefix"
+								class="el-input__icon el-icon-search"
+								@click="search"
+							></i>
+						</el-input>
+					</el-col>
+				</el-row>
 			</div>
+
 			<!--  -->
 			<el-dialog
 				:title="title"
@@ -103,61 +100,87 @@
 				</div>
 			</el-dialog>
 			<!--  -->
-			<el-table
-				ref="multipleTable"
-				:data="tableData"
-				tooltip-effect="dark"
-				style="width: 100%"
-				border
-				:cell-style="rowClass"
-				:header-cell-style="headClass"
+			<div
+				style="background-color: #fff;margin: 24px 30px;box-sizing: border-box;padding: 24px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 			>
-				<el-table-column label="ID" prop="id"></el-table-column>
-				<el-table-column label="分组名称" prop="name"></el-table-column>
-				<el-table-column
-					label="分组描述"
-					prop="description"
-				></el-table-column>
-				<el-table-column prop="user" label="用户列表">
-					<template slot-scope="scope">
-						<span v-if="scope.row.user.length <= 0">--</span>
-						<span
-							v-else
-							v-for="(item, index) in scope.row.user"
-							:key="index"
-							>{{ item.label }},</span
-						>
-					</template>
-				</el-table-column>
-				<el-table-column label="操作">
-					<template slot-scope="scope">
-						<el-button
-							v-show="menutype.roleU == 1"
-							@click="updatahandleClick(scope.row)"
-							type="text"
-							size="small"
-							:disabled="scope.row.id == 1"
-							>修改</el-button
-						>
-						<el-button
-							v-show="menutype.roleU == 1"
-							@click="handleClick(scope.row)"
-							type="text"
-							size="small"
-							:disabled="scope.row.id == 1"
-							>权限管理</el-button
-						>
-						<el-button
-							v-show="menutype.roleD == 1"
-							@click.native.prevent="deleteRow(scope.row)"
-							type="text"
-							size="small"
-							:disabled="scope.row.id == 1"
-							>删除</el-button
-						>
-					</template>
-				</el-table-column>
-			</el-table>
+				<div class="btn_area">
+					<el-button
+						type="primary"
+						size="small"
+						@click="nwisible"
+						v-show="menutype.roleC == 1"
+						>新建权限分组</el-button
+					>
+				</div>
+				<el-table
+					ref="multipleTable"
+					:data="tableData"
+					tooltip-effect="dark"
+					style="width: 100%"
+					border
+					:cell-style="rowClass"
+					:header-cell-style="headClass"
+				>
+					<el-table-column label="ID" prop="id"></el-table-column>
+					<el-table-column
+						label="分组名称"
+						prop="name"
+					></el-table-column>
+					<el-table-column
+						label="分组描述"
+						prop="description"
+					></el-table-column>
+					<el-table-column prop="user" label="用户列表">
+						<template slot-scope="scope">
+							<span v-if="scope.row.user.length <= 0">--</span>
+							<span
+								v-else
+								v-for="(item, index) in scope.row.user"
+								:key="index"
+								>{{ item.label }},</span
+							>
+						</template>
+					</el-table-column>
+					<el-table-column label="操作">
+						<template slot-scope="scope">
+							<el-button
+								v-show="menutype.roleU == 1"
+								@click="updatahandleClick(scope.row)"
+								type="text"
+								size="small"
+								:disabled="scope.row.id == 1"
+								>修改</el-button
+							>
+							<el-button
+								v-show="menutype.roleU == 1"
+								@click="handleClick(scope.row)"
+								type="text"
+								size="small"
+								:disabled="scope.row.id == 1"
+								>权限管理</el-button
+							>
+							<el-button
+								v-show="menutype.roleD == 1"
+								@click.native.prevent="deleteRow(scope.row)"
+								type="text"
+								size="small"
+								style="color:#F85555"
+								:disabled="scope.row.id == 1"
+								>删除</el-button
+							>
+						</template>
+					</el-table-column>
+				</el-table>
+				<div class="btn_area">
+					<fenye
+						style="float:right;margin:10px 0 0 0;"
+						@fatherMethod="getpage"
+						@fathernum="gettol"
+						:pagesa="total_cnt"
+						:currentPage="currentPage"
+					></fenye>
+				</div>
+			</div>
 			<!--  -->
 			<el-dialog
 				title="权限管理"
@@ -187,15 +210,6 @@
 			</el-dialog>
 
 			<!--  -->
-			<div class="btn_area">
-				<fenye
-					style="float:right;margin:10px 0 0 0;"
-					@fatherMethod="getpage"
-					@fathernum="gettol"
-					:pagesa="total_cnt"
-					:currentPage="currentPage"
-				></fenye>
-			</div>
 		</div>
 	</div>
 </template>
@@ -935,8 +949,6 @@ export default {
 .content {
 	text-align: left;
 	.org_con {
-		margin-top: 20px;
-		margin-bottom: 20px;
 		.btn_area {
 			height: 40px;
 			margin-top: 20px;

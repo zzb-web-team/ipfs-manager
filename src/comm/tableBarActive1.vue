@@ -30,13 +30,16 @@
 		<el-table-column :label="tableOption.label">
 			<template slot-scope="scope">
 				<!-- <el-button @click="detail(scope.row)" size="mini">详情</el-button> -->
-				<el-button @click="toChange(scope.row)" size="mini" type="text"
-                v-show="obnj.roleU==1"
+				<el-button
+					@click="toChange(scope.row)"
+					size="mini"
+					type="text"
+					v-show="obnj.roleU == 1"
 					>修改</el-button
 				>
 
 				<el-button
-                v-show="obnj.roleU==1"
+					v-show="obnj.roleU == 1"
 					@click="disable(scope.row)"
 					type="text"
 					size="mini"
@@ -49,11 +52,12 @@
 					>启用</el-button
 				>
 				<el-button
-                v-show="obnj.roleU==1"
+					v-show="obnj.roleU == 1"
 					@click="disable(scope.row)"
 					type="text"
 					size="mini"
 					v-else
+					style="color:#FF9E28"
 					:disabled="
 						scope.row.id == ipfs_id || scope.row.id == 1
 							? true
@@ -62,17 +66,18 @@
 					>禁用</el-button
 				>
 				<el-button
-                v-show="obnj.roleU==1"
+					v-show="obnj.roleU == 1"
 					@click="changePassword(scope.row)"
 					size="mini"
 					type="text"
 					>重置密码</el-button
 				>
 				<el-button
-                v-show="obnj.roleD==1"
+					v-show="obnj.roleD == 1"
 					@click="toDelete(scope.row)"
 					type="text"
 					size="mini"
+					style="color:#F85555"
 					:disabled="
 						scope.row.id == ipfs_id || scope.row.id == 1
 							? true
@@ -111,11 +116,11 @@ export default {
 		ipfs_id: {
 			type: Number,
 			default: () => {},
-        },
-        obnj:{
-            type:Object,
-            default:()=>{}
-        }
+		},
+		obnj: {
+			type: Object,
+			default: () => {},
+		},
 	},
 	data() {
 		return {};

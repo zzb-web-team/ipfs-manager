@@ -614,8 +614,8 @@ export default {
 			var optionMap = {
 				title: {
 					text: '全国节点分布',
-                    x: 'center',
-                    padding: 50
+					x: 'center',
+					padding: 50,
 				},
 				tooltip: {},
 				legend: {
@@ -792,13 +792,15 @@ export default {
 .nodemap_echarts {
 	background-color: #ffffff;
 	border-radius: 8px;
+	box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);
 }
 .el_tab {
-    width: 100%;
-    margin-top: 24px;
+	width: 100%;
+	margin-top: 24px;
 	background-color: #ffffff;
-    border-radius: 8px;
-    box-sizing: border-box;
-    padding: 30px;
+	border-radius: 8px;
+	box-sizing: border-box;
+	padding: 30px;
+	box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);
 }
 </style>

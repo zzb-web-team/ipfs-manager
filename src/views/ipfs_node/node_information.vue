@@ -98,7 +98,7 @@
 		<!-- 主体表格 -->
 		<div class="rowcon">
 			<div
-				style="text-align:right;padding:0 10px 10px 10px;background-color: #ffffff;"
+				style="text-align:right;padding:0 10px 10px 10px;background-color: #ffffff;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 			>
 				<el-button
 					v-show="menutype.roleE == 1"

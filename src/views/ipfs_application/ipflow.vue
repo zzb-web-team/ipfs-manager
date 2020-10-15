@@ -1,44 +1,33 @@
 <template>
-	<div class="content">
-		<!-- 头部 -->
-		<el-breadcrumb separator="/">
-			<el-breadcrumb-item>
-				<a href="/">IP流量</a>
-			</el-breadcrumb-item>
-		</el-breadcrumb>
+	<div class="content ipflow">
 		<!-- 搜索 -->
-		<div class="seach">
-			<div class="seach_top">
+		<div class="seach rowbg">
+			<div class="item_title">IP流量</div>
+			<el-row
+				type="flex"
+				style="align-items: center;flex-wrap: wrap;align-content: flex-start"
+			>
 				<el-input
 					placeholder="节点IP,节点ID,渠道ID"
 					v-model="input"
+					style="width:11%;margin-bottom: 20px;"
+					size="small"
 					class="input-with-select"
 					@keyup.enter.native="seachuser()"
 				>
 					<i
-						slot="suffix"
+						slot="prefix"
 						class="el-input__icon el-icon-search"
 						@click="seachuser()"
 					></i>
 				</el-input>
-				<div class="seach_top_right" @click="option_display()">
-					筛选
-					<i
-						class="el-icon-caret-bottom"
-						:class="[
-							rotate
-								? 'fa fa-arrow-down go'
-								: 'fa fa-arrow-down aa',
-						]"
-					></i>
-				</div>
-			</div>
-			<div v-if="optiondisplay" class="seach_bottom">
-				<span>业务类型:</span>
+				<span style="margin-bottom: 20px;">业务类型:</span>
 				<el-select
 					v-model="busvalue"
 					placeholder="请选择业务类型"
 					@change="seachuser()"
+					style="width:8%;margin-bottom: 20px;"
+					size="small"
 				>
 					<el-option value="*" label="全部"></el-option>
 					<el-option value="0" label="点播加速"></el-option>
@@ -48,12 +37,14 @@
 						:disabled="true"
 					></el-option>
 				</el-select>
-				<span>业务场景:</span>
+				<span style="margin-bottom: 20px;">业务场景:</span>
 				<el-select
 					v-model="scenevalue"
 					:disabled="scenedis"
 					placeholder="请选择业务场景"
 					@change="seachuser_yongtu()"
+					style="width:8%;margin-bottom: 20px;"
+					size="small"
 				>
 					<el-option value="*" label="全部"></el-option>
 					<el-option value="4" label="分发加速播放"></el-option>
@@ -68,12 +59,14 @@
 						label="缓存刷新"
 					></el-option>
 				</el-select>
-				<span>用途：</span>
+				<span style="margin-bottom: 20px;">用途：</span>
 				<el-select
 					v-model="value"
 					placeholder="请选择"
 					@change="seachuser()"
 					:disabled="yongtu"
+					style="width:8%;margin-bottom: 20px;"
+					size="small"
 				>
 					<el-option value="0" label="全部"></el-option>
 					<el-option
@@ -94,11 +87,13 @@
 						:value="item.value"
 					></el-option> -->
 				</el-select>
-				<span>节点渠道商:</span>
+				<span style="margin-bottom: 20px;">节点渠道商:</span>
 				<el-select
 					v-model="firatvalue"
 					placeholder="请选择一级渠道商"
 					@change="handleChangefirst($event)"
+					style="width:8%;margin-bottom: 20px;"
+					size="small"
 				>
 					<el-option value="*" label="全部"></el-option>
 					<el-option
@@ -113,6 +108,8 @@
 					placeholder="请选择二级渠道商"
 					@change="seachuser()"
 					:disabled="chil_disable"
+					style="width:8%;margin-bottom: 20px;"
+					size="small"
 				>
 					<el-option value="*" label="全部"></el-option>
 					<el-option
@@ -122,11 +119,13 @@
 						:value="item.value"
 					></el-option>
 				</el-select>
-				<span>设备类型:</span>
+				<span style="margin-bottom: 20px;">设备类型:</span>
 				<el-select
 					v-model="devtypevalue"
 					placeholder="请选择设备类型"
 					@change="seachuser()"
+					style="width:8%;margin-bottom: 20px;"
+					size="small"
 				>
 					<el-option value="*" label="全部"></el-option>
 					<el-option
@@ -136,7 +135,7 @@
 						:value="item.name"
 					></el-option>
 				</el-select>
-				<span>选择日期：</span>
+				<span style="margin-bottom: 20px;">选择日期：</span>
 				<el-date-picker
 					v-model="value1"
 					type="daterange"
@@ -145,29 +144,28 @@
 					end-placeholder="结束日期"
 					@change="seachuser()"
 					:picker-options="endPickerOptions"
+					size="small"
+					style="margin-bottom: 20px;"
 				></el-date-picker>
-				<el-button plain type="primary" @click="reset()"
+				<el-button
+					type="primary"
+					round
+					size="small"
+					class="resetseach_btn"
+					style="margin-left: 10px;margin-bottom: 20px;"
+					@click="reset()"
 					>重置</el-button
 				>
-				<!-- <div class="seach_bottom_btn">
-					<el-button
-						type="primary"
-						plain
-						size="mini"
-						@click="seachuser()"
-						>确定</el-button
-					>
-					
-        </div>-->
-			</div>
+			</el-row>
 		</div>
 
 		<!-- 表格 -->
-		<div>
+		<div style="margin: 24px 30px;background: #ffffff;box-sizing: border-box;padding: 24px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);">
 			<div style="text-align:right;padding: 10px;">
 				<el-button
 					v-show="menutype.roleE == 1"
 					type="primary"
+                    size="small"
 					@click="exportexc()"
 					:disabled="showdisable"
 					>导出</el-button
@@ -294,7 +292,6 @@
 					label="视频播放IP"
 				></el-table-column>
 			</el-table>
-		</div>
 		<fenye
 			style="text-align: right;margin: 20px 0px 10px;"
 			@fatherMethod="getpage"
@@ -304,6 +301,7 @@
 			ref="paginations"
 			v-show="tableData.length > 0"
 		></fenye>
+		</div>
 	</div>
 </template>
 
@@ -444,8 +442,8 @@ export default {
 					f = Math.floor(Math.log(data) / Math.log(c));
 				let ar_data = parseFloat(
 					(data / Math.pow(c, f) / time).toFixed(4)
-                );
-				if (ar_data*1024 <1000 && f != 0) {
+				);
+				if (ar_data * 1024 < 1000 && f != 0) {
 					ar_data = parseFloat(
 						((data / Math.pow(c, f) / time) * 1024).toFixed(4)
 					);
@@ -504,8 +502,7 @@ export default {
 					}
 					this.gettab();
 				})
-				.catch((error) => {
-				});
+				.catch((error) => {});
 		},
 		changeSort(val) {
 			// 根据当前排序重新获取后台数据,一般后台会需要一个排序的参数
@@ -771,7 +768,6 @@ export default {
 	text-align: left;
 	.seach {
 		width: 100%;
-		margin-top: 20px;
 		.seach_top {
 			width: 100%;
 			height: 60px;

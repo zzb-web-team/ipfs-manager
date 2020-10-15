@@ -1,45 +1,13 @@
 <template>
-	<div class="content">
-		<el-breadcrumb separator="/">
-			<el-breadcrumb-item>
-				<a>rouji安装统计</a>
-			</el-breadcrumb-item>
-		</el-breadcrumb>
-		<br />
-		<!-- 搜索 -->
-
-		<div class="seach">
-			<!-- <div class="seach_top">
-				<el-col :span="4">
-					<el-input
-						placeholder="请输入搜索条件"
-						v-model="input"
-						class="input-with-select"
-					>
-						<i
-							slot="prefix"
-							class="el-input__icon el-icon-search"
-							@click="seachuser()"
-						></i>
-					</el-input>
-				</el-col>
-				<div class="seach_top_right" @click="option_display()">
-					筛选
-					<i
-						class="el-icon-caret-bottom"
-						:class="[
-							rotate
-								? 'fa fa-arrow-down go'
-								: 'fa fa-arrow-down aa',
-						]"
-					></i>
-				</div>
-			</div> -->
+	<div class="content rouji_list_statistics">
+		<div class="seach rowbg">
+			<div class="item_title">rouji安装统计</div>
 			<div class="seach_bottom">
 				<el-col :span="3">
 					<el-input
 						placeholder="请输入IP"
 						v-model="input"
+						size="small"
 						class="input-with-select"
 						@keyup.enter.native="seachuser"
 					>
@@ -52,6 +20,7 @@
 				</el-col>
 				<span>状态：</span>
 				<el-select
+					size="small"
 					v-model="value"
 					placeholder="请选择"
 					@change="seachuser"
@@ -68,60 +37,75 @@
 				<el-date-picker
 					v-model="value1"
 					type="daterange"
+					size="small"
 					range-separator="至"
 					start-placeholder="开始日期"
 					end-placeholder="结束日期"
 					@change="seachuser"
 					:picker-options="endPickerOptions"
 				></el-date-picker>
-				<el-button plain @click="reset()">重置</el-button>
+				<el-button
+					type="primary"
+					round
+					size="small"
+					@click="reset()"
+					class="resetseach_btn"
+					style="margin-left: 10px;"
+					>重置</el-button
+				>
 			</div>
 		</div>
-		<el-table
-			:data="tableData"
-			border
-			style="width: 100%"
-			:cell-style="rowClass"
-			:header-cell-style="headClass"
-			@sort-change="sortable_time"
+		<div
+			style="background: #ffffff;margin: 24px 30px;box-sizing: border-box;padding: 24px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 		>
-			<el-table-column prop="code" label="状态">
-				<template slot-scope="scope">
-					<span>{{ scope.row.code | getcode }}</span>
-				</template>
-			</el-table-column>
-			<el-table-column prop="ip" label="IP"> </el-table-column>
-			<el-table-column prop="ostype" label="操作系统"> </el-table-column>
-			<el-table-column prop="kernel" label="内核"></el-table-column>
-			<el-table-column prop="cpu" label="cpu芯片" width="350">
-			</el-table-column>
-			<el-table-column prop="cpucore" label="cpu核数">
-				<template slot-scope="scope">
-					<span>{{ scope.row.cpucore }}核</span>
-				</template>
-			</el-table-column>
-			<el-table-column prop="storage" label="内存大小">
-				<template slot-scope="scope">
-					<span>{{
-						scope.row.storage ? scope.row.storage : '--'
-					}}</span>
-				</template>
-			</el-table-column>
-			<el-table-column prop="disk" label="磁盘大小"> </el-table-column>
-			<el-table-column prop="mac" label="MAC地址"> </el-table-column>
-			<el-table-column prop="time_create" sortable label="创建日期">
-				<template slot-scope="scope">
-					<span>{{ scope.row.time_create | getymd }}</span>
-				</template>
-			</el-table-column>
-		</el-table>
-		<fenye
-			style="text-align: right;margin:20px 0 0 0;"
-			@fatherMethod="getpagefs"
-			@fathernum="gettolfs"
-			:pagesa="totalCnt"
-			:currentPage="currentPagefs"
-		></fenye>
+			<el-table
+				:data="tableData"
+				border
+				style="width: 100%"
+				:cell-style="rowClass"
+				:header-cell-style="headClass"
+				@sort-change="sortable_time"
+			>
+				<el-table-column prop="code" label="状态">
+					<template slot-scope="scope">
+						<span>{{ scope.row.code | getcode }}</span>
+					</template>
+				</el-table-column>
+				<el-table-column prop="ip" label="IP"> </el-table-column>
+				<el-table-column prop="ostype" label="操作系统">
+				</el-table-column>
+				<el-table-column prop="kernel" label="内核"></el-table-column>
+				<el-table-column prop="cpu" label="cpu芯片" width="350">
+				</el-table-column>
+				<el-table-column prop="cpucore" label="cpu核数">
+					<template slot-scope="scope">
+						<span>{{ scope.row.cpucore }}核</span>
+					</template>
+				</el-table-column>
+				<el-table-column prop="storage" label="内存大小">
+					<template slot-scope="scope">
+						<span>{{
+							scope.row.storage ? scope.row.storage : '--'
+						}}</span>
+					</template>
+				</el-table-column>
+				<el-table-column prop="disk" label="磁盘大小">
+				</el-table-column>
+				<el-table-column prop="mac" label="MAC地址"> </el-table-column>
+				<el-table-column prop="time_create" sortable label="创建日期">
+					<template slot-scope="scope">
+						<span>{{ scope.row.time_create | getymd }}</span>
+					</template>
+				</el-table-column>
+			</el-table>
+			<fenye
+				style="text-align: right;margin:20px 0 0 0;"
+				@fatherMethod="getpagefs"
+				@fathernum="gettolfs"
+				:pagesa="totalCnt"
+				:currentPage="currentPagefs"
+			></fenye>
+		</div>
 	</div>
 </template>
 
@@ -328,9 +312,8 @@ export default {
 		.seach_bottom {
 			text-align: left;
 			// height: 100px;
-			background: #ffffff;
 			border-radius: 10px;
-			padding: 10px 15px 5px 10px;
+			// padding: 10px 15px 5px 10px;
 			margin-bottom: 10px;
 			.el-select {
 				width: 200px;
