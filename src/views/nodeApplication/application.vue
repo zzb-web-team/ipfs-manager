@@ -347,7 +347,7 @@
 										:cell-style="rowClass"
 										:header-cell-style="headClass"
 										style="width: 100%"
-										height="480"
+										height="916"
 									>
 										<el-table-column
 											prop="nodeid"
@@ -470,7 +470,7 @@
 										:cell-style="rowClass"
 										:header-cell-style="headClass"
 										style="width: 100%"
-										height="480"
+										height="916"
 									>
 										<el-table-column
 											prop="nodeid"

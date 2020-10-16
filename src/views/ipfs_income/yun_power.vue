@@ -29,7 +29,7 @@
 						@click="seachuser()"
 					></i>
 				</el-input>
-                					<span style="margin-left:10px;">节点渠道商:</span>
+                	<span style="margin-left:10px;">节点渠道商：</span>
 					<el-select
 						v-model="firstchid"
 						value-key

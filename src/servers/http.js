@@ -76,9 +76,9 @@ service.interceptors.response.use(
         if (response.config.headers.showLoading !== false) {
             hideLoading();
         }
-        if (res.data.status == -900) {
-            Message.error(res.data.msg);
-        }
+        // if (res.data.status == -900) {
+        //     Message.error(res.data.msg);
+        // }
         return res;
     },
     error => {

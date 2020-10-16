@@ -24,7 +24,7 @@
 							></i>
 						</el-input>
 						<span style="margin-right: 10px;margin-left: 20px;"
-							>状态</span
+							>状态:</span
 						>
 						<el-select
 							v-model="value"
@@ -41,7 +41,7 @@
 							></el-option>
 						</el-select>
 						<span style="margin-right: 10px;margin-left: 20px;"
-							>部门</span
+							>部门:</span
 						>
 						<el-select
 							placeholder="一级部门"
@@ -75,7 +75,7 @@
 							></el-option>
 						</el-select>
 						<span style="margin-right: 10px;margin-left: 20px;"
-							>职位</span
+							>职位:</span
 						>
 						<el-select
 							v-model="searchposition"
@@ -1467,7 +1467,7 @@ export default {
 		},
 		//禁用
 		disable(val) {
-			this.ruleForm3.uid = this.ipfs_user;
+			this.ruleForm3.uid = this.ipfs_id;
 			this.ruleForm3.uname = this.ipfs_user;
 			this.ruleForm3.username = val.username;
 			this.ruleForm3.id = val.id;

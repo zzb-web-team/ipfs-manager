@@ -125,7 +125,7 @@
 										:index="itemChild.path"
 										:key="itemChild.path"
 										v-show="
-												itemChild.name != '节点详情' &&
+											itemChild.name != '节点详情' &&
 												itemChild.name != '调整收益参数'
 										"
 										class="two_menu"
@@ -234,13 +234,7 @@ export default {
 	// 	console.log(this.menlist);
 	// },
 	mounted() {
-		let con_h =
-			document.getElementsByClassName('content-container')[0]
-				.offsetHeight -
-			40 +
-			'px' +
-			' ' +
-			'!important';
+		let con_h =document.getElementsByClassName('el-menu')[0].offsetHeight -20 +'px' +' ' +'!important';
 		this.con_h.minHeight = con_h;
 		this.$nextTick(function() {
 			this.menlist = JSON.parse(localStorage.getItem('menus'));

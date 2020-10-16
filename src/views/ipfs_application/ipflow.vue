@@ -21,7 +21,7 @@
 						@click="seachuser()"
 					></i>
 				</el-input>
-				<span style="margin-bottom: 20px;">业务类型:</span>
+				<span style="margin:0 0 20px 20px;">业务类型：</span>
 				<el-select
 					v-model="busvalue"
 					placeholder="请选择业务类型"
@@ -37,7 +37,7 @@
 						:disabled="true"
 					></el-option>
 				</el-select>
-				<span style="margin-bottom: 20px;">业务场景:</span>
+				<span style="margin:0 0 20px 20px;">业务场景：</span>
 				<el-select
 					v-model="scenevalue"
 					:disabled="scenedis"
@@ -59,7 +59,7 @@
 						label="缓存刷新"
 					></el-option>
 				</el-select>
-				<span style="margin-bottom: 20px;">用途：</span>
+				<span style="margin:0 0 20px 20px;">用途：</span>
 				<el-select
 					v-model="value"
 					placeholder="请选择"
@@ -87,7 +87,7 @@
 						:value="item.value"
 					></el-option> -->
 				</el-select>
-				<span style="margin-bottom: 20px;">节点渠道商:</span>
+				<span style="margin:0 0 20px 20px;">节点渠道商：</span>
 				<el-select
 					v-model="firatvalue"
 					placeholder="请选择一级渠道商"
@@ -119,7 +119,7 @@
 						:value="item.value"
 					></el-option>
 				</el-select>
-				<span style="margin-bottom: 20px;">设备类型:</span>
+				<span style="margin:0 0 20px 20px;">设备类型：</span>
 				<el-select
 					v-model="devtypevalue"
 					placeholder="请选择设备类型"
@@ -135,7 +135,7 @@
 						:value="item.name"
 					></el-option>
 				</el-select>
-				<span style="margin-bottom: 20px;">选择日期：</span>
+				<span style="margin:0 0 20px 20px;">选择日期：</span>
 				<el-date-picker
 					v-model="value1"
 					type="daterange"

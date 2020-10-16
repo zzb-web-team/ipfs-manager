@@ -23,7 +23,7 @@
 								@click="seachuser()"
 							></i>
 						</el-input>
-						<span>状态：</span>
+						<span style="margin:0 0 20px 20px;">状态：</span>
 						<el-select
 							v-model="value"
 							size="small"
@@ -39,7 +39,7 @@
 								:value="item.value"
 							></el-option>
 						</el-select>
-						<span>操作类型：</span>
+						<span style="margin:0 0 20px 20px;">操作类型：</span>
 						<el-select
 							v-model="value2"
 							size="small"
@@ -55,7 +55,7 @@
 								:value="item.label"
 							></el-option>
 						</el-select>
-						<span>操作时间：</span>
+						<span style="margin:0 0 20px 20px;">操作时间：</span>
 						<el-date-picker
 							v-model="value1"
 							size="small"

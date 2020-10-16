@@ -676,6 +676,10 @@
 					:currentPage="currentPage"
 				></fenye>
 			</div>
+            <div v-show="tableDataip.length <=0">
+                <img src="../../assets/img/nodata.png" alt="">
+                <p>暂无数据</p>
+            </div>
 		</div>
 	</div>
 </template>
@@ -1016,7 +1020,7 @@ export default {
 			width: 100%;
 		}
 		.ipfs_item_toptwo {
-			width: 288px;
+			width: 19%;
 			height: 454px;
 			display: flex;
 			flex-direction: column;

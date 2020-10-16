@@ -1,5 +1,5 @@
 <template>
-	<div class="content">
+	<div class="content newstyle">
 		<!-- <el-breadcrumb separator="/">
 			<el-breadcrumb-item>
 				<a>节点分布</a>
@@ -325,6 +325,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.content{
+    overflow: hidden;
+}
 #new_echarts_two {
 	width: 100%;
 	height: 800px;

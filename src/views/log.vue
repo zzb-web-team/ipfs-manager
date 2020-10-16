@@ -233,11 +233,10 @@ export default {
 					if (res.status == 0) {
 						if (res.data && res.data.length > 0) {
 							let arrlist = [1, 2, 3, 4, 5, 6];
-
+                            console.log(res.data);
 							res.data.forEach((item) => {
 								if (
-									item.name == 'IPFS节点信息' ||
-									item.name == '节点信息'
+									item.name == 'IPFS节点信息'
 								) {
 									item.name = 'IPFS节点信息';
 									arrlist[0] = item;

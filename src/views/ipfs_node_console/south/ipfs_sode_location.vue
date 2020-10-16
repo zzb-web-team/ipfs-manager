@@ -404,7 +404,7 @@
 						type="primary"
 						@click="uopset"
 						size="small"
-						style="margin-left: 10px;margin-top: 20px;"
+						style="margin-left: 10px;margin-top: 25px;"
 						>重置</el-button
 					>
 				</div>
@@ -427,10 +427,7 @@
 			</div>
 			<div class="ipfs_box">
 				<div class="nodata" v-show="showdata">
-					<i
-						class="el-icon-document-delete"
-						style="font-size:80px"
-					></i>
+					 <img src="../../../assets/img/nodata.png">
 					<p>暂无数据</p>
 				</div>
 
@@ -499,21 +496,18 @@
 							{{ item.firstch }}
 						</p>
 						<p style="text-align:left">
-							<b>{{ item.devicetype }}</b>
+							<span>{{ item.devicetype }}</span>
 							<span>{{ item.os }}</span>
 							<span>{{ item.arch }}</span>
 						</p>
-						<div style="display: flex;width: 100%;">
-							<div style="width:60px;font-weight: 600;">
-								节点ID：
-							</div>
-							<div>
-								{{ item.nodeId }}
-							</div>
+						<div
+							style="display: flex;width: 100%;align-items: center;"
+						>
+							<span style="display: inline-block;width: 75px;"
+								>节点ID：</span
+							>
+							<p style="color:#83838D;">{{ item.nodeId }}</p>
 						</div>
-						<p
-							style="word-wrap:break-word;word-break:normal;text-align: left;"
-						></p>
 					</div>
 					<ol>
 						<li>
@@ -908,6 +902,7 @@ export default {
 	},
 };
 </script>
+
 <style lang="scss" scoped>
 .content {
 	// width: 1920px;
@@ -1039,6 +1034,7 @@ export default {
 				margin-right: 20px;
 			}
 			.ipfs_item_img {
+				width: 100%;
 				margin: 25px 0;
 				border-bottom: 1px solid #eeeeee;
 				color: #404447;
@@ -1049,13 +1045,16 @@ export default {
 				justify-content: start;
 				align-items: center;
 				font-size: 14px;
+				margin-bottom: 10px;
 				.ipfs_text_title {
-					color: #b2b5b8;
+					display: inline-block;
+					width: 75px;
 					font-size: 12px;
+					text-align: left;
 				}
 				.ipfs_text_con {
+					color: #83838d;
 					width: 75px;
-					margin-left: 20px;
 					text-align: left;
 					overflow: hidden;
 				}

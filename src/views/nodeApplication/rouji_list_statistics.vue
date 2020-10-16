@@ -18,7 +18,7 @@
 						></i>
 					</el-input>
 				</el-col>
-				<span>状态：</span>
+				<span style="margin:0 0 20px 20px;">状态：</span>
 				<el-select
 					size="small"
 					v-model="value"
@@ -33,7 +33,7 @@
 						:value="item.value"
 					></el-option>
 				</el-select>
-				<span>操作时间：</span>
+				<span style="margin:0 0 20px 20px;">操作时间：</span>
 				<el-date-picker
 					v-model="value1"
 					type="daterange"

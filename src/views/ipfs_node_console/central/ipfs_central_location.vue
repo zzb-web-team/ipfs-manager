@@ -35,7 +35,11 @@
 		<div class="ipfs_title_next" v-if="rotate == 0">
 			<div class="maptitle">河南</div>
 			<el-row type="flex" justify="space-around" class="top_cube">
-				<el-col :span="6" class="ipfs_con_tit" style="margin-right:24px;">
+				<el-col
+					:span="6"
+					class="ipfs_con_tit"
+					style="margin-right:24px;"
+				>
 					<div>
 						<img src="../../../assets/img/nodejiedian.png" alt="" />
 					</div>
@@ -54,9 +58,16 @@
 						</div>
 					</div>
 				</el-col>
-                <el-col :span="6" class="ipfs_con_tit" style="margin-right:24px;">
+				<el-col
+					:span="6"
+					class="ipfs_con_tit"
+					style="margin-right:24px;"
+				>
 					<div>
-						<img src="../../../assets/img/rongliangyudanxing.png" alt="" />
+						<img
+							src="../../../assets/img/rongliangyudanxing.png"
+							alt=""
+						/>
 					</div>
 					<div class="top_cube_item_right">
 						<div>
@@ -73,7 +84,11 @@
 						</div>
 					</div>
 				</el-col>
-                <el-col :span="6" class="ipfs_con_tit" style="margin-right:24px;">
+				<el-col
+					:span="6"
+					class="ipfs_con_tit"
+					style="margin-right:24px;"
+				>
 					<div>
 						<img src="../../../assets/img/leijichakan.png" alt="" />
 					</div>
@@ -92,9 +107,12 @@
 						</div>
 					</div>
 				</el-col>
-                 <el-col :span="6" class="ipfs_con_tit">
+				<el-col :span="6" class="ipfs_con_tit">
 					<div>
-						<img src="../../../assets/img/conventional.png" alt="" />
+						<img
+							src="../../../assets/img/conventional.png"
+							alt=""
+						/>
 					</div>
 					<div class="top_cube_item_right">
 						<div>
@@ -134,8 +152,12 @@
 		</div>
 		<div class="ipfs_title_next" v-if="rotate == 1">
 			<div class="maptitle">湖北</div>
-						<el-row type="flex" justify="space-around" class="top_cube">
-				<el-col :span="6" class="ipfs_con_tit" style="margin-right:24px;">
+			<el-row type="flex" justify="space-around" class="top_cube">
+				<el-col
+					:span="6"
+					class="ipfs_con_tit"
+					style="margin-right:24px;"
+				>
 					<div>
 						<img src="../../../assets/img/nodejiedian.png" alt="" />
 					</div>
@@ -154,9 +176,16 @@
 						</div>
 					</div>
 				</el-col>
-                <el-col :span="6" class="ipfs_con_tit" style="margin-right:24px;">
+				<el-col
+					:span="6"
+					class="ipfs_con_tit"
+					style="margin-right:24px;"
+				>
 					<div>
-						<img src="../../../assets/img/rongliangyudanxing.png" alt="" />
+						<img
+							src="../../../assets/img/rongliangyudanxing.png"
+							alt=""
+						/>
 					</div>
 					<div class="top_cube_item_right">
 						<div>
@@ -173,7 +202,11 @@
 						</div>
 					</div>
 				</el-col>
-                <el-col :span="6" class="ipfs_con_tit" style="margin-right:24px;">
+				<el-col
+					:span="6"
+					class="ipfs_con_tit"
+					style="margin-right:24px;"
+				>
 					<div>
 						<img src="../../../assets/img/leijichakan.png" alt="" />
 					</div>
@@ -192,9 +225,12 @@
 						</div>
 					</div>
 				</el-col>
-                 <el-col :span="6" class="ipfs_con_tit">
+				<el-col :span="6" class="ipfs_con_tit">
 					<div>
-						<img src="../../../assets/img/conventional.png" alt="" />
+						<img
+							src="../../../assets/img/conventional.png"
+							alt=""
+						/>
 					</div>
 					<div class="top_cube_item_right">
 						<div>
@@ -234,8 +270,12 @@
 		</div>
 		<div class="ipfs_title_next" v-if="rotate == 2">
 			<div class="maptitle">江西</div>
-						<el-row type="flex" justify="space-around" class="top_cube">
-				<el-col :span="6" class="ipfs_con_tit" style="margin-right:24px;">
+			<el-row type="flex" justify="space-around" class="top_cube">
+				<el-col
+					:span="6"
+					class="ipfs_con_tit"
+					style="margin-right:24px;"
+				>
 					<div>
 						<img src="../../../assets/img/nodejiedian.png" alt="" />
 					</div>
@@ -254,9 +294,16 @@
 						</div>
 					</div>
 				</el-col>
-                <el-col :span="6" class="ipfs_con_tit" style="margin-right:24px;">
+				<el-col
+					:span="6"
+					class="ipfs_con_tit"
+					style="margin-right:24px;"
+				>
 					<div>
-						<img src="../../../assets/img/rongliangyudanxing.png" alt="" />
+						<img
+							src="../../../assets/img/rongliangyudanxing.png"
+							alt=""
+						/>
 					</div>
 					<div class="top_cube_item_right">
 						<div>
@@ -273,7 +320,11 @@
 						</div>
 					</div>
 				</el-col>
-                <el-col :span="6" class="ipfs_con_tit" style="margin-right:24px;">
+				<el-col
+					:span="6"
+					class="ipfs_con_tit"
+					style="margin-right:24px;"
+				>
 					<div>
 						<img src="../../../assets/img/leijichakan.png" alt="" />
 					</div>
@@ -292,9 +343,12 @@
 						</div>
 					</div>
 				</el-col>
-                 <el-col :span="6" class="ipfs_con_tit">
+				<el-col :span="6" class="ipfs_con_tit">
 					<div>
-						<img src="../../../assets/img/conventional.png" alt="" />
+						<img
+							src="../../../assets/img/conventional.png"
+							alt=""
+						/>
 					</div>
 					<div class="top_cube_item_right">
 						<div>
@@ -334,8 +388,12 @@
 		</div>
 		<div class="ipfs_title_next" v-if="rotate == 3">
 			<div class="maptitle">湖南</div>
-						<el-row type="flex" justify="space-around" class="top_cube">
-				<el-col :span="6" class="ipfs_con_tit" style="margin-right:24px;">
+			<el-row type="flex" justify="space-around" class="top_cube">
+				<el-col
+					:span="6"
+					class="ipfs_con_tit"
+					style="margin-right:24px;"
+				>
 					<div>
 						<img src="../../../assets/img/nodejiedian.png" alt="" />
 					</div>
@@ -354,9 +412,16 @@
 						</div>
 					</div>
 				</el-col>
-                <el-col :span="6" class="ipfs_con_tit" style="margin-right:24px;">
+				<el-col
+					:span="6"
+					class="ipfs_con_tit"
+					style="margin-right:24px;"
+				>
 					<div>
-						<img src="../../../assets/img/rongliangyudanxing.png" alt="" />
+						<img
+							src="../../../assets/img/rongliangyudanxing.png"
+							alt=""
+						/>
 					</div>
 					<div class="top_cube_item_right">
 						<div>
@@ -373,7 +438,11 @@
 						</div>
 					</div>
 				</el-col>
-                <el-col :span="6" class="ipfs_con_tit" style="margin-right:24px;">
+				<el-col
+					:span="6"
+					class="ipfs_con_tit"
+					style="margin-right:24px;"
+				>
 					<div>
 						<img src="../../../assets/img/leijichakan.png" alt="" />
 					</div>
@@ -392,9 +461,12 @@
 						</div>
 					</div>
 				</el-col>
-                 <el-col :span="6" class="ipfs_con_tit">
+				<el-col :span="6" class="ipfs_con_tit">
 					<div>
-						<img src="../../../assets/img/conventional.png" alt="" />
+						<img
+							src="../../../assets/img/conventional.png"
+							alt=""
+						/>
 					</div>
 					<div class="top_cube_item_right">
 						<div>
@@ -508,7 +580,7 @@
 						type="primary"
 						@click="uopset"
 						size="small"
-						style="margin-left: 10px;margin-top: 20px;"
+						style="margin-left: 10px;margin-top: 25px;"
 						>重置</el-button
 					>
 				</div>
@@ -531,10 +603,7 @@
 			</div>
 			<div class="ipfs_box">
 				<div class="nodata" v-show="showdata">
-					<i
-						class="el-icon-document-delete"
-						style="font-size:80px"
-					></i>
+                    <img src="../../../assets/img/nodata.png">
 					<p>暂无数据</p>
 				</div>
 
@@ -603,21 +672,18 @@
 							{{ item.firstch }}
 						</p>
 						<p style="text-align:left">
-							<b>{{ item.devicetype }}</b>
+							<span>{{ item.devicetype }}</span>
 							<span>{{ item.os }}</span>
 							<span>{{ item.arch }}</span>
 						</p>
-						<div style="display: flex;width: 100%;">
-							<div style="width:60px;font-weight: 600;">
-								节点ID：
-							</div>
-							<div>
-								{{ item.nodeId }}
-							</div>
+						<div
+							style="display: flex;width: 100%;align-items: center;"
+						>
+							<span style="display: inline-block;width: 75px;"
+								>节点ID：</span
+							>
+							<p style="color:#83838D;">{{ item.nodeId }}</p>
 						</div>
-						<p
-							style="word-wrap:break-word;word-break:normal;text-align: left;"
-						></p>
 					</div>
 					<ol>
 						<li>
@@ -750,13 +816,13 @@ export default {
 					contit: '累计存储容量',
 					connum: '0B',
 					url: require('../../../assets/img/cuncurl.png'),
-                },
-                {
+				},
+				{
 					contit: '当前峰值上行带宽',
 					connum: '0B',
 					url: require('../../../assets/img/cuncurl.png'),
-                },
-                {
+				},
+				{
 					contit: '当前峰值下行带宽',
 					connum: '0B',
 					url: require('../../../assets/img/cuncurl.png'),
@@ -1041,8 +1107,8 @@ export default {
 		}
 		.top_cube {
 			height: 204px;
-            box-sizing: border-box;
-            padding:0 30px;
+			box-sizing: border-box;
+			padding: 0 30px;
 		}
 		.ipfs_con_tit {
 			background: rgba(255, 255, 255, 1);
@@ -1124,6 +1190,7 @@ export default {
 				margin-right: 20px;
 			}
 			.ipfs_item_img {
+				width: 100%;
 				margin: 25px 0;
 				border-bottom: 1px solid #eeeeee;
 				color: #404447;
@@ -1134,13 +1201,16 @@ export default {
 				justify-content: start;
 				align-items: center;
 				font-size: 14px;
+				margin-bottom: 10px;
 				.ipfs_text_title {
-					color: #b2b5b8;
+					display: inline-block;
+					width: 75px;
 					font-size: 12px;
+					text-align: left;
 				}
 				.ipfs_text_con {
+					color: #83838d;
 					width: 75px;
-					margin-left: 20px;
 					text-align: left;
 					overflow: hidden;
 				}

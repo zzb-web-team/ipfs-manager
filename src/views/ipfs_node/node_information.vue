@@ -8,7 +8,9 @@
 		</el-breadcrumb> -->
 		<!-- 搜索框 -->
 		<div class="rowbg">
-			<div class="item_title">节点信息</div>
+            
+			<div class="item_title">节点信息</i></div>
+            
 			<el-row type="flex" justify="start" style="white-space:nowrap;">
 				<el-input
 					placeholder="请输入节点IP，节点ID"
