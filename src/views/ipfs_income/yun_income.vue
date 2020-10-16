@@ -93,8 +93,7 @@
 					size="mini"
 					@click="exportexc()"
 					:disabled="showdisable"
-					>导出<i class="el-icon-folder-add el-icon--right"></i
-				></el-button>
+					>导出<i class="iconfont icon-daochu" style="color:#1672E8;margin-left: 5px;"></i></el-button>
 			</div>
 			<el-table
 				:data="tableData"

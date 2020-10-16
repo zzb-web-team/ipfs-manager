@@ -220,14 +220,14 @@
 						</div>
 						<!--  -->
 						<div class="device_form">
-							<el-button
+							<!-- <el-button
 								v-show="menutype.roleE == 1"
 								class="ip_upload_btn"
 								@click="ip_upload"
 								type="text"
 								size="medium"
 								><i class="el-icon-download"></i
-							></el-button>
+							></el-button> -->
 							<div
 								id="myChart3"
 								:style="{ height: '600px', width: '100%' }"
@@ -936,7 +936,8 @@ export default {
 			menutype: {},
 			radio: 0,
 			tabtitle_flow: '使用流量',
-			tabtitle_storage: '占用存储',
+            tabtitle_storage: '占用存储',
+            echartsexport: true,
 		};
 	},
 	mounted() {
@@ -1031,7 +1032,12 @@ export default {
 		}
 		let munulist = JSON.parse(localStorage.getItem('menus'));
 		let pathname = this.$route.path;
-		this.menutype = menudisable(munulist, pathname);
+        this.menutype = menudisable(munulist, pathname);
+        if(this.menutype.roleE == 1){
+            this.echartsexport=true;
+        }else{
+            this.echartsexport=false;
+        }
 	},
 	beforeDestroy() {
 		if (!this.chart) {
@@ -1753,6 +1759,7 @@ export default {
 				});
 		},
 		configure() {
+            let _this=this;
 			let myChart = echarts.init(document.getElementById('myChart3')); //这里是为了获得容器所在位置
 			window.onresize = myChart.resize;
 			let options = {
@@ -1771,6 +1778,21 @@ export default {
 					data: this.avgDataFlowUtily.timeArray.map(function(item) {
 						return getday(item);
 					}),
+                },
+                toolbox: {
+					right: '10%',
+					feature: {
+						mydow: {
+							show: _this.echartsexport,
+							itemSize: 15,
+							title: '导出',
+							icon:
+								'path://M1000.533333 250.453333c-14.933333-14.933333-35.413333-23.04-56.746666-23.04h-403.2l-52.48-110.506666c-8.533333-17.92-26.453333-29.44-46.506667-29.44H50.773333c-13.653333 0-26.453333 5.546667-35.84 14.933333-9.386667 9.813333-14.933333 22.613333-14.933333 35.84v724.48a80.213333 80.213333 0 0 0 79.786667 79.786667h865.28c20.906667 0 41.386667-8.533333 56.32-23.466667 14.08-14.933333 22.613333-35.413333 22.613333-56.32V307.2c0-21.333333-8.533333-41.813333-23.466667-56.746667z',
+							onclick: function() {
+								_this.ip_upload();
+							},
+						},
+					},
 				},
 				tooltip: {
 					trigger: 'axis',

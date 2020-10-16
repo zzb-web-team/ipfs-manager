@@ -1,63 +1,152 @@
 <template>
 	<div class="content">
 		<!-- 标题 -->
-		<div class="ipfs_title">{{ location_name }}</div>
-		<div class="ipfs_con ipfs_con_label">
-			<div class="ipfs_con_left">节点组网分布</div>
-			<div class="ipfs_con_right">
-				<span
-					:class="[rotate == 0 ? 'bluma' : 'eema']"
-					@click="setmap_show('0')"
-					class="setmap_btn"
-					>福建</span
-				>
-				<span
-					:class="[rotate == 1 ? 'bluma' : 'eema']"
-					@click="setmap_show('1')"
-					class="setmap_btn"
-					>江苏</span
-				><span
-					:class="[rotate == 2 ? 'bluma' : 'eema']"
-					@click="setmap_show('2')"
-					class="setmap_btn"
-					>安徽</span
-				><span
-					:class="[rotate == 3 ? 'bluma' : 'eema']"
-					@click="setmap_show('3')"
-					class="setmap_btn"
-					>山东</span
-				><span
-					:class="[rotate == 4 ? 'bluma' : 'eema']"
-					@click="setmap_show('4')"
-					class="setmap_btn"
-					>上海</span
-				>
-				<span
-					:class="[rotate == 5 ? 'bluma' : 'eema']"
-					@click="setmap_show('5')"
-					class="setmap_btn"
-					>浙江</span
-				>
+		<div class="search rowbg">
+			<div class="item_title">{{ location_name }}</div>
+			<div class="ipfs_con ipfs_con_label">
+				<div class="ipfs_con_left">节点组网分布</div>
+				<div class="ipfs_con_right">
+					<span
+						:class="[rotate == 0 ? 'bluma' : 'eema']"
+						@click="setmap_show('0')"
+						class="setmap_btn"
+						>福建</span
+					>
+					<span
+						:class="[rotate == 1 ? 'bluma' : 'eema']"
+						@click="setmap_show('1')"
+						class="setmap_btn"
+						>江苏</span
+					><span
+						:class="[rotate == 2 ? 'bluma' : 'eema']"
+						@click="setmap_show('2')"
+						class="setmap_btn"
+						>安徽</span
+					><span
+						:class="[rotate == 3 ? 'bluma' : 'eema']"
+						@click="setmap_show('3')"
+						class="setmap_btn"
+						>山东</span
+					><span
+						:class="[rotate == 4 ? 'bluma' : 'eema']"
+						@click="setmap_show('4')"
+						class="setmap_btn"
+						>上海</span
+					>
+					<span
+						:class="[rotate == 5 ? 'bluma' : 'eema']"
+						@click="setmap_show('5')"
+						class="setmap_btn"
+						>浙江</span
+					>
+				</div>
 			</div>
 		</div>
 		<!-- 主要内容 -->
 		<div class="ipfs_title_next" v-if="rotate == 0">
 			<div class="maptitle">福建</div>
-			<el-row type="flex" justify="space-between">
+			<el-row type="flex" justify="space-around" class="top_cube">
 				<el-col
-					:span="3"
-					v-for="(item, index) in dar"
-					:key="index"
+					:span="6"
 					class="ipfs_con_tit"
+					style="margin-right:24px;"
 				>
-					<div class="alltitle">
-						<img :src="item.url" alt />
-						<span>{{ item.contit }}</span>
+					<div>
+						<img src="../../../assets/img/nodejiedian.png" alt="" />
 					</div>
-					<div class="allnum">{{ item.connum }}</div>
+					<div class="top_cube_item_right">
+						<div>
+							<div class="alltitle">
+								<span>{{ dar[0].contit }}</span>
+							</div>
+							<div class="allnum">{{ dar[0].connum }}</div>
+						</div>
+						<div>
+							<div class="alltitle">
+								<span>{{ dar[1].contit }}</span>
+							</div>
+							<div class="allnum">{{ dar[1].connum }}</div>
+						</div>
+					</div>
+				</el-col>
+				<el-col
+					:span="6"
+					class="ipfs_con_tit"
+					style="margin-right:24px;"
+				>
+					<div>
+						<img
+							src="../../../assets/img/rongliangyudanxing.png"
+							alt=""
+						/>
+					</div>
+					<div class="top_cube_item_right">
+						<div>
+							<div class="alltitle">
+								<span>{{ dar[2].contit }}</span>
+							</div>
+							<div class="allnum">{{ dar[2].connum }}</div>
+						</div>
+						<div>
+							<div class="alltitle">
+								<span>{{ dar[4].contit }}</span>
+							</div>
+							<div class="allnum">{{ dar[4].connum }}</div>
+						</div>
+					</div>
+				</el-col>
+				<el-col
+					:span="6"
+					class="ipfs_con_tit"
+					style="margin-right:24px;"
+				>
+					<div>
+						<img src="../../../assets/img/leijichakan.png" alt="" />
+					</div>
+					<div class="top_cube_item_right">
+						<div>
+							<div class="alltitle">
+								<span>{{ dar[5].contit }}</span>
+							</div>
+							<div class="allnum">{{ dar[5].connum }}</div>
+						</div>
+						<div>
+							<div class="alltitle">
+								<span>{{ dar[6].contit }}</span>
+							</div>
+							<div class="allnum">{{ dar[6].connum }}</div>
+						</div>
+					</div>
+				</el-col>
+				<el-col :span="6" class="ipfs_con_tit">
+					<div>
+						<img
+							src="../../../assets/img/conventional.png"
+							alt=""
+						/>
+					</div>
+					<div class="top_cube_item_right">
+						<div>
+							<div class="alltitle">
+								<span>{{ dar[7].contit }}</span>
+							</div>
+							<div class="allnum">{{ dar[7].connum }}</div>
+						</div>
+						<div>
+							<div class="alltitle">
+								<span>{{ dar[8].contit }}</span>
+							</div>
+							<div class="allnum">{{ dar[8].connum }}</div>
+						</div>
+					</div>
 				</el-col>
 			</el-row>
-			<el-row type="flex" class="occ_con" justify="start"  style="flex-wrap:wrap">
+			<!-- <el-row
+				type="flex"
+				class="occ_con"
+				justify="start"
+				style="flex-wrap:wrap"
+			>
 				<el-col
 					:span="2"
 					v-for="(item, index) in titledar"
@@ -70,25 +159,112 @@
 					</div>
 					<div class="allnum">{{ item.connum }}</div>
 				</el-col>
-			</el-row>
+			</el-row> -->
 		</div>
 		<div class="ipfs_title_next" v-if="rotate == 1">
 			<div class="maptitle">江苏</div>
-			<el-row type="flex" justify="space-between">
+			<el-row type="flex" justify="space-around" class="top_cube">
 				<el-col
-					:span="3"
-					v-for="(item, index) in dar"
-					:key="index"
+					:span="6"
 					class="ipfs_con_tit"
+					style="margin-right:24px;"
 				>
-					<div class="alltitle">
-						<img :src="item.url" alt />
-						<span>{{ item.contit }}</span>
+					<div>
+						<img src="../../../assets/img/nodejiedian.png" alt="" />
 					</div>
-					<div class="allnum">{{ item.connum }}</div>
+					<div class="top_cube_item_right">
+						<div>
+							<div class="alltitle">
+								<span>{{ dar[0].contit }}</span>
+							</div>
+							<div class="allnum">{{ dar[0].connum }}</div>
+						</div>
+						<div>
+							<div class="alltitle">
+								<span>{{ dar[1].contit }}</span>
+							</div>
+							<div class="allnum">{{ dar[1].connum }}</div>
+						</div>
+					</div>
+				</el-col>
+				<el-col
+					:span="6"
+					class="ipfs_con_tit"
+					style="margin-right:24px;"
+				>
+					<div>
+						<img
+							src="../../../assets/img/rongliangyudanxing.png"
+							alt=""
+						/>
+					</div>
+					<div class="top_cube_item_right">
+						<div>
+							<div class="alltitle">
+								<span>{{ dar[2].contit }}</span>
+							</div>
+							<div class="allnum">{{ dar[2].connum }}</div>
+						</div>
+						<div>
+							<div class="alltitle">
+								<span>{{ dar[4].contit }}</span>
+							</div>
+							<div class="allnum">{{ dar[4].connum }}</div>
+						</div>
+					</div>
+				</el-col>
+				<el-col
+					:span="6"
+					class="ipfs_con_tit"
+					style="margin-right:24px;"
+				>
+					<div>
+						<img src="../../../assets/img/leijichakan.png" alt="" />
+					</div>
+					<div class="top_cube_item_right">
+						<div>
+							<div class="alltitle">
+								<span>{{ dar[5].contit }}</span>
+							</div>
+							<div class="allnum">{{ dar[5].connum }}</div>
+						</div>
+						<div>
+							<div class="alltitle">
+								<span>{{ dar[6].contit }}</span>
+							</div>
+							<div class="allnum">{{ dar[6].connum }}</div>
+						</div>
+					</div>
+				</el-col>
+				<el-col :span="6" class="ipfs_con_tit">
+					<div>
+						<img
+							src="../../../assets/img/conventional.png"
+							alt=""
+						/>
+					</div>
+					<div class="top_cube_item_right">
+						<div>
+							<div class="alltitle">
+								<span>{{ dar[7].contit }}</span>
+							</div>
+							<div class="allnum">{{ dar[7].connum }}</div>
+						</div>
+						<div>
+							<div class="alltitle">
+								<span>{{ dar[8].contit }}</span>
+							</div>
+							<div class="allnum">{{ dar[8].connum }}</div>
+						</div>
+					</div>
 				</el-col>
 			</el-row>
-			<el-row type="flex" class="occ_con" justify="start"  style="flex-wrap:wrap">
+			<!-- <el-row
+				type="flex"
+				class="occ_con"
+				justify="start"
+				style="flex-wrap:wrap"
+			>
 				<el-col
 					:span="2"
 					v-for="(item, index) in titledar"
@@ -101,25 +277,112 @@
 					</div>
 					<div class="allnum">{{ item.connum }}</div>
 				</el-col>
-			</el-row>
+			</el-row> -->
 		</div>
 		<div class="ipfs_title_next" v-if="rotate == 2">
 			<div class="maptitle">安徽</div>
-			<el-row type="flex" justify="space-between">
+			<el-row type="flex" justify="space-around" class="top_cube">
 				<el-col
-					:span="3"
-					v-for="(item, index) in dar"
-					:key="index"
+					:span="6"
 					class="ipfs_con_tit"
+					style="margin-right:24px;"
 				>
-					<div class="alltitle">
-						<img :src="item.url" alt />
-						<span>{{ item.contit }}</span>
+					<div>
+						<img src="../../../assets/img/nodejiedian.png" alt="" />
 					</div>
-					<div class="allnum">{{ item.connum }}</div>
+					<div class="top_cube_item_right">
+						<div>
+							<div class="alltitle">
+								<span>{{ dar[0].contit }}</span>
+							</div>
+							<div class="allnum">{{ dar[0].connum }}</div>
+						</div>
+						<div>
+							<div class="alltitle">
+								<span>{{ dar[1].contit }}</span>
+							</div>
+							<div class="allnum">{{ dar[1].connum }}</div>
+						</div>
+					</div>
+				</el-col>
+				<el-col
+					:span="6"
+					class="ipfs_con_tit"
+					style="margin-right:24px;"
+				>
+					<div>
+						<img
+							src="../../../assets/img/rongliangyudanxing.png"
+							alt=""
+						/>
+					</div>
+					<div class="top_cube_item_right">
+						<div>
+							<div class="alltitle">
+								<span>{{ dar[2].contit }}</span>
+							</div>
+							<div class="allnum">{{ dar[2].connum }}</div>
+						</div>
+						<div>
+							<div class="alltitle">
+								<span>{{ dar[4].contit }}</span>
+							</div>
+							<div class="allnum">{{ dar[4].connum }}</div>
+						</div>
+					</div>
+				</el-col>
+				<el-col
+					:span="6"
+					class="ipfs_con_tit"
+					style="margin-right:24px;"
+				>
+					<div>
+						<img src="../../../assets/img/leijichakan.png" alt="" />
+					</div>
+					<div class="top_cube_item_right">
+						<div>
+							<div class="alltitle">
+								<span>{{ dar[5].contit }}</span>
+							</div>
+							<div class="allnum">{{ dar[5].connum }}</div>
+						</div>
+						<div>
+							<div class="alltitle">
+								<span>{{ dar[6].contit }}</span>
+							</div>
+							<div class="allnum">{{ dar[6].connum }}</div>
+						</div>
+					</div>
+				</el-col>
+				<el-col :span="6" class="ipfs_con_tit">
+					<div>
+						<img
+							src="../../../assets/img/conventional.png"
+							alt=""
+						/>
+					</div>
+					<div class="top_cube_item_right">
+						<div>
+							<div class="alltitle">
+								<span>{{ dar[7].contit }}</span>
+							</div>
+							<div class="allnum">{{ dar[7].connum }}</div>
+						</div>
+						<div>
+							<div class="alltitle">
+								<span>{{ dar[8].contit }}</span>
+							</div>
+							<div class="allnum">{{ dar[8].connum }}</div>
+						</div>
+					</div>
 				</el-col>
 			</el-row>
-			<el-row type="flex" class="occ_con" justify="start"  style="flex-wrap:wrap">
+			<!-- <el-row
+				type="flex"
+				class="occ_con"
+				justify="start"
+				style="flex-wrap:wrap"
+			>
 				<el-col
 					:span="2"
 					v-for="(item, index) in titledar"
@@ -132,25 +395,112 @@
 					</div>
 					<div class="allnum">{{ item.connum }}</div>
 				</el-col>
-			</el-row>
+			</el-row> -->
 		</div>
 		<div class="ipfs_title_next" v-if="rotate == 3">
 			<div class="maptitle">山东</div>
-			<el-row type="flex" justify="space-between">
+			<el-row type="flex" justify="space-around" class="top_cube">
 				<el-col
-					:span="3"
-					v-for="(item, index) in dar"
-					:key="index"
+					:span="6"
 					class="ipfs_con_tit"
+					style="margin-right:24px;"
 				>
-					<div class="alltitle">
-						<img :src="item.url" alt />
-						<span>{{ item.contit }}</span>
+					<div>
+						<img src="../../../assets/img/nodejiedian.png" alt="" />
 					</div>
-					<div class="allnum">{{ item.connum }}</div>
+					<div class="top_cube_item_right">
+						<div>
+							<div class="alltitle">
+								<span>{{ dar[0].contit }}</span>
+							</div>
+							<div class="allnum">{{ dar[0].connum }}</div>
+						</div>
+						<div>
+							<div class="alltitle">
+								<span>{{ dar[1].contit }}</span>
+							</div>
+							<div class="allnum">{{ dar[1].connum }}</div>
+						</div>
+					</div>
+				</el-col>
+				<el-col
+					:span="6"
+					class="ipfs_con_tit"
+					style="margin-right:24px;"
+				>
+					<div>
+						<img
+							src="../../../assets/img/rongliangyudanxing.png"
+							alt=""
+						/>
+					</div>
+					<div class="top_cube_item_right">
+						<div>
+							<div class="alltitle">
+								<span>{{ dar[2].contit }}</span>
+							</div>
+							<div class="allnum">{{ dar[2].connum }}</div>
+						</div>
+						<div>
+							<div class="alltitle">
+								<span>{{ dar[4].contit }}</span>
+							</div>
+							<div class="allnum">{{ dar[4].connum }}</div>
+						</div>
+					</div>
+				</el-col>
+				<el-col
+					:span="6"
+					class="ipfs_con_tit"
+					style="margin-right:24px;"
+				>
+					<div>
+						<img src="../../../assets/img/leijichakan.png" alt="" />
+					</div>
+					<div class="top_cube_item_right">
+						<div>
+							<div class="alltitle">
+								<span>{{ dar[5].contit }}</span>
+							</div>
+							<div class="allnum">{{ dar[5].connum }}</div>
+						</div>
+						<div>
+							<div class="alltitle">
+								<span>{{ dar[6].contit }}</span>
+							</div>
+							<div class="allnum">{{ dar[6].connum }}</div>
+						</div>
+					</div>
+				</el-col>
+				<el-col :span="6" class="ipfs_con_tit">
+					<div>
+						<img
+							src="../../../assets/img/conventional.png"
+							alt=""
+						/>
+					</div>
+					<div class="top_cube_item_right">
+						<div>
+							<div class="alltitle">
+								<span>{{ dar[7].contit }}</span>
+							</div>
+							<div class="allnum">{{ dar[7].connum }}</div>
+						</div>
+						<div>
+							<div class="alltitle">
+								<span>{{ dar[8].contit }}</span>
+							</div>
+							<div class="allnum">{{ dar[8].connum }}</div>
+						</div>
+					</div>
 				</el-col>
 			</el-row>
-			<el-row type="flex" class="occ_con" justify="start"  style="flex-wrap:wrap">
+			<!-- <el-row
+				type="flex"
+				class="occ_con"
+				justify="start"
+				style="flex-wrap:wrap"
+			>
 				<el-col
 					:span="2"
 					v-for="(item, index) in titledar"
@@ -163,25 +513,112 @@
 					</div>
 					<div class="allnum">{{ item.connum }}</div>
 				</el-col>
-			</el-row>
+			</el-row> -->
 		</div>
 		<div class="ipfs_title_next" v-if="rotate == 4">
 			<div class="maptitle">上海</div>
-			<el-row type="flex" justify="space-between">
+			<el-row type="flex" justify="space-around" class="top_cube">
 				<el-col
-					:span="3"
-					v-for="(item, index) in dar"
-					:key="index"
+					:span="6"
 					class="ipfs_con_tit"
+					style="margin-right:24px;"
 				>
-					<div class="alltitle">
-						<img :src="item.url" alt />
-						<span>{{ item.contit }}</span>
+					<div>
+						<img src="../../../assets/img/nodejiedian.png" alt="" />
 					</div>
-					<div class="allnum">{{ item.connum }}</div>
+					<div class="top_cube_item_right">
+						<div>
+							<div class="alltitle">
+								<span>{{ dar[0].contit }}</span>
+							</div>
+							<div class="allnum">{{ dar[0].connum }}</div>
+						</div>
+						<div>
+							<div class="alltitle">
+								<span>{{ dar[1].contit }}</span>
+							</div>
+							<div class="allnum">{{ dar[1].connum }}</div>
+						</div>
+					</div>
+				</el-col>
+				<el-col
+					:span="6"
+					class="ipfs_con_tit"
+					style="margin-right:24px;"
+				>
+					<div>
+						<img
+							src="../../../assets/img/rongliangyudanxing.png"
+							alt=""
+						/>
+					</div>
+					<div class="top_cube_item_right">
+						<div>
+							<div class="alltitle">
+								<span>{{ dar[2].contit }}</span>
+							</div>
+							<div class="allnum">{{ dar[2].connum }}</div>
+						</div>
+						<div>
+							<div class="alltitle">
+								<span>{{ dar[4].contit }}</span>
+							</div>
+							<div class="allnum">{{ dar[4].connum }}</div>
+						</div>
+					</div>
+				</el-col>
+				<el-col
+					:span="6"
+					class="ipfs_con_tit"
+					style="margin-right:24px;"
+				>
+					<div>
+						<img src="../../../assets/img/leijichakan.png" alt="" />
+					</div>
+					<div class="top_cube_item_right">
+						<div>
+							<div class="alltitle">
+								<span>{{ dar[5].contit }}</span>
+							</div>
+							<div class="allnum">{{ dar[5].connum }}</div>
+						</div>
+						<div>
+							<div class="alltitle">
+								<span>{{ dar[6].contit }}</span>
+							</div>
+							<div class="allnum">{{ dar[6].connum }}</div>
+						</div>
+					</div>
+				</el-col>
+				<el-col :span="6" class="ipfs_con_tit">
+					<div>
+						<img
+							src="../../../assets/img/conventional.png"
+							alt=""
+						/>
+					</div>
+					<div class="top_cube_item_right">
+						<div>
+							<div class="alltitle">
+								<span>{{ dar[7].contit }}</span>
+							</div>
+							<div class="allnum">{{ dar[7].connum }}</div>
+						</div>
+						<div>
+							<div class="alltitle">
+								<span>{{ dar[8].contit }}</span>
+							</div>
+							<div class="allnum">{{ dar[8].connum }}</div>
+						</div>
+					</div>
 				</el-col>
 			</el-row>
-			<el-row type="flex" class="occ_con" justify="start"  style="flex-wrap:wrap">
+			<!-- <el-row
+				type="flex"
+				class="occ_con"
+				justify="start"
+				style="flex-wrap:wrap"
+			>
 				<el-col
 					:span="2"
 					v-for="(item, index) in titledar"
@@ -194,25 +631,112 @@
 					</div>
 					<div class="allnum">{{ item.connum }}</div>
 				</el-col>
-			</el-row>
+			</el-row> -->
 		</div>
 		<div class="ipfs_title_next" v-if="rotate == 5">
 			<div class="maptitle">浙江</div>
-			<el-row type="flex" justify="space-between">
+			<el-row type="flex" justify="space-around" class="top_cube">
 				<el-col
-					:span="3"
-					v-for="(item, index) in dar"
-					:key="index"
+					:span="6"
 					class="ipfs_con_tit"
+					style="margin-right:24px;"
 				>
-					<div class="alltitle">
-						<img :src="item.url" alt />
-						<span>{{ item.contit }}</span>
+					<div>
+						<img src="../../../assets/img/nodejiedian.png" alt="" />
 					</div>
-					<div class="allnum">{{ item.connum }}</div>
+					<div class="top_cube_item_right">
+						<div>
+							<div class="alltitle">
+								<span>{{ dar[0].contit }}</span>
+							</div>
+							<div class="allnum">{{ dar[0].connum }}</div>
+						</div>
+						<div>
+							<div class="alltitle">
+								<span>{{ dar[1].contit }}</span>
+							</div>
+							<div class="allnum">{{ dar[1].connum }}</div>
+						</div>
+					</div>
+				</el-col>
+				<el-col
+					:span="6"
+					class="ipfs_con_tit"
+					style="margin-right:24px;"
+				>
+					<div>
+						<img
+							src="../../../assets/img/rongliangyudanxing.png"
+							alt=""
+						/>
+					</div>
+					<div class="top_cube_item_right">
+						<div>
+							<div class="alltitle">
+								<span>{{ dar[2].contit }}</span>
+							</div>
+							<div class="allnum">{{ dar[2].connum }}</div>
+						</div>
+						<div>
+							<div class="alltitle">
+								<span>{{ dar[4].contit }}</span>
+							</div>
+							<div class="allnum">{{ dar[4].connum }}</div>
+						</div>
+					</div>
+				</el-col>
+				<el-col
+					:span="6"
+					class="ipfs_con_tit"
+					style="margin-right:24px;"
+				>
+					<div>
+						<img src="../../../assets/img/leijichakan.png" alt="" />
+					</div>
+					<div class="top_cube_item_right">
+						<div>
+							<div class="alltitle">
+								<span>{{ dar[5].contit }}</span>
+							</div>
+							<div class="allnum">{{ dar[5].connum }}</div>
+						</div>
+						<div>
+							<div class="alltitle">
+								<span>{{ dar[6].contit }}</span>
+							</div>
+							<div class="allnum">{{ dar[6].connum }}</div>
+						</div>
+					</div>
+				</el-col>
+				<el-col :span="6" class="ipfs_con_tit">
+					<div>
+						<img
+							src="../../../assets/img/conventional.png"
+							alt=""
+						/>
+					</div>
+					<div class="top_cube_item_right">
+						<div>
+							<div class="alltitle">
+								<span>{{ dar[7].contit }}</span>
+							</div>
+							<div class="allnum">{{ dar[7].connum }}</div>
+						</div>
+						<div>
+							<div class="alltitle">
+								<span>{{ dar[8].contit }}</span>
+							</div>
+							<div class="allnum">{{ dar[8].connum }}</div>
+						</div>
+					</div>
 				</el-col>
 			</el-row>
-			<el-row type="flex" class="occ_con" justify="start"  style="flex-wrap:wrap">
+			<!-- <el-row
+				type="flex"
+				class="occ_con"
+				justify="start"
+				style="flex-wrap:wrap"
+			>
 				<el-col
 					:span="2"
 					v-for="(item, index) in titledar"
@@ -225,212 +749,246 @@
 					</div>
 					<div class="allnum">{{ item.connum }}</div>
 				</el-col>
-			</el-row>
+			</el-row> -->
 		</div>
-		<div class="select_sort" v-if="ipfsdata.length > 0">
-			<div style="display: flex;flex-wrap: wrap;">
-                <div class="local_search_item">
-                <span>节点一级渠道商：</span>
-				<el-select
-					v-model="firstchan_value"
-					placeholder="请选择节点类型"
-					@change="searchdata"
-				>
-					<el-option label="全部" value=""></el-option>
-					<el-option
-						v-for="(item,index) in firstchan"
-						:key="item.value+index"
-						:label="item.name"
-						:value="item.value"
-					></el-option>
-				</el-select>
-                </div>
-                <div class="local_search_item">
-				<span>设备类型：</span>
-				<el-select
-					v-model="devicevalue"
-					placeholder="请选择设备类型"
-					@change="searchdata"
-				>
-					<el-option label="全部" value=""></el-option>
-					<el-option
-						v-for="item in device_type"
-						:key="item.name"
-						:label="item.name"
-						:value="item.name"
-					></el-option>
-				</el-select>
-                </div>
-                <div class="local_search_item">
-				<span>硬件类型：</span>
-				<el-select
-					v-model="hardwarevalue"
-					placeholder="请选择设备类型"
-					@change="searchdata"
-				>
-					<el-option label="全部" value=""></el-option>
-					<el-option
-						v-for="item in hardware_type"
-						:key="item.name"
-						:label="item.name"
-						:value="item.name"
-					></el-option>
-				</el-select>
-                </div>
-                <div class="local_search_item">
-				<span>操作系统：</span>
-				<el-select
-					v-model="osvalue"
-					placeholder="请选择设备类型"
-					@change="searchdata"
-				>
-					<el-option label="全部" value=""></el-option>
-					<el-option
-						v-for="item in oslist"
-						:key="item.name"
-						:label="item.name"
-						:value="item.name"
-					></el-option>
-				</el-select>
-                </div>
-				<el-button type="primary" @click="uopset" style="margin-left: 10px;margin-top: 20px;">重置</el-button>
+
+		<div class="newstyle">
+			<div class="select_sort" v-if="ipfsdata.length > 0">
+				<div style="display: flex;flex-wrap: wrap;">
+					<div class="local_search_item">
+						<span>节点一级渠道商：</span>
+						<el-select
+							v-model="firstchan_value"
+							placeholder="请选择节点类型"
+							@change="searchdata"
+							size="small"
+						>
+							<el-option label="全部" value=""></el-option>
+							<el-option
+								v-for="(item, index) in firstchan"
+								:key="item.value + index"
+								:label="item.name"
+								:value="item.value"
+							></el-option>
+						</el-select>
+					</div>
+					<div class="local_search_item">
+						<span>设备类型：</span>
+						<el-select
+							v-model="devicevalue"
+							placeholder="请选择设备类型"
+							@change="searchdata"
+							size="small"
+						>
+							<el-option label="全部" value=""></el-option>
+							<el-option
+								v-for="item in device_type"
+								:key="item.name"
+								:label="item.name"
+								:value="item.name"
+							></el-option>
+						</el-select>
+					</div>
+					<div class="local_search_item">
+						<span>硬件类型：</span>
+						<el-select
+							v-model="hardwarevalue"
+							placeholder="请选择设备类型"
+							@change="searchdata"
+							size="small"
+						>
+							<el-option label="全部" value=""></el-option>
+							<el-option
+								v-for="item in hardware_type"
+								:key="item.name"
+								:label="item.name"
+								:value="item.name"
+							></el-option>
+						</el-select>
+					</div>
+					<div class="local_search_item">
+						<span>操作系统：</span>
+						<el-select
+							v-model="osvalue"
+							placeholder="请选择设备类型"
+							@change="searchdata"
+							size="small"
+						>
+							<el-option label="全部" value=""></el-option>
+							<el-option
+								v-for="item in oslist"
+								:key="item.name"
+								:label="item.name"
+								:value="item.name"
+							></el-option>
+						</el-select>
+					</div>
+					<el-button
+						type="primary"
+						@click="uopset"
+						size="small"
+						style="margin-left: 10px;margin-top: 20px;"
+						>重置</el-button
+					>
+				</div>
+				<div class="sort_list">
+					<span class="sort_title">排序：</span>
+					<el-select
+						v-model="value"
+						placeholder="请选择排序方式"
+						@change="searchdata"
+						size="small"
+					>
+						<el-option
+							v-for="item in options"
+							:key="item.value"
+							:label="item.label"
+							:value="item.value"
+						></el-option>
+					</el-select>
+				</div>
 			</div>
-			<div class="sort_list">
-				<span class="sort_title">排序：</span>
-				<el-select
-					v-model="value"
-					placeholder="请选择排序方式"
-					@change="searchdata"
-				>
-					<el-option
-						v-for="item in options"
-						:key="item.value"
-						:label="item.label"
-						:value="item.value"
-					></el-option>
-				</el-select>
-			</div>
-		</div>
-		<div class="ipfs_box">
-			<div class="nodata" v-show="showdata">
-				<i class="el-icon-document-delete" style="font-size:80px"></i>
-				<p>暂无数据</p>
-			</div>
-			<div
-				class="ipfs_item"
-				v-for="(item, index) in ipfsdata"
-				:key="index"
-				@click="godetail(item, index)"
-				v-show="!showdata"
-			>
+			<div class="ipfs_box">
+				<div class="nodata" v-show="showdata">
+					<i
+						class="el-icon-document-delete"
+						style="font-size:80px"
+					></i>
+					<p>暂无数据</p>
+				</div>
+
 				<div
-					style="display: flex;justify-content: flex-start;align-items: center;"
+					class="ipfs_item"
+					v-for="(item, index) in ipfsdata"
+					:key="index"
+					@click="godetail(item, index)"
+					v-show="!showdata"
 				>
 					<div
-						class="yuan"
-						v-bind:style="{ background: item.bgccolor }"
-					></div>
-					<span v-bind:style="{ color: item.bgccolor }">{{
-						item.devstatus
-					}}</span>
-				</div>
-				<div class="ipfs_item_img">
-					<img
-						v-if="
-							item.devicetype != 'PC服务器' &&
-								item.devstatus == '在线'
-						"
-						src="../../../assets/img/binding_illustration3.png"
-						style="width:60%;"
-						alt
-					/>
-					<img
-						v-if="
-							item.devicetype != 'PC服务器' &&
-								item.devstatus == '离线'
-						"
-						src="../../../assets/img/lixianxiyouji.png"
-						style="width:60%;"
-						alt
-					/>
-					<img
-						v-if="
-							item.devicetype == 'PC服务器' &&
-								item.devstatus == '在线'
-						"
-						src="../../../assets/img/zaixianfuwuqi.png"
-						style="width:60%;"
-						alt=""
-					/>
-					<img
-						v-if="
-							item.devicetype == 'PC服务器' &&
-								item.devstatus == '离线'
-						"
-						src="../../../assets/img/lixianfuwuqi.png"
-						style="width:60%;"
-						alt
-					/>
-					<p style="text-align:center">
-						{{ item.firstch }}
-					</p>
-					<p style="text-align:center">
-						<span>{{ item.devicetype }}</span>
-						<span>{{ item.os }}</span>
-						<span>{{ item.arch }}</span>
-					</p>
-					<p>
-						节点ID：
-					</p>
-					<p style="word-wrap:break-word;word-break:normal;text-align: left;">
-						{{ item.nodeId }}
-					</p>
-				</div>
-				<ol>
-					<li>
-						<span class="ipfs_text_title">上行宽带:</span>
-						<span class="ipfs_text_con">{{
-							item.upbandwidth
-						}}</span>
-					</li>
-					<li>
-						<span class="ipfs_text_title">下行宽带:</span>
-						<span class="ipfs_text_con">{{
-							item.downbandwidth
-						}}</span>
-					</li>
-					<li>
-						<span class="ipfs_text_title">总容量:</span>
-						<span class="ipfs_text_con"
-							>{{
-								(item.totalCap / 1024 / 1024 / 1024).toFixed(2)
-							}}GB</span
+						style="display: flex;justify-content: flex-end;align-items: center;"
+					>
+						<!-- <div
+							class="yuan"
+							v-bind:style="{ background: item.bgccolor }"
+						></div> -->
+						<span
+							style="font-size: 12px;border:1px solid;padding: 0 5px;border-radius: 4px;"
+							v-bind:style="{
+								color: item.bgccolor,
+								borderColor: item.bgccolor,
+								background: item.bor_color,
+							}"
+							>{{ item.devstatus }}</span
 						>
-					</li>
-					<li>
-						<span class="ipfs_text_title">剩余容量:</span>
-						<span class="ipfs_text_con"
-							>{{
-								(
-									item.remainingCap /
-									1024 /
-									1024 /
-									1024
-								).toFixed(2)
-							}}GB</span
-						>
-					</li>
-				</ol>
+					</div>
+					<div class="ipfs_item_img">
+						<img
+							v-if="
+								item.devicetype != 'PC服务器' &&
+									item.devstatus == '在线'
+							"
+							src="../../../assets/img/binding_illustration3.png"
+							style="width:60%;"
+							alt
+						/>
+						<img
+							v-if="
+								item.devicetype != 'PC服务器' &&
+									item.devstatus == '离线'
+							"
+							src="../../../assets/img/lixianxiyouji.png"
+							style="width:60%;"
+							alt
+						/>
+						<img
+							v-if="
+								item.devicetype == 'PC服务器' &&
+									item.devstatus == '在线'
+							"
+							src="../../../assets/img/zaixianfuwuqi.png"
+							style="width:60%;"
+							alt=""
+						/>
+						<img
+							v-if="
+								item.devicetype == 'PC服务器' &&
+									item.devstatus == '离线'
+							"
+							src="../../../assets/img/lixianfuwuqi.png"
+							style="width:60%;"
+							alt
+						/>
+						<p style="text-align:center">
+							{{ item.firstch }}
+						</p>
+						<p style="text-align:left">
+							<b>{{ item.devicetype }}</b>
+							<span>{{ item.os }}</span>
+							<span>{{ item.arch }}</span>
+						</p>
+						<div style="display: flex;width: 100%;">
+							<div style="width:60px;font-weight: 600;">
+								节点ID：
+							</div>
+							<div>
+								{{ item.nodeId }}
+							</div>
+						</div>
+						<p
+							style="word-wrap:break-word;word-break:normal;text-align: left;"
+						></p>
+					</div>
+					<ol>
+						<li>
+							<span class="ipfs_text_title">上行宽带:</span>
+							<span class="ipfs_text_con">{{
+								item.upbandwidth
+							}}</span>
+						</li>
+						<li>
+							<span class="ipfs_text_title">下行宽带:</span>
+							<span class="ipfs_text_con">{{
+								item.downbandwidth
+							}}</span>
+						</li>
+						<li>
+							<span class="ipfs_text_title">总容量:</span>
+							<span class="ipfs_text_con"
+								>{{
+									(
+										item.totalCap /
+										1024 /
+										1024 /
+										1024
+									).toFixed(2)
+								}}GB</span
+							>
+						</li>
+						<li>
+							<span class="ipfs_text_title">剩余容量:</span>
+							<span class="ipfs_text_con"
+								>{{
+									(
+										item.remainingCap /
+										1024 /
+										1024 /
+										1024
+									).toFixed(2)
+								}}GB</span
+							>
+						</li>
+					</ol>
+				</div>
 			</div>
+			<fenye
+				style="text-align: right;margin: 20px 0px 10px;"
+				@fatherMethod="getpage"
+				@fathernum="gettol"
+				:pagesa="totalCnt"
+				:currentPage="currentPage"
+				v-show="!showdata"
+			></fenye>
 		</div>
-		<fenye
-			style="text-align: right;margin: 20px 0px 10px;"
-			@fatherMethod="getpage"
-			@fathernum="gettol"
-			:pagesa="totalCnt"
-			:currentPage="currentPage"
-			v-show="!showdata"
-		></fenye>
 	</div>
 </template>
 
@@ -448,7 +1006,7 @@ export default {
 			currentPage: 1,
 			pagesize: 10,
 			pageNo: 1,
-			totalCnt: 1,
+			totalCnt: 0,
 			location_name: '华东区域',
 			rotate: 0,
 			citys: '福建',
@@ -475,8 +1033,8 @@ export default {
 					label: '上行带宽升序',
 				},
 			],
-            titledar: [],
-            dar: [
+			titledar: [],
+			dar: [
 				{
 					contit: '总节点',
 					connum: 0,
@@ -512,6 +1070,16 @@ export default {
 					connum: '0B',
 					url: require('../../../assets/img/cuncurl.png'),
 				},
+				{
+					contit: '当前峰值上行带宽',
+					connum: '0B',
+					url: require('../../../assets/img/cuncurl.png'),
+				},
+				{
+					contit: '当前峰值下行带宽',
+					connum: '0B',
+					url: require('../../../assets/img/cuncurl.png'),
+				},
 			],
 			value: 0,
 			ipfsdata: [
@@ -532,9 +1100,9 @@ export default {
 			device_type: [],
 			hardware_type: [],
 			oslist: [],
-            operatorlist: [],
-             firstchan:[],
-             firstchan_value:"",
+			operatorlist: [],
+			firstchan: [],
+			firstchan_value: '',
 		};
 	},
 	components: {
@@ -560,7 +1128,7 @@ export default {
 				JSON.parse(sessionStorage.getItem('east_location'))
 			);
 		} else {
-            this.gettit();
+			this.gettit();
 			this.getipfsdata();
 		}
 	},
@@ -573,9 +1141,8 @@ export default {
 			this.operatovalue = '';
 			this.osvalue = '';
 			this.hardwarevalue = '';
-            this.devicevalue = '';
-            this.firstchan_value="",
-			this.value = 0;
+			this.devicevalue = '';
+			(this.firstchan_value = ''), (this.value = 0);
 			this.getipfsdata();
 		},
 		get_search_data() {
@@ -587,18 +1154,17 @@ export default {
 						this.hardware_type = res.data.arch;
 						this.device_type = res.data.device_type;
 						this.operatorlist = res.data.isp;
-                        this.oslist = res.data.os;
-                        this.firstchan=res.data.firstchan;
+						this.oslist = res.data.os;
+						this.firstchan = res.data.firstchan;
 					} else {
 						this.$message.error(res.err_msg);
 					}
 				})
-				.catch((error) => {
-				});
+				.catch((error) => {});
 		},
 		//获取头部预览信息
 		gettit() {
-            let titlist = [];
+			let titlist = [];
 			let parmas = new Object();
 			parmas.province = this.citys;
 			nodesinfo_byarea(parmas)
@@ -760,7 +1326,6 @@ export default {
 .content {
 	// width: 1920px;
 	height: 100%;
-	background: rgb(255, 255, 255);
 	margin: auto;
 	.bread_crumbs {
 		width: 100%;
@@ -781,13 +1346,13 @@ export default {
 		flex-wrap: wrap;
 		justify-content: start;
 		.ipfs_con_left {
-			color: #999999;
+			color: #ffffff;
 			font-size: 16px;
 		}
 		.ipfs_con_right {
 			.setmap_btn {
 				margin-right: 20px;
-				color: #1c2e32;
+				color: #ffffff;
 				font-size: 18px;
 			}
 		}
@@ -795,6 +1360,7 @@ export default {
 	.ipfs_title_next {
 		height: auto;
 		// text-align: left;
+		margin-top: -20px;
 		.maptitle {
 			text-align: center;
 			margin-bottom: 47px;
@@ -802,17 +1368,26 @@ export default {
 			color: #000000;
 			display: none;
 		}
+		.top_cube {
+			height: 204px;
+			box-sizing: border-box;
+			padding: 0 30px;
+		}
 		.ipfs_con_tit {
 			background: rgba(255, 255, 255, 1);
 			border: 1px solid rgba(216, 226, 240, 1);
 			box-shadow: 0px 12px 36px 0px rgba(211, 215, 221, 0.4);
 			border-radius: 4px;
 			text-align: left;
-			padding: 2px 10px;
-			// margin-top: 20px;
+			box-sizing: border-box;
+			padding: 24px 50px;
 			overflow: hidden;
+			display: flex;
+			align-items: center;
+			.top_cube_item_right {
+				margin-left: 40px;
+			}
 			.alltitle {
-				height: 45px;
 				display: flex;
 				align-items: center;
 				color: #929292;
@@ -822,16 +1397,16 @@ export default {
 				}
 				span {
 					font-size: 12px;
-					height: 45px;
 					word-wrap: break-word;
 					display: flex;
 					align-items: center;
 				}
 			}
 			.allnum {
-				line-height: 40px;
 				color: #1c1a1d;
 				font-size: 24px;
+				margin-top: 5px;
+				margin-bottom: 10px;
 			}
 		}
 		.occ_con {
@@ -839,8 +1414,8 @@ export default {
 				border: none;
 				background: none;
 				height: auto;
-                margin-top: 20px;
-                margin-right: 35px;
+				margin-top: 20px;
+				margin-right: 35px;
 				.alltitle {
 					img {
 						width: 27px;
@@ -851,7 +1426,6 @@ export default {
 	}
 	.select_sort {
 		text-align: left;
-		margin: 37px 0 0 0;
 		display: flex;
 		justify-content: space-between;
 	}
@@ -886,41 +1460,48 @@ export default {
 			ol > li {
 				line-height: 25px;
 				display: flex;
-				justify-content: space-between;
+				justify-content: start;
 				align-items: center;
 				font-size: 14px;
 				.ipfs_text_title {
 					color: #b2b5b8;
+					font-size: 12px;
 				}
 				.ipfs_text_con {
 					width: 75px;
+					margin-left: 20px;
 					text-align: left;
 					overflow: hidden;
 				}
 			}
-        }
-         .ipfs_item:nth-child(2),.ipfs_item:nth-child(7) {
-            margin-left: 0;
-        }
-        .ipfs_item:last-child,.ipfs_item:nth-child(6) {
-            margin-right: 0;
-        }
+		}
+		.ipfs_item:nth-child(2),
+		.ipfs_item:nth-child(7) {
+			margin-left: 0;
+		}
+		.ipfs_item:last-child,
+		.ipfs_item:nth-child(6) {
+			margin-right: 0;
+		}
 	}
 }
 .eema {
 	width: 55px;
 	color: #919191;
-	line-height: 20px;
 	display: inline-block;
 	line-height: 30px;
+	font-size: 14px !important;
+	text-align: center;
 }
 .bluma {
 	width: 55px;
 	color: #919191;
-	line-height: 20px;
 	display: inline-block;
 	line-height: 30px;
-	border-bottom: #64a7fc 3px solid;
+	border: #ffffff 1px solid;
+	border-radius: 8px;
+	font-size: 14px !important;
+	text-align: center;
 }
 .content .ipfs_con_label {
 	justify-content: start;

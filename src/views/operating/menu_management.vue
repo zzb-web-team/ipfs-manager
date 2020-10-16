@@ -1,212 +1,75 @@
 <template>
 	<div class="content">
-		<el-breadcrumb separator="/">
-			<el-breadcrumb-item>
-				<a>菜单管理</a>
-			</el-breadcrumb-item>
-		</el-breadcrumb>
-		<div class="con_title">
-			<el-radio-group v-model="radio" size="medium">
-				<el-radio-button label="1">新增菜单</el-radio-button>
-				<el-radio-button label="2">修改菜单</el-radio-button>
-				<el-radio-button label="3">删除菜单</el-radio-button>
-			</el-radio-group>
+		<div class="rowbg">
+			<div class="item_title">菜单管理</div>
+			<div class="con_title">
+				<el-radio-group v-model="radio" size="medium">
+					<el-radio-button label="1">新增菜单</el-radio-button>
+					<el-radio-button label="2">修改菜单</el-radio-button>
+					<el-radio-button label="3">删除菜单</el-radio-button>
+				</el-radio-group>
+			</div>
 		</div>
-		<div class="con_text" v-if="radio == 1">
-			<el-form
-				:model="ruleForm"
-				:rules="rules"
-				ref="ruleForm"
-				label-width="100px"
-				class="demo-ruleForm"
-			>
-				<el-form-item label="菜单目录" prop="resource">
-					<el-radio-group
-						v-model="ruleForm.resource"
-						@change="resnemr()"
-					>
-						<el-radio label="1">根目录</el-radio>
-						<el-radio label="2">二级目录</el-radio>
-						<el-radio label="3">三级目录</el-radio>
-					</el-radio-group>
-				</el-form-item>
-				<el-form-item label="菜单名称" prop="name">
-					<el-col :span="3">
-						<el-input v-model="ruleForm.name"></el-input>
-					</el-col>
-				</el-form-item>
-				<el-form-item label="菜单路由" prop="router_name">
-					<el-col :span="3">
-						<el-input v-model="ruleForm.router_name"></el-input>
-					</el-col>
-				</el-form-item>
-				<el-form-item label="component" prop="component_name">
-					<el-col :span="3">
-						<el-input v-model="ruleForm.component_name"></el-input>
-					</el-col>
-				</el-form-item>
-				<el-form-item label="菜单图标" prop="menu_icon">
-					<el-col :span="3">
-						<el-input v-model="ruleForm.menu_icon"></el-input>
-					</el-col>
-				</el-form-item>
-				<el-form-item label="所属目录" prop="region">
-					<el-select
-						v-model="ruleForm.region"
-						placeholder="请选择父级菜单"
-					>
-						<el-option
-							v-for="item in options"
-							:key="item.id"
-							:label="item.name"
-							:value="item.id"
-						>
-						</el-option>
-					</el-select>
-				</el-form-item>
-				<el-form-item label="是否隐藏" prop="delivery">
-					<el-switch v-model="ruleForm.delivery"></el-switch>
-				</el-form-item>
-				<el-form-item label="权限类型" prop="type">
-					<el-checkbox-group v-model="ruleForm.type">
-						<el-checkbox label="浏览" name="type"></el-checkbox>
-						<el-checkbox label="新建" name="type"></el-checkbox>
-						<el-checkbox label="修改" name="type"></el-checkbox>
-						<el-checkbox label="删除" name="type"></el-checkbox>
-						<el-checkbox label="导入" name="type"></el-checkbox>
-						<el-checkbox label="导出" name="type"></el-checkbox>
-					</el-checkbox-group>
-				</el-form-item>
-				<el-form-item>
-					<el-button type="primary" @click="submitForm('ruleForm')"
-						>立即创建</el-button
-					>
-					<el-button @click="resetForm('ruleForm')">重置</el-button>
-				</el-form-item>
-			</el-form>
-		</div>
-		<!--  -->
-		<div v-if="radio == 2" class="radio2">
-			<el-table
-				:data="del_options"
-				style="width: 100%;margin-bottom: 20px;"
-				row-key="id"
-				border
-				:default-expand-all="false"
-				:cell-style="rowClass"
-				:header-cell-style="headClass"
-				:tree-props="{
-					children: 'children',
-					hasChildren: 'hasChildren',
-				}"
-			>
-				<el-table-column prop="name" label="菜单名"> </el-table-column>
-				<el-table-column prop="id" label="ID" width="120">
-				</el-table-column>
-				<el-table-column prop="pid" label="所属上级菜单ID" width="120">
-				</el-table-column>
-				<el-table-column prop="path" label="路由地址">
-				</el-table-column>
-				<el-table-column prop="component" label="component">
-				</el-table-column>
-				<el-table-column prop="icon" label="图标">
-					<template slot-scope="scope">{{
-						scope.row.icon ? scope.row.icon : '--'
-					}}</template>
-				</el-table-column>
-				<el-table-column prop="hidden" label="菜单可设置权限">
-					<template slot-scope="scope">
-						<span v-show="scope.row.read_status == 1">浏览</span>
-						<span v-show="scope.row.insert_status == 1">新建</span>
-						<span v-show="scope.row.delete_status == 1">删除</span>
-						<span v-show="scope.row.export_status == 1">导出</span>
-						<span v-show="scope.row.import_status == 1">导入</span>
-					</template>
-				</el-table-column>
-				<el-table-column prop="hidden" label="是否隐藏">
-					<template slot-scope="scope">
-						{{ scope.row.hidden == 1 ? '隐藏' : '显示' }}
-					</template>
-				</el-table-column>
-				<el-table-column label="操作">
-					<template slot-scope="scope">
-						<el-button
-							type="text"
-							size="mini"
-							@click="handleEdit(scope.$index, scope.row)"
-							>修改</el-button
-						>
-					</template>
-				</el-table-column>
-			</el-table>
-			<!--  -->
-			<el-dialog title="修改菜单" :visible.sync="dialogFormVisible">
+		<div class="newstyle">
+			<div class="con_text" v-if="radio == 1">
 				<el-form
-					:model="updata_ruleForm"
+					:model="ruleForm"
 					:rules="rules"
-					ref="updata_ruleForm"
+					ref="ruleForm"
 					label-width="100px"
 					class="demo-ruleForm"
 				>
+					<el-form-item label="菜单目录" prop="resource">
+						<el-radio-group
+							v-model="ruleForm.resource"
+							@change="resnemr()"
+						>
+							<el-radio label="1">根目录</el-radio>
+							<el-radio label="2">二级目录</el-radio>
+							<el-radio label="3">三级目录</el-radio>
+						</el-radio-group>
+					</el-form-item>
 					<el-form-item label="菜单名称" prop="name">
 						<el-col :span="3">
-							<el-input v-model="updata_ruleForm.name"></el-input>
+							<el-input v-model="ruleForm.name"></el-input>
 						</el-col>
 					</el-form-item>
 					<el-form-item label="菜单路由" prop="router_name">
 						<el-col :span="3">
-							<el-input
-								v-model="updata_ruleForm.router_name"
-							></el-input>
+							<el-input v-model="ruleForm.router_name"></el-input>
 						</el-col>
 					</el-form-item>
 					<el-form-item label="component" prop="component_name">
 						<el-col :span="3">
 							<el-input
-								v-model="updata_ruleForm.component_name"
+								v-model="ruleForm.component_name"
 							></el-input>
 						</el-col>
 					</el-form-item>
 					<el-form-item label="菜单图标" prop="menu_icon">
 						<el-col :span="3">
-							<el-input
-								v-model="updata_ruleForm.menu_icon"
-							></el-input>
+							<el-input v-model="ruleForm.menu_icon"></el-input>
 						</el-col>
 					</el-form-item>
 					<el-form-item label="所属目录" prop="region">
-						<!-- <el-select
-							v-model="updata_ruleForm.region"
+						<el-select
+							v-model="ruleForm.region"
 							placeholder="请选择父级菜单"
 						>
 							<el-option
-								v-for="item in updata_ruleForm.options"
+								v-for="item in options"
 								:key="item.id"
 								:label="item.name"
 								:value="item.id"
 							>
 							</el-option>
-						</el-select> -->
-						<el-cascader
-							v-model="updata_ruleForm.region"
-							:options="updata_ruleForm.options"
-							placeholder="请选择父级菜单"
-							@change="getregion"
-							:props="{
-								value: 'id',
-								label: 'name',
-								checkStrictly: true,
-							}"
-							clearable
-						></el-cascader>
+						</el-select>
 					</el-form-item>
 					<el-form-item label="是否隐藏" prop="delivery">
-						<el-switch
-							v-model="updata_ruleForm.delivery"
-						></el-switch>
+						<el-switch v-model="ruleForm.delivery"></el-switch>
 					</el-form-item>
 					<el-form-item label="权限类型" prop="type">
-						<el-checkbox-group v-model="updata_ruleForm.type">
+						<el-checkbox-group v-model="ruleForm.type">
 							<el-checkbox label="浏览" name="type"></el-checkbox>
 							<el-checkbox label="新建" name="type"></el-checkbox>
 							<el-checkbox label="修改" name="type"></el-checkbox>
@@ -218,40 +81,223 @@
 					<el-form-item>
 						<el-button
 							type="primary"
-							@click="updata_submitForm('updata_ruleForm')"
-							>修改</el-button
+							@click="submitForm('ruleForm')"
+							>立即创建</el-button
 						>
-						<el-button @click="updata_resetForm('updata_ruleForm')"
+						<el-button @click="resetForm('ruleForm')"
 							>重置</el-button
 						>
 					</el-form-item>
 				</el-form>
-			</el-dialog>
-		</div>
-		<!--  -->
-		<div v-if="radio == 3" class="radio3" :style="del_height">
-			<br />
-			<div class="del_con">
-				<p>说明：</p>
-				<p>1.菜单删除后将不能访问该页面，请谨慎操作</p>
-				<p>2.有子级菜单的选项无法删除，请确保操作项无任何子级菜单</p>
-                <p>3.此操作将会影响其他用户，所以只能逐级删除，且每次删除之后页面会刷新。</p>
 			</div>
+			<!--  -->
+			<div v-if="radio == 2" class="radio2">
+				<el-table
+					:data="del_options"
+					style="width: 100%;margin-bottom: 20px;"
+					row-key="id"
+					border
+					:default-expand-all="false"
+					:cell-style="rowClass"
+					:header-cell-style="headClass"
+					:tree-props="{
+						children: 'children',
+						hasChildren: 'hasChildren',
+					}"
+				>
+					<el-table-column prop="name" label="菜单名">
+					</el-table-column>
+					<el-table-column prop="id" label="ID" width="120">
+					</el-table-column>
+					<el-table-column
+						prop="pid"
+						label="所属上级菜单ID"
+						width="120"
+					>
+					</el-table-column>
+					<el-table-column prop="path" label="路由地址">
+					</el-table-column>
+					<el-table-column prop="component" label="component">
+					</el-table-column>
+					<el-table-column prop="icon" label="图标">
+						<template slot-scope="scope">{{
+							scope.row.icon ? scope.row.icon : '--'
+						}}</template>
+					</el-table-column>
+					<el-table-column prop="hidden" label="菜单可设置权限">
+						<template slot-scope="scope">
+							<span v-show="scope.row.read_status == 1"
+								>浏览</span
+							>
+							<span v-show="scope.row.insert_status == 1"
+								>新建</span
+							>
+							<span v-show="scope.row.delete_status == 1"
+								>删除</span
+							>
+							<span v-show="scope.row.export_status == 1"
+								>导出</span
+							>
+							<span v-show="scope.row.import_status == 1"
+								>导入</span
+							>
+						</template>
+					</el-table-column>
+					<el-table-column prop="hidden" label="是否隐藏">
+						<template slot-scope="scope">
+							{{ scope.row.hidden == 1 ? '隐藏' : '显示' }}
+						</template>
+					</el-table-column>
+					<el-table-column label="操作">
+						<template slot-scope="scope">
+							<el-button
+								type="text"
+								size="mini"
+								@click="handleEdit(scope.$index, scope.row)"
+								>修改</el-button
+							>
+						</template>
+					</el-table-column>
+				</el-table>
+				<!--  -->
+				<el-dialog title="修改菜单" :visible.sync="dialogFormVisible">
+					<el-form
+						:model="updata_ruleForm"
+						:rules="rules"
+						ref="updata_ruleForm"
+						label-width="100px"
+						class="demo-ruleForm"
+					>
+						<el-form-item label="菜单名称" prop="name">
+							<el-col :span="3">
+								<el-input
+									v-model="updata_ruleForm.name"
+								></el-input>
+							</el-col>
+						</el-form-item>
+						<el-form-item label="菜单路由" prop="router_name">
+							<el-col :span="3">
+								<el-input
+									v-model="updata_ruleForm.router_name"
+								></el-input>
+							</el-col>
+						</el-form-item>
+						<el-form-item label="component" prop="component_name">
+							<el-col :span="3">
+								<el-input
+									v-model="updata_ruleForm.component_name"
+								></el-input>
+							</el-col>
+						</el-form-item>
+						<el-form-item label="菜单图标" prop="menu_icon">
+							<el-col :span="3">
+								<el-input
+									v-model="updata_ruleForm.menu_icon"
+								></el-input>
+							</el-col>
+						</el-form-item>
+						<el-form-item label="所属目录" prop="region">
+							<!-- <el-select
+							v-model="updata_ruleForm.region"
+							placeholder="请选择父级菜单"
+						>
+							<el-option
+								v-for="item in updata_ruleForm.options"
+								:key="item.id"
+								:label="item.name"
+								:value="item.id"
+							>
+							</el-option>
+						</el-select> -->
+							<el-cascader
+								v-model="updata_ruleForm.region"
+								:options="updata_ruleForm.options"
+								placeholder="请选择父级菜单"
+								@change="getregion"
+								:props="{
+									value: 'id',
+									label: 'name',
+									checkStrictly: true,
+								}"
+								clearable
+							></el-cascader>
+						</el-form-item>
+						<el-form-item label="是否隐藏" prop="delivery">
+							<el-switch
+								v-model="updata_ruleForm.delivery"
+							></el-switch>
+						</el-form-item>
+						<el-form-item label="权限类型" prop="type">
+							<el-checkbox-group v-model="updata_ruleForm.type">
+								<el-checkbox
+									label="浏览"
+									name="type"
+								></el-checkbox>
+								<el-checkbox
+									label="新建"
+									name="type"
+								></el-checkbox>
+								<el-checkbox
+									label="修改"
+									name="type"
+								></el-checkbox>
+								<el-checkbox
+									label="删除"
+									name="type"
+								></el-checkbox>
+								<el-checkbox
+									label="导入"
+									name="type"
+								></el-checkbox>
+								<el-checkbox
+									label="导出"
+									name="type"
+								></el-checkbox>
+							</el-checkbox-group>
+						</el-form-item>
+						<el-form-item>
+							<el-button
+								type="primary"
+								@click="updata_submitForm('updata_ruleForm')"
+								>修改</el-button
+							>
+							<el-button
+								@click="updata_resetForm('updata_ruleForm')"
+								>重置</el-button
+							>
+						</el-form-item>
+					</el-form>
+				</el-dialog>
+			</div>
+			<!--  -->
+			<div v-if="radio == 3" class="radio3" :style="del_height">
+				<br />
+				<div class="del_con">
+					<p>说明：</p>
+					<p>1.菜单删除后将不能访问该页面，请谨慎操作</p>
+					<p>
+						2.有子级菜单的选项无法删除，请确保操作项无任何子级菜单
+					</p>
+					<p>
+						3.此操作将会影响其他用户，所以只能逐级删除，且每次删除之后页面会刷新。
+					</p>
+				</div>
 
-			<el-cascader
-				v-model="del_value"
-				:options="del_options"
-				placeholder="请选择要删除的菜单"
-				:props="{
-					value: 'id',
-					label: 'name',
-					multiple: true,
-					checkStrictly: true,
-				}"
-				clearable
-			></el-cascader>
-			<el-button type="danger" @click="del_menu">删除</el-button>
-			<el-button @click="reset_del">重置</el-button>
+				<el-cascader
+					v-model="del_value"
+					:options="del_options"
+					placeholder="请选择要删除的菜单"
+					:props="{
+						value: 'id',
+						label: 'name',
+						multiple: true,
+						checkStrictly: true,
+					}"
+					clearable
+				></el-cascader>
+				<el-button type="danger" @click="del_menu">删除</el-button>
+				<el-button @click="reset_del">重置</el-button>
+			</div>
 		</div>
 	</div>
 </template>
@@ -365,15 +411,19 @@ export default {
 							let arrlist = [1, 2, 3, 4, 5, 6];
 
 							res.data.forEach((item) => {
-								 if (item.name == 'IPFS节点信息') {
+								if (
+									item.name == 'IPFS节点信息' ||
+									item.name == '节点信息'
+								) {
+									item.name = 'IPFS节点信息';
 									arrlist[0] = item;
-								}else if (item.name == 'IPFS节点控制台') {
+								} else if (item.name == 'IPFS节点控制台') {
 									arrlist[1] = item;
 								} else if (item.name == 'IPFS节点应用') {
 									arrlist[2] = item;
 								} else if (item.name == 'IPFS节点收益') {
 									arrlist[3] = item;
-								}else if (item.name == 'IPFS数据统计') {
+								} else if (item.name == 'IPFS数据统计') {
 									arrlist[4] = item;
 									item.children.forEach((xitem, index) => {
 										if (xitem.name == '全国节点分布') {
@@ -385,25 +435,25 @@ export default {
 									arrlist[5] = item;
 									//这几行代码是修改菜单功能--禁止删除
 
-									// arrlist[5].children.push({
-									// 	children: [],
-									// 	component: 'menu_management',
-									// 	delete_status: 0,
-									// 	export_status: 0,
-									// 	hidden: 0,
-									// 	icon: '',
-									// 	id: 100,
-									// 	import_status: 0,
-									// 	insert_status: 0,
-									// 	name: '菜单管理',
-									// 	path: '/menu_management',
-									// 	pid: 30,
-									// 	read_status: 1,
-									// 	roleR: 1,
-									// 	time_create: 0,
-									// 	time_update: 0,
-									// 	update_status: 0,
-									// });
+									arrlist[5].children.push({
+										children: [],
+										component: 'menu_management',
+										delete_status: 0,
+										export_status: 0,
+										hidden: 0,
+										icon: '',
+										id: 100,
+										import_status: 0,
+										insert_status: 0,
+										name: '菜单管理',
+										path: '/menu_management',
+										pid: 30,
+										read_status: 1,
+										roleR: 1,
+										time_create: 0,
+										time_update: 0,
+										update_status: 0,
+									});
 								} else {
 									// arrlist[6] = {
 									// 	children: [],
@@ -422,8 +472,8 @@ export default {
 									// 	time_create: 0,
 									// 	time_update: 0,
 									// 	update_status: 0,
-                                    // };
-                                    // arrlist.push(item);
+									// };
+									// arrlist.push(item);
 								}
 							});
 							for (var i = 0; i < arrlist.length; i++) {
@@ -443,10 +493,9 @@ export default {
 								mtpath,
 								7 * 24 * 60 * 60
 							);
-                            console.log(arrlist);
-                            if(data==1){
-                                window.location.href = './';
-                            }
+							if (data == 1) {
+								window.location.href = './';
+							}
 						} else {
 							this.$router.push({ path: '/error404' });
 						}
@@ -553,14 +602,12 @@ export default {
 				.then((res) => {
 					if (res.status == 0) {
 						this.$message.success('创建成功');
-						this.get_menu_list("1");
+						this.get_menu_list('1');
 					} else {
 						this.$message.error(res.msg);
 					}
 				})
-				.catch((error) => {
-					console.log(error);
-				});
+				.catch((error) => {});
 		},
 		//修改
 		handleEdit(index, row) {
@@ -586,20 +633,16 @@ export default {
 				row.import_status == 1 ? '导入' : '',
 				row.export_status == 1 ? '导出' : '',
 			];
-
-			console.log(this.updata_ruleForm);
 		},
 		getregion() {
 			console.log(this.updata_ruleForm.region);
 		},
 		updata_submitForm(formName) {
 			var _this = this;
-			console.log(this.ruleForm.type);
 			this.$refs[formName].validate((valid) => {
 				if (valid) {
 					_this.updata_menu();
 				} else {
-					console.log('error submit!!');
 					return false;
 				}
 			});
@@ -613,7 +656,6 @@ export default {
 			params.insert_status = 0;
 			params.import_status = 0;
 			params.export_status = 0;
-			console.log(this.updata_ruleForm.region);
 			if (this.updata_ruleForm.region[1]) {
 				if (this.updata_ruleForm.region.slice(-1)[0] == -1) {
 					params.pid = 0;
@@ -658,7 +700,7 @@ export default {
 					if (res.status == 0) {
 						this.$message.success('修改成功');
 						this.dialogFormVisible = false;
-						this.get_menu_list("1");
+						this.get_menu_list('1');
 					} else {
 						this.$message.error(res.msg);
 					}
@@ -677,7 +719,6 @@ export default {
 				type: 'warning',
 			})
 				.then(() => {
-					console.log(this.del_value);
 					let params = new Object();
 					let id_str = '';
 					this.del_value.forEach((item) => {
@@ -687,7 +728,7 @@ export default {
 					deletemenu(params)
 						.then((res) => {
 							if (res.status == 0) {
-								this.get_menu_list("1");
+								this.get_menu_list('1');
 								this.$message({
 									type: 'success',
 									message: '删除成功!',
@@ -710,17 +751,14 @@ export default {
 			this.del_value = '';
 		},
 		handleChange(value) {
-			console.log(value);
 			let params = new Object();
 		},
 		submitForm(formName) {
 			var _this = this;
-			console.log(this.ruleForm.type);
 			this.$refs[formName].validate((valid) => {
 				if (valid) {
 					_this.create_menu();
 				} else {
-					console.log('error submit!!');
 					return false;
 				}
 			});
@@ -735,8 +773,8 @@ export default {
 		// 表格样式设置
 		rowClass() {
 			return 'text-align: left;';
-        },
-        menudisable(arr) {
+		},
+		menudisable(arr) {
 			for (var i = 0; i < arr.length; i++) {
 				if (arr[i].children) {
 					for (var k = 0; k < arr[i].children.length; k++) {

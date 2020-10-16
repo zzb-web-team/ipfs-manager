@@ -123,7 +123,8 @@
 							v-show="obnj.roleE == 1"
 						>
 							导出<i
-								class="el-icon-folder-add el-icon--right"
+								class="iconfont icon-daochu"
+								style="color:#1672E8;margin-left: 5px;"
 							></i>
 						</el-button>
 					</el-col>
@@ -796,6 +797,9 @@ import {
 	rolelist,
 	positionlist,
 	departmentlist,
+	rolelistfortree,
+	departmentfortree,
+	positionfortree,
 } from '../../servers/api';
 import common from '../../comm/js/util.js';
 import { menudisable } from '../../servers/sevdate';
@@ -1011,19 +1015,34 @@ export default {
 		this.ipfs_id = parseInt(this.$cookies.get('ipfs_id'));
 		this.ipfs_user = this.$cookies.get('ipfs_user');
 		this.queryUserList();
-		this.get_permission_list(0);
-		this.get_position_list(0);
-		this.getdatalist(0);
 	},
 	methods: {
 		//获取部门列表
-		getdatalist(pagenum) {
-			let params = new Object();
-			params.page = pagenum;
-			departmentlist(params)
+		getdatalist() {
+			departmentfortree()
 				.then((res) => {
 					if (res.status == 0) {
-						this.department_list = res.result.tree;
+						this.department_list = [];
+						let one_obj = {}; //一级部门
+						let two_arr = []; //二级部门
+						res.data.forEach((item) => {
+							if (item.pid == 0) {
+								item.children = [];
+								let key = item.id;
+								let val = item;
+								one_obj[key] = val;
+							} else {
+								two_arr.push(item);
+							}
+						});
+						two_arr.forEach((item) => {
+							if (one_obj[item.pid]) {
+								one_obj[item.pid].children.push(item);
+							}
+						});
+						for (const key in one_obj) {
+							this.department_list.push(one_obj[key]);
+						}
 					} else {
 						this.$message(res.msg);
 					}
@@ -1031,21 +1050,11 @@ export default {
 				.catch((error) => {});
 		},
 		//职位分组
-		get_position_list(pagenum) {
-			let params = new Object();
-			params.page = pagenum;
-			positionlist(params)
+		get_position_list() {
+			positionfortree()
 				.then((res) => {
 					if (res.status == 0) {
-						this.position_list = this.position_list.concat(
-							res.result.cols
-						);
-						if (res.result.les_count == 0) {
-							return false;
-						} else {
-							pagenum++;
-							this.get_position_list(pagenum);
-						}
+						this.position_list = res.data;
 					} else {
 						this.$message(res.msg);
 					}
@@ -1053,22 +1062,11 @@ export default {
 				.catch((error) => {});
 		},
 		//获取权限分组
-		get_permission_list(pagenum) {
-			let params = new Object();
-			params.page = pagenum;
-			params.search = '';
-			rolelist(params)
+		get_permission_list() {
+			rolelistfortree()
 				.then((res) => {
 					if (res.status == 0) {
-						this.permission_list = this.permission_list.concat(
-							res.result.cols
-						);
-						if (res.result.les_count == 0) {
-							return false;
-						} else {
-							pagenum++;
-							this.get_permission_list(pagenum);
-						}
+						this.permission_list = res.data;
 					} else {
 						this.$message.error(res.msg);
 					}
@@ -1672,6 +1670,9 @@ export default {
 				.catch(() => {});
 		},
 		addAccout() {
+			this.get_permission_list();
+			this.get_position_list();
+			this.getdatalist();
 			this.dialogVisible = true;
 		},
 		//修改确认

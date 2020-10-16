@@ -9,7 +9,7 @@ if (href.indexOf('xyj.grapefruitcloud.com') >= 0) {
 } else {
     var serverUrl = 'http://zzb.onezen.net';
 }
-var serverUrl = 'http://service.kclgames.com'; //PHP服务域名
+// var serverUrl = 'http://service.kclgames.com'; //PHP服务域名
 
 //服务器监控
 /**获取微服务信息 */
@@ -525,6 +525,33 @@ export const menulistuser = params => {
         res => res.data
     );
 };
+
+//获取所有权限分组
+export const rolelistfortree = params => {
+    return post(`${serverUrl}/system/rolelistfortree`, params).then(
+        res => res.data
+    );
+};
+
+//获取所有部门
+export const departmentfortree = params => {
+    return post(`${serverUrl}/system/departmentfortree`, params).then(
+        res => res.data
+    );
+};
+
+//获取所有职位
+export const positionfortree = params => {
+    return post(`${serverUrl}/system/positionfortree`, params).then(
+        res => res.data
+    );
+};
+
+
+
+
+
+
 //获取全国地图分布--实时
 export const node_countinfo = params => {
     return post(`${serverUrl}/node_mgmt/node_countinfo`, params).then(

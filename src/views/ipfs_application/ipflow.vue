@@ -162,14 +162,14 @@
 		<!-- 表格 -->
 		<div style="margin: 24px 30px;background: #ffffff;box-sizing: border-box;padding: 24px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);">
 			<div style="text-align:right;padding: 10px;">
-				<el-button
+                <el-button
 					v-show="menutype.roleE == 1"
-					type="primary"
-                    size="small"
+					type="text"
+					size="mini"
 					@click="exportexc()"
 					:disabled="showdisable"
-					>导出</el-button
-				>
+					>导出<i class="iconfont icon-daochu" style="color:#1672E8;margin-left: 5px;"></i
+				></el-button>
 			</div>
 			<el-table
 				:data="tableData"

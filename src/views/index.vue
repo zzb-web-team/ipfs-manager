@@ -125,7 +125,6 @@
 										:index="itemChild.path"
 										:key="itemChild.path"
 										v-show="
-											itemChild.name != '个人中心' &&
 												itemChild.name != '节点详情' &&
 												itemChild.name != '调整收益参数'
 										"

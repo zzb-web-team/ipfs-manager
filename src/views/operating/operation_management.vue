@@ -79,12 +79,17 @@
 				</el-row>
 			</div>
 			<!-- 表格 -->
+                    <!-- v-show="menutype.roleE == 1" -->
 			<div class="con_lable">
 				<!-- <div style="text-align:right;margin:10px 0;">
-          <el-button type="primary" @click="geydata2()" :disabled="showdisabled"
-            >导出</el-button
-          >
-        </div> -->
+                    <el-button
+					type="text"
+					size="mini"
+					@click="geydata2()"
+					:disabled="showdisabled"
+					>导出<i class="iconfont icon-daochu" style="color:#1672E8;margin-left: 5px;"></i
+				></el-button>
+				</div> -->
 
 				<!-- 表格 -->
 				<el-table

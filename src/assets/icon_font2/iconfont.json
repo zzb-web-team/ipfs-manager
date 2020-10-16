@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "17696600",
+      "name": "下载",
+      "font_class": "xiazai",
+      "unicode": "e661",
+      "unicode_decimal": 58977
+    },
+    {
+      "icon_id": "17696751",
+      "name": "导出",
+      "font_class": "daochu",
+      "unicode": "e662",
+      "unicode_decimal": 58978
+    },
+    {
       "icon_id": "1920286",
       "name": "点",
       "font_class": "dian",

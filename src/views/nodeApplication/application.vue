@@ -404,7 +404,7 @@
 							</el-col>
 							<el-col :span="15">
 								<div class="device_form">
-									<el-button
+									<!-- <el-button
 										class="ip_upload_btn"
 										@click="ip_upload"
 										type="text"
@@ -412,7 +412,7 @@
 										v-show="menutype.roleE == 1"
 									>
 										<i class="el-icon-download"></i>
-									</el-button>
+									</el-button> -->
 									<div
 										id="myChart"
 										:style="{ height: scrollerHeight }"
@@ -528,7 +528,7 @@
 							</el-col>
 							<el-col :span="15">
 								<div class="device_form">
-									<el-button
+									<!-- <el-button
 										class="ip_upload_btn"
 										@click="fs_upload"
 										type="text"
@@ -536,7 +536,7 @@
 										v-show="menutype.roleE == 1"
 									>
 										<i class="el-icon-download"></i>
-									</el-button>
+									</el-button> -->
 									<div
 										id="myChart1"
 										:style="{ height: scrollerHeight }"
@@ -924,7 +924,8 @@ export default {
 			menutype: {},
 			ip_tooltip_list: [],
 			fs_tooltip_list: [],
-			scrollerHeight: 0,
+            scrollerHeight: 0,
+            echartsexport:true,
 		};
 	},
 	filters: {
@@ -1070,7 +1071,12 @@ export default {
 		}
 		let munulist = JSON.parse(localStorage.getItem('menus'));
 		let pathname = this.$route.path;
-		this.menutype = menudisable(munulist, pathname);
+        this.menutype = menudisable(munulist, pathname);
+         if(this.menutype.roleE == 1){
+            this.echartsexport=true;
+        }else{
+            this.echartsexport=false;
+        }
 	},
 	beforeDestroy() {
 		if (!this.chart) {
@@ -1922,6 +1928,21 @@ export default {
 					name: data_unit,
 					min: 0,
 					max: maxnum,
+                },
+                toolbox: {
+					right: '10%',
+					feature: {
+						mydow: {
+							show: _this.echartsexport,
+							itemSize: 15,
+							title: '导出',
+							icon:
+								'path://M1000.533333 250.453333c-14.933333-14.933333-35.413333-23.04-56.746666-23.04h-403.2l-52.48-110.506666c-8.533333-17.92-26.453333-29.44-46.506667-29.44H50.773333c-13.653333 0-26.453333 5.546667-35.84 14.933333-9.386667 9.813333-14.933333 22.613333-14.933333 35.84v724.48a80.213333 80.213333 0 0 0 79.786667 79.786667h865.28c20.906667 0 41.386667-8.533333 56.32-23.466667 14.08-14.933333 22.613333-35.413333 22.613333-56.32V307.2c0-21.333333-8.533333-41.813333-23.466667-56.746667z',
+							onclick: function() {
+								_this.ip_upload();
+							},
+						},
+					},
 				},
 				series: [
 					{
@@ -2009,6 +2030,21 @@ export default {
 								_this.fs_tooltip_list[params[0].dataIndex]
 							)
 						);
+					},
+                },
+                toolbox: {
+					right: '10%',
+					feature: {
+						mydow: {
+							show: _this.echartsexport,
+							itemSize: 15,
+							title: '导出',
+							icon:
+								'path://M1000.533333 250.453333c-14.933333-14.933333-35.413333-23.04-56.746666-23.04h-403.2l-52.48-110.506666c-8.533333-17.92-26.453333-29.44-46.506667-29.44H50.773333c-13.653333 0-26.453333 5.546667-35.84 14.933333-9.386667 9.813333-14.933333 22.613333-14.933333 35.84v724.48a80.213333 80.213333 0 0 0 79.786667 79.786667h865.28c20.906667 0 41.386667-8.533333 56.32-23.466667 14.08-14.933333 22.613333-35.413333 22.613333-56.32V307.2c0-21.333333-8.533333-41.813333-23.466667-56.746667z',
+							onclick: function() {
+								_this.fs_upload();
+							},
+						},
 					},
 				},
 				legend: {

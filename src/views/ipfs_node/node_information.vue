@@ -10,88 +10,82 @@
 		<div class="rowbg">
 			<div class="item_title">节点信息</div>
 			<el-row type="flex" justify="start" style="white-space:nowrap;">
-				<el-col :span="3"
-					><el-input
-						placeholder="请输入节点IP，节点ID"
-						v-model="seachinput"
-						@keyup.enter.native="seachipfs()"
-						size="small"
-						style="width:100%;"
-					>
-						<i
-							slot="prefix"
-							class="el-input__icon el-icon-search"
-							@click="seachipfs"
-						></i> </el-input
-				></el-col>
-				<el-col :span="8"
-					><span>节点区域/省市</span>
-					<el-cascader
-						style="width:100%;max-width: 200px;"
-						placeholder="请选择区域"
-						v-model="value1"
-						:options="citylist"
-						@change="provinceChange"
-						size="small"
-					></el-cascader>
-					<el-select
-						v-model="city_detil"
-						placeholder="请选择城市"
-						@change="handleChange()"
-						:disabled="city_disable"
-						style="width:100%;max-width: 200px;"
-						size="small"
-					>
-						<el-option
-							v-for="(item, index) in options_city"
-							:key="index + item.name + 'city'"
-							:label="item.name"
-							:value="item.name"
-						></el-option>
-					</el-select>
-				</el-col>
-				<el-col :span="7"
-					><span>节点渠道商:</span>
-					<el-select
-						v-model="firstchid"
-						placeholder="一级渠道商"
-						@change="handleChangefirst($event)"
-						style="width:100%;max-width: 200px;"
-						size="small"
-					>
-						<el-option value="" label="全部"></el-option>
-						<el-option
-							v-for="(item, index) in firstchan"
-							:key="index + item.value"
-							:label="item.name"
-							:value="item.value"
-						></el-option>
-					</el-select>
-					<el-select
-						v-model="secondchid"
-						placeholder="二级渠道商"
-						@change="handleChange()"
-						:disabled="chil_disable"
-						style="width:100%;max-width: 200px;"
-						size="small"
-					>
-						<el-option value="" label="全部"></el-option>
-						<el-option
-							v-for="(item, index) in secondchan"
-							:key="index + item.value + 'ssd'"
-							:label="item.name"
-							:value="item.value"
-						></el-option> </el-select
-				></el-col>
-				<el-col :span="2"
-					><el-button
-						type="primary"
-						round
-						@click="resetseach()"
-						class="resetseach_btn"
-						size="small"
-						>重置</el-button
-					></el-col
+				<el-input
+					placeholder="请输入节点IP，节点ID"
+					v-model="seachinput"
+					@keyup.enter.native="seachipfs()"
+					size="small"
+					style="width:12%;"
+				>
+					<i
+						slot="prefix"
+						class="el-input__icon el-icon-search"
+						@click="seachipfs"
+					></i>
+				</el-input>
+				<span style="margin-left:20px;margin-right:10px;">节点区域/省市</span>
+				<el-cascader
+					style="width:100%;max-width: 200px;"
+					placeholder="请选择区域"
+					v-model="value1"
+					:options="citylist"
+					@change="provinceChange"
+					size="small"
+				></el-cascader>
+				<el-select
+					v-model="city_detil"
+					placeholder="请选择城市"
+					@change="handleChange()"
+					:disabled="city_disable"
+					style="width:100%;max-width: 200px;margin-left:10px;"
+					size="small"
+				>
+					<el-option
+						v-for="(item, index) in options_city"
+						:key="index + item.name + 'city'"
+						:label="item.name"
+						:value="item.name"
+					></el-option>
+				</el-select>
+				<span style="margin-left:20px;margin-right:10px;">节点渠道商:</span>
+				<el-select
+					v-model="firstchid"
+					placeholder="一级渠道商"
+					@change="handleChangefirst($event)"
+					style="width:100%;max-width: 200px;"
+					size="small"
+				>
+					<el-option value="" label="全部"></el-option>
+					<el-option
+						v-for="(item, index) in firstchan"
+						:key="index + item.value"
+						:label="item.name"
+						:value="item.value"
+					></el-option>
+				</el-select>
+				<el-select
+					v-model="secondchid"
+					placeholder="二级渠道商"
+					@change="handleChange()"
+					:disabled="chil_disable"
+					style="width:100%;max-width: 200px;margin-left:10px;"
+					size="small"
+				>
+					<el-option value="" label="全部"></el-option>
+					<el-option
+						v-for="(item, index) in secondchan"
+						:key="index + item.value + 'ssd'"
+						:label="item.name"
+						:value="item.value"
+					></el-option>
+				</el-select>
+				<el-button
+					type="primary"
+					round
+					@click="resetseach()"
+					class="resetseach_btn"
+					size="small"
+					>重置</el-button
 				>
 			</el-row>
 		</div>
@@ -106,7 +100,7 @@
 					size="mini"
 					@click="export_Excel()"
 					:disabled="show_export"
-					>导出<i class="el-icon-folder-add el-icon--right"></i
+					>导出<i class="iconfont icon-daochu" style="color:#1672E8;margin-left: 5px;"></i
 				></el-button>
 			</div>
 			<div class="rowtab">
@@ -226,12 +220,15 @@
 						width="100"
 					>
 						<template slot-scope="scope">
-							<span>{{
-								(
-									(scope.row.occupyCap / scope.row.totalCap) *
-									100
-								).toFixed(2) * 1
-							}}%</span>
+							<span
+								>{{
+									(
+										(scope.row.occupyCap /
+											scope.row.totalCap) *
+										100
+									).toFixed(2) * 1
+								}}%</span
+							>
 							<el-progress
 								:text-inside="true"
 								:show-text="false"
@@ -1460,9 +1457,9 @@ export default {
 	height: auto;
 	overflow-x: hidden;
 	background-color: #f9fbfd;
-	.el-select {
-		margin-bottom: 10px;
-	}
+	// .el-select {
+	// 	margin-bottom: 10px;
+	// }
 	.seach_title {
 		display: flex;
 		justify-content: flex-start;

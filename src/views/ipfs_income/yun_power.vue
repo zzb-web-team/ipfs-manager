@@ -93,17 +93,17 @@
 					size="mini"
 					@click="exportexc()"
 					:disabled="showdisable1"
-					>导出<i class="el-icon-folder-add el-icon--right"></i
-				></el-button
+					>导出<i class="iconfont icon-daochu" style="color:#1672E8;margin-left: 5px;"></i></el-button
 				>
 			</div>
 			<div style="text-align:right;padding: 10px;" v-if="radio == '2'">
 				<el-button
 					v-show="menutype.roleE == 1"
-					type="primary"
+					type="text"
+                    size="mini"
 					@click="exportexc()"
 					:disabled="showdisable2"
-					>导出</el-button
+					>导出<i class="iconfont icon-daochu" style="color:#1672E8;margin-left: 5px;"></i></el-button
 				>
 			</div>
 			<div v-show="radio == '1'">
