@@ -2,7 +2,7 @@
 	<div class="content">
 		<!-- 标题 -->
 		<div class="search rowbg">
-			<div class="item_title">{{ location_name }}</div>
+			<div class="title_name">{{ location_name }}</div>
 			<div class="ipfs_con ipfs_con_label">
 				<div class="ipfs_con_left">节点组网分布</div>
 				<div class="ipfs_con_right">
@@ -42,9 +42,13 @@
 		<!-- 主要内容 -->
 		<div class="ipfs_title_next" v-if="rotate == 0">
 			<div class="maptitle">贵州</div>
-						<el-row type="flex" justify="space-around" class="top_cube">
-				<el-col :span="6" class="ipfs_con_tit" style="margin-right:24px;">
-					<div>
+									<el-row type="flex" justify="start" class="top_cube">
+				<el-col
+					:span="6"
+					class="ipfs_con_tit"
+					style="margin-right:24px;"
+				>
+					<div class="title_img">
 						<img src="../../../assets/img/nodejiedian.png" alt="" />
 					</div>
 					<div class="top_cube_item_right">
@@ -62,9 +66,16 @@
 						</div>
 					</div>
 				</el-col>
-                <el-col :span="6" class="ipfs_con_tit" style="margin-right:24px;">
-					<div>
-						<img src="../../../assets/img/rongliangyudanxing.png" alt="" />
+				<el-col
+					:span="6"
+					class="ipfs_con_tit"
+					style="margin-right:24px;"
+				>
+					<div class="title_img">
+						<img
+							src="../../../assets/img/rongliangyudanxing.png"
+							alt=""
+						/>
 					</div>
 					<div class="top_cube_item_right">
 						<div>
@@ -81,8 +92,12 @@
 						</div>
 					</div>
 				</el-col>
-                <el-col :span="6" class="ipfs_con_tit" style="margin-right:24px;">
-					<div>
+				<el-col
+					:span="6"
+					class="ipfs_con_tit"
+					style="margin-right:24px;"
+				>
+					<div class="title_img">
 						<img src="../../../assets/img/leijichakan.png" alt="" />
 					</div>
 					<div class="top_cube_item_right">
@@ -100,9 +115,12 @@
 						</div>
 					</div>
 				</el-col>
-                 <el-col :span="6" class="ipfs_con_tit">
-					<div>
-						<img src="../../../assets/img/conventional.png" alt="" />
+				<el-col :span="6" class="ipfs_con_tit">
+					<div class="title_img">
+						<img
+							src="../../../assets/img/conventional.png"
+							alt=""
+						/>
 					</div>
 					<div class="top_cube_item_right">
 						<div>
@@ -142,9 +160,13 @@
 		</div>
 		<div class="ipfs_title_next" v-if="rotate == 1">
 			<div class="maptitle">云南</div>
-						<el-row type="flex" justify="space-around" class="top_cube">
-				<el-col :span="6" class="ipfs_con_tit" style="margin-right:24px;">
-					<div>
+									<el-row type="flex" justify="start" class="top_cube">
+				<el-col
+					:span="6"
+					class="ipfs_con_tit"
+					style="margin-right:24px;"
+				>
+					<div class="title_img">
 						<img src="../../../assets/img/nodejiedian.png" alt="" />
 					</div>
 					<div class="top_cube_item_right">
@@ -162,9 +184,16 @@
 						</div>
 					</div>
 				</el-col>
-                <el-col :span="6" class="ipfs_con_tit" style="margin-right:24px;">
-					<div>
-						<img src="../../../assets/img/rongliangyudanxing.png" alt="" />
+				<el-col
+					:span="6"
+					class="ipfs_con_tit"
+					style="margin-right:24px;"
+				>
+					<div class="title_img">
+						<img
+							src="../../../assets/img/rongliangyudanxing.png"
+							alt=""
+						/>
 					</div>
 					<div class="top_cube_item_right">
 						<div>
@@ -181,8 +210,12 @@
 						</div>
 					</div>
 				</el-col>
-                <el-col :span="6" class="ipfs_con_tit" style="margin-right:24px;">
-					<div>
+				<el-col
+					:span="6"
+					class="ipfs_con_tit"
+					style="margin-right:24px;"
+				>
+					<div class="title_img">
 						<img src="../../../assets/img/leijichakan.png" alt="" />
 					</div>
 					<div class="top_cube_item_right">
@@ -200,9 +233,12 @@
 						</div>
 					</div>
 				</el-col>
-                 <el-col :span="6" class="ipfs_con_tit">
-					<div>
-						<img src="../../../assets/img/conventional.png" alt="" />
+				<el-col :span="6" class="ipfs_con_tit">
+					<div class="title_img">
+						<img
+							src="../../../assets/img/conventional.png"
+							alt=""
+						/>
 					</div>
 					<div class="top_cube_item_right">
 						<div>
@@ -242,9 +278,13 @@
 		</div>
 		<div class="ipfs_title_next" v-if="rotate == 2">
 			<div class="maptitle">重庆</div>
-						<el-row type="flex" justify="space-around" class="top_cube">
-				<el-col :span="6" class="ipfs_con_tit" style="margin-right:24px;">
-					<div>
+									<el-row type="flex" justify="start" class="top_cube">
+				<el-col
+					:span="6"
+					class="ipfs_con_tit"
+					style="margin-right:24px;"
+				>
+					<div class="title_img">
 						<img src="../../../assets/img/nodejiedian.png" alt="" />
 					</div>
 					<div class="top_cube_item_right">
@@ -262,9 +302,16 @@
 						</div>
 					</div>
 				</el-col>
-                <el-col :span="6" class="ipfs_con_tit" style="margin-right:24px;">
-					<div>
-						<img src="../../../assets/img/rongliangyudanxing.png" alt="" />
+				<el-col
+					:span="6"
+					class="ipfs_con_tit"
+					style="margin-right:24px;"
+				>
+					<div class="title_img">
+						<img
+							src="../../../assets/img/rongliangyudanxing.png"
+							alt=""
+						/>
 					</div>
 					<div class="top_cube_item_right">
 						<div>
@@ -281,8 +328,12 @@
 						</div>
 					</div>
 				</el-col>
-                <el-col :span="6" class="ipfs_con_tit" style="margin-right:24px;">
-					<div>
+				<el-col
+					:span="6"
+					class="ipfs_con_tit"
+					style="margin-right:24px;"
+				>
+					<div class="title_img">
 						<img src="../../../assets/img/leijichakan.png" alt="" />
 					</div>
 					<div class="top_cube_item_right">
@@ -300,9 +351,12 @@
 						</div>
 					</div>
 				</el-col>
-                 <el-col :span="6" class="ipfs_con_tit">
-					<div>
-						<img src="../../../assets/img/conventional.png" alt="" />
+				<el-col :span="6" class="ipfs_con_tit">
+					<div class="title_img">
+						<img
+							src="../../../assets/img/conventional.png"
+							alt=""
+						/>
 					</div>
 					<div class="top_cube_item_right">
 						<div>
@@ -342,9 +396,13 @@
 		</div>
 		<div class="ipfs_title_next" v-if="rotate == 3">
 			<div class="maptitle">四川</div>
-						<el-row type="flex" justify="space-around" class="top_cube">
-				<el-col :span="6" class="ipfs_con_tit" style="margin-right:24px;">
-					<div>
+									<el-row type="flex" justify="start" class="top_cube">
+				<el-col
+					:span="6"
+					class="ipfs_con_tit"
+					style="margin-right:24px;"
+				>
+					<div class="title_img">
 						<img src="../../../assets/img/nodejiedian.png" alt="" />
 					</div>
 					<div class="top_cube_item_right">
@@ -362,9 +420,16 @@
 						</div>
 					</div>
 				</el-col>
-                <el-col :span="6" class="ipfs_con_tit" style="margin-right:24px;">
-					<div>
-						<img src="../../../assets/img/rongliangyudanxing.png" alt="" />
+				<el-col
+					:span="6"
+					class="ipfs_con_tit"
+					style="margin-right:24px;"
+				>
+					<div class="title_img">
+						<img
+							src="../../../assets/img/rongliangyudanxing.png"
+							alt=""
+						/>
 					</div>
 					<div class="top_cube_item_right">
 						<div>
@@ -381,8 +446,12 @@
 						</div>
 					</div>
 				</el-col>
-                <el-col :span="6" class="ipfs_con_tit" style="margin-right:24px;">
-					<div>
+				<el-col
+					:span="6"
+					class="ipfs_con_tit"
+					style="margin-right:24px;"
+				>
+					<div class="title_img">
 						<img src="../../../assets/img/leijichakan.png" alt="" />
 					</div>
 					<div class="top_cube_item_right">
@@ -400,9 +469,12 @@
 						</div>
 					</div>
 				</el-col>
-                 <el-col :span="6" class="ipfs_con_tit">
-					<div>
-						<img src="../../../assets/img/conventional.png" alt="" />
+				<el-col :span="6" class="ipfs_con_tit">
+					<div class="title_img">
+						<img
+							src="../../../assets/img/conventional.png"
+							alt=""
+						/>
 					</div>
 					<div class="top_cube_item_right">
 						<div>
@@ -442,9 +514,13 @@
 		</div>
 		<div class="ipfs_title_next" v-if="rotate == 4">
 			<div class="maptitle">西藏</div>
-						<el-row type="flex" justify="space-around" class="top_cube">
-				<el-col :span="6" class="ipfs_con_tit" style="margin-right:24px;">
-					<div>
+									<el-row type="flex" justify="start" class="top_cube">
+				<el-col
+					:span="6"
+					class="ipfs_con_tit"
+					style="margin-right:24px;"
+				>
+					<div class="title_img">
 						<img src="../../../assets/img/nodejiedian.png" alt="" />
 					</div>
 					<div class="top_cube_item_right">
@@ -462,9 +538,16 @@
 						</div>
 					</div>
 				</el-col>
-                <el-col :span="6" class="ipfs_con_tit" style="margin-right:24px;">
-					<div>
-						<img src="../../../assets/img/rongliangyudanxing.png" alt="" />
+				<el-col
+					:span="6"
+					class="ipfs_con_tit"
+					style="margin-right:24px;"
+				>
+					<div class="title_img">
+						<img
+							src="../../../assets/img/rongliangyudanxing.png"
+							alt=""
+						/>
 					</div>
 					<div class="top_cube_item_right">
 						<div>
@@ -481,8 +564,12 @@
 						</div>
 					</div>
 				</el-col>
-                <el-col :span="6" class="ipfs_con_tit" style="margin-right:24px;">
-					<div>
+				<el-col
+					:span="6"
+					class="ipfs_con_tit"
+					style="margin-right:24px;"
+				>
+					<div class="title_img">
 						<img src="../../../assets/img/leijichakan.png" alt="" />
 					</div>
 					<div class="top_cube_item_right">
@@ -500,9 +587,12 @@
 						</div>
 					</div>
 				</el-col>
-                 <el-col :span="6" class="ipfs_con_tit">
-					<div>
-						<img src="../../../assets/img/conventional.png" alt="" />
+				<el-col :span="6" class="ipfs_con_tit">
+					<div class="title_img">
+						<img
+							src="../../../assets/img/conventional.png"
+							alt=""
+						/>
 					</div>
 					<div class="top_cube_item_right">
 						<div>
@@ -545,7 +635,7 @@
 			<div class="select_sort" v-if="ipfsdata.length > 0">
 				<div style="display: flex;flex-wrap: wrap;">
 					<div class="local_search_item">
-						<span>节点一级渠道商：</span>
+						<span>节点渠道：</span>
 						<el-select
 							v-model="firstchan_value"
 							placeholder="请选择节点类型"
@@ -616,13 +706,21 @@
 						type="primary"
 						@click="uopset"
 						size="small"
-						style="margin-left: 10px;margin-top: 25px;"
+						style="margin-left: 10px;margin-top: 5px;height: 32px;"
 						>重置</el-button
 					>
 				</div>
 				<div class="sort_list">
-					<span class="sort_title">排序：</span>
+					<div v-show="show_sort" @click="show_sort = false">
+						<i
+							class="el-icon-sort"
+							style="font-size: 18px;font-weight: 900;color:#1572E8;margin-right:5px;"
+						></i
+						><span>{{ options[value].label }}</span>
+					</div>
+					<!-- <span class="sort_title" v-show="!show_sort">排序：</span> -->
 					<el-select
+						v-show="!show_sort"
 						v-model="value"
 						placeholder="请选择排序方式"
 						@change="searchdata"
@@ -637,9 +735,9 @@
 					</el-select>
 				</div>
 			</div>
-			<div class="ipfs_box">
-				<div class="nodata" v-show="showdata">
-					 <img src="../../../assets/img/nodata.png">
+			<div class="ipfs_box" >
+				<div class="nodata" v-show="showdata" :style="{ height: scrollHeight,padding:scroll_line_height }">
+					<img src="../../../assets/img/nodata.png" />
 					<p>暂无数据</p>
 				</div>
 
@@ -651,7 +749,7 @@
 					v-show="!showdata"
 				>
 					<div
-						style="display: flex;justify-content: flex-end;align-items: center;"
+						style="display: flex;justify-content: flex-end;align-items: center;position: relative;top: 10px;"
 					>
 						<!-- <div
 							class="yuan"
@@ -674,7 +772,6 @@
 									item.devstatus == '在线'
 							"
 							src="../../../assets/img/binding_illustration3.png"
-							style="width:60%;"
 							alt
 						/>
 						<img
@@ -683,7 +780,6 @@
 									item.devstatus == '离线'
 							"
 							src="../../../assets/img/lixianxiyouji.png"
-							style="width:60%;"
 							alt
 						/>
 						<img
@@ -692,7 +788,6 @@
 									item.devstatus == '在线'
 							"
 							src="../../../assets/img/zaixianfuwuqi.png"
-							style="width:60%;"
 							alt=""
 						/>
 						<img
@@ -701,7 +796,6 @@
 									item.devstatus == '离线'
 							"
 							src="../../../assets/img/lixianfuwuqi.png"
-							style="width:60%;"
 							alt
 						/>
 						<p style="text-align:center">
@@ -764,7 +858,7 @@
 				</div>
 			</div>
 			<fenye
-				style="text-align: right;margin: 20px 0px 10px;"
+				style="text-align: right;margin-top: 10px;"
 				@fatherMethod="getpage"
 				@fathernum="gettol"
 				:pagesa="totalCnt"
@@ -900,13 +994,23 @@ export default {
 			oslist: [],
 			operatorlist: [],
 			firstchan: [],
-			firstchan_value: '',
+            firstchan_value: '',
+            show_sort: true,
+            scrollHeight: 0,
+			scroll_line_height: 0,
 		};
 	},
 	components: {
 		fenye,
 	},
 	mounted() {
+        this.$nextTick(() => {
+			let con_he =
+				document.getElementsByClassName('content-container')[0]
+					.offsetHeight - 392;
+			this.scroll_line_height = con_he / 2 - 100 + 'px';
+			this.scrollHeight = con_he + 'px';
+		});
 		this.get_search_data();
 		if (sessionStorage.getItem('search_condition')) {
 			let search_data = JSON.parse(
@@ -932,6 +1036,7 @@ export default {
 	},
 	methods: {
 		searchdata() {
+            this.show_sort = true;
 			this.currentPage = 1;
 			this.getipfsdata();
 		},
@@ -1157,7 +1262,7 @@ export default {
 	.ipfs_title_next {
 		height: auto;
 		// text-align: left;
-		margin-top: -20px;
+		margin-top: -24px;
 		.maptitle {
 			text-align: center;
 			margin-bottom: 47px;
@@ -1166,7 +1271,7 @@ export default {
 			display: none;
 		}
 		.top_cube {
-			height: 204px;
+			// height: 204px;
 			box-sizing: border-box;
 			padding: 0 30px;
 		}
@@ -1177,10 +1282,13 @@ export default {
 			border-radius: 4px;
 			text-align: left;
 			box-sizing: border-box;
-			padding: 24px 50px;
+			padding: 24px 24px;
 			overflow: hidden;
 			display: flex;
+			justify-content: start;
 			align-items: center;
+			max-width: 366px;
+			height: 120px;
 			.top_cube_item_right {
 				margin-left: 40px;
 			}
@@ -1201,9 +1309,14 @@ export default {
 			}
 			.allnum {
 				color: #1c1a1d;
-				font-size: 24px;
+				font-size: 18px;
 				margin-top: 5px;
-				margin-bottom: 10px;
+				margin-bottom: 5px;
+			}
+			.title_img {
+				img {
+					width: 70%;
+				}
 			}
 		}
 		.occ_con {
@@ -1233,15 +1346,16 @@ export default {
 		display: flex;
 		flex-flow: row wrap;
 		.ipfs_item {
-			width: 19%;
-			padding: 23px;
+			width: 19.5%;
+			max-width: 290px;
+			padding: 0 23px 5px 23px;
 			background: rgba(255, 255, 255, 1);
 			border: 1px solid rgba(216, 226, 240, 1);
 			box-shadow: 0px 0px 18px 0px rgba(211, 215, 221, 0.4);
 			border-radius: 3px;
-			margin-left: 0.5%;
+			// margin-left: 0.5%;
 			margin-right: 0.5%;
-			margin-top: 25px;
+			margin-top: 14px;
 			.yuan {
 				width: 10px;
 				height: 10px;
@@ -1251,9 +1365,12 @@ export default {
 			}
 			.ipfs_item_img {
 				width: 100%;
-				margin: 25px 0;
+				// margin: 25px 0;
 				border-bottom: 1px solid #eeeeee;
 				color: #404447;
+				img {
+					width: 30%;
+				}
 			}
 			ol > li {
 				line-height: 25px;
@@ -1261,7 +1378,7 @@ export default {
 				justify-content: start;
 				align-items: center;
 				font-size: 14px;
-				margin-bottom: 10px;
+				// margin-bottom: 10px;
 				.ipfs_text_title {
 					display: inline-block;
 					width: 75px;
@@ -1276,14 +1393,14 @@ export default {
 				}
 			}
 		}
-		.ipfs_item:nth-child(2),
-		.ipfs_item:nth-child(7) {
-			margin-left: 0;
-		}
-		.ipfs_item:last-child,
-		.ipfs_item:nth-child(6) {
-			margin-right: 0;
-		}
+		// .ipfs_item:nth-child(2),
+		// .ipfs_item:nth-child(7) {
+		// 	margin-left: 0;
+		// }
+		// .ipfs_item:last-child,
+		// .ipfs_item:nth-child(6) {
+		// 	margin-right: 0;
+		// }
 	}
 }
 .eema {
@@ -1291,7 +1408,7 @@ export default {
 	color: #919191;
 	display: inline-block;
 	line-height: 30px;
-	font-size: 14px !important;
+	font-size: 16px !important;
 	text-align: center;
 }
 .bluma {
@@ -1301,17 +1418,21 @@ export default {
 	line-height: 30px;
 	border: #ffffff 1px solid;
 	border-radius: 8px;
-	font-size: 14px !important;
+	font-size: 16px !important;
 	text-align: center;
+}
+.content .title_name {
+	font-size: 16px;
+	margin-left: 10px;
 }
 .content .ipfs_con_label {
 	justify-content: start;
-	margin-top: 15px;
-	margin-bottom: 25px;
+	// margin-bottom: 25px;
 	.ipfs_con_left {
-		font-size: 18px;
+		font-size: 16px;
 		margin-right: 50px;
 		padding-left: 10px;
+		font-weight: 400;
 	}
 }
 </style>

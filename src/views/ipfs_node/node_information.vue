@@ -109,11 +109,14 @@
 				<el-table
 					:data="tableData"
 					border
+                    :row-style="{height: '72px'}"
 					:cell-style="rowClass"
 					:header-cell-style="headClass"
 					:row-key="getRowKey"
 					@selection-change="handleSelectionChange"
 					@filter-change="filterChange"
+                    :max-height="tableHeight"
+                    
 				>
 					<el-table-column
 						type="selection"
@@ -127,7 +130,6 @@
 						:filter-multiple="false"
 						:column-key="'state'"
 						:filters="stateopt"
-						width="130"
 					>
 						<template slot-scope="scope">
 							<div
@@ -158,7 +160,6 @@
 						:filter-multiple="false"
 						:column-key="'devicetype'"
 						:filters="devicetype"
-						width="130"
 					></el-table-column>
 					<el-table-column
 						prop="arch"
@@ -166,7 +167,6 @@
 						:filter-multiple="false"
 						:column-key="'arch'"
 						:filters="arch"
-						width="130"
 					></el-table-column>
 					<el-table-column
 						prop="os"
@@ -174,7 +174,6 @@
 						:filter-multiple="false"
 						:column-key="'os'"
 						:filters="os"
-						width="130"
 					></el-table-column>
 					<el-table-column
 						prop="isp"
@@ -182,7 +181,6 @@
 						:filter-multiple="false"
 						:column-key="'isp'"
 						:filters="isp"
-						width="130"
 					></el-table-column>
 					<el-table-column
 						prop="proportion_cpu"
@@ -249,7 +247,7 @@
 					<el-table-column
 						prop="occupyBW"
 						label="占用带宽"
-						width="120"
+						width="100"
 					>
 						<template slot-scope="scope">
 							<p style="display: flex;align-items: center;">
@@ -271,7 +269,7 @@
 					<el-table-column
 						prop="remainingBW"
 						label="剩余带宽"
-						width="120"
+						width="100"
 					>
 						<template slot-scope="scope">
 							<p style="display: flex;align-items: center;">
@@ -290,45 +288,6 @@
 							</p>
 						</template>
 					</el-table-column>
-					<!-- <el-table-column prop="totalCap" label="总空间">
-				<template slot-scope="scope">
-					<span v-if="scope.row.totalCap == 0">0GB</span>
-					<span v-else>
-						{{
-							(scope.row.totalCap / 1024 / 1024 / 1024).toFixed(
-								2
-							)
-						}}GB
-					</span>
-				</template>
-			</el-table-column>
-			<el-table-column prop="occupyCap" label="占用空间">
-				<template slot-scope="scope">
-					<span v-if="scope.row.occupyCap == 0">0GB</span>
-					<span v-else>
-						{{
-							(scope.row.occupyCap / 1024 / 1024 / 1024).toFixed(
-								2
-							)
-						}}GB
-					</span>
-				</template>
-			</el-table-column>
-			<el-table-column prop="remainingCap" label="剩余空间">
-				<template slot-scope="scope">
-					<span v-if="scope.row.remainingCap == 0">0GB</span>
-					<span v-else>
-						{{
-							(
-								scope.row.remainingCap /
-								1024 /
-								1024 /
-								1024
-							).toFixed(2)
-						}}GB
-					</span>
-				</template>
-			</el-table-column> -->
 					<el-table-column
 						prop="useRate"
 						label="节点平均利用率"
@@ -339,7 +298,6 @@
 						:filter-multiple="false"
 						:column-key="'nodestatus'"
 						:filters="stateopt_node"
-						width="130"
 					>
 						<template slot-scope="scope">
 							<span
@@ -763,9 +721,7 @@ export default {
 			autoWidth: {
 				width: '',
 			},
-			con_h: {
-				height: '',
-			},
+			tableHeight:0,
 		};
 	},
 	beforeRouteEnter(to, from, next) {
@@ -775,12 +731,11 @@ export default {
 	},
 	computed: {},
 	mounted() {
-		// let con_h =
-		// 	document.getElementsByClassName('content-container')[0]
-		// 		.offsetHeight -
-		// 	40 +
-		// 	'px';
-		// this.con_h.height = con_h;
+        this.$nextTick(() => {
+            let con_he = document.getElementsByClassName('content-container')[0].offsetHeight - 402 ;
+            this.tableHeight = con_he;
+             console.log(this.tableHeight);
+        });
 		this.getJson();
 		this.get_search_data();
 		if (sessionStorage.getItem('search_data')) {
@@ -1331,7 +1286,7 @@ export default {
 		},
 		// 表头样式设置
 		headClass() {
-			return 'text-align: center;background:#F9F9F9;';
+			return 'text-align: center;background:#F9F9F9;height:72px;';
 		},
 		// 表格样式设置
 		rowClass() {
@@ -1459,9 +1414,6 @@ export default {
 	height: auto;
 	overflow-x: hidden;
 	background-color: #f9fbfd;
-	// .el-select {
-	// 	margin-bottom: 10px;
-	// }
 	.seach_title {
 		display: flex;
 		justify-content: flex-start;
@@ -1478,6 +1430,7 @@ export default {
 		}
 	}
 	.rowcon {
+        flex: 1;
 		padding: 30px;
 		margin: 30px;
 		background-color: #ffffff;

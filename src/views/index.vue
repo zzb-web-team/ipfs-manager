@@ -13,7 +13,7 @@
 					>
 						<span
 							v-show="!isCollapse"
-							style="fontSize:16px;color:#ffffff;font-weight: 400;"
+							style="fontSize:16px;color:#ffffff;font-weight: 400;display: inline-block;width: 100%;"
 							>IPFS节点后台</span
 						>
 						<i
@@ -24,7 +24,7 @@
 						<i
 							class="el-icon-s-fold"
 							v-show="isCollapse"
-							style="font-size:18px;line-height: 60px;"
+							style="font-size:18px;line-height: 64px;"
 						></i>
 					</div>
 				</el-col>
@@ -49,7 +49,7 @@
 				</el-col>
 			</el-col>
 			<el-col :span="24" class="main">
-				<el-aside
+				<el-row
 					:class="isCollapse ? 'menu-collapsed' : 'menu-expanded'"
 				>
 					<el-menu
@@ -148,7 +148,7 @@
 							</el-menu-item>
 						</template>
 					</el-menu>
-				</el-aside>
+				</el-row>
 				<section class="content-container">
 					<div class="grid-content bg-purple-light">
 						<el-col :span="24" class="content-wrapper">
@@ -234,7 +234,12 @@ export default {
 	// 	console.log(this.menlist);
 	// },
 	mounted() {
-		let con_h =document.getElementsByClassName('el-menu')[0].offsetHeight -20 +'px' +' ' +'!important';
+		let con_h =
+			document.getElementsByClassName('el-menu')[0].offsetHeight -
+			20 +
+			'px' +
+			' ' +
+			'!important';
 		this.con_h.minHeight = con_h;
 		this.$nextTick(function() {
 			this.menlist = JSON.parse(localStorage.getItem('menus'));
@@ -255,6 +260,10 @@ export default {
 
 <style scoped lang="scss">
 // @import "../assets/css/style/newstyle";
+.myownStyle {
+	width: 100%;
+	height: 100%;
+}
 .container {
 	position: absolute;
 	top: 0px;
@@ -265,8 +274,8 @@ export default {
 	margin: 0 auto;
 	.header {
 		box-shadow: 0px 4px 10px 0px #3333331a;
-		height: 60px;
-		line-height: 60px;
+		height: 64px;
+		line-height: 64px;
 		color: #000;
 		background: #1572e8;
 		.userinfo {
@@ -287,7 +296,7 @@ export default {
 		}
 		.logo {
 			//width:230px;
-			height: 60px;
+			height: 64px;
 			font-size: 18px;
 			padding-left: 20px;
 			padding-right: 20px;
@@ -307,7 +316,9 @@ export default {
 			}
 		}
 		.logo-width {
-			width: 230px;
+			min-width: 200px;
+			max-width: 324px;
+			width: 17%;
 		}
 		.logo-collapse-width {
 			width: 63px;
@@ -324,12 +335,12 @@ export default {
 		display: flex;
 		// background: #324057;
 		position: absolute;
-		top: 60px;
+		top: 64px;
 		bottom: 0px;
-		overflow: hidden;
+		// overflow: hidden;
 		aside {
-			flex: 0 0 230px;
-			width: 230px;
+			flex: 0 0 324px;
+			width: 324px;
 			// position: absolute;
 			// top: 0px;
 			// bottom: 0px;
@@ -355,11 +366,15 @@ export default {
 		.menu-collapsed {
 			flex: 0 0 60px;
 			width: 60px;
+			background-color: #fff;
 		}
 		.menu-expanded {
-			flex: 0 0 230px;
-			width: 230px;
-			//margin-top: -60px;
+			background-color: #fff;
+			border: none;
+			// flex: 0 0 324px;
+			min-width: 200px;
+			max-width: 324px;
+			width: 17%;
 		}
 		.content-container {
 			// background: #f1f2f7;
@@ -388,10 +403,14 @@ export default {
 					float: right;
 				}
 			}
+			.grid-content {
+				height: 100%;
+			}
 			.content-wrapper {
 				// background-color: #272731;
 				// box-sizing: border-box;
 				// color: #ffffff;
+				height: 100%;
 				margin: auto;
 			}
 		}

@@ -120,6 +120,7 @@
 					border
 					:cell-style="rowClass"
 					:header-cell-style="headClass"
+                    :max-height="tableHeight"
 				>
 					<el-table-column label="ID" prop="id"></el-table-column>
 					<el-table-column
@@ -261,11 +262,18 @@ export default {
 			cascaderKey: 1,
 			menutype: {},
 			nawoptions: [],
-			zdata: '',
+            zdata: '',
+            tableHeight:0,
 		};
 	},
 	filters: {},
 	mounted() {
+         this.$nextTick(() => {
+			let con_he =
+				document.getElementsByClassName('content-container')[0]
+					.offsetHeight - 424;
+			this.tableHeight = con_he;
+		});
 		this.get_datalist();
 		this.get_user_list();
 		let munulist = JSON.parse(localStorage.getItem('menus'));

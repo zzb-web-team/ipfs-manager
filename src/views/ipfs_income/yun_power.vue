@@ -112,7 +112,9 @@
 					border
 					:cell-style="rowClass"
 					:header-cell-style="headClass"
+                     :row-style="{height: '72px'}"
 					style="width: 100%"
+                     :max-height="tableHeight"
 				>
 					<!-- <el-table-column
 						prop="nodeId"
@@ -153,8 +155,10 @@
 					border
 					:cell-style="rowClass"
 					:header-cell-style="headClass"
+                     :row-style="{height: '72px'}"
                     @sort-change="tablechange"
 					style="width: 100%"
+                    :max-height="tableHeight"
 				>
 					<!-- <el-table-column
 						prop="nodeId"
@@ -285,7 +289,8 @@ export default {
 				// 	value: 'f_computer.unknown_yunlian',
 				// },
 			],
-			secondchan: [],
+            secondchan: [],
+            tableHeight: 0,
 		};
 	},
 	components: { fenye },
@@ -307,6 +312,13 @@ export default {
 		},
 	},
 	mounted() {
+        this.$nextTick(() => {
+			let con_he =
+				document.getElementsByClassName('content-container')[0]
+					.offsetHeight - 372;
+			this.tableHeight = con_he;
+			console.log(this.tableHeight);
+		});
 		this.get_search_data();
 		if (sessionStorage.getItem('search_condition')) {
 			let search_data = JSON.parse(
@@ -654,7 +666,6 @@ export default {
 .content {
 	text-align: left;
 	.top_table {
-		margin: 15px 0;
 		text-align: left;
 	}
 	.search {

@@ -109,6 +109,7 @@
 					<el-col :span="6">
 						<el-button
 							type="primary"
+                            size="small"
 							@click="addAccout"
 							v-show="obnj.roleC == 1"
 						>
@@ -142,6 +143,7 @@
 							:clomnSelection="clomnSelection"
 							:rowHeader="rowHeader"
 							:tableOption="tableOption"
+                            :tableHeight='tableHeight'
 							@disable="disable"
 							@toChange="toChange"
 							@detail="detail"
@@ -899,49 +901,40 @@ export default {
 				{
 					prop: 'id',
 					label: 'ID',
-					width: '70px',
 				},
 
 				// {
 				// 	prop: 'name',
 				// 	label: '昵称',
-				// 	width: '150px',
 				// },
 				{
 					prop: 'username',
 					label: '账户名',
-					width: '150px',
 				},
 				// {
 				// 	prop: 'user_update',
 				//     label: '修改人',
-				//     width: '150px',
 
 				// },
 				{
 					prop: 'pdepartment_name',
 					label: '一级部门',
-					width: '150px',
 				},
 				{
 					prop: 'department_name',
 					label: '二级部门',
-					width: '150px',
 				},
 				{
 					prop: 'position_name',
 					label: '职位',
-					width: '150px',
 				},
 				{
 					prop: 'sex',
 					label: '性别',
-					width: '150px',
 				},
 				{
 					prop: 'phone',
 					label: '联系电话',
-					width: '150px',
 				},
 				{
 					prop: 'last_login',
@@ -951,7 +944,6 @@ export default {
 				{
 					prop: 'status',
 					label: '状态',
-					width: '100px',
 				},
 			],
 			tableData: [],
@@ -1005,10 +997,17 @@ export default {
 			department_list: [],
 			obnj: {},
 			partmant_disable: true,
-			pdepartment_list: [],
+            pdepartment_list: [],
+            tableHeight:0,
 		};
 	},
 	mounted: function() {
+        this.$nextTick(() => {
+			let con_he =
+				document.getElementsByClassName('content-container')[0]
+					.offsetHeight - 356;
+			this.tableHeight = con_he;
+		});
 		let munulist = JSON.parse(localStorage.getItem('menus'));
 		let pathname = this.$route.path;
 		this.obnj = menudisable(munulist, pathname);

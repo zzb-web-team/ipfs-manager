@@ -2,10 +2,15 @@
 	<div class="content">
 		<!-- <el-page-header @back="goBack" content="节点详情"> </el-page-header> -->
 		<!-- 主体内容上 -->
+		<div class="search rowbg">
+			<div class="item_title" @click="goBack">
+				<i class="el-icon-arrow-left"></i> 节点详情
+			</div>
+		</div>
 		<div class="ipfs_detail_title">
 			<div class="ipfs_item_topright">
 				<el-row type="flex">
-					<el-col :span="12">
+					<el-col :span="12" style="margin-top:-40px;">
 						<div class="ipfs_con_tit_first">
 							<img
 								v-if="
@@ -73,7 +78,10 @@
 							</div>
 						</div></el-col
 					>
-					<el-col style="margin-left:24px;" :span="12">
+					<el-col
+						style="margin-left:24px;margin-top:-40px;"
+						:span="12"
+					>
 						<el-row type="flex">
 							<el-col style="margin-right:24px;">
 								<div class="ipfs_con_tit">
@@ -140,7 +148,7 @@
 				</el-row>
 				<!--  -->
 				<div
-					style="display: flex;justify-content: space-between;align-items: center;font-size: 16px;margin: 24px 0;"
+					style="display: flex;justify-content: start;align-items: center;font-size: 16px;margin: 24px 0;"
 				>
 					<div class="ipfs_item_toptwo">
 						<div
@@ -149,14 +157,14 @@
 							<!-- <qiu :cap="1 - serdata.occupyCpu"></qiu> -->
 							<el-progress
 								type="circle"
-								:width="110"
+								:width="80"
 								color="#05BE65"
 								:percentage="
 									(1 - serdata.occupyCpu).toFixed(4) * 100
 								"
 							></el-progress>
 							<span
-								style="display: inline-block;color: #16C499;padding: 5px 10px;background: #E7F9F5;border-radius: 8px;margin-top: 24px;font-size: 12px;"
+								style="display: inline-block;color: #16C499;padding: 5px 10px;background: #E7F9F5;border-radius: 8px;margin-top: 12px;font-size: 12px;"
 								>可用{{
 									(serdata.occupyCpu * 100).toFixed(2)
 								}}%</span
@@ -188,14 +196,14 @@
 							></qiu> -->
 							<el-progress
 								type="circle"
-								:width="110"
+								:width="80"
 								color="#FED202"
 								:percentage="
 									(100 - ram_rema * 100).toFixed(2) * 1
 								"
 							></el-progress>
 							<span
-								style="display: inline-block;color: #16C499;padding: 5px 10px;background: #E7F9F5;border-radius: 8px;margin-top: 24px;font-size: 12px;"
+								style="display: inline-block;color: #16C499;padding: 5px 10px;background: #E7F9F5;border-radius: 8px;margin-top: 12px;font-size: 12px;"
 								>可用{{ (ram_rema * 100).toFixed(2) }}%</span
 							>
 						</div>
@@ -257,14 +265,14 @@
 							></qiu> -->
 							<el-progress
 								type="circle"
-								:width="110"
+								:width="80"
 								color="#1572E8"
 								:percentage="
 									(100 - up_rema * 100).toFixed(2) * 1
 								"
 							></el-progress>
 							<span
-								style="display: inline-block;color: #16C499;padding: 5px 10px;background: #E7F9F5;border-radius: 8px;margin-top: 24px;font-size: 12px;"
+								style="display: inline-block;color: #16C499;padding: 5px 10px;background: #E7F9F5;border-radius: 8px;margin-top: 12px;font-size: 12px;"
 								>可用{{ (up_rema * 100).toFixed(2) }}%</span
 							>
 						</div>
@@ -298,14 +306,14 @@
 							></qiu> -->
 							<el-progress
 								type="circle"
-								:width="110"
+								:width="80"
 								color="#F4A037"
 								:percentage="
 									(100 - down_rema * 100).toFixed(2) * 1
 								"
 							></el-progress>
 							<span
-								style="display: inline-block;color: #16C499;padding: 5px 10px;background: #E7F9F5;border-radius: 8px;margin-top: 24px;font-size: 12px;"
+								style="display: inline-block;color: #16C499;padding: 5px 10px;background: #E7F9F5;border-radius: 8px;margin-top: 12px;font-size: 12px;"
 								>可用{{ (down_rema * 100).toFixed(2) }}%</span
 							>
 						</div>
@@ -340,13 +348,13 @@
 							<el-progress
 								type="circle"
 								color="#912EEA"
-								:width="110"
+								:width="80"
 								:percentage="
 									(100 - cap_rema * 100).toFixed(2) * 1
 								"
 							></el-progress>
 							<span
-								style="display: inline-block;color: #16C499;padding: 5px 10px;background: #E7F9F5;border-radius: 8px;margin-top: 24px;font-size: 12px;"
+								style="display: inline-block;color: #16C499;padding: 5px 10px;background: #E7F9F5;border-radius: 8px;margin-top: 12px;font-size: 12px;"
 								>可用{{ (cap_rema * 100).toFixed(2) }}%</span
 							>
 						</div>
@@ -676,10 +684,10 @@
 					:currentPage="currentPage"
 				></fenye>
 			</div>
-            <div v-show="tableDataip.length <=0">
-                <img src="../../assets/img/nodata.png" alt="">
-                <p>暂无数据</p>
-            </div>
+			<div v-show="tableDataip.length <= 0">
+				<img src="../../assets/img/nodata.png" alt="" />
+				<p>暂无数据</p>
+			</div>
 		</div>
 	</div>
 </template>
@@ -970,7 +978,6 @@ export default {
 .content {
 	height: 100%;
 	background: #f9fbfd;
-	margin: 30px;
 	.bread_crumbs {
 		width: 100%;
 		padding: 37px;
@@ -978,6 +985,8 @@ export default {
 	}
 	.ipfs_detail_title {
 		display: flex;
+		box-sizing: border-box;
+		padding: 0 24px;
 		.ipfs_item {
 			width: 228px;
 			height: 240px;
@@ -1020,15 +1029,17 @@ export default {
 			width: 100%;
 		}
 		.ipfs_item_toptwo {
-			width: 19%;
-			height: 454px;
+            width: 19%;
+            max-width: 323px;
+			height: 296px;
 			display: flex;
 			flex-direction: column;
 			background: rgb(255, 255, 255);
 			padding: 24px 48px;
 			box-sizing: border-box;
 			border-radius: 8px;
-			box-shadow: rgba(51, 51, 51, 0.04) 0px 4px 10px 0px;
+            box-shadow: rgba(51, 51, 51, 0.04) 0px 4px 10px 0px;
+            margin-right: 24px;
 			.ipfs_item_toptwo_item {
 				height: 18px;
 				line-height: 18px;
@@ -1037,9 +1048,12 @@ export default {
 				text-overflow: ellipsis;
 				white-space: nowrap;
 				color: #333333;
-				margin-top: 18px;
+				margin-top: 5px;
 			}
-		}
+        }
+        .ipfs_item_toptwo:last-child{
+            margin-right: 0;
+        }
 	}
 	.ipfs_con {
 		height: 50px;
@@ -1049,7 +1063,7 @@ export default {
 		justify-content: space-between;
 	}
 	.ipfs_con_tit {
-		height: 178px;
+		height: 128px;
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -1085,10 +1099,10 @@ export default {
 		margin-bottom: 24px;
 	}
 	.ipfs_con_tit_first {
-		height: 380px;
+		height: 280px;
 		text-align: left;
 		box-sizing: border-box;
-		padding: 64px 24px 24px 100px;
+		padding: 24px 24px 24px 100px;
 		background-color: #fff;
 		border-radius: 8px;
 		box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);
@@ -1131,11 +1145,12 @@ export default {
 	}
 	.ipfs_item_bottom {
 		background: #ffffff;
-		box-sizing: border-box;
+        box-sizing: border-box;
+        margin: 0 24px 24px;
 		padding: 24px;
 		border-radius: 8px;
-        box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);
-        overflow: hidden;
+		box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);
+		overflow: hidden;
 		.ipfs_item_bottom_title {
 			text-align: left;
 			margin-bottom: 20px;

@@ -5,7 +5,7 @@
 				<a>节点分布</a>
 			</el-breadcrumb-item>
 		</el-breadcrumb> -->
-		<div id="new_echarts_two"></div>
+		<div id="new_echarts_two" :style="{ height: echartsHeight }"></div>
 		<div id="alertmosewindowtital">
 			<center>节点分布数量</center>
 			<span>{{ city_name }}{{ node_num }}</span>
@@ -47,6 +47,7 @@ export default {
 				'#33FF6655',
 			],
 			city_arr: [],
+			echartsHeight: 0,
 		};
 	},
 	props: {
@@ -84,6 +85,12 @@ export default {
 		},
 	},
 	mounted() {
+		this.$nextTick(() => {
+			let con_he = document.getElementsByClassName('content-container')[0]
+				.offsetHeight;
+			this.echartsHeight = con_he + 'px';
+			console.log(con_he);
+		});
 		this.getseachinput();
 		this.city_num = this.citylist.length;
 	},
@@ -325,8 +332,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.content{
-    overflow: hidden;
+.content {
+	overflow: hidden;
 }
 #new_echarts_two {
 	width: 100%;

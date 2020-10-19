@@ -2123,7 +2123,7 @@ export default {
 
 <style lang="scss" scoped>
 .myself-container {
-	overflow: hidden;
+	// overflow: hidden;
 	.overview {
 		.user-item {
 			background-color: #fff;

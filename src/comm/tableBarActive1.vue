@@ -12,6 +12,7 @@
 		:header-cell-style="headClass"
 		id="rebateSetTable"
 		@sort-change="tableSortChange"
+		:max-height="tableHeight"
 	>
 		<el-table-column
 			type="selection"
@@ -24,7 +25,6 @@
 			:key="index"
 			:prop="item.prop"
 			:label="item.label"
-			:width="item.width"
 			:sortable="item.sortable"
 		></el-table-column>
 		<el-table-column :label="tableOption.label">
@@ -120,12 +120,18 @@ export default {
 		obnj: {
 			type: Object,
 			default: () => {},
-		},
+        },
+        tableHeight:{
+            type: Number,
+			default: () => {},
+        }
 	},
 	data() {
 		return {};
 	},
-	mounted: function() {},
+	mounted: function() {
+		
+	},
 	methods: {
 		tableSortChange(val) {
 			this.$emit('tableSortChange', val);

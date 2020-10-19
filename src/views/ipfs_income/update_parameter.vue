@@ -1,13 +1,15 @@
 <template>
 	<div class="content update_par" ref="con_right">
+		<div class="search rowbg">
+			<div class="item_title" @click="goBack">
+				<i class="el-icon-arrow-left"></i> 调整收益参数
+			</div>
+		</div>
 		<el-row style="background: #ffffff;height: 100%">
 			<el-col
-				:span="16"
-				style="background: #f6f6f6;height:100%;box-sizing: border-box;padding-right: 24px;"
-				><div
-					class="grid-content bg-purple-dark top_text"
-					ref="con_top"
-				>
+				:span="12"
+				style="background: #f6f6f6;box-sizing: border-box;padding:0 24px;"
+				><div class="grid-content bg-purple-dark top_text">
 					<b class="text_title">收益公式介绍：</b>
 					<p>
 						P（节点收益）=（P1[节点理论收益]+P2[节点实际贡献收益]）/2*RH[算力收益百分比]+P3[节点质量评级收益]）
@@ -22,6 +24,13 @@
 						<!-- P2=P1*RH*RNM -->
 					</p>
 					<p>P3=（P1+P2）/2*RH*RNM</p>
+				</div>
+			</el-col>
+			<el-col
+				:span="12"
+				style="background: #f6f6f6;box-sizing: border-box;padding-right:24px;"
+			>
+				<div class="top_text">
 					<b class="text_title">名词补充释义：</b>
 					<div style="line-height: 20px;">
 						单位带宽[/Mbps]价值（VB）、中国电信带宽（B1）[单位：Mbps]、中国联通带宽（B2）[单位：Mbps]、中国移
@@ -32,149 +41,182 @@
 						<!-- 单位流量[/GB]价值(VF)、中国电信流量(F1)[单位:GB]、中国联通流量(F2)[单位:GB]、中国移动流量(F3)[单位:GB]、点质量评级奖励收益百分比(RNM) -->
 					</div>
 				</div>
-				<el-row
-					style="background: #f6f6f6;border-radius: 8px;"
-					type="flex"
-					justify="space-between"
-				>
-					<el-col
-						style="background: #ffffff;border-radius: 8px;box-sizing: border-box;padding: 24px;margin-right:24px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
-					>
-						<div
-							class="grid-content bg-purple-dark"
-							:style="{ height: scrollerHeight }"
-						>
-							<b>p1参数</b>
-							<p>1） 变量值</p>
-							<el-row type="flex">
-								<span style="margin-bottom: 20px;">Vb=</span>
-								<el-form :model="googleform" ref="ruleFormre1">
-									<el-form-item
-										prop="Vb"
-										:rules="[
-											{
-												validator: jioyzm,
-												trigger: 'blur',
-											},
-										]"
+			</el-col>
+		</el-row>
+		<el-row
+			style="background: #f6f6f6;padding: 0 24px;"
+			type="flex"
+			justify="space-between"
+		>
+			<el-col
+				:span="8"
+				style="background: #ffffff;border-radius: 8px;box-sizing: border-box;padding: 24px;margin-right:24px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
+			>
+				<div :style="{ height: scrollerHeight }" style="overflow-y:scroll">
+					<div>
+						<b>p1参数</b>
+						<p>1） 变量值</p>
+						<el-row type="flex">
+							<span style="margin-bottom: 20px;">Vb=</span>
+							<el-form :model="googleform" ref="ruleFormre1">
+								<el-form-item
+									prop="Vb"
+									:rules="[
+										{
+											validator: jioyzm,
+											trigger: 'blur',
+										},
+									]"
+								>
+									<el-input
+										:disabled="menutype.roleU != 1"
+										size="small"
+										v-model="googleform.Vb"
+										placeholder="请输入内容"
+										clearable
 									>
-										<el-input
-											:disabled="menutype.roleU != 1"
-											size="small"
-											v-model="googleform.Vb"
-											placeholder="请输入内容"
-											clearable
-										>
-										</el-input>
-									</el-form-item>
-								</el-form>
-								<span style="margin-bottom: 20px;"
-									>积分/日</span
+									</el-input>
+								</el-form-item>
+							</el-form>
+							<span style="margin-bottom: 20px;">积分/日</span>
+							<el-button
+								v-show="menutype.roleU == 1"
+								type="primary"
+								size="mini"
+								style="margin-bottom: 20px;"
+								@click="set_price(1, 'ruleFormre1')"
+								>修改</el-button
+							>
+						</el-row>
+						<el-row type="flex">
+							<span style="margin-bottom: 20px;">Vs=</span>
+							<el-form :model="googleform" ref="ruleFormre2">
+								<el-form-item
+									prop="Vs"
+									:rules="[
+										{
+											validator: jioyzm,
+											trigger: 'blur',
+										},
+									]"
 								>
-								<el-button
-									v-show="menutype.roleU == 1"
-									type="primary"
-									size="mini"
-									style="margin-bottom: 20px;"
-									@click="set_price(1, 'ruleFormre1')"
-									>修改</el-button
-								>
-							</el-row>
-							<el-row type="flex">
-								<span style="margin-bottom: 20px;">Vs=</span>
-								<el-form :model="googleform" ref="ruleFormre2">
-									<el-form-item
-										prop="Vs"
-										:rules="[
-											{
-												validator: jioyzm,
-												trigger: 'blur',
-											},
-										]"
+									<el-input
+										:disabled="menutype.roleU != 1"
+										size="small"
+										v-model="googleform.Vs"
+										placeholder="请输入内容"
+										clearable
 									>
-										<el-input
-											:disabled="menutype.roleU != 1"
-											size="small"
-											v-model="googleform.Vs"
-											placeholder="请输入内容"
-											clearable
-										>
-										</el-input>
-									</el-form-item>
-								</el-form>
-								<span style="margin-bottom: 20px;"
-									>积分/日</span
+									</el-input>
+								</el-form-item>
+							</el-form>
+							<span style="margin-bottom: 20px;">积分/日</span>
+							<el-button
+								v-show="menutype.roleU == 1"
+								type="primary"
+								size="mini"
+								style="margin-bottom: 20px;"
+								@click="set_price(1, 'ruleFormre2')"
+								>修改</el-button
+							>
+						</el-row>
+					</div>
+					<div class="grid-content bg-purple-dark">
+						<b>p2参数</b>
+						<p>1） 变量值</p>
+						<el-row type="flex">
+							<span style="margin-bottom: 20px;">VF=</span>
+							<el-form :model="googleform" ref="ruleFormre3">
+								<el-form-item
+									prop="Vf"
+									:rules="[
+										{
+											validator: jioyzm,
+											trigger: 'blur',
+										},
+									]"
 								>
-								<el-button
-									v-show="menutype.roleU == 1"
-									type="primary"
-									size="mini"
-									style="margin-bottom: 20px;"
-									@click="set_price(1, 'ruleFormre2')"
-									>修改</el-button
-								>
-							</el-row>
-						</div>
-					</el-col>
-					<el-col
-						style="background: #ffffff;border-radius: 8px;box-sizing: border-box;padding: 24px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
-					>
-						<div
-							class="grid-content bg-purple-dark"
-							:style="{ height: scrollerHeight }"
-						>
-							<b>p2参数</b>
-							<p>1） 变量值</p>
-							<el-row type="flex">
-								<span style="margin-bottom: 20px;">VF=</span>
-								<el-form :model="googleform" ref="ruleFormre3">
-									<el-form-item
-										prop="Vf"
-										:rules="[
-											{
-												validator: jioyzm,
-												trigger: 'blur',
-											},
-										]"
+									<el-input
+										size="small"
+										v-model="googleform.Vf"
+										placeholder="请输入内容"
+										clearable
+										:disabled="menutype.roleU != 1"
 									>
-										<el-input
-											size="small"
-											v-model="googleform.Vf"
-											placeholder="请输入内容"
-											clearable
-											:disabled="menutype.roleU != 1"
-										>
-										</el-input>
-									</el-form-item>
-								</el-form>
-								<!-- <el-col :span="2">
+									</el-input>
+								</el-form-item>
+							</el-form>
+							<!-- <el-col :span="2">
 							<el-input
 								size="small"
 								v-model="Vf"
 								placeholder="请输入内容"
 							></el-input>
 						</el-col> -->
-								<span style="margin-bottom: 20px;"
-									>积分/日</span
-								>
-								<el-button
-									v-show="menutype.roleU == 1"
-									type="primary"
-									size="mini"
-									style="margin-bottom: 20px;"
-									@click="set_price(1, 'ruleFormre3')"
-									>修改</el-button
-								>
-							</el-row>
-						</div>
-					</el-col>
-				</el-row>
+							<span style="margin-bottom: 20px;">积分/日</span>
+							<el-button
+								v-show="menutype.roleU == 1"
+								type="primary"
+								size="mini"
+								style="margin-bottom: 20px;"
+								@click="set_price(1, 'ruleFormre3')"
+								>修改</el-button
+							>
+						</el-row>
+					</div>
+				</div>
 			</el-col>
-			<el-col :span="8" style="background: #f6f6f6;">
-				<div
-					class="grid-content bg-purple-dark right_top"
-					ref="con_right_top"
-				>
+			<el-col
+				:span="8"
+				style="background: #ffffff;border-radius: 8px;box-sizing: border-box;padding: 24px;margin-right:24px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
+			>
+				<div :style="{ height: scrollerHeight }">
+					<b>P3参数</b>
+					<p>1） 节点质量评级奖励收益百分比</p>
+					<div class="con_table">
+						<el-table
+							:data="ratingData"
+							border
+							stripe
+							:cell-style="rowClass"
+							:header-cell-style="headClass"
+                             :row-style="{height: '72px'}"
+							style="width: 450px"
+							:max-height="tabHeight"
+						>
+							<el-table-column
+								prop="interval"
+								label="节点质量级别"
+								width="130"
+							>
+							</el-table-column>
+							<el-table-column prop="Rnm" label="RNM">
+								<template slot-scope="scope"
+									><span>{{ scope.row.Rnm }}%</span></template
+								>
+							</el-table-column>
+							<el-table-column prop="操作" label="操作">
+								<template slot-scope="scope">
+									<el-button
+										v-show="menutype.roleU == 1"
+										@click="
+											updateRnm(scope.row, scope.$index)
+										"
+										type="text"
+										size="small"
+										>修改</el-button
+									>
+								</template>
+							</el-table-column>
+						</el-table>
+					</div>
+				</div>
+			</el-col>
+			<el-col
+				:span="8"
+				style="background: #ffffff;border-radius: 8px;box-sizing: border-box;padding: 24px;margin-right:24px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
+			>
+				<div :style="{ height: scrollerHeight }">
 					<b>算力参数</b>
 					<p>1） 算力区间收益百分比</p>
 					<div class="con_table">
@@ -184,6 +226,8 @@
 							stripe
 							:cell-style="rowClass"
 							:header-cell-style="headClass"
+                             :row-style="{height: '72px'}"
+							:max-height="tabHeight"
 						>
 							<el-table-column label="算力值区间" width="140">
 								<template slot-scope="scope">
@@ -210,48 +254,6 @@
 												scope.row,
 												scope.$index
 											)
-										"
-										type="text"
-										size="small"
-										>修改</el-button
-									>
-								</template>
-							</el-table-column>
-						</el-table>
-					</div>
-				</div>
-				<div
-					class="grid-content bg-purple-dark right_bot"
-					:style="{ height: right_scrollerHeight }"
-				>
-					<b>P3参数</b>
-					<p>1） 节点质量评级奖励收益百分比</p>
-					<div class="con_table">
-						<el-table
-							:data="ratingData"
-							border
-							stripe
-							:cell-style="rowClass"
-							:header-cell-style="headClass"
-							style="width: 450px"
-						>
-							<el-table-column
-								prop="interval"
-								label="节点质量级别"
-								width="130"
-							>
-							</el-table-column>
-							<el-table-column prop="Rnm" label="RNM">
-								<template slot-scope="scope"
-									><span>{{ scope.row.Rnm }}%</span></template
-								>
-							</el-table-column>
-							<el-table-column prop="操作" label="操作">
-								<template slot-scope="scope">
-									<el-button
-										v-show="menutype.roleU == 1"
-										@click="
-											updateRnm(scope.row, scope.$index)
 										"
 										type="text"
 										size="small"
@@ -331,17 +333,16 @@ export default {
 			],
 			priceobj: {},
 			menutype: {},
-			scrollerHeight: 0,
-			right_scrollerHeight: 0,
+            scrollerHeight: 0,
+            tabHeight:0,
 		};
 	},
 	mounted() {
 		this.$nextTick(() => {
-			let zheght = this.$refs.con_right.offsetHeight;
-			let theght = this.$refs.con_top.offsetHeight;
-			let right_top = this.$refs.con_right_top.offsetHeight;
-			this.scrollerHeight = zheght - theght + 30 + 'px';
-			this.right_scrollerHeight = zheght - right_top + 60 + 'px';
+			let con_he = document.getElementsByClassName('content-container')[0]
+				.offsetHeight;
+            this.scrollerHeight = con_he - 439 + 'px';
+            this.tabHeight=con_he-74-439+'px';
 		});
 
 		this.get_data();
@@ -629,13 +630,14 @@ i {
 	text-align: left;
 	box-sizing: border-box;
 	background: #f6f6f6;
-	padding: 24px;
+	// padding: 24px;
 	height: 100%;
-    border-radius: 8px;
-    overflow: hidden;
-	// p {
-	// 	margin-top: 8px;
-	// }
+	// border-radius: 8px;
+	overflow: hidden;
+	p {
+		line-height: 16px;
+		margin-bottom: 10px;
+	}
 	.top_text {
 		border-radius: 8px;
 		box-sizing: border-box;
@@ -644,6 +646,8 @@ i {
 		margin-bottom: 24px;
 		background: #ffffff;
 		box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);
+		margin-top: -76px;
+		height: 267px;
 		.text_title {
 			margin-top: 15px;
 			margin-bottom: 15px;
@@ -665,7 +669,7 @@ i {
 		vertical-align: middle;
 	}
 	.con_table {
-		margin-top: 15px;
+		margin-top: 0;
 	}
 	.right_top {
 		background-color: #ffffff;
@@ -674,6 +678,7 @@ i {
 		padding: 24px;
 		border-radius: 8px;
 		box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);
+		margin-top: -76px;
 	}
 	.right_bot {
 		background-color: #ffffff;

@@ -1,7 +1,7 @@
 <template>
 	<div class="content data_monitoring" ref="luckDraw">
-		<div class="rowbg two_rowbg">
-			<el-row type="flex" style="height:52px;">
+		<div class="rowbg" v-bind:class="activeName == 'third'?'two_rowbg':'rowbg'">
+			<el-row style="height:52px;">
 				<el-radio-group
 					v-model="searchdata.tabname"
 					@change="change_tab"
@@ -250,7 +250,7 @@
 				</div>
 			</el-row>
 		</div>
-		<div>
+		<div style="height:100%">
 			<el-tabs
 				class="data_monit"
 				v-model="activeName"
@@ -323,7 +323,7 @@
 
 						<div
 							id="firstChart"
-							style=" height:700px;width:100%"
+							:style="{ height: first_scrollerHeight, width: '100%' }"
 						></div>
 					</div>
 				</el-tab-pane>
@@ -361,7 +361,7 @@
 					>
 						<div
 							id="secondChart"
-							style="height:700px;width:100%"
+							:style="{ height: second_scrollerHeight, width: '100%' }"
 						></div>
 					</div>
 				</el-tab-pane>
@@ -387,55 +387,55 @@
 						style="box-sizing: border-box;margin: 24px 30px;background: #ffffff;padding: 24px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 						v-show="searchdata.echartslist == 1"
 					>
-						<div id="ping_ms" style="height:500px;width:100%"></div>
+						<div id="ping_ms" :style="{ height: shere_scrollerHeight, width: '100%' }"></div>
 					</div>
 					<div
 						style="box-sizing: border-box;margin: 24px 30px;background: #ffffff;padding: 24px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 						v-show="searchdata.echartslist == 2"
 					>
-						<div id="tid" style="height:500px;width:100%"></div>
+						<div id="tid" :style="{ height: shere_scrollerHeight, width: '100%' }"></div>
 					</div>
 					<div
 						style="box-sizing: border-box;margin: 24px 30px;background: #ffffff;padding: 24px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 						v-show="searchdata.echartslist == 3"
 					>
-						<div id="etf" style="height:500px;width:100%"></div>
+						<div id="etf" :style="{ height: shere_scrollerHeight, width: '100%' }"></div>
 					</div>
 					<div
 						style="box-sizing: border-box;margin: 24px 30px;background: #ffffff;padding: 24px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 						v-show="searchdata.echartslist == 4"
 					>
-						<div id="lt" style="height:500px;width:100%"></div>
+						<div id="lt" :style="{ height: shere_scrollerHeight, width: '100%' }"></div>
 					</div>
 					<div
 						style="box-sizing: border-box;margin: 24px 30px;background: #ffffff;padding: 24px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 						v-show="searchdata.echartslist == 5"
 					>
-						<div id="itf" style="height:500px;width:100%"></div>
+						<div id="itf" :style="{ height: shere_scrollerHeight, width: '100%' }"></div>
 					</div>
 					<div
 						style="box-sizing: border-box;margin: 24px 30px;background: #ffffff;padding: 24px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 						v-show="searchdata.echartslist == 6"
 					>
-						<div id="otf" style="height:500px;width:100%"></div>
+						<div id="otf" :style="{ height: shere_scrollerHeight, width: '100%' }"></div>
 					</div>
 					<div
 						style="box-sizing: border-box;margin: 24px 30px;background: #ffffff;padding: 24px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 						v-show="searchdata.echartslist == 7"
 					>
-						<div id="rcnt" style="height:500px;width:100%"></div>
+						<div id="rcnt" :style="{ height: shere_scrollerHeight, width: '100%' }"></div>
 					</div>
 					<div
 						style="box-sizing: border-box;margin: 24px 30px;background: #ffffff;padding: 24px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 						v-show="searchdata.echartslist == 8"
 					>
-						<div id="cpu" style="height:500px;width:100%"></div>
+						<div id="cpu" :style="{ height: shere_scrollerHeight, width: '100%' }"></div>
 					</div>
 					<div
 						style="box-sizing: border-box;margin: 24px 30px;background: #ffffff;padding: 24px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 						v-show="searchdata.echartslist == 9"
 					>
-						<div id="ram" style="height:500px;width:100%"></div>
+						<div id="ram" :style="{ height: shere_scrollerHeight, width: '100%' }"></div>
 					</div>
 				</el-tab-pane>
 			</el-tabs>
@@ -791,9 +791,20 @@ export default {
 			echartsexport: true,
 			obnj: {},
 			show_time_btn: true,
+            first_scrollerHeight: 0,
+            second_scrollerHeight:0,
+            shere_scrollerHeight:0,
 		};
 	},
 	mounted() {
+		this.$nextTick(() => {
+			let con_he =
+				document.getElementsByClassName('content-container')[0]
+					.offsetHeight;
+            this.first_scrollerHeight = con_he - 500 + 'px';
+            this.second_scrollerHeight=con_he-432+'px';
+            this.shere_scrollerHeight=con_he-496+'px';
+		});
 		this.getJson();
 		this.get_search_data();
 		if (sessionStorage.getItem('search_condition')) {

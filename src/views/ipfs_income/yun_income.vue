@@ -93,15 +93,21 @@
 					size="mini"
 					@click="exportexc()"
 					:disabled="showdisable"
-					>导出<i class="iconfont icon-daochu" style="color:#1672E8;margin-left: 5px;"></i></el-button>
+					>导出<i
+						class="iconfont icon-daochu"
+						style="color:#1672E8;margin-left: 5px;"
+					></i
+				></el-button>
 			</div>
 			<el-table
 				:data="tableData"
 				border
 				:cell-style="rowClass"
 				:header-cell-style="headClass"
+                 :row-style="{height: '72px'}"
 				@sort-change="tablechange"
 				style="width: 100%"
+				:max-height="tableHeight"
 			>
 				<!-- <el-table-column prop="nodeId" label="节点ID"></el-table-column> -->
 				<el-table-column prop="IP" label="节点IP"></el-table-column>
@@ -250,6 +256,7 @@ export default {
 				// },
 			],
 			secondchan: [],
+			tableHeight: 0,
 		};
 	},
 	components: { fenye },
@@ -278,6 +285,13 @@ export default {
 		},
 	},
 	mounted() {
+		this.$nextTick(() => {
+			let con_he =
+				document.getElementsByClassName('content-container')[0]
+					.offsetHeight - 402;
+			this.tableHeight = con_he;
+			console.log(this.tableHeight);
+		});
 		this.get_search_data();
 		let munulist = JSON.parse(localStorage.getItem('menus'));
 		let pathname = this.$route.path;

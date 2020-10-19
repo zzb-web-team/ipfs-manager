@@ -64,7 +64,9 @@
 				style="width: 100%"
 				:cell-style="rowClass"
 				:header-cell-style="headClass"
+                 :row-style="{height: '72px'}"
 				@sort-change="sortable_time"
+				:max-height="tableHeight"
 			>
 				<el-table-column prop="code" label="状态">
 					<template slot-scope="scope">
@@ -154,6 +156,7 @@ export default {
 				{ value: '010', label: '进程隐藏模块未安装' },
 			],
 			options2: [],
+			tableHeight: 0,
 		};
 	},
 	filters: {
@@ -190,6 +193,11 @@ export default {
 		fenye,
 	},
 	mounted() {
+		this.$nextTick(() => {
+			let con_he = document.getElementsByClassName('content-container')[0]
+				.offsetHeight;
+			this.tableHeight = con_he - 296;
+		});
 		var today = new Date();
 		var y = today.getFullYear();
 		var m = today.getMonth();

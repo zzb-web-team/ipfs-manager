@@ -1,5 +1,5 @@
 <template>
-	<div class="content">
+	<div class="content" :style="{height:tableHeight}">
 		<div class="content_title">账号信息</div>
 		<ol>
 			<li>
@@ -156,6 +156,7 @@ export default {
 			recodecisbity: false,
 			form: { name: '' },
 			reform: { name: '', url: '', secret_num: 0 },
+			tableHeight: 0,
 		};
 	},
 	filters: {
@@ -165,6 +166,14 @@ export default {
 		},
 	},
 	mounted() {
+		this.$nextTick(() => {
+			let con_he =
+				document.getElementsByClassName('content-container')[0]
+					.offsetHeight -
+				72 +
+				'px';
+			this.tableHeight = con_he;
+		});
 		this.userinf = JSON.parse(localStorage.getItem('user_information'));
 		this.ipfs_id = parseInt(this.$cookies.get('ipfs_id'));
 		this.ipfs_user = this.$cookies.get('ipfs_user');

@@ -160,15 +160,20 @@
 		</div>
 
 		<!-- 表格 -->
-		<div style="margin: 24px 30px;background: #ffffff;box-sizing: border-box;padding: 24px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);">
+		<div
+			style="margin: 24px 30px;background: #ffffff;box-sizing: border-box;padding: 24px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
+		>
 			<div style="text-align:right;padding: 10px;">
-                <el-button
+				<el-button
 					v-show="menutype.roleE == 1"
 					type="text"
 					size="mini"
 					@click="exportexc()"
 					:disabled="showdisable"
-					>导出<i class="iconfont icon-daochu" style="color:#1672E8;margin-left: 5px;"></i
+					>导出<i
+						class="iconfont icon-daochu"
+						style="color:#1672E8;margin-left: 5px;"
+					></i
 				></el-button>
 			</div>
 			<el-table
@@ -178,6 +183,7 @@
 				:header-cell-style="headClass"
 				@sort-change="changeSort"
 				style="width: 100%"
+				:max-height="tableHeight"
 			>
 				<el-table-column prop="usage" label="用途" width="180">
 					<template slot-scope="scope">
@@ -292,15 +298,15 @@
 					label="视频播放IP"
 				></el-table-column>
 			</el-table>
-		<fenye
-			style="text-align: right;margin: 20px 0px 10px;"
-			@fatherMethod="getpage"
-			@fathernum="gettol"
-			:pagesa="totalCnt"
-			:currentPage="currentPage"
-			ref="paginations"
-			v-show="tableData.length > 0"
-		></fenye>
+			<fenye
+				style="text-align: right;margin: 20px 0px 10px;"
+				@fatherMethod="getpage"
+				@fathernum="gettol"
+				:pagesa="totalCnt"
+				:currentPage="currentPage"
+				ref="paginations"
+				v-show="tableData.length > 0"
+			></fenye>
 		</div>
 	</div>
 </template>
@@ -400,7 +406,8 @@ export default {
 			tableData: [],
 			tableData2: [],
 			order: 2,
-			menutype: {},
+            menutype: {},
+            tableHeight:0,
 		};
 	},
 	filters: {
@@ -456,6 +463,13 @@ export default {
 	},
 	components: { fenye },
 	mounted() {
+		this.$nextTick(() => {
+			let title_h = document.getElementsByClassName('rowbg')[0]
+				.offsetHeight;
+			let con_he = document.getElementsByClassName('content-container')[0]
+				.offsetHeight;
+			this.tableHeight = con_he - title_h - 144;
+		});
 		this.get_search_data();
 		this.starttime =
 			new Date(new Date().toLocaleDateString()).getTime() / 1000 -

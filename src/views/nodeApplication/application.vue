@@ -347,7 +347,7 @@
 										:cell-style="rowClass"
 										:header-cell-style="headClass"
 										style="width: 100%"
-										height="916"
+										:max-height="tableHeight"
 									>
 										<el-table-column
 											prop="nodeid"
@@ -404,15 +404,6 @@
 							</el-col>
 							<el-col :span="15">
 								<div class="device_form">
-									<!-- <el-button
-										class="ip_upload_btn"
-										@click="ip_upload"
-										type="text"
-										size="medium"
-										v-show="menutype.roleE == 1"
-									>
-										<i class="el-icon-download"></i>
-									</el-button> -->
 									<div
 										id="myChart"
 										:style="{ height: scrollerHeight }"
@@ -470,7 +461,7 @@
 										:cell-style="rowClass"
 										:header-cell-style="headClass"
 										style="width: 100%"
-										height="916"
+										:max-height="tableHeight"
 									>
 										<el-table-column
 											prop="nodeid"
@@ -528,15 +519,6 @@
 							</el-col>
 							<el-col :span="15">
 								<div class="device_form">
-									<!-- <el-button
-										class="ip_upload_btn"
-										@click="fs_upload"
-										type="text"
-										size="medium"
-										v-show="menutype.roleE == 1"
-									>
-										<i class="el-icon-download"></i>
-									</el-button> -->
 									<div
 										id="myChart1"
 										:style="{ height: scrollerHeight }"
@@ -924,8 +906,9 @@ export default {
 			menutype: {},
 			ip_tooltip_list: [],
 			fs_tooltip_list: [],
-            scrollerHeight: 0,
-            echartsexport:true,
+			scrollerHeight: 0,
+			echartsexport: true,
+			tableHeight: 0,
 		};
 	},
 	filters: {
@@ -972,8 +955,12 @@ export default {
 	},
 	mounted() {
 		this.$nextTick(() => {
-			this.scrollerHeight =
-				this.$refs.con_right.offsetHeight - 224 + 'px';
+			let con_he =
+				document.getElementsByClassName('content-container')[0]
+					.offsetHeight - 248;
+			this.scrollerHeight = con_he + 'px';
+			this.tableHeight = con_he - 172;
+			console.log(this.tableHeight);
 		});
 		this.getseachinput();
 		this.get_search_data();
@@ -1071,12 +1058,12 @@ export default {
 		}
 		let munulist = JSON.parse(localStorage.getItem('menus'));
 		let pathname = this.$route.path;
-        this.menutype = menudisable(munulist, pathname);
-         if(this.menutype.roleE == 1){
-            this.echartsexport=true;
-        }else{
-            this.echartsexport=false;
-        }
+		this.menutype = menudisable(munulist, pathname);
+		if (this.menutype.roleE == 1) {
+			this.echartsexport = true;
+		} else {
+			this.echartsexport = false;
+		}
 	},
 	beforeDestroy() {
 		if (!this.chart) {
@@ -1928,8 +1915,8 @@ export default {
 					name: data_unit,
 					min: 0,
 					max: maxnum,
-                },
-                toolbox: {
+				},
+				toolbox: {
 					right: '10%',
 					feature: {
 						mydow: {
@@ -2031,8 +2018,8 @@ export default {
 							)
 						);
 					},
-                },
-                toolbox: {
+				},
+				toolbox: {
 					right: '10%',
 					feature: {
 						mydow: {
@@ -2254,7 +2241,7 @@ export default {
 	text-align: left;
 	justify-content: center;
 	flex-direction: column;
-
+	height: 90px;
 	box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);
 	.seach_top {
 		.bantlist {

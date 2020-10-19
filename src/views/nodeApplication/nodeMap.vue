@@ -78,7 +78,7 @@
 		<div class="nodemap_echarts">
 			<div
 				id="myChartChina"
-				:style="{ width: '100%', height: '700px' }"
+				:style="{ width: '100%', height: echartsHeight }"
 			></div>
 			<!-- <div>
 				<ol>
@@ -110,6 +110,7 @@
 				:header-cell-style="headClass"
 				style="width: 100%"
 				fixed
+				:max-height="tableHeight"
 				@cell-click="clicktan"
 			>
 				<el-table-column
@@ -409,9 +410,21 @@ export default {
 			sheng_list: [],
 			dev_ytpe_list: [],
 			dev_ytpe_lists: [],
+			echartsHeight: 0,
+			tableHeight: 0,
 		};
 	},
 	mounted() {
+		this.$nextTick(() => {
+			let con_he =
+				document.getElementsByClassName('content-container')[0]
+					.offsetHeight /
+					2 -
+				60;
+			this.echartsHeight = con_he + 'px';
+			this.tableHeight = con_he - 30 + 'px';
+			console.log(this.tableHeight);
+		});
 		this.starttime =
 			new Date(new Date().toLocaleDateString()).getTime() / 1000;
 		this.endtime = parseInt(new Date().getTime() / 1000);

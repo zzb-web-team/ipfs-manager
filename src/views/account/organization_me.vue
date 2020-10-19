@@ -188,6 +188,7 @@
 					v-show="menutype.roleD == 1"
 					type="danger"
 					@click="deleteRow()"
+                    size="small"
 					:disabled="deldisable"
 					>删除</el-button
 				>
