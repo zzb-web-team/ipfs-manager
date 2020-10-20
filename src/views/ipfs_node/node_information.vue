@@ -1473,7 +1473,7 @@ export default {
 .seach_bottom {
 	text-align: left;
 	// height: 100px;
-	background: #f0f5f5;
+	// background: #f0f5f5;
 	border-radius: 10px;
 	padding: 10px 15px 5px 15px;
 	margin-bottom: 10px;

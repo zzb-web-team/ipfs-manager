@@ -1969,7 +1969,7 @@ export default {
 			margin-top: 20px;
 			display: flex;
 			justify-content: flex-start;
-			background: #f0f5f5;
+			// background: #f0f5f5;
 			padding: 17px 0;
 			border-radius: 10px;
 		}

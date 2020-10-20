@@ -576,7 +576,7 @@ export default {
 			display: flex;
 			justify-content: flex-start;
 			align-items: center;
-			background: #f0f5f5;
+			// background: #f0f5f5;
 			padding: 17px 0;
 			border-radius: 10px;
 			span {
