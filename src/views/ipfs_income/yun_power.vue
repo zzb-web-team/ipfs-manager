@@ -317,7 +317,6 @@ export default {
 				document.getElementsByClassName('content-container')[0]
 					.offsetHeight - 372;
 			this.tableHeight = con_he;
-			console.log(this.tableHeight);
 		});
 		this.get_search_data();
 		if (sessionStorage.getItem('search_condition')) {

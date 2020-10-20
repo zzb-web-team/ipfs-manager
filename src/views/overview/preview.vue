@@ -252,7 +252,6 @@ export default {
 								});
 								arr.push(obj);
 							});
-							console.log(arr);
 						} else {
 							pagenum++;
 							this.getdata(pagenum);

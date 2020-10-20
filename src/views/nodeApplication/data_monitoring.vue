@@ -801,9 +801,9 @@ export default {
 			let con_he =
 				document.getElementsByClassName('content-container')[0]
 					.offsetHeight;
-            this.first_scrollerHeight = con_he - 500 + 'px';
-            this.second_scrollerHeight=con_he-432+'px';
-            this.shere_scrollerHeight=con_he-496+'px';
+            this.first_scrollerHeight = con_he - 480 + 'px';
+            this.second_scrollerHeight=con_he-412+'px';
+            this.shere_scrollerHeight=con_he-476+'px';
 		});
 		this.getJson();
 		this.get_search_data();
@@ -3166,7 +3166,7 @@ export default {
 	// 	margin-bottom: 20px;
 	// }
 	.top_title {
-		height: 160px;
+		height: 140px;
 		// margin-right: 20px;
 		padding: 24px;
 		text-align: center;
@@ -3185,7 +3185,7 @@ export default {
 			text-overflow: ellipsis;
 			white-space: nowrap;
 			color: #666666;
-			margin-bottom: 30px;
+			margin-bottom: 20px;
 		}
 		p:nth-child(2) {
 			font-size: 24px;
@@ -3217,7 +3217,7 @@ export default {
 		top: 24px;
 		right: 24px;
 		width: 1px;
-		height: 110px;
+		height: 100px;
 		content: '';
 		background-color: #cecece;
 	}

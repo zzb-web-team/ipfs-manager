@@ -213,8 +213,10 @@
         .sort_list {
             display: flex;
             // align-items: center;
+            justify-content: flex-end;
             margin-top: 20px;
             margin-right: 1%;
+            width: 20%;
         }
         
         .sort_title {
@@ -280,16 +282,18 @@
         //     padding-left: 10px !important;
         // }
         .rowbg {
-            height: auto;
-            max-height: 218px;
+            height: 152px;
+            // max-height: 218px;
             box-sizing: border-box;
-            padding: 30px;
-            color: #ffffff;
+            padding: 24px 30px;
+            // color: #ffffff;
+            color: #333333;
             text-align: left;
-            background: linear-gradient(90deg, #196CD6 0%, #0E5EC5 100%);
+            background: #ffffff;
+            // background: linear-gradient(90deg, #196CD6 0%, #0E5EC5 100%);
             // box-shadow: inset 0 2px 4px -2px rgba(51, 51, 51, 0.04);
             // box-shadow: inset 0px 4px 10px 0px rgba(51, 51, 51, 0.04);
-            background: linear-gradient(-45deg, #06418e, #1572e8)!important;
+            // background: linear-gradient(-45deg, #06418e, #1572e8)!important;
             .item_title {
                 font-size: 16px;
                 margin-bottom: 24px;
@@ -304,13 +308,15 @@
         .two_rowbg {
             height: 218px;
             box-sizing: border-box;
-            padding: 30px;
-            color: #ffffff;
+            padding: 24px 30px;
+            // color: #ffffff;
+            color: #333333;
             text-align: left;
-            background: linear-gradient(90deg, #196CD6 0%, #0E5EC5 100%);
+            background: #ffffff;
+            // background: linear-gradient(90deg, #196CD6 0%, #0E5EC5 100%);
             // box-shadow: inset 0 2px 4px -2px rgba(51, 51, 51, 0.04);
             // box-shadow: inset 0px 4px 10px 0px rgba(51, 51, 51, 0.04);
-            background: linear-gradient(-45deg, #06418e, #1572e8)!important;
+            // background: linear-gradient(-45deg, #06418e, #1572e8)!important;
             .item_title {
                 font-size: 16px;
                 margin-bottom: 24px;
@@ -332,32 +338,31 @@
             display: none;
         }
         
-        .el-input__inner,
-        .el-date-editor .el-range-input {
-            &::placeholder {
-                color: #ffffff;
-            }
-            &::-webkit-input-placeholder {
-                /* WebKit browsers 适配谷歌 */
-                color: #ffffff;
-            }
-            &:-moz-placeholder {
-                /* Mozilla Firefox 4 to 18 适配火狐 */
-                color: #ffffff;
-            }
-            &::-moz-placeholder {
-                /* Mozilla Firefox 19+ 适配火狐 */
-                color: #ffffff;
-            }
-            &:-ms-input-placeholder {
-                /* Internet Explorer 10+  适配ie*/
-                color: #ffffff;
-            }
-        }
-        
+        // .el-input__inner,
+        // .el-date-editor .el-range-input {
+        //     &::placeholder {
+        //         color: #ffffff;
+        //     }
+        //     &::-webkit-input-placeholder {
+        //         /* WebKit browsers 适配谷歌 */
+        //         color: #ffffff;
+        //     }
+        //     &:-moz-placeholder {
+        //         /* Mozilla Firefox 4 to 18 适配火狐 */
+        //         color: #ffffff;
+        //     }
+        //     &::-moz-placeholder {
+        //         /* Mozilla Firefox 19+ 适配火狐 */
+        //         color: #ffffff;
+        //     }
+        //     &:-ms-input-placeholder {
+        //         /* Internet Explorer 10+  适配ie*/
+        //         color: #ffffff;
+        //     }
+        // }
         .el-radio-button__inner:hover {
-            color: #ffffff !important;
-            background: #02B2D611 !important;
+            // color: #ffffff !important;
+            // background: #02B2D611 !important;
         }
         
         //搜索框样式
@@ -385,9 +390,9 @@
         .ipflow .el-select .el-input.is-disabled .el-input__inner,
         .fs_storage .el-input--small .el-input__inner,
         .fs_storage .el-select .el-input.is-disabled .el-input__inner {
-            background: #0F5ABC;
-            border: none;
-            color: #ffffff;
+            // background: #0F5ABC;
+            // border: none;
+            // color: #ffffff;
         }
         
         //搜索栏--重置按钮单独设置颜色
@@ -401,23 +406,24 @@
         .fs_storage .resetseach_btn {
             margin-left: 15px;
             background: #02b2d6;
+            border-color: #02b2d6;
             padding: 9px 25px;
         }
         
         //时间选择器样式
         .el-range-editor--small.el-input__inner {
-            background: #0F5ABC;
-            border: none;
-            color: #ffffff;
-            span {
-                color: #ffffff;
-                margin-right: 5px;
-            }
-            .el-range-input {
-                background: #0F5ABC !important;
-                border: none;
-                color: #ffffff;
-            }
+            // background: #0F5ABC;
+            // border: none;
+            // color: #ffffff;
+            // span {
+            //     color: #ffffff;
+            //     margin-right: 5px;
+            // }
+            // .el-range-input {
+            //     background: #0F5ABC !important;
+            //     border: none;
+            //     color: #ffffff;
+            // }
         }
         
         .update_par .el-input--small .el-input__inner,
@@ -450,10 +456,10 @@
         }
         
         .data_mon_radio .el-radio-button__orig-radio:checked+.el-radio-button__inner {
-            color: #1572E8;
-            background-color: #ffffff;
-            border-color: #1572E8;
-            border-left: 1px solid #1572E8;
+            // color: #1572E8;
+            // background-color: #ffffff;
+            // border-color: #1572E8;
+            // border-left: 1px solid #1572E8;
         }
         
         .data_mon_radio .el-radio-button__inner {
@@ -468,26 +474,25 @@
             color: #333333;
         }
         
-        .el-radio-button__inner {
-            background-color: #0F5ABC;
-            border-color: #0F5ABC;
-            color: #ffffff;
-        }
-        
+        // .el-radio-button__inner {
+        //     background-color: #0F5ABC;
+        //     border-color: #0F5ABC;
+        //     color: #ffffff;
+        // }
         .el-radio-button__inner:hover {
-            color: #0F5ABC;
+            // color: #0F5ABC;
         }
         
         .el-radio-button:first-child .el-radio-button__inner {
-            border-left: #0F5ABC;
+            // border-left: #0F5ABC;
         }
         
         .el-radio-button__orig-radio:checked+.el-radio-button__inner {
-            color: #FFF;
-            background-color: #02B2D6;
-            border-color: #02B2D6;
-            -webkit-box-shadow: -1px 0 0 0 #02B2D6;
-            box-shadow: -1px 0 0 0 #02B2D6;
+            // color: #FFF;
+            // background-color: #02B2D6;
+            // border-color: #02B2D6;
+            // -webkit-box-shadow: -1px 0 0 0 #02B2D6;
+            // box-shadow: -1px 0 0 0 #02B2D6;
         }
         
         .nodeuser .el-progress .el-progress__text {
@@ -531,4 +536,67 @@
             .sort_list {
                 margin-top: 0;
             }
+        }
+        
+        .el-dialog .el-icon-arrow-up:before {
+            content: "\e78f" !important;
+            color: #333333;
+        }
+        
+        .el-dialog .el-input--suffix .el-input__inner,
+        .el-dialog .el-input__inner {
+            background: #F9F9F9 !important;
+            border: 1px solid #c0c4cc !important;
+        }
+        
+        .el-dialog .el-dialog__header {
+            background: #1572E8;
+        }
+        
+        .el-dialog .el-dialog__header .el-dialog__title {
+            font-size: 16px;
+            color: #ffffff;
+        }
+        
+        .el-dialog .el-dialog__headerbtn .el-dialog__close {
+            color: #ffffff;
+        }
+        
+        .el-dialog .el-button--default {
+            width: 120px;
+            height: 40px;
+            background: #F9F9F9;
+        }
+        
+        .el-dialog .el-button--primary {
+            background: #1572e8;
+            width: 120px;
+            height: 40px;
+        }
+        
+        .el-dialog .el-input__inner,
+        .el-dialog .el-date-editor .el-range-input {
+            &::placeholder {
+                color: #999999;
+            }
+            &::-webkit-input-placeholder {
+                /* WebKit browsers 适配谷歌 */
+                color: #999999;
+            }
+            &:-moz-placeholder {
+                /* Mozilla Firefox 4 to 18 适配火狐 */
+                color: #999999;
+            }
+            &::-moz-placeholder {
+                /* Mozilla Firefox 19+ 适配火狐 */
+                color: #999999;
+            }
+            &:-ms-input-placeholder {
+                /* Internet Explorer 10+  适配ie*/
+                color: #999999;
+            }
+        }
+        
+        .updata_user .el-dialog .el-dialog__body {
+            margin: auto;
         }

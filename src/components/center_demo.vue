@@ -89,7 +89,6 @@ export default {
 			let con_he = document.getElementsByClassName('content-container')[0]
 				.offsetHeight;
 			this.echartsHeight = con_he + 'px';
-			console.log(con_he);
 		});
 		this.getseachinput();
 		this.city_num = this.citylist.length;

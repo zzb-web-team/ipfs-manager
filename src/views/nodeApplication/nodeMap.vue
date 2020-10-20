@@ -423,7 +423,6 @@ export default {
 				60;
 			this.echartsHeight = con_he + 'px';
 			this.tableHeight = con_he - 30 + 'px';
-			console.log(this.tableHeight);
 		});
 		this.starttime =
 			new Date(new Date().toLocaleDateString()).getTime() / 1000;

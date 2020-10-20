@@ -960,7 +960,6 @@ export default {
 					.offsetHeight - 248;
 			this.scrollerHeight = con_he + 'px';
 			this.tableHeight = con_he - 172;
-			console.log(this.tableHeight);
 		});
 		this.getseachinput();
 		this.get_search_data();

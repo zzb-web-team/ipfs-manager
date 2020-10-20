@@ -51,13 +51,13 @@
 					class="dialog-footer"
 					style="text-align:center;"
 				>
-					<el-button @click="resetForm('firstruleForm')"
-						>取 消</el-button
-					>
 					<el-button
 						type="primary"
 						@click="firstsubmitForm('firstruleForm')"
 						>确 定</el-button
+					>
+					<el-button @click="resetForm('firstruleForm')"
+						>取 消</el-button
 					>
 				</div>
 			</el-dialog>
@@ -114,10 +114,10 @@
 					class="dialog-footer"
 					style="text-align:center;"
 				>
-					<el-button @click="resetForm('ruleForm')">取 消</el-button>
 					<el-button type="primary" @click="submitForm('ruleForm')"
 						>确 定</el-button
 					>
+					<el-button @click="resetForm('ruleForm')">取 消</el-button>
 				</div>
 			</el-dialog>
 			<!--  -->

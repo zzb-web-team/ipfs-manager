@@ -120,7 +120,7 @@
 				>
 					<el-table-column
 						type="selection"
-						width="55"
+						width="45"
 						:reserve-selection="true"
 					></el-table-column>
 					<el-table-column prop="ip" label="节点IP"></el-table-column>
@@ -247,7 +247,7 @@
 					<el-table-column
 						prop="occupyBW"
 						label="占用带宽"
-						width="100"
+						width="120"
 					>
 						<template slot-scope="scope">
 							<p style="display: flex;align-items: center;">
@@ -269,7 +269,7 @@
 					<el-table-column
 						prop="remainingBW"
 						label="剩余带宽"
-						width="100"
+						width="120"
 					>
 						<template slot-scope="scope">
 							<p style="display: flex;align-items: center;">
@@ -734,7 +734,6 @@ export default {
         this.$nextTick(() => {
             let con_he = document.getElementsByClassName('content-container')[0].offsetHeight - 402 ;
             this.tableHeight = con_he;
-             console.log(this.tableHeight);
         });
 		this.getJson();
 		this.get_search_data();

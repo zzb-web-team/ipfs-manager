@@ -290,7 +290,6 @@ export default {
 				document.getElementsByClassName('content-container')[0]
 					.offsetHeight - 402;
 			this.tableHeight = con_he;
-			console.log(this.tableHeight);
 		});
 		this.get_search_data();
 		let munulist = JSON.parse(localStorage.getItem('menus'));

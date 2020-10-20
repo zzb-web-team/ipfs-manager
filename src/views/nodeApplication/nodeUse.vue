@@ -180,7 +180,7 @@
 											<!-- {{ ipDataFlow }}% -->
 											<el-progress
 												type="circle"
-												:width="90"
+												:width="80"
 												:percentage="ipDataFlow"
 												color="#177DFF"
 											></el-progress>
@@ -194,7 +194,7 @@
 											<!-- {{ fsDataFlow }}% -->
 											<el-progress
 												type="circle"
-												:width="90"
+												:width="80"
 												:percentage="fsDataFlow"
 												color="#FDAF4B"
 											></el-progress>
@@ -208,7 +208,7 @@
 											<!-- {{ pingDataFlow }}% -->
 											<el-progress
 												type="circle"
-												:width="90"
+												:width="80"
 												:percentage="pingDataFlow"
 												color="#F3545D"
 											></el-progress>

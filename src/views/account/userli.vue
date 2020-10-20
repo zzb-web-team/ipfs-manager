@@ -109,7 +109,7 @@
 					<el-col :span="6">
 						<el-button
 							type="primary"
-                            size="small"
+							size="small"
 							@click="addAccout"
 							v-show="obnj.roleC == 1"
 						>
@@ -143,7 +143,7 @@
 							:clomnSelection="clomnSelection"
 							:rowHeader="rowHeader"
 							:tableOption="tableOption"
-                            :tableHeight='tableHeight'
+							:tableHeight="tableHeight"
 							@disable="disable"
 							@toChange="toChange"
 							@detail="detail"
@@ -199,7 +199,7 @@
 			<el-dialog
 				:visible.sync="dialogVisible"
 				:close-on-click-modal="false"
-				width="20%"
+				width="35%"
 				@close="handleClose"
 				title="新建账户"
 				class="userli_content"
@@ -230,11 +230,12 @@
 								},
 							]"
 						>
-							<el-col :span="22">
+							<el-col :span="21" style="display:flex;">
 								<el-select
 									style="width:100%"
 									v-model="ruleForm2.department"
 									placeholder="请选择部门"
+									size="small"
 								>
 									<el-option-group
 										v-for="group in department_list"
@@ -250,25 +251,13 @@
 										</el-option>
 									</el-option-group>
 								</el-select>
-							</el-col>
-						</el-form-item>
-
-						<el-form-item
-							label="昵称:"
-							prop="name"
-							:rules="[
-								{
-									required: true,
-									validator: jioname,
-									trigger: 'blur',
-								},
-							]"
-						>
-							<el-col :span="24">
-								<el-input
-									v-model="ruleForm2.name"
-									placeholder="请输入昵称"
-								></el-input>
+								<el-button
+									type="primary"
+									size="mini"
+									style="width:100px;height:32px;margin-top:4px;margin-left:15px;"
+									><i class="el-icon-circle-plus-outline"></i>
+									新建</el-button
+								>
 							</el-col>
 						</el-form-item>
 
@@ -285,9 +274,30 @@
 						>
 							<el-input
 								v-model="ruleForm2.username"
+								size="small"
 								placeholder="请输入账户名"
 							></el-input>
 						</el-form-item>
+						<el-form-item
+							label="昵称:"
+							prop="name"
+							:rules="[
+								{
+									required: true,
+									validator: jioname,
+									trigger: 'blur',
+								},
+							]"
+						>
+							<el-col :span="24">
+								<el-input
+									v-model="ruleForm2.name"
+									size="small"
+									placeholder="请输入昵称"
+								></el-input>
+							</el-col>
+						</el-form-item>
+
 						<el-form-item
 							label="性别:"
 							prop="sex"
@@ -302,6 +312,7 @@
 							<el-col :span="22">
 								<el-select
 									v-model="ruleForm2.sex"
+									size="small"
 									placeholder="请选择性别"
 								>
 									<el-option
@@ -329,6 +340,7 @@
 							<el-col :span="22">
 								<el-select
 									v-model="ruleForm2.position_id"
+									size="small"
 									placeholder="请选择职位"
 								>
 									<el-option
@@ -355,6 +367,7 @@
 							<el-col :span="22">
 								<el-select
 									v-model="ruleForm2.grouping"
+									size="small"
 									placeholder="请选择部门"
 								>
 									<el-option
@@ -381,6 +394,7 @@
 						>
 							<el-input
 								v-model="ruleForm2.password"
+								size="small"
 								type="password"
 								placeholder="请输入密码"
 							></el-input>
@@ -397,6 +411,7 @@
 							]"
 						>
 							<el-input
+								size="small"
 								v-model="ruleForm2.password2"
 								placeholder="两次密码须一致"
 								type="password"
@@ -410,6 +425,7 @@
 						>
 							<el-input
 								v-model.number="ruleForm2.phone"
+								size="small"
 								maxlength="11"
 								placeholder="请输入联系电话"
 							></el-input>
@@ -435,9 +451,10 @@
 				v-if="addDialogVisible"
 				:visible.sync="dialogVisible2"
 				:close-on-click-modal="false"
-				width="20%"
+				width="30%"
 				@close="handleClose2"
 				title="修改账户"
+				class="updata_user"
 			>
 				<div class="addaccout">
 					<el-form
@@ -997,12 +1014,12 @@ export default {
 			department_list: [],
 			obnj: {},
 			partmant_disable: true,
-            pdepartment_list: [],
-            tableHeight:0,
+			pdepartment_list: [],
+			tableHeight: 0,
 		};
 	},
 	mounted: function() {
-        this.$nextTick(() => {
+		this.$nextTick(() => {
 			let con_he =
 				document.getElementsByClassName('content-container')[0]
 					.offsetHeight - 356;
@@ -2000,6 +2017,7 @@ export default {
 }
 
 .addaccout {
+	margin: auto;
 	.title {
 		width: 100%;
 		text-align: left;

@@ -375,6 +375,17 @@ export default {
 			min-width: 200px;
 			max-width: 324px;
 			width: 17%;
+			.el-submenu__title {
+				i {
+					padding-left: 16%;
+				}
+			}
+			.el-menu .two_menu {
+				padding-left: 80px !important;
+			}
+			.el-menu .there_menu {
+				padding-left: 80px !important;
+			}
 		}
 		.content-container {
 			// background: #f1f2f7;
@@ -425,7 +436,8 @@ export default {
 	color: #ffffff;
 	background-color: #1572e8;
 	border-radius: 12px;
-	margin: 0 10px;
+	margin-left: 20px;
+	margin-right: 20px;
 	margin-bottom: 10px;
 }
 

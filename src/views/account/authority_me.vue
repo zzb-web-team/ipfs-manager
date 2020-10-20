@@ -89,13 +89,13 @@
 					class="dialog-footer"
 					style="text-align:center;"
 				>
-					<el-button @click="resetForm('firstruleForm')"
-						>取 消</el-button
-					>
 					<el-button
 						type="primary"
 						@click="firstsubmitForm('firstruleForm')"
 						>确 定</el-button
+					>
+					<el-button @click="resetForm('firstruleForm')"
+						>取 消</el-button
 					>
 				</div>
 			</el-dialog>
@@ -120,7 +120,7 @@
 					border
 					:cell-style="rowClass"
 					:header-cell-style="headClass"
-                    :max-height="tableHeight"
+					:max-height="tableHeight"
 				>
 					<el-table-column label="ID" prop="id"></el-table-column>
 					<el-table-column
@@ -203,10 +203,10 @@
 					class="dialog-footer"
 					style="text-align:center;"
 				>
-					<el-button @click="resetChecked()">取 消</el-button>
 					<el-button type="primary" @click="queChecked()"
 						>确 定</el-button
 					>
+					<el-button @click="resetChecked()">取 消</el-button>
 				</div>
 			</el-dialog>
 
@@ -262,13 +262,13 @@ export default {
 			cascaderKey: 1,
 			menutype: {},
 			nawoptions: [],
-            zdata: '',
-            tableHeight:0,
+			zdata: '',
+			tableHeight: 0,
 		};
 	},
 	filters: {},
 	mounted() {
-         this.$nextTick(() => {
+		this.$nextTick(() => {
 			let con_he =
 				document.getElementsByClassName('content-container')[0]
 					.offsetHeight - 424;
@@ -843,8 +843,8 @@ export default {
 				'删除权限分组之后该分组下的人员将无法正常登录, 是否继续?',
 				'提示',
 				{
-					confirmButtonText: '确定',
 					cancelButtonText: '取消',
+					confirmButtonText: '确定',
 					type: 'warning',
 				}
 			)

@@ -635,7 +635,7 @@ export default {
 			];
 		},
 		getregion() {
-			console.log(this.updata_ruleForm.region);
+			// console.log(this.updata_ruleForm.region);
 		},
 		updata_submitForm(formName) {
 			var _this = this;

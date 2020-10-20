@@ -827,7 +827,7 @@
 						type="primary"
 						@click="uopset"
 						size="small"
-						style="margin-left: 10px;margin-top: 5px;height: 32px;"
+						style="margin-left: 10px;height: 32px;"
 						>重置</el-button
 					>
 				</div>
@@ -1355,13 +1355,15 @@ export default {
 		flex-wrap: wrap;
 		justify-content: start;
 		.ipfs_con_left {
-			color: #ffffff;
+            // color: #ffffff;
+            color: #333333;
 			font-size: 16px;
 		}
 		.ipfs_con_right {
 			.setmap_btn {
 				margin-right: 20px;
-				color: #ffffff;
+                // color: #ffffff;
+                color: #333333;
 				font-size: 18px;
 			}
 		}
@@ -1512,7 +1514,8 @@ export default {
 }
 .eema {
 	width: 55px;
-	color: #919191;
+    // color: #919191;
+    color: #ffffff;
 	display: inline-block;
 	line-height: 30px;
 	font-size: 16px !important;
@@ -1520,10 +1523,11 @@ export default {
 }
 .bluma {
 	width: 55px;
-	color: #919191;
+    // color: #919191;
+    color: #1572e8;
 	display: inline-block;
 	line-height: 30px;
-	border: #ffffff 1px solid;
+	border: #1572e8 2px solid;
 	border-radius: 8px;
 	font-size: 16px !important;
 	text-align: center;

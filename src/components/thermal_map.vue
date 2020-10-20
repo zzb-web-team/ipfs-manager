@@ -208,7 +208,6 @@ export default {
 				this.datalist = nv;
 				this.points = this.datalist;
 				this.initMap();
-				console.log(nv);
 			},
 		},
 		citys: {
@@ -223,7 +222,6 @@ export default {
 					this.centerLat = '39.921984';
 				}
 				this.initMap();
-				console.log(ov);
 			},
 		},
 	},

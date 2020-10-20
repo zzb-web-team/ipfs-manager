@@ -11,7 +11,7 @@
 				<el-button
 					type="primary"
 					@click="nwisible"
-                    size="small"
+					size="small"
 					v-show="menutype.roleC == 1"
 					>新建职位</el-button
 				>
@@ -50,13 +50,13 @@
 					class="dialog-footer"
 					style="text-align:center;"
 				>
-					<el-button @click="resetForm('firstruleForm')"
-						>取 消</el-button
-					>
 					<el-button
 						type="primary"
 						@click="firstsubmitForm('firstruleForm')"
 						>确 定</el-button
+					>
+					<el-button @click="resetForm('firstruleForm')"
+						>取 消</el-button
 					>
 				</div>
 			</el-dialog>
@@ -90,7 +90,7 @@
 							@click.native.prevent="deleteRow(scope.row)"
 							type="text"
 							size="small"
-                            style="color:#F85555"
+							style="color:#F85555"
 							>删除</el-button
 						>
 					</template>
@@ -101,7 +101,7 @@
 					v-show="menutype.roleD == 1"
 					type="danger"
 					@click="deleteRow()"
-                    size="small"
+					size="small"
 					:disabled="deldisable"
 					>删除</el-button
 				>
