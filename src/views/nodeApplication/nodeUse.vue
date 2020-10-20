@@ -17,7 +17,7 @@
 						<!--  -->
 
 						<div class="rowbg">
-							<div class="item_title">节点收益明细</div>
+							<div class="item_title">节点利用率</div>
 							<el-input
 								v-model="input"
 								placeholder="请输入节点ID"

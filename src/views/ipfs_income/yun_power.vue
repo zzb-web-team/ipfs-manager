@@ -140,7 +140,7 @@
 			        <el-table-column label="节点ID">
 				        <template slot-scope="scope">
 					        <el-button
-                                @click="show_nodeid(scope.row)"
+                                @click="show_nodeid(scope.row.nodeId)"
                                 type="text"
                                 size="small"
                                 >查看</el-button
@@ -198,7 +198,7 @@
 			        <el-table-column label="节点ID">
                         <template slot-scope="scope">
                             <el-button
-                                @click="show_nodeid(scope.row)"
+                               @click="show_nodeid(scope.row.nodeId)"
                                 type="text"
                                 size="small"
                                 >查看</el-button
@@ -213,6 +213,16 @@
 
 				</el-table>
 			</div>
+            <el-dialog
+				title="节点ID"
+				:visible.sync="copy_dialogVisible"
+				width="30%"
+			>
+				<span>{{ node_id }}</span
+				><el-button type="text" @click="copy_data(node_id)" class="copy"
+					>复制</el-button
+				>
+			</el-dialog>
 		<fenye
 			style="text-align: right;margin: 20px 0px 10px;"
 			@fatherMethod="getpage"
@@ -226,6 +236,7 @@
 
 <script>
 import fenye from '@/components/fenye';
+import Clipboard from 'clipboard';
 import {
 	getlocaltimes,
 	settime,
@@ -291,6 +302,8 @@ export default {
 			],
             secondchan: [],
             tableHeight: 0,
+            copy_dialogVisible: false,
+			node_id: '',
 		};
 	},
 	components: { fenye },
@@ -615,13 +628,29 @@ export default {
 				.catch((error) => {
 				});
         },
-        //查看节点id
-		show_nodeid(val) {
-			this.$alert(val.nodeId, '节点ID', {
-                showCancelButton: false,
-                showConfirmButton:false,
-				callback: (action) => {},
+       //查看节点id
+		copy_data(val) {
+			let _this = this;
+			let clipboard = new Clipboard('.copy', {
+				text: function() {
+					return val;
+				},
 			});
+			clipboard.on('success', function(e) {
+				_this.$message.success('已复制到粘贴板');
+				clipboard.destroy();
+			});
+			clipboard.on('error', function(e) {
+				_this.$message.error(
+					'您的浏览器不支持此功能，请使用其他浏览器尝试。'
+				);
+				clipboard.destroy();
+			});
+			this.copy_dialogVisible = false;
+		},
+		show_nodeid(data) {
+			this.node_id = data;
+			this.copy_dialogVisible = true;
 		},
         tablechange(column) {
 			if (column.order == 'descending') {

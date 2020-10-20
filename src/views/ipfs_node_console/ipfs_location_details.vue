@@ -73,7 +73,14 @@
 								</div>
 								<div class="top_tit"><b>节点ID</b></div>
 								<div class="top_tit_id">
-									{{ serdata.nodeId }}
+									{{ serdata.nodeId
+									}}<el-button
+										@click="copy_id(serdata.nodeId)"
+										class="copy"
+                                        size="mini"
+										type="primary"
+										>复制</el-button
+									>
 								</div>
 							</div>
 						</div></el-col
@@ -240,7 +247,7 @@
 									}}GB</span
 								>
 							</div>
-							<div class="ipfs_item_toptwo_item">
+							<!-- <div class="ipfs_item_toptwo_item">
 								<span>剩余内存：</span>
 								<span
 									>{{
@@ -252,7 +259,7 @@
 										).toFixed(2)
 									}}GB</span
 								>
-							</div>
+							</div> -->
 						</div>
 					</div>
 					<div class="ipfs_item_toptwo">
@@ -290,10 +297,10 @@
 								<span>使用带宽：</span>
 								<span>{{ serdata.upbandwidth_occ }}</span>
 							</div>
-							<div class="ipfs_item_toptwo_item">
+							<!-- <div class="ipfs_item_toptwo_item">
 								<span>剩余带宽：</span>
 								<span>{{ serdata.upbandwidth_rema }}</span>
-							</div>
+							</div> -->
 						</div>
 					</div>
 					<div class="ipfs_item_toptwo">
@@ -331,10 +338,10 @@
 								<span>使用带宽：</span>
 								<span>{{ serdata.downbandwidth_occ }}</span>
 							</div>
-							<div class="ipfs_item_toptwo_item">
+							<!-- <div class="ipfs_item_toptwo_item">
 								<span>剩余带宽：</span>
 								<span>{{ serdata.downbandwidth_rema }}</span>
-							</div>
+							</div> -->
 						</div>
 					</div>
 					<div class="ipfs_item_toptwo">
@@ -390,7 +397,7 @@
 									}}GB</span
 								>
 							</div>
-							<div class="ipfs_item_toptwo_item">
+							<!-- <div class="ipfs_item_toptwo_item">
 								<span>剩余空间：</span>
 								<span
 									>{{
@@ -402,7 +409,7 @@
 										).toFixed(2)
 									}}GB</span
 								>
-							</div>
+							</div> -->
 						</div>
 					</div>
 				</div>
@@ -707,6 +714,7 @@ import {
 	setbatime,
 	formatDuring,
 } from '../../servers/sevdate';
+import Clipboard from 'clipboard';
 export default {
 	data() {
 		return {
@@ -834,6 +842,24 @@ export default {
 		this.getlabel();
 	},
 	methods: {
+		copy_id(data) {
+			let _this = this;
+			let clipboard = new Clipboard('.copy', {
+				text: function() {
+					return data;
+				},
+			});
+			clipboard.on('success', function(e) {
+				_this.$message.success('已复制到粘贴板');
+				clipboard.destroy();
+			});
+			clipboard.on('error', function(e) {
+				_this.$message.error(
+					'您的浏览器不支持此功能，请使用其他浏览器尝试。'
+				);
+				clipboard.destroy();
+			});
+		},
 		str_num(data) {
 			if (data == 0) {
 				return 0;
@@ -1029,8 +1055,8 @@ export default {
 			width: 100%;
 		}
 		.ipfs_item_toptwo {
-            width: 19%;
-            max-width: 323px;
+			width: 19%;
+			max-width: 323px;
 			height: 296px;
 			display: flex;
 			flex-direction: column;
@@ -1038,8 +1064,8 @@ export default {
 			padding: 24px 48px;
 			box-sizing: border-box;
 			border-radius: 8px;
-            box-shadow: rgba(51, 51, 51, 0.04) 0px 4px 10px 0px;
-            margin-right: 24px;
+			box-shadow: rgba(51, 51, 51, 0.04) 0px 4px 10px 0px;
+			margin-right: 24px;
 			.ipfs_item_toptwo_item {
 				height: 18px;
 				line-height: 18px;
@@ -1050,10 +1076,10 @@ export default {
 				color: #333333;
 				margin-top: 5px;
 			}
-        }
-        .ipfs_item_toptwo:last-child{
-            margin-right: 0;
-        }
+		}
+		.ipfs_item_toptwo:last-child {
+			margin-right: 0;
+		}
 	}
 	.ipfs_con {
 		height: 50px;
@@ -1139,14 +1165,15 @@ export default {
 			.top_tit_id {
 				height: 26px;
 				line-height: 26px;
-				word-wrap: break-word;
+                word-wrap: break-word;
+                
 			}
 		}
 	}
 	.ipfs_item_bottom {
 		background: #ffffff;
-        box-sizing: border-box;
-        margin: 0 24px 24px;
+		box-sizing: border-box;
+		margin: 0 24px 24px;
 		padding: 24px;
 		border-radius: 8px;
 		box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);

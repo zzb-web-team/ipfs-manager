@@ -35,6 +35,7 @@ echarts.registerMap('china', china)
 /** 下面四行代码是解决ElementUi时点击同一个路由，页面报错*/
 import Router from 'vue-router'
 import 'font-awesome/css/font-awesome.min.css';
+
 const originalPush = Router.prototype.push
 Router.prototype.push = function push(location) {
         return originalPush.call(this, location).catch(err => err)
@@ -42,6 +43,7 @@ Router.prototype.push = function push(location) {
     /** */
 
 Vue.use(Router)
+
 Vue.prototype.$echarts = echarts
 Vue.use(ElementUI);
 Vue.config.productionTip = false

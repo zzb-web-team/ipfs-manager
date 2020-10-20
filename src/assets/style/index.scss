@@ -333,9 +333,18 @@
             font-size: 16px;
         }
         
+        .copy {
+            margin-left: 10px;
+        }
+        
         .application .el-tabs__header,
         .nodeuser .el-tabs__header {
             display: none;
+        }
+        
+        .yun_income .el-dialog__body,
+        .yun_power .el-dialog__body {
+            text-align: center;
         }
         
         // .el-input__inner,

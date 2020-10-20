@@ -104,7 +104,7 @@
 				border
 				:cell-style="rowClass"
 				:header-cell-style="headClass"
-                 :row-style="{height: '72px'}"
+				:row-style="{ height: '72px' }"
 				@sort-change="tablechange"
 				style="width: 100%"
 				:max-height="tableHeight"
@@ -176,7 +176,7 @@
 				<el-table-column prop="nodeId" label="节点ID">
 					<template slot-scope="scope">
 						<el-button
-							@click="show_nodeid(scope.row)"
+							@click="show_nodeid(scope.row.nodeId)"
 							type="text"
 							size="small"
 							>查看</el-button
@@ -187,6 +187,16 @@
 					<template slot-scope="scope">{{ scope.row.date }}</template>
 				</el-table-column>
 			</el-table>
+			<el-dialog
+				title="节点ID"
+				:visible.sync="copy_dialogVisible"
+				width="30%"
+			>
+				<span>{{ node_id }}</span
+				><el-button type="text" @click="copy_data(node_id)" class="copy"
+					>复制</el-button
+				>
+			</el-dialog>
 			<fenye
 				v-show="tableData.length > 0"
 				style="text-align: right;margin: 20px 0px 10px;"
@@ -201,6 +211,7 @@
 
 <script>
 import fenye from '@/components/fenye';
+import Clipboard from 'clipboard';
 import {
 	getlocaltimes,
 	settime,
@@ -257,6 +268,8 @@ export default {
 			],
 			secondchan: [],
 			tableHeight: 0,
+			copy_dialogVisible: false,
+			node_id: '',
 		};
 	},
 	components: { fenye },
@@ -298,6 +311,30 @@ export default {
 		this.seachuser();
 	},
 	methods: {
+		//查看节点id
+		copy_data(val) {
+			let _this = this;
+			let clipboard = new Clipboard('.copy', {
+				text: function() {
+					return val;
+				},
+			});
+			clipboard.on('success', function(e) {
+				_this.$message.success('已复制到粘贴板');
+				clipboard.destroy();
+			});
+			clipboard.on('error', function(e) {
+				_this.$message.error(
+					'您的浏览器不支持此功能，请使用其他浏览器尝试。'
+				);
+				clipboard.destroy();
+			});
+			this.copy_dialogVisible = false;
+		},
+		show_nodeid(data) {
+			this.node_id = data;
+			this.copy_dialogVisible = true;
+		},
 		getShow() {
 			this.showState = !this.showState;
 			this.rotate = !this.rotate;
@@ -398,14 +435,6 @@ export default {
 					// }
 				})
 				.catch((error) => {});
-		},
-		//查看节点id
-		show_nodeid(val) {
-			this.$alert(val.nodeId, '节点ID', {
-				showCancelButton: false,
-				showConfirmButton: false,
-				callback: (action) => {},
-			});
 		},
 		goupdate_parameter() {
 			this.$router.push({ path: '/update_parameter' });
@@ -556,6 +585,7 @@ export default {
 		}
 	}
 }
+
 //旋转
 .aa {
 	transition: all 1s;

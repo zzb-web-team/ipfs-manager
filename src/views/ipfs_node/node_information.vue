@@ -116,6 +116,7 @@
 					@selection-change="handleSelectionChange"
 					@filter-change="filterChange"
                     :max-height="tableHeight"
+                    style="font-size: 10px"
                     
 				>
 					<el-table-column
@@ -317,8 +318,10 @@
 					</el-table-column>
 					<el-table-column prop="nodeId" label="节点ID">
 						<template slot-scope="scope">
+                            <span style="display:none;"  >{{scope.row.nodeId}}</span>
 							<el-button
-								@click="show_nodeid(scope.row)"
+								@click="show_nodeid(scope.row.nodeId)"
+                                class="copy"
 								type="text"
 								size="small"
 								>查看</el-button
@@ -384,6 +387,12 @@
 				></fenye>
 			</div>
 		</div>
+        <el-dialog
+            title="节点ID"
+            :visible.sync="copy_dialogVisible"
+            width="30%">
+            <span>{{node_id}}</span><el-button type="text" @click="copy_data(node_id)" class="copy">复制</el-button>
+        </el-dialog>
 	</div>
 </template>
 
@@ -398,6 +407,7 @@ import {
 } from '../../servers/api';
 import { menudisable } from '../../servers/sevdate';
 import axios from 'axios';
+import Clipboard from 'clipboard';
 export default {
 	data() {
 		return {
@@ -721,7 +731,9 @@ export default {
 			autoWidth: {
 				width: '',
 			},
-			tableHeight:0,
+            tableHeight:0,
+            node_id:'',
+            copy_dialogVisible:false,
 		};
 	},
 	beforeRouteEnter(to, from, next) {
@@ -1216,13 +1228,30 @@ export default {
 				.catch((_) => {});
 		},
 		//查看节点id
-		show_nodeid(val) {
-			this.$alert(val.nodeId, '节点ID', {
-				showCancelButton: false,
-				showConfirmButton: false,
-				callback: (action) => {},
+		copy_data(val) {
+			 let _this=this;
+             let clipboard = new Clipboard(".copy", {
+				text: function() {
+					return val;
+				},
+            });
+			clipboard.on('success', function(e) {
+				_this.$message.success('已复制到粘贴板');
+				clipboard.destroy();
 			});
-		},
+			clipboard.on('error', function(e) {
+				_this.$message.error(
+					'您的浏览器不支持此功能，请使用其他浏览器尝试。'
+				);
+				clipboard.destroy();
+            });
+            this.copy_dialogVisible=false;
+        },
+        show_nodeid(data){   
+            this.node_id=data;
+            this.copy_dialogVisible=true;
+           
+        },
 		//详情
 		handleClick(val) {
 			sessionStorage.setItem('serdata', JSON.stringify(val));
