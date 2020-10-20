@@ -232,7 +232,7 @@ export default {
 				.then((res) => {
 					if (res.status == 0) {
 						if (res.data && res.data.length > 0) {
-							let arrlist = [1, 2, 3, 4, 5, 6];
+                            let arrlist = [1, 2, 3, 4, 5, 6];
 							res.data.forEach((item) => {
 								if (
 									item.name == 'IPFS节点信息'||item.name == '节点信息'
@@ -257,25 +257,25 @@ export default {
 									arrlist[5] = item;
 									//这几行代码是修改菜单功能--禁止删除
 
-									arrlist[5].children.push({
-										children: [],
-										component: 'menu_management',
-										delete_status: 0,
-										export_status: 0,
-										hidden: 0,
-										icon: '',
-										id: 100,
-										import_status: 0,
-										insert_status: 0,
-										name: '菜单管理',
-										path: '/menu_management',
-										pid: 30,
-										read_status: 1,
-										roleR: 1,
-										time_create: 0,
-										time_update: 0,
-										update_status: 0,
-									});
+									// arrlist[5].children.push({
+									// 	children: [],
+									// 	component: 'menu_management',
+									// 	delete_status: 0,
+									// 	export_status: 0,
+									// 	hidden: 0,
+									// 	icon: '',
+									// 	id: 100,
+									// 	import_status: 0,
+									// 	insert_status: 0,
+									// 	name: '菜单管理',
+									// 	path: '/menu_management',
+									// 	pid: 30,
+									// 	read_status: 1,
+									// 	roleR: 1,
+									// 	time_create: 0,
+									// 	time_update: 0,
+									// 	update_status: 0,
+									// });
 								} else {
 									// arrlist[6] = {
 									// 	children: [],
@@ -294,7 +294,8 @@ export default {
 									// 	time_create: 0,
 									// 	time_update: 0,
 									// 	update_status: 0,
-									// };
+                                    // };
+                                    
 									// arrlist.push(item);
 								}
 							});
