@@ -314,33 +314,8 @@
 					<el-tab-pane label="IP流量" name="first">
 						<el-row style="margin:0 30px;">
 							<el-col :span="9">
-								<el-row
-									type="flex"
-									style="margin-top:24px;margin-bottom:24px;"
-								>
-									<el-col>
-										<div class="user-item">
-											<div class="item-text">
-												累计使用流量
-											</div>
-											<div class="item-count">
-												{{ totalDataFlow | zhuanbkb }}
-											</div>
-										</div>
-									</el-col>
-									<el-col style="margin-left:30px;">
-										<div class="user-item">
-											<div class="item-text">
-												累计传输次数
-											</div>
-											<div class="item-count">
-												{{ totalOutputCnt }}次
-											</div>
-										</div>
-									</el-col>
-								</el-row>
 								<div
-									style="box-sizing: border-box;padding: 24px;background: #ffffff;border-radius: 8px;overflow: hidden;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
+									style="box-sizing: border-box;padding: 24px;background: #ffffff;border-radius: 8px;overflow: hidden;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);margin-top:24px;"
 								>
 									<el-table
 										:data="tableData"
@@ -403,6 +378,39 @@
 								</div>
 							</el-col>
 							<el-col :span="15">
+								<el-row
+									type="flex"
+									style="margin:24px 0 0 24px;"
+								>
+									<el-col>
+										<div class="user-item">
+											<div class="item-text">
+												<img
+													src="../../assets//img/leijill.png"
+													alt=""
+												/>
+												累计使用流量
+											</div>
+											<div class="item-count">
+												{{ totalDataFlow | zhuanbkb }}
+											</div>
+										</div>
+									</el-col>
+									<el-col style="margin-left:30px;">
+										<div class="user-item">
+											<div class="item-text">
+												<img
+													src="../../assets//img/leijics.png"
+													alt=""
+												/>
+												累计传输次数
+											</div>
+											<div class="item-count">
+												{{ totalOutputCnt }}次
+											</div>
+										</div>
+									</el-col>
+								</el-row>
 								<div class="device_form">
 									<div
 										id="myChart"
@@ -428,33 +436,9 @@
 					<el-tab-pane label="FS存储" name="second">
 						<el-row style="margin:0 30px;">
 							<el-col :span="9">
-								<el-row
-									type="flex"
-									style="margin-top:24px;margin-bottom:24px;"
-								>
-									<el-col>
-										<div class="user-item">
-											<div class="item-text">
-												累计存储容量
-											</div>
-											<div class="item-count">
-												{{ totalStoreUsage | zhuanbkb }}
-											</div>
-										</div>
-									</el-col>
-									<el-col style="margin-left:30px;">
-										<div class="user-item">
-											<div class="item-text">
-												累计存储次数
-											</div>
-											<div class="item-count">
-												{{ totalStoreTimes }}次
-											</div>
-										</div>
-									</el-col>
-								</el-row>
+								
 								<div
-									style="box-sizing: border-box;padding: 24px;background: #ffffff;border-radius: 8px;overflow: hidden;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
+									style="box-sizing: border-box;padding: 24px;background: #ffffff;border-radius: 8px;overflow: hidden;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);margin-top:24px;"
 								>
 									<el-table
 										:data="fs_tableData"
@@ -518,6 +502,40 @@
 								</div>
 							</el-col>
 							<el-col :span="15">
+                                <el-row
+									type="flex"
+									style="margin:24px 0 0 24px;"
+								>
+									<el-col>
+										<div class="user-item">
+											<div class="item-text">
+												<img
+													src="../../assets/img/cunchurl.png"
+													alt=""
+													style="width: 5%;"
+												/>
+												累计存储容量
+											</div>
+											<div class="item-count">
+												{{ totalStoreUsage | zhuanbkb }}
+											</div>
+										</div>
+									</el-col>
+									<el-col style="margin-left:30px;">
+										<div class="user-item">
+											<div class="item-text">
+												<img
+													src="../../assets/img/cunchucs.png"
+													alt=""
+												/>
+												累计存储次数
+											</div>
+											<div class="item-count">
+												{{ totalStoreTimes }}次
+											</div>
+										</div>
+									</el-col>
+								</el-row>
 								<div class="device_form">
 									<div
 										id="myChart1"
@@ -955,11 +973,13 @@ export default {
 	},
 	mounted() {
 		this.$nextTick(() => {
+			let top_title_h = document.getElementsByClassName('user-item')[0]
+				.offsetHeight;
 			let con_he =
 				document.getElementsByClassName('content-container')[0]
-					.offsetHeight - 248;
-			this.scrollerHeight = con_he + 'px';
-			this.tableHeight = con_he - 172;
+					.offsetHeight - 152;
+			this.scrollerHeight = con_he - top_title_h - 110 + 'px';
+			this.tableHeight = con_he - 140;
 		});
 		this.getseachinput();
 		this.get_search_data();
@@ -2251,9 +2271,18 @@ export default {
 		font-size: 20px;
 		height: 40px;
 		flex-wrap: 600;
+		text-align: center;
 	}
 	.item-text {
 		line-height: 50px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		text-align: center;
+		img {
+			width: 6%;
+			margin-right: 5px;
+		}
 	}
 }
 </style>
