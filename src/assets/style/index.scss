@@ -383,6 +383,10 @@
             // background: #02B2D611 !important;
         }
         
+        .node_information_con .cell div {
+            white-space: pre-wrap
+        }
+        
         //搜索框样式
         .node_information_con .el-input--small .el-input__inner,
         .node_information_con .el-select .el-input.is-disabled .el-input__inner,

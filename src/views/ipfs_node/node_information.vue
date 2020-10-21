@@ -186,7 +186,8 @@
 					<el-table-column
 						prop="proportion_cpu"
 						label="CPU占用"
-						width="100"
+						width="120"
+                        :render-header="icons"
 					>
 						<template slot-scope="scope">
 							<span>{{ scope.row.proportion_cpu }}%</span>
@@ -202,7 +203,8 @@
 					<el-table-column
 						prop="proportion_ram"
 						label="内存占用"
-						width="100"
+						width="120"
+                        :render-header="icons"
 					>
 						<template slot-scope="scope">
 							<span>{{ scope.row.proportion_ram }}%</span>
@@ -218,7 +220,8 @@
 					<el-table-column
 						prop="remainingCap"
 						label="存储占用"
-						width="100"
+						width="120"
+                        :render-header="icons"
 					>
 						<template slot-scope="scope">
 							<span
@@ -292,6 +295,9 @@
 					<el-table-column
 						prop="useRate"
 						label="节点平均利用率"
+                        :render-header="icons"
+                        width="120"
+                        class="node_rate"
 					></el-table-column>
 					<el-table-column
 						prop="nodestatus"
@@ -812,6 +818,22 @@ export default {
 		this.menutype = menudisable(munulist, pathname);
 	},
 	methods: {
+        icons(h,{column,$index}){
+        return h(
+　　　　    'div', [
+                h('span', column.label),
+                h('i', {
+                        class: 'el-icon-sort',
+                        style: 'color:#ffffff;margin-left:5px;',
+                        on:{
+                           click: function () {
+                            console.log(column.label);
+                    } 
+                        }
+                    })
+            ]
+　　　　 )
+      },
 		filterChange(filters) {
 			//节点任务状态
 			if (filters.nodestatus) {
@@ -1071,7 +1093,7 @@ export default {
 				parmas.city = this.city_detil;
 			}
 			parmas.page = this.currentPage - 1;
-			parmas.order = 0;
+			parmas.order = 1;
 			parmas.optiondisplay = this.optiondisplay;
 			sessionStorage.setItem('search_data', JSON.stringify(parmas));
 			query_node(parmas)
