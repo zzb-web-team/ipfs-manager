@@ -83,7 +83,7 @@
 								v-show="item.hidden != 1"
 							>
 								<template slot="title">
-									<i :class="item.icon"></i>
+									<i :class="item.icon" style="font-size: 18px;"></i>
 									<span style="margin-left:10px;">{{
 										item.name
 									}}</span>
@@ -101,7 +101,7 @@
 										class="two_menu_tit"
 									>
 										<template slot="title">
-											<i :class="itemChild.icon"></i>
+											<i :class="itemChild.icon" style="font-size: 18px;"></i>
 											<span>{{ itemChild.name }}</span>
 										</template>
 										<!-- 三级菜单 -->
@@ -113,7 +113,7 @@
 											class="there_menu"
 										>
 											<i
-												:class="itemChild_Child.icon"
+												:class="itemChild_Child.icon" style="font-size: 18px;"
 											></i>
 											<span slot="title">{{
 												itemChild_Child.name
@@ -130,7 +130,7 @@
 										"
 										class="two_menu"
 									>
-										<i :class="itemChild.icon"></i>
+										<i :class="itemChild.icon" style="font-size: 18px;"></i>
 										<span>{{ itemChild.name }}</span>
 									</el-menu-item>
 								</template>
@@ -141,7 +141,7 @@
 								:key="item.path"
 								style="text-align: left;"
 							>
-								<i :class="item.icon"></i>
+								<i :class="item.icon" style="font-size: 18px;"></i>
 								<span slot="title" style="margin-left:10px;">{{
 									item.name
 								}}</span>
