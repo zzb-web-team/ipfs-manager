@@ -327,6 +327,7 @@
 										<el-table-column
 											prop="nodeid"
 											label="节点id"
+                                            :show-overflow-tooltip="true"
 										></el-table-column>
 										<el-table-column
 											prop="dataFlow"

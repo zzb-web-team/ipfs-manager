@@ -1,5 +1,5 @@
 <template>
-	<div class="content" :style="{height:tableHeight}">
+	<div class="content" :style="{ height: tableHeight }">
 		<div class="content_title">账号信息</div>
 		<ol>
 			<li>
@@ -170,7 +170,7 @@ export default {
 			let con_he =
 				document.getElementsByClassName('content-container')[0]
 					.offsetHeight -
-				72 +
+				48 +
 				'px';
 			this.tableHeight = con_he;
 		});

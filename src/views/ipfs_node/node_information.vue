@@ -750,8 +750,9 @@ export default {
 	computed: {},
 	mounted() {
         this.$nextTick(() => {
-            let con_he = document.getElementsByClassName('content-container')[0].offsetHeight - 402 ;
-            this.tableHeight = con_he;
+            let top_title_h = document.getElementsByClassName('rowbg')[0].offsetHeight;
+            let con_he = document.getElementsByClassName('content-container')[0].offsetHeight;
+            this.tableHeight = con_he-top_title_h-170;
         });
 		this.getJson();
 		this.get_search_data();
@@ -1154,7 +1155,7 @@ export default {
 									item.proportion_cpu >= 30 &&
 									item.proportion_cpu < 50
 								) {
-									item.color_cpu = '#1572E8';
+									item.color_cpu = '#4285f4';
 								} else if (
 									item.proportion_cpu >= 50 &&
 									item.proportion_cpu < 80
@@ -1170,7 +1171,7 @@ export default {
 									item.proportion_ram >= 30 &&
 									item.proportion_ram < 50
 								) {
-									item.color_ram = '#1572E8';
+									item.color_ram = '#4285f4';
 								} else if (
 									item.proportion_ram >= 50 &&
 									item.proportion_ram < 80
@@ -1185,7 +1186,7 @@ export default {
 									item.proportion_disk >= 30 &&
 									item.proportion_disk < 50
 								) {
-									item.color_disk = '#1572E8';
+									item.color_disk = '#4285f4';
 								} else if (
 									item.proportion_disk >= 50 &&
 									item.proportion_disk < 80
@@ -1481,8 +1482,8 @@ export default {
 	}
 	.rowcon {
         flex: 1;
-		padding: 30px;
-		margin: 30px;
+		padding: 0 30px;
+		margin: 24px;
 		background-color: #ffffff;
 		border-radius: 8px;
 		.rowtab {

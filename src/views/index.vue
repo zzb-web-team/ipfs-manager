@@ -277,7 +277,7 @@ export default {
 		height: 64px;
 		line-height: 64px;
 		color: #000;
-		background: #1572e8;
+		background: #4285f4;
 		.userinfo {
 			text-align: right;
 			padding-right: 35px;
@@ -304,7 +304,7 @@ export default {
 			border-right-width: 1px;
 			border-right-style: solid;
 			// background: #ffffff;
-			background: #1572e8;
+			background: #4285f4;
 			color: #ffffff;
 			img {
 				width: auto;
@@ -432,9 +432,9 @@ export default {
 	text-align: center;
 }
 .el-menu-item.is-active {
-	box-shadow: 0px 6px 10px 6px transparentize(#1572e8, 0.7);
+	box-shadow: 0px 6px 10px 6px transparentize(#4285f4, 0.7);
 	color: #ffffff;
-	background-color: #1572e8;
+	background-color: #4285f4;
 	border-radius: 12px;
 	margin-left: 20px;
 	margin-right: 20px;

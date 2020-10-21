@@ -85,7 +85,7 @@
 			</el-row>
 		</div>
         </div>
-		<div style="box-sizing: border-box;margin: 30px;padding: 30px;background: #ffffff;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);">
+		<div style="box-sizing: border-box;margin:24px 30px;padding:24px 30px;background: #ffffff;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);">
 			<div style="text-align:right;padding: 10px;" v-if="radio == '1'">
 				<el-button
 					v-show="menutype.roleE == 1"
@@ -326,10 +326,11 @@ export default {
 	},
 	mounted() {
         this.$nextTick(() => {
+             let top_title_h = document.getElementsByClassName('rowbg')[0].offsetHeight;
 			let con_he =
 				document.getElementsByClassName('content-container')[0]
-					.offsetHeight - 372;
-			this.tableHeight = con_he;
+					.offsetHeight;
+			this.tableHeight = con_he-top_title_h-162;
 		});
 		this.get_search_data();
 		if (sessionStorage.getItem('search_condition')) {

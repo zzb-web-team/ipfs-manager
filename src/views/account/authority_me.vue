@@ -269,10 +269,11 @@ export default {
 	filters: {},
 	mounted() {
 		this.$nextTick(() => {
-			let con_he =
-				document.getElementsByClassName('content-container')[0]
-					.offsetHeight - 424;
-			this.tableHeight = con_he;
+			let top_title_h = document.getElementsByClassName('rowbg')[0]
+				.offsetHeight;
+			let con_he = document.getElementsByClassName('content-container')[0]
+				.offsetHeight;
+			this.tableHeight = con_he - top_title_h - 256;
 		});
 		this.get_datalist();
 		this.get_user_list();

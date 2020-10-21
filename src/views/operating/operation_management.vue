@@ -79,7 +79,7 @@
 				</el-row>
 			</div>
 			<!-- 表格 -->
-                    <!-- v-show="menutype.roleE == 1" -->
+			<!-- v-show="menutype.roleE == 1" -->
 			<div class="con_lable">
 				<!-- <div style="text-align:right;margin:10px 0;">
                     <el-button
@@ -99,9 +99,9 @@
 					style="width: 100%"
 					:cell-style="rowClass"
 					:header-cell-style="headClass"
-                     :row-style="{height: '72px'}"
+					:row-style="{ height: '72px' }"
 					:default-sort="{ prop: 'date', order: 'descending' }"
-                    :max-height="tableHeight"
+					:max-height="tableHeight"
 				>
 					<!-- <el-table-column type="selection" width="55"></el-table-column> -->
 					<el-table-column label="状态" width="120">
@@ -237,8 +237,8 @@ export default {
 			},
 			value2: '',
 			tableData: [],
-            tableData2: [],
-            tableHeight:0,
+			tableData2: [],
+			tableHeight: 0,
 		};
 	},
 	filters: {
@@ -251,10 +251,12 @@ export default {
 		fenye,
 	},
 	mounted() {
-        this.$nextTick(() => {
+		this.$nextTick(() => {
+			let top_title_h = document.getElementsByClassName('rowbg')[0]
+				.offsetHeight;
 			let con_he = document.getElementsByClassName('content-container')[0]
 				.offsetHeight;
-			this.tableHeight = con_he - 316;
+			this.tableHeight = con_he - top_title_h - 162;
 		});
 		this.geydata();
 	},

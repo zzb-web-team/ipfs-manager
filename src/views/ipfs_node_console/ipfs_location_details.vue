@@ -273,7 +273,7 @@
 							<el-progress
 								type="circle"
 								:width="80"
-								color="#1572E8"
+								color="#4285f4"
 								:percentage="
 									(100 - up_rema * 100).toFixed(2) * 1
 								"

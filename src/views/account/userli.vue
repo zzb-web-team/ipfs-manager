@@ -255,7 +255,7 @@
 									type="primary"
 									size="mini"
 									style="width:100px;height:32px;margin-top:4px;margin-left:15px;"
-                                    @click="go_organization_me"
+									@click="go_organization_me"
 									><i class="el-icon-circle-plus-outline"></i>
 									新建</el-button
 								>
@@ -1021,10 +1021,11 @@ export default {
 	},
 	mounted: function() {
 		this.$nextTick(() => {
-			let con_he =
-				document.getElementsByClassName('content-container')[0]
-					.offsetHeight - 356;
-			this.tableHeight = con_he;
+			let top_title_h = document.getElementsByClassName('rowbg')[0]
+				.offsetHeight;
+			let con_he = document.getElementsByClassName('content-container')[0]
+				.offsetHeight;
+			this.tableHeight = con_he - top_title_h - 220;
 		});
 		let munulist = JSON.parse(localStorage.getItem('menus'));
 		let pathname = this.$route.path;
@@ -1089,11 +1090,11 @@ export default {
 					}
 				})
 				.catch((error) => {});
-        },
-        //跳转部门列表
-        go_organization_me(){
-            this.$router.push({path:'/organization_me'});
-        },
+		},
+		//跳转部门列表
+		go_organization_me() {
+			this.$router.push({ path: '/organization_me' });
+		},
 		//排序
 		tableSortChange(column) {
 			if (column.order == 'ascending') {

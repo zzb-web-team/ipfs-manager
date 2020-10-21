@@ -106,7 +106,7 @@ export default {
 		}
 	}
 	.active {
-		border: 2px solid #1572e8;
+		border: 2px solid #4285f4;
 	}
 }
 

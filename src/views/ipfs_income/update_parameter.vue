@@ -5,7 +5,7 @@
 				<i class="el-icon-arrow-left"></i> 调整收益参数
 			</div>
 		</div>
-		<el-row style="background: #ffffff;height: 100%">
+		<el-row>
 			<el-col
 				:span="12"
 				style="background: #f6f6f6;box-sizing: border-box;padding:0 24px;"
@@ -44,7 +44,7 @@
 			</el-col>
 		</el-row>
 		<el-row
-			style="background: #f6f6f6;padding: 0 24px;"
+			style="background: #f6f6f6;box-sizing: border-box;padding: 24px;"
 			type="flex"
 			justify="space-between"
 		>
@@ -339,10 +339,11 @@ export default {
 	},
 	mounted() {
 		this.$nextTick(() => {
+            let top_title_h = document.getElementsByClassName('rowbg')[0].offsetHeight;
 			let con_he = document.getElementsByClassName('content-container')[0]
 				.offsetHeight;
-            this.scrollerHeight = con_he - 439 + 'px';
-            this.tabHeight=con_he-74-439+'px';
+            this.scrollerHeight = con_he - top_title_h-291-48 + 'px';
+            this.tabHeight=con_he-top_title_h-291-100+'px';
 		});
 
 		this.get_data();
@@ -643,10 +644,10 @@ i {
 		box-sizing: border-box;
 		padding: 10px 20px 20px 20px;
 		font-size: 18px;
-		margin-bottom: 24px;
+		// margin-bottom: 24px;
 		background: #ffffff;
 		box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);
-		margin-top: -76px;
+		margin-top: 24px;
 		height: 267px;
 		.text_title {
 			margin-top: 15px;

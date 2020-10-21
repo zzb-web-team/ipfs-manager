@@ -118,7 +118,6 @@
 					:key="key"
 					:prop="item.value"
 					:label="item.name"
-					width="150"
 					:fixed="item.name == '省市' ? true : false"
 				>
 					<template slot="header">{{ item.name }}</template>

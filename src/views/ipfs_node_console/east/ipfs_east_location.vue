@@ -835,7 +835,7 @@
 					<div v-show="show_sort" @click="show_sort = false">
 						<i
 							class="el-icon-sort"
-							style="font-size: 18px;font-weight: 900;color:#1572E8;margin-right:5px;"
+							style="font-size: 18px;font-weight: 900;color:#4285f4;margin-right:5px;"
 						></i
 						><span>{{ options[value].label }}</span>
 					</div>
@@ -1529,10 +1529,10 @@ export default {
 .bluma {
 	width: 55px;
     // color: #919191;
-    color: #1572e8;
+    color: #4285f4;
 	display: inline-block;
 	line-height: 30px;
-	border: #1572e8 2px solid;
+	border: #4285f4 2px solid;
 	border-radius: 8px;
 	font-size: 16px !important;
 	text-align: center;

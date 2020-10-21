@@ -214,7 +214,7 @@ export default {
 						zoom: 1,
 						label: {
 							normal: {
-								show: true,
+								show: false,//控制省市名称显示
 								areaColor: '#ffffff',
 								borderColor: '#111',
 								textStyle: { color: '#6e6e6e', fontSize: 12 }, //字体颜色
@@ -284,12 +284,12 @@ export default {
 							normal: {
 								formatter: '{a}',
 								position: 'right',
-								show: true,
+								show: false,
 							},
 						},
 						itemStyle: {
 							normal: {
-								color: '#1572e8',
+								color: '#4285f4',
 								shadowBlur: 3,
 								shadowColor: '#05C3F9',
 							},

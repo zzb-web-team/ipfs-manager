@@ -75,7 +75,7 @@
 		</div>
 		<!-- 主体表格 -->
 		<div
-			style="box-sizing: border-box;margin: 30px;padding: 30px;background: #ffffff;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
+			style="box-sizing: border-box;margin:24px 30px;padding:24px 30px;background: #ffffff;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 		>
 			<div
 				style="text-align:right;padding: 10px 0;display: flex;justify-content: space-between;"
@@ -299,10 +299,11 @@ export default {
 	},
 	mounted() {
 		this.$nextTick(() => {
-			let con_he =
-				document.getElementsByClassName('content-container')[0]
-					.offsetHeight - 402;
-			this.tableHeight = con_he;
+			let top_title_h = document.getElementsByClassName('rowbg')[0]
+				.offsetHeight;
+			let con_he = document.getElementsByClassName('content-container')[0]
+				.offsetHeight;
+			this.tableHeight = con_he - top_title_h - 206;
 		});
 		this.get_search_data();
 		let munulist = JSON.parse(localStorage.getItem('menus'));

@@ -282,8 +282,8 @@
         //     padding-left: 10px !important;
         // }
         .rowbg {
-            height: 152px;
-            // max-height: 218px;
+            height: auto;
+            max-height: 152px;
             box-sizing: border-box;
             padding: 24px 30px;
             // color: #ffffff;
@@ -293,7 +293,7 @@
             // background: linear-gradient(90deg, #196CD6 0%, #0E5EC5 100%);
             // box-shadow: inset 0 2px 4px -2px rgba(51, 51, 51, 0.04);
             // box-shadow: inset 0px 4px 10px 0px rgba(51, 51, 51, 0.04);
-            // background: linear-gradient(-45deg, #06418e, #1572e8)!important;
+            // background: linear-gradient(-45deg, #06418e, #4285f4)!important;
             .item_title {
                 font-size: 16px;
                 margin-bottom: 24px;
@@ -316,7 +316,7 @@
             // background: linear-gradient(90deg, #196CD6 0%, #0E5EC5 100%);
             // box-shadow: inset 0 2px 4px -2px rgba(51, 51, 51, 0.04);
             // box-shadow: inset 0px 4px 10px 0px rgba(51, 51, 51, 0.04);
-            // background: linear-gradient(-45deg, #06418e, #1572e8)!important;
+            // background: linear-gradient(-45deg, #06418e, #4285f4)!important;
             .item_title {
                 font-size: 16px;
                 margin-bottom: 24px;
@@ -457,8 +457,8 @@
         
         .el-button--primary {
             color: #FFF;
-            background-color: #1572E8;
-            border-color: #1572E8;
+            background-color: #4285f4;
+            border-color: #4285f4;
         }
         
         .el-button--warning {
@@ -478,10 +478,10 @@
         }
         
         .data_mon_radio .el-radio-button__orig-radio:checked+.el-radio-button__inner {
-            // color: #1572E8;
+            // color: #4285f4;
             // background-color: #ffffff;
-            // border-color: #1572E8;
-            // border-left: 1px solid #1572E8;
+            // border-color: #4285f4;
+            // border-left: 1px solid #4285f4;
         }
         
         .data_mon_radio .el-radio-button__inner {
@@ -572,7 +572,7 @@
         }
         
         .el-dialog .el-dialog__header {
-            background: #1572E8;
+            background: #4285f4;
         }
         
         .el-dialog .el-dialog__header .el-dialog__title {
@@ -591,7 +591,7 @@
         }
         
         .el-dialog .el-button--primary {
-            background: #1572e8;
+            background: #4285f4;
             width: 120px;
             height: 40px;
         }

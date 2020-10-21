@@ -170,7 +170,7 @@ export default {
 			this.flow_bar_data,
 			'line',
 			'存储',
-			'#1572E8'
+			'#4285f4'
 		);
 		this.set_echarts_line(
 			'seven_days_utilization',
@@ -556,7 +556,7 @@ export default {
 			var myChart = echarts.init(dom);
 			window.onresize = myChart.resize;
 			let option = {
-				color: ['#1572E8'],
+				color: ['#4285f4'],
 				title: {
 					text: titlename,
 					// subtext: '纯属虚构',
@@ -729,7 +729,7 @@ export default {
 	.preview_top {
 		width: 100%;
 		height: 100px;
-		background: #1572e8;
+		background: #4285f4;
 		.preview_name {
 			width: 100%;
 			height: 60px;

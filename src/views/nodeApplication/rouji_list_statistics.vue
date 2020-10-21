@@ -194,9 +194,10 @@ export default {
 	},
 	mounted() {
 		this.$nextTick(() => {
+            let top_title_h = document.getElementsByClassName('rowbg')[0].offsetHeight;
 			let con_he = document.getElementsByClassName('content-container')[0]
 				.offsetHeight;
-			this.tableHeight = con_he - 296;
+			this.tableHeight = con_he-top_title_h - 148;
 		});
 		var today = new Date();
 		var y = today.getFullYear();
