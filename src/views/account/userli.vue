@@ -202,7 +202,7 @@
 				width="35%"
 				@close="handleClose"
 				title="新建账户"
-				class="userli_content"
+				class="userli_content create_user"
 			>
 				<div class="addaccout">
 					<el-form
@@ -255,6 +255,7 @@
 									type="primary"
 									size="mini"
 									style="width:100px;height:32px;margin-top:4px;margin-left:15px;"
+                                    @click="go_organization_me"
 									><i class="el-icon-circle-plus-outline"></i>
 									新建</el-button
 								>
@@ -1088,7 +1089,11 @@ export default {
 					}
 				})
 				.catch((error) => {});
-		},
+        },
+        //跳转部门列表
+        go_organization_me(){
+            this.$router.push({path:'/organization_me'});
+        },
 		//排序
 		tableSortChange(column) {
 			if (column.order == 'ascending') {
