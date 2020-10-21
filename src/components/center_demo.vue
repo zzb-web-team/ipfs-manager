@@ -6,6 +6,9 @@
 			</el-breadcrumb-item>
 		</el-breadcrumb> -->
 		<div id="new_echarts_two" :style="{ height: echartsHeight }"></div>
+		<div class="next_title">
+			<div v-for="(item,index) in subtitle"><span class="color_code" :style={background:c_arr[index]}></span>{{item.city}}&nbsp;&nbsp;{{item.num}}</div>
+		</div>
 		<div id="alertmosewindowtital">
 			<center>节点分布数量</center>
 			<span>{{ city_name }}{{ node_num }}</span>
@@ -35,16 +38,16 @@ export default {
 			city_num: 0,
 			city_name: '',
 			node_num: 0,
-			subtitle: '',
+			subtitle: [],
 			color_list: [],
 			c_arr: [
-				'#FFFFCC55',
-				'#CCFFFF55',
-				'#CC66FF55',
-				'#66FFCC55',
-				'#00FFFF55',
-				'#FFCC6655',
-				'#33FF6655',
+				'#CCFFFF65',
+				'#CC66FF65',
+				'#66FFCC65',
+				'#00FFFF65',
+				'#FFCC6665',
+                '#33FF6665',
+                '#FFFFCC65',
 			],
 			city_arr: [],
 			echartsHeight: 0,
@@ -96,7 +99,7 @@ export default {
 	methods: {
 		//请求数据----获取搜索条件
 		getseachinput() {
-			axios.get('../../static/city.json').then((res) => {
+			axios.get('./static/city.json').then((res) => {
 				this.city_arr = res.data.provinces;
 				this.citylist.forEach((item, index) => {
 					this.set_echarts_item_color(item, index);
@@ -137,15 +140,13 @@ export default {
 						this.datalist = this.datalist.concat(res.data.result);
 						if (res.data.remaining == 0) {
 							let city_node_num = 0;
-							this.datalist.forEach((item, index) => {
+							this.datalist.forEach((item, index) => {    
 								city_node_num += item[2];
-							});
-							this.subtitle +=
-								parmas.province +
-								':' +
-								city_node_num +
-								'\n' +
-								'\n';
+                            });
+                            let obj={};
+                            obj.city=parmas.province;
+                            obj.num=city_node_num;
+                            this.subtitle.push(obj);
 							if (req_num == this.city_num) {
 								this.$nextTick(() => {
 									this.set_echarts_two(this.datalist);
@@ -191,12 +192,12 @@ export default {
 			let option = {
 				title: {
 					text: _this.area,
-					subtext: _this.subtitle,
-					subtextStyle: {
-						color: '#8e8e8e',
-						fontSize: 14,
-						fontWeight: 300,
-					},
+					// subtext: _this.subtitle,
+					// subtextStyle: {
+					// 	color: '#8e8e8e',
+					// 	fontSize: 14,
+					// 	fontWeight: 300,
+					// },
 				},
 				animation: false,
 				tooltip: {
@@ -314,8 +315,8 @@ export default {
 					let offsetx = event.offsetX;
 					let offsety = event.offsetY;
 					let imii = document.getElementById('alertmosewindowtital');
-					imii.style.left = offsetx + 260 + 'px';
-					imii.style.top = offsety - 10 + 'px';
+					imii.style.left = offsetx -10 + 'px';
+					imii.style.top = offsety - 50 + 'px';
 					imii.style.display = 'inline';
 					// }
 				} else {
@@ -332,7 +333,27 @@ export default {
 
 <style lang="scss" scoped>
 .content {
-	overflow: hidden;
+    overflow: hidden;
+    position: relative;
+}
+.next_title {
+    position: absolute;
+    top: 100px;
+    left: 50px;
+    div{
+        text-align: left;
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+        .color_code{
+            display: inline-block;
+            width: 42px;
+            height: 20px;
+            background: burlywood;
+            border-radius: 8px;
+            margin-right: 10px;
+        }
+    }
 }
 #new_echarts_two {
 	width: 100%;
@@ -342,7 +363,6 @@ export default {
 #alertmosewindowtital {
 	min-width: 150px;
 	min-height: 40px;
-	position: relative;
 	position: absolute;
 	display: none;
 	border-style: solid;
