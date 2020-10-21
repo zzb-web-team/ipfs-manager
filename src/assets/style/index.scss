@@ -369,6 +369,15 @@
         //         color: #ffffff;
         //     }
         // }
+        .el-scrollbar__thumb {
+            display: none;
+        }
+        
+        .el-scrollbar__wrap {
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+        
         .el-radio-button__inner:hover {
             // color: #ffffff !important;
             // background: #02B2D611 !important;

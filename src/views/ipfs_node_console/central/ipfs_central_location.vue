@@ -740,11 +740,13 @@
 				v-show="!showdata"
 			></fenye>
 		</div>
+        <rightSwiper :datalist="titledar" @handleChange="change_right_tiem"></rightSwiper>
 	</div>
 </template>
 
 <script>
 import fenye from '@/components/fenye';
+import rightSwiper from '@/components/right_swiper'
 import {
 	query_node,
 	ipfs_region_summary,
@@ -864,7 +866,7 @@ export default {
 		};
 	},
 	components: {
-		fenye,
+		fenye,rightSwiper
 	},
 	mounted() {
 		this.$nextTick(() => {
@@ -898,6 +900,9 @@ export default {
 		}
 	},
 	methods: {
+        change_right_tiem(num){
+            // console.log(num);
+        },
 		searchdata() {
 			this.show_sort = true;
 			this.currentPage = 1;
