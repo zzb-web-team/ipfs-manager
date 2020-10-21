@@ -17,7 +17,7 @@
 									serdata.devicetype != 'PC服务器' &&
 										serdata.devstatus == '在线'
 								"
-								src="../../assets/img/binding_illustration3.png"
+								src="../../assets/img/pcxyj.png"
 								alt
 							/>
 							<img
@@ -25,7 +25,7 @@
 									serdata.devicetype != 'PC服务器' &&
 										serdata.devstatus == '离线'
 								"
-								src="../../assets/img/lixianxiyouji.png"
+								src="../../assets/img/pcxyj.png"
 								alt
 							/>
 							<img
@@ -33,7 +33,7 @@
 									serdata.devicetype == 'PC服务器' &&
 										serdata.devstatus == '在线'
 								"
-								src="../../assets/img/zaixianfuwuqi.png"
+								src="../../assets/img/pcfwq.png"
 								alt=""
 							/>
 							<img
@@ -41,7 +41,7 @@
 									serdata.devicetype == 'PC服务器' &&
 										serdata.devstatus == '离线'
 								"
-								src="../../assets/img/lixianfuwuqi.png"
+								src="../../assets/img/pcfwq.png"
 								alt
 							/>
 							<div class="ipfs_con_top">

@@ -892,7 +892,7 @@
 								item.devicetype != 'PC服务器' &&
 									item.devstatus == '在线'
 							"
-							src="../../../assets/img/binding_illustration3.png"
+							src="../../../assets/img/pcxyj.png"
 							alt
 						/>
 						<img
@@ -900,7 +900,7 @@
 								item.devicetype != 'PC服务器' &&
 									item.devstatus == '离线'
 							"
-							src="../../../assets/img/lixianxiyouji.png"
+							src="../../../assets/img/pcxyj.png"
 							alt
 						/>
 						<img
@@ -908,7 +908,7 @@
 								item.devicetype == 'PC服务器' &&
 									item.devstatus == '在线'
 							"
-							src="../../../assets/img/zaixianfuwuqi.png"
+							src="../../../assets/img/pcfwq.png"
 							alt=""
 						/>
 						<img
@@ -916,7 +916,7 @@
 								item.devicetype == 'PC服务器' &&
 									item.devstatus == '离线'
 							"
-							src="../../../assets/img/lixianfuwuqi.png"
+							src="../../../assets/img/pcfwq.png"
 							alt
 						/>
 						<p style="text-align:center">
