@@ -263,41 +263,41 @@
 					>
 						<el-col class="top_title bandwidth_top">
 							<p>节点带宽峰值（上/下行）</p>
-							<p>
+                            <div style="display: flex;">
+							<div class="top_title_left">
 								<img
 									src="../../assets/img/shang.png"
 									alt=""
-									style="width:2%;"
 								/>
 								{{ upbandwidth | bandwith_unit }}
-							</p>
-							<p>
+							</div>
+							<div class="top_title_right">
 								<img
 									src="../../assets/img/xia.png"
 									alt=""
-									style="width:2%;"
 								/>
 								{{ downbandwidth | bandwith_unit }}
-							</p>
+							</div>
+                            </div>
 						</el-col>
 						<el-col class="top_title">
 							<p>节点带宽平均值（上/下行）</p>
-							<p>
+                            <div  style="display: flex;">
+							<div class="top_title_left">
 								<img
 									src="../../assets/img/shang.png"
 									alt=""
-									style="width:2%;"
 								/>
 								{{ averageup | bandwith_unit }}
-							</p>
-							<p>
+							</div>
+							<div class="top_title_right">
 								<img
 									src="../../assets/img/xia.png"
 									alt=""
-									style="width:2%;"
 								/>
 								{{ averagedown | bandwith_unit }}
-							</p>
+							</div>
+                            </div>
 						</el-col>
 					</el-row>
 					<div
@@ -3195,7 +3195,22 @@ export default {
 		p:nth-child(3) {
 			font-size: 24px;
 			line-height: 20px;
-		}
+        }
+        .top_title_left{
+            width: 50%;
+            text-align: right;
+            margin-right: 64px;
+            img{
+                width: 5%;
+            }
+        }
+        .top_title_right{
+            width: 50%;
+            text-align: left;
+            img{
+                width: 5%;
+            }
+        }
 	}
 	.bandwidth_top,
 	.third_top {
