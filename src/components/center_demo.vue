@@ -145,7 +145,6 @@ export default {
 						}
 						this.datalist = this.datalist.concat(res.data.result);
 						if (res.data.remaining == 0) {
-							console.log(this.datalist);
 							let city_node_num = 0;
 							this.datalist.forEach((item, index) => {
 								city_node_num += item[2];

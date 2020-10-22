@@ -139,7 +139,7 @@
 								v-else
 								:index="item.path"
 								:key="item.path"
-								style="text-align: left;"
+								style="text-align: left;padding-left: 66px;"
 							>
 								<i :class="item.icon" style="font-size: 18px;"></i>
 								<span slot="title" style="margin-left:10px;">{{
@@ -439,6 +439,7 @@ export default {
 	margin-left: 20px;
 	margin-right: 20px;
 	margin-bottom: 10px;
+    margin-top: 10px;
 }
 
 .el-submenu__title:hover {

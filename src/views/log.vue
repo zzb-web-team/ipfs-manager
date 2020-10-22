@@ -297,32 +297,35 @@ export default {
 					if (res.status == 0) {
 						if (res.data && res.data.length > 0) {
                             let arrlist = [1, 2, 3, 4, 5, 6];
+                            // console.log(res.data);
+                            // return false;
 							res.data.forEach((item) => {
 								if (
-									item.name == 'IPFS节点信息' ||
 									item.name == '节点信息'
 								) {
-									item.name = 'IPFS节点信息';
 									arrlist[0] = item;
-								} else if (item.name == 'IPFS节点控制台') {
+                                } else if (item.name == 'IPFS节点信息') {
 									arrlist[1] = item;
-								} else if (item.name == 'IPFS节点应用') {
+								}
+                                 else if (item.name == 'IPFS节点控制台') {
 									arrlist[2] = item;
-								} else if (item.name == 'IPFS节点收益') {
+								} else if (item.name == 'IPFS节点应用') {
 									arrlist[3] = item;
-								} else if (item.name == 'IPFS数据统计') {
+								} else if (item.name == 'IPFS节点收益') {
 									arrlist[4] = item;
+								} else if (item.name == 'IPFS数据统计') {
+									arrlist[5] = item;
 									item.children.forEach((xitem, index) => {
 										if (xitem.name == '全国节点分布') {
-											arrlist[1].children.unshift(xitem);
-											item.children.splice(index, 1);
+											arrlist[2].children.unshift(xitem);
+											item.children.splice(index, 2);
 										}
 									});
 								} else if (item.name == '操作管理') {
-									arrlist[5] = item;
+									arrlist[6] = item;
 									//这几行代码是修改菜单功能--禁止删除
 
-									// arrlist[5].children.push({
+									// arrlist[6].children.push({
 									// 	children: [],
 									// 	component: 'menu_management',
 									// 	delete_status: 0,
@@ -342,7 +345,7 @@ export default {
 									// 	update_status: 0,
 									// });
 								} else {
-									// arrlist[6] = {
+									// arrlist[7] = {
 									// 	children: [],
 									// 	component: 'preview',
 									// 	delete_status: 0,
@@ -360,7 +363,7 @@ export default {
 									// 	time_update: 0,
 									// 	update_status: 0,
 									// };
-									// arrlist.push(item);
+									arrlist.push(item);
 								}
 							});
 							for (var i = 0; i < arrlist.length; i++) {
