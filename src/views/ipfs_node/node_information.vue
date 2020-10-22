@@ -186,7 +186,7 @@
 					<el-table-column
 						prop="proportion_cpu"
 						label="CPU占用"
-						width="120"
+						width="100"
                         :render-header="icons"
 					>
 						<template slot-scope="scope">
@@ -203,7 +203,7 @@
 					<el-table-column
 						prop="proportion_ram"
 						label="内存占用"
-						width="120"
+						width="100"
                         :render-header="icons"
 					>
 						<template slot-scope="scope">
@@ -220,7 +220,7 @@
 					<el-table-column
 						prop="remainingCap"
 						label="存储占用"
-						width="120"
+						width="100"
                         :render-header="icons"
 					>
 						<template slot-scope="scope">
@@ -251,7 +251,7 @@
 					<el-table-column
 						prop="occupyBW"
 						label="占用带宽"
-						width="120"
+						width="110"
 					>
 						<template slot-scope="scope">
 							<p style="display: flex;align-items: center;">
@@ -273,7 +273,7 @@
 					<el-table-column
 						prop="remainingBW"
 						label="剩余带宽"
-						width="120"
+						width="110"
 					>
 						<template slot-scope="scope">
 							<p style="display: flex;align-items: center;">

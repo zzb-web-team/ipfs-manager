@@ -1,6 +1,9 @@
 <template>
 	<div class="content data_monitoring" ref="luckDraw">
-		<div class="rowbg" v-bind:class="activeName == 'third'?'two_rowbg':'rowbg'">
+		<div
+			class="rowbg"
+			v-bind:class="activeName == 'third' ? 'two_rowbg' : 'rowbg'"
+		>
 			<el-row style="height:52px;">
 				<el-radio-group
 					v-model="searchdata.tabname"
@@ -263,41 +266,41 @@
 					>
 						<el-col class="top_title bandwidth_top">
 							<p>节点带宽峰值（上/下行）</p>
-                            <div style="display: flex;">
-							<div class="top_title_left">
-								<img
-									src="../../assets/img/shang.png"
-									alt=""
-								/>
-								{{ upbandwidth | bandwith_unit }}
+							<div style="display: flex;">
+								<div class="top_title_left">
+									<img
+										src="../../assets/img/shang.png"
+										alt=""
+									/>
+									{{ upbandwidth | bandwith_unit }}
+								</div>
+								<div class="top_title_right">
+									<img
+										src="../../assets/img/xia.png"
+										alt=""
+									/>
+									{{ downbandwidth | bandwith_unit }}
+								</div>
 							</div>
-							<div class="top_title_right">
-								<img
-									src="../../assets/img/xia.png"
-									alt=""
-								/>
-								{{ downbandwidth | bandwith_unit }}
-							</div>
-                            </div>
 						</el-col>
 						<el-col class="top_title">
 							<p>节点带宽平均值（上/下行）</p>
-                            <div  style="display: flex;">
-							<div class="top_title_left">
-								<img
-									src="../../assets/img/shang.png"
-									alt=""
-								/>
-								{{ averageup | bandwith_unit }}
+							<div style="display: flex;">
+								<div class="top_title_left">
+									<img
+										src="../../assets/img/shang.png"
+										alt=""
+									/>
+									{{ averageup | bandwith_unit }}
+								</div>
+								<div class="top_title_right">
+									<img
+										src="../../assets/img/xia.png"
+										alt=""
+									/>
+									{{ averagedown | bandwith_unit }}
+								</div>
 							</div>
-							<div class="top_title_right">
-								<img
-									src="../../assets/img/xia.png"
-									alt=""
-								/>
-								{{ averagedown | bandwith_unit }}
-							</div>
-                            </div>
 						</el-col>
 					</el-row>
 					<div
@@ -323,7 +326,10 @@
 
 						<div
 							id="firstChart"
-							:style="{ height: first_scrollerHeight, width: '100%' }"
+							:style="{
+								height: first_scrollerHeight,
+								width: '100%',
+							}"
 						></div>
 					</div>
 				</el-tab-pane>
@@ -361,7 +367,10 @@
 					>
 						<div
 							id="secondChart"
-							:style="{ height: second_scrollerHeight, width: '100%' }"
+							:style="{
+								height: second_scrollerHeight,
+								width: '100%',
+							}"
 						></div>
 					</div>
 				</el-tab-pane>
@@ -387,55 +396,109 @@
 						style="box-sizing: border-box;margin: 24px 30px;background: #ffffff;padding: 24px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 						v-show="searchdata.echartslist == 1"
 					>
-						<div id="ping_ms" :style="{ height: shere_scrollerHeight, width: '100%' }"></div>
+						<div
+							id="ping_ms"
+							:style="{
+								height: shere_scrollerHeight,
+								width: '100%',
+							}"
+						></div>
 					</div>
 					<div
 						style="box-sizing: border-box;margin: 24px 30px;background: #ffffff;padding: 24px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 						v-show="searchdata.echartslist == 2"
 					>
-						<div id="tid" :style="{ height: shere_scrollerHeight, width: '100%' }"></div>
+						<div
+							id="tid"
+							:style="{
+								height: shere_scrollerHeight,
+								width: '100%',
+							}"
+						></div>
 					</div>
 					<div
 						style="box-sizing: border-box;margin: 24px 30px;background: #ffffff;padding: 24px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 						v-show="searchdata.echartslist == 3"
 					>
-						<div id="etf" :style="{ height: shere_scrollerHeight, width: '100%' }"></div>
+						<div
+							id="etf"
+							:style="{
+								height: shere_scrollerHeight,
+								width: '100%',
+							}"
+						></div>
 					</div>
 					<div
 						style="box-sizing: border-box;margin: 24px 30px;background: #ffffff;padding: 24px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 						v-show="searchdata.echartslist == 4"
 					>
-						<div id="lt" :style="{ height: shere_scrollerHeight, width: '100%' }"></div>
+						<div
+							id="lt"
+							:style="{
+								height: shere_scrollerHeight,
+								width: '100%',
+							}"
+						></div>
 					</div>
 					<div
 						style="box-sizing: border-box;margin: 24px 30px;background: #ffffff;padding: 24px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 						v-show="searchdata.echartslist == 5"
 					>
-						<div id="itf" :style="{ height: shere_scrollerHeight, width: '100%' }"></div>
+						<div
+							id="itf"
+							:style="{
+								height: shere_scrollerHeight,
+								width: '100%',
+							}"
+						></div>
 					</div>
 					<div
 						style="box-sizing: border-box;margin: 24px 30px;background: #ffffff;padding: 24px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 						v-show="searchdata.echartslist == 6"
 					>
-						<div id="otf" :style="{ height: shere_scrollerHeight, width: '100%' }"></div>
+						<div
+							id="otf"
+							:style="{
+								height: shere_scrollerHeight,
+								width: '100%',
+							}"
+						></div>
 					</div>
 					<div
 						style="box-sizing: border-box;margin: 24px 30px;background: #ffffff;padding: 24px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 						v-show="searchdata.echartslist == 7"
 					>
-						<div id="rcnt" :style="{ height: shere_scrollerHeight, width: '100%' }"></div>
+						<div
+							id="rcnt"
+							:style="{
+								height: shere_scrollerHeight,
+								width: '100%',
+							}"
+						></div>
 					</div>
 					<div
 						style="box-sizing: border-box;margin: 24px 30px;background: #ffffff;padding: 24px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 						v-show="searchdata.echartslist == 8"
 					>
-						<div id="cpu" :style="{ height: shere_scrollerHeight, width: '100%' }"></div>
+						<div
+							id="cpu"
+							:style="{
+								height: shere_scrollerHeight,
+								width: '100%',
+							}"
+						></div>
 					</div>
 					<div
 						style="box-sizing: border-box;margin: 24px 30px;background: #ffffff;padding: 24px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 						v-show="searchdata.echartslist == 9"
 					>
-						<div id="ram" :style="{ height: shere_scrollerHeight, width: '100%' }"></div>
+						<div
+							id="ram"
+							:style="{
+								height: shere_scrollerHeight,
+								width: '100%',
+							}"
+						></div>
 					</div>
 				</el-tab-pane>
 			</el-tabs>
@@ -791,19 +854,20 @@ export default {
 			echartsexport: true,
 			obnj: {},
 			show_time_btn: true,
-            first_scrollerHeight: 0,
-            second_scrollerHeight:0,
-            shere_scrollerHeight:0,
+			first_scrollerHeight: 0,
+			second_scrollerHeight: 0,
+			shere_scrollerHeight: 0,
 		};
 	},
 	mounted() {
 		this.$nextTick(() => {
-			let con_he =
-				document.getElementsByClassName('content-container')[0]
-					.offsetHeight;
-            this.first_scrollerHeight = con_he - 480 + 'px';
-            this.second_scrollerHeight=con_he-412+'px';
-            this.shere_scrollerHeight=con_he-476+'px';
+			let top_title_h = document.getElementsByClassName('rowbg')[0]
+				.offsetHeight;
+
+			let con_he = document.getElementsByClassName('content-container')[0]
+				.offsetHeight;
+			this.first_scrollerHeight = con_he - top_title_h - 328 + 'px';
+			this.second_scrollerHeight = con_he - top_title_h - 260 + 'px';
 		});
 		this.getJson();
 		this.get_search_data();
@@ -2157,7 +2221,17 @@ export default {
 			this.searchdata.value1 = '';
 			if (this.activeName == 'third') {
 				this.seacr_yin_show = true;
-				this.set_time();
+				this.$nextTick(() => {
+					let top_title_h_two = document.getElementsByClassName(
+						'two_rowbg'
+					)[0].offsetHeight;
+					let con_he = document.getElementsByClassName(
+						'content-container'
+					)[0].offsetHeight;
+					this.shere_scrollerHeight =
+						con_he - top_title_h_two - 260 + 'px';
+					this.set_time();
+				});
 			} else {
 				this.seacr_yin_show = false;
 				if (this.activeName == 'first') {
@@ -3195,22 +3269,22 @@ export default {
 		p:nth-child(3) {
 			font-size: 24px;
 			line-height: 20px;
-        }
-        .top_title_left{
-            width: 50%;
-            text-align: right;
-            margin-right: 64px;
-            img{
-                width: 5%;
-            }
-        }
-        .top_title_right{
-            width: 50%;
-            text-align: left;
-            img{
-                width: 5%;
-            }
-        }
+		}
+		.top_title_left {
+			width: 50%;
+			text-align: right;
+			margin-right: 64px;
+			img {
+				width: 5%;
+			}
+		}
+		.top_title_right {
+			width: 50%;
+			text-align: left;
+			img {
+				width: 5%;
+			}
+		}
 	}
 	.bandwidth_top,
 	.third_top {

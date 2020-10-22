@@ -306,7 +306,8 @@
         }
         
         .two_rowbg {
-            height: 218px;
+            height: auto;
+            max-height: 218px;
             box-sizing: border-box;
             padding: 24px 30px;
             // color: #ffffff;

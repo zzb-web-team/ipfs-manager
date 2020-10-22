@@ -493,9 +493,9 @@ export default {
 								mtpath,
 								7 * 24 * 60 * 60
 							);
-							if (data == 1) {
-								window.location.href = './';
-							}
+							// if (data == 1) {
+							// 	window.location.href = './';
+							// }
 						} else {
 							this.$router.push({ path: '/error404' });
 						}

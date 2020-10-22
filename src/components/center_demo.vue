@@ -7,7 +7,13 @@
 		</el-breadcrumb> -->
 		<div id="new_echarts_two" :style="{ height: echartsHeight }"></div>
 		<div class="next_title">
-			<div v-for="(item,index) in subtitle"><span class="color_code" :style={background:c_arr[index]}></span>{{item.city}}&nbsp;&nbsp;{{item.num}}</div>
+			<div v-for="(item, index) in subtitle">
+				<span
+					class="color_code"
+					:style="{ background: c_arr[index] }"
+				></span
+				>{{ item.city }}&nbsp;&nbsp;{{ item.num }}
+			</div>
 		</div>
 		<div id="alertmosewindowtital">
 			<center>节点分布数量</center>
@@ -46,8 +52,8 @@ export default {
 				'#66FFCC65',
 				'#00FFFF65',
 				'#FFCC6665',
-                '#33FF6665',
-                '#FFFFCC65',
+				'#33FF6665',
+				'#FFFFCC65',
 			],
 			city_arr: [],
 			echartsHeight: 0,
@@ -139,14 +145,16 @@ export default {
 						}
 						this.datalist = this.datalist.concat(res.data.result);
 						if (res.data.remaining == 0) {
+							console.log(this.datalist);
 							let city_node_num = 0;
-							this.datalist.forEach((item, index) => {    
+							this.datalist.forEach((item, index) => {
 								city_node_num += item[2];
-                            });
-                            let obj={};
-                            obj.city=parmas.province;
-                            obj.num=city_node_num;
-                            this.subtitle.push(obj);
+							});
+
+							let obj = {};
+							obj.city = parmas.province;
+							obj.num = city_node_num;
+							this.subtitle.push(obj);
 							if (req_num == this.city_num) {
 								this.$nextTick(() => {
 									this.set_echarts_two(this.datalist);
@@ -214,7 +222,7 @@ export default {
 						zoom: 1,
 						label: {
 							normal: {
-								show: false,//控制省市名称显示
+								show: false, //控制省市名称显示
 								areaColor: '#ffffff',
 								borderColor: '#111',
 								textStyle: { color: '#6e6e6e', fontSize: 12 }, //字体颜色
@@ -315,7 +323,7 @@ export default {
 					let offsetx = event.offsetX;
 					let offsety = event.offsetY;
 					let imii = document.getElementById('alertmosewindowtital');
-					imii.style.left = offsetx -10 + 'px';
+					imii.style.left = offsetx - 10 + 'px';
 					imii.style.top = offsety - 50 + 'px';
 					imii.style.display = 'inline';
 					// }
@@ -333,27 +341,27 @@ export default {
 
 <style lang="scss" scoped>
 .content {
-    overflow: hidden;
-    position: relative;
+	overflow: hidden;
+	position: relative;
 }
 .next_title {
-    position: absolute;
-    top: 100px;
-    left: 50px;
-    div{
-        text-align: left;
-        display: flex;
-        align-items: center;
-        margin-top: 10px;
-        .color_code{
-            display: inline-block;
-            width: 42px;
-            height: 20px;
-            background: burlywood;
-            border-radius: 8px;
-            margin-right: 10px;
-        }
-    }
+	position: absolute;
+	top: 100px;
+	left: 50px;
+	div {
+		text-align: left;
+		display: flex;
+		align-items: center;
+		margin-top: 10px;
+		.color_code {
+			display: inline-block;
+			width: 42px;
+			height: 20px;
+			background: burlywood;
+			border-radius: 8px;
+			margin-right: 10px;
+		}
+	}
 }
 #new_echarts_two {
 	width: 100%;

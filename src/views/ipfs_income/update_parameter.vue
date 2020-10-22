@@ -50,9 +50,10 @@
 		>
 			<el-col
 				:span="8"
+				:style="{ height: scrollerHeight }"
 				style="background: #ffffff;border-radius: 8px;box-sizing: border-box;padding: 24px;margin-right:24px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 			>
-				<div :style="{ height: scrollerHeight }" style="overflow-y:scroll">
+				<div>
 					<div>
 						<b>p1参数</b>
 						<p>1） 变量值</p>
@@ -168,9 +169,10 @@
 			</el-col>
 			<el-col
 				:span="8"
+				:style="{ height: scrollerHeight }"
 				style="background: #ffffff;border-radius: 8px;box-sizing: border-box;padding: 24px;margin-right:24px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 			>
-				<div :style="{ height: scrollerHeight }">
+				<div>
 					<b>P3参数</b>
 					<p>1） 节点质量评级奖励收益百分比</p>
 					<div class="con_table">
@@ -180,7 +182,7 @@
 							stripe
 							:cell-style="rowClass"
 							:header-cell-style="headClass"
-                             :row-style="{height: '72px'}"
+							:row-style="{ height: '72px' }"
 							style="width: 450px"
 							:max-height="tabHeight"
 						>
@@ -214,9 +216,10 @@
 			</el-col>
 			<el-col
 				:span="8"
+				:style="{ height: scrollerHeight }"
 				style="background: #ffffff;border-radius: 8px;box-sizing: border-box;padding: 24px;margin-right:24px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 			>
-				<div :style="{ height: scrollerHeight }">
+				<div>
 					<b>算力参数</b>
 					<p>1） 算力区间收益百分比</p>
 					<div class="con_table">
@@ -226,7 +229,7 @@
 							stripe
 							:cell-style="rowClass"
 							:header-cell-style="headClass"
-                             :row-style="{height: '72px'}"
+							:row-style="{ height: '72px' }"
 							:max-height="tabHeight"
 						>
 							<el-table-column label="算力值区间" width="140">
@@ -333,17 +336,18 @@ export default {
 			],
 			priceobj: {},
 			menutype: {},
-            scrollerHeight: 0,
-            tabHeight:0,
+			scrollerHeight: 0,
+			tabHeight: 0,
 		};
 	},
 	mounted() {
 		this.$nextTick(() => {
-            let top_title_h = document.getElementsByClassName('rowbg')[0].offsetHeight;
+			let top_title_h = document.getElementsByClassName('rowbg')[0]
+				.offsetHeight;
 			let con_he = document.getElementsByClassName('content-container')[0]
 				.offsetHeight;
-            this.scrollerHeight = con_he - top_title_h-291-48 + 'px';
-            this.tabHeight=con_he-top_title_h-291-100+'px';
+			this.scrollerHeight = con_he - top_title_h - 291 - 48 + 'px';
+			this.tabHeight = con_he - top_title_h - 291 - 166 + 'px';
 		});
 
 		this.get_data();
@@ -666,7 +670,7 @@ i {
 		}
 	}
 	.el-row {
-		align-items: center;
+		// align-items: center;
 		vertical-align: middle;
 	}
 	.con_table {

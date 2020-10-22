@@ -118,6 +118,7 @@
 					:key="key"
 					:prop="item.value"
 					:label="item.name"
+					:width="item.width"
 					:fixed="item.name == '省市' ? true : false"
 				>
 					<template slot="header">{{ item.name }}</template>
@@ -411,17 +412,20 @@ export default {
 			dev_ytpe_lists: [],
 			echartsHeight: 0,
 			tableHeight: 0,
+			con_w: 0,
 		};
 	},
 	mounted() {
 		this.$nextTick(() => {
+			this.con_w = document.getElementsByClassName(
+				'content-container'
+			)[0].offsetWidth;
+
 			let con_he =
 				document.getElementsByClassName('content-container')[0]
-					.offsetHeight /
-					2 -
-				60;
+					.offsetHeight / 2-24;
 			this.echartsHeight = con_he + 'px';
-			this.tableHeight = con_he - 30 + 'px';
+			this.tableHeight = con_he - 96 + 'px';
 		});
 		this.starttime =
 			new Date(new Date().toLocaleDateString()).getTime() / 1000;
@@ -549,6 +553,8 @@ export default {
 									zaobj[col] = col;
 								}
 								objsd.name = col;
+								// objsd.width =
+								// 	this.con_w / res.data.nodeType.length;
 								this.dev_ytpe_lists.push(objsd);
 							});
 						}
@@ -782,7 +788,8 @@ export default {
 	height: auto;
 	background-color: #f6f6f6;
 	box-sizing: border-box;
-	padding: 30px;
+	padding: 24px 30px;
+	overflow: hidden;
 }
 .top_search {
 	text-align: left;

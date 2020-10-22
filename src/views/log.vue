@@ -53,6 +53,7 @@
 						auto-complete="off"
 						placeholder="请输入密码"
 						class="login-form-input"
+						@keyup.enter.native="handleSubmit2"
 					></el-input>
 				</el-form-item>
 			</div>
@@ -110,7 +111,12 @@
 <script>
 import Vue from 'vue';
 import Router from 'vue-router';
-import { login, check_login, menulistuser } from '../servers/api';
+import {
+	login,
+	check_login,
+	menulistuser,
+	node_countinfo,
+} from '../servers/api';
 import { delshang } from '../servers/sevdate';
 //import NProgress from 'nprogress'
 export default {
@@ -146,6 +152,8 @@ export default {
 				],
 			},
 			checked: true,
+			map_list: [],
+			meau_map_list: [],
 		};
 	},
 	mounted() {
@@ -207,7 +215,7 @@ export default {
 								res.data.role_id,
 								7 * 24 * 60 * 60
 							);
-							this.get_datalist(res.data.role_id, res.data.id);
+                            this.get_datalist(res.data.role_id, res.data.id);
 						} else if (res.status == 1) {
 							this.ipfs_token = res.token;
 							this.googleVisible = true;
@@ -224,6 +232,62 @@ export default {
 				}
 			});
 		},
+		//获取有设备区域
+		get_map_data(pagenum, role_id, id) {
+			let _this = this;
+			let params = new Object();
+			params.page = pagenum;
+			node_countinfo(params)
+				.then((res) => {
+					if (res.status == 0) {
+						_this.map_list = _this.map_list.concat(res.data.result);
+						if (res.data.remaining <= 0) {
+							_this.filter_maplist(_this.map_list);
+							
+						} else {
+							pagenum++;
+							_this.get_map_data(pagenum, role_id, id);
+						}
+					} else {
+						_this.$message.error(res.err_msg);
+					}
+				})
+				.catch((error) => {});
+		},
+		filter_maplist(list) {
+			let north_list = ['北京', '内蒙古', '山西', '河北', '天津'];
+			let south_list = ['广东', '广西', '海南'];
+			let east_list = ['福建', '江苏', '安徽', '山东', '上海', '浙江'];
+			let center_list = ['河南', '湖北', '江西', '湖南'];
+			let northwest_list = ['宁夏', '陕西', '甘肃', '青海', '新疆'];
+			let northeast_list = ['黑龙江', '吉林', '辽宁'];
+			let southwest_list = ['贵州', '云南', '重庆', '四川', '西藏'];
+			let other_list = ['香港', '澳门', '台湾'];
+			let z_list = [];
+			list.forEach((item, index) => {
+				if (north_list.indexOf(item.province) != -1) {
+					z_list.push('华北地区');
+				} else if (south_list.indexOf(item.province) != -1) {
+					z_list.push('华南地区');
+				} else if (east_list.indexOf(item.province) != -1) {
+					z_list.push('华东地区');
+				} else if (center_list.indexOf(item.province) != -1) {
+					z_list.push('华中地区');
+				} else if (northwest_list.indexOf(item.province) != -1) {
+					z_list.push('西北地区');
+				} else if (northeast_list.indexOf(item.province) != -1) {
+					z_list.push('东北地区');
+				} else if (southwest_list.indexOf(item.province) != -1) {
+					z_list.push('西南地区');
+				} else if (other_list.indexOf(item.province) != -1) {
+					z_list.push('其他地区');
+				}
+			});
+			this.meau_map_list = this.unique(z_list);
+		},
+		unique(arr) {
+			return Array.from(new Set(arr));
+		},
 		get_datalist(role_id, id) {
 			let params = new Object();
 			params.id = id;
@@ -235,7 +299,8 @@ export default {
                             let arrlist = [1, 2, 3, 4, 5, 6];
 							res.data.forEach((item) => {
 								if (
-									item.name == 'IPFS节点信息'||item.name == '节点信息'
+									item.name == 'IPFS节点信息' ||
+									item.name == '节点信息'
 								) {
 									item.name = 'IPFS节点信息';
 									arrlist[0] = item;
@@ -294,8 +359,7 @@ export default {
 									// 	time_create: 0,
 									// 	time_update: 0,
 									// 	update_status: 0,
-                                    // };
-                                    
+									// };
 									// arrlist.push(item);
 								}
 							});
@@ -415,8 +479,7 @@ export default {
 						this.googleVisible = false;
 					}
 				})
-				.catch((error) => {
-				});
+				.catch((error) => {});
 		},
 		//校验验证码
 		jioyzm(rule, value, callback) {

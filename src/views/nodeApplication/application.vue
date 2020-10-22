@@ -324,10 +324,10 @@
 										style="width: 100%"
 										:max-height="tableHeight"
 									>
+										<!-- :show-overflow-tooltip="true"   超出省略-->
 										<el-table-column
 											prop="nodeid"
 											label="节点id"
-                                            :show-overflow-tooltip="true"
 										></el-table-column>
 										<el-table-column
 											prop="dataFlow"
@@ -437,7 +437,6 @@
 					<el-tab-pane label="FS存储" name="second">
 						<el-row style="margin:0 30px;">
 							<el-col :span="9">
-								
 								<div
 									style="box-sizing: border-box;padding: 24px;background: #ffffff;border-radius: 8px;overflow: hidden;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);margin-top:24px;"
 								>
@@ -503,7 +502,7 @@
 								</div>
 							</el-col>
 							<el-col :span="15">
-                                <el-row
+								<el-row
 									type="flex"
 									style="margin:24px 0 0 24px;"
 								>
@@ -976,11 +975,10 @@ export default {
 		this.$nextTick(() => {
 			let top_title_h = document.getElementsByClassName('user-item')[0]
 				.offsetHeight;
-			let con_he =
-				document.getElementsByClassName('content-container')[0]
-					.offsetHeight - 152;
-			this.scrollerHeight = con_he - top_title_h - 110 + 'px';
-			this.tableHeight = con_he - 140;
+			let con_he = document.getElementsByClassName('content-container')[0]
+				.offsetHeight;
+			this.scrollerHeight = con_he - top_title_h - 240 + 'px';
+			this.tableHeight = con_he - top_title_h - 140;
 		});
 		this.getseachinput();
 		this.get_search_data();
@@ -2261,7 +2259,7 @@ export default {
 	text-align: left;
 	justify-content: center;
 	flex-direction: column;
-	height: 90px;
+	height: 120px;
 	box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);
 	.seach_top {
 		.bantlist {
