@@ -313,7 +313,7 @@ export default {
 									arrlist[3] = item;
 								} else if (item.name == 'IPFS节点收益') {
 									arrlist[4] = item;
-								} else if (item.name == 'IPFS数据统计') {
+								} else if (item.name == 'IPFS数据分析') {
 									arrlist[5] = item;
 									item.children.forEach((xitem, index) => {
 										if (xitem.name == '全国节点分布') {
@@ -321,7 +321,7 @@ export default {
 											item.children.splice(index, 2);
 										}
 									});
-								} else if (item.name == '操作管理') {
+								} else if (item.name == '后台管理') {
 									arrlist[6] = item;
 									//这几行代码是修改菜单功能--禁止删除
 

@@ -412,7 +412,6 @@ export default {
 
 							res.data.forEach((item) => {
 								if (
-									item.name == 'IPFS节点信息' ||
 									item.name == '节点信息'
 								) {
 									item.name = 'IPFS节点信息';
@@ -423,7 +422,7 @@ export default {
 									arrlist[2] = item;
 								} else if (item.name == 'IPFS节点收益') {
 									arrlist[3] = item;
-								} else if (item.name == 'IPFS数据统计') {
+								} else if (item.name == 'IPFS数据分析') {
 									arrlist[4] = item;
 									item.children.forEach((xitem, index) => {
 										if (xitem.name == '全国节点分布') {
@@ -431,7 +430,7 @@ export default {
 											item.children.splice(index, 1);
 										}
 									});
-								} else if (item.name == '操作管理') {
+								} else if (item.name == '后台管理') {
 									arrlist[5] = item;
 									//这几行代码是修改菜单功能--禁止删除
 

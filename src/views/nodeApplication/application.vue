@@ -2158,6 +2158,7 @@ export default {
 	// width: 100%;
 	// min-width: 1600px;
 	overflow: hidden;
+    background: #f6f6f6;
 	.device_form {
 		width: auto;
 		height: auto;

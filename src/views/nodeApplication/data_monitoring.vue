@@ -3236,6 +3236,7 @@ export default {
 .content {
 	text-align: left;
 	overflow: hidden;
+     background: #f6f6f6;
 	// .el-col {
 	// 	margin-bottom: 20px;
 	// }

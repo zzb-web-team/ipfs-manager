@@ -301,6 +301,7 @@ export default {
 <style lang="scss" scoped>
 .content {
 	text-align: left;
+     background: #f6f6f6;
 	.seach {
 		width: 100%;
 		// margin-top: 20px;
