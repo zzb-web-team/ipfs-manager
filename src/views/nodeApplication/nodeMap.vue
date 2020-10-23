@@ -110,7 +110,7 @@
 				:header-cell-style="headClass"
 				style="width: 100%"
 				fixed
-				:max-height="tableHeight"
+				:height="tableHeight"
 				@cell-click="clicktan"
 			>
 				<el-table-column
