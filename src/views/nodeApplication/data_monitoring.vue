@@ -57,6 +57,23 @@
 							></i> -->
 					</el-input></el-col
 				>
+				<el-col :span="2">
+					<el-select
+						v-model="node_type"
+						placeholder="请选择节点类型"
+						@change="set_time()"
+						style="width:100%;max-width: 200px;margin-left:10px;"
+						size="small"
+					>
+						<el-option value="*" label="全部"></el-option>
+						<el-option
+							v-for="(item, index) in options_node_type"
+							:key="index + item.label + 'node_type'"
+							:label="item.label"
+							:value="item.label"
+						></el-option>
+					</el-select>
+				</el-col>
 				<el-col :span="2"
 					><el-select
 						size="small"
@@ -106,6 +123,23 @@
 							></i> -->
 					</el-input></el-col
 				>
+                <el-col :span="2" v-show="activeName != 'third'">
+					<el-select
+						v-model="node_type"
+						placeholder="请选择节点类型"
+						@change="set_time()"
+						style="width:100%;max-width: 200px;margin-left:10px;"
+						size="small"
+					>
+						<el-option value="*" label="全部"></el-option>
+						<el-option
+							v-for="(item, index) in options_node_type"
+							:key="index + item.label + 'node_type'"
+							:label="item.label"
+							:value="item.label"
+						></el-option>
+					</el-select>
+				</el-col>
 				<el-col :span="2" v-show="activeName != 'third'"
 					><el-select
 						size="small"
@@ -601,6 +635,19 @@ export default {
 					label: '内存占用率',
 				},
 			],
+			node_type: '',
+			options_node_type: [
+				{
+					value: 1,
+					label: '点播节点',
+					text: '点播节点',
+				},
+				{
+					value: 2,
+					label: '直播节点',
+					text: '直播节点',
+				},
+			],
 			searchdata_radio: 1,
 			searchdata: {
 				tabname: 'first',
@@ -1048,6 +1095,15 @@ export default {
 				params.timeUnit = 1440;
 			} else {
 				params.timeUnit = 60;
+            }
+            if (this.node_type) {
+				if (this.node_type == '全部') {
+					params.node_type = '*';
+				} else {
+					params.node_type = this.node_type;
+				}
+			} else {
+				params.node_type = '*';
 			}
 			params.time_unit = params.timeUnit;
 			params.tabname = this.searchdata.tabname;
@@ -1154,6 +1210,15 @@ export default {
 			} else {
 				params.timeUnit = 60;
 				this.titleOverview = true;
+            }
+            if (this.node_type) {
+				if (this.node_type == '全部') {
+					params.node_type = '*';
+				} else {
+					params.node_type = this.node_type;
+				}
+			} else {
+				params.node_type = '*';
 			}
 			params.time_unit = params.timeUnit;
 			params.tabname = this.searchdata.tabname;
@@ -1259,6 +1324,15 @@ export default {
 				params.timeUnit = 1440;
 			} else {
 				params.timeUnit = 60;
+            }
+            if (this.node_type) {
+				if (this.node_type == '全部') {
+					params.node_type = '*';
+				} else {
+					params.node_type = this.node_type;
+				}
+			} else {
+				params.node_type = '*';
 			}
 			params.time_unit = params.timeUnit;
 			params.tabname = this.searchdata.tabname;
@@ -1360,6 +1434,15 @@ export default {
 				params.timeUnit = 1440;
 			} else {
 				params.timeUnit = 60;
+            }
+            if (this.node_type) {
+				if (this.node_type == '全部') {
+					params.node_type = '*';
+				} else {
+					params.node_type = this.node_type;
+				}
+			} else {
+				params.node_type = '*';
 			}
 			params.time_unit = params.timeUnit;
 			params.tabname = this.searchdata.tabname;
@@ -1458,6 +1541,15 @@ export default {
 				params.timeUnit = 1440;
 			} else {
 				params.timeUnit = 60;
+            }
+            if (this.node_type) {
+				if (this.node_type == '全部') {
+					params.node_type = '*';
+				} else {
+					params.node_type = this.node_type;
+				}
+			} else {
+				params.node_type = '*';
 			}
 			params.time_unit = params.timeUnit;
 			params.tabname = this.searchdata.tabname;
@@ -1563,6 +1655,15 @@ export default {
 				params.timeUnit = 1440;
 			} else {
 				params.timeUnit = 60;
+            }
+            if (this.node_type) {
+				if (this.node_type == '全部') {
+					params.node_type = '*';
+				} else {
+					params.node_type = this.node_type;
+				}
+			} else {
+				params.node_type = '*';
 			}
 			params.time_unit = params.timeUnit;
 			params.tabname = this.searchdata.tabname;
@@ -1679,7 +1780,16 @@ export default {
 			// 	params.timeUnit = 1440;
 			// } else {
 			// 	params.timeUnit = 60;
-			// }
+            // }
+            if (this.node_type) {
+				if (this.node_type == '全部') {
+					params.node_type = '*';
+				} else {
+					params.node_type = this.node_type;
+				}
+			} else {
+				params.node_type = '*';
+			}
 			params.time_unit = params.timeUnit;
 			params.tabname = this.searchdata.tabname;
 			params.radio = this.searchdata_radio;
@@ -1792,6 +1902,15 @@ export default {
 				params.city = '*';
 			} else {
 				params.city = this.searchdata.region5;
+            }
+            if (this.node_type) {
+				if (this.node_type == '全部') {
+					params.node_type = '*';
+				} else {
+					params.node_type = this.node_type;
+				}
+			} else {
+				params.node_type = '*';
 			}
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime - 1;
@@ -1921,6 +2040,15 @@ export default {
 				params.timeUnit = 1440;
 			} else {
 				params.timeUnit = 60;
+            }
+            if (this.node_type) {
+				if (this.node_type == '全部') {
+					params.node_type = '*';
+				} else {
+					params.node_type = this.node_type;
+				}
+			} else {
+				params.node_type = '*';
 			}
 			params.time_unit = params.timeUnit;
 			params.tabname = this.searchdata.tabname;
@@ -2037,6 +2165,15 @@ export default {
 				params.timeUnit = 1440;
 			} else {
 				params.timeUnit = 60;
+            }
+            if (this.node_type) {
+				if (this.node_type == '全部') {
+					params.node_type = '*';
+				} else {
+					params.node_type = this.node_type;
+				}
+			} else {
+				params.node_type = '*';
 			}
 			params.time_unit = params.timeUnit;
 			params.tabname = this.searchdata.tabname;
@@ -2142,6 +2279,15 @@ export default {
 				params.timeUnit = 1440;
 			} else {
 				params.timeUnit = 60;
+            }
+            if (this.node_type) {
+				if (this.node_type == '全部') {
+					params.node_type = '*';
+				} else {
+					params.node_type = this.node_type;
+				}
+			} else {
+				params.node_type = '*';
 			}
 			params.time_unit = params.timeUnit;
 			params.tabname = this.searchdata.tabname;
@@ -2207,7 +2353,7 @@ export default {
 		change_tab() {
 			this.show_time_btn = true;
 			this.activeName = this.searchdata.tabname;
-
+            this.node_type='';
 			this.searchdata_radio = 1;
 			this.searchdata.input = '';
 			this.searchdata.region1 = ''; //一级渠道商
@@ -2368,7 +2514,8 @@ export default {
 			this.searchdata.region6 = ''; //运营商
 			this.searchdata.region7 = ''; //硬件类型
 			this.searchdata.region8 = ''; //操作系统
-			this.searchdata.value1 = '';
+            this.searchdata.value1 = '';
+            this.node_type='';
 			this.set_time();
 		},
 		lastchange() {
@@ -2515,6 +2662,15 @@ export default {
 				params.timeUnit = 1440;
 			} else {
 				params.timeUnit = 120;
+            }
+            if (this.node_type) {
+				if (this.node_type == '全部') {
+					params.node_type = '*';
+				} else {
+					params.node_type = this.node_type;
+				}
+			} else {
+				params.node_type = '*';
 			}
 			params.time_unit = params.timeUnit;
 			params.tabname = this.searchdata.tabname;
@@ -3236,7 +3392,7 @@ export default {
 .content {
 	text-align: left;
 	overflow: hidden;
-     background: #f6f6f6;
+	background: #f6f6f6;
 	// .el-col {
 	// 	margin-bottom: 20px;
 	// }

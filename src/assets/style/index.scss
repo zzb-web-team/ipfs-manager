@@ -227,7 +227,7 @@
         
         .local_search_item {
             margin-left: 10px;
-            width: 20%;
+            // width: 20%;
             display: flex;
             align-items: center;
             span {
@@ -626,4 +626,8 @@
         
         .create_user .el-dialog__body {
             margin: auto;
+        }
+        
+        .el-popper .el-scrollbar .el-select-dropdown__wrap {
+            margin-bottom: 0 !important;
         }

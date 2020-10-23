@@ -242,7 +242,8 @@ export default {
 			'!important';
 		this.con_h.minHeight = con_h;
 		this.$nextTick(function() {
-			this.menlist = JSON.parse(localStorage.getItem('menus'));
+            this.menlist = JSON.parse(localStorage.getItem('menus'));
+            console.log(this.menlist);
 		});
 		var user = this.$cookies.get('ipfs_user');
 		if (user) {

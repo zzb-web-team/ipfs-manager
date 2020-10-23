@@ -509,6 +509,24 @@
 			<div class="select_sort" v-if="ipfsdata.length > 0">
 				<div style="display: flex;flex-wrap: wrap;">
 					<div class="local_search_item">
+						<span>节点类型：</span>
+						<el-select
+							v-model="node_type"
+							placeholder="请选择节点类型"
+							@change="searchdata()"
+							style="width:100%;max-width: 200px;margin-left:10px;"
+							size="small"
+						>
+							<el-option value="" label="全部"></el-option>
+							<el-option
+								v-for="(item, index) in options_node_type"
+								:key="index + item.label + 'node_type'"
+								:label="item.label"
+								:value="item.label"
+							></el-option>
+						</el-select>
+					</div>
+					<div class="local_search_item">
 						<span>节点渠道：</span>
 						<el-select
 							v-model="firstchan_value"
@@ -609,8 +627,15 @@
 					</el-select>
 				</div>
 			</div>
-			<div class="ipfs_box" >
-				<div class="nodata" v-show="showdata" :style="{ height: scrollHeight,padding:scroll_line_height }">
+			<div class="ipfs_box">
+				<div
+					class="nodata"
+					v-show="showdata"
+					:style="{
+						height: scrollHeight,
+						padding: scroll_line_height,
+					}"
+				>
 					<img src="../../../assets/img/nodata.png" />
 					<p>暂无数据</p>
 				</div>
@@ -623,20 +648,29 @@
 					v-show="!showdata"
 				>
 					<div
-						style="display: flex;justify-content: flex-end;align-items: center;position: relative;top: 10px;"
+						style="display: flex;justify-content: space-between;align-items: center;position: relative;top: 10px;"
 					>
 						<!-- <div
 							class="yuan"
 							v-bind:style="{ background: item.bgccolor }"
 						></div> -->
 						<span
-							style="font-size: 12px;border:1px solid;padding: 0 5px;border-radius: 4px;"
-							v-bind:style="{
-								color: item.bgccolor,
-								borderColor: item.bgccolor,
-								background: item.bor_color,
-							}"
-							>{{ item.devstatus }}</span
+							style="font-size: 12px;padding: 0 5px;border-radius: 4px;"
+							v-bind:style="{color: item.bgccolor}">
+                            <i style="width: 10px;height: 10px;display: inline-block;background: red;border-radius: 50%;" v-bind:style="{
+								background: item.bgccolor
+							}"></i>
+                            {{ item.devstatus }}</span
+						>
+						<span
+							v-show="item.node_type == '点播节点'"
+							style="font-size: 12px;border:1px solid;padding: 0 5px;border-radius: 4px;border-radius: 10px;color: #ffffff;background:#66ccff;"
+							>点播节点</span
+						>
+						<span
+							v-show="item.node_type == '直播节点'"
+							style="font-size: 12px;border:1px solid;padding: 0 5px;border-radius: 4px;border-radius: 10px;color: #ffffff;background:#9999ff;"
+							>直播节点</span
 						>
 					</div>
 					<div class="ipfs_item_img">
@@ -740,13 +774,16 @@
 				v-show="!showdata"
 			></fenye>
 		</div>
-        <rightSwiper :datalist="titledar" @handleChange="change_right_tiem"></rightSwiper>
+		<rightSwiper
+			:datalist="titledar"
+			@handleChange="change_right_tiem"
+		></rightSwiper>
 	</div>
 </template>
 
 <script>
 import fenye from '@/components/fenye';
-import rightSwiper from '@/components/right_swiper'
+import rightSwiper from '@/components/right_swiper';
 import {
 	query_node,
 	ipfs_region_summary,
@@ -863,10 +900,24 @@ export default {
 			show_sort: true,
 			scrollHeight: 0,
 			scroll_line_height: 0,
+			node_type: '',
+			options_node_type: [
+				{
+					value: 1,
+					label: '点播节点',
+					text: '点播节点',
+				},
+				{
+					value: 2,
+					label: '直播节点',
+					text: '直播节点',
+				},
+			],
 		};
 	},
 	components: {
-		fenye,rightSwiper
+		fenye,
+		rightSwiper,
 	},
 	mounted() {
 		this.$nextTick(() => {
@@ -900,9 +951,9 @@ export default {
 		}
 	},
 	methods: {
-        change_right_tiem(num){
-            // console.log(num);
-        },
+		change_right_tiem(num) {
+			// console.log(num);
+		},
 		searchdata() {
 			this.show_sort = true;
 			this.currentPage = 1;
@@ -914,6 +965,7 @@ export default {
 			this.osvalue = '';
 			this.hardwarevalue = '';
 			this.devicevalue = '';
+			this.node_type = '';
 			(this.firstchan_value = ''), (this.value = 0);
 			this.getipfsdata();
 		},
@@ -983,6 +1035,15 @@ export default {
 			parmas.secondchid = '';
 			parmas.enableFlag = -1;
 			parmas.order = this.value;
+			if (this.node_type) {
+				if (this.node_type == '全部') {
+					parmas.node_type = '';
+				} else {
+					parmas.node_type = this.node_type;
+				}
+			} else {
+				parmas.node_type = '';
+			}
 			sessionStorage.setItem('search_condition', JSON.stringify(parmas));
 			query_node(parmas)
 				.then((res) => {
@@ -1117,15 +1178,15 @@ export default {
 		flex-wrap: wrap;
 		justify-content: start;
 		.ipfs_con_left {
-            // color: #ffffff;
-            color: #333333;
+			// color: #ffffff;
+			color: #333333;
 			font-size: 16px;
 		}
 		.ipfs_con_right {
 			.setmap_btn {
 				margin-right: 20px;
-                // color: #ffffff;
-                color: #333333;
+				// color: #ffffff;
+				color: #333333;
 				font-size: 18px;
 			}
 		}
@@ -1276,8 +1337,8 @@ export default {
 }
 .eema {
 	width: 55px;
-    // color: #919191;
-    color: #ffffff;
+	// color: #919191;
+	color: #ffffff;
 	display: inline-block;
 	line-height: 30px;
 	font-size: 16px !important;
@@ -1285,8 +1346,8 @@ export default {
 }
 .bluma {
 	width: 55px;
-    // color: #919191;
-    color: #4285f4;
+	// color: #919191;
+	color: #4285f4;
 	display: inline-block;
 	line-height: 30px;
 	border: #4285f4 2px solid;

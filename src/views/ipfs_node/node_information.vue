@@ -25,6 +25,22 @@
 						@click="seachipfs"
 					></i>
 				</el-input>
+                <span style="margin-left:20px;margin-right:10px;">节点类型</span>
+                <el-select
+					v-model="node_type"
+					placeholder="请选择节点类型"
+					@change="handleChange()"
+					style="width:100%;max-width: 200px;margin-left:10px;"
+					size="small"
+				>
+                <el-option value="" label="全部"></el-option>
+					<el-option
+						v-for="(item, index) in options_node_type"
+						:key="index + item.label+'node_type'"
+						:label="item.label"
+						:value="item.label"
+					></el-option>
+				</el-select>
 				<span style="margin-left:20px;margin-right:10px;">节点区域/省市</span>
 				<el-cascader
 					style="width:100%;max-width: 200px;"
@@ -142,6 +158,12 @@
 							<div v-else style="color:#333333;">在线</div>
 						</template>
 					</el-table-column>
+                    <el-table-column prop="node_type" label="节点类型">
+                        <template slot-scope="scope">
+                            <span v-if="scope.row.node_type">{{scope.row.node_type}}</span>
+                            <span v-else>--</span>
+                        </template>
+                    </el-table-column>
 					<el-table-column prop="city" label="节点地域">
 						<template slot-scope="scope">
 							{{ scope.row.city }}-{{ scope.row.area }}
@@ -430,6 +452,18 @@ export default {
 			city_disable: true,
 			chil_disable: true,
 			show_export: true,
+            node_type:"",
+            options_node_type:[
+                {
+                    value: 1,
+					label: '点播节点',
+					text: '点播节点',
+                },{
+                    value: 2,
+					label: '直播节点',
+					text: '直播节点',
+                }
+            ],
 			options_city: [],
 			stateopt: [
 				// {
@@ -1080,7 +1114,16 @@ export default {
 				}
 			} else {
 				parmas.isp = '';
-			}
+            }
+            if (this.node_type) {
+				if (this.node_type == '全部') {
+					parmas.node_type = '';
+				} else {
+					parmas.node_type = this.node_type;
+				}
+			} else {
+				parmas.node_type = '';
+            }
 			parmas.state = this.value * 1;
 			parmas.os = this.os_type;
 			parmas.arch = this.arch_type;
@@ -1331,7 +1374,8 @@ export default {
 			this.arch_type = '';
 			this.dev_type = '';
 			this.firstchid = '';
-			this.secondchid = '';
+            this.secondchid = '';
+            this.node_type="";
 			this.value_node = -1;
 			this.getdatalist();
 		},

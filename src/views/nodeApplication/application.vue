@@ -8,8 +8,8 @@
 						size="small"
 						@change="switch_table"
 					>
-						<el-radio-button label="1">算力值</el-radio-button>
-						<el-radio-button label="2">算力明细</el-radio-button>
+						<el-radio-button label="1">IP流量</el-radio-button>
+						<el-radio-button label="2">FS存储</el-radio-button>
 					</el-radio-group>
 					<div
 						v-if="tab_radio == '1'"
@@ -28,6 +28,21 @@
 									@click="onseach()"
 								></i
 							></el-input>
+							<el-select
+								v-model="node_type"
+								placeholder="请选择节点类型"
+								@change="onseach()"
+								style="width:100%;max-width: 200px;margin-left:10px;"
+								size="small"
+							>
+								<el-option value="" label="全部"></el-option>
+								<el-option
+									v-for="(item, index) in options_node_type"
+									:key="index + item.label + 'node_type'"
+									:label="item.label"
+									:value="item.label"
+								></el-option>
+							</el-select>
 							<el-select
 								v-model="firstvaluea"
 								placeholder="节点一级渠道"
@@ -176,6 +191,21 @@
 									@click="onseach('fs')"
 								></i
 							></el-input>
+							<el-select
+								v-model="node_typefs"
+								placeholder="请选择节点类型"
+								@change="onseach('fs')"
+								style="width:100%;max-width: 200px;margin-left:10px;"
+								size="small"
+							>
+								<el-option value="*" label="全部"></el-option>
+								<el-option
+									v-for="(item, index) in options_node_type"
+									:key="index + item.label + 'node_type'"
+									:label="item.label"
+									:value="item.label"
+								></el-option>
+							</el-select>
 							<el-select
 								v-model="firstvaluea_fs"
 								placeholder="节点一级渠道"
@@ -330,6 +360,20 @@
 											label="节点id"
 										></el-table-column>
 										<el-table-column
+											prop="node_type"
+											label="节点类型"
+										>
+											<template slot-scope="scope">
+												<span
+													v-if="scope.row.node_type"
+													>{{
+														scope.row.node_type
+													}}</span
+												>
+												<span v-else>--</span>
+											</template>
+										</el-table-column>
+										<el-table-column
 											prop="dataFlow"
 											label="使用流量"
 										>
@@ -451,6 +495,20 @@
 											prop="nodeid"
 											label="节点id"
 										></el-table-column>
+										<el-table-column
+											prop="node_type"
+											label="节点类型"
+										>
+											<template slot-scope="scope">
+												<span
+													v-if="scope.row.node_type"
+													>{{
+														scope.row.node_type
+													}}</span
+												>
+												<span v-else>--</span>
+											</template>
+										</el-table-column>
 										<el-table-column
 											prop="storeCapSum"
 											label="存储容量"
@@ -672,6 +730,20 @@ export default {
 			valueb: '',
 			ispvalue: '',
 			ispvalue_fs: '',
+			node_type: '',
+			node_typefs: '',
+			options_node_type: [
+				{
+					value: 1,
+					label: '点播节点',
+					text: '点播节点',
+				},
+				{
+					value: 2,
+					label: '直播节点',
+					text: '直播节点',
+				},
+			],
 			optionsafs: [
 				{
 					value: -1,
@@ -1212,7 +1284,15 @@ export default {
 			} else {
 				params.time_unit = 120;
 			}
-
+			if (this.node_type) {
+				if (this.node_type == '全部') {
+					params.node_type = '*';
+				} else {
+					params.node_type = this.node_type;
+				}
+			} else {
+				params.node_type = '*';
+			}
 			params.radio = this.radio;
 			params.activeName = this.activeName;
 			this.totalOutputCnt = 0;
@@ -1314,6 +1394,15 @@ export default {
 				params.time_unit = 1440;
 			} else {
 				params.time_unit = 120;
+            }
+            if (this.node_typefs) {
+				if (this.node_typefs == '全部') {
+					params.node_type = '*';
+				} else {
+					params.node_type = this.node_typefs;
+				}
+			} else {
+				params.node_type = '*';
 			}
 			params.radio = this.radio;
 			params.activeName = this.activeName;
@@ -1395,6 +1484,15 @@ export default {
 				params.isp = '*';
 			} else {
 				params.isp = this.ispvalue;
+            }
+            if (this.node_type) {
+				if (this.node_type == '全部') {
+					params.node_type = '*';
+				} else {
+					params.node_type = this.node_type;
+				}
+			} else {
+				params.node_type = '*';
 			}
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime - 1;
@@ -1463,6 +1561,15 @@ export default {
 				params.isp = '*';
 			} else {
 				params.isp = this.ispvalue_fs;
+            }
+             if (this.node_typefs) {
+				if (this.node_typefs == '全部') {
+					params.node_type = '*';
+				} else {
+					params.node_type = this.node_typefs;
+				}
+			} else {
+				params.node_type = '*';
 			}
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime - 1;
@@ -1522,7 +1629,9 @@ export default {
 			this.devtypevalue_fs = '';
 			this.ispvalue_fs = '';
 			this.devtypevalue = '';
-			this.ispvalue = '';
+            this.ispvalue = '';
+            this.node_type="";
+            this.node_typefs="";
 			if (this.activeName == 'first') {
 				this.fs_curve();
 			} else {
@@ -1570,6 +1679,15 @@ export default {
 				params.isp = '*';
 			} else {
 				params.isp = this.ispvalue_fs;
+            }
+             if (this.node_typefs) {
+				if (this.node_typefs == '全部') {
+					params.node_type = '*';
+				} else {
+					params.node_type = this.node_typefs;
+				}
+			} else {
+				params.node_type = '*';
 			}
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime - 1;
@@ -1639,6 +1757,15 @@ export default {
 				params.isp = '*';
 			} else {
 				params.isp = this.ispvalue;
+            }
+             if (this.node_type) {
+				if (this.node_type == '全部') {
+					params.node_type = '*';
+				} else {
+					params.node_type = this.node_type;
+				}
+			} else {
+				params.node_type = '*';
 			}
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime - 1;
@@ -2158,7 +2285,7 @@ export default {
 	// width: 100%;
 	// min-width: 1600px;
 	overflow: hidden;
-    background: #f6f6f6;
+	background: #f6f6f6;
 	.device_form {
 		width: auto;
 		height: auto;

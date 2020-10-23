@@ -32,6 +32,21 @@
 								></i
 							></el-input>
 							<el-select
+								v-model="node_type"
+								placeholder="请选择节点类型"
+								@change="onseach()"
+								style="width:100%;max-width: 200px;margin-left:10px;"
+								size="small"
+							>
+								<el-option value="*" label="全部"></el-option>
+								<el-option
+									v-for="(item, index) in options_node_type"
+									:key="index + item.label + 'node_type'"
+									:label="item.label"
+									:value="item.label"
+								></el-option>
+							</el-select>
+							<el-select
 								v-model="firstvalue"
 								placeholder="节点一级渠道"
 								size="small"
@@ -255,6 +270,20 @@
 											prop="ipfsId"
 											label="节点ID"
 										>
+										</el-table-column>
+										<el-table-column
+											prop="node_type"
+											label="节点类型"
+										>
+											<template slot-scope="scope">
+												<span
+													v-if="scope.row.node_type"
+													>{{
+														scope.row.node_type
+													}}</span
+												>
+												<span v-else>--</span>
+											</template>
 										</el-table-column>
 										<el-table-column
 											prop="dataFlowUse"
@@ -936,8 +965,21 @@ export default {
 			menutype: {},
 			radio: 0,
 			tabtitle_flow: '使用流量',
-            tabtitle_storage: '占用存储',
-            echartsexport: true,
+			tabtitle_storage: '占用存储',
+			echartsexport: true,
+			node_type: '',
+			options_node_type: [
+				{
+					value: 1,
+					label: '点播节点',
+					text: '点播节点',
+				},
+				{
+					value: 2,
+					label: '直播节点',
+					text: '直播节点',
+				},
+			],
 		};
 	},
 	mounted() {
@@ -1032,12 +1074,12 @@ export default {
 		}
 		let munulist = JSON.parse(localStorage.getItem('menus'));
 		let pathname = this.$route.path;
-        this.menutype = menudisable(munulist, pathname);
-        if(this.menutype.roleE == 1){
-            this.echartsexport=true;
-        }else{
-            this.echartsexport=false;
-        }
+		this.menutype = menudisable(munulist, pathname);
+		if (this.menutype.roleE == 1) {
+			this.echartsexport = true;
+		} else {
+			this.echartsexport = false;
+		}
 	},
 	beforeDestroy() {
 		if (!this.chart) {
@@ -1109,7 +1151,15 @@ export default {
 			} else {
 				params.isp = this.ispvalue;
 			}
-
+			if (this.node_type) {
+				if (this.node_type == '全部') {
+					params.node_type = '*';
+				} else {
+					params.node_type = this.node_type;
+				}
+			} else {
+				params.node_type = '*';
+			}
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime - 1;
 			if (params.end_ts - params.start_ts > 86399) {
@@ -1250,6 +1300,15 @@ export default {
 			} else {
 				params.isp = this.ispvalue;
 			}
+			if (this.node_type) {
+				if (this.node_type == '全部') {
+					params.node_type = '*';
+				} else {
+					params.node_type = this.node_type;
+				}
+			} else {
+				params.node_type = '*';
+			}
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime - 1;
 			params.pageNo = this.currentPage - 1;
@@ -1370,6 +1429,7 @@ export default {
 			this.zidingyifs = false;
 			this.value2 = '';
 			this.value2fs = '';
+			this.node_type = '';
 			this.starttime =
 				new Date(new Date().toLocaleDateString()).getTime() / 1000;
 			this.endtime = Date.parse(new Date()) / 1000;
@@ -1729,7 +1789,15 @@ export default {
 			} else {
 				params.isp = this.ispvalue;
 			}
-
+			if (this.node_type) {
+				if (this.node_type == '全部') {
+					params.node_type = '*';
+				} else {
+					params.node_type = this.node_type;
+				}
+			} else {
+				params.node_type = '*';
+			}
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime - 1;
 			if (params.end_ts - params.start_ts > 86399) {
@@ -1759,7 +1827,7 @@ export default {
 				});
 		},
 		configure() {
-            let _this=this;
+			let _this = this;
 			let myChart = echarts.init(document.getElementById('myChart3')); //这里是为了获得容器所在位置
 			window.onresize = myChart.resize;
 			let options = {
@@ -1778,8 +1846,8 @@ export default {
 					data: this.avgDataFlowUtily.timeArray.map(function(item) {
 						return getday(item);
 					}),
-                },
-                toolbox: {
+				},
+				toolbox: {
 					right: '10%',
 					feature: {
 						mydow: {
@@ -2124,7 +2192,7 @@ export default {
 <style lang="scss" scoped>
 .myself-container {
 	// overflow: hidden;
-     background: #f6f6f6;
+	background: #f6f6f6;
 	.overview {
 		.user-item {
 			background-color: #fff;
@@ -2146,8 +2214,8 @@ export default {
 		// padding: 15px 30px;
 		box-sizing: border-box;
 		position: relative;
-        border-radius: 8px;
-        box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);
+		border-radius: 8px;
+		box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);
 		.bottom {
 			margin-top: 20px;
 		}

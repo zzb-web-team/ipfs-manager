@@ -17,7 +17,24 @@
 						@click="seachuser()"
 					></i>
 				</el-input>
-
+				<span style="margin-left:20px;margin-right:10px;"
+					>节点类型</span
+				>
+				<el-select
+					v-model="node_type"
+					placeholder="请选择节点类型"
+					@change="seachuser()"
+					style="width:100%;max-width: 200px;margin-left:10px;"
+					size="small"
+				>
+					<el-option value="" label="全部"></el-option>
+					<el-option
+						v-for="(item, index) in options_node_type"
+						:key="index + item.label + 'node_type'"
+						:label="item.label"
+						:value="item.label"
+					></el-option>
+				</el-select>
 				<span style="margin-left:10px;">时间：</span>
 				<el-date-picker
 					v-model="time_value"
@@ -111,6 +128,14 @@
 			>
 				<!-- <el-table-column prop="nodeId" label="节点ID"></el-table-column> -->
 				<el-table-column prop="IP" label="节点IP"></el-table-column>
+				<el-table-column prop="node_type" label="节点类型">
+					<template slot-scope="scope">
+						<span v-if="scope.row.node_type">{{
+							scope.row.node_type
+						}}</span>
+						<span v-else>--</span>
+					</template>
+				</el-table-column>
 				<el-table-column
 					prop="firstch"
 					label="节点一级渠道"
@@ -242,6 +267,19 @@ export default {
 			rotate: false,
 			showState: false,
 			chil_disable: true,
+			node_type: '',
+			options_node_type: [
+				{
+					value: 1,
+					label: '点播节点',
+					text: '点播节点',
+				},
+				{
+					value: 2,
+					label: '直播节点',
+					text: '直播节点',
+				},
+			],
 			endPickerOptions: {
 				disabledDate(time) {
 					return (
@@ -346,6 +384,7 @@ export default {
 			this.time_value = '';
 			this.firstchid = '';
 			this.secondchid = '';
+			this.node_type = '';
 			this.chil_disable = true;
 			let day1 = new Date();
 			let day2 = new Date();
@@ -406,6 +445,15 @@ export default {
 				params.channel2 = '';
 			} else {
 				params.channel2 = this.secondchid;
+			}
+			if (this.node_type) {
+				if (this.node_type == '全部') {
+					params.node_type = '*';
+				} else {
+					params.node_type = this.node_type;
+				}
+			} else {
+				params.node_type = '*';
 			}
 			node_pf_detail(params)
 				.then((res) => {

@@ -215,7 +215,7 @@ export default {
 								res.data.role_id,
 								7 * 24 * 60 * 60
 							);
-                            this.get_datalist(res.data.role_id, res.data.id);
+							this.get_datalist(res.data.role_id, res.data.id);
 						} else if (res.status == 1) {
 							this.ipfs_token = res.token;
 							this.googleVisible = true;
@@ -243,7 +243,6 @@ export default {
 						_this.map_list = _this.map_list.concat(res.data.result);
 						if (res.data.remaining <= 0) {
 							_this.filter_maplist(_this.map_list);
-							
 						} else {
 							pagenum++;
 							_this.get_map_data(pagenum, role_id, id);
@@ -296,18 +295,26 @@ export default {
 				.then((res) => {
 					if (res.status == 0) {
 						if (res.data && res.data.length > 0) {
-                            let arrlist = [1, 2, 3, 4, 5, 6];
-                            // console.log(res.data);
-                            // return false;
+							let arrlist = [1, 2, 3, 4, 5, 6];
 							res.data.forEach((item) => {
-								if (
-									item.name == '节点信息'
-								) {
+								if (item.name == '节点信息') {
 									arrlist[0] = item;
-                                } else if (item.name == 'IPFS节点信息') {
+								} else if (item.name == 'IPFS节点信息') {
 									arrlist[1] = item;
-								}
-                                 else if (item.name == 'IPFS节点控制台') {
+								} else if (item.name == 'IPFS节点控制台') {
+									var arr = item.children;
+
+									for (var i = 0; i < arr.length; i++) {
+										if (
+											arr[i].name === '全国节点分布'
+										) {
+											var obj = arr[i];
+											arr.splice(i, 1);
+
+											break;
+										}
+									}
+									item.children.unshift(obj);
 									arrlist[2] = item;
 								} else if (item.name == 'IPFS节点应用') {
 									arrlist[3] = item;
@@ -315,35 +322,35 @@ export default {
 									arrlist[4] = item;
 								} else if (item.name == 'IPFS数据分析') {
 									arrlist[5] = item;
-									item.children.forEach((xitem, index) => {
-										if (xitem.name == '全国节点分布') {
-											arrlist[2].children.unshift(xitem);
-											item.children.splice(index, 2);
-										}
-									});
+									// item.children.forEach((xitem, index) => {
+									// 	if (xitem.name == '全国节点分布') {
+									// 		arrlist[2].children.unshift(xitem);
+									// 		item.children.splice(index, 2);
+									// 	}
+									// });
 								} else if (item.name == '后台管理') {
 									arrlist[6] = item;
 									//这几行代码是修改菜单功能--禁止删除
 
-									// arrlist[6].children.push({
-									// 	children: [],
-									// 	component: 'menu_management',
-									// 	delete_status: 0,
-									// 	export_status: 0,
-									// 	hidden: 0,
-									// 	icon: '',
-									// 	id: 100,
-									// 	import_status: 0,
-									// 	insert_status: 0,
-									// 	name: '菜单管理',
-									// 	path: '/menu_management',
-									// 	pid: 30,
-									// 	read_status: 1,
-									// 	roleR: 1,
-									// 	time_create: 0,
-									// 	time_update: 0,
-									// 	update_status: 0,
-									// });
+									arrlist[6].children.push({
+										children: [],
+										component: 'menu_management',
+										delete_status: 0,
+										export_status: 0,
+										hidden: 0,
+										icon: '',
+										id: 100,
+										import_status: 0,
+										insert_status: 0,
+										name: '菜单管理',
+										path: '/menu_management',
+										pid: 30,
+										read_status: 1,
+										roleR: 1,
+										time_create: 0,
+										time_update: 0,
+										update_status: 0,
+									});
 								} else {
 									// arrlist[7] = {
 									// 	children: [],
