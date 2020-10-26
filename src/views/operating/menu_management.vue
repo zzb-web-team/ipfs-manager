@@ -409,32 +409,43 @@ export default {
 					if (res.status == 0) {
 						if (res.data && res.data.length > 0) {
 							let arrlist = [1, 2, 3, 4, 5, 6];
-
 							res.data.forEach((item) => {
-								if (
-									item.name == '节点信息'
-								) {
-									item.name = 'IPFS节点信息';
+								if (item.name == '节点信息') {
 									arrlist[0] = item;
-								} else if (item.name == 'IPFS节点控制台') {
+								} else if (item.name == 'IPFS节点信息') {
 									arrlist[1] = item;
-								} else if (item.name == 'IPFS节点应用') {
-									arrlist[2] = item;
-								} else if (item.name == 'IPFS节点收益') {
-									arrlist[3] = item;
-								} else if (item.name == 'IPFS数据分析') {
-									arrlist[4] = item;
-									item.children.forEach((xitem, index) => {
-										if (xitem.name == '全国节点分布') {
-											arrlist[1].children.unshift(xitem);
-											item.children.splice(index, 1);
+								} else if (item.name == 'IPFS节点控制台') {
+									var arr = item.children;
+
+									for (var i = 0; i < arr.length; i++) {
+										if (
+											arr[i].name === '全国节点分布'
+										) {
+											var obj = arr[i];
+											arr.splice(i, 1);
+
+											break;
 										}
-									});
-								} else if (item.name == '后台管理') {
+									}
+									item.children.unshift(obj);
+									arrlist[2] = item;
+								} else if (item.name == 'IPFS节点应用') {
+									arrlist[3] = item;
+								} else if (item.name == 'IPFS节点收益') {
+									arrlist[4] = item;
+								} else if (item.name == 'IPFS数据分析') {
 									arrlist[5] = item;
+									// item.children.forEach((xitem, index) => {
+									// 	if (xitem.name == '全国节点分布') {
+									// 		arrlist[2].children.unshift(xitem);
+									// 		item.children.splice(index, 2);
+									// 	}
+									// });
+								} else if (item.name == '后台管理') {
+									arrlist[6] = item;
 									//这几行代码是修改菜单功能--禁止删除
 
-									arrlist[5].children.push({
+									arrlist[6].children.push({
 										children: [],
 										component: 'menu_management',
 										delete_status: 0,
@@ -454,7 +465,7 @@ export default {
 										update_status: 0,
 									});
 								} else {
-									// arrlist[6] = {
+									// arrlist[7] = {
 									// 	children: [],
 									// 	component: 'preview',
 									// 	delete_status: 0,
@@ -472,7 +483,7 @@ export default {
 									// 	time_update: 0,
 									// 	update_status: 0,
 									// };
-									// arrlist.push(item);
+									arrlist.push(item);
 								}
 							});
 							for (var i = 0; i < arrlist.length; i++) {
