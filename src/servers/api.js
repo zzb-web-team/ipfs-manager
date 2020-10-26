@@ -247,7 +247,7 @@ export const query_ip_store_avg_usage_table = params => {
 //操作管理
 /**操作日志信息列表*/
 export const actionlog = params => {
-    return post(`${serverUrl}/cloudterminal/actionlog`, params).then(
+    return post(`${serverUrl}/ipfs/actionlog`, params).then(
         res => res.data
     );
 };
@@ -277,7 +277,7 @@ export const query_detail_info_list = params => {
 //导出反馈
 
 export const setactionlog = params => {
-    return post(`${serverUrl}/cloudterminal/setactionlog `, params).then(
+    return post(`${serverUrl}/ipfs/setactionlog `, params).then(
         res => res.data
     );
 };

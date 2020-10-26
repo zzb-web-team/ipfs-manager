@@ -31,7 +31,7 @@
 							@change="seachuser"
 							class="input-with-select"
 						>
-							<el-option label="全部" value=""></el-option>
+							<el-option label="全部" value="*"></el-option>
 							<el-option
 								v-for="(item, index) in options"
 								:key="index"
@@ -47,7 +47,7 @@
 							@change="seachuser"
 							class="input-with-select"
 						>
-							<el-option label="全部" value=""></el-option>
+							<el-option label="全部" value="*"></el-option>
 							<el-option
 								v-for="(item, index) in options2"
 								:key="index"
@@ -266,7 +266,11 @@ export default {
 			let parmas = new Object();
 			parmas.page = this.currentPage - 1;
 			parmas.search = this.input;
-			parmas.action = this.value2;
+			if (this.value2 == '*') {
+				parmas.action = '';
+			} else {
+				parmas.action = this.value2;
+			}
 			parmas.utype = 'ipfs';
 			if (this.value1 != '' && this.value1 != null) {
 				parmas.start_ts = this.common.dateToMs(this.value1[0]);
@@ -277,7 +281,7 @@ export default {
 					89 * 24 * 60 * 60;
 				parmas.end_ts = Date.parse(new Date()) / 1000;
 			}
-			if (this.value === '') {
+			if (this.value === '' || this.value == '*') {
 				parmas.status = null;
 			} else {
 				parmas.status = this.value;

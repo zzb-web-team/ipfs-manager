@@ -357,7 +357,6 @@ export default {
 		},
 	},
 	mounted() {
-        console.log(this.citys);
 		if (this.citys) {
 			this.centerLng = this.city[this.citys][0]; // 经度
 			this.centerLat = this.city[this.citys][1]; // 纬度

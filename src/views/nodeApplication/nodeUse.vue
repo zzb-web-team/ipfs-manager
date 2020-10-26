@@ -18,165 +18,204 @@
 
 						<div class="rowbg">
 							<div class="item_title">节点利用率</div>
-							<el-input
-								v-model="input"
-								placeholder="请输入节点ID"
-								style="width: 15%;"
-								size="small"
-								@keyup.enter.native="onseach"
+							<el-row
+								type="flex"
+								:gutter="20"
+								style="height:52px;"
 							>
-								<i
-									slot="prefix"
-									class="el-input__icon el-icon-search"
-									@click="onseach()"
-								></i
-							></el-input>
-							<el-select
-								v-model="node_type"
-								placeholder="请选择节点类型"
-								@change="onseach()"
-								style="width:100%;max-width: 200px;margin-left:10px;"
-								size="small"
-							>
-								<el-option value="*" label="全部"></el-option>
-								<el-option
-									v-for="(item, index) in options_node_type"
-									:key="index + item.label + 'node_type'"
-									:label="item.label"
-									:value="item.label"
-								></el-option>
-							</el-select>
-							<el-select
-								v-model="firstvalue"
-								placeholder="节点一级渠道"
-								size="small"
-								style="margin-left:10px;width: 8%;"
-								@change="handleChangefirst($event)"
-							>
-								<el-option value="*" label="全部"></el-option>
-								<el-option
-									v-for="(item, index) in firstchan"
-									:key="item.name + index"
-									:label="item.name"
-									:value="item.value"
-								></el-option>
-							</el-select>
-							<el-select
-								v-model="secondvalue"
-								placeholder="节点二级渠道"
-								size="small"
-								style="margin-left:10px;width: 8%;"
-								:disabled="chil_disable"
-								@change="onseach"
-							>
-								<el-option value="*" label="全部"></el-option>
-								<el-option
-									v-for="(item, index) in secondchan"
-									:key="item.value + index"
-									:label="item.name"
-									:value="item.value"
-								></el-option>
-							</el-select>
-							<el-select
-								v-model="devtypevalue"
-								placeholder="硬件类型"
-								size="small"
-								style="margin-left:10px;width: 8%;"
-								@change="onseach"
-							>
-								<el-option value="*" label="全部"></el-option>
-								<el-option
-									v-for="(item, index) in device_type"
-									:key="item.name + index"
-									:label="item.name"
-									:value="item.name"
-								></el-option>
-							</el-select>
-							<el-cascader
-								style="margin-left:10px;width: 8%;"
-								placeholder="请选择区域"
-								v-model="valuea"
-								size="small"
-								:options="optionsafs"
-								@change="seach_operce_ip"
-							></el-cascader>
-							<el-select
-								:disabled="city_disable_ip"
-								v-model="valueb"
-								placeholder="请选择城市"
-								size="small"
-								style="margin-left:10px;width: 8%;"
-								@change="onseach()"
-							>
-								<!-- <el-option value="*" label="全部"></el-option> -->
-								<el-option
-									v-for="(item, index) in optionsb"
-									:key="item.name + index"
-									:label="item.name"
-									:value="item.name"
+								<el-col :span="4">
+									<el-input
+										v-model="input"
+										placeholder="请输入节点ID"
+										size="small"
+										@keyup.enter.native="onseach"
+									>
+										<i
+											slot="prefix"
+											class="el-input__icon el-icon-search"
+											@click="onseach()"
+										></i
+									></el-input>
+								</el-col>
+								<el-col :span="2">
+									<el-select
+										v-model="node_type"
+										placeholder="请选择节点类型"
+										@change="onseach()"
+										style="width:100%;max-width: 200px;margin-left:10px;"
+										size="small"
+									>
+										<el-option
+											value="*"
+											label="全部"
+										></el-option>
+										<el-option
+											v-for="(item,
+											index) in options_node_type"
+											:key="
+												index + item.label + 'node_type'
+											"
+											:label="item.label"
+											:value="item.label"
+										></el-option> </el-select
+								></el-col>
+								<el-col :span="2">
+									<el-select
+										v-model="firstvalue"
+										placeholder="节点一级渠道"
+										size="small"
+										style="width:100%;max-width: 200px;margin-left:10px;"
+										@change="handleChangefirst($event)"
+									>
+										<el-option
+											value="*"
+											label="全部"
+										></el-option>
+										<el-option
+											v-for="(item, index) in firstchan"
+											:key="item.name + index"
+											:label="item.name"
+											:value="item.value"
+										></el-option>
+									</el-select>
+								</el-col>
+								<el-col :span="2">
+									<el-select
+										v-model="secondvalue"
+										placeholder="节点二级渠道"
+										size="small"
+										style="width:100%;max-width: 200px;margin-left:10px;"
+										:disabled="chil_disable"
+										@change="onseach"
+									>
+										<el-option
+											value="*"
+											label="全部"
+										></el-option>
+										<el-option
+											v-for="(item, index) in secondchan"
+											:key="item.value + index"
+											:label="item.name"
+											:value="item.value"
+										></el-option>
+									</el-select>
+								</el-col>
+								<el-col :span="2">
+									<el-select
+										v-model="devtypevalue"
+										placeholder="硬件类型"
+										size="small"
+										style="width:100%;max-width: 200px;margin-left:10px;"
+										@change="onseach"
+									>
+										<el-option
+											value="*"
+											label="全部"
+										></el-option>
+										<el-option
+											v-for="(item, index) in device_type"
+											:key="item.name + index"
+											:label="item.name"
+											:value="item.name"
+										></el-option>
+									</el-select>
+								</el-col>
+								<el-col :span="2">
+									<el-cascader
+										style="width:100%;max-width: 200px;margin-left:10px;"
+										placeholder="请选择区域"
+										v-model="valuea"
+										size="small"
+										:options="optionsafs"
+										@change="seach_operce_ip"
+									></el-cascader>
+								</el-col>
+								<el-col :span="2">
+									<el-select
+										:disabled="city_disable_ip"
+										v-model="valueb"
+										placeholder="请选择城市"
+										size="small"
+										style="width:100%;max-width: 200px;margin-left:10px;"
+										@change="onseach()"
+									>
+										<!-- <el-option value="*" label="全部"></el-option> -->
+										<el-option
+											v-for="(item, index) in optionsb"
+											:key="item.name + index"
+											:label="item.name"
+											:value="item.name"
+										>
+										</el-option>
+									</el-select>
+								</el-col>
+								<el-col :span="2">
+									<el-select
+										v-model="ispvalue"
+										placeholder="网络线路"
+										size="small"
+										style="width:100%;max-width: 200px;margin-left:10px;"
+										@change="onseach"
+									>
+										<el-option
+											value="*"
+											label="全部"
+										></el-option>
+										<el-option
+											v-for="(item, index) in isp"
+											:key="index"
+											:label="item.name"
+											:value="item.name"
+										></el-option>
+									</el-select>
+								</el-col>
+								<el-radio-group
+									v-show="zidingyi == false"
+									v-model="radio"
+									size="small"
+									@change="change_time('ip')"
+									style="margin-right:10px;margin-left:10px;display: flex;flex-wrap: nowrap;"
 								>
-								</el-option>
-							</el-select>
-							<el-select
-								v-model="ispvalue"
-								placeholder="网络线路"
-								size="small"
-								style="margin-left:10px;width: 8%;"
-								@change="onseach"
-							>
-								<el-option value="*" label="全部"></el-option>
-								<el-option
-									v-for="(item, index) in isp"
-									:key="index"
-									:label="item.name"
-									:value="item.name"
-								></el-option>
-							</el-select>
-							<el-radio-group
-								v-show="zidingyi == false"
-								v-model="radio"
-								size="small"
-								@change="change_time('ip')"
-								style="margin-right:10px;margin-left:10px;"
-							>
-								<el-radio-button label="0"
-									>今天</el-radio-button
+									<el-radio-button label="0"
+										>今天</el-radio-button
+									>
+									<el-radio-button label="1"
+										>昨天</el-radio-button
+									>
+									<el-radio-button label="2"
+										>近7天</el-radio-button
+									>
+									<el-radio-button label="3"
+										>近30天</el-radio-button
+									>
+									<el-radio-button label="4"
+										>自定义</el-radio-button
+									>
+								</el-radio-group>
+								<el-button
+									@click="showpicker"
+									v-if="zidingyi == true"
+									size="small"
+									style="margin-right:10px;margin-left:10px;"
+									type="primary"
+									>自定义</el-button
 								>
-								<el-radio-button label="1"
-									>昨天</el-radio-button
+								<el-date-picker
+									v-if="zidingyi == true"
+									style="margin-right:10px;"
+									v-model="value2"
+									type="daterange"
+									:picker-options="pickerOptions"
+									range-separator="至"
+									size="small"
+									start-placeholder="开始日期"
+									end-placeholder="结束日期"
+									align="left"
+									@change="onseach"
 								>
-								<el-radio-button label="2"
-									>近7天</el-radio-button
-								>
-								<el-radio-button label="3"
-									>近30天</el-radio-button
-								>
-								<el-radio-button label="4"
-									>自定义</el-radio-button
-								>
-							</el-radio-group>
-							<el-button
-								@click="showpicker"
-								v-if="zidingyi == true"
-								size="small"
-								style="margin-right:10px;margin-left:10px;"
-								type="primary"
-								>自定义</el-button
-							>
-							<el-date-picker
-								v-if="zidingyi == true"
-								style="margin-right:10px;"
-								v-model="value2"
-								type="daterange"
-								:picker-options="pickerOptions"
-								range-separator="至"
-								size="small"
-								start-placeholder="开始日期"
-								end-placeholder="结束日期"
-								align="left"
-								@change="onseach"
-							>
-							</el-date-picker>
+								</el-date-picker>
+							</el-row>
+
 							<!-- <el-button
 								type="primary"
 								@click="onseach"
