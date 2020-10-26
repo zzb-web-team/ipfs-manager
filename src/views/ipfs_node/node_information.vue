@@ -1,5 +1,5 @@
 <template>
-	<div class="content node_information_con" :style="autoWidth">
+	<div class="content node_information_con" :style="{width:autoWidth.all_con_w}">
 		<!-- 面包屑  -->
 		<!-- <el-breadcrumb separator="/">
 			<el-breadcrumb-item>
@@ -7,7 +7,7 @@
 			</el-breadcrumb-item>
 		</el-breadcrumb> -->
 		<!-- 搜索框 -->
-		<div class="rowbg">
+		<div class="rowbg" >
             
 			<div class="item_title">节点信息</i></div>
             
@@ -108,7 +108,7 @@
 			</el-row>
 		</div>
 		<!-- 主体表格 -->
-		<div class="rowcon">
+		<div class="rowcon" :style="autoWidth"  v-bind:class="tab_transform<1 ? tabscale : tab_el">
 			<div
 				style="text-align:right;padding:0 10px 10px 10px;background-color: #ffffff;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 			>
@@ -121,7 +121,8 @@
 					>导出<i class="iconfont icon-daochu" style="color:#1672E8;margin-left: 5px;"></i
 				></el-button>
 			</div>
-			<div class="rowtab">
+            <!-- v-bind:class="tab_transform<1 ? tabscale : tab_el" -->
+			<div class="rowtab" >
 				<el-table
 					:data="tableData"
 					border
@@ -180,6 +181,7 @@
 					<el-table-column
 						prop="devicetype"
 						label="设备类型"
+                        width="100"
 						:filter-multiple="false"
 						:column-key="'devicetype'"
 						:filters="devicetype"
@@ -187,6 +189,7 @@
 					<el-table-column
 						prop="arch"
 						label="硬件类型"
+                         width="100"
 						:filter-multiple="false"
 						:column-key="'arch'"
 						:filters="arch"
@@ -194,6 +197,7 @@
 					<el-table-column
 						prop="os"
 						label="操作系统"
+                         width="100"
 						:filter-multiple="false"
 						:column-key="'os'"
 						:filters="os"
@@ -201,6 +205,7 @@
 					<el-table-column
 						prop="isp"
 						label="节点线路"
+                         width="100"
 						:filter-multiple="false"
 						:column-key="'isp'"
 						:filters="isp"
@@ -208,7 +213,7 @@
 					<el-table-column
 						prop="proportion_cpu"
 						label="CPU占用"
-						width="100"
+						width="120"
                         :render-header="icons"
 					>
 						<template slot-scope="scope">
@@ -225,7 +230,7 @@
 					<el-table-column
 						prop="proportion_ram"
 						label="内存占用"
-						width="100"
+						width="120"
                         :render-header="icons"
 					>
 						<template slot-scope="scope">
@@ -242,7 +247,7 @@
 					<el-table-column
 						prop="remainingCap"
 						label="存储占用"
-						width="100"
+					width="120"
                         :render-header="icons"
 					>
 						<template slot-scope="scope">
@@ -769,11 +774,15 @@ export default {
 			pathname: '',
 			z_tablist: [],
 			autoWidth: {
-				width: '',
+                width: '',
+                all_con_w:'',
 			},
             tableHeight:0,
             node_id:'',
             copy_dialogVisible:false,
+           tab_transform:1,
+           tabscale:"small_tabscale",
+           tab_el:"tab_el",
 		};
 	},
 	beforeRouteEnter(to, from, next) {
@@ -1021,7 +1030,18 @@ export default {
 							document.getElementsByClassName('el-table__body')[0]
 								.offsetWidth +
 							120 +
-							'px';
+                            'px';
+                            
+                        let tab_w=document.getElementsByClassName('el-table__body')[0].offsetWidth;
+                       let con_w = document.getElementsByClassName('content-container')[0].offsetWidth;
+                        this.tab_transform=Math.floor((con_w/tab_w)*100) / 100;
+                        if(this.tab_transform>0.75){
+                            this.tabscale="small_tabscale"
+                        }else{
+                            this.tabscale='mini_tabscale';
+                        }
+                        this.all_con_w=con_w;
+                            console.log(this.tab_transform);
 					} else {
 						this.$message.error(res.err_msg);
 					}
@@ -1579,5 +1599,14 @@ export default {
 .go {
 	transform: rotate(-180deg);
 	transition: all 1s;
+}
+.mini_tabscale{
+    transform: scaleX(0.65); transform-origin: 0 0;
+}
+.small_tabscale{
+    transform: scaleX(0.75); transform-origin: 0 0;
+}
+.tab_el{
+ transform: scale(1); transform-origin: 0 0;
 }
 </style>

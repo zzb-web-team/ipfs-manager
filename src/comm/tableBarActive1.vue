@@ -27,7 +27,7 @@
 			:label="item.label"
 			:sortable="item.sortable"
 		></el-table-column>
-		<el-table-column :label="tableOption.label">
+		<el-table-column :label="tableOption.label" width="220">
 			<template slot-scope="scope">
 				<!-- <el-button @click="detail(scope.row)" size="mini">详情</el-button> -->
 				<el-button

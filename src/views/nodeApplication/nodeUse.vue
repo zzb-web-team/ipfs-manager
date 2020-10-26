@@ -284,7 +284,7 @@
 							></el-button> -->
 							<div
 								id="myChart3"
-								:style="{ height: '600px', width: '100%' }"
+								:style="{ height: '600px'}"
 							></div>
 						</div>
 						<div class="devide_table">
@@ -2246,6 +2246,7 @@ export default {
 		}
 	}
 	.device_form {
+        width: auto;
 		height: auto;
 		overflow: hidden;
 		margin: 0 30px;
@@ -2306,7 +2307,7 @@ export default {
 	}
 
 	.devide_pageNation {
-		width: 100%;
+		// width: 100%;
 		height: auto;
 		overflow: hidden;
 		margin-top: 20px;

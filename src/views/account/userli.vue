@@ -104,7 +104,7 @@
 					</el-row>
 				</el-form>
 			</div>
-			<div class="user_devide_table">
+			<div class="user_devide_table" :style="{ width: max_tab_width }">
 				<el-row type="flex" class="row_active" justify="space-between">
 					<el-col :span="6">
 						<el-button
@@ -130,29 +130,27 @@
 						</el-button>
 					</el-col>
 				</el-row>
-				<el-row type="flex" class="row_active">
-					<el-col :span="24">
-						<tableBarActive1
-							id="rebateSetTable"
-							ref="table1"
-							tooltip-effect="dark"
-							:tableData="tableData"
-							:obnj="obnj"
-							:ipfs_id="ipfs_id"
-							@handleSelectionChange="handleSelectionChange"
-							:clomnSelection="clomnSelection"
-							:rowHeader="rowHeader"
-							:tableOption="tableOption"
-							:tableHeight="tableHeight"
-							@disable="disable"
-							@toChange="toChange"
-							@detail="detail"
-							@changePassword="changePassword"
-							@toDelete="toDelete"
-							@tableSortChange="tableSortChange"
-						></tableBarActive1>
-					</el-col>
-				</el-row>
+				<div class="row_active">
+					<tableBarActive1
+						id="rebateSetTable"
+						ref="table1"
+						tooltip-effect="dark"
+						:tableData="tableData"
+						:obnj="obnj"
+						:ipfs_id="ipfs_id"
+						@handleSelectionChange="handleSelectionChange"
+						:clomnSelection="clomnSelection"
+						:rowHeader="rowHeader"
+						:tableOption="tableOption"
+						:tableHeight="tableHeight"
+						@disable="disable"
+						@toChange="toChange"
+						@detail="detail"
+						@changePassword="changePassword"
+						@toDelete="toDelete"
+						@tableSortChange="tableSortChange"
+					></tableBarActive1>
+				</div>
 				<div
 					class="devide_pageNation"
 					style="display: flex;justify-content: space-between;"
@@ -1017,6 +1015,7 @@ export default {
 			partmant_disable: true,
 			pdepartment_list: [],
 			tableHeight: 0,
+			max_tab_width: 0,
 		};
 	},
 	mounted: function() {
@@ -1025,7 +1024,10 @@ export default {
 				.offsetHeight;
 			let con_he = document.getElementsByClassName('content-container')[0]
 				.offsetHeight;
+			let con_w = document.getElementsByClassName('content-container')[0]
+				.offsetWidth;
 			this.tableHeight = con_he - top_title_h - 220;
+			this.max_tab_width = con_w - 60 + 'px';
 		});
 		let munulist = JSON.parse(localStorage.getItem('menus'));
 		let pathname = this.$route.path;
@@ -1917,8 +1919,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.content {
-	min-width: 1755px;
+.content{
+    overflow: hidden;
 }
 .search-con {
 	width: 250px;
@@ -1935,7 +1937,7 @@ export default {
 }
 
 .myself-container {
-	width: 100%;
+	// width: 100%;
 	min-width: 1600px;
 	text-align: left;
 	.devide_title {

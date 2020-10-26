@@ -922,7 +922,7 @@ export default {
   min-width: 1755px;
 }
 .myself-container {
-  width: 100%;
+//   width: 100%;
   min-width: 1600px;
   .devide_title {
     width: 100%;
