@@ -38,7 +38,7 @@
 			</el-row>
 			<el-row
 				type="flex"
-				:gutter="20"
+				:gutter="10"
 				v-show="activeName == 'third'"
 				style="height:52px;"
 			>
@@ -80,6 +80,7 @@
 						v-model="searchdata.region1"
 						placeholder="节点一级渠道"
 						@change="handleChangefirst($event)"
+                        style="width:100%;max-width: 200px;margin-left:10px;"
 					>
 						<el-option label="全部" value="*"></el-option>
 						<el-option
@@ -95,6 +96,7 @@
 						v-model="searchdata.region2"
 						placeholder="节点二级渠道"
 						:disabled="chil_disable"
+                        style="width:100%;max-width: 200px;margin-left:10px;"
 						@change="set_time()"
 					>
 						<el-option label="全部" value="*"></el-option>
@@ -107,7 +109,7 @@
 				></el-col>
 			</el-row>
 
-			<el-row type="flex" :gutter="20" style="height:52px;">
+			<el-row type="flex" :gutter="10" style="height:52px;">
 				<el-col :span="4" v-show="activeName != 'third'"
 					><el-input
 						size="small"
@@ -128,7 +130,6 @@
 						v-model="node_type"
 						placeholder="请选择节点类型"
 						@change="set_time()"
-						style="width:100%;max-width: 200px;margin-left:10px;"
 						size="small"
 					>
 						<el-option value="*" label="全部"></el-option>
@@ -3190,7 +3191,7 @@ export default {
 					type: 'value',
 					name: dadaunits,
 					min: 0,
-					max: maxnum,
+					// max: Math.ceil(maxnum),
 					splitLine: {
 						show: false, //去掉网格线
 					},
@@ -3304,7 +3305,7 @@ export default {
 						type: 'value',
 						name: 'ms',
 						min: 0,
-						max: maxnum,
+						// max: Math.ceil(maxnum),
 						splitLine: {
 							show: false, //去掉网格线
 						},

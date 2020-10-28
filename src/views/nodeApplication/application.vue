@@ -17,7 +17,7 @@
 					>
 						<el-row
 							type="flex"
-							:gutter="20"
+							:gutter="10"
 							style="align-items: center;"
 						>
 							<el-col :span="4">
@@ -215,7 +215,7 @@
 					>
 						<el-row
 							type="flex"
-							:gutter="20"
+							:gutter="10"
 							style="align-items: center;"
 						>
 							<el-col :span="4">

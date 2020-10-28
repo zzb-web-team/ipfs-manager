@@ -2,7 +2,7 @@
 	<div class="content yun_income">
 		<div class="search rowbg">
 			<div class="item_title">节点收益明细</div>
-			<el-row type="flex" style="align-items: center;">
+			<el-row type="flex" :gutter="20" style="align-items: center;">
 				<el-input
 					style="width:15%;"
 					placeholder="请输入节点id,节点ip"
@@ -17,14 +17,13 @@
 						@click="seachuser()"
 					></i>
 				</el-input>
-				<span style="margin-left:20px;margin-right:10px;"
-					>节点类型</span
+				<span style="margin-left:10px;"
+					>节点类型：</span
 				>
 				<el-select
 					v-model="node_type"
 					placeholder="请选择节点类型"
 					@change="seachuser()"
-					style="width:100%;max-width: 200px;margin-left:10px;"
 					size="small"
 				>
 					<el-option value="" label="全部"></el-option>

@@ -11,13 +11,13 @@
             
 			<div class="item_title">节点信息</i></div>
             
-			<el-row type="flex" justify="start" style="white-space:nowrap;">
+			<el-row type="flex" :gutter="20" justify="start" style="white-space:nowrap;">
 				<el-input
 					placeholder="请输入节点IP，节点ID"
 					v-model="seachinput"
 					@keyup.enter.native="seachipfs()"
 					size="small"
-					style="width:12%;"
+					style="width:15%;"
 				>
 					<i
 						slot="prefix"
@@ -25,12 +25,11 @@
 						@click="seachipfs"
 					></i>
 				</el-input>
-                <span style="margin-left:20px;margin-right:10px;">节点类型</span>
+                <span style="margin-left:10px;">节点类型：</span>
                 <el-select
 					v-model="node_type"
 					placeholder="请选择节点类型"
 					@change="handleChange()"
-					style="width:100%;max-width: 200px;margin-left:10px;"
 					size="small"
 				>
                 <el-option value="" label="全部"></el-option>
@@ -41,9 +40,8 @@
 						:value="item.label"
 					></el-option>
 				</el-select>
-				<span style="margin-left:20px;margin-right:10px;">节点区域/省市</span>
+				<span style="margin-left:10px;">节点区域/省市：</span>
 				<el-cascader
-					style="width:100%;max-width: 200px;"
 					placeholder="请选择区域"
 					v-model="value1"
 					:options="citylist"
@@ -55,7 +53,7 @@
 					placeholder="请选择城市"
 					@change="handleChange()"
 					:disabled="city_disable"
-					style="width:100%;max-width: 200px;margin-left:10px;"
+                    style="margin-left:10px;"
 					size="small"
 				>
 					<el-option
@@ -65,12 +63,11 @@
 						:value="item.name"
 					></el-option>
 				</el-select>
-				<span style="margin-left:20px;margin-right:10px;">节点渠道商:</span>
+				<span style="margin-left:10px;">节点渠道商：</span>
 				<el-select
 					v-model="firstchid"
 					placeholder="一级渠道商"
 					@change="handleChangefirst($event)"
-					style="width:100%;max-width: 200px;"
 					size="small"
 				>
 					<el-option value="" label="全部"></el-option>
@@ -86,7 +83,7 @@
 					placeholder="二级渠道商"
 					@change="handleChange()"
 					:disabled="chil_disable"
-					style="width:100%;max-width: 200px;margin-left:10px;"
+                    style="margin-left:10px;"
 					size="small"
 				>
 					<el-option value="" label="全部"></el-option>
@@ -1041,7 +1038,6 @@ export default {
                             this.tabscale='mini_tabscale';
                         }
                         this.all_con_w=con_w;
-                            console.log(this.tab_transform);
 					} else {
 						this.$message.error(res.err_msg);
 					}
@@ -1051,6 +1047,7 @@ export default {
 		//多选事件
 		handleSelectionChange(val) {
 			if (val.length <= 0) {
+                this.temporary_arr=[];
 				return false;
 			}
 			let arr = [];
@@ -1355,11 +1352,19 @@ export default {
 		},
 		//启用--多个
 		all_qiClick() {
-			this.qiorjin(1, this.temporary_arr, 1);
+            if(this.temporary_arr.length<=0){
+                this.$message.error('请先勾选要操作的节点');
+            }else{
+                this.qiorjin(1, this.temporary_arr, 1);
+            }
 		},
 		//启用--多个
 		all_jinClick() {
-			this.qiorjin(0, this.temporary_arr, 1);
+           if(this.temporary_arr.length<=0){
+                    this.$message.error('请先勾选要操作的节点');
+            }else{
+                this.qiorjin(0, this.temporary_arr, 1);
+            }
 		},
 		//获取页码
 		getpage(pages) {

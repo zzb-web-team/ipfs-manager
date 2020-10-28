@@ -20,7 +20,7 @@
 							<div class="item_title">节点利用率</div>
 							<el-row
 								type="flex"
-								:gutter="20"
+								:gutter="10"
 								style="height:52px;"
 							>
 								<el-col :span="4">
@@ -1349,7 +1349,7 @@ export default {
 				params.node_type = '*';
 			}
 			params.start_ts = this.starttime;
-			params.end_ts = this.endtime - 1;
+			params.end_ts = this.endtime;
 			params.pageNo = this.currentPage - 1;
 			params.pageSize = this.fs_pageSize;
 			if (params.end_ts - params.start_ts > 86399) {
