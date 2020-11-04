@@ -1665,9 +1665,9 @@ export default {
 			}
 			query_ip_store_details_table(params)
 				.then((res) => {
-					this.fs_tableData = [];
-					if (res.status == 0) {
-						this.fs_tableData = res.data.tableList;
+                    if (res.status == 0) {
+                        this.fs_tableData = res.data.tableList;
+                     console.log(fs_tableData);
 						this.fs_totalCnt = res.data.totalCnt;
 					} else {
 						this.$message.error(res.errMsg);
@@ -1681,7 +1681,9 @@ export default {
 				this.activeName = 'first';
 			} else {
 				this.activeName = 'second';
-			}
+            }
+            console.log(this.tab_radio);
+            console.log(this.activeName);
 			this.handleClick();
 		},
 		handleClick(tab, event) {
@@ -1716,9 +1718,9 @@ export default {
 			this.node_type = '';
 			this.node_typefs = '';
 			if (this.activeName == 'first') {
-				this.fs_curve();
+				 this.ip_curve();
 			} else {
-				this.ip_curve();
+                this.fs_curve();
 			}
 		},
 		//导出
