@@ -39,12 +39,12 @@
 					style="width:100%;max-width: 200px;margin-left:10px;"
 					size="small"
 				>
-					<el-option value="" label="全部"></el-option>
+					<el-option value="-1" label="全部"></el-option>
 					<el-option
 						v-for="(item, index) in options_node_type"
 						:key="index + item.label + 'node_type'"
 						:label="item.label"
-						:value="item.label"
+						:value="item.value"
 					></el-option>
 				</el-select>
                 	<span style="margin-left:10px;">节点渠道商：</span>
@@ -139,6 +139,13 @@
 						label="节点ID"
 					></el-table-column> -->
 					<el-table-column prop="IP" label="节点IP"></el-table-column>
+                        <el-table-column prop="nodeType" label="节点类型">
+                        <template slot-scope="scope">
+                            <span v-if="scope.row.nodeType==1">点播节点</span>
+                            <span v-else-if="scope.row.nodeType==2">直播节点</span>
+                            <span v-else>--</span>
+                        </template>
+                    </el-table-column>
 					<el-table-column
 						prop="firstch"
 						label="节点一级渠道"
@@ -183,6 +190,13 @@
 						label="节点ID"
 					></el-table-column> -->
 					<el-table-column prop="IP" label="节点IP"></el-table-column>
+                        <el-table-column prop="nodeType" label="节点类型">
+                        <template slot-scope="scope">
+                            <span v-if="scope.row.nodeType==1">点播节点</span>
+                            <span v-else-if="scope.row.nodeType==2">直播节点</span>
+                            <span v-else>--</span>
+                        </template>
+                    </el-table-column>
 					<el-table-column
 						prop="firstch"
 						label="节点一级渠道"
@@ -530,15 +544,15 @@ export default {
 			} else {
 				params.channel2 = this.secondchid;
             }
-            if (this.node_type) {
-				if (this.node_type == '全部') {
-					params.node_type = '*';
+             if (this.node_type) {
+				if (this.node_type == "-1") {
+					params.nodeType =-1;
 				} else {
-					params.node_type = this.node_type;
+					params.nodeType = this.node_type;
 				}
 			} else {
-				params.node_type = '*';
-			}
+				params.nodeType = -1;
+            }
 			params.state = this.showState;
 			params.radio = this.radio;
 			sessionStorage.setItem('search_condition', JSON.stringify(params));
@@ -596,15 +610,15 @@ export default {
 			} else {
 				params.channel2 = this.secondchid;
             }
-            if (this.node_type) {
-				if (this.node_type == '全部') {
-					params.node_type = '*';
+              if (this.node_type) {
+				if (this.node_type == "-1") {
+					params.nodeType =-1;
 				} else {
-					params.node_type = this.node_type;
+					params.nodeType = this.node_type;
 				}
 			} else {
-				params.node_type = '*';
-			}
+				params.nodeType = -1;
+            }
 			params.state = this.showState;
 			params.radio = this.radio;
 			sessionStorage.setItem('search_condition', JSON.stringify(params));

@@ -517,12 +517,12 @@
 							style="width:100%;max-width: 200px;margin-left:10px;"
 							size="small"
 						>
-							<el-option value="" label="全部"></el-option>
+							<el-option value="-1" label="全部"></el-option>
 							<el-option
 								v-for="(item, index) in options_node_type"
 								:key="index + item.label + 'node_type'"
 								:label="item.label"
-								:value="item.label"
+								:value="item.value"
 							></el-option>
 						</el-select>
 					</div>
@@ -656,19 +656,23 @@
 						></div> -->
 						<span
 							style="font-size: 12px;padding: 0 5px;border-radius: 4px;"
-							v-bind:style="{color: item.bgccolor}">
-                            <i style="width: 10px;height: 10px;display: inline-block;background: red;border-radius: 50%;" v-bind:style="{
-								background: item.bgccolor
-							}"></i>
-                            {{ item.devstatus }}</span
+							v-bind:style="{ color: item.bgccolor }"
+						>
+							<i
+								style="width: 10px;height: 10px;display: inline-block;background: red;border-radius: 50%;"
+								v-bind:style="{
+									background: item.bgccolor,
+								}"
+							></i>
+							{{ item.devstatus }}</span
 						>
 						<span
-							v-show="item.node_type == '点播节点'"
+							v-show="item.node_type == 1"
 							style="font-size: 12px;border:1px solid;padding: 0 5px;border-radius: 4px;border-radius: 10px;color: #ffffff;background:#66ccff;"
 							>点播节点</span
 						>
 						<span
-							v-show="item.node_type == '直播节点'"
+							v-show="item.node_type == 2"
 							style="font-size: 12px;border:1px solid;padding: 0 5px;border-radius: 4px;border-radius: 10px;color: #ffffff;background:#9999ff;"
 							>直播节点</span
 						>
@@ -1036,13 +1040,13 @@ export default {
 			parmas.enableFlag = -1;
 			parmas.order = this.value;
 			if (this.node_type) {
-				if (this.node_type == '全部') {
-					parmas.node_type = '';
+				if (this.node_type == '-1') {
+					parmas.nodeType = -1;
 				} else {
-					parmas.node_type = this.node_type;
+					parmas.nodeType = this.node_type;
 				}
 			} else {
-				parmas.node_type = '';
+				parmas.nodeType = -1;
 			}
 			sessionStorage.setItem('search_condition', JSON.stringify(parmas));
 			query_node(parmas)

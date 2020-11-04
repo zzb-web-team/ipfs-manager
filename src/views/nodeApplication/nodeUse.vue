@@ -46,7 +46,7 @@
 										size="small"
 									>
 										<el-option
-											value="*"
+											value="-1"
 											label="全部"
 										></el-option>
 										<el-option
@@ -56,7 +56,7 @@
 												index + item.label + 'node_type'
 											"
 											:label="item.label"
-											:value="item.label"
+											:value="item.value"
 										></el-option> </el-select
 								></el-col>
 								<el-col :span="2">
@@ -284,7 +284,7 @@
 							></el-button> -->
 							<div
 								id="myChart3"
-								:style="{ height: '600px'}"
+								:style="{ height: '600px' }"
 							></div>
 						</div>
 						<div class="devide_table">
@@ -311,15 +311,21 @@
 										>
 										</el-table-column>
 										<el-table-column
-											prop="node_type"
+											prop="nodeType"
 											label="节点类型"
 										>
 											<template slot-scope="scope">
 												<span
-													v-if="scope.row.node_type"
-													>{{
-														scope.row.node_type
-													}}</span
+													v-if="
+														scope.row.nodeType == 1
+													"
+													>点播节点</span
+												>
+												<span
+													v-else-if="
+														scope.row.nodeType == 2
+													"
+													>直播节点</span
 												>
 												<span v-else>--</span>
 											</template>
@@ -1191,13 +1197,13 @@ export default {
 				params.isp = this.ispvalue;
 			}
 			if (this.node_type) {
-				if (this.node_type == '全部') {
-					params.node_type = '*';
+				if (this.node_type == '-1') {
+					params.nodeType = -1;
 				} else {
-					params.node_type = this.node_type;
+					params.nodeType = this.node_type;
 				}
 			} else {
-				params.node_type = '*';
+				params.nodeType = -1;
 			}
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime - 1;
@@ -1340,19 +1346,19 @@ export default {
 				params.isp = this.ispvalue;
 			}
 			if (this.node_type) {
-				if (this.node_type == '全部') {
-					params.node_type = '*';
+				if (this.node_type == '-1') {
+					params.nodeType = -1;
 				} else {
-					params.node_type = this.node_type;
+					params.nodeType = this.node_type;
 				}
 			} else {
-				params.node_type = '*';
+				params.nodeType = -1;
 			}
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime;
 			params.pageNo = this.currentPage - 1;
 			params.pageSize = this.fs_pageSize;
-			if (params.end_ts - params.start_ts > 86399) {
+			if (params.end_ts - params.start_ts > 86400) {
 				params.time_unit = 1440;
 				this.tabtitle_flow = '累计使用流量';
 				this.tabtitle_storage = '平均占用存储';
@@ -2246,7 +2252,7 @@ export default {
 		}
 	}
 	.device_form {
-        width: auto;
+		width: auto;
 		height: auto;
 		overflow: hidden;
 		margin: 0 30px;

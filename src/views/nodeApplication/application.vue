@@ -42,7 +42,7 @@
 									size="small"
 								>
 									<el-option
-										value="*"
+										value="-1"
 										label="全部"
 									></el-option>
 									<el-option
@@ -50,7 +50,7 @@
 										index) in options_node_type"
 										:key="index + item.label + 'node_type'"
 										:label="item.label"
-										:value="item.label"
+										:value="item.value"
 									></el-option>
 								</el-select>
 							</el-col>
@@ -219,140 +219,149 @@
 							style="align-items: center;"
 						>
 							<el-col :span="4">
-                                <el-input
-								v-model="inputfs"
-								placeholder="请输入节点ID"
-								size="small"
-								@keyup.enter.native="onseach('fs')"
-								><i
-									slot="prefix"
-									class="el-input__icon el-icon-search"
-									@click="onseach('fs')"
-								></i
-							></el-input>
-                            </el-col>
+								<el-input
+									v-model="inputfs"
+									placeholder="请输入节点ID"
+									size="small"
+									@keyup.enter.native="onseach('fs')"
+									><i
+										slot="prefix"
+										class="el-input__icon el-icon-search"
+										@click="onseach('fs')"
+									></i
+								></el-input>
+							</el-col>
 							<el-col :span="2">
-                                <el-select
-								v-model="node_typefs"
-								placeholder="请选择节点类型"
-								@change="onseach('fs')"
-								style="width:100%;max-width: 200px;margin-left:10px;"
-								size="small"
-							>
-								<el-option value="*" label="全部"></el-option>
-								<el-option
-									v-for="(item, index) in options_node_type"
-									:key="index + item.label + 'node_type'"
-									:label="item.label"
-									:value="item.label"
-								></el-option>
-							</el-select>
-                            </el-col>
-							<el-col :span="2">
-                                <el-select
-								v-model="firstvaluea_fs"
-								placeholder="节点一级渠道"
-								size="small"
-								style="width:100%;max-width: 200px;margin-left:10px;"
-								@change="handleChangefirst_fs($event)"
-							>
-								<el-option value="*" label="全部"></el-option>
-								<el-option
-									v-for="(item, index) in firstchan"
-									:key="item.name + index"
-									:label="item.name"
-									:value="item.value"
-								></el-option>
-							</el-select>
-                            </el-col>
-							<el-col :span="2">
-                                	<el-select
-								v-model="secondvalue_fs"
-								placeholder="节点二级渠道"
-								size="small"
-								style="width:100%;max-width: 200px;margin-left:10px;"
-								:disabled="chil_disable_fs"
-								@change="onseach('fs')"
-							>
-								<el-option value="*" label="全部"></el-option>
-								<el-option
-									v-for="(item, index) in secondchan"
-									:key="item.name + index"
-									:label="item.name"
-									:value="item.value"
+								<el-select
+									v-model="node_typefs"
+									placeholder="请选择节点类型"
+									@change="onseach('fs')"
+									style="width:100%;max-width: 200px;margin-left:10px;"
+									size="small"
 								>
-								</el-option>
-							</el-select>
-                            </el-col>
+									<el-option
+										value="-1"
+										label="全部"
+									></el-option>
+									<el-option
+										v-for="(item,
+										index) in options_node_type"
+										:key="index + item.label + 'node_type'"
+										:label="item.label"
+										:value="item.value"
+									></el-option>
+								</el-select>
+							</el-col>
 							<el-col :span="2">
-                                <el-select
-								v-model="devtypevalue_fs"
-								placeholder="设备类型"
-								size="small"
-								style="width:100%;max-width: 200px;margin-left:10px;"
-								@change="onseach('fs')"
-							>
-								<el-option value="*" label="全部"></el-option>
-								<el-option
-									v-for="(item, index) in device_type"
-									:key="item.name + index"
-									:label="item.name"
-									:value="item.name"
-								></el-option>
-							</el-select>
-                            </el-col>
+								<el-select
+									v-model="firstvaluea_fs"
+									placeholder="节点一级渠道"
+									size="small"
+									style="width:100%;max-width: 200px;margin-left:10px;"
+									@change="handleChangefirst_fs($event)"
+								>
+									<el-option
+										value="*"
+										label="全部"
+									></el-option>
+									<el-option
+										v-for="(item, index) in firstchan"
+										:key="item.name + index"
+										:label="item.name"
+										:value="item.value"
+									></el-option>
+								</el-select>
+							</el-col>
 							<el-col :span="2">
-                                <el-cascader
-								style="margin-left:10px;width: 100%;"
-								placeholder="请选择区域"
-								size="small"
-								v-model="valueafs"
-								:options="optionsafs"
-								@change="seach_operce_fs"
-							></el-cascader>
-                            </el-col>
+								<el-select
+									v-model="secondvalue_fs"
+									placeholder="节点二级渠道"
+									size="small"
+									style="width:100%;max-width: 200px;margin-left:10px;"
+									:disabled="chil_disable_fs"
+									@change="onseach('fs')"
+								>
+									<el-option
+										value="*"
+										label="全部"
+									></el-option>
+									<el-option
+										v-for="(item, index) in secondchan"
+										:key="item.name + index"
+										:label="item.name"
+										:value="item.value"
+									>
+									</el-option>
+								</el-select>
+							</el-col>
 							<el-col :span="2">
-                                <el-select
-								v-model="valuebfs"
-								placeholder="请选择城市"
-								size="small"
-								style="width:100%;max-width: 200px;margin-left:10px;"
-								@change="onseach('fs')"
-								:disabled="city_disable_fs"
-							>
-								<el-option
-									v-for="(item, index) in optionsbfs"
-									:key="index"
-									:label="item.name"
-									:value="item.name"
-								></el-option>
-							</el-select>
-                            </el-col>
+								<el-select
+									v-model="devtypevalue_fs"
+									placeholder="设备类型"
+									size="small"
+									style="width:100%;max-width: 200px;margin-left:10px;"
+									@change="onseach('fs')"
+								>
+									<el-option
+										value="*"
+										label="全部"
+									></el-option>
+									<el-option
+										v-for="(item, index) in device_type"
+										:key="item.name + index"
+										:label="item.name"
+										:value="item.name"
+									></el-option>
+								</el-select>
+							</el-col>
 							<el-col :span="2">
-                                	<el-select
-								v-model="ispvalue_fs"
-								placeholder="网络线路"
-								size="small"
-								style="width:100%;max-width: 200px;margin-left:10px;"
-								@change="onseach('fs')"
-							>
-								<el-option value="*" label="全部"></el-option>
-								<el-option
-									v-for="(item, index) in isp"
-									:key="item.name + index"
-									:label="item.name"
-									:value="item.name"
-								></el-option>
-							</el-select>
-                            </el-col>
-							
-							
-							
-						
-							
-							
-							
-						
+								<el-cascader
+									style="margin-left:10px;width: 100%;"
+									placeholder="请选择区域"
+									size="small"
+									v-model="valueafs"
+									:options="optionsafs"
+									@change="seach_operce_fs"
+								></el-cascader>
+							</el-col>
+							<el-col :span="2">
+								<el-select
+									v-model="valuebfs"
+									placeholder="请选择城市"
+									size="small"
+									style="width:100%;max-width: 200px;margin-left:10px;"
+									@change="onseach('fs')"
+									:disabled="city_disable_fs"
+								>
+									<el-option
+										v-for="(item, index) in optionsbfs"
+										:key="index"
+										:label="item.name"
+										:value="item.name"
+									></el-option>
+								</el-select>
+							</el-col>
+							<el-col :span="2">
+								<el-select
+									v-model="ispvalue_fs"
+									placeholder="网络线路"
+									size="small"
+									style="width:100%;max-width: 200px;margin-left:10px;"
+									@change="onseach('fs')"
+								>
+									<el-option
+										value="*"
+										label="全部"
+									></el-option>
+									<el-option
+										v-for="(item, index) in isp"
+										:key="item.name + index"
+										:label="item.name"
+										:value="item.name"
+									></el-option>
+								</el-select>
+							</el-col>
+
 							<el-radio-group
 								v-show="zidingyifs == false"
 								v-model="radio"
@@ -422,15 +431,21 @@
 											label="节点id"
 										></el-table-column>
 										<el-table-column
-											prop="node_type"
+											prop="nodeType"
 											label="节点类型"
 										>
 											<template slot-scope="scope">
 												<span
-													v-if="scope.row.node_type"
-													>{{
-														scope.row.node_type
-													}}</span
+													v-if="
+														scope.row.nodeType == 1
+													"
+													>点播节点</span
+												>
+												<span
+													v-else-if="
+														scope.row.nodeType == 2
+													"
+													>直播节点</span
 												>
 												<span v-else>--</span>
 											</template>
@@ -558,15 +573,21 @@
 											label="节点id"
 										></el-table-column>
 										<el-table-column
-											prop="node_type"
+											prop="nodeType"
 											label="节点类型"
 										>
 											<template slot-scope="scope">
 												<span
-													v-if="scope.row.node_type"
-													>{{
-														scope.row.node_type
-													}}</span
+													v-if="
+														scope.row.nodeType == 1
+													"
+													>点播节点</span
+												>
+												<span
+													v-else-if="
+														scope.row.nodeType == 2
+													"
+													>直播节点</span
 												>
 												<span v-else>--</span>
 											</template>
@@ -1347,13 +1368,13 @@ export default {
 				params.time_unit = 120;
 			}
 			if (this.node_type) {
-				if (this.node_type == '全部') {
-					params.node_type = '*';
+				if (this.node_type == '-1') {
+					params.nodeType = -1;
 				} else {
-					params.node_type = this.node_type;
+					params.nodeType = this.node_type;
 				}
 			} else {
-				params.node_type = '*';
+				params.nodeType = -1;
 			}
 			params.radio = this.radio;
 			params.activeName = this.activeName;
@@ -1458,13 +1479,13 @@ export default {
 				params.time_unit = 120;
 			}
 			if (this.node_typefs) {
-				if (this.node_typefs == '全部') {
-					params.node_type = '*';
+				if (this.node_typefs == '-1') {
+					params.nodeType = -1;
 				} else {
-					params.node_type = this.node_typefs;
+					params.nodeType = this.node_typefs;
 				}
 			} else {
-				params.node_type = '*';
+				params.nodeType = -1;
 			}
 			params.radio = this.radio;
 			params.activeName = this.activeName;
@@ -1548,13 +1569,13 @@ export default {
 				params.isp = this.ispvalue;
 			}
 			if (this.node_type) {
-				if (this.node_type == '全部') {
-					params.node_type = '*';
+				if (this.node_type == '-1') {
+					params.nodeType = -1;
 				} else {
-					params.node_type = this.node_type;
+					params.nodeType = this.node_type;
 				}
 			} else {
-				params.node_type = '*';
+				params.nodeType = -1;
 			}
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime - 1;
@@ -1625,13 +1646,13 @@ export default {
 				params.isp = this.ispvalue_fs;
 			}
 			if (this.node_typefs) {
-				if (this.node_typefs == '全部') {
-					params.node_type = '*';
+				if (this.node_typefs == '-1') {
+					params.nodeType = -1;
 				} else {
-					params.node_type = this.node_typefs;
+					params.nodeType = this.node_typefs;
 				}
 			} else {
-				params.node_type = '*';
+				params.nodeType = -1;
 			}
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime - 1;
@@ -1743,13 +1764,13 @@ export default {
 				params.isp = this.ispvalue_fs;
 			}
 			if (this.node_typefs) {
-				if (this.node_typefs == '全部') {
-					params.node_type = '*';
+				if (this.node_typefs == '-1') {
+					params.nodeType = -1;
 				} else {
-					params.node_type = this.node_typefs;
+					params.nodeType = this.node_typefs;
 				}
 			} else {
-				params.node_type = '*';
+				params.nodeType = -1;
 			}
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime - 1;
@@ -1820,14 +1841,14 @@ export default {
 			} else {
 				params.isp = this.ispvalue;
 			}
-			if (this.node_type) {
-				if (this.node_type == '全部') {
-					params.node_type = '*';
+            if (this.node_type) {
+				if (this.node_type == '-1') {
+					params.nodeType = -1;
 				} else {
-					params.node_type = this.node_type;
+					params.nodeType = this.node_type;
 				}
 			} else {
-				params.node_type = '*';
+				params.nodeType = -1;
 			}
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime - 1;

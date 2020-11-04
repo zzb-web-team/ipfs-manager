@@ -65,12 +65,12 @@
 						style="width:100%;max-width: 200px;margin-left:10px;"
 						size="small"
 					>
-						<el-option value="*" label="全部"></el-option>
+						<el-option value="-1" label="全部"></el-option>
 						<el-option
 							v-for="(item, index) in options_node_type"
 							:key="index + item.label + 'node_type'"
 							:label="item.label"
-							:value="item.label"
+							:value="item.value"
 						></el-option>
 					</el-select>
 				</el-col>
@@ -132,12 +132,12 @@
 						@change="set_time()"
 						size="small"
 					>
-						<el-option value="*" label="全部"></el-option>
+						<el-option value="-1" label="全部"></el-option>
 						<el-option
 							v-for="(item, index) in options_node_type"
 							:key="index + item.label + 'node_type'"
 							:label="item.label"
-							:value="item.label"
+							:value="item.value"
 						></el-option>
 					</el-select>
 				</el-col>
@@ -1099,13 +1099,13 @@ export default {
 				params.timeUnit = 60;
             }
             if (this.node_type) {
-				if (this.node_type == '全部') {
-					params.node_type = '*';
+				if (this.node_type == '-1') {
+					params.nodeType = -1;
 				} else {
-					params.node_type = this.node_type;
+					params.nodeType = this.node_type;
 				}
 			} else {
-				params.node_type = '*';
+				params.nodeType = -1;
 			}
 			params.time_unit = params.timeUnit;
 			params.tabname = this.searchdata.tabname;
@@ -1214,13 +1214,13 @@ export default {
 				this.titleOverview = true;
             }
             if (this.node_type) {
-				if (this.node_type == '全部') {
-					params.node_type = '*';
+				if (this.node_type == '-1') {
+					params.nodeType = -1;
 				} else {
-					params.node_type = this.node_type;
+					params.nodeType = this.node_type;
 				}
 			} else {
-				params.node_type = '*';
+				params.nodeType = -1;
 			}
 			params.time_unit = params.timeUnit;
 			params.tabname = this.searchdata.tabname;
@@ -1327,14 +1327,14 @@ export default {
 			} else {
 				params.timeUnit = 60;
             }
-            if (this.node_type) {
-				if (this.node_type == '全部') {
-					params.node_type = '*';
+           if (this.node_type) {
+				if (this.node_type == '-1') {
+					params.nodeType = -1;
 				} else {
-					params.node_type = this.node_type;
+					params.nodeType = this.node_type;
 				}
 			} else {
-				params.node_type = '*';
+				params.nodeType = -1;
 			}
 			params.time_unit = params.timeUnit;
 			params.tabname = this.searchdata.tabname;
@@ -1438,13 +1438,13 @@ export default {
 				params.timeUnit = 60;
             }
             if (this.node_type) {
-				if (this.node_type == '全部') {
-					params.node_type = '*';
+				if (this.node_type == '-1') {
+					params.nodeType = -1;
 				} else {
-					params.node_type = this.node_type;
+					params.nodeType = this.node_type;
 				}
 			} else {
-				params.node_type = '*';
+				params.nodeType = -1;
 			}
 			params.time_unit = params.timeUnit;
 			params.tabname = this.searchdata.tabname;
@@ -1545,13 +1545,13 @@ export default {
 				params.timeUnit = 60;
             }
             if (this.node_type) {
-				if (this.node_type == '全部') {
-					params.node_type = '*';
+				if (this.node_type == '-1') {
+					params.nodeType = -1;
 				} else {
-					params.node_type = this.node_type;
+					params.nodeType = this.node_type;
 				}
 			} else {
-				params.node_type = '*';
+				params.nodeType = -1;
 			}
 			params.time_unit = params.timeUnit;
 			params.tabname = this.searchdata.tabname;
@@ -1659,13 +1659,13 @@ export default {
 				params.timeUnit = 60;
             }
             if (this.node_type) {
-				if (this.node_type == '全部') {
-					params.node_type = '*';
+				if (this.node_type == '-1') {
+					params.nodeType = -1;
 				} else {
-					params.node_type = this.node_type;
+					params.nodeType = this.node_type;
 				}
 			} else {
-				params.node_type = '*';
+				params.nodeType = -1;
 			}
 			params.time_unit = params.timeUnit;
 			params.tabname = this.searchdata.tabname;
@@ -1783,14 +1783,14 @@ export default {
 			// } else {
 			// 	params.timeUnit = 60;
             // }
-            if (this.node_type) {
-				if (this.node_type == '全部') {
-					params.node_type = '*';
+           if (this.node_type) {
+				if (this.node_type == '-1') {
+					params.nodeType = -1;
 				} else {
-					params.node_type = this.node_type;
+					params.nodeType = this.node_type;
 				}
 			} else {
-				params.node_type = '*';
+				params.nodeType = -1;
 			}
 			params.time_unit = params.timeUnit;
 			params.tabname = this.searchdata.tabname;
@@ -1906,13 +1906,13 @@ export default {
 				params.city = this.searchdata.region5;
             }
             if (this.node_type) {
-				if (this.node_type == '全部') {
-					params.node_type = '*';
+				if (this.node_type == '-1') {
+					params.nodeType = -1;
 				} else {
-					params.node_type = this.node_type;
+					params.nodeType = this.node_type;
 				}
 			} else {
-				params.node_type = '*';
+				params.nodeType = -1;
 			}
 			params.start_ts = this.starttime;
 			params.end_ts = this.endtime - 1;
@@ -2044,13 +2044,13 @@ export default {
 				params.timeUnit = 60;
             }
             if (this.node_type) {
-				if (this.node_type == '全部') {
-					params.node_type = '*';
+				if (this.node_type == '-1') {
+					params.nodeType = -1;
 				} else {
-					params.node_type = this.node_type;
+					params.nodeType = this.node_type;
 				}
 			} else {
-				params.node_type = '*';
+				params.nodeType = -1;
 			}
 			params.time_unit = params.timeUnit;
 			params.tabname = this.searchdata.tabname;
@@ -2168,14 +2168,14 @@ export default {
 			} else {
 				params.timeUnit = 60;
             }
-            if (this.node_type) {
-				if (this.node_type == '全部') {
-					params.node_type = '*';
+           if (this.node_type) {
+				if (this.node_type == '-1') {
+					params.nodeType = -1;
 				} else {
-					params.node_type = this.node_type;
+					params.nodeType = this.node_type;
 				}
 			} else {
-				params.node_type = '*';
+				params.nodeType = -1;
 			}
 			params.time_unit = params.timeUnit;
 			params.tabname = this.searchdata.tabname;
@@ -2283,13 +2283,13 @@ export default {
 				params.timeUnit = 60;
             }
             if (this.node_type) {
-				if (this.node_type == '全部') {
-					params.node_type = '*';
+				if (this.node_type == '-1') {
+					params.nodeType = -1;
 				} else {
-					params.node_type = this.node_type;
+					params.nodeType = this.node_type;
 				}
 			} else {
-				params.node_type = '*';
+				params.nodeType = -1;
 			}
 			params.time_unit = params.timeUnit;
 			params.tabname = this.searchdata.tabname;
@@ -2665,14 +2665,14 @@ export default {
 			} else {
 				params.timeUnit = 120;
             }
-            if (this.node_type) {
-				if (this.node_type == '全部') {
-					params.node_type = '*';
+           if (this.node_type) {
+				if (this.node_type == '-1') {
+					params.nodeType = -1;
 				} else {
-					params.node_type = this.node_type;
+					params.nodeType = this.node_type;
 				}
 			} else {
-				params.node_type = '*';
+				params.nodeType = -1;
 			}
 			params.time_unit = params.timeUnit;
 			params.tabname = this.searchdata.tabname;
