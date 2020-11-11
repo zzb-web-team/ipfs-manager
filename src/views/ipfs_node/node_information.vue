@@ -866,7 +866,7 @@ export default {
                 h('span', column.label),
                 h('i', {
                         class: 'el-icon-sort',
-                        style: 'color:#ffffff;margin-left:5px;',
+                        style: 'color:#333333;margin-left:5px;',
                         on:{
                            click: function () {
                             console.log(column.label);

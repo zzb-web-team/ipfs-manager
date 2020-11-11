@@ -230,6 +230,7 @@
             // width: 20%;
             display: flex;
             align-items: center;
+            margin-top: 10px;
             span {
                 white-space: nowrap;
             }
@@ -427,8 +428,8 @@
         .ipflow .resetseach_btn,
         .fs_storage .resetseach_btn {
             margin-left: 15px;
-            background: #02b2d6;
-            border-color: #02b2d6;
+            background: #1572E8;
+            border-color: #1572E8;
             padding: 9px 25px;
         }
         
@@ -554,9 +555,9 @@
         }
         
         .select_sort {
-            align-items: center;
+            align-items: flex-start;
             .sort_list {
-                margin-top: 0;
+                margin-top: 15px;
             }
         }
         

@@ -413,291 +413,221 @@
 			<div>
 				<el-tabs v-model="activeName" @tab-click="handleClick">
 					<el-tab-pane label="IP流量" name="first">
-						<el-row style="margin:0 30px;">
-							<el-col :span="9">
-								<div
-									style="box-sizing: border-box;padding: 24px;background: #ffffff;border-radius: 8px;overflow: hidden;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);margin-top:24px;"
-								>
-									<el-table
-										:data="tableData"
-										:cell-style="rowClass"
-										:header-cell-style="headClass"
-										style="width: 100%"
-										:max-height="tableHeight"
-									>
-										<!-- :show-overflow-tooltip="true"   超出省略-->
-										<el-table-column
-											prop="nodeid"
-											label="节点id"
-										></el-table-column>
-										<el-table-column
-											prop="nodeType"
-											label="节点类型"
-										>
-											<template slot-scope="scope">
-												<span
-													v-if="
-														scope.row.nodeType == 1
-													"
-													>点播节点</span
-												>
-												<span
-													v-else-if="
-														scope.row.nodeType == 2
-													"
-													>直播节点</span
-												>
-												<span v-else>--</span>
-											</template>
-										</el-table-column>
-										<el-table-column
-											prop="dataFlow"
-											label="使用流量"
-										>
-											<template slot-scope="scope">
-												<span
-													v-if="
-														scope.row.dataFlow == 0
-													"
-													>0</span
-												>
-												<span v-else>
-													{{
-														scope.row.dataFlow
-															| zhuanbkb
-													}}
-												</span>
-											</template>
-										</el-table-column>
-										<el-table-column
-											prop="chansTimes"
-											label="传输次数"
-										></el-table-column>
-										<el-table-column
-											prop="timestamp"
-											label="日期"
-										>
-											<template slot-scope="scope">
-												<span>
-													{{
-														scope.row.fDateStart
-															| getymd
-													}}--{{
-														scope.row.fDateEnd
-															| getymd
-													}}
-												</span>
-											</template>
-										</el-table-column>
-									</el-table>
-									<fenye
-										style="margin:10px 0 20px 0;"
-										@fatherMethod="getpage"
-										@fathernum="gettol"
-										:pagesa="totalCnt"
-										:currentPage="currentPage"
-									></fenye>
+						<el-row
+							type="flex"
+							style="margin:24px 24px 0 24px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
+						>
+							<el-col>
+								<div class="user-item">
+									<div class="item-text">
+										<img
+											src="../../assets//img/leijill.png"
+											alt=""
+										/>
+									</div>
+									<div class="item-count">
+										<p>累计使用流量</p>
+										<p>{{ totalDataFlow | zhuanbkb }}</p>
+									</div>
 								</div>
 							</el-col>
-							<el-col :span="15">
-								<el-row
-									type="flex"
-									style="margin:24px 0 0 24px;"
-								>
-									<el-col>
-										<div class="user-item">
-											<div class="item-text">
-												<img
-													src="../../assets//img/leijill.png"
-													alt=""
-												/>
-												累计使用流量
-											</div>
-											<div class="item-count">
-												{{ totalDataFlow | zhuanbkb }}
-											</div>
-										</div>
-									</el-col>
-									<el-col style="margin-left:30px;">
-										<div class="user-item">
-											<div class="item-text">
-												<img
-													src="../../assets//img/leijics.png"
-													alt=""
-												/>
-												累计传输次数
-											</div>
-											<div class="item-count">
-												{{ totalOutputCnt }}次
-											</div>
-										</div>
-									</el-col>
-								</el-row>
-								<div class="device_form">
-									<div
-										id="myChart"
-										:style="{ height: scrollerHeight }"
-									></div>
+							<el-col>
+								<div class="user-item">
+									<div class="item-text">
+										<img
+											src="../../assets//img/leijics.png"
+											alt=""
+										/>
+									</div>
+									<div class="item-count">
+										<p>累计传输次数</p>
+										<p>{{ totalOutputCnt }}次</p>
+									</div>
 								</div>
 							</el-col>
 						</el-row>
-
-						<!-- <div class="devide_table">
-							<el-row type="flex" class="row_active">
-								<el-col
-									:span="24"
-									style="text-align:left;    font-weight: bold;"
-									>IP流量表</el-col
+						<div class="device_form">
+							<div id="myChart" style="height: 565px;"></div>
+						</div>
+						<div
+							style="box-sizing: border-box;padding: 24px;background: #ffffff;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);margin:24px;"
+						>
+							<p style="text-align:left;margin-bottom:20px;">
+								IP流量表
+							</p>
+							<el-table
+								:data="tableData"
+								:cell-style="rowClass"
+								:header-cell-style="headClass"
+								style="width: 100%"
+							>
+								<!-- :show-overflow-tooltip="true"   超出省略-->
+								<el-table-column
+									prop="nodeid"
+									label="节点id"
+								></el-table-column>
+								<el-table-column
+									prop="nodeType"
+									label="节点类型"
 								>
-							</el-row>
-							<el-row type="flex" class="row_active">
-								<el-col :span="24"> </el-col>
-							</el-row>
-						</div> -->
+									<template slot-scope="scope">
+										<span v-if="scope.row.nodeType == 1"
+											>点播节点</span
+										>
+										<span
+											v-else-if="scope.row.nodeType == 2"
+											>直播节点</span
+										>
+										<span v-else>--</span>
+									</template>
+								</el-table-column>
+								<el-table-column
+									prop="dataFlow"
+									label="使用流量"
+								>
+									<template slot-scope="scope">
+										<span v-if="scope.row.dataFlow == 0"
+											>0</span
+										>
+										<span v-else>
+											{{ scope.row.dataFlow | zhuanbkb }}
+										</span>
+									</template>
+								</el-table-column>
+								<el-table-column
+									prop="chansTimes"
+									label="传输次数"
+								></el-table-column>
+								<el-table-column prop="timestamp" label="日期">
+									<template slot-scope="scope">
+										<span>
+											{{
+												scope.row.fDateStart | getymd
+											}}--{{
+												scope.row.fDateEnd | getymd
+											}}
+										</span>
+									</template>
+								</el-table-column>
+							</el-table>
+							<fenye
+								style="margin:10px 0 20px 0;text-align:right;"
+								@fatherMethod="getpage"
+								@fathernum="gettol"
+								:pagesa="totalCnt"
+								:currentPage="currentPage"
+							></fenye>
+						</div>
 					</el-tab-pane>
 					<el-tab-pane label="FS存储" name="second">
-						<el-row style="margin:0 30px;">
-							<el-col :span="9">
-								<div
-									style="box-sizing: border-box;padding: 24px;background: #ffffff;border-radius: 8px;overflow: hidden;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);margin-top:24px;"
-								>
-									<el-table
-										:data="fs_tableData"
-										:cell-style="rowClass"
-										:header-cell-style="headClass"
-										style="width: 100%"
-										:max-height="tableHeight"
-									>
-										<el-table-column
-											prop="nodeid"
-											label="节点id"
-										></el-table-column>
-										<el-table-column
-											prop="nodeType"
-											label="节点类型"
-										>
-											<template slot-scope="scope">
-												<span
-													v-if="
-														scope.row.nodeType == 1
-													"
-													>点播节点</span
-												>
-												<span
-													v-else-if="
-														scope.row.nodeType == 2
-													"
-													>直播节点</span
-												>
-												<span v-else>--</span>
-											</template>
-										</el-table-column>
-										<el-table-column
-											prop="storeCapSum"
-											label="存储容量"
-										>
-											<template slot-scope="scope">
-												<span
-													v-if="
-														scope.row.storeCapSum ==
-															0
-													"
-													>0</span
-												>
-												<span v-else>
-													{{
-														scope.row.storeCapSum
-															| zhuanbkb
-													}}
-												</span>
-											</template>
-										</el-table-column>
-										<el-table-column
-											prop="storeTimesSum"
-											label="存储次数"
-										></el-table-column>
-										<el-table-column
-											prop="fDate"
-											label="日期"
-										>
-											<template slot-scope="scope">
-												<span>
-													{{
-														scope.row.fDateStart
-															| getymd
-													}}--{{
-														scope.row.fDateEnd
-															| getymd
-													}}
-												</span>
-											</template>
-										</el-table-column>
-									</el-table>
-									<fenye
-										style="margin:10px 0 20px 0;"
-										@fatherMethod="getpagefs"
-										@fathernum="gettolfs"
-										:pagesa="fs_totalCnt"
-										:currentPage="fs_currentPage"
-									></fenye>
+						<el-row
+							type="flex"
+							style="margin:24px 24px 0 24px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
+						>
+							<el-col>
+								<div class="user-item">
+									<div class="item-text">
+										<img
+											src="../../assets/img/cunchurl.png"
+											alt=""
+										/>
+									</div>
+									<div class="item-count">
+										<p>累计存储容量</p>
+										<p>
+											{{ totalStoreUsage | zhuanbkb }}
+										</p>
+									</div>
 								</div>
 							</el-col>
-							<el-col :span="15">
-								<el-row
-									type="flex"
-									style="margin:24px 0 0 24px;"
-								>
-									<el-col>
-										<div class="user-item">
-											<div class="item-text">
-												<img
-													src="../../assets/img/cunchurl.png"
-													alt=""
-													style="width: 5%;"
-												/>
-												累计存储容量
-											</div>
-											<div class="item-count">
-												{{ totalStoreUsage | zhuanbkb }}
-											</div>
-										</div>
-									</el-col>
-									<el-col style="margin-left:30px;">
-										<div class="user-item">
-											<div class="item-text">
-												<img
-													src="../../assets/img/cunchucs.png"
-													alt=""
-												/>
-												累计存储次数
-											</div>
-											<div class="item-count">
-												{{ totalStoreTimes }}次
-											</div>
-										</div>
-									</el-col>
-								</el-row>
-								<div class="device_form">
-									<div
-										id="myChart1"
-										:style="{ height: scrollerHeight }"
-									></div>
+							<el-col>
+								<div class="user-item">
+									<div class="item-text">
+										<img
+											src="../../assets/img/cunchucs.png"
+											alt=""
+										/>
+									</div>
+									<div class="item-count">
+										<p>
+											累计存储次数
+										</p>
+										<p>{{ totalStoreTimes }}次</p>
+									</div>
 								</div>
 							</el-col>
 						</el-row>
+						<div class="device_form">
+							<div id="myChart1" style="height: 565px;"></div>
+						</div>
 
-						<!-- <div class="devide_table">
-							<el-row type="flex" class="row_active">
-								<el-col
-									:span="24"
-									style="text-align:left;font-weight: bold;"
-									>FS存储表</el-col
+						<div
+							style="box-sizing: border-box;padding: 24px;background: #ffffff;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);margin:24px;"
+						>
+							<el-table
+								:data="fs_tableData"
+								:cell-style="rowClass"
+								:header-cell-style="headClass"
+								style="width: 100%"
+							>
+								<el-table-column
+									prop="nodeid"
+									label="节点id"
+								></el-table-column>
+								<el-table-column
+									prop="nodeType"
+									label="节点类型"
 								>
-							</el-row>
-							<el-row type="flex" class="row_active">
-								<el-col :span="24"> </el-col>
-							</el-row>
-						</div> -->
+									<template slot-scope="scope">
+										<span v-if="scope.row.nodeType == 1"
+											>点播节点</span
+										>
+										<span
+											v-else-if="scope.row.nodeType == 2"
+											>直播节点</span
+										>
+										<span v-else>--</span>
+									</template>
+								</el-table-column>
+								<el-table-column
+									prop="storeCapSum"
+									label="存储容量"
+								>
+									<template slot-scope="scope">
+										<span v-if="scope.row.storeCapSum == 0"
+											>0</span
+										>
+										<span v-else>
+											{{
+												scope.row.storeCapSum | zhuanbkb
+											}}
+										</span>
+									</template>
+								</el-table-column>
+								<el-table-column
+									prop="storeTimesSum"
+									label="存储次数"
+								></el-table-column>
+								<el-table-column prop="fDate" label="日期">
+									<template slot-scope="scope">
+										<span>
+											{{
+												scope.row.fDateStart | getymd
+											}}--{{
+												scope.row.fDateEnd | getymd
+											}}
+										</span>
+									</template>
+								</el-table-column>
+							</el-table>
+							<fenye
+								style="margin:10px 0 20px 0;text-align:right;"
+								@fatherMethod="getpagefs"
+								@fathernum="gettolfs"
+								:pagesa="fs_totalCnt"
+								:currentPage="fs_currentPage"
+							></fenye>
+						</div>
 					</el-tab-pane>
 				</el-tabs>
 			</div>
@@ -1665,9 +1595,9 @@ export default {
 			}
 			query_ip_store_details_table(params)
 				.then((res) => {
-                    if (res.status == 0) {
-                        this.fs_tableData = res.data.tableList;
-                     console.log(fs_tableData);
+					if (res.status == 0) {
+						this.fs_tableData = res.data.tableList;
+						console.log(fs_tableData);
 						this.fs_totalCnt = res.data.totalCnt;
 					} else {
 						this.$message.error(res.errMsg);
@@ -1681,9 +1611,9 @@ export default {
 				this.activeName = 'first';
 			} else {
 				this.activeName = 'second';
-            }
-            console.log(this.tab_radio);
-            console.log(this.activeName);
+			}
+			console.log(this.tab_radio);
+			console.log(this.activeName);
 			this.handleClick();
 		},
 		handleClick(tab, event) {
@@ -1718,9 +1648,9 @@ export default {
 			this.node_type = '';
 			this.node_typefs = '';
 			if (this.activeName == 'first') {
-				 this.ip_curve();
+				this.ip_curve();
 			} else {
-                this.fs_curve();
+				this.fs_curve();
 			}
 		},
 		//导出
@@ -1843,7 +1773,7 @@ export default {
 			} else {
 				params.isp = this.ispvalue;
 			}
-            if (this.node_type) {
+			if (this.node_type) {
 				if (this.node_type == '-1') {
 					params.nodeType = -1;
 				} else {
@@ -2369,19 +2299,19 @@ export default {
 .myself-container {
 	// width: 100%;
 	// min-width: 1600px;
-	overflow: hidden;
+	// overflow: hidden;
 	background: #f6f6f6;
 	.device_form {
 		width: auto;
 		height: auto;
 		// overflow: hidden;
-		margin-top: 24px;
+		margin: 24px 24px 0 24px;
 		background: #ffffff;
 		padding: 24px;
 		box-sizing: border-box;
 		position: relative;
 		box-sizing: border-box;
-		margin-left: 24px;
+
 		border-radius: 8px;
 		box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);
 		.bottom {
@@ -2466,14 +2396,14 @@ export default {
 .user-title .user-item {
 	background: #ffffff;
 	color: #333333;
-	padding: 0 25px;
 	border-radius: 5px;
 	display: flex;
 	text-align: left;
 	justify-content: center;
-	flex-direction: column;
+	// flex-direction: column;
+	align-items: center;
 	height: 120px;
-	box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);
+
 	.seach_top {
 		.bantlist {
 			margin: 0 10px;
@@ -2483,7 +2413,11 @@ export default {
 		font-size: 20px;
 		height: 40px;
 		flex-wrap: 600;
-		text-align: center;
+		text-align: left;
+		p:nth-child(2) {
+			color: #333333;
+			font-size: 30px;
+		}
 	}
 	.item-text {
 		line-height: 50px;
@@ -2492,8 +2426,9 @@ export default {
 		align-items: center;
 		text-align: center;
 		img {
-			width: 6%;
-			margin-right: 5px;
+			width: 80%;
+			margin-right: 20px;
+            margin-top: 10px;
 		}
 	}
 }

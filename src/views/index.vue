@@ -400,6 +400,7 @@ export default {
 			overflow-y: scroll;
 			overflow-x: scroll;
 			padding: 0px;
+            overflow: hidden;
 			.breadcrumb-container {
 				//margin-bottom: 15px;
 				float: none !important;

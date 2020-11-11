@@ -1,6 +1,6 @@
 <template>
 	<div class="back-top">
-		<el-button type="text" @click="backTop()" v-show="datalist.length>0">
+		<el-button type="text" @click="backTop()" v-show="datalist.length > 0">
 			<i class="el-icon-caret-top" @click="backTop()"></i>
 		</el-button>
 		<el-scrollbar style="height:100%;">
@@ -81,12 +81,13 @@ export default {
 <style lang="scss" scoped>
 .back-top {
 	position: fixed;
-	right:60px;
+	right: 60px;
 	top: 50%;
 }
 .rightbox {
 	height: 150px;
-	overflow-x: scroll;
+	overflow-y: scroll;
+	overflow-x: hidden;
 	opacity: 0.6;
 	.nodetype {
 		width: 60px;
@@ -109,5 +110,4 @@ export default {
 		border: 2px solid #4285f4;
 	}
 }
-
 </style>

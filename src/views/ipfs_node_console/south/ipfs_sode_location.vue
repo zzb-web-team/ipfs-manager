@@ -476,6 +476,7 @@
 						type="primary"
 						@click="uopset"
 						size="small"
+						class="local_search_item"
 						style="margin-left: 10px;height: 32px;"
 						>重置</el-button
 					>
@@ -1018,7 +1019,7 @@ export default {
 				query: {
 					node_city: this.citys,
 					node_num: this.rotate,
-					address: '/ipfs_southwest_location',
+					address: '/ipfs_sode_location',
 				},
 			});
 		},

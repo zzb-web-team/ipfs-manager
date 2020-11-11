@@ -598,6 +598,7 @@
 						type="primary"
 						@click="uopset"
 						size="small"
+                        class="local_search_item"
 						style="margin-left: 10px;height: 32px;"
 						>重置</el-button
 					>
@@ -1273,7 +1274,8 @@ export default {
 	.select_sort {
 		text-align: left;
 		display: flex;
-		justify-content: space-between;
+        justify-content: space-between;
+        align-self: flex-start;
 	}
 	.ipfs_box {
 		width: 100%;
