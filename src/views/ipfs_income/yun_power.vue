@@ -29,9 +29,9 @@
 						@click="seachuser()"
 					></i>
 				</el-input>
-                <span style="margin-left:20px;margin-right:10px;"
+                <!-- <span style="margin-left:20px;margin-right:10px;"
 					>节点类型</span
-				>
+				> -->
 				<el-select
 					v-model="node_type"
 					placeholder="请选择节点类型"
@@ -47,13 +47,14 @@
 						:value="item.value"
 					></el-option>
 				</el-select>
-                	<span style="margin-left:10px;">节点渠道商：</span>
+                	<!-- <span style="margin-left:10px;">节点渠道商：</span> -->
 					<el-select
 						v-model="firstchid"
 						value-key
                         size="small"
 						placeholder="一级渠道商"
 						@change="handleChangefirst($event)"
+                        style="margin-left:10px;"
 					>
 						<el-option value="*" label="全部"></el-option>
 						<el-option
@@ -79,7 +80,7 @@
 							:value="item.value"
 						></el-option>
 					</el-select>
-					<span v-if="radio == '2'" style="margin-left:10px;">时间：</span>
+					<!-- <span v-if="radio == '2'" style="margin-left:10px;">时间：</span> -->
 					<el-date-picker
 						v-if="radio == '2'"
 						v-model="time_value"
@@ -90,6 +91,7 @@
 						end-placeholder="结束日期"
 						@change="seachuser()"
 						:picker-options="endPickerOptions"
+                        style="margin-left:10px;"
 					></el-date-picker>
 				<el-button
 					type="primary"
@@ -103,7 +105,7 @@
 			</el-row>
 		</div>
         </div>
-		<div style="box-sizing: border-box;margin:24px 30px;padding:24px 30px;background: #ffffff;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);">
+		<div style="box-sizing: border-box;margin:14px 24px;padding:14px 24px;background: #ffffff;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);">
 			<div style="text-align:right;padding: 10px;" v-if="radio == '1'">
 				<el-button
 					v-show="menutype.roleE == 1"
@@ -375,7 +377,7 @@ export default {
 			let con_he =
 				document.getElementsByClassName('content-container')[0]
 					.offsetHeight;
-			this.tableHeight = con_he-top_title_h-162;
+			this.tableHeight = con_he-top_title_h-142;
 		});
 		this.get_search_data();
 		if (sessionStorage.getItem('search_condition')) {

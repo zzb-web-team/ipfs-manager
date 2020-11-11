@@ -409,7 +409,7 @@ export default {
 	overflow: hidden;
 	text-align: left;
 	background-color: #fff;
-	margin: 24px 30px;
+	margin: 14px 24px;
 	box-sizing: border-box;
 	padding: 24px;
 	border-radius: 8px;
@@ -427,7 +427,7 @@ export default {
 			width: 100%;
 			height: 34px;
 			line-height: 26px;
-			font-size: 16px;
+			font-size: 14px;
 			.item_title {
 				display: inline-block;
 				width: 100px;

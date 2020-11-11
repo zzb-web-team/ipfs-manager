@@ -1349,7 +1349,7 @@ export default {
 		.ipfs_con_left {
             // color: #ffffff;
             color: #333333;
-			font-size: 16px;
+			font-size: 14px;
 		}
 		.ipfs_con_right {
 			.setmap_btn {
@@ -1363,7 +1363,7 @@ export default {
 	.ipfs_title_next {
 		height: auto;
 		// text-align: left;
-		margin-top: -24px;
+		// margin-top: -24px;
 		.maptitle {
 			text-align: center;
 			margin-bottom: 47px;
@@ -1525,14 +1525,14 @@ export default {
 	text-align: center;
 }
 .content .title_name {
-	font-size: 16px;
+	font-size: 14px;
 	margin-left: 10px;
 }
 .content .ipfs_con_label {
 	justify-content: start;
 	// margin-bottom: 25px;
 	.ipfs_con_left {
-		font-size: 16px;
+		font-size: 14px;
 		margin-right: 50px;
 		padding-left: 10px;
 		font-weight: 400;

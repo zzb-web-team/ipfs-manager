@@ -425,7 +425,7 @@ export default {
 				document.getElementsByClassName('content-container')[0]
 					.offsetHeight / 2-24;
 			this.echartsHeight = con_he + 'px';
-			this.tableHeight = con_he - 96 + 'px';
+			this.tableHeight = con_he - 66 + 'px';
 		});
 		this.starttime =
 			new Date(new Date().toLocaleDateString()).getTime() / 1000;
@@ -785,10 +785,9 @@ export default {
 
 <style lang="scss" scoped>
 .content {
-	height: auto;
 	background-color: #f6f6f6;
 	box-sizing: border-box;
-	padding: 24px 30px;
+	padding: 14px 24px;
 	overflow: hidden;
 }
 .top_search {
@@ -814,7 +813,7 @@ export default {
 }
 .el_tab {
 	width: 100%;
-	margin-top: 24px;
+	margin-top:14px;
 	background-color: #ffffff;
 	border-radius: 8px;
 	box-sizing: border-box;

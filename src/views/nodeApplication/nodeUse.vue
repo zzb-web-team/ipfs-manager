@@ -225,7 +225,7 @@
 						</div>
 						<!--  -->
 						<div
-							style="margin:24px 30px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
+							style="margin:14px 24px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 						>
 							<el-row class="overview">
 								<el-col :span="8">
@@ -284,7 +284,7 @@
 							></el-button> -->
 							<div
 								id="myChart3"
-								:style="{ height: '600px' }"
+								:style="{ height: '346px' }"
 							></div>
 						</div>
 						<div class="devide_table">
@@ -303,7 +303,6 @@
 										:cell-style="rowClass"
 										:header-cell-style="headClass"
 										style="width: 100%"
-										height="480"
 									>
 										<el-table-column
 											prop="ipfsId"
@@ -2255,7 +2254,7 @@ export default {
 		width: auto;
 		height: auto;
 		overflow: hidden;
-		margin: 0 30px;
+		margin: 0 24px;
 		background: #ffffff;
 		// padding: 15px 30px;
 		box-sizing: border-box;
@@ -2297,7 +2296,7 @@ export default {
 		background: #ffffff;
 		height: auto;
 		overflow: hidden;
-		margin: 24px 30px;
+		margin: 14px 24px;
 		border-radius: 8px;
 		box-sizing: border-box;
 		padding: 24px;

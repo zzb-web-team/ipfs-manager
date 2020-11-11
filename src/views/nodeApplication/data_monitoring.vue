@@ -4,7 +4,7 @@
 			class="rowbg"
 			v-bind:class="activeName == 'third' ? 'two_rowbg' : 'rowbg'"
 		>
-			<el-row style="height:52px;">
+			<el-row>
 				<el-radio-group
 					v-model="searchdata.tabname"
 					@change="change_tab"
@@ -16,7 +16,7 @@
 				</el-radio-group>
 				<el-row
 					v-show="activeName == 'third'"
-					style="margin-left:20px;height:52px;"
+					style="margin-left:20px;"
 				>
 					<el-col :span="18">
 						<el-select
@@ -40,7 +40,7 @@
 				type="flex"
 				:gutter="10"
 				v-show="activeName == 'third'"
-				style="height:52px;"
+				style="margin-top:10px;"
 			>
 				<el-col :span="4"
 					><el-input
@@ -298,7 +298,7 @@
 				<el-tab-pane label="带宽" name="first">
 					<el-row
 						type="flex"
-						style="border-radius: 8px;margin:24px 30px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
+						style="border-radius: 8px;margin:14px 24px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 					>
 						<el-col class="top_title bandwidth_top">
 							<p>节点带宽峰值（上/下行）</p>
@@ -340,10 +340,10 @@
 						</el-col>
 					</el-row>
 					<div
-						style="box-sizing: border-box;margin: 0 30px;background: #ffffff;padding: 24px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
+						style="box-sizing: border-box;margin: 0 24px;background: #ffffff;padding: 14px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 					>
 						<div
-							style="text-align:left;width: 80%;margin-bottom: 40px;"
+							style="text-align:left;width: 80%;margin-bottom: 10px;"
 							class="data_mon_radio"
 						>
 							<el-radio-group
@@ -373,7 +373,7 @@
 					<el-row
 						v-show="titleOverview"
 						type="flex"
-						style="border-radius: 8px;margin:24px 30px 0px 30px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
+						style="border-radius: 8px;margin:14px 24px 0px 30px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 					>
 						<el-col class="top_title second_top second_top_border">
 							<div>
@@ -399,7 +399,7 @@
 						</el-col>
 					</el-row>
 					<div
-						style="box-sizing: border-box;margin: 24px 30px;background: #ffffff;padding: 24px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
+						style="box-sizing: border-box;margin: 14px 24px;background: #ffffff;padding: 14px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 					>
 						<div
 							id="secondChart"
@@ -413,7 +413,7 @@
 				<el-tab-pane label="节点质量" name="third">
 					<el-row
 						type="flex"
-						style="border-radius: 8px;margin:24px 30px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
+						style="border-radius: 8px;margin:14px 24px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 					>
 						<el-col class="top_title third_top">
 							<p>平均值</p>
@@ -429,7 +429,7 @@
 						</el-col>
 					</el-row>
 					<div
-						style="box-sizing: border-box;margin: 24px 30px;background: #ffffff;padding: 24px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
+						style="box-sizing: border-box;margin: 14px 24px;background: #ffffff;padding: 14px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 						v-show="searchdata.echartslist == 1"
 					>
 						<div
@@ -441,7 +441,7 @@
 						></div>
 					</div>
 					<div
-						style="box-sizing: border-box;margin: 24px 30px;background: #ffffff;padding: 24px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
+						style="box-sizing: border-box;margin: 14px 24px;background: #ffffff;padding: 14px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 						v-show="searchdata.echartslist == 2"
 					>
 						<div
@@ -453,7 +453,7 @@
 						></div>
 					</div>
 					<div
-						style="box-sizing: border-box;margin: 24px 30px;background: #ffffff;padding: 24px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
+						style="box-sizing: border-box;margin: 14px 24px;background: #ffffff;padding: 14px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 						v-show="searchdata.echartslist == 3"
 					>
 						<div
@@ -465,7 +465,7 @@
 						></div>
 					</div>
 					<div
-						style="box-sizing: border-box;margin: 24px 30px;background: #ffffff;padding: 24px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
+						style="box-sizing: border-box;margin: 14px 24px;background: #ffffff;padding: 14px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 						v-show="searchdata.echartslist == 4"
 					>
 						<div
@@ -477,7 +477,7 @@
 						></div>
 					</div>
 					<div
-						style="box-sizing: border-box;margin: 24px 30px;background: #ffffff;padding: 24px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
+						style="box-sizing: border-box;margin: 14px 24px;background: #ffffff;padding: 14px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 						v-show="searchdata.echartslist == 5"
 					>
 						<div
@@ -489,7 +489,7 @@
 						></div>
 					</div>
 					<div
-						style="box-sizing: border-box;margin: 24px 30px;background: #ffffff;padding: 24px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
+						style="box-sizing: border-box;margin: 14px 24px;background: #ffffff;padding: 14px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 						v-show="searchdata.echartslist == 6"
 					>
 						<div
@@ -501,7 +501,7 @@
 						></div>
 					</div>
 					<div
-						style="box-sizing: border-box;margin: 24px 30px;background: #ffffff;padding: 24px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
+						style="box-sizing: border-box;margin: 14px 24px;background: #ffffff;padding: 14px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 						v-show="searchdata.echartslist == 7"
 					>
 						<div
@@ -513,7 +513,7 @@
 						></div>
 					</div>
 					<div
-						style="box-sizing: border-box;margin: 24px 30px;background: #ffffff;padding: 24px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
+						style="box-sizing: border-box;margin: 14px 24px;background: #ffffff;padding: 14px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 						v-show="searchdata.echartslist == 8"
 					>
 						<div
@@ -525,7 +525,7 @@
 						></div>
 					</div>
 					<div
-						style="box-sizing: border-box;margin: 24px 30px;background: #ffffff;padding: 24px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
+						style="box-sizing: border-box;margin: 14px 24px;background: #ffffff;padding: 14px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 						v-show="searchdata.echartslist == 9"
 					>
 						<div
@@ -915,8 +915,8 @@ export default {
 
 			let con_he = document.getElementsByClassName('content-container')[0]
 				.offsetHeight;
-			this.first_scrollerHeight = con_he - top_title_h - 328 + 'px';
-			this.second_scrollerHeight = con_he - top_title_h - 260 + 'px';
+			this.first_scrollerHeight = con_he - top_title_h -228 + 'px';
+			this.second_scrollerHeight = con_he - top_title_h - 190 + 'px';
 		});
 		this.getJson();
 		this.get_search_data();
@@ -2377,7 +2377,7 @@ export default {
 						'content-container'
 					)[0].offsetHeight;
 					this.shere_scrollerHeight =
-						con_he - top_title_h_two - 260 + 'px';
+						con_he - top_title_h_two - 190 + 'px';
 					this.set_time();
 				});
 			} else {
@@ -2907,10 +2907,10 @@ export default {
 				},
 
 				grid: {
-					bottom: 90,
+					bottom: 50,
 					left: 50,
 					right: 50,
-					top: 100,
+					top: 50,
 				},
 
 				xAxis: {
@@ -3061,10 +3061,10 @@ export default {
 					name: dataunits,
 				},
 				grid: {
-					bottom: 90,
+					bottom: 50,
 					left: 50,
 					right: 50,
-					top: 100,
+					top: 50,
 				},
 				toolbox: {
 					right: '10%',
@@ -3182,10 +3182,10 @@ export default {
 					}),
 				},
 				grid: {
-					bottom: 90,
+					bottom: 50,
 					left: 50,
 					right: 50,
-					top: 100,
+					top: 50,
 				},
 				yAxis: {
 					type: 'value',
@@ -3327,10 +3327,10 @@ export default {
 					},
 				},
 				grid: {
-					bottom: 90,
+					bottom: 50,
 					left: 50,
 					right: 50,
-					top: 100,
+					top: 50,
 				},
 				tooltip: {
 					trigger: 'axis',
@@ -3399,7 +3399,7 @@ export default {
 	// 	margin-bottom: 20px;
 	// }
 	.top_title {
-		height: 140px;
+		height: 110px;
 		// margin-right: 20px;
 		padding: 24px;
 		text-align: center;
@@ -3465,7 +3465,7 @@ export default {
 		top: 24px;
 		right: 24px;
 		width: 1px;
-		height: 100px;
+		height: 66px;
 		content: '';
 		background-color: #cecece;
 	}

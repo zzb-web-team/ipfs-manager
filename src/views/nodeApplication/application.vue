@@ -13,7 +13,7 @@
 					</el-radio-group>
 					<div
 						v-if="tab_radio == '1'"
-						style="width: 100%;margin-top: 20px;"
+						style="width: 100%;margin-top: 10px;"
 					>
 						<el-row
 							type="flex"
@@ -211,7 +211,7 @@
 					</div>
 					<div
 						v-if="tab_radio == '2'"
-						style="width: 100%;margin-top: 20px;"
+						style="width: 100%;margin-top: 10px;"
 					>
 						<el-row
 							type="flex"
@@ -415,7 +415,7 @@
 					<el-tab-pane label="IP流量" name="first">
 						<el-row
 							type="flex"
-							style="margin:24px 24px 0 24px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
+							style="margin:14px 24px 0 24px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 						>
 							<el-col>
 								<div class="user-item">
@@ -447,10 +447,10 @@
 							</el-col>
 						</el-row>
 						<div class="device_form">
-							<div id="myChart" style="height: 565px;"></div>
+							<div id="myChart" style="height: 365px;"></div>
 						</div>
 						<div
-							style="box-sizing: border-box;padding: 24px;background: #ffffff;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);margin:24px;"
+							style="box-sizing: border-box;padding: 24px;background: #ffffff;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);margin:14px 24px 24px;"
 						>
 							<p style="text-align:left;margin-bottom:20px;">
 								IP流量表
@@ -522,7 +522,7 @@
 					<el-tab-pane label="FS存储" name="second">
 						<el-row
 							type="flex"
-							style="margin:24px 24px 0 24px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
+							style="margin:14px 24px 0 24px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 						>
 							<el-col>
 								<div class="user-item">
@@ -558,12 +558,15 @@
 							</el-col>
 						</el-row>
 						<div class="device_form">
-							<div id="myChart1" style="height: 565px;"></div>
+							<div id="myChart1" style="height: 365px;"></div>
 						</div>
 
 						<div
-							style="box-sizing: border-box;padding: 24px;background: #ffffff;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);margin:24px;"
+							style="box-sizing: border-box;padding: 24px;background: #ffffff;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);margin:14px 24px 24px;"
 						>
+							<p style="text-align:left;margin-bottom:20px;">
+								存储表
+							</p>
 							<el-table
 								:data="fs_tableData"
 								:cell-style="rowClass"
@@ -2305,7 +2308,7 @@ export default {
 		width: auto;
 		height: auto;
 		// overflow: hidden;
-		margin: 24px 24px 0 24px;
+		margin: 14px 24px 0 24px;
 		background: #ffffff;
 		padding: 24px;
 		box-sizing: border-box;
@@ -2416,7 +2419,7 @@ export default {
 		text-align: left;
 		p:nth-child(2) {
 			color: #333333;
-			font-size: 30px;
+			font-size: 26px;
 		}
 	}
 	.item-text {
@@ -2426,9 +2429,9 @@ export default {
 		align-items: center;
 		text-align: center;
 		img {
-			width: 80%;
+			width: 55%;
 			margin-right: 20px;
-            margin-top: 10px;
+			margin-top: 10px;
 		}
 	}
 }

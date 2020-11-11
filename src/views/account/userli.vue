@@ -23,16 +23,17 @@
 								@click="searchInfo"
 							></i>
 						</el-input>
-						<span style="margin-right: 10px;margin-left: 20px;"
+						<!-- <span style="margin-right: 10px;margin-left: 20px;"
 							>状态:</span
-						>
+						> -->
 						<el-select
 							v-model="value"
-							placeholder="请选择"
+							placeholder="请选择账号状态"
 							@change="searchInfo"
 							size="small"
+							style="margin-left:10px;"
 						>
-							<el-option label="全部" value></el-option>
+							<el-option label="全部" value="*"></el-option>
 							<el-option
 								v-for="item in options2"
 								:key="item.value"
@@ -40,15 +41,16 @@
 								:value="item.value"
 							></el-option>
 						</el-select>
-						<span style="margin-right: 10px;margin-left: 20px;"
+						<!-- <span style="margin-right: 10px;margin-left: 20px;"
 							>部门:</span
-						>
+						> -->
 						<el-select
 							placeholder="一级部门"
 							@change="searchdepartment"
 							v-model="search_department"
 							size="small"
 							value-key="item"
+							style="margin-left:10px;"
 						>
 							<el-option label="全部" value="*"></el-option>
 							<el-option
@@ -74,14 +76,15 @@
 								:value="item.id"
 							></el-option>
 						</el-select>
-						<span style="margin-right: 10px;margin-left: 20px;"
+						<!-- <span style="margin-right: 10px;margin-left: 20px;"
 							>职位:</span
-						>
+						> -->
 						<el-select
 							v-model="searchposition"
 							placeholder="请选择职位"
 							@change="searchInfo"
 							size="small"
+							style="margin-left:10px;"
 						>
 							<el-option label="全部" value="*"></el-option>
 							<el-option
@@ -866,7 +869,7 @@ export default {
 			value1: '',
 			value2: '',
 			value: '',
-			searchposition: '*',
+			searchposition: '',
 			options2: [
 				{
 					value: '0',
@@ -1026,7 +1029,7 @@ export default {
 				.offsetHeight;
 			let con_w = document.getElementsByClassName('content-container')[0]
 				.offsetWidth;
-			this.tableHeight = con_he - top_title_h - 220;
+			this.tableHeight = con_he - top_title_h - 176;
 			this.max_tab_width = con_w - 60 + 'px';
 		});
 		let munulist = JSON.parse(localStorage.getItem('menus'));
@@ -1035,6 +1038,8 @@ export default {
 		this.ipfs_id = parseInt(this.$cookies.get('ipfs_id'));
 		this.ipfs_user = this.$cookies.get('ipfs_user');
 		this.queryUserList();
+		this.get_position_list();
+		this.getdatalist();
 	},
 	methods: {
 		//获取部门列表
@@ -1113,7 +1118,7 @@ export default {
 		reset() {
 			this.value = '';
 			this.searchText = '';
-			this.searchposition = '*';
+			this.searchposition = '';
 			this.pager.page = 1;
 			this.search_department = '';
 			this.search_pdepartment = '';
@@ -1695,8 +1700,6 @@ export default {
 		},
 		addAccout() {
 			this.get_permission_list();
-			this.get_position_list();
-			this.getdatalist();
 			this.dialogVisible = true;
 		},
 		//修改确认
@@ -1919,8 +1922,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.content{
-    overflow: hidden;
+.content {
+	overflow: hidden;
 }
 .search-con {
 	width: 250px;
@@ -1937,9 +1940,9 @@ export default {
 }
 
 .myself-container {
-	// width: 100%;
-	min-width: 1600px;
+	// min-width: 1600px;
 	text-align: left;
+	height: 100%;
 	.devide_title {
 		width: 100%;
 		height: auto;
@@ -1997,10 +2000,10 @@ export default {
 	.user_devide_table {
 		height: auto;
 		overflow: hidden;
-		margin: 24px 30px;
+		margin: 14px 24px;
 		background-color: #fff;
 		box-sizing: border-box;
-		padding: 24px;
+		padding: 0 24px 24px;
 		box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);
 		.el-table td,
 		.el-table th {

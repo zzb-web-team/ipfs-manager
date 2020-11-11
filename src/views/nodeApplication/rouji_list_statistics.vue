@@ -18,14 +18,15 @@
 						></i>
 					</el-input>
 				</el-col>
-				<span style="margin:0 0 20px 20px;">状态：</span>
+				<!-- <span style="margin:0 0 20px 20px;">状态：</span> -->
 				<el-select
 					size="small"
 					v-model="value"
-					placeholder="请选择"
+					placeholder="请选择状态"
 					@change="seachuser"
+                    style="margin-left: 10px;"
 				>
-					<el-option label="全部" value=""></el-option>
+					<el-option label="全部" value="-1"></el-option>
 					<el-option
 						v-for="(item, index) in options"
 						:key="index"
@@ -56,7 +57,7 @@
 			</div>
 		</div>
 		<div
-			style="background: #ffffff;margin: 24px 30px;box-sizing: border-box;padding: 24px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
+			style="background: #ffffff;margin: 14px 24px;box-sizing: border-box;padding: 24px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 		>
 			<el-table
 				:data="tableData"
@@ -197,7 +198,7 @@ export default {
             let top_title_h = document.getElementsByClassName('rowbg')[0].offsetHeight;
 			let con_he = document.getElementsByClassName('content-container')[0]
 				.offsetHeight;
-			this.tableHeight = con_he-top_title_h - 148;
+			this.tableHeight = con_he-top_title_h-124;
 		});
 		var today = new Date();
 		var y = today.getFullYear();
@@ -224,7 +225,7 @@ export default {
 				params.time_start = time_zero;
 				params.time_end = timestamp;
 			}
-			params.code = this.value;
+			params.code = this.value=="-1"?"":this.value;
 			params.order = this.order;
 			params.page = this.currentPagefs - 1;
 			params.pagesize = this.pagesize;

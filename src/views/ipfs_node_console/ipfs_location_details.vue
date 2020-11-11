@@ -155,7 +155,7 @@
 				</el-row>
 				<!--  -->
 				<div
-					style="display: flex;justify-content: start;align-items: center;font-size: 16px;margin: 24px 0;"
+					style="display: flex;justify-content: start;align-items: center;font-size: 14px;margin: 24px 0;"
 				>
 					<div class="ipfs_item_toptwo">
 						<div
@@ -1070,7 +1070,7 @@ export default {
 				height: 18px;
 				line-height: 18px;
 				overflow: hidden;
-				font-size: 16px;
+				font-size: 14px;
 				text-overflow: ellipsis;
 				white-space: nowrap;
 				color: #333333;
@@ -1109,7 +1109,7 @@ export default {
 			display: flex;
 			align-items: center;
 			color: #333333;
-			font-size: 16px;
+			font-size: 14px;
 		}
 		.allnum {
 			height: 46px;

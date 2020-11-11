@@ -1,5 +1,5 @@
 <template>
-	<div class="content newstyle">
+	<div class="content map_newstyle">
 		<!-- <el-breadcrumb separator="/">
 			<el-breadcrumb-item>
 				<a>节点分布</a>

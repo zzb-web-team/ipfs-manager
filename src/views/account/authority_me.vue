@@ -101,7 +101,7 @@
 			</el-dialog>
 			<!--  -->
 			<div
-				style="background-color: #fff;margin: 24px 30px;box-sizing: border-box;padding: 24px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
+				style="background-color: #fff;margin: 14px 24px;box-sizing: border-box;padding: 24px;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 			>
 				<div class="btn_area">
 					<el-button
@@ -273,7 +273,7 @@ export default {
 				.offsetHeight;
 			let con_he = document.getElementsByClassName('content-container')[0]
 				.offsetHeight;
-			this.tableHeight = con_he - top_title_h - 256;
+			this.tableHeight = con_he - top_title_h - 236;
 		});
 		this.get_datalist();
 		this.get_user_list();

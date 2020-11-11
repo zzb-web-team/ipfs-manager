@@ -29,7 +29,7 @@
 					</div>
 				</el-col>
 				<el-col :span="4" class="userinfo">
-					<el-dropdown trigger="hover">
+					<el-dropdown trigger="click" size="medium">
 						<span class="el-dropdown-link userinfo-inner">
 							<img src="../assets/download.jpg" />
 							{{ sysUserName }}
@@ -83,7 +83,10 @@
 								v-show="item.hidden != 1"
 							>
 								<template slot="title">
-									<i :class="item.icon" style="font-size: 18px;"></i>
+									<i
+										:class="item.icon"
+										style="font-size: 18px;"
+									></i>
 									<span style="margin-left:10px;">{{
 										item.name
 									}}</span>
@@ -101,7 +104,10 @@
 										class="two_menu_tit"
 									>
 										<template slot="title">
-											<i :class="itemChild.icon" style="font-size: 18px;"></i>
+											<i
+												:class="itemChild.icon"
+												style="font-size: 18px;"
+											></i>
 											<span>{{ itemChild.name }}</span>
 										</template>
 										<!-- 三级菜单 -->
@@ -113,7 +119,8 @@
 											class="there_menu"
 										>
 											<i
-												:class="itemChild_Child.icon" style="font-size: 18px;"
+												:class="itemChild_Child.icon"
+												style="font-size: 18px;"
 											></i>
 											<span slot="title">{{
 												itemChild_Child.name
@@ -130,7 +137,10 @@
 										"
 										class="two_menu"
 									>
-										<i :class="itemChild.icon" style="font-size: 18px;"></i>
+										<i
+											:class="itemChild.icon"
+											style="font-size: 18px;"
+										></i>
 										<span>{{ itemChild.name }}</span>
 									</el-menu-item>
 								</template>
@@ -139,9 +149,12 @@
 								v-else
 								:index="item.path"
 								:key="item.path"
-								style="text-align: left;padding-left: 66px;"
+								style="text-align: left;padding-left: 56px;"
 							>
-								<i :class="item.icon" style="font-size: 18px;"></i>
+								<i
+									:class="item.icon"
+									style="font-size: 18px;"
+								></i>
 								<span slot="title" style="margin-left:10px;">{{
 									item.name
 								}}</span>
@@ -242,7 +255,7 @@ export default {
 			'!important';
 		this.con_h.minHeight = con_h;
 		this.$nextTick(function() {
-            this.menlist = JSON.parse(localStorage.getItem('menus'));
+			this.menlist = JSON.parse(localStorage.getItem('menus'));
 		});
 		var user = this.$cookies.get('ipfs_user');
 		if (user) {
@@ -274,20 +287,20 @@ export default {
 	margin: 0 auto;
 	.header {
 		box-shadow: 0px 4px 10px 0px #3333331a;
-		height: 64px;
-		line-height: 64px;
+		height: 54px;
+		line-height: 54px;
 		color: #000;
 		background: #4285f4;
 		.userinfo {
 			text-align: right;
-			padding-right: 35px;
+			padding-right: 75px;
 			float: right;
 			.userinfo-inner {
 				cursor: pointer;
 				color: #fff;
 				img {
-					width: 40px;
-					height: 40px;
+					width: 36px;
+					height: 36px;
 					border-radius: 20px;
 					margin: 10px 0px 10px 10px;
 					float: right;
@@ -296,7 +309,7 @@ export default {
 		}
 		.logo {
 			//width:230px;
-			height: 64px;
+			height: 54px;
 			font-size: 18px;
 			padding-left: 20px;
 			padding-right: 20px;
@@ -335,7 +348,7 @@ export default {
 		display: flex;
 		// background: #324057;
 		position: absolute;
-		top: 64px;
+		top: 54px;
 		bottom: 0px;
 		// overflow: hidden;
 		aside {
@@ -363,11 +376,7 @@ export default {
 				}
 			}
 		}
-		.menu-collapsed {
-			flex: 0 0 60px;
-			width: 60px;
-			background-color: #fff;
-		}
+		
 		.menu-expanded {
 			background-color: #fff;
 			border: none;
@@ -381,10 +390,10 @@ export default {
 				}
 			}
 			.el-menu .two_menu {
-				padding-left: 80px !important;
+				padding-left: 70px !important;
 			}
 			.el-menu .there_menu {
-				padding-left: 80px !important;
+				padding-left: 90px !important;
 			}
 		}
 		.content-container {
@@ -400,7 +409,7 @@ export default {
 			overflow-y: scroll;
 			overflow-x: scroll;
 			padding: 0px;
-            overflow: hidden;
+			overflow: hidden;
 			.breadcrumb-container {
 				//margin-bottom: 15px;
 				float: none !important;
@@ -440,7 +449,7 @@ export default {
 	margin-left: 20px;
 	margin-right: 20px;
 	margin-bottom: 10px;
-    margin-top: 10px;
+	margin-top: 10px;
 }
 
 .el-submenu__title:hover {

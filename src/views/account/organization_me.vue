@@ -638,7 +638,7 @@ export default {
 	text-align: left;
 	.org_con {
 		background-color: #fff;
-		margin: 24px 30px;
+		margin: 14px 24px;
 		box-sizing: border-box;
 		padding: 24px;
 		border-radius: 8px;

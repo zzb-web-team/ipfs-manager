@@ -793,7 +793,7 @@ export default {
         this.$nextTick(() => {
             let top_title_h = document.getElementsByClassName('rowbg')[0].offsetHeight;
             let con_he = document.getElementsByClassName('content-container')[0].offsetHeight;
-            this.tableHeight = con_he-top_title_h-170;
+            this.tableHeight = con_he-top_title_h-150;
         });
 		this.getJson();
 		this.get_search_data();
@@ -1532,7 +1532,7 @@ export default {
 
 <style lang="scss" scoped>
 .content {
-	height: auto;
+	// height: auto;
 	overflow-x: hidden;
 	background-color: #f9fbfd;
 	.seach_title {
@@ -1553,7 +1553,7 @@ export default {
 	.rowcon {
         flex: 1;
 		padding: 0 30px;
-		margin: 24px;
+		margin: 14px;
 		background-color: #ffffff;
 		border-radius: 8px;
 		.rowtab {

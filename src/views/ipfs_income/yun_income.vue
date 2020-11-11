@@ -17,14 +17,15 @@
 						@click="seachuser()"
 					></i>
 				</el-input>
-				<span style="margin-left:10px;"
+				<!-- <span style="margin-left:10px;"
 					>节点类型：</span
-				>
+				> -->
 				<el-select
 					v-model="node_type"
 					placeholder="请选择节点类型"
 					@change="seachuser()"
 					size="small"
+                    style="margin-left:10px;"
 				>
 					<el-option value="-1" label="全部"></el-option>
 					<el-option
@@ -34,7 +35,7 @@
 						:value="item.value"
 					></el-option>
 				</el-select>
-				<span style="margin-left:10px;">时间：</span>
+				<!-- <span style="margin-left:10px;">时间：</span> -->
 				<el-date-picker
 					v-model="time_value"
 					type="daterange"
@@ -44,14 +45,16 @@
 					@change="seachuser()"
 					size="small"
 					:picker-options="endPickerOptions"
+                    style="margin-left:10px;"
 				></el-date-picker>
-				<span style="margin-left:10px;">节点渠道商:</span>
+				<!-- <span style="margin-left:10px;">节点渠道商:</span> -->
 				<el-select
 					v-model="firstchid"
 					value-key
 					size="small"
 					placeholder="一级渠道商"
 					@change="handleChangefirst($event)"
+                    style="margin-left:10px;"
 				>
 					<el-option value="*" label="全部"></el-option>
 					<el-option
@@ -91,7 +94,7 @@
 		</div>
 		<!-- 主体表格 -->
 		<div
-			style="box-sizing: border-box;margin:24px 30px;padding:24px 30px;background: #ffffff;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
+			style="box-sizing: border-box;margin:14px 24px;padding:4px 24px 14px;background: #ffffff;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 		>
 			<div
 				style="text-align:right;padding: 10px 0;display: flex;justify-content: space-between;"
@@ -340,7 +343,7 @@ export default {
 				.offsetHeight;
 			let con_he = document.getElementsByClassName('content-container')[0]
 				.offsetHeight;
-			this.tableHeight = con_he - top_title_h - 206;
+			this.tableHeight = con_he - top_title_h - 156;
 		});
 		this.get_search_data();
 		let munulist = JSON.parse(localStorage.getItem('menus'));

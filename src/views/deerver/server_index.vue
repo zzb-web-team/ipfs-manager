@@ -346,11 +346,11 @@ export default {
     }
     .updatetime {
       color: #b6b6b6;
-      font-size: 16px;
+      font-size: 14px;
       span {
         margin-left: 10px;
         color: #000000;
-        font-size: 16px;
+        font-size: 14px;
       }
     }
   }
@@ -430,7 +430,7 @@ export default {
           p {
             margin: 0.05rem 0 0.05rem;
             color: #000000;
-            font-size: 16px;
+            font-size: 14px;
             opacity: 0.95;
           }
           .ohtxt {

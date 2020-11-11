@@ -164,7 +164,7 @@ sessionStorage.setItem('south_region', JSON.stringify(num));
 		.ipfs_con_right {
 			.setmap_btn {
 				margin-right: 20px;
-				font-size: 16px;
+				font-size: 14px;
 				color: #999999;
 			}
 		}

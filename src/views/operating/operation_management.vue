@@ -23,11 +23,11 @@
 								@click="seachuser()"
 							></i>
 						</el-input>
-						<span style="margin:0 0 20px 20px;">状态：</span>
+						<!-- <span style="margin:0 0 20px 20px;">状态：</span> -->
 						<el-select
 							v-model="value"
 							size="small"
-							placeholder="请选择"
+							placeholder="请选择状态"
 							@change="seachuser"
 							class="input-with-select"
 						>
@@ -39,11 +39,11 @@
 								:value="item.value"
 							></el-option>
 						</el-select>
-						<span style="margin:0 0 20px 20px;">操作类型：</span>
+						<!-- <span style="margin:0 0 20px 20px;">操作类型：</span> -->
 						<el-select
 							v-model="value2"
 							size="small"
-							placeholder="请选择"
+							placeholder="请选择操作类型"
 							@change="seachuser"
 							class="input-with-select"
 						>
@@ -55,7 +55,7 @@
 								:value="item.label"
 							></el-option>
 						</el-select>
-						<span style="margin:0 0 20px 20px;">操作时间：</span>
+						<!-- <span style="margin:0 0 20px 20px;">操作时间：</span> -->
 						<el-date-picker
 							v-model="value1"
 							size="small"
@@ -65,13 +65,14 @@
 							end-placeholder="结束日期"
 							@change="seachuser"
 							:picker-options="endPickerOptions"
+                           style="margin-left: 10px;margin-bottom: 10px;"
 						></el-date-picker>
 						<el-button
 							type="primary"
 							round
 							size="small"
 							class="resetseach_btn"
-							style="margin-left: 10px;"
+							style="margin-left: 10px;margin-bottom: 10px;"
 							@click="reset()"
 							>重置</el-button
 						>
@@ -256,7 +257,7 @@ export default {
 				.offsetHeight;
 			let con_he = document.getElementsByClassName('content-container')[0]
 				.offsetHeight;
-			this.tableHeight = con_he - top_title_h - 162;
+			this.tableHeight = con_he - top_title_h - 142;
 		});
 		this.geydata();
 	},
@@ -427,9 +428,11 @@ export default {
 		width: 100%;
 		.seach_top {
 			width: 100%;
-			height: 60px;
+			// height: 60px;
 			.input-with-select {
-				width: 10%;
+                width: 10%;
+                margin-bottom: 10px;
+                margin-left: 10px;
 			}
 			.seach_top_right {
 				float: left;
@@ -452,7 +455,7 @@ export default {
 		}
 	}
 	.con_lable {
-		margin: 24px 30px;
+		margin: 14px 24px;
 		background: #ffffff;
 		box-sizing: border-box;
 		padding: 24px;
