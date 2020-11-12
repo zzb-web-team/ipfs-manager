@@ -118,6 +118,7 @@
 					></i
 				></el-button>
 			</div>
+            <div class="rowtab">
 			<el-table
 				:data="tableData"
 				border
@@ -125,7 +126,7 @@
 				:header-cell-style="headClass"
 				:row-style="{ height: '72px' }"
 				@sort-change="tablechange"
-				style="width: 100%"
+				style="width: 100%;font-size: 10px"
 				:max-height="tableHeight"
 			>
 				<!-- <el-table-column prop="nodeId" label="节点ID"></el-table-column> -->
@@ -214,6 +215,7 @@
 					<template slot-scope="scope">{{ scope.row.date }}</template>
 				</el-table-column>
 			</el-table>
+            </div>
 			<el-dialog
 				title="节点ID"
 				:visible.sync="copy_dialogVisible"
@@ -594,7 +596,7 @@ export default {
 		},
 		// 表头样式设置
 		headClass() {
-			return 'text-align: center;background:#eeeeee;';
+			return 'text-align: center;background:#F9F9F9;height:72px;';
 		},
 		// 表格样式设置
 		rowClass() {

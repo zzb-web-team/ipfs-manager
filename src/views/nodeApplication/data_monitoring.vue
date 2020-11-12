@@ -3467,7 +3467,7 @@ export default {
 		width: 1px;
 		height: 66px;
 		content: '';
-		background-color: #cecece;
+		background-color: #eeeeee;
 	}
 }
 </style>

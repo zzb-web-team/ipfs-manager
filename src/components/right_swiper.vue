@@ -88,7 +88,7 @@ export default {
 	height: 150px;
 	overflow-y: scroll;
 	overflow-x: hidden;
-	opacity: 0.6;
+	// opacity: 0.6;
 	.nodetype {
 		width: 60px;
 		height: 40px;

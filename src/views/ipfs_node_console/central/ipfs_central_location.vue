@@ -514,7 +514,6 @@
 							v-model="node_type"
 							placeholder="请选择节点类型"
 							@change="searchdata()"
-							style="width:100%;max-width: 200px;margin-left:10px;"
 							size="small"
 						>
 							<el-option value="-1" label="全部"></el-option>
@@ -530,7 +529,7 @@
 						<span>节点渠道：</span>
 						<el-select
 							v-model="firstchan_value"
-							placeholder="请选择节点类型"
+							placeholder="请选择节点渠道"
 							@change="searchdata"
 							size="small"
 						>
@@ -598,7 +597,7 @@
 						type="primary"
 						@click="uopset"
 						size="small"
-                        class="local_search_item"
+						class="local_search_item"
 						style="margin-left: 10px;height: 32px;"
 						>重置</el-button
 					>
@@ -651,30 +650,28 @@
 					<div
 						style="display: flex;justify-content: space-between;align-items: center;position: relative;top: 10px;"
 					>
-						<!-- <div
-							class="yuan"
-							v-bind:style="{ background: item.bgccolor }"
-						></div> -->
 						<span
 							style="font-size: 12px;padding: 0 5px;border-radius: 4px;"
 							v-bind:style="{ color: item.bgccolor }"
 						>
 							<i
-								style="width: 10px;height: 10px;display: inline-block;background: red;border-radius: 50%;"
-								v-bind:style="{
-									background: item.bgccolor,
-								}"
+								:class="
+									item.devstatus == '在线'
+										? 'el-icon-success'
+										: 'el-icon-error'
+								"
+								v-bind:style="{ color: item.bgccolor }"
 							></i>
 							{{ item.devstatus }}</span
 						>
 						<span
 							v-show="item.node_type == 1"
-							style="font-size: 12px;border:1px solid;padding: 0 5px;border-radius: 4px;border-radius: 10px;color: #ffffff;background:#66ccff;"
+							style="font-size: 12px;border: 1px solid;border-radius: 5px 5px 0 5px;color: #ffffff;background: #4285F4;display: inline-block;line-height: 25px;padding: 0 10px;position: relative;top: -11px;right: -24px;"
 							>点播节点</span
 						>
 						<span
 							v-show="item.node_type == 2"
-							style="font-size: 12px;border:1px solid;padding: 0 5px;border-radius: 4px;border-radius: 10px;color: #ffffff;background:#9999ff;"
+							style="font-size: 12px;border:1px solid;border-radius: 4px;border-radius: 5px 5px 0 5px;color: #ffffff;background:#FF7C75;display: inline-block;line-height: 25px;padding: 0 10px;position: relative;top: -11px;right: -24px;"
 							>直播节点</span
 						>
 					</div>
@@ -714,58 +711,63 @@
 						<p style="text-align:center">
 							{{ item.firstch }}
 						</p>
-						<p style="text-align:left">
-							<span>{{ item.devicetype }}</span>
-							<span>{{ item.os }}</span>
-							<span>{{ item.arch }}</span>
-						</p>
-						<div
-							style="display: flex;width: 100%;align-items: center;"
-						>
-							<span style="display: inline-block;width: 75px;"
-								>节点ID：</span
-							>
-							<p style="color:#83838D;">{{ item.nodeId }}</p>
-						</div>
 					</div>
-					<ol>
+					<ol style="border-bottom: 1px solid #eeeeee;padding: 14px 0;">
 						<li>
-							<span class="ipfs_text_title">上行宽带:</span>
-							<span class="ipfs_text_con">{{
-								item.upbandwidth
-							}}</span>
+							<div class="ipfs_text_title">
+								{{ item.devicetype }}
+							</div>
+							<div class="ipfs_text_con">
+								&nbsp;&nbsp;{{ item.os }}&nbsp;{{ item.arch }}
+							</div>
+						</li>
+						<li style="display: flex;">
+							<div class="ipfs_text_title">节点ID</div>&nbsp;&nbsp;
+							<div class="ipfs_text_con" style="overflow-wrap: break-word;flex: 1;">{{ item.nodeId }}</div>
+						</li>
+					</ol>
+					<ol style="padding: 14px 0;">
+						<li>
+							<div style="width:55%;display: flex;">
+								<span class="ipfs_text_title">上行宽带:</span>
+								<span class="ipfs_text_con" style="overflow-wrap: break-word;flex: 1;">
+									{{ item.upbandwidth }}
+								</span>
+							</div>
+							<div style="width:45%;display: flex;">
+								<span class="ipfs_text_title" >总容量:</span>
+								<span class="ipfs_text_con" style="overflow-wrap: break-word;flex: 1;">
+									{{
+										(
+											item.totalCap /
+											1024 /
+											1024 /
+											1024
+										).toFixed(2)
+									}}GB
+								</span>
+							</div>
 						</li>
 						<li>
-							<span class="ipfs_text_title">下行宽带:</span>
-							<span class="ipfs_text_con">{{
-								item.downbandwidth
-							}}</span>
-						</li>
-						<li>
-							<span class="ipfs_text_title">总容量:</span>
-							<span class="ipfs_text_con"
-								>{{
-									(
-										item.totalCap /
-										1024 /
-										1024 /
-										1024
-									).toFixed(2)
-								}}GB</span
-							>
-						</li>
-						<li>
-							<span class="ipfs_text_title">剩余容量:</span>
-							<span class="ipfs_text_con"
-								>{{
-									(
-										item.remainingCap /
-										1024 /
-										1024 /
-										1024
-									).toFixed(2)
-								}}GB</span
-							>
+							<div style="width:55%;display: flex;">
+								<span class="ipfs_text_title">下行宽带:</span>
+								<span class="ipfs_text_con" style="overflow-wrap: break-word;flex: 1;">
+									{{ item.downbandwidth }}
+								</span>
+							</div>
+							<div style="width:45%;display: flex;">
+								<span class="ipfs_text_title">剩余容量:</span>
+								<span class="ipfs_text_con" style="overflow-wrap: break-word;flex: 1;">
+									{{
+										(
+											item.remainingCap /
+											1024 /
+											1024 /
+											1024
+										).toFixed(2)
+									}}GB
+								</span>
+							</div>
 						</li>
 					</ol>
 				</div>
@@ -885,7 +887,7 @@ export default {
 				// 	devicetype: 'PC西柚机',
 				// 	os: 'x86',
 				// 	arch: '中国电信',
-				// 	nodeId: 'gae5r1r6eah1a51g65wa1g65ea1h56ae',
+				// 	nodeId: 'gae5r1r6eah1a51g65wa1g6ads156fa165ea1h56ae',
 				// 	upbandwidth: '1651Mbps',
 				// 	downbandwidth: '465Mbps',
 				// 	totalCap: 91515613561,
@@ -905,7 +907,7 @@ export default {
 			show_sort: true,
 			scrollHeight: 0,
 			scroll_line_height: 0,
-			node_type: '',
+			node_type: '-1',
 			options_node_type: [
 				{
 					value: 1,
@@ -970,7 +972,7 @@ export default {
 			this.osvalue = '';
 			this.hardwarevalue = '';
 			this.devicevalue = '';
-			this.node_type = '';
+			this.node_type = '-1';
 			(this.firstchan_value = ''), (this.value = 0);
 			this.getipfsdata();
 		},
@@ -1274,8 +1276,8 @@ export default {
 	.select_sort {
 		text-align: left;
 		display: flex;
-        justify-content: space-between;
-        align-self: flex-start;
+		justify-content: space-between;
+		align-self: flex-start;
 	}
 	.ipfs_box {
 		width: 100%;
@@ -1284,9 +1286,9 @@ export default {
 		display: flex;
 		flex-flow: row wrap;
 		.ipfs_item {
-			width: 19.5%;
-			max-width: 290px;
-			padding: 0 23px 5px 23px;
+			width: 24.5%;
+			max-width: 350px;
+			padding: 0 14px 5px 14px;
 			background: rgba(255, 255, 255, 1);
 			border: 1px solid rgba(216, 226, 240, 1);
 			box-shadow: 0px 0px 18px 0px rgba(211, 215, 221, 0.4);
@@ -1304,8 +1306,8 @@ export default {
 			.ipfs_item_img {
 				width: 100%;
 				// margin: 25px 0;
-				border-bottom: 1px solid #eeeeee;
-				color: #404447;
+                color: #404447;
+                margin-top: 14px;
 				img {
 					width: 30%;
 				}
@@ -1315,19 +1317,21 @@ export default {
 				display: flex;
 				justify-content: start;
 				align-items: center;
-				font-size: 14px;
+				
 				// margin-bottom: 10px;
 				.ipfs_text_title {
 					display: inline-block;
-					width: 75px;
+					// width: 65px;
 					font-size: 12px;
 					text-align: left;
+					white-space: nowrap;
 				}
 				.ipfs_text_con {
 					color: #83838d;
-					width: 75px;
+					font-size: 12px;
 					text-align: left;
 					overflow: hidden;
+					white-space: wrap;
 				}
 			}
 		}
@@ -1352,12 +1356,12 @@ export default {
 }
 .bluma {
 	width: 55px;
-	// color: #919191;
-	color: #4285f4;
+	color: #ffffff !important;
 	display: inline-block;
-	line-height: 30px;
+	line-height: 25px;
 	border: #4285f4 2px solid;
-	border-radius: 8px;
+	background: #4285f4;
+	border-radius: 5px;
 	font-size: 16px !important;
 	text-align: center;
 }
@@ -1374,5 +1378,8 @@ export default {
 		padding-left: 10px;
 		font-weight: 400;
 	}
+}
+li {
+	text-align: left;
 }
 </style>

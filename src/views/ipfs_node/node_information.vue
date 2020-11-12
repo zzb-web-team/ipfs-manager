@@ -396,15 +396,15 @@
 					<el-button
 						@click="all_qiClick()"
 						type="primary"
-						size="mini"
 						v-show="menutype.roleU == 1"
+                        style="padding:8px 32px;"
 						>启用</el-button
 					>
 					<el-button
 						@click="all_jinClick()"
 						type="danger"
-						size="mini"
 						v-show="menutype.roleU == 1"
+                        style="padding:8px 32px;"
 						>禁用</el-button
 					>
 				</div>

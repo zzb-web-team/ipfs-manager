@@ -155,7 +155,7 @@
 				</el-row>
 				<!--  -->
 				<div
-					style="display: flex;justify-content: start;align-items: center;font-size: 14px;margin: 24px 0;"
+					style="display: flex;justify-content: start;align-items: center;font-size: 14px;margin:14px 0;"
 				>
 					<div class="ipfs_item_toptwo">
 						<div
@@ -178,9 +178,9 @@
 							>
 						</div>
 						<div
-							style="text-align:left;line-height: 48px;padding-top: 35px;color: #89949B;"
+							style="text-align:left;line-height: 48px;padding-top: 10px;color: #89949B;"
 						>
-							<div style="font-size: 18px;color: #333333;">
+							<div style="font-size: 16px;color: #333333;line-height: 32px;">
 								CPU
 							</div>
 							<div class="ipfs_item_toptwo_item">
@@ -215,9 +215,9 @@
 							>
 						</div>
 						<div
-							style="text-align:left;line-height: 48px;padding-top: 20px;"
+							style="text-align:left;line-height: 48px;padding-top: 10px;"
 						>
-							<div style="font-size: 18px;color: #333333;">
+							<div style="font-size: 16px;color: #333333;line-height: 32px;">
 								内存
 							</div>
 							<div class="ipfs_item_toptwo_item">
@@ -284,9 +284,9 @@
 							>
 						</div>
 						<div
-							style="text-align:left;line-height: 48px;padding-top: 20px;color: #89949B;"
+							style="text-align:left;line-height: 48px;padding-top: 10px;color: #89949B;"
 						>
-							<div style="font-size: 18px;color: #333333;">
+							<div style="font-size: 16px;color: #333333;line-height: 32px;">
 								上行带宽
 							</div>
 							<div class="ipfs_item_toptwo_item">
@@ -325,9 +325,9 @@
 							>
 						</div>
 						<div
-							style="text-align:left;line-height: 48px;padding-top: 20px;color: #89949B;"
+							style="text-align:left;line-height: 48px;padding-top: 10px;color: #89949B;"
 						>
-							<div style="font-size: 18px;color: #333333;">
+							<div style="font-size: 16px;color: #333333;line-height: 32px;">
 								下行带宽
 							</div>
 							<div class="ipfs_item_toptwo_item">
@@ -366,9 +366,9 @@
 							>
 						</div>
 						<div
-							style="text-align:left;line-height: 48px;padding-top: 20px;color: #89949B;"
+							style="text-align:left;line-height: 48px;padding-top: 10px;color: #89949B;"
 						>
-							<div style="font-size: 18px;color: #333333;">
+							<div style="font-size: 16px;color: #333333;line-height: 32px;">
 								存储空间
 							</div>
 							<div class="ipfs_item_toptwo_item">
@@ -429,7 +429,7 @@
 					>节点FS存储</span
 				>
 			</div>
-			<div v-show="tableDataip.length > 0">
+			<div v-if="tableDataip.length > 0">
 				<!-- IP -->
 				<el-table
 					:data="tableDataip"
@@ -691,7 +691,7 @@
 					:currentPage="currentPage"
 				></fenye>
 			</div>
-			<div v-show="tableDataip.length <= 0">
+			<div v-if="tableDataip.length <= 0" style="height:100px;">
 				<img src="../../assets/img/nodata.png" alt="" />
 				<p>暂无数据</p>
 			</div>
@@ -1013,6 +1013,7 @@ export default {
 		display: flex;
 		box-sizing: border-box;
 		padding: 0 24px;
+        margin-top: 20px;
 		.ipfs_item {
 			width: 228px;
 			height: 240px;
@@ -1057,11 +1058,11 @@ export default {
 		.ipfs_item_toptwo {
 			width: 19%;
 			max-width: 323px;
-			height: 296px;
+			height: 250px;
 			display: flex;
 			flex-direction: column;
 			background: rgb(255, 255, 255);
-			padding: 24px 48px;
+			padding: 14px 24px;
 			box-sizing: border-box;
 			border-radius: 8px;
 			box-shadow: rgba(51, 51, 51, 0.04) 0px 4px 10px 0px;
@@ -1070,11 +1071,14 @@ export default {
 				height: 18px;
 				line-height: 18px;
 				overflow: hidden;
-				font-size: 14px;
+				font-size: 12px;
 				text-overflow: ellipsis;
 				white-space: nowrap;
 				color: #333333;
 				margin-top: 5px;
+                span{
+                    font-size: 12px;
+                }
 			}
 		}
 		.ipfs_item_toptwo:last-child {
@@ -1089,7 +1093,7 @@ export default {
 		justify-content: space-between;
 	}
 	.ipfs_con_tit {
-		height: 128px;
+		height: 100px;
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -1098,7 +1102,7 @@ export default {
 		box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);
 		border-radius: 8px;
 		box-sizing: border-box;
-		padding: 24px;
+		padding: 0px 24px;
 		img {
 			margin-right: 20px;
 		}
@@ -1125,17 +1129,17 @@ export default {
 		margin-bottom: 24px;
 	}
 	.ipfs_con_tit_first {
-		height: 280px;
+		height: 224px;
 		text-align: left;
 		box-sizing: border-box;
-		padding: 24px 24px 24px 100px;
+		padding: 24px 24px 24px 50px;
 		background-color: #fff;
 		border-radius: 8px;
 		box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);
 		img {
 			width: 24%;
 			height: 40%;
-			margin-bottom: 20px;
+			// margin-bottom: 20px;
 		}
 		.ipfs_con_top {
 			width: 100%;
@@ -1156,7 +1160,7 @@ export default {
 				}
 			}
 			.top_tit {
-				margin-top: 20px;
+				margin-top: 10px;
 				height: 26px;
 				line-height: 26px;
 				font-size: 14px;
@@ -1177,7 +1181,7 @@ export default {
 		padding: 24px;
 		border-radius: 8px;
 		box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);
-		overflow: hidden;
+		// overflow: hidden;
 		.ipfs_item_bottom_title {
 			text-align: left;
 			margin-bottom: 20px;

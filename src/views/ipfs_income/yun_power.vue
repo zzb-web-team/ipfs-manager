@@ -126,7 +126,7 @@
 					>导出<i class="iconfont icon-daochu" style="color:#1672E8;margin-left: 5px;"></i></el-button
 				>
 			</div>
-			<div v-show="radio == '1'">
+			<div v-show="radio == '1'" class="rowtab">
 				<el-table
 					:data="tableData"
 					border
@@ -176,7 +176,7 @@
 			</el-table-column>
 				</el-table>
 			</div>
-			<div v-show="radio == '2'">
+			<div v-show="radio == '2'" class="rowtab">
 				<el-table
 					:data="table_detail_data"
 					border
@@ -744,7 +744,7 @@ export default {
 		},
 		// 表头样式设置
 		headClass() {
-			return 'text-align: center;background:#eeeeee;height:59px;';
+			return 'text-align: center;background:#F9F9F9;height:72px;';
 		},
 		// 表格样式设置
 		rowClass() {
