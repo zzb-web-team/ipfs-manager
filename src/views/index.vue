@@ -106,7 +106,7 @@
 										<template slot="title">
 											<i
 												:class="itemChild.icon"
-												style="font-size: 18px;"
+												style="font-size: 18px;padding-left: 18%;"
 											></i>
 											<span>{{ itemChild.name }}</span>
 										</template>
@@ -139,7 +139,7 @@
 									>
 										<i
 											:class="itemChild.icon"
-											style="font-size: 18px;"
+											style="font-size: 18px;padding-left: 19%;"
 										></i>
 										<span>{{ itemChild.name }}</span>
 									</el-menu-item>
@@ -149,7 +149,7 @@
 								v-else
 								:index="item.path"
 								:key="item.path"
-								style="text-align: left;padding-left: 56px;"
+								style="text-align: left;padding-left: 60px;"
 							>
 								<i
 									:class="item.icon"
@@ -389,12 +389,12 @@ export default {
 					padding-left: 16%;
 				}
 			}
-			.el-menu .two_menu {
-				padding-left: 70px !important;
-			}
-			.el-menu .there_menu {
-				padding-left: 90px !important;
-			}
+			// .el-menu .two_menu {
+			// 	padding-left: 70px !important;
+			// }
+			// .el-menu .there_menu {
+			// 	padding-left: 90px !important;
+			// }
 		}
 		.content-container {
 			// background: #f1f2f7;
@@ -449,7 +449,7 @@ export default {
 	margin-left: 20px;
 	margin-right: 20px;
 	margin-bottom: 10px;
-	margin-top: 10px;
+    margin-top: 10px;
 }
 
 .el-submenu__title:hover {

@@ -207,7 +207,10 @@
 						:filter-multiple="false"
 						:column-key="'isp'"
 						:filters="isp"
-					></el-table-column>
+					><template slot-scope="scope">{{
+                        scope.row.isp?scope.row.isp:"--"
+                        }}</template>
+                    </el-table-column>
 					<el-table-column
 						prop="proportion_cpu"
 						label="CPU占用"
@@ -215,12 +218,12 @@
                         :render-header="icons"
 					>
 						<template slot-scope="scope">
-							<span>{{ scope.row.proportion_cpu }}%</span>
+							<span>{{ scope.row.proportion_cpu?scope.row.proportion_cpu:0 }}%</span>
 							<el-progress
 								:text-inside="true"
 								:show-text="false"
 								:stroke-width="12"
-								:percentage="scope.row.proportion_cpu"
+								:percentage="scope.row.proportion_cpu?scope.row.proportion_cpu:0"
 								:color="scope.row.color_cpu"
 							></el-progress>
 						</template>
@@ -232,12 +235,12 @@
                         :render-header="icons"
 					>
 						<template slot-scope="scope">
-							<span>{{ scope.row.proportion_ram }}%</span>
+							<span>{{ scope.row.proportion_ram?scope.row.proportion_ram:0 }}%</span>
 							<el-progress
 								:text-inside="true"
 								:show-text="false"
 								:stroke-width="12"
-								:percentage="scope.row.proportion_ram"
+								:percentage="scope.row.proportion_ram?scope.row.proportion_ram:0"
 								:color="scope.row.color_ram"
 							></el-progress>
 						</template>
@@ -250,24 +253,24 @@
 					>
 						<template slot-scope="scope">
 							<span
-								>{{
+								>{{scope.row.proportion_ram?
 									(
 										(scope.row.occupyCap /
 											scope.row.totalCap) *
 										100
-									).toFixed(2) * 1
+									).toFixed(2) * 1:0
 								}}%</span
 							>
 							<el-progress
 								:text-inside="true"
 								:show-text="false"
 								:stroke-width="12"
-								:percentage="
+								:percentage="scope.row.proportion_ram?
 									(
 										(scope.row.occupyCap /
 											scope.row.totalCap) *
 										100
-									).toFixed(2) * 1
+									).toFixed(2) * 1:0
 								"
 								:color="scope.row.color_disk"
 							></el-progress>
@@ -284,14 +287,14 @@
 									src="../../assets/img/shang.png"
 									alt=""
 									style="width: 13%;"
-								/>{{ scope.row.upbandwidth_occ }}
+								/>{{ scope.row.upbandwidth_occ?scope.row.upbandwidth_occ:0 }}
 							</p>
 							<p style="display: flex;align-items: center;">
 								<img
 									src="../../assets/img/xia.png"
 									alt=""
 									style="width: 13%;"
-								/>{{ scope.row.downbandwidth_occ }}
+								/>{{ scope.row.downbandwidth_occ?scope.row.downbandwidth_occ:0 }}
 							</p>
 						</template>
 					</el-table-column>
@@ -306,14 +309,14 @@
 									src="../../assets/img/shang.png"
 									alt=""
 									style="width: 13%;"
-								/>{{ scope.row.upbandwidth_rema }}
+								/>{{ scope.row.upbandwidth_rema?scope.row.upbandwidth_rema:0 }}
 							</p>
 							<p style="display: flex;align-items: center;">
 								<img
 									src="../../assets/img/xia.png"
 									alt=""
 									style="width: 13%;"
-								/>{{ scope.row.downbandwidth_rema }}
+								/>{{ scope.row.downbandwidth_rema?scope.row.downbandwidth_rema:0 }}
 							</p>
 						</template>
 					</el-table-column>
@@ -323,7 +326,10 @@
                         :render-header="icons"
                         width="120"
                         class="node_rate"
-					></el-table-column>
+					><template slot-scope="scope">{{
+                        scope.row.useRate?scope.row.useRate:"--"
+                        }}</template>
+                    </el-table-column>
 					<el-table-column
 						prop="nodestatus"
 						label="节点任务状态"
@@ -1009,6 +1015,7 @@ export default {
 			params.nodeidList = nodeid_list;
 			query_nodeuseRate(params)
 				.then((res) => {
+                    console.log(res);
 					if (res.status == 0) {
 						let obj = {};
 						res.data.forEach((item) => {
@@ -1171,6 +1178,7 @@ export default {
 							this.show_export = false;
 							this.total_cnt = res.data.total;
 							res.data.result.forEach((item, index) => {
+                                if(item.totalBW){                                 
 								//上行带宽-总
 								item.upbandwidth = item.totalBW.substring(
 									0,
@@ -1264,7 +1272,10 @@ export default {
 									item.bgccolor = '#5CC77D';
 								}
 								// this.tableData.push(item);
-								this.z_tablist.push(item);
+                                
+
+                            }
+                                this.z_tablist.push(item);
 							});
 							this.$nextTick(() => {
 								this.get_node_dataflow(this.z_tablist);

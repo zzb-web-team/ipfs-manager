@@ -42,7 +42,7 @@
 				v-show="activeName == 'third'"
 				style="margin-top:10px;"
 			>
-				<el-col :span="4"
+				<el-col :span="3"
 					><el-input
 						size="small"
 						v-model="searchdata.input"
@@ -57,10 +57,10 @@
 							></i> -->
 					</el-input></el-col
 				>
-				<el-col :span="2">
+				<el-col :span="3">
 					<el-select
 						v-model="node_type"
-						placeholder="请选择节点类型"
+						placeholder="节点类型"
 						@change="set_time()"
 						style="width:100%;max-width: 200px;margin-left:10px;"
 						size="small"
@@ -74,7 +74,7 @@
 						></el-option>
 					</el-select>
 				</el-col>
-				<el-col :span="2"
+				<el-col :span="3"
 					><el-select
 						size="small"
 						v-model="searchdata.region1"
@@ -90,7 +90,7 @@
 							:value="item.value"
 						></el-option> </el-select
 				></el-col>
-				<el-col :span="2"
+				<el-col :span="3"
 					><el-select
 						size="small"
 						v-model="searchdata.region2"
@@ -128,7 +128,7 @@
                 <el-col :span="2" v-show="activeName != 'third'">
 					<el-select
 						v-model="node_type"
-						placeholder="请选择节点类型"
+						placeholder="节点类型"
 						@change="set_time()"
 						size="small"
 					>

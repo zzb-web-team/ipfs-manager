@@ -456,6 +456,11 @@
             color: #333333;
         }
         
+        .el-input--suffix .el-input__inner {
+            padding-right: 10px;
+            padding-left: 10px;
+        }
+        
         .el-button--primary {
             color: #FFF;
             background-color: #4285f4;
@@ -649,7 +654,6 @@
             }
             .el-menu-item.is-active {
                 padding: 0 !important;
-                padding: 0 !important;
                 border-radius: 0 !important;
                 color: #4285f4 !important;
                 background-color: #fff !important;
@@ -665,3 +669,44 @@
             height: 46px;
             line-height: 46px;
         }
+        
+        input::-webkit-input-placeholder {
+            /* placeholder颜色  */
+            color: #aab2bd;
+            /* placeholder字体大小  */
+            font-size: 12px;
+            /* placeholder位置  */
+            text-align: left;
+        }
+        
+        input::-moz-input-placeholder {
+            /* placeholder颜色  */
+            color: #aab2bd;
+            /* placeholder字体大小  */
+            font-size: 12px;
+            /* placeholder位置  */
+            text-align: left;
+        }
+        
+        input::-ms-input-placeholder {
+            /* placeholder颜色  */
+            color: #aab2bd;
+            /* placeholder字体大小  */
+            font-size: 12px;
+            /* placeholder位置  */
+            text-align: left;
+        }
+        
+        .two_menu_tit {}
+        
+        .two_menu_tit .el-menu .there_menu {
+            padding-left: 90px !important;
+        }
+        
+        .is-opened .el-menu--inline .is-active {
+            padding-left: 8% !important;
+        }
+        
+        // .is-opened>.el-menu--inline>.el-submenu__title {
+        //     padding-left: 0 !important;
+        // }

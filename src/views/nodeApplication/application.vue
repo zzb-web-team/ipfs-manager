@@ -20,7 +20,7 @@
 							:gutter="10"
 							style="align-items: center;"
 						>
-							<el-col :span="4">
+							<el-col :span="3">
 								<el-input
 									v-model="input"
 									placeholder="请输入节点ID"
@@ -36,7 +36,7 @@
 							<el-col :span="2">
 								<el-select
 									v-model="node_type"
-									placeholder="请选择节点类型"
+									placeholder="节点类型"
 									@change="onseach()"
 									style="width:100%;max-width: 200px;margin-left:10px;"
 									size="small"
@@ -234,7 +234,7 @@
 							<el-col :span="2">
 								<el-select
 									v-model="node_typefs"
-									placeholder="请选择节点类型"
+									placeholder="节点类型"
 									@change="onseach('fs')"
 									style="width:100%;max-width: 200px;margin-left:10px;"
 									size="small"

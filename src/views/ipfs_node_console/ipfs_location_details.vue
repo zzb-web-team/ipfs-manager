@@ -166,14 +166,14 @@
 								type="circle"
 								:width="80"
 								color="#05BE65"
-								:percentage="
-									(1 - serdata.occupyCpu).toFixed(4) * 100
+								:percentage="serdata.occupyCpu?
+									(1 - serdata.occupyCpu).toFixed(4) * 100:100
 								"
 							></el-progress>
 							<span
 								style="display: inline-block;color: #16C499;padding: 5px 10px;background: #E7F9F5;border-radius: 8px;margin-top: 12px;font-size: 12px;"
-								>可用{{
-									(serdata.occupyCpu * 100).toFixed(2)
+								>可用{{serdata.occupyCpu?
+									(serdata.occupyCpu * 100).toFixed(2):0
 								}}%</span
 							>
 						</div>
@@ -185,9 +185,9 @@
 							</div>
 							<div class="ipfs_item_toptwo_item">
 								<span
-									>占用：{{
+									>占用：{{serdata.occupyCpu?
 										(1 - serdata.occupyCpu).toFixed(4) *
-											100
+											100:0
 									}}%</span
 								>
 							</div>
@@ -223,27 +223,27 @@
 							<div class="ipfs_item_toptwo_item">
 								<span>总内存:</span>
 								<span
-									>{{
+									>{{serdata.totalMem?
 										(
 											serdata.totalMem /
 											1024 /
 											1024 /
 											1024
-										).toFixed(2)
+										).toFixed(2):0
 									}}GB</span
 								>
 							</div>
 							<div class="ipfs_item_toptwo_item">
 								<span>使用内存：</span>
 								<span
-									>{{
+									>{{serdata.totalMem?
 										(
 											(serdata.totalMem -
 												serdata.availMem) /
 											1024 /
 											1024 /
 											1024
-										).toFixed(2)
+										).toFixed(2):0
 									}}GB</span
 								>
 							</div>
@@ -291,11 +291,11 @@
 							</div>
 							<div class="ipfs_item_toptwo_item">
 								<span>总带宽：</span>
-								<span>{{ serdata.upbandwidth }}</span>
+								<span>{{ serdata.upbandwidth?serdata.upbandwidth:0 }}</span>
 							</div>
 							<div class="ipfs_item_toptwo_item">
 								<span>使用带宽：</span>
-								<span>{{ serdata.upbandwidth_occ }}</span>
+								<span>{{ serdata.upbandwidth_occ?serdata.upbandwidth_occ:0 }}</span>
 							</div>
 							<!-- <div class="ipfs_item_toptwo_item">
 								<span>剩余带宽：</span>
@@ -332,11 +332,11 @@
 							</div>
 							<div class="ipfs_item_toptwo_item">
 								<span>总带宽：</span>
-								<span>{{ serdata.downbandwidth }}</span>
+								<span>{{ serdata.downbandwidth?serdata.downbandwidth:0 }}</span>
 							</div>
 							<div class="ipfs_item_toptwo_item">
 								<span>使用带宽：</span>
-								<span>{{ serdata.downbandwidth_occ }}</span>
+								<span>{{ serdata.downbandwidth_occ?serdata.downbandwidth_occ:0 }}</span>
 							</div>
 							<!-- <div class="ipfs_item_toptwo_item">
 								<span>剩余带宽：</span>
@@ -374,26 +374,26 @@
 							<div class="ipfs_item_toptwo_item">
 								<span>总空间：</span>
 								<span
-									>{{
+									>{{serdata.totalCap?
 										(
 											serdata.totalCap /
 											1024 /
 											1024 /
 											1024
-										).toFixed(2)
+										).toFixed(2):0
 									}}GB</span
 								>
 							</div>
 							<div class="ipfs_item_toptwo_item">
 								<span>使用空间：</span>
 								<span
-									>{{
+									>{{serdata.occupyCap?
 										(
 											serdata.occupyCap /
 											1024 /
 											1024 /
 											1024
-										).toFixed(2)
+										).toFixed(2):0
 									}}GB</span
 								>
 							</div>
