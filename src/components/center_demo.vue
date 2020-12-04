@@ -33,8 +33,10 @@ import '../../static/hubei.js';
 import '../../static/qita.js';
 import '../../static/xibei.js';
 import '../../static/xinan.js';
+import geoData from '../../static/geoinfo-all.json';
 import { query_node, node_distribute } from '../servers/api';
 import axios from 'axios';
+import _ from "lodash";
 export default {
 	name: 'new_city_map',
 	data() {
@@ -164,6 +166,40 @@ export default {
 							this.getdalsit(sctyes, page);
 						}
 					} else {
+						var data = [
+							{
+								name: '上海市', 
+								value: [121.473662, 31.230372, 100]
+							}, 
+							{
+								name: '南京市', 
+								value: [118.796682, 32.05957, 80]
+							}, 
+							{
+								name: '无锡市', 
+								value: [120.31191, 31.491169, 70]
+							}
+						];
+						// let lat = _.find(geoData.data, _.flow(
+						// 	_.property('districts'),
+						// 	_.partialRight(_.some, { id: 2 })
+						// ));
+						// let lon = _.filter(geoData.data, _.matchesProperty('name', '怀化市'));
+						let dataS = _.filter(geoData.data, (item)=>{
+							if(item.name == '武汉市'){
+								return item
+							}else{
+								// console.log('item----->', _.find(item.districts, {name: '武汉市'}))
+								let data = _.find(item.districts, {name: '武汉市'});
+								return data;
+							}
+						})
+						console.log('lon------>', dataS)
+						var jinwei = dataS[0].districts.filter((item) => {return item.name=='武汉市'})[0].center;
+
+						
+						console.log('lon------>', jinwei)
+						this.set_echarts_two(data);
 						this.$message.error(res.err_msg);
 					}
 				})
@@ -172,12 +208,15 @@ export default {
 		set_echarts_two(data_list) {
 			let _this = this;
 			let data = [];
-			data_list.forEach((item) => {
-				toFirst(item, 1);
-				let obj = {};
-				obj.value = item;
-				data.push(obj);
-			});
+			data = data_list;
+			// data_list.forEach((item) => {
+			// 	if(item.value[0] < item.value[1]){
+			// 		toFirst(item, 1);
+			// 	}
+			// 	let obj = {};
+			// 	obj.value = item;
+			// 	data.push(obj);
+			// });
 			function toFirst(fieldData, index) {
 				if (index != 0) {
 					// fieldData[index] = fieldData.splice(0, 1, fieldData[index])[0]; 这种方法是与另一个元素交换了位子，

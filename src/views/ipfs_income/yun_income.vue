@@ -97,7 +97,7 @@
 			style="box-sizing: border-box;margin:14px 24px;padding:4px 24px 14px;background: #ffffff;border-radius: 8px;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 		>
 			<div
-				style="text-align:right;padding: 10px 0;display: flex;justify-content: space-between;"
+				style="text-align:right;padding: 20px 0 24px 0;display: flex;justify-content: space-between;"
 			>
 				<el-button
 					type="primary"
@@ -126,7 +126,7 @@
 				:header-cell-style="headClass"
 				:row-style="{ height: '72px' }"
 				@sort-change="tablechange"
-				style="width: 100%;font-size: 10px"
+				style="width: 100%;font-size: 14px"
 				:max-height="tableHeight"
 			>
 				<!-- <el-table-column prop="nodeId" label="节点ID"></el-table-column> -->
@@ -596,7 +596,7 @@ export default {
 		},
 		// 表头样式设置
 		headClass() {
-			return 'text-align: center;background:#F9F9F9;height:72px;';
+			return 'text-align: center;background:#F9F9F9;height:72px;font-size:14px;';
 		},
 		// 表格样式设置
 		rowClass() {

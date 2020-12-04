@@ -3465,7 +3465,7 @@ export default {
 		top: 24px;
 		right: 24px;
 		width: 1px;
-		height: 66px;
+		height: 64px;
 		content: '';
 		background-color: #eeeeee;
 	}

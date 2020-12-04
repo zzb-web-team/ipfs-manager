@@ -149,7 +149,7 @@
 								v-else
 								:index="item.path"
 								:key="item.path"
-								style="text-align: left;padding-left: 60px;"
+								class="one_menu"
 							>
 								<i
 									:class="item.icon"
@@ -393,7 +393,7 @@ export default {
 			// 	padding-left: 70px !important;
 			// }
 			// .el-menu .there_menu {
-			// 	padding-left: 90px !important;
+			// 	padding-left: 100px !important;
 			// }
 		}
 		.content-container {
@@ -449,7 +449,40 @@ export default {
 	margin-left: 20px;
 	margin-right: 20px;
 	margin-bottom: 10px;
-    margin-top: 10px;
+	margin-top: 10px;
+}
+.el-menu-item.one_menu{
+	padding-left: 65px !important;
+	text-align: left;
+}
+
+.el-menu-item.one_menu.is-active{
+	padding-left: 45px !important;
+	text-align: left;
+}
+// .el-menu-item.two_menu_tit{
+// 	text-align: left;
+// 	padding-left: 105px !important;
+// }
+
+// .el-menu-item.two_menu_tit.is-active{
+// 	text-align: left;
+// 	padding-left: 85px !important;
+// }
+.el-menu-item.two_menu{
+	padding-left: 44px !important;
+	text-align: left;
+}
+.el-menu-item.two_menu.is-active{
+	padding-left: 24px !important;
+	text-align: left;
+}
+.el-menu-item.there_menu{
+	padding-left: 107px !important;
+}
+
+.el-menu-item.there_menu.is-active{
+	padding-left: 87px !important;
 }
 
 .el-submenu__title:hover {

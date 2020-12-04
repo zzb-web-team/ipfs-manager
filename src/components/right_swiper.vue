@@ -1,9 +1,9 @@
 <template>
 	<div class="back-top">
-		<el-button type="text" @click="backTop()" v-show="datalist.length > 0">
+		<!-- <el-button type="text" @click="backTop()" v-show="datalist.length > 0">
 			<i class="el-icon-caret-top" @click="backTop()"></i>
-		</el-button>
-		<el-scrollbar style="height:100%;">
+		</el-button> -->
+		<!-- <el-scrollbar style="height:100%;"> -->
 			<ol class="rightbox">
 				<li
 					v-for="(item, index) in datalist"
@@ -24,7 +24,7 @@
 					<span> {{ item.contit }}&nbsp;{{ item.connum }} </span>
 				</li>
 			</ol>
-		</el-scrollbar>
+		<!-- </el-scrollbar> -->
 	</div>
 </template>
 
@@ -81,13 +81,14 @@ export default {
 <style lang="scss" scoped>
 .back-top {
 	position: fixed;
-	right: 40px;
+	right: 30px;
 	top: 50%;
 }
 .rightbox {
-	height: 150px;
-	overflow-y: scroll;
-	overflow-x: hidden;
+	height: 100%;
+	// height: 150px;
+	// overflow-y: scroll;
+	// overflow-x: hidden;
 	// opacity: 0.6;
 	.nodetype {
 		width: 60px;
@@ -107,7 +108,7 @@ export default {
 		}
 	}
 	.active {
-		border: 2px solid #4285f4;
+		border: 2px solid #1572E8;
 	}
 }
 </style>

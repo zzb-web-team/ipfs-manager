@@ -49,7 +49,7 @@
 					style="margin-right:24px;"
 				>
 					<div class="title_img">
-						<img src="../../../assets/img/nodejiedian.png" alt="" />
+						<img width="56px" height="56px" src="../../../assets/img/nodejiedian.png" alt="" />
 					</div>
 					<div class="top_cube_item_right">
 						<div>
@@ -58,7 +58,7 @@
 							</div>
 							<div class="allnum">{{ dar[0].connum }}</div>
 						</div>
-						<div>
+						<div style="margin-top: 30px;">
 							<div class="alltitle">
 								<span>{{ dar[1].contit }}</span>
 							</div>
@@ -72,7 +72,7 @@
 					style="margin-right:24px;"
 				>
 					<div class="title_img">
-						<img
+						<img width="56px" height="56px"
 							src="../../../assets/img/rongliangyudanxing.png"
 							alt=""
 						/>
@@ -82,13 +82,13 @@
 							<div class="alltitle">
 								<span>{{ dar[2].contit }}</span>
 							</div>
-							<div class="allnum">{{ dar[2].connum }}</div>
+							<div class="allnum">{{ dar[2].connum | setnum }}<span>{{ dar[2].connum | setunit }}</span></div>
 						</div>
-						<div>
+						<div style="margin-top: 30px;">
 							<div class="alltitle">
 								<span>{{ dar[4].contit }}</span>
 							</div>
-							<div class="allnum">{{ dar[4].connum }}</div>
+							<div class="allnum">{{ dar[4].connum | setnum }}<span>{{ dar[4].connum | setunit }}</span></div>
 						</div>
 					</div>
 				</el-col>
@@ -98,26 +98,26 @@
 					style="margin-right:24px;"
 				>
 					<div class="title_img">
-						<img src="../../../assets/img/leijichakan.png" alt="" />
+						<img width="56px" height="56px" src="../../../assets/img/leijichakan.png" alt="" />
 					</div>
 					<div class="top_cube_item_right">
 						<div>
 							<div class="alltitle">
 								<span>{{ dar[5].contit }}</span>
 							</div>
-							<div class="allnum">{{ dar[5].connum }}</div>
+							<div class="allnum">{{ dar[5].connum | setnum }}<span>{{ dar[5].connum | setunit }}</span></div>
 						</div>
-						<div>
+						<div style="margin-top: 30px;">
 							<div class="alltitle">
 								<span>{{ dar[6].contit }}</span>
 							</div>
-							<div class="allnum">{{ dar[6].connum }}</div>
+							<div class="allnum">{{ dar[6].connum | setnum}}<span>{{ dar[6].connum | setunit }}</span></div>
 						</div>
 					</div>
 				</el-col>
 				<el-col :span="6" class="ipfs_con_tit">
 					<div class="title_img">
-						<img
+						<img width="56px" height="56px"
 							src="../../../assets/img/conventional.png"
 							alt=""
 						/>
@@ -127,13 +127,13 @@
 							<div class="alltitle">
 								<span>{{ dar[7].contit }}</span>
 							</div>
-							<div class="allnum">{{ dar[7].connum }}</div>
+							<div class="allnum">{{ dar[7].connum | setnum }}<span>{{ dar[7].connum | setunit }}</span></div>
 						</div>
-						<div>
+						<div style="margin-top: 30px;">
 							<div class="alltitle">
 								<span>{{ dar[8].contit }}</span>
 							</div>
-							<div class="allnum">{{ dar[8].connum }}</div>
+							<div class="allnum">{{ dar[8].connum | setnum }}<span>{{ dar[8].connum | setunit }}</span></div>
 						</div>
 					</div>
 				</el-col>
@@ -151,7 +151,7 @@
 					class="ipfs_con_tit"
 				>
 					<div class="alltitle">
-						<img :src="item.url" alt />
+						<img width="56px" height="56px" :src="item.url" alt />
 						<span>{{ item.contit }}</span>
 					</div>
 					<div class="allnum">{{ item.connum }}</div>
@@ -167,7 +167,7 @@
 					style="margin-right:24px;"
 				>
 					<div class="title_img">
-						<img src="../../../assets/img/nodejiedian.png" alt="" />
+						<img width="56px" height="56px" src="../../../assets/img/nodejiedian.png" alt="" />
 					</div>
 					<div class="top_cube_item_right">
 						<div>
@@ -176,7 +176,7 @@
 							</div>
 							<div class="allnum">{{ dar[0].connum }}</div>
 						</div>
-						<div>
+						<div style="margin-top: 30px;">
 							<div class="alltitle">
 								<span>{{ dar[1].contit }}</span>
 							</div>
@@ -190,7 +190,7 @@
 					style="margin-right:24px;"
 				>
 					<div class="title_img">
-						<img
+						<img width="56px" height="56px"
 							src="../../../assets/img/rongliangyudanxing.png"
 							alt=""
 						/>
@@ -200,13 +200,13 @@
 							<div class="alltitle">
 								<span>{{ dar[2].contit }}</span>
 							</div>
-							<div class="allnum">{{ dar[2].connum }}</div>
+							<div class="allnum">{{ dar[2].connum | setnum }}<span>{{ dar[2].connum | setunit }}</span></div>
 						</div>
-						<div>
+						<div style="margin-top: 30px;">
 							<div class="alltitle">
 								<span>{{ dar[4].contit }}</span>
 							</div>
-							<div class="allnum">{{ dar[4].connum }}</div>
+							<div class="allnum">{{ dar[4].connum | setnum }}<span>{{ dar[4].connum | setunit }}</span></div>
 						</div>
 					</div>
 				</el-col>
@@ -216,26 +216,26 @@
 					style="margin-right:24px;"
 				>
 					<div class="title_img">
-						<img src="../../../assets/img/leijichakan.png" alt="" />
+						<img width="56px" height="56px" src="../../../assets/img/leijichakan.png" alt="" />
 					</div>
 					<div class="top_cube_item_right">
 						<div>
 							<div class="alltitle">
 								<span>{{ dar[5].contit }}</span>
 							</div>
-							<div class="allnum">{{ dar[5].connum }}</div>
+							<div class="allnum">{{ dar[5].connum | setnum }}<span>{{ dar[5].connum | setunit }}</span></div>
 						</div>
-						<div>
+						<div style="margin-top: 30px;">
 							<div class="alltitle">
 								<span>{{ dar[6].contit }}</span>
 							</div>
-							<div class="allnum">{{ dar[6].connum }}</div>
+							<div class="allnum">{{ dar[6].connum | setnum}}<span>{{ dar[6].connum | setunit }}</span></div>
 						</div>
 					</div>
 				</el-col>
 				<el-col :span="6" class="ipfs_con_tit">
 					<div class="title_img">
-						<img
+						<img width="56px" height="56px"
 							src="../../../assets/img/conventional.png"
 							alt=""
 						/>
@@ -245,13 +245,13 @@
 							<div class="alltitle">
 								<span>{{ dar[7].contit }}</span>
 							</div>
-							<div class="allnum">{{ dar[7].connum }}</div>
+							<div class="allnum">{{ dar[7].connum | setnum }}<span>{{ dar[7].connum | setunit }}</span></div>
 						</div>
-						<div>
+						<div style="margin-top: 30px;">
 							<div class="alltitle">
 								<span>{{ dar[8].contit }}</span>
 							</div>
-							<div class="allnum">{{ dar[8].connum }}</div>
+							<div class="allnum">{{ dar[8].connum | setnum }}<span>{{ dar[8].connum | setunit }}</span></div>
 						</div>
 					</div>
 				</el-col>
@@ -269,7 +269,7 @@
 					class="ipfs_con_tit"
 				>
 					<div class="alltitle">
-						<img :src="item.url" alt />
+						<img width="56px" height="56px" :src="item.url" alt />
 						<span>{{ item.contit }}</span>
 					</div>
 					<div class="allnum">{{ item.connum }}</div>
@@ -285,7 +285,7 @@
 					style="margin-right:24px;"
 				>
 					<div class="title_img">
-						<img src="../../../assets/img/nodejiedian.png" alt="" />
+						<img width="56px" height="56px" src="../../../assets/img/nodejiedian.png" alt="" />
 					</div>
 					<div class="top_cube_item_right">
 						<div>
@@ -294,7 +294,7 @@
 							</div>
 							<div class="allnum">{{ dar[0].connum }}</div>
 						</div>
-						<div>
+						<div style="margin-top: 30px;">
 							<div class="alltitle">
 								<span>{{ dar[1].contit }}</span>
 							</div>
@@ -308,7 +308,7 @@
 					style="margin-right:24px;"
 				>
 					<div class="title_img">
-						<img
+						<img width="56px" height="56px"
 							src="../../../assets/img/rongliangyudanxing.png"
 							alt=""
 						/>
@@ -318,13 +318,13 @@
 							<div class="alltitle">
 								<span>{{ dar[2].contit }}</span>
 							</div>
-							<div class="allnum">{{ dar[2].connum }}</div>
+							<div class="allnum">{{ dar[2].connum | setnum }}<span>{{ dar[2].connum | setunit }}</span></div>
 						</div>
-						<div>
+						<div style="margin-top: 30px;">
 							<div class="alltitle">
 								<span>{{ dar[4].contit }}</span>
 							</div>
-							<div class="allnum">{{ dar[4].connum }}</div>
+							<div class="allnum">{{ dar[4].connum | setnum }}<span>{{ dar[4].connum | setunit }}</span></div>
 						</div>
 					</div>
 				</el-col>
@@ -334,26 +334,26 @@
 					style="margin-right:24px;"
 				>
 					<div class="title_img">
-						<img src="../../../assets/img/leijichakan.png" alt="" />
+						<img width="56px" height="56px" src="../../../assets/img/leijichakan.png" alt="" />
 					</div>
 					<div class="top_cube_item_right">
 						<div>
 							<div class="alltitle">
 								<span>{{ dar[5].contit }}</span>
 							</div>
-							<div class="allnum">{{ dar[5].connum }}</div>
+							<div class="allnum">{{ dar[5].connum | setnum }}<span>{{ dar[5].connum | setunit }}</span></div>
 						</div>
-						<div>
+						<div style="margin-top: 30px;">
 							<div class="alltitle">
 								<span>{{ dar[6].contit }}</span>
 							</div>
-							<div class="allnum">{{ dar[6].connum }}</div>
+							<div class="allnum">{{ dar[6].connum | setnum}}<span>{{ dar[6].connum | setunit }}</span></div>
 						</div>
 					</div>
 				</el-col>
 				<el-col :span="6" class="ipfs_con_tit">
 					<div class="title_img">
-						<img
+						<img width="56px" height="56px"
 							src="../../../assets/img/conventional.png"
 							alt=""
 						/>
@@ -363,13 +363,13 @@
 							<div class="alltitle">
 								<span>{{ dar[7].contit }}</span>
 							</div>
-							<div class="allnum">{{ dar[7].connum }}</div>
+							<div class="allnum">{{ dar[7].connum | setnum }}<span>{{ dar[7].connum | setunit }}</span></div>
 						</div>
-						<div>
+						<div style="margin-top: 30px;">
 							<div class="alltitle">
 								<span>{{ dar[8].contit }}</span>
 							</div>
-							<div class="allnum">{{ dar[8].connum }}</div>
+							<div class="allnum">{{ dar[8].connum | setnum }}<span>{{ dar[8].connum | setunit }}</span></div>
 						</div>
 					</div>
 				</el-col>
@@ -387,7 +387,7 @@
 					class="ipfs_con_tit"
 				>
 					<div class="alltitle">
-						<img :src="item.url" alt />
+						<img width="56px" height="56px" :src="item.url" alt />
 						<span>{{ item.contit }}</span>
 					</div>
 					<div class="allnum">{{ item.connum }}</div>
@@ -403,7 +403,7 @@
 					style="margin-right:24px;"
 				>
 					<div class="title_img">
-						<img src="../../../assets/img/nodejiedian.png" alt="" />
+						<img width="56px" height="56px" src="../../../assets/img/nodejiedian.png" alt="" />
 					</div>
 					<div class="top_cube_item_right">
 						<div>
@@ -412,7 +412,7 @@
 							</div>
 							<div class="allnum">{{ dar[0].connum }}</div>
 						</div>
-						<div>
+						<div style="margin-top: 30px;">
 							<div class="alltitle">
 								<span>{{ dar[1].contit }}</span>
 							</div>
@@ -426,7 +426,7 @@
 					style="margin-right:24px;"
 				>
 					<div class="title_img">
-						<img
+						<img width="56px" height="56px"
 							src="../../../assets/img/rongliangyudanxing.png"
 							alt=""
 						/>
@@ -436,13 +436,13 @@
 							<div class="alltitle">
 								<span>{{ dar[2].contit }}</span>
 							</div>
-							<div class="allnum">{{ dar[2].connum }}</div>
+							<div class="allnum">{{ dar[2].connum | setnum }}<span>{{ dar[2].connum | setunit }}</span></div>
 						</div>
-						<div>
+						<div style="margin-top: 30px;">
 							<div class="alltitle">
 								<span>{{ dar[4].contit }}</span>
 							</div>
-							<div class="allnum">{{ dar[4].connum }}</div>
+							<div class="allnum">{{ dar[4].connum | setnum }}<span>{{ dar[4].connum | setunit }}</span></div>
 						</div>
 					</div>
 				</el-col>
@@ -452,26 +452,26 @@
 					style="margin-right:24px;"
 				>
 					<div class="title_img">
-						<img src="../../../assets/img/leijichakan.png" alt="" />
+						<img width="56px" height="56px" src="../../../assets/img/leijichakan.png" alt="" />
 					</div>
 					<div class="top_cube_item_right">
 						<div>
 							<div class="alltitle">
 								<span>{{ dar[5].contit }}</span>
 							</div>
-							<div class="allnum">{{ dar[5].connum }}</div>
+							<div class="allnum">{{ dar[5].connum | setnum }}<span>{{ dar[5].connum | setunit }}</span></div>
 						</div>
-						<div>
+						<div style="margin-top: 30px;">
 							<div class="alltitle">
 								<span>{{ dar[6].contit }}</span>
 							</div>
-							<div class="allnum">{{ dar[6].connum }}</div>
+							<div class="allnum">{{ dar[6].connum | setnum}}<span>{{ dar[6].connum | setunit }}</span></div>
 						</div>
 					</div>
 				</el-col>
 				<el-col :span="6" class="ipfs_con_tit">
 					<div class="title_img">
-						<img
+						<img width="56px" height="56px"
 							src="../../../assets/img/conventional.png"
 							alt=""
 						/>
@@ -481,13 +481,13 @@
 							<div class="alltitle">
 								<span>{{ dar[7].contit }}</span>
 							</div>
-							<div class="allnum">{{ dar[7].connum }}</div>
+							<div class="allnum">{{ dar[7].connum | setnum }}<span>{{ dar[7].connum | setunit }}</span></div>
 						</div>
-						<div>
+						<div style="margin-top: 30px;">
 							<div class="alltitle">
 								<span>{{ dar[8].contit }}</span>
 							</div>
-							<div class="allnum">{{ dar[8].connum }}</div>
+							<div class="allnum">{{ dar[8].connum | setnum }}<span>{{ dar[8].connum | setunit }}</span></div>
 						</div>
 					</div>
 				</el-col>
@@ -505,7 +505,7 @@
 					class="ipfs_con_tit"
 				>
 					<div class="alltitle">
-						<img :src="item.url" alt />
+						<img width="56px" height="56px" :src="item.url" alt />
 						<span>{{ item.contit }}</span>
 					</div>
 					<div class="allnum">{{ item.connum }}</div>
@@ -521,7 +521,7 @@
 					style="margin-right:24px;"
 				>
 					<div class="title_img">
-						<img src="../../../assets/img/nodejiedian.png" alt="" />
+						<img width="56px" height="56px" src="../../../assets/img/nodejiedian.png" alt="" />
 					</div>
 					<div class="top_cube_item_right">
 						<div>
@@ -530,7 +530,7 @@
 							</div>
 							<div class="allnum">{{ dar[0].connum }}</div>
 						</div>
-						<div>
+						<div style="margin-top: 30px;">
 							<div class="alltitle">
 								<span>{{ dar[1].contit }}</span>
 							</div>
@@ -544,7 +544,7 @@
 					style="margin-right:24px;"
 				>
 					<div class="title_img">
-						<img
+						<img width="56px" height="56px"
 							src="../../../assets/img/rongliangyudanxing.png"
 							alt=""
 						/>
@@ -554,13 +554,13 @@
 							<div class="alltitle">
 								<span>{{ dar[2].contit }}</span>
 							</div>
-							<div class="allnum">{{ dar[2].connum }}</div>
+							<div class="allnum">{{ dar[2].connum | setnum }}<span>{{ dar[2].connum | setunit }}</span></div>
 						</div>
-						<div>
+						<div style="margin-top: 30px;">
 							<div class="alltitle">
 								<span>{{ dar[4].contit }}</span>
 							</div>
-							<div class="allnum">{{ dar[4].connum }}</div>
+							<div class="allnum">{{ dar[4].connum | setnum }}<span>{{ dar[4].connum | setunit }}</span></div>
 						</div>
 					</div>
 				</el-col>
@@ -570,26 +570,26 @@
 					style="margin-right:24px;"
 				>
 					<div class="title_img">
-						<img src="../../../assets/img/leijichakan.png" alt="" />
+						<img width="56px" height="56px" src="../../../assets/img/leijichakan.png" alt="" />
 					</div>
 					<div class="top_cube_item_right">
 						<div>
 							<div class="alltitle">
 								<span>{{ dar[5].contit }}</span>
 							</div>
-							<div class="allnum">{{ dar[5].connum }}</div>
+							<div class="allnum">{{ dar[5].connum | setnum }}<span>{{ dar[5].connum | setunit }}</span></div>
 						</div>
-						<div>
+						<div style="margin-top: 30px;">
 							<div class="alltitle">
 								<span>{{ dar[6].contit }}</span>
 							</div>
-							<div class="allnum">{{ dar[6].connum }}</div>
+							<div class="allnum">{{ dar[6].connum | setnum}}<span>{{ dar[6].connum | setunit }}</span></div>
 						</div>
 					</div>
 				</el-col>
 				<el-col :span="6" class="ipfs_con_tit">
 					<div class="title_img">
-						<img
+						<img width="56px" height="56px"
 							src="../../../assets/img/conventional.png"
 							alt=""
 						/>
@@ -599,13 +599,13 @@
 							<div class="alltitle">
 								<span>{{ dar[7].contit }}</span>
 							</div>
-							<div class="allnum">{{ dar[7].connum }}</div>
+							<div class="allnum">{{ dar[7].connum | setnum }}<span>{{ dar[7].connum | setunit }}</span></div>
 						</div>
-						<div>
+						<div style="margin-top: 30px;">
 							<div class="alltitle">
 								<span>{{ dar[8].contit }}</span>
 							</div>
-							<div class="allnum">{{ dar[8].connum }}</div>
+							<div class="allnum">{{ dar[8].connum | setnum }}<span>{{ dar[8].connum | setunit }}</span></div>
 						</div>
 					</div>
 				</el-col>
@@ -918,24 +918,26 @@
 					</ol>
 				</div>
 			</div>
-			<fenye
+			<fenye1
 				style="text-align: right;margin-top: 10px;"
 				@fatherMethod="getpage"
 				@fathernum="gettol"
 				:pagesa="totalCnt"
 				:currentPage="currentPage"
 				v-show="!showdata"
-			></fenye>
+			></fenye1>
+			<div style="position:relative">
+				<rightSwiper
+					:datalist="titledar"
+					@handleChange="change_right_tiem"
+				></rightSwiper>
+			</div>
 		</div>
-		<rightSwiper
-			:datalist="titledar"
-			@handleChange="change_right_tiem"
-		></rightSwiper>
 	</div>
 </template>
 
 <script>
-import fenye from '@/components/fenye';
+import fenye1 from '@/components/fenye1';
 import rightSwiper from '@/components/right_swiper';
 import {
 	query_node,
@@ -943,6 +945,10 @@ import {
 	get_nodetype_enum,
 	nodesinfo_byarea,
 } from '../../../servers/api';
+import {
+	get_units,
+	formatBkb,
+} from '../../../servers/sevdate';
 export default {
 	data() {
 		return {
@@ -1005,37 +1011,37 @@ export default {
 				},
 				{
 					contit: '总容量',
-					connum: '0B',
+					connum: '0',
 					url: require('../../../assets/img/zongkongj.png'),
 				},
 				{
 					contit: '当前使用容量',
-					connum: '0B',
+					connum: '0',
 					url: require('../../../assets/img/zhanyongkj.png'),
 				},
 				{
 					contit: '剩余容量',
-					connum: '0B',
+					connum: '0',
 					url: require('../../../assets/img/keykj.png'),
 				},
 				{
 					contit: '累计使用流量',
-					connum: '0B',
+					connum: '0',
 					url: require('../../../assets/img/liuliangs.png'),
 				},
 				{
 					contit: '累计存储容量',
-					connum: '0B',
+					connum: '0',
 					url: require('../../../assets/img/cuncurl.png'),
 				},
 				{
 					contit: '当前峰值上行带宽',
-					connum: '0B',
+					connum: '0',
 					url: require('../../../assets/img/cuncurl.png'),
 				},
 				{
 					contit: '当前峰值下行带宽',
-					connum: '0B',
+					connum: '0',
 					url: require('../../../assets/img/cuncurl.png'),
 				},
 			],
@@ -1080,7 +1086,7 @@ export default {
 		};
 	},
 	components: {
-		fenye,
+		fenye1,
 		rightSwiper,
 	},
 	mounted() {
@@ -1113,6 +1119,14 @@ export default {
 			this.gettit();
 			this.getipfsdata();
 		}
+	},
+	filters: {
+		setunit(data) {
+			return get_units(data);
+		},
+		setnum(data) {
+			return formatBkb(data, get_units(data));
+		},
 	},
 	methods: {
 		change_right_tiem(num) {
@@ -1169,14 +1183,10 @@ export default {
 						}
 						this.titledar = titlist;
 						this.dar[1].connum = res.data.onlineCount;
-						this.dar[2].connum = this.common.formatBytes(
-							res.data.totalCap
-						);
-						let numcap = res.data.totalCap - res.data.remainingCap;
-						this.dar[3].connum = this.common.formatBytes(numcap);
-						this.dar[4].connum = this.common.formatBytes(
-							res.data.remainingCap
-						);
+						this.dar[2].connum = res.data.totalCap;
+						let numcap = res.data.totalCap - res.data.remaining;
+						this.dar[3].connum = numcap;
+						this.dar[4].connum = res.data.remaining;
 					} else {
 						this.$message.error(res.err_msg);
 					}
@@ -1371,25 +1381,25 @@ export default {
 		}
 		.ipfs_con_tit {
 			background: rgba(255, 255, 255, 1);
-			border: 1px solid rgba(216, 226, 240, 1);
-			box-shadow: 0px 12px 36px 0px rgba(211, 215, 221, 0.4);
-			border-radius: 4px;
+			// border: 1px solid rgba(216, 226, 240, 1);
+			box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);
+			border-radius: 8px;
 			text-align: left;
 			box-sizing: border-box;
-			padding: 24px 24px;
+			padding: 24px 56px;
 			overflow: hidden;
 			display: flex;
 			justify-content: start;
 			align-items: center;
 			max-width: 366px;
-			height: 120px;
+			height: 222px;
 			.top_cube_item_right {
 				margin-left: 40px;
 			}
 			.alltitle {
 				display: flex;
 				align-items: center;
-				color: #929292;
+				color: #333;
 				font-size: 18px;
 				img {
 					width: 27px;
@@ -1402,14 +1412,14 @@ export default {
 				}
 			}
 			.allnum {
-				color: #1c1a1d;
-				font-size: 18px;
+				color: #333;
+				font-size: 30px;
 				margin-top: 5px;
 				margin-bottom: 5px;
 			}
 			.title_img {
 				img {
-					width: 70%;
+					// width: 70%;
 				}
 			}
 		}
@@ -1445,8 +1455,8 @@ export default {
 			max-width: 350px;
 			padding: 0 14px 5px 14px;
 			background: rgba(255, 255, 255, 1);
-			border: 1px solid rgba(216, 226, 240, 1);
-			box-shadow: 0px 0px 18px 0px rgba(211, 215, 221, 0.4);
+			border: 1px solid #F2F2F2;
+			// box-shadow: 0px 0px 18px 0px rgba(211, 215, 221, 0.4);
 			border-radius: 3px;
 			// margin-left: 0.5%;
 			margin-right: 0.5%;
@@ -1476,7 +1486,7 @@ export default {
 				// margin-bottom: 10px;
 				.ipfs_text_title {
 					display: inline-block;
-					// width: 65px;
+					width: 65px;
 					font-size: 12px;
 					text-align: left;
 					white-space: nowrap;
@@ -1514,21 +1524,21 @@ export default {
 	color: #ffffff !important;
 	display: inline-block;
 	line-height: 25px;
-	border: #4285f4 2px solid;
-	background: #4285f4;
+	border: #1572E8 2px solid;
+	background: #1572E8;
 	border-radius: 5px;
 	font-size: 16px !important;
 	text-align: center;
 }
 .content .title_name {
-	font-size: 14px;
+	font-size: 18px;
 	margin-left: 10px;
 }
 .content .ipfs_con_label {
 	justify-content: start;
 	// margin-bottom: 25px;
 	.ipfs_con_left {
-		font-size: 14px;
+		font-size: 16px;
 		margin-right: 50px;
 		padding-left: 10px;
 		font-weight: 400;

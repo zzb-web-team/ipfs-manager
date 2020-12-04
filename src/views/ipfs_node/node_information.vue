@@ -105,7 +105,7 @@
 			</el-row>
 		</div>
 		<!-- 主体表格 -->
-		<div class="rowcon" :style="autoWidth"  v-bind:class="tab_transform<1 ? tabscale : tab_el">
+		<div class="rowcon">
 			<div
 				style="text-align:right;padding:0 10px 10px 10px;background-color: #ffffff;box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);"
 			>
@@ -248,7 +248,7 @@
 					<el-table-column
 						prop="remainingCap"
 						label="存储占用"
-					width="120"
+						width="120"
                         :render-header="icons"
 					>
 						<template slot-scope="scope">
@@ -868,7 +868,7 @@ export default {
 	methods: {
         icons(h,{column,$index}){
         return h(
-　　　　    'div', [
+　　　　    'p', [
                 h('span', column.label),
                 h('i', {
                         class: 'el-icon-sort',
@@ -1036,7 +1036,7 @@ export default {
 								.offsetWidth +
 							120 +
                             'px';
-                            
+                            console.log('宽度', document.getElementsByClassName('el-table__body')[0].offsetWidth)
                         let tab_w=document.getElementsByClassName('el-table__body')[0].offsetWidth;
                        let con_w = document.getElementsByClassName('content-container')[0].offsetWidth;
                         this.tab_transform=Math.floor((con_w/tab_w)*100) / 100;
@@ -1418,7 +1418,7 @@ export default {
 		},
 		// 表头样式设置
 		headClass() {
-			return 'text-align: center;background:#F9F9F9;height:72px;';
+			return 'text-align: center;background:#F9F9F9;height:72px;line-height: 72px;';
 		},
 		// 表格样式设置
 		rowClass() {
@@ -1544,6 +1544,7 @@ export default {
 <style lang="scss" scoped>
 .content {
 	// height: auto;
+	display: inherit;
 	overflow-x: hidden;
 	background-color: #f9fbfd;
 	.seach_title {
