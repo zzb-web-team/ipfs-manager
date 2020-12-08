@@ -13,8 +13,8 @@ if (href.indexOf('xyj.grapefruitcloud.com') >= 0) {
 }else if (href.indexOf('zzb.stguarantee.com') >= 0) {
     var serverUrl = 'http://zzb.stguarantee.com'; //阿里云服务URL
 }else {
-    // var serverUrl = 'http://service.kclgames.com';
-    var serverUrl = 'http://zzb.stguarantee.com';
+    var serverUrl = 'http://service.kclgames.com';
+    // var serverUrl = 'http://zzb.stguarantee.com';
 }
 // var serverUrl = 'http://service.kclgames.com'; //PHP服务域名
 

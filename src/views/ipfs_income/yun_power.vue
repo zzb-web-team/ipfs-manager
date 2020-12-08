@@ -14,7 +14,7 @@
 			</el-radio-group>
 		</div>
 		<div class="search">
-			<el-row type="flex" :gutter="20" style="align-items: center;">
+			<el-row type="flex" :gutter="20" style="align-items: center;margin:0;">
 				<el-input
 					style="width:15%;"
 					placeholder="请输入节点ip,节点id"

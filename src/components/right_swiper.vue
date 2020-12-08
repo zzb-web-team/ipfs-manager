@@ -81,7 +81,7 @@ export default {
 <style lang="scss" scoped>
 .back-top {
 	position: fixed;
-	right: 30px;
+	right: 46px;
 	top: 50%;
 }
 .rightbox {

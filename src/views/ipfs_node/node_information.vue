@@ -129,7 +129,7 @@
 					:row-key="getRowKey"
 					@selection-change="handleSelectionChange"
 					@filter-change="filterChange"
-                    :max-height="tableHeight"
+                    
                     style="font-size: 10px"
                     
 				>
@@ -145,6 +145,7 @@
 						:filter-multiple="false"
 						:column-key="'state'"
 						:filters="stateopt"
+						width="125"
 					>
 						<template slot-scope="scope">
 							<div
@@ -171,10 +172,12 @@
 					<el-table-column
 						prop="firstch"
 						label="节点一级渠道"
+						width="110"
 					></el-table-column>
 					<el-table-column
 						prop="secondch"
 						label="节点二级渠道"
+						width="110"
 					></el-table-column>
 					<el-table-column
 						prop="devicetype"
@@ -289,7 +292,7 @@
 									style="width: 13%;"
 								/>{{ scope.row.upbandwidth_occ?scope.row.upbandwidth_occ:0 }}
 							</p>
-							<p style="display: flex;align-items: center;">
+							<p style="display: flex;align-items: center;margin-top:9px;">
 								<img
 									src="../../assets/img/xia.png"
 									alt=""
@@ -311,7 +314,7 @@
 									style="width: 13%;"
 								/>{{ scope.row.upbandwidth_rema?scope.row.upbandwidth_rema:0 }}
 							</p>
-							<p style="display: flex;align-items: center;">
+							<p style="display: flex;align-items: center;margin-top:9px;">
 								<img
 									src="../../assets/img/xia.png"
 									alt=""
@@ -324,7 +327,7 @@
 						prop="useRate"
 						label="节点平均利用率"
                         :render-header="icons"
-                        width="120"
+                        width="140"
                         class="node_rate"
 					><template slot-scope="scope">{{
                         scope.row.useRate?scope.row.useRate:"--"
@@ -336,6 +339,7 @@
 						:filter-multiple="false"
 						:column-key="'nodestatus'"
 						:filters="stateopt_node"
+						width="125"
 					>
 						<template slot-scope="scope">
 							<span
@@ -358,7 +362,6 @@
                             <span style="display:none;"  >{{scope.row.nodeId}}</span>
 							<el-button
 								@click="show_nodeid(scope.row.nodeId)"
-                                class="copy"
 								type="text"
 								size="small"
 								>查看</el-button
@@ -403,14 +406,14 @@
 						@click="all_qiClick()"
 						type="primary"
 						v-show="menutype.roleU == 1"
-                        style="padding:8px 32px;"
+                        style="width: 64px;height: 32px;line-height: 32px;padding: 0;text-align: center;"
 						>启用</el-button
 					>
 					<el-button
 						@click="all_jinClick()"
 						type="danger"
 						v-show="menutype.roleU == 1"
-                        style="padding:8px 32px;"
+                        style="width: 64px;height: 32px;line-height: 32px;padding: 0;text-align: center;"
 						>禁用</el-button
 					>
 				</div>
@@ -1418,7 +1421,7 @@ export default {
 		},
 		// 表头样式设置
 		headClass() {
-			return 'text-align: center;background:#F9F9F9;height:72px;line-height: 72px;';
+			return 'text-align: center;background:#F9F9F9;height:72px;line-height: 72px;padding: 0;';
 		},
 		// 表格样式设置
 		rowClass() {

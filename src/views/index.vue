@@ -53,7 +53,7 @@
 					:class="isCollapse ? 'menu-collapsed' : 'menu-expanded'"
 				>
 					<el-menu
-						:default-active="$route.path"
+						:default-active="activeIndex"
 						class="el-menu-vertical-demo"
 						@open="handleopen"
 						@close="handleclose"
@@ -200,6 +200,18 @@ export default {
 				minHeight: '',
 			},
 		};
+	},
+	computed: {
+		activeIndex () {
+			if(this.$route.path){
+				if(this.$route.path === '/ipfs_location_details'){
+					return this.$route.query.address;
+				}else{
+					return this.$route.path;
+				}
+			}
+			
+		}
 	},
 	methods: {
 		onSubmit() {},

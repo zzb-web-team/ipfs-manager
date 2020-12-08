@@ -3,7 +3,7 @@
 		<!-- <el-page-header @back="goBack" content="节点详情"> </el-page-header> -->
 		<!-- 主体内容上 -->
 		<div class="search rowbg">
-			<div class="item_title" @click="goBack">
+			<div @click="goBack">
 				<i class="el-icon-arrow-left"></i> 节点详情
 			</div>
 		</div>
@@ -46,39 +46,33 @@
 							/>
 							<div class="ipfs_con_top">
 								<div class="top_tit_status">
-									<b>{{
+									<p>{{
 										serdata.devicetype == 'PC服务器'
 											? '云链节点'
 											: '西柚机节点'
-									}}</b
-									><span
+									}}</p>
+									<!-- <span
 										v-bind:style="{
 											background: serdata.bgccolor,
 										}"
-										>{{ serdata.devstatus }}</span
-									>
-									<!-- <span
-									v-bind:style="{
-										color: serdata.bgccolor,
-									}"
-									>{{ serdata.isp }}</span
-								> -->
+										>{{ serdata.isp }}</span
+									> -->
+									<img width="24px" height="20px" src="../../assets/img/isp.png" alt="">
+									<p class="ispStyle">{{ serdata.isp }}</p>
 								</div>
-								<div>
+								<div style="margin-top: 8px;">
 									<span>{{ serdata.devicetype }}</span
 									>&nbsp;&nbsp; <span>{{ serdata.os }}</span
 									>&nbsp;&nbsp; <span>{{ serdata.arch }}</span
 									>&nbsp;&nbsp;
 									<!-- <span>123</span> -->
 								</div>
-								<div class="top_tit"><b>节点ID</b></div>
+								<div class="top_tit"><span>节点ID</span></div>
 								<div class="top_tit_id">
 									{{ serdata.nodeId
 									}}<el-button
 										@click="copy_id(serdata.nodeId)"
 										class="copy"
-                                        size="mini"
-										type="primary"
 										>复制</el-button
 									>
 								</div>
@@ -155,7 +149,7 @@
 				</el-row>
 				<!--  -->
 				<div
-					style="display: flex;justify-content: start;align-items: center;font-size: 14px;margin:14px 0;"
+					style="display: flex;justify-content: space-between;align-items: center;font-size: 14px;margin:14px 0;"
 				>
 					<div class="ipfs_item_toptwo">
 						<div
@@ -164,21 +158,21 @@
 							<!-- <qiu :cap="1 - serdata.occupyCpu"></qiu> -->
 							<el-progress
 								type="circle"
-								:width="80"
+								:width="160"
 								color="#05BE65"
 								:percentage="serdata.occupyCpu?
 									(1 - serdata.occupyCpu).toFixed(4) * 100:100
 								"
 							></el-progress>
 							<span
-								style="display: inline-block;color: #16C499;padding: 5px 10px;background: #E7F9F5;border-radius: 8px;margin-top: 12px;font-size: 12px;"
+								style="display: inline-block;color: #16C499;padding: 5px 10px;background: #E7F9F5;border-radius: 8px;margin-top: 24px;font-size: 12px;"
 								>可用{{serdata.occupyCpu?
 									(serdata.occupyCpu * 100).toFixed(2):0
 								}}%</span
 							>
 						</div>
 						<div
-							style="text-align:left;line-height: 48px;padding-top: 10px;color: #89949B;"
+							style="text-align:left;line-height: 48px;margin-top:40px; color: #89949B;"
 						>
 							<div style="font-size: 16px;color: #333333;line-height: 32px;">
 								CPU
@@ -203,19 +197,19 @@
 							></qiu> -->
 							<el-progress
 								type="circle"
-								:width="80"
+								:width="160"
 								color="#FED202"
 								:percentage="
 									(100 - ram_rema * 100).toFixed(2) * 1
 								"
 							></el-progress>
 							<span
-								style="display: inline-block;color: #16C499;padding: 5px 10px;background: #E7F9F5;border-radius: 8px;margin-top: 12px;font-size: 12px;"
+								style="display: inline-block;color: #16C499;padding: 5px 10px;background: #E7F9F5;border-radius: 8px;margin-top: 24px;font-size: 12px;"
 								>可用{{ (ram_rema * 100).toFixed(2) }}%</span
 							>
 						</div>
 						<div
-							style="text-align:left;line-height: 48px;padding-top: 10px;"
+							style="text-align:left;line-height: 48px;margin-top:40px"
 						>
 							<div style="font-size: 16px;color: #333333;line-height: 32px;">
 								内存
@@ -272,19 +266,19 @@
 							></qiu> -->
 							<el-progress
 								type="circle"
-								:width="80"
+								:width="160"
 								color="#4285f4"
 								:percentage="
 									(100 - up_rema * 100).toFixed(2) * 1
 								"
 							></el-progress>
 							<span
-								style="display: inline-block;color: #16C499;padding: 5px 10px;background: #E7F9F5;border-radius: 8px;margin-top: 12px;font-size: 12px;"
+								style="display: inline-block;color: #16C499;padding: 5px 10px;background: #E7F9F5;border-radius: 8px;margin-top: 24px;font-size: 12px;"
 								>可用{{ (up_rema * 100).toFixed(2) }}%</span
 							>
 						</div>
 						<div
-							style="text-align:left;line-height: 48px;padding-top: 10px;color: #89949B;"
+							style="text-align:left;line-height: 48px;margin-top:40px; color: #89949B;"
 						>
 							<div style="font-size: 16px;color: #333333;line-height: 32px;">
 								上行带宽
@@ -313,19 +307,19 @@
 							></qiu> -->
 							<el-progress
 								type="circle"
-								:width="80"
+								:width="160"
 								color="#F4A037"
 								:percentage="
 									(100 - down_rema * 100).toFixed(2) * 1
 								"
 							></el-progress>
 							<span
-								style="display: inline-block;color: #16C499;padding: 5px 10px;background: #E7F9F5;border-radius: 8px;margin-top: 12px;font-size: 12px;"
+								style="display: inline-block;color: #16C499;padding: 5px 10px;background: #E7F9F5;border-radius: 8px;margin-top: 24px;font-size: 12px;"
 								>可用{{ (down_rema * 100).toFixed(2) }}%</span
 							>
 						</div>
 						<div
-							style="text-align:left;line-height: 48px;padding-top: 10px;color: #89949B;"
+							style="text-align:left;line-height: 48px;margin-top:40px; color: #89949B;"
 						>
 							<div style="font-size: 16px;color: #333333;line-height: 32px;">
 								下行带宽
@@ -355,18 +349,18 @@
 							<el-progress
 								type="circle"
 								color="#912EEA"
-								:width="80"
+								:width="160"
 								:percentage="
 									(100 - cap_rema * 100).toFixed(2) * 1
 								"
 							></el-progress>
 							<span
-								style="display: inline-block;color: #16C499;padding: 5px 10px;background: #E7F9F5;border-radius: 8px;margin-top: 12px;font-size: 12px;"
+								style="display: inline-block;color: #16C499;padding: 5px 10px;background: #E7F9F5;border-radius: 8px;margin-top: 24px;font-size: 12px;"
 								>可用{{ (cap_rema * 100).toFixed(2) }}%</span
 							>
 						</div>
 						<div
-							style="text-align:left;line-height: 48px;padding-top: 10px;color: #89949B;"
+							style="text-align:left;line-height: 48px;margin-top:40px; color: #89949B;"
 						>
 							<div style="font-size: 16px;color: #333333;line-height: 32px;">
 								存储空间
@@ -1004,13 +998,16 @@ export default {
 .content {
 	height: 100%;
 	background: #f9fbfd;
+	.search{
+		margin-bottom: 24px;
+	}
 	.bread_crumbs {
 		width: 100%;
 		padding: 37px;
 		font-size: 26px;
 	}
 	.ipfs_detail_title {
-		display: flex;
+		// display: flex;
 		box-sizing: border-box;
 		padding: 0 24px;
         margin-top: 20px;
@@ -1057,25 +1054,25 @@ export default {
 		}
 		.ipfs_item_toptwo {
 			width: 19%;
-			max-width: 323px;
-			height: 250px;
+			// max-width: 288px;
+			height: 431px;
 			display: flex;
 			flex-direction: column;
 			background: rgb(255, 255, 255);
-			padding: 14px 24px;
+			padding: 40px 47px;
 			box-sizing: border-box;
 			border-radius: 8px;
 			box-shadow: rgba(51, 51, 51, 0.04) 0px 4px 10px 0px;
-			margin-right: 24px;
+			// margin-right: 24px;
 			.ipfs_item_toptwo_item {
 				height: 18px;
 				line-height: 18px;
 				overflow: hidden;
-				font-size: 12px;
+				font-size: 16px;
 				text-overflow: ellipsis;
 				white-space: nowrap;
 				color: #333333;
-				margin-top: 5px;
+				margin-top: 18px;
                 span{
                     font-size: 12px;
                 }
@@ -1093,7 +1090,7 @@ export default {
 		justify-content: space-between;
 	}
 	.ipfs_con_tit {
-		height: 100px;
+		height: 168px;
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -1129,48 +1126,74 @@ export default {
 		margin-bottom: 24px;
 	}
 	.ipfs_con_tit_first {
-		height: 224px;
-		text-align: left;
+		height: 360px;
 		box-sizing: border-box;
-		padding: 24px 24px 24px 50px;
+		text-align: left;
+		padding: 53px 0px 56px 88px;
 		background-color: #fff;
 		border-radius: 8px;
 		box-shadow: 0px 4px 10px 0px rgba(51, 51, 51, 0.04);
 		img {
-			width: 24%;
-			height: 40%;
+			width: 103px;
+			height: 80px;
 			// margin-bottom: 20px;
 		}
 		.ipfs_con_top {
 			width: 100%;
 			font-size: 14px;
 			color: #999999;
+			margin-top: 38px;
 			.top_tit_status {
-				height: 26px;
-				line-height: 26px;
+				display: flex;
+				flex-direction: row;
+				align-items: center;
 				color: #333333;
-				font-size: 20px;
-				span:nth-child(2) {
+				img{
+					width: 24px;
+					height: 20px;
+				};
+				p:nth-child(1){
+					font-size: 18px;
+					margin-right: 8px;
+				}
+				.ispStyle {
+					// width: 100%;
+					height: 22px;
+					line-height: 22px;
 					border-radius: 10px;
 					font-size: 12px;
-					padding-left: 5px;
-					padding-right: 5px;
-					margin-left: 10px;
-					color: #ffffff;
+					padding: 0 10px;
+					margin-left: 8px;
+					color: #1296DB;
+					background: rgba(18, 150, 219, 0.1);				
+					border: 1px solid #1296DB;
 				}
 			}
 			.top_tit {
-				margin-top: 10px;
+				margin-top: 39px;
 				height: 26px;
 				line-height: 26px;
-				font-size: 14px;
-				color: #333333;
+				
+				span{
+					font-size: 18px;
+					color: #333333;
+				}
 			}
 			.top_tit_id {
 				height: 26px;
 				line-height: 26px;
                 word-wrap: break-word;
-                
+                .copy{
+					background: #fff;
+					height: 24px;
+					width: 48px;		
+					border: 1px solid #4285F4;
+					border-radius: 4px;
+					color: #4285F4;
+					text-align: center;
+					line-height: 24px;
+					padding: 0;
+				}
 			}
 		}
 	}

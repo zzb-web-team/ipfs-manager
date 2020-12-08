@@ -230,7 +230,7 @@
             // width: 20%;
             display: flex;
             align-items: center;
-            margin-top: 10px;
+            margin-top: 10px !important;
             span {
                 white-space: nowrap;
             }
@@ -285,7 +285,7 @@
             height: auto;
             max-height: 152px;
             box-sizing: border-box;
-            padding: 14px 30px;
+            padding: 14px 24px;
             // color: #ffffff;
             color: #333333;
             text-align: left;
@@ -701,6 +701,14 @@
         
         .two_menu_tit .el-menu .there_menu {
             padding-left: 90px !important;
+        }
+
+        .el-radio-button__orig-radio:checked+.el-radio-button__inner {
+            color: #FFF;
+            background-color: #1572E8;
+            border-color: #1572E8;
+            -webkit-box-shadow: -1px 0 0 0 #1572E8;
+            box-shadow: -1px 0 0 0 #1572E8;
         }
         
         // .is-opened .el-menu--inline .is-active {
