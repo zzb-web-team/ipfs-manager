@@ -1,5 +1,5 @@
 <template>
-	<div class="back-top">
+	<div class="back-top" :style="{right: rightWidth}">
 		<!-- <el-button type="text" @click="backTop()" v-show="datalist.length > 0">
 			<i class="el-icon-caret-top" @click="backTop()"></i>
 		</el-button> -->
@@ -37,7 +37,8 @@ export default {
           xyjpc:require("../assets/img/pcfwq.png"),
           xyjbox:require("../../src/assets/img/pcxyj.png")
       },
-      isActive:0,
+	  isActive:0,
+	  rightWidth: '0px'
     }
   },
   props:{
@@ -48,9 +49,21 @@ export default {
   },
   components: {},
   mounted() {
-    window.addEventListener('scroll', this.handleScroll)
+	this.setHeight();
+	window.addEventListener('scroll', this.handleScroll);
+	window.addEventListener('resize', ()=>this.setHeight())
   },
   methods: {
+	setHeight(){
+		let scrollHeight = document.getElementsByClassName('content')[0].scrollHeight;
+		let clientHeight = document.body.clientHeight;
+		let abs = clientHeight - scrollHeight;
+		if(abs>0){
+			this.rightWidth = '30px'
+		}else{
+			this.rightWidth = '46px'
+		}
+	},
     backTop() {
       let back = setInterval(() => {
         if(document.body.scrollTop||document.documentElement.scrollTop){
@@ -81,7 +94,7 @@ export default {
 <style lang="scss" scoped>
 .back-top {
 	position: fixed;
-	right: 46px;
+	// right: 46px;
 	top: 50%;
 }
 .rightbox {

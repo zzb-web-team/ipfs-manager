@@ -378,6 +378,11 @@
             overflow-x: hidden;
             overflow-y: auto;
         }
+
+        .el-pagination.is-background .el-pager li:not(.disabled).active {
+            background-color: #1572E8;
+            color: #FFF;
+        }
         
         .el-radio-button__inner:hover {
             // color: #ffffff !important;

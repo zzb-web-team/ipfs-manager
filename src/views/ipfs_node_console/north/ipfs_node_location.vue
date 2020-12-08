@@ -854,7 +854,7 @@
 								style="overflow-wrap: break-word;flex: 1;"
 							>
 								{{ item.nodeId }}
-								<el-button type="text" class="copy" @click="copy_id(item.nodeId)">复制</el-button>
+								<el-button type="text" style="padding: 0 12px;" class="copy" @click="copy_id(item.nodeId)">复制</el-button>
 							</div>
 						</li>
 					</ol>
@@ -926,6 +926,7 @@
 			></fenye1>
 			<div style="position:relative">
 				<rightSwiper
+					ref="rightSwiper"
 					:datalist="titledar"
 					@handleChange="change_right_tiem"
 				></rightSwiper>
@@ -1164,6 +1165,9 @@ export default {
 		setnum(data) {
 			return formatBkb(data, get_units(data));
 		},
+	},
+	updated(){
+		this.$refs.rightSwiper.setHeight()
 	},
 	methods: {
 		copy_id(data) {
@@ -1531,7 +1535,7 @@ export default {
 			background: rgba(255, 255, 255, 1);
 			border: 1px solid #F2F2F2;
 			// box-shadow: 0px 0px 18px 0px rgba(211, 215, 221, 0.4);
-			border-radius: 3px;
+			border-radius: 8px;
 			// margin-left: 0.5%;
 			margin-right: 0.5%;
 			margin-top: 14px;

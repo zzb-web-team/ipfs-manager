@@ -591,7 +591,7 @@
 						</p>
 					</div>
 					<ol
-						style="border-bottom: 1px solid #eeeeee;padding: 14px 0;"
+						style="border-bottom: 1px solid #eeeeee;padding: 24px 0;"
 					>
 						<li>
 							<div class="ipfs_text_title">
@@ -601,7 +601,7 @@
 								&nbsp;&nbsp;{{ item.os }}&nbsp;{{ item.arch }}
 							</div>
 						</li>
-						<li style="display: flex;">
+						<li style="display: flex;align-items: flex-start;">
 							<div class="ipfs_text_title">节点ID</div>
 							&nbsp;&nbsp;
 							<div
@@ -609,10 +609,11 @@
 								style="overflow-wrap: break-word;flex: 1;"
 							>
 								{{ item.nodeId }}
+								<el-button type="text" style="padding: 0 12px;" class="copy" @click="copy_id(item.nodeId)">复制</el-button>
 							</div>
 						</li>
 					</ol>
-					<ol style="padding: 14px 0;">
+					<ol style="padding: 26px 0;">
 						<li>
 							<div style="width:55%;display: flex;">
 								<span class="ipfs_text_title">上行宽带:</span>
@@ -680,6 +681,7 @@
 			></fenye1>
 			<div style="position:relative">
 				<rightSwiper
+					ref="rightSwiper"
 					:datalist="titledar"
 					@handleChange="change_right_tiem"
 				></rightSwiper>
@@ -701,9 +703,11 @@ import {
 	get_units,
 	formatBkb,
 } from '../../../servers/sevdate';
+import Clipboard from 'clipboard';
 export default {
 	data() {
 		return {
+			copyEnd: true,
 			location_name: '华南区域',
 			rotate: 0,
 			pagesize: 10,
@@ -880,7 +884,34 @@ export default {
 			return formatBkb(data, get_units(data));
 		},
 	},
+	updated(){
+		this.$refs.rightSwiper.setHeight()
+	},
 	methods: {
+		copy_id(data) {
+			let _this = this;
+			this.copyEnd=false;
+			setTimeout(() => {
+				this.copyEnd=true;
+			}, 1000);
+			let clipboard = new Clipboard('.copy', {
+				text: function() {
+					return data;
+				},
+			});
+			clipboard.on('success', function(e) {
+				console.log(e)
+				_this.$message.success('已复制到粘贴板');
+				clipboard.destroy();
+			});
+			clipboard.on('error', function(e) {
+				console.log(e)
+				_this.$message.error(
+					'您的浏览器不支持此功能，请使用其他浏览器尝试。'
+				);
+				clipboard.destroy();
+			});
+		},
 		change_right_tiem(num) {
 			// console.log(num);
 		},
@@ -1058,6 +1089,9 @@ export default {
 			// this.getipfsdata();
 		},
 		godetail(dat, num) {
+			if(!this.copyEnd){
+				return
+			}
 			sessionStorage.setItem(
 				'serdata',
 				JSON.stringify(this.ipfsdata[num])
@@ -1199,13 +1233,14 @@ export default {
 		display: flex;
 		flex-flow: row wrap;
 		.ipfs_item {
+			height: 410px;
 			width: 24.5%;
 			max-width: 350px;
 			padding: 0 14px 5px 14px;
 			background: rgba(255, 255, 255, 1);
 			border: 1px solid #F2F2F2;
 			// box-shadow: 0px 0px 18px 0px rgba(211, 215, 221, 0.4);
-			border-radius: 3px;
+			border-radius: 8px;
 			// margin-left: 0.5%;
 			margin-right: 0.5%;
 			margin-top: 14px;
@@ -1220,7 +1255,7 @@ export default {
 				width: 100%;
 				// margin: 25px 0;
                 color: #404447;
-                margin-top: 14px;
+                margin-top: 55px;
 				img {
 					width: 30%;
 				}
@@ -1245,6 +1280,10 @@ export default {
 					text-align: left;
 					overflow: hidden;
 					white-space: wrap;
+					.copy{
+						color: #265EFF;
+						margin-left:20px;
+					}
 				}
 			}
 		}
