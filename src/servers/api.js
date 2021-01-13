@@ -7,12 +7,16 @@ if (href.indexOf('xyj.grapefruitcloud.com') >= 0) {
 } else if (href.indexOf('service.kclgames.com') >= 0) {
     var serverUrl = 'http://service.kclgames.com'; //PHP服务URL
 } else if (href.indexOf('www.luqikang.com') >= 0) {
-    var serverUrl = 'http://www.luqikang.com'; 
+    var serverUrl = 'http://www.luqikang.com';
 } else if (href.indexOf('service.luqikang.com') >= 0) {
-    var serverUrl = 'http://service.luqikang.com'; 
-}else if (href.indexOf('zzb.stguarantee.com') >= 0) {
+    var serverUrl = 'http://service.luqikang.com';
+} else if (href.indexOf('zzb.stguarantee.com') >= 0) {
     var serverUrl = 'http://zzb.stguarantee.com'; //阿里云服务URL
-}else {
+} else if (href.indexOf('www.forteatime.com') >= 0) {
+    var serverUrl = 'http://www.forteatime.com'; //阿里云服务URL
+} else if (href.indexOf('www.shaocg.com') >= 0) {
+    var serverUrl = 'http://www.shaocg.com'; //阿里云服务URL
+} else {
     var serverUrl = 'http://service.kclgames.com';
     // var serverUrl = 'http://zzb.stguarantee.com';
 }

@@ -1590,6 +1590,7 @@ export default {
 		},
 		//修改
 		toChange(val) {
+            this.get_permission_list();
 			this.dialogVisible2 = true;
 			this.addDialogVisible = true;
 			this.ruleForm3.username = val.username;

@@ -220,6 +220,10 @@ export default {
 							this.ipfs_token = res.token;
 							this.googleVisible = true;
 						} else if (res.status == -900) {
+                            this.$message({
+								message: res.msg,
+								type: 'error',
+							});
 						} else {
 							this.$message({
 								message: res.err_msg,
